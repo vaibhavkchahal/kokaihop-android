@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        
+        <variable name="viewModel" type="com.kokaihop.login.LoginViewModel"/>
+        
+    </data>
+
+    <LinearLayout
+        android:id="@+id/activity_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7B7055"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        tools:context="com.kokaihop.login.LoginActivity">
+
+
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:hint="@string/email"
+                  android:paddingBottom="20dp"
+                  android:paddingTop="20dp"
+                  android:textColor="@android:color/white"
+                  android:text="@={viewModel.userName}"
+                  android:textSize="16dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/password"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:textColor="@android:color/white"
+            android:text="@={viewModel.password}"
+            android:textSize="16dp"/>
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp"
+                android:background="#FB4E00"
+                android:gravity="center"
+                android:text="@string/login"
+                android:textColor="@android:color/white"
+                android:onClick="@{(v)->viewModel.login()}"
+                android:textSize="18dp"/>
+
+    </LinearLayout>
+
+</layout>
