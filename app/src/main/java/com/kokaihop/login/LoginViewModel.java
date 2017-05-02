@@ -7,9 +7,7 @@ import android.view.View;
 import com.kokaihop.BR;
 import com.kokaihop.utility.BaseActivity;
 
-/**
- * Created by ttnd on 11/4/17.
- */
+
 public class LoginViewModel extends BaseObservable {
 
     private String userName;
