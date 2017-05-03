@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".login.LoginActivity"
+            android:name="com.kokaihop.login.LoginActivity"
             android:label="Login">
         </activity>
 
