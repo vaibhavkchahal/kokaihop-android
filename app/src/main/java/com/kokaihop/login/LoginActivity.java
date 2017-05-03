@@ -3,8 +3,7 @@ package com.kokaihop.login;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
-import com.kokaihop.R;
-import com.kokaihop.databinding.ActivityLoginBinding;
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.utility.BaseActivity;
 
 public class LoginActivity extends BaseActivity {
@@ -15,7 +14,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActivityLoginBinding loginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+        ActivityLoginBinding loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         loginViewModel = new LoginViewModel();
         loginBinding.setViewModel(loginViewModel);
     }

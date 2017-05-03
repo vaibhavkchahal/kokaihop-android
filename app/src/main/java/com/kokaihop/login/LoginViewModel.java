@@ -4,7 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
 
-import com.kokaihop.BR;
+import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.utility.BaseActivity;
 
 
