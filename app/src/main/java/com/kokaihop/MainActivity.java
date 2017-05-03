@@ -1,7 +1,9 @@
 package com.kokaihop;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.altaworks.kokaihop.ui.R;
 
 public class MainActivity extends AppCompatActivity {
 
