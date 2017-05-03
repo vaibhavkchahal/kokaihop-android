@@ -5,7 +5,6 @@ import android.databinding.Bindable;
 import android.view.View;
 
 import com.altaworks.kokaihop.ui.BR;
-import com.kokaihop.utility.BaseActivity;
 
 
 public class LoginViewModel extends BaseObservable {
