@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
+import com.altaworks.kokaihop.ui.databinding.ActivityLoginBinding;
 import com.kokaihop.utility.BaseActivity;
 
 public class LoginActivity extends BaseActivity {
