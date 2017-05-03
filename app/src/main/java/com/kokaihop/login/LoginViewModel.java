@@ -47,7 +47,7 @@ public class LoginViewModel extends BaseObservable {
     public void login(View view) {
         String username=getUserName();
         String password=getPassword();
-        final BaseActivity activity = (BaseActivity) view.getContext();
+
         setProgressVisible(true);
 
         // make login call with username and password
