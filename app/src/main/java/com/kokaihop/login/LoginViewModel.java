@@ -3,7 +3,6 @@ package com.kokaihop.login;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
-
 import com.altaworks.kokaihop.ui.BR;
 
 
