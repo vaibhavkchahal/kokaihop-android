@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable name="viewModel" type="com.kokaihop.utility.BaseViewModel"/>
+
+    </data>
+
+    <ProgressBar
+        android:id="@+id/login_progressBar_loading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="@{viewModel.progressVisible?View.VISIBLE:View.GONE}"/>
+
+</layout>

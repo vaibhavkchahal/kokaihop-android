@@ -5,7 +5,6 @@
 
     <data>
 
-        <import type="android.view.View" />
         <variable name="viewModel" type="com.kokaihop.login.LoginViewModel"/>
 
     </data>
@@ -57,14 +56,18 @@
 
         </LinearLayout>
 
-        <ProgressBar
+        <include
+            bind:viewModel="@{viewModel}"
+            layout="@layout/progress_bar"/>
+
+       <!-- <ProgressBar
             android:id="@+id/login_progressBar_loading"
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="@{viewModel.isProgressVisible ? View.VISIBLE:View.GONE}"
-        />
+        />-->
 
     </FrameLayout>
 
