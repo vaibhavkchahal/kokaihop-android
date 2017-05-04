@@ -5,4 +5,5 @@ package com.kokaihop.login;
  */
 public class LoginApiResponse {
 
+
 }
