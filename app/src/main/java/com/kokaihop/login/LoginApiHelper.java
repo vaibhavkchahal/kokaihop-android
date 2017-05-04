@@ -37,4 +37,23 @@ public class LoginApiHelper {
         });
     }
 
+
+    public void doForgot(String email,final IApiRequestComplete successInterface){
+        LoginApiInterface loginApiInterface = RetrofitClient.getInstance().create(LoginApiInterface.class);
+        Call<ForgotApiResponse> forgotApiResponseCall = loginApiInterface.forgot(email);
+
+        forgotApiResponseCall.enqueue(new Callback<ForgotApiResponse>() {
+            @Override
+            public void onResponse(Call<ForgotApiResponse> call, Response<ForgotApiResponse> response) {
+
+                successInterface.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(Call<ForgotApiResponse> call, Throwable t) {
+                successInterface.onFailure(t.getMessage());
+            }
+        });
+    }
+
 }

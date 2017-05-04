@@ -35,10 +35,39 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     public void login(final View view) {
+
+       /* if (getUserName().isEmpty() || !AppUtility.isValidEmail(getUserName())) {
+            Toast.makeText(view.getContext(), R.string.invalid_email, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (getPassword().isEmpty() || getPassword().length() < 7) {
+            Toast.makeText(view.getContext(), R.string.password_validation_message, Toast.LENGTH_SHORT).show();
+            return;
+        }
+*/
         String username = getUserName();
         String password = getPassword();
         setProgressVisible(true);
         new LoginApiHelper(view.getContext()).doLogin(username, password, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                setProgressVisible(false);
+                Toast.makeText(view.getContext(), "success", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+                Toast.makeText(view.getContext(), "failure", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void forgot(final View view) {
+        String username = getUserName();
+        setProgressVisible(true);
+        new LoginApiHelper(view.getContext()).doForgot(username, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 setProgressVisible(false);

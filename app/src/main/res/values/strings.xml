@@ -5,5 +5,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">LogIn</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_validation_message">Password must have atleast seven characters</string>
 
 </resources>

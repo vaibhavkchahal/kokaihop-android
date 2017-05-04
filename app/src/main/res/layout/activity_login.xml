@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:bind="http://schemas.android.com/apk/res-auto">
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -44,6 +44,15 @@
                 android:textColor="@android:color/white"
                 android:textSize="16dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:onClick="@{(v)->viewModel.forgot(v)}"
+                android:text="@string/forgot_password"
+                android:textColor="@android:color/white"
+                android:textSize="15dp"/>
+
             <Button android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="50dp"
@@ -57,17 +66,17 @@
         </LinearLayout>
 
         <include
-            bind:viewModel="@{viewModel}"
-            layout="@layout/progress_bar"/>
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
 
-       <!-- <ProgressBar
-            android:id="@+id/login_progressBar_loading"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="@{viewModel.isProgressVisible ? View.VISIBLE:View.GONE}"
-        />-->
+        <!-- <ProgressBar
+             android:id="@+id/login_progressBar_loading"
+             style="?android:attr/progressBarStyleLarge"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:visibility="@{viewModel.isProgressVisible ? View.VISIBLE:View.GONE}"
+         />-->
 
     </FrameLayout>
 

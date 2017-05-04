@@ -14,4 +14,10 @@ public interface LoginApiInterface {
     @FormUrlEncoded
     @POST("/auth/local")
     Call<LoginApiResponse> doLogin(@Field("email") String email,@Field("password") String password);
+
+
+    @FormUrlEncoded
+    @POST("/auth/local")
+    Call<ForgotApiResponse> forgot(@Field("email") String email);
+
 }
