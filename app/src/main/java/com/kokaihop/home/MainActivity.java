@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.altaworks.kokaihop.ui.R;
 
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
