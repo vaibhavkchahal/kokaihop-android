@@ -23,6 +23,19 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             tools:context="com.kokaihop.login.LoginActivity">
 
+            <Button
+                android:id="@+id/btn"
+                android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="50dp"
+                    android:background="@android:color/holo_blue_dark"
+                    android:gravity="center"
+                    android:onClick="@{(v)->viewModel.facebookLogin(v)}"
+                    android:text="@string/facebook_login"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"/>
+
+
 
             <EditText android:layout_width="match_parent"
                       android:layout_height="wrap_content"

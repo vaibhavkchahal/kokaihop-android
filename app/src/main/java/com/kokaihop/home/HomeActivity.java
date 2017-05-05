@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.altaworks.kokaihop.ui.R;
 
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
