@@ -98,7 +98,6 @@ public class LoginViewModel extends BaseViewModel {
         LoginActivity activity = (LoginActivity) view.getContext();
         CallbackManager callbackManager = activity.getCallbackManager();
         LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("email", "public_profile"));
-        LoginManager.getInstance().logInWithPublishPermissions(activity, Arrays.asList("publish_actions"));
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
