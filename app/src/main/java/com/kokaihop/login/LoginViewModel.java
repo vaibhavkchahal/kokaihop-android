@@ -46,7 +46,6 @@ public class LoginViewModel extends BaseViewModel {
         this.notifyPropertyChanged(BR.password);
     }
 
-
     // request login.
     public void login(final View view) {
         if (loginValidations(view, userName, password))
@@ -121,7 +120,6 @@ public class LoginViewModel extends BaseViewModel {
                     }
                 });
     }
-
 
     // validate fields for login.
     private boolean loginValidations(View view, String username, String password) {
