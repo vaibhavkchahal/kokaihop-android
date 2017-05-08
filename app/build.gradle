@@ -90,5 +90,4 @@ dependencies {
 
     compile 'com.facebook.android:facebook-android-sdk:4.22.0'
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.1'
 }

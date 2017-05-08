@@ -21,14 +21,14 @@ public class SignUpApiHelper {
     }
 
     public void doLogin(String email, String password, final IApiRequestComplete successInterface) {
-        LoginApiInterface loginApiInterface = RetrofitClient.getInstance().create(LoginApiInterface.class);
-        Call<LoginApiResponse> loginApiResponseCall = loginApiInterface.doLogin(email, password);
-        loginApiResponseCall.enqueue(new ResponseHandler<LoginApiResponse>(successInterface));
+        SignUpApiInterface loginApiInterface = RetrofitClient.getInstance().create(SignUpApiInterface.class);
+        Call<SignUpApiResponse> loginApiResponseCall = loginApiInterface.doLogin(email, password);
+        loginApiResponseCall.enqueue(new ResponseHandler<SignUpApiResponse>(successInterface));
     }
 
 
     public void doForgot(String email, final IApiRequestComplete successInterface) {
-        LoginApiInterface loginApiInterface = RetrofitClient.getInstance().create(LoginApiInterface.class);
+        SignUpApiInterface loginApiInterface = RetrofitClient.getInstance().create(SignUpApiInterface.class);
         Call<ForgotApiResponse> forgotApiResponseCall = loginApiInterface.forgot(email);
         forgotApiResponseCall.enqueue(new ResponseHandler<ForgotApiResponse>(successInterface));
     }

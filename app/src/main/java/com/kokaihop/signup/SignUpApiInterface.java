@@ -15,7 +15,7 @@ public interface SignUpApiInterface {
 
     @FormUrlEncoded
     @POST("/auth/local")
-    Call<LoginApiResponse> doLogin(@Field("email") String email, @Field("password") String password);
+    Call<SignUpApiResponse> doLogin(@Field("email") String email, @Field("password") String password);
 
 
     @FormUrlEncoded

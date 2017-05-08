@@ -3,13 +3,14 @@
 
     <data>
 
-
-
+        <variable name="viewModel" type="com.kokaihop.signup.SignUpViewModel"/>
 
     </data>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-
+    <ScrollView android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F5E0CF"
+    >
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="@dimen/padding_drawable_facebook_sign_up">
@@ -23,7 +24,8 @@
                       android:textColor="@color/white"
                       android:textSize="@dimen/sign_up_label_text_size"/>
 
-            <TextView android:id="@+id/text_view_close" android:layout_width="wrap_content"
+            <TextView android:id="@+id/text_view_close"
+                      android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignParentRight="true"
                       android:layout_marginTop="@dimen/margin_top_views_signup"
