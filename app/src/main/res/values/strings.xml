@@ -12,6 +12,7 @@
     <string name="password_validation_msg">Password must have atleast seven characters</string>
     <string name="sucess_login">Login Success!</string>
     <string name="failed_login">Login Failed!</string>
+    <string name="failed">Failed!</string>
     <string name="forgot_success_msg">Instructions on how to reset your password has been sent to your e-mail.</string>
 
 

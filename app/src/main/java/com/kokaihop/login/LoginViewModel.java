@@ -79,12 +79,11 @@ public class LoginViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 ForgotApiResponse forgotApiResponse = (ForgotApiResponse) response;
-                if(forgotApiResponse.isSuccess()){
+                if (forgotApiResponse.isSuccess()) {
                     setProgressVisible(false);
                     Toast.makeText(view.getContext(), R.string.forgot_success_msg, Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(view.getContext(), R.string.failed_login , Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(view.getContext(), R.string.failed, Toast.LENGTH_SHORT).show();
                 }
             }
 
