@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-package com.kokaihop.home;
-
+package kokaihop.databundle;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.home.RecipeDetails;
 
 import java.util.List;
 
@@ -33,13 +33,13 @@ import java.util.List;
 // Alternatively from this example,
 // a developer could update the getView() to pull items from the Realm.
 
-public class CityAdapter extends BaseAdapter {
+public class RecipeAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
     private List<RecipeDetails> cities = null;
 
-    public CityAdapter(Context context) {
+    public RecipeAdapter(Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
