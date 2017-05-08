@@ -28,15 +28,24 @@ android {
 
         }
         uat {
+            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
             applicationIdSuffix ".uat"
             versionNameSuffix "-uat"
         }
         production {
+            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
+        }
+
+        databaseBundle {
+            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
+            applicationIdSuffix ".databasebundle"
+
         }
     }
 
     dataBinding {
         enabled = true
+
     }
 }
 
