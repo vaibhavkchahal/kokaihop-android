@@ -22,4 +22,14 @@
     <string name="facebook_email_permisson">email</string>
     <string name="facebook_public_profile_permisson">public_profile</string>
 
+    <!-- Sign Up Strings -->
+
+    <string name="name">Name</string>
+    <string name="city">City</string>
+    <string name="nyhetsbrev">Nyhetsbrev</string>
+    <string name="dagens_recept">Dagens recept</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_via_facebook">Sign Up via Facebook</string>
+    <string name="already_a_kakoihop_chef_login_here">Already a Kakoihop chef? Login here</string>
+    <string name="close">X</string>
 </resources>
