@@ -14,12 +14,14 @@
                       android:gravity="center_horizontal"
                       android:text="@string/sign_up"
                       android:textColor="@color/white"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:textSize="@dimen/sign_up_label_text_size"/>
 
             <TextView android:id="@+id/text_view_close" android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignParentRight="true"
                       android:text="@string/close"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:textColor="@color/white" android:textSize="@dimen/sign_up_label_text_size"/>
 
             <View android:id="@+id/view_seperator"
@@ -30,8 +32,9 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_below="@+id/text_view_label_sign_up"
-                      android:backgroundTint="@color/white"
+                      Kandroid:backgroundTint="@color/white"
                       android:hint="@string/name"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:textColor="@color/white"
                       android:textColorHint="@color/white"/>
 
@@ -41,6 +44,7 @@
                       android:layout_below="@+id/edit_text_name"
                       android:backgroundTint="@color/white"
                       android:hint="@string/email"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:inputType="textEmailAddress"
                       android:textColor="@color/white"
                       android:textColorHint="@color/white"/>
@@ -48,6 +52,7 @@
             <EditText android:id="@+id/edit_text_password"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:layout_below="@+id/edit_text_email"
                       android:backgroundTint="@color/white"
                       android:hint="@string/password"
@@ -57,6 +62,7 @@
 
             <EditText android:id="@+id/edit_text_city"
                       android:layout_width="match_parent"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:layout_height="wrap_content"
                       android:layout_below="@id/edit_text_password"
                       android:backgroundTint="@color/white"
@@ -66,6 +72,7 @@
 
             <CheckBox android:id="@+id/checkBox_dagens_recept"
                       android:layout_width="wrap_content"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:layout_height="wrap_content"
                       android:layout_alignParentLeft="true"
                       android:layout_below="@id/edit_text_city"
@@ -76,6 +83,7 @@
             <CheckBox android:id="@+id/check_box_nyhetsbrev"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:layout_alignParentRight="true"
                       android:layout_below="@id/edit_text_city"
                       android:buttonTint="@color/white"
@@ -85,6 +93,7 @@
             <Button android:id="@+id/button_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_views_signup"
                     android:layout_below="@id/check_box_nyhetsbrev"
                     android:background="@color/sign_up_button_background"
                     android:text="@string/sign_up"
@@ -94,6 +103,7 @@
             <Button android:id="@+id/button_facebook_sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top_views_signup"
                     android:layout_below="@id/button_sign_up"
                     android:background="@color/sign_up_facebook_button_background"
                     android:drawableLeft="@drawable/com_facebook_button_icon_white"
@@ -105,6 +115,7 @@
             <TextView android:id="@+id/text_view_already_sign_up"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:layout_below="@id/button_facebook_sign_up"
                       android:gravity="center"
                       android:text="@string/already_a_kakoihop_chef_login_here"
