@@ -13,6 +13,28 @@ android {
         versionName project.APP_VERSION_NAME
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+
+        qa {
+            storeFile file(RELEASE_KEYSTORE_FILE)
+            storePassword RELEASE_KEYSTORE_PASSWORD
+            keyAlias RELEASE_KEYSTORE_ALIAS
+            keyPassword RELEASE_KEYSTORE_PASSWORD
+        }
+        uat {
+            storeFile file(RELEASE_KEYSTORE_FILE)
+            storePassword RELEASE_KEYSTORE_PASSWORD
+            keyAlias RELEASE_KEYSTORE_ALIAS
+            keyPassword RELEASE_KEYSTORE_PASSWORD
+        }
+        production {
+            storeFile file(RELEASE_KEYSTORE_FILE)
+            storePassword RELEASE_KEYSTORE_PASSWORD
+            keyAlias RELEASE_KEYSTORE_ALIAS
+            keyPassword RELEASE_KEYSTORE_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -25,9 +47,10 @@ android {
             buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
             applicationIdSuffix ".qa"
             versionNameSuffix "-qa"
-
+            signingConfig signingConfigs.qa
         }
         uat {
+            signingConfig signingConfigs.uat
             buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
             applicationIdSuffix ".uat"
             versionNameSuffix "-uat"
@@ -40,12 +63,14 @@ android {
             buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
             applicationIdSuffix ".databasebundle"
 
+            signingConfig signingConfigs.production
         }
     }
 
+
+
     dataBinding {
         enabled = true
-
     }
 }
 
@@ -62,4 +87,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
+
+    compile 'com.facebook.android:facebook-android-sdk:4.22.0'
 }

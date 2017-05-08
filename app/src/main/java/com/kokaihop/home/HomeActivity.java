@@ -26,7 +26,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private GridView mGridView;
 //    private CityAdapter mAdapter;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             //This is the GridView which will display the list of cities
             mGridView = (GridView) findViewById(R.id.cities_list);
             mGridView.setAdapter(mAdapter);
-            mGridView.setOnItemClickListener(MainActivity.this);
+            mGridView.setOnItemClickListener(HomeActivity.this);
             mAdapter.notifyDataSetChanged();
             mGridView.invalidate();
         }*/

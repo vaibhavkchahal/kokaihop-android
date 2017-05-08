@@ -4,6 +4,22 @@
     <!-- Strings related to login -->
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="login">LogIn</string>
+    <string name="login">Log In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="or_login_text">Or Log In using Email</string>
+    <string name="signup_now_text">Not yet a kokaihop chef? Sign Up now</string>
+    <string name="invalid_email">Valid Email Required</string>
+    <string name="password_validation_msg">Password must have atleast seven characters</string>
+    <string name="sucess_login">Login Success!</string>
+    <string name="failed_login">Login Failed!</string>
+    <string name="failed">Failed!</string>
+    <string name="forgot_success_msg">Instructions on how to reset your password has been sent to your e-mail.</string>
+
+
+    <!-- facebook login strings -->
+    <string name="facebook_login">Log In Via Facebook</string>
+    <string name="facebook_app_id">119229822371</string>
+    <string name="facebook_email_permisson">email</string>
+    <string name="facebook_public_profile_permisson">public_profile</string>
 
 </resources>

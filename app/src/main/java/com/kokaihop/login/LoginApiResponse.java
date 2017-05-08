@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Vaibhav Chahal on 3/5/17.
  */
-public class LoginApiResponse {
+public class LoginApiResponse{
 
     @SerializedName("token")
     private String token;
