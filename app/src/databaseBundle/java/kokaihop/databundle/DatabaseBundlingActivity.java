@@ -1,12 +1,13 @@
 package kokaihop.databundle;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.altaworks.kokaihop.ui.databinding.ActivityDatabaseBundlingBinding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -14,6 +15,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.kokaihop.home.RecipeDetails;
 import com.kokaihop.home.RecipeResponse;
+import com.kokaihop.utility.BaseActivity;
 import com.kokaihop.utility.RealmBackupRestore;
 
 import java.io.IOException;
@@ -28,9 +30,9 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 
-public class DatabaseBundlingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class DatabaseBundlingActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
-    private GridView mGridView;
+    private ListView listView;
     private RecipeAdapter mAdapter;
 
     private Realm realm;
@@ -38,8 +40,10 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_bundling);
-
+        ActivityDatabaseBundlingBinding databaseBundlingBinding = DataBindingUtil.setContentView(this, R.layout.activity_database_bundling);
+        BundleViewModel bundleViewModel = new BundleViewModel();
+        databaseBundlingBinding.setViewModel(bundleViewModel);
+        bundleViewModel.getRecipe();
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(RealmBackupRestore.EXPORT_REALM_FILE_NAME).schemaVersion(1).build();
 
         // Clear the realm from last time
@@ -62,11 +66,11 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
             mAdapter.setData(cities);
 
             //This is the GridView which will display the list of cities
-            mGridView = (GridView) findViewById(R.id.cities_list);
-            mGridView.setAdapter(mAdapter);
-            mGridView.setOnItemClickListener(DatabaseBundlingActivity.this);
+            listView = (ListView) findViewById(R.id.cities_list);
+            listView.setAdapter(mAdapter);
+            listView.setOnItemClickListener(DatabaseBundlingActivity.this);
             mAdapter.notifyDataSetChanged();
-            mGridView.invalidate();
+            listView.invalidate();
         }
        /* RealmBackupRestore realmBackupRestore = new RealmBackupRestore(MainActivity.this, realm);
         realmBackupRestore.backup();*/
@@ -113,7 +117,7 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
         // Put these items in the Adapter
         mAdapter.setData(cities);
         mAdapter.notifyDataSetChanged();
-        mGridView.invalidate();
+        listView.invalidate();
     }
 
     @Override
