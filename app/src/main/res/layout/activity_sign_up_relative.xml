@@ -32,7 +32,7 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_below="@+id/text_view_label_sign_up"
-                      Kandroid:backgroundTint="@color/white"
+                      android:backgroundTint="@color/white"
                       android:hint="@string/name"
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:textColor="@color/white"
