@@ -17,7 +17,7 @@ public interface LoginApiInterface {
 
 
     @FormUrlEncoded
-    @POST("/auth/local")
+    @POST("v1/api/users/generateResetPasswordLink")
     Call<ForgotApiResponse> forgot(@Field("email") String email);
 
 }

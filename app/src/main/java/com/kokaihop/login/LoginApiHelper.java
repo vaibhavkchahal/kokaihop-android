@@ -27,7 +27,9 @@ public class LoginApiHelper {
         loginApiResponseCall.enqueue(new Callback<LoginApiResponse>() {
             @Override
             public void onResponse(Call<LoginApiResponse> call, Response<LoginApiResponse> response) {
-                successInterface.onSuccess(response);
+                LoginApiResponse apiResponse = response.body();
+                response.isSuccessful();
+                successInterface.onSuccess(apiResponse);
             }
 
             @Override
@@ -45,8 +47,8 @@ public class LoginApiHelper {
         forgotApiResponseCall.enqueue(new Callback<ForgotApiResponse>() {
             @Override
             public void onResponse(Call<ForgotApiResponse> call, Response<ForgotApiResponse> response) {
-
-                successInterface.onSuccess(response);
+                ForgotApiResponse forgotApiResponse = response.body();
+                successInterface.onSuccess(forgotApiResponse);
             }
 
             @Override
