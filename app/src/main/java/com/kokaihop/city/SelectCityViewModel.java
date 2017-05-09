@@ -26,5 +26,6 @@ public class SelectCityViewModel implements SetCitiesInterface{
     public void setCities(ArrayList<CityDetails> cityList) {
         this.cityList = cityList;
         selectCityInterface.setCitiesOnRecyclerView();
+        //Select City
     }
 }
