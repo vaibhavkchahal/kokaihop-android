@@ -12,6 +12,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.kokaihop.recipe.RecipeDetails;
+import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.RealmBackupRestore;
 
 import java.io.IOException;

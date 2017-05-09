@@ -1,4 +1,4 @@
-package com.kokaihop.home;
+package com.kokaihop.recipe;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,11 +11,6 @@ import io.realm.annotations.PrimaryKey;
 
 public class RecipeDetails extends RealmObject {
 
-    /*id: "56387b241a258f0300c4be21",
-    dateCreated: 1198363052498,
-    friendlyUrl: "kottfarslimpa",
-    type: "Recipe",*/
-
     @PrimaryKey
     @SerializedName("_id")
     private String _id;
@@ -27,6 +22,7 @@ public class RecipeDetails extends RealmObject {
     private String type;
     @SerializedName("title")
     private String title;
+
 
     public String getTitle() {
         return title;

@@ -23,7 +23,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
-import com.kokaihop.home.RecipeDetails;
+import com.kokaihop.recipe.RecipeDetails;
 
 import java.util.List;
 
