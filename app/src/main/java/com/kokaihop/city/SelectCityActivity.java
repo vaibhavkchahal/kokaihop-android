@@ -37,7 +37,7 @@ public class SelectCityActivity extends BaseActivity implements SelectCityInterf
     @Override
     public void setCitiesOnRecyclerView() {
         RecyclerView cityListRecyclerView = selectCityBinding.recyclerViewCityList;
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         SelectCityAdapter cityAdapter = new SelectCityAdapter(selectCityViewModel.getCityList(), this);
         cityListRecyclerView.setLayoutManager(layoutManager);
         cityListRecyclerView.setAdapter(cityAdapter);

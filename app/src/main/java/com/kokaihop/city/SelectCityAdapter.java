@@ -18,29 +18,25 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.CityViewHolder> {
+public class SelectCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<CityDetails> cityList;
-    RowCityBinding rowCityBinding;
     SelectCityInterface selectCityInterface;
-
     public SelectCityAdapter(@NonNull ArrayList<CityDetails> cityList, SelectCityInterface selectCityInterface) {
         this.cityList = cityList;
         this.selectCityInterface = selectCityInterface;
     }
 
     @Override
-    public CityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        rowCityBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.row_city, parent, false);
-        return new CityViewHolder(rowCityBinding);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RowCityBinding rowCityBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.row_city, parent, false);
+        return new ViewHolder(rowCityBinding);
     }
 
     @Override
-    public void onBindViewHolder(final CityViewHolder holder, int position) {
-
-        final String city = cityList.get(position).getName();
-        rowCityBinding.textViewCity.setText(city);
-
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            final String city = cityList.get(position).getName();
+//            holder.bi;
     }
 
     @Override
@@ -48,10 +44,12 @@ public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.Ci
         return cityList.size();
     }
 
-    public class CityViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        RowCityBinding rowCityBinding;
 
-        public CityViewHolder(RowCityBinding rowCityBinding) {
+        public ViewHolder(RowCityBinding rowCityBinding) {
             super(rowCityBinding.getRoot());
+            this.rowCityBinding =rowCityBinding;
             rowCityBinding.textViewCity.setOnClickListener(this);
         }
 
@@ -61,5 +59,10 @@ public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.Ci
             selectCityInterface.citySelected(cityList.get(getAdapterPosition()));
             Log.e("city",city);
         }
+
+//        public void bind(Object obj){
+//            rowCityBinding.setCity(obj);
+//
+//        }
     }
 }
