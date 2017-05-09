@@ -1,12 +1,15 @@
 package com.kokaihop.authentication.signup;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding;
 import com.facebook.CallbackManager;
+import com.kokaihop.city.CityDetails;
 import com.kokaihop.utility.BaseActivity;
 
 public class SignUpActivity extends BaseActivity {
@@ -25,7 +28,13 @@ public class SignUpActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Activity.RESULT_OK) {
+            CityDetails citySelected = data.getParcelableExtra("citySelected");
+            Log.e("City Selected",citySelected.getName());
+        }
+        else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public CallbackManager getCallbackManager() {

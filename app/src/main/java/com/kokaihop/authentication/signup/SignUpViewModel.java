@@ -1,5 +1,6 @@
 package com.kokaihop.authentication.signup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
@@ -33,8 +34,9 @@ public class SignUpViewModel extends BaseViewModel {
 
     private int newsletter;
     private int suggestion;
-
+    public static final int REQUEST_CODE = 10;
     @Bindable
+
     public int getNewsletter() {
         return newsletter;
     }
@@ -157,8 +159,8 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void openCityScreen(View view) {
-        Context context = view.getContext();
-        view.getContext().startActivity(new Intent(context, SelectCityActivity.class));
+        Activity context = (Activity) view.getContext();
+        ((Activity) view.getContext()).startActivityForResult(new Intent(context, SelectCityActivity.class),REQUEST_CODE);
     }
 
     public void signUpWithFacebook(final View view) {

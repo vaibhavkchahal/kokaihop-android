@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
     <application
@@ -20,14 +20,14 @@
         </activity>
 
         <activity android:name="com.kokaihop.authentication.login.LoginActivity"
-               >
+        >
         </activity>
 
 
         <activity
             android:name="com.kokaihop.authentication.signup.SignUpActivity"
             android:label="Sign Up"
-            android:theme="@style/Theme.Design.NoActionBar">
+        >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -38,16 +38,9 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId"
                    android:value="@string/facebook_app_id"/>
 
-        <activity android:name="com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity">
-        <activity android:name="com.kokaihop.forgotpassword.ForgotPasswordActivity">
-        </activity>
-        <activity android:name="com.kokaihop.city.SelectCityActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <activity android:name="com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity"/>
+        <activity android:name="com.kokaihop.city.SelectCityActivity"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
