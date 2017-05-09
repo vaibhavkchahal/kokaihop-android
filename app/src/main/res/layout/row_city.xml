@@ -1,5 +1,8 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="city" type="com.kokaihop.city.CityDetails"/>
+    </data>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="20dp"
@@ -8,6 +11,7 @@
         <TextView android:id="@+id/text_view_city"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:text="@{city.name}"
                   android:textSize="30sp"/>
 
         <View android:layout_width="match_parent"
