@@ -18,10 +18,11 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class SelectCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.ViewHolder> {
 
     private ArrayList<CityDetails> cityList;
     SelectCityInterface selectCityInterface;
+
     public SelectCityAdapter(@NonNull ArrayList<CityDetails> cityList, SelectCityInterface selectCityInterface) {
         this.cityList = cityList;
         this.selectCityInterface = selectCityInterface;
@@ -34,9 +35,9 @@ public class SelectCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final String city = cityList.get(position).getName();
-//            holder.bi;
+    public void onBindViewHolder(SelectCityAdapter.ViewHolder holder, int position) {
+        final CityDetails city = cityList.get(position);
+        holder.bind(city);
     }
 
     @Override
@@ -44,12 +45,12 @@ public class SelectCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return cityList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         RowCityBinding rowCityBinding;
 
         public ViewHolder(RowCityBinding rowCityBinding) {
             super(rowCityBinding.getRoot());
-            this.rowCityBinding =rowCityBinding;
+            this.rowCityBinding = rowCityBinding;
             rowCityBinding.textViewCity.setOnClickListener(this);
         }
 
@@ -57,12 +58,12 @@ public class SelectCityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onClick(View v) {
             String city = (String) ((TextView) v).getText();
             selectCityInterface.citySelected(cityList.get(getAdapterPosition()));
-            Log.e("city",city);
+            Log.e("city", city);
         }
 
-//        public void bind(Object obj){
-//            rowCityBinding.setCity(obj);
-//
-//        }
+        public void bind(CityDetails city) {
+            rowCityBinding.setCity(city);
+            rowCityBinding.executePendingBindings();
+        }
     }
 }
