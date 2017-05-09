@@ -1,4 +1,4 @@
-package com.kokaihop.login;
+package com.kokaihop.authentication.login;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -13,7 +13,6 @@ public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
     private CallbackManager callbackManager = CallbackManager.Factory.create();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

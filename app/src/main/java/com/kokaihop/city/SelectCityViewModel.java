@@ -1,4 +1,4 @@
-package com.kokaihop.selectcity;
+package com.kokaihop.city;
 
 import java.util.ArrayList;
 

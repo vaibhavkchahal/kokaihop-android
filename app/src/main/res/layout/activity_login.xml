@@ -5,7 +5,7 @@
 
     <data>
 
-        <variable name="viewModel" type="com.kokaihop.login.LoginViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.authentication.login.LoginViewModel"/>
 
     </data>
 
@@ -19,7 +19,7 @@
             android:background="#7B7055"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            tools:context="com.kokaihop.login.LoginActivity">
+            tools:context="com.kokaihop.authentication.login.LoginActivity">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical"
-                    android:onClick="@{(v)->viewModel.forgot(v)}"
+                    android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
                     android:text="@string/login"
                     android:textColor="@android:color/white"
                     android:textSize="15dp"/>
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:onClick="@{(v)->viewModel.forgot(v)}"
+                android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
                 android:text="@string/forgot_password"
                 android:textColor="@android:color/white"
                 android:textSize="15dp"/>
@@ -122,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:onClick="@{(v)->viewModel.forgot(v)}"
+                    android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
                     android:text="@string/forgot_password"
                     android:textColor="@android:color/white"
                     android:textSize="15dp"/>
@@ -133,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/signup_now_text"
+                    android:onClick="@{(v)->viewModel.openSignupScreen(v)}"
                     android:textColor="@android:color/white"
                     android:textSize="15dp"/>
 

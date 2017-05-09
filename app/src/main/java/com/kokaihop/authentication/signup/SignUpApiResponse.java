@@ -1,7 +1,7 @@
-package com.kokaihop.signup;
+package com.kokaihop.authentication.signup;
 
 import com.google.gson.annotations.SerializedName;
-import com.kokaihop.login.User;
+import com.kokaihop.authentication.login.User;
 
 /**
  * Created by Vaibhav Chahal on 3/5/17.

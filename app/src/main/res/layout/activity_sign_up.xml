@@ -3,7 +3,7 @@
 
     <data>
 
-        <variable name="viewModel" type="com.kokaihop.signup.SignUpViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.authentication.signup.SignUpViewModel"/>
 
     </data>
 
@@ -44,6 +44,7 @@
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:backgroundTint="@color/white"
                       android:hint="@string/name"
+                      android:text="@={viewModel.name}"
                       android:textColor="@color/white"
                       android:textColorHint="@color/white"/>
 
@@ -54,6 +55,7 @@
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:backgroundTint="@color/white"
                       android:hint="@string/email"
+                      android:text="@={viewModel.userName}"
                       android:inputType="textEmailAddress"
                       android:textColor="@color/white"
                       android:textColorHint="@color/white"/>
@@ -67,6 +69,7 @@
                       android:hint="@string/password"
                       android:inputType="textPassword"
                       android:textColor="@color/white"
+                      android:text="@={viewModel.password}"
                       android:textColorHint="@color/white"/>
 
             <EditText android:id="@+id/edit_text_city"
@@ -76,8 +79,8 @@
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:backgroundTint="@color/white"
                       android:hint="@string/city"
+                      android:onClick="@{(v)->viewModel.openCityScreen(v)}"
                       android:textColor="@color/white"
-                      android:onClick="()-> viewModel."
                       android:textColorHint="@color/white"/>
 
             <CheckBox android:id="@+id/checkBox_dagens_recept"
@@ -88,6 +91,7 @@
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:buttonTint="@color/white"
                       android:text="@string/dagens_recept"
+                      android:onCheckedChanged="@{()->viewModel.onCheckChangeNewsletter(checkBoxDagensRecept)}"
                       android:textColor="@color/white"/>
 
             <CheckBox android:id="@+id/check_box_nyhetsbrev"
@@ -97,6 +101,7 @@
                       android:layout_below="@id/edit_text_city"
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:buttonTint="@color/white"
+                      android:onCheckedChanged="@{()->viewModel.onCheckChangeSuggestion(checkBoxNyhetsbrev)}"
                       android:text="@string/nyhetsbrev"
                       android:textColor="@color/white"/>
 
@@ -108,6 +113,7 @@
                     android:background="@color/sign_up_button_background"
                     android:text="@string/sign_up"
                     android:textAllCaps="false"
+                    android:onClick="@{(v)->viewModel.signup(v)}"
                     android:textColor="@color/white"/>
 
             <Button android:id="@+id/button_facebook_sign_up"
@@ -119,6 +125,7 @@
                     android:padding="@dimen/padding_drawable_facebook_sign_up"
                     android:text="@string/sign_up_via_facebook"
                     android:textAllCaps="false"
+                    android:onClick="@{(v)->viewModel.signUpWithFacebook(v)}"
                     android:textColor="@color/white"/>
 
             <TextView android:id="@+id/text_view_already_sign_up"
@@ -128,6 +135,7 @@
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:gravity="center"
                       android:text="@string/already_a_kakoihop_chef_login_here"
+                      android:onClick="@{(v)->viewModel.openLoginScreen(v)}"
                       android:textColor="@color/white"/>
 
         </RelativeLayout>
