@@ -77,6 +77,7 @@
                       android:backgroundTint="@color/white"
                       android:hint="@string/city"
                       android:textColor="@color/white"
+                      android:onClick="()-> viewModel."
                       android:textColorHint="@color/white"/>
 
             <CheckBox android:id="@+id/checkBox_dagens_recept"

@@ -1,5 +1,6 @@
 package com.kokaihop.login;
 
+import android.app.Activity;
 import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
@@ -67,8 +68,16 @@ public class LoginViewModel extends BaseViewModel {
 
     }
 
+    public void openForgotPasswordScreen(View view){
+        Activity activity = (Activity) view.getContext();
+//        activity.startActivityForResult(new Intent(activity,Forgot));
+    }
+
     // request forgot password.
     public void forgot(final View view) {
+
+
+
         if (userName.isEmpty() || !AppUtility.isValidEmail(userName)) {
             Toast.makeText(view.getContext(), R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return;

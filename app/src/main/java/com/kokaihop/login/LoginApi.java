@@ -9,7 +9,7 @@ import retrofit2.http.POST;
  * Created by Vaibhav Chahal on 3/5/17.
  */
 
-public interface LoginApiInterface {
+public interface LoginApi {
 
     @FormUrlEncoded
     @POST("/auth/local")
