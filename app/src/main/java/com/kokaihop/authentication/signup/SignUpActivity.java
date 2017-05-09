@@ -10,6 +10,8 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding;
 import com.facebook.CallbackManager;
 import com.kokaihop.city.CityDetails;
+import com.kokaihop.city.CityLocation;
+import com.kokaihop.city.SignUpCityLocation;
 import com.kokaihop.utility.BaseActivity;
 
 public class SignUpActivity extends BaseActivity {
@@ -28,8 +30,13 @@ public class SignUpActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Activity.RESULT_OK) {
+        if (requestCode == SignUpViewModel.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             CityDetails citySelected = data.getParcelableExtra("citySelected");
+
+            SignUpCityLocation cityLocation = new SignUpCityLocation(new CityLocation(citySelected));
+
+            signUpViewModel.setCityLocation(cityLocation);
+
             Log.e("City Selected",citySelected.getName());
         }
         else {

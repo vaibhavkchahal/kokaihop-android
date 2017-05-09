@@ -21,8 +21,6 @@ import java.util.Arrays;
 
 public class FacebookAuthentication {
 
-    private CallbackManager callbackManager;
-
     public void facebookLogin(final View view) {
         LoginActivity activity = (LoginActivity) view.getContext();
         CallbackManager callbackManager = activity.getCallbackManager();

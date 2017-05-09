@@ -3,7 +3,7 @@ package com.kokaihop.authentication;
 import com.kokaihop.authentication.forgotpassword.ForgotApiResponse;
 import com.kokaihop.authentication.login.LoginApiResponse;
 import com.kokaihop.authentication.signup.SignUpSettings;
-import com.kokaihop.city.CityLocation;
+import com.kokaihop.city.SignUpCityLocation;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,10 +25,8 @@ public interface AuthenticationApi {
     @POST("v1/api/users/generateResetPasswordLink")
     Call<ForgotApiResponse> forgot(@Field("email") String email);
 
-
-    @FormUrlEncoded
     @POST("/users")
-    Call<ForgotApiResponse> signUp(@Field("email") String email, @Body CityLocation location, @Field("name")
+    Call<ForgotApiResponse> signUp(@Field("email") String email, @Body SignUpCityLocation location, @Field("name")
             String name, @Body SignUpSettings settings, @Field("password") String password);
 
 }
