@@ -14,7 +14,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.kokaihop.recipe.RecipeDetails;
 import com.kokaihop.recipe.RecipeResponse;
-import com.kokaihop.utility.RealmBackupRestore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+
+import static com.kokaihop.utility.RealmHelper.realm;
 
 
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -33,20 +32,12 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     private GridView mGridView;
 //    private CityAdapter mAdapter;
 
-    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(RealmBackupRestore.EXPORT_REALM_FILE_NAME).schemaVersion(1).build();
-
-        // Clear the realm from last time
-//        Realm.deleteRealm(realmConfiguration);
-
-        // Create a new empty instance of Realm
-        realm = Realm.getInstance(realmConfiguration);
     }
 
     @Override
@@ -73,7 +64,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close(); // Remember to close Realm when done.
     }
 
     private List<RecipeDetails> loadCities() {

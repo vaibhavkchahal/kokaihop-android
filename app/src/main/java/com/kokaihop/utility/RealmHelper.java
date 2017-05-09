@@ -14,12 +14,13 @@ public class RealmHelper {
 
     public static Realm getRealmInstance() {
         if (realm == null) {
-            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(RealmBackupRestore.EXPORT_REALM_FILE_NAME).schemaVersion(1).build();
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().schemaVersion(1).build();
+            Realm.setDefaultConfiguration(realmConfiguration);
             // Clear the realm from last time
 //        Realm.deleteRealm(realmConfiguration);
 
             // Create a new empty instance of Realm
-            realm = Realm.getInstance(realmConfiguration);
+            realm = Realm.getDefaultInstance();
         }
         return realm;
 

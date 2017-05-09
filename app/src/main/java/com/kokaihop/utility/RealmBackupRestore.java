@@ -22,7 +22,7 @@ import io.realm.Realm;
 public class RealmBackupRestore {
     private File EXPORT_REALM_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     public static String EXPORT_REALM_FILE_NAME = "kokaihopBundle.realm";
-    public static String IMPORT_REALM_FILE_NAME = "kokaihop.realm"; // Eventually replace this if you're using a custom db name
+    public static String IMPORT_REALM_FILE_NAME = "kokaihop"; // Eventually replace this if you're using a custom db name
 
     private final static String TAG = RealmBackupRestore.class.getName();
 
