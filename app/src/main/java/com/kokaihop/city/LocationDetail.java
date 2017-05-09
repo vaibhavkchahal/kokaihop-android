@@ -9,26 +9,26 @@ import com.google.gson.annotations.SerializedName;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class Location implements Parcelable{
+public class LocationDetail implements Parcelable{
         @SerializedName("coordinates")
         float[] coordinates;
         @SerializedName("type")
         private String type;
 
-        protected Location(Parcel in) {
+        protected LocationDetail(Parcel in) {
                 coordinates = in.createFloatArray();
                 type = in.readString();
         }
 
-        public static final Creator<Location> CREATOR = new Creator<Location>() {
+        public static final Creator<LocationDetail> CREATOR = new Creator<LocationDetail>() {
                 @Override
-                public Location createFromParcel(Parcel in) {
-                        return new Location(in);
+                public LocationDetail createFromParcel(Parcel in) {
+                        return new LocationDetail(in);
                 }
 
                 @Override
-                public Location[] newArray(int size) {
-                        return new Location[size];
+                public LocationDetail[] newArray(int size) {
+                        return new LocationDetail[size];
                 }
         };
 

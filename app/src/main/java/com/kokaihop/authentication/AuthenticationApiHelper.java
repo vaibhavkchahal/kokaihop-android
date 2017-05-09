@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.kokaihop.authentication.forgotpassword.ForgotApiResponse;
 import com.kokaihop.authentication.login.LoginApiResponse;
-import com.kokaihop.authentication.signup.SignUpSettings;
-import com.kokaihop.city.SignUpCityLocation;
+import com.kokaihop.authentication.signup.SignUpApiResponse;
+import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.utility.ResponseHandler;
@@ -36,9 +36,9 @@ public class AuthenticationApiHelper {
         forgotApiResponseCall.enqueue(new ResponseHandler<ForgotApiResponse>(successInterface));
     }
 
-    public void signup(String name, String email, String password, SignUpCityLocation cityLocation, SignUpSettings signUpSettings, final IApiRequestComplete successInterface) {
-        Call<ForgotApiResponse> forgotApiResponseCall = authenticationApi.signUp(email,cityLocation,name,signUpSettings,password);
-        forgotApiResponseCall.enqueue(new ResponseHandler<ForgotApiResponse>(successInterface));
+    public void signup(SignUpRequest signUpRequest, final IApiRequestComplete successInterface) {
+        Call<SignUpApiResponse> signUpApiResponseCall = authenticationApi.signUp(signUpRequest);
+        signUpApiResponseCall.enqueue(new ResponseHandler<SignUpApiResponse>(successInterface));
     }
 
 }

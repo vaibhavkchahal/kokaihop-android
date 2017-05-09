@@ -21,8 +21,8 @@ import com.kokaihop.utility.FacebookAuthentication;
 
 public class LoginViewModel extends BaseViewModel {
 
-    private String userName = "rajendra.singh@tothenew.com";
-    private String password = "kokaihop";
+    private String userName = "";
+    private String password = "";
     private static final int REQUEST_CODE = 10;
 
     @Bindable

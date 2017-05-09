@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -7,6 +8,9 @@
 
     </data>
 
+
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent">
     <ScrollView android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#F5E0CF"
@@ -79,6 +83,7 @@
                       android:layout_marginTop="@dimen/margin_top_views_signup"
                       android:backgroundTint="@color/white"
                       android:hint="@string/city"
+                      android:text="@={viewModel.city}"
                       android:onClick="@{(v)->viewModel.openCityScreen(v)}"
                       android:textColor="@color/white"
                       android:textColorHint="@color/white"/>
@@ -140,4 +145,10 @@
 
         </RelativeLayout>
     </ScrollView>
+
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
+
+    </FrameLayout>
 </layout>

@@ -12,9 +12,9 @@ import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.login.LoginActivity;
-import com.kokaihop.authentication.login.LoginApiResponse;
+import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.SelectCityActivity;
-import com.kokaihop.city.SignUpCityLocation;
+import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.BaseViewModel;
@@ -24,11 +24,12 @@ import com.kokaihop.utility.FacebookAuthentication;
 
 public class SignUpViewModel extends BaseViewModel {
 
-    private String name;
-    private String userName;
-    private String password;
-    private String city;
-    private SignUpCityLocation cityLocation;
+    private String name = "";
+    private String userName = "";
+    private String password = "";
+    private String city = "";
+    private SignUpRequest signUpRequest;
+    private CityLocation cityLocation;
     private SignUpSettings signUpSettings;
     private int newsletter;
     private int suggestion;
@@ -74,20 +75,8 @@ public class SignUpViewModel extends BaseViewModel {
         notifyPropertyChanged(BR.city);
     }
 
-    public SignUpCityLocation getCityLocation() {
-        return cityLocation;
-    }
-
-    public void setCityLocation(SignUpCityLocation cityLocation) {
+    public void setCityLocation(CityLocation cityLocation) {
         this.cityLocation = cityLocation;
-    }
-
-    public SignUpSettings getSignUpSettings() {
-        return signUpSettings;
-    }
-
-    public void setSignUpSettings(SignUpSettings signUpSettings) {
-        this.signUpSettings = signUpSettings;
     }
 
     @Bindable
@@ -112,19 +101,15 @@ public class SignUpViewModel extends BaseViewModel {
 
     public void signup(View view) {
         final Context context = view.getContext();
-
-        if (cityLocation!=null){
-            setCity(cityLocation.getCityLocation().getCityDetails().getName());
-        }
-
         if (signUpValidations(context)) return;
         setProgressVisible(true);
         signUpSettings = new SignUpSettings(newsletter, suggestion);
-        new AuthenticationApiHelper(view.getContext()).signup(name, userName, password, cityLocation, signUpSettings, new IApiRequestComplete<LoginApiResponse>() {
+        signUpRequest = new SignUpRequest(cityLocation, name, userName, password, signUpSettings);
+        new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<SignUpApiResponse>() {
             @Override
-            public void onSuccess(LoginApiResponse response) {
+            public void onSuccess(SignUpApiResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -133,7 +118,6 @@ public class SignUpViewModel extends BaseViewModel {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         });
-        view.getContext().startActivity(new Intent(context, LoginActivity.class));
     }
 
     private boolean signUpValidations(Context context) {
@@ -149,7 +133,7 @@ public class SignUpViewModel extends BaseViewModel {
             Toast.makeText(context, R.string.password_validation_msg, Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (city.isEmpty() && cityLocation == null) {
+        if (city.isEmpty() && signUpRequest == null) {
             Toast.makeText(context, R.string.city_validation_msg, Toast.LENGTH_SHORT).show();
             return true;
         }
