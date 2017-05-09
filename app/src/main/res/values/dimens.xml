@@ -10,4 +10,5 @@
     <dimen name="sign_up_label_text_size">30sp</dimen>
     <dimen name="margin_top_views_signup">12dp</dimen>
     <dimen name="margin_horizontal_button_forgot_password">30sp</dimen>
+    <dimen name="list_seperator_width">1dp</dimen>
 </resources>

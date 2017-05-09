@@ -39,6 +39,14 @@
                    android:value="@string/facebook_app_id"/>
 
         <activity android:name="com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity">
+        <activity android:name="com.kokaihop.forgotpassword.ForgotPasswordActivity">
+        </activity>
+        <activity android:name="com.kokaihop.city.SelectCityActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 

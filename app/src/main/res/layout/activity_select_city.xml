@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.altaworks.kokaihop.ui.com.kokaihop.selectcity.SearchCityActivity">
     <data>
-        <variable name="cityViewModel" type="com.kokaihop.city.SelectCityViewModel"/>
+        <variable name="selectCityViewModel" type="com.kokaihop.city.SelectCityViewModel"/>
     </data>
+
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ListView android:id="@+id/listview_city_list"
+    <android.support.v7.widget.RecyclerView android:id="@+id/recycler_view_city_list"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-   >
-    </ListView>
+              android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
 
