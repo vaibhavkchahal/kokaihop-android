@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.altaworks.kokaihop.ui.com.kokaihop.selectcity.SearchCityActivity">
+
     <data>
         <variable name="selectCityViewModel" type="com.kokaihop.city.SelectCityViewModel"/>
     </data>
@@ -36,8 +37,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textColor="@color/white"
-                    android:text="@string/cities"/>
+                    android:text="@string/cities"
+                    android:textColor="@color/white"/>
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -68,7 +69,6 @@
             android:layout_height="match_parent"
             android:layout_below="@id/rl_container_search">
         </android.support.v7.widget.RecyclerView>
-
     </RelativeLayout>
 
 </layout>

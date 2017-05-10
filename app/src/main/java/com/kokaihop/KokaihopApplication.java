@@ -35,7 +35,7 @@ public class KokaihopApplication extends Application {
         customFontFamily.addFont("SS-ProExtraLightItalic", "source-sans-pro.extralight-italic.ttf");
         customFontFamily.addFont("SS-ProItalic", "source-sans-pro.italic.ttf");
         customFontFamily.addFont("SS-ProLight", "source-sans-pro.light.ttf");
-        customFontFamily.addFont("SS-ProRegular", "source-sans-pro.regular.ttf");
+            customFontFamily.addFont("SS-ProRegular", "source-sans-pro.regular.ttf");
         customFontFamily.addFont("SS-ProSemiBold", "source-sans-pro.semibold.ttf");
         customFontFamily.addFont("SS-ProSemiBoldItalic", "source-sans-pro.semibold-italic.ttf");
     }
