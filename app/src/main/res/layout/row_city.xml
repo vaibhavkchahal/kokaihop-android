@@ -5,14 +5,15 @@
     </data>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp">
+                    android:paddingLeft="@dimen/rowcity_rl_padding_left"
+                    android:paddingBottom="@dimen/rowcity_rl_padding_bottom"
+                    android:paddingTop="@dimen/rowcity_rl_padding_top">
 
         <TextView android:id="@+id/text_view_city"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:text="@{city.name}"
-                  android:textSize="30sp"/>
+                  android:textSize="19sp"/>
 
         <View android:layout_width="match_parent"
               android:layout_height="@dimen/list_seperator_width"
