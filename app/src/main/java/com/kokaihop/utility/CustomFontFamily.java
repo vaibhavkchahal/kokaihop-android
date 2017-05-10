@@ -37,7 +37,7 @@ public class CustomFontFamily {
             return fontCache.get(alias);
         else
         {
-            Typeface typeface = Typeface.createFromAsset(KokaihopApplication.getContext().getAssets(), fontFilename);
+            Typeface typeface = Typeface.createFromAsset(KokaihopApplication.getContext().getAssets(), "fonts/" + fontFilename);
             fontCache.put(fontFilename, typeface);
             return typeface;
         }

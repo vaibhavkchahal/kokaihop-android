@@ -23,21 +23,21 @@ public class KokaihopApplication extends Application {
         context = this;
         customFontFamily=CustomFontFamily.getInstance();
 
-        customFontFamily.addFont("RS-Bold", "fonts/RobotoSlab-Bold.ttf");
-        customFontFamily.addFont("RS-Light", "fonts/RobotoSlab-Light.ttf");
-        customFontFamily.addFont("RS-Regular", "fonts/RobotoSlab-Regular.ttf");
-        customFontFamily.addFont("RS-Thin", "fonts/RobotoSlab-Thin.ttf");
-        customFontFamily.addFont("SS-ProBlack", "fonts/source-sans-pro.black.ttf");
-        customFontFamily.addFont("SS-ProBlackItalic", "fonts/source-sans-pro.black-italic.ttf");
-        customFontFamily.addFont("SS-ProBold", "fonts/source-sans-pro.bold.ttf");
-        customFontFamily.addFont("SS-ProBoldItalic", "fonts/source-sans-pro.bold-italic.ttf");
-        customFontFamily.addFont("SS-ProExtraLight", "fonts/source-sans-pro.extralight.ttf");
-        customFontFamily.addFont("SS-ProExtraLightItalic", "fonts/source-sans-pro.extralight-italic.ttf");
-        customFontFamily.addFont("SS-ProItalic", "fonts/source-sans-pro.italic.ttf");
-        customFontFamily.addFont("SS-ProLight", "fonts/source-sans-pro.light.ttf");
-        customFontFamily.addFont("SS-ProRegular", "fonts/source-sans-pro.regular.ttf");
-        customFontFamily.addFont("SS-ProSemiBold", "fonts/source-sans-pro.semibold.ttf");
-        customFontFamily.addFont("SS-ProSemiBoldItalic", "fonts/source-sans-pro.semibold-italic.ttf");
+        customFontFamily.addFont("RS-Bold", "RobotoSlab-Bold.ttf");
+        customFontFamily.addFont("RS-Light", "RobotoSlab-Light.ttf");
+        customFontFamily.addFont("RS-Regular", "RobotoSlab-Regular.ttf");
+        customFontFamily.addFont("RS-Thin", "RobotoSlab-Thin.ttf");
+        customFontFamily.addFont("SS-ProBlack", "source-sans-pro.black.ttf");
+        customFontFamily.addFont("SS-ProBlackItalic", "source-sans-pro.black-italic.ttf");
+        customFontFamily.addFont("SS-ProBold", "source-sans-pro.bold.ttf");
+        customFontFamily.addFont("SS-ProBoldItalic", "source-sans-pro.bold-italic.ttf");
+        customFontFamily.addFont("SS-ProExtraLight", "source-sans-pro.extralight.ttf");
+        customFontFamily.addFont("SS-ProExtraLightItalic", "source-sans-pro.extralight-italic.ttf");
+        customFontFamily.addFont("SS-ProItalic", "source-sans-pro.italic.ttf");
+        customFontFamily.addFont("SS-ProLight", "source-sans-pro.light.ttf");
+        customFontFamily.addFont("SS-ProRegular", "source-sans-pro.regular.ttf");
+        customFontFamily.addFont("SS-ProSemiBold", "source-sans-pro.semibold.ttf");
+        customFontFamily.addFont("SS-ProSemiBoldItalic", "source-sans-pro.semibold-italic.ttf");
     }
 
     public static Context getContext() {

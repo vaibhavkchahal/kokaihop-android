@@ -12,13 +12,12 @@ import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
-import com.kokaihop.authentication.login.LoginActivity;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.SelectCityActivity;
 import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
-import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
@@ -148,8 +147,9 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void openLoginScreen(View view) {
-        Context context = view.getContext();
-        view.getContext().startActivity(new Intent(context, LoginActivity.class));
+        Activity context = (Activity) view.getContext();
+//        view.getContext().startActivity(new Intent(context, LoginActivity.class));
+        context.finish();
     }
 
     public void openCityScreen(View view) {
