@@ -4,92 +4,149 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
-        <variable name="viewModel" type="com.kokaihop.login.LoginViewModel"/>
-
+        <variable name="viewModel" type="com.kokaihop.authentication.login.LoginViewModel"/>
     </data>
 
     <FrameLayout android:layout_width="match_parent"
                  android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/activity_login"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#7B7055"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            tools:context="com.kokaihop.login.LoginActivity">
 
-            <Button
-                android:id="@+id/btn"
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F5E0CF">
+            <LinearLayout
+                android:id="@+id/activity_login"
                 android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="50dp"
-                    android:background="@android:color/holo_blue_dark"
-                    android:gravity="center"
-                    android:onClick="@{(v)->viewModel.facebookLogin(v)}"
-                    android:text="@string/facebook_login"
+                android:layout_height="match_parent"
+                android:background="#7B7055"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                tools:context="com.kokaihop.authentication.login.LoginActivity">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center_vertical"
+                        android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
+                        android:text="@string/login"
+                        android:textColor="@android:color/white"
+                        android:textSize="15dp"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/ic_launcher_round"
+                    />
+
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent"
+                      android:layout_height="2dp"
+                      android:background="#e3e3e3"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
+                    android:text="@string/forgot_password"
                     android:textColor="@android:color/white"
-                    android:textSize="18dp"/>
+                    android:textSize="15dp"
+                    bind:font="@{`RS-Bold`}"/>
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_marginTop="50dp"
+                              android:gravity="center_horizontal"
+                              android:orientation="vertical"
+                              android:paddingLeft="@dimen/activity_horizontal_margin"
+                              android:paddingRight="@dimen/activity_horizontal_margin">
 
 
+                    <Button
+                        android:id="@+id/btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:background="#494099"
+                        android:gravity="center"
+                        android:onClick="@{(v)->viewModel.facebookLogin(v)}"
+                        android:text="@string/facebook_login"
+                        android:textColor="@android:color/white"
+                        android:textSize="18dp"/>
 
-            <EditText android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:hint="@string/email"
-                      android:paddingBottom="20dp"
-                      android:paddingTop="20dp"
-                      android:text="@={viewModel.userName}"
-                      android:textColor="@android:color/white"
-                      android:textSize="16dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/or_login_text"
+                        android:textColor="@android:color/white"
+                        android:textSize="15dp"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:hint="@string/password"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
-                android:text="@={viewModel.password}"
-                android:textColor="@android:color/white"
-                android:textSize="16dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:hint="@string/email"
+                        android:paddingBottom="20dp"
+                        android:paddingTop="20dp"
+                        android:text="@={viewModel.userName}"
+                        android:textColor="@android:color/white"
+                        android:textSize="16dp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:onClick="@{(v)->viewModel.forgot(v)}"
-                android:text="@string/forgot_password"
-                android:textColor="@android:color/white"
-                android:textSize="15dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:hint="@string/password"
+                        android:paddingBottom="20dp"
+                        android:paddingTop="20dp"
+                        android:text="@={viewModel.password}"
+                        android:textColor="@android:color/white"
+                        android:textSize="16dp"/>
 
-            <Button android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="50dp"
-                    android:background="#FB4E00"
-                    android:gravity="center"
-                    android:onClick="@{(v)->viewModel.login(v)}"
-                    android:text="@string/login"
-                    android:textColor="@android:color/white"
-                    android:textSize="18dp"/>
+                    <Button android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="20dp"
+                            android:background="#FB4E00"
+                            android:gravity="center"
+                            android:onClick="@{(v)->viewModel.login(v)}"
+                            android:text="@string/login"
+                            android:textColor="@android:color/white"
+                            android:textSize="18dp"/>
 
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
+                        android:text="@string/forgot_password"
+                        android:textColor="@android:color/white"
+                        android:textSize="15dp"/>
 
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:onClick="@{(v)->viewModel.openSignupScreen(v)}"
+                        android:text="@string/signup_now_text"
+                        android:textColor="@android:color/white"
+                        android:textSize="15dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
         <include
-            layout="@layout/progress_bar"
-            bind:viewModel="@{viewModel}"/>
-
-        <!-- <ProgressBar
-             android:id="@+id/login_progressBar_loading"
-             style="?android:attr/progressBarStyleLarge"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:visibility="@{viewModel.isProgressVisible ? View.VISIBLE:View.GONE}"
-         />-->
+            bind:viewModel="@{viewModel}"
+            layout="@layout/progress_bar"/>
 
     </FrameLayout>
 

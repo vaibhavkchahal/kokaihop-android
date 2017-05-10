@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.kokaihop.utility.RealmBackupRestore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +29,7 @@ import io.realm.RealmResults;
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private GridView mGridView;
-    private CityAdapter mAdapter;
+//    private CityAdapter mAdapter;
 
     private Realm realm;
 
@@ -37,8 +38,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                .name("Kokaihop.realm").schemaVersion(1).build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(RealmBackupRestore.EXPORT_REALM_FILE_NAME).schemaVersion(1).build();
 
         // Clear the realm from last time
 //        Realm.deleteRealm(realmConfiguration);
@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onResume();
 
         // Load from file "cities.json" first time
-        if (mAdapter == null) {
+       /* if (mAdapter == null) {
             List<RecipeDetails> cities = loadCities();
 
             //This is the GridView adapter
@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             mGridView.setOnItemClickListener(HomeActivity.this);
             mAdapter.notifyDataSetChanged();
             mGridView.invalidate();
-        }
+        }*/
     }
 
     @Override
@@ -107,14 +107,14 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         // Pull all the cities from the realm
         RealmResults<RecipeDetails> cities = realm.where(RecipeDetails.class).findAll();
         // Put these items in the Adapter
-        mAdapter.setData(cities);
-        mAdapter.notifyDataSetChanged();
-        mGridView.invalidate();
+//        mAdapter.setData(cities);
+//        mAdapter.notifyDataSetChanged();
+//        mGridView.invalidate();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        RecipeDetails modifiedCity = (RecipeDetails) mAdapter.getItem(position);
+      /*  RecipeDetails modifiedCity = (RecipeDetails) mAdapter.getItem(position);
 
         // Acquire the RealmObject matching the name of the clicked City.
         final RecipeDetails city = realm.where(RecipeDetails.class).equalTo("title", modifiedCity.getTitle()).findFirst();
@@ -127,6 +127,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        updateCities();
+        updateCities();*/
     }
 }
