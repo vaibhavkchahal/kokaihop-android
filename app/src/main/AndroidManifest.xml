@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.altaworks.kokaihop.ui"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.altaworks.kokaihop.ui">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name="com.kokaihop.KokaihopApplication"
@@ -16,15 +16,6 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.kokaihop.home.HomeActivity">
         </activity>
-        <activity
-            android:name="com.kokaihop.login.LoginActivity"
-            android:label="Login">
-        </activity>
-        <activity
-            android:name="com.kokaihop.signup.SignUpActivity"
-            android:label="Sign Up">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
 
         <activity android:name="com.kokaihop.authentication.login.LoginActivity"
         >
