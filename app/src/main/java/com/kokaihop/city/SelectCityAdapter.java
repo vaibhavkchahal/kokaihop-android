@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
@@ -18,9 +20,10 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.ViewHolder> {
+public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.ViewHolder> implements Filterable{
 
     private ArrayList<CityDetails> cityList;
+    private ArrayList<CityDetails> OriginalcityList;
     SelectCityInterface selectCityInterface;
 
     public SelectCityAdapter(@NonNull ArrayList<CityDetails> cityList, SelectCityInterface selectCityInterface) {
@@ -43,6 +46,36 @@ public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.Vi
     @Override
     public int getItemCount() {
         return cityList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                ArrayList<CityDetails> filteredCityList = new ArrayList<>();
+
+                if(OriginalcityList== null){
+                    OriginalcityList = cityList;
+                }
+                if(constraint!=null && OriginalcityList != null && OriginalcityList.size()>0){
+                    for(final CityDetails city : OriginalcityList){
+                        if(city.getName().toLowerCase().contains(constraint)){
+                            filteredCityList.add(city);
+                        }
+                    }
+                }
+                filterResults.values = filteredCityList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                cityList = (ArrayList<CityDetails>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

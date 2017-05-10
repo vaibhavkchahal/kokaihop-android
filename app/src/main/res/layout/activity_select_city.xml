@@ -1,20 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.altaworks.kokaihop.ui.com.kokaihop.selectcity.SearchCityActivity">
     <data>
         <variable name="selectCityViewModel" type="com.kokaihop.city.SelectCityViewModel"/>
     </data>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <android.support.v7.widget.RecyclerView android:id="@+id/recycler_view_city_list"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_top"
+            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/selectcity_title_background"
+            android:minHeight="?attr/actionBarSize">
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/toolbar_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/cancel"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="@string/cities"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout
+            android:id="@+id/rl_container_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar_top"
+            android:background="@color/selectcity_search_background"
+            android:padding="10dp">
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/searchview_search_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_corner_layout"
+                android:gravity="center"
+
+                android:iconifiedByDefault="false"
+                app:defaultQueryHint="Search Here"/>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_city_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_container_search">
+        </android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
 
 </layout>

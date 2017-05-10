@@ -21,8 +21,10 @@
     <string name="dagens_recept">Dagens recept</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_via_facebook">Sign Up via Facebook</string>
-    <string name="already_a_kakoihop_chef_login_here">Already a Kakoihop chef? Login here</string>
+    <string name="already_a_kakoihop_chef_login_here">Already a Kakoihop chef? <b>Login here</b></string>
     <string name="close">X</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
+    <string name="cities">Cities</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -20,12 +20,8 @@
         </activity>
         <activity
             android:name="com.kokaihop.signup.SignUpActivity"
-            android:label="Sign Up">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            android:label="Sign Up"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
 
         <meta-data
@@ -34,10 +30,10 @@
 
         <activity android:name="com.kokaihop.forgotpassword.ForgotPasswordActivity">
         </activity>
-        <activity android:name="com.kokaihop.city.SelectCityActivity">
+        <activity android:name="com.kokaihop.city.SelectCityActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>

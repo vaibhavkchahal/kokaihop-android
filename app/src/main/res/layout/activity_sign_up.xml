@@ -1,127 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@mipmap/sign_up_background"
-                android:orientation="vertical">
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="@dimen/padding_drawable_facebook_sign_up">
-            <TextView android:id="@+id/text_view_label_sign_up"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:gravity="center_horizontal"
-                      android:text="@string/sign_up"
-                      android:textColor="@color/white"
-                      android:textSize="@dimen/sign_up_label_text_size"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-            <TextView android:id="@+id/text_view_close" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentRight="true"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:text="@string/close"
-                      android:textColor="@color/white"
-                      android:textSize="@dimen/sign_up_label_text_size"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/sign_up_background">
 
-            <View android:id="@+id/view_seperator"
-                  style="@style/Divider"
-                  android:layout_alignBottom="@+id/text_view_label_sign_up"/>
+        <TextView android:id="@+id/text_view_label_sign_up"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/signup_tv_title_margin_top"
+                  android:gravity="center_horizontal"
+                  android:text="@string/sign_up"
+                  android:textColor="@color/white"
+                  android:textSize="@dimen/signup_tv_text_size_large"
+                  app:font="@{`SourceSansPro-Bold.ttf`}"/>
 
-            <EditText android:id="@+id/edit_text_name"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@+id/text_view_label_sign_up"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:backgroundTint="@color/white"
-                      android:hint="@string/name"
-                      android:textColor="@color/white"
-                      android:textColorHint="@color/white"/>
+        <ImageView android:id="@+id/image_view_close"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:layout_marginRight="@dimen/signup_iv_close_margin_right"
+                   android:layout_marginTop="@dimen/signup_iv_close_margin_top"
 
-            <EditText android:id="@+id/edit_text_email"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@+id/edit_text_name"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:backgroundTint="@color/white"
-                      android:hint="@string/email"
-                      android:inputType="textEmailAddress"
-                      android:textColor="@color/white"
-                      android:textColorHint="@color/white"/>
+                   android:src="@drawable/ic_close_md"/>
 
-            <EditText android:id="@+id/edit_text_password"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@+id/edit_text_email"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:backgroundTint="@color/white"
-                      android:hint="@string/password"
-                      android:inputType="textPassword"
-                      android:textColor="@color/white"
-                      android:textColorHint="@color/white"/>
+        <View android:id="@+id/view_seperator"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/signup_line_title_height"
+              android:layout_below="@+id/text_view_label_sign_up"
+              android:layout_marginTop="@dimen/signup_line_title_margin_top"
+              android:background="#ffffff"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_seperator"
+            android:layout_marginTop="@dimen/signup_sv_formcontainer_margin_top"
+            android:padding="@dimen/signup_sv_formconatainer_padding">
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-            <EditText android:id="@+id/edit_text_city"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/edit_text_password"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:backgroundTint="@color/white"
-                      android:hint="@string/city"
-                      android:textColor="@color/white"
-                      android:textColorHint="@color/white"/>
+                <EditText android:id="@+id/edit_text_name"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginTop="@dimen/signup_et_margin_top"
+                          android:backgroundTint="@color/white"
+                          android:hint="@string/name"
+                          android:inputType="textCapWords"
+                          android:maxLines="1"
+                          android:textColor="@color/white"
+                          android:textColorHint="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_large"/>
 
-            <CheckBox android:id="@+id/checkBox_dagens_recept"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentLeft="true"
-                      android:layout_below="@id/edit_text_city"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:buttonTint="@color/white"
-                      android:text="@string/dagens_recept"
-                      android:textColor="@color/white"/>
+                <EditText android:id="@+id/edit_text_email"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@+id/edit_text_name"
+                          android:layout_marginTop="@dimen/signup_et_margin_top"
+                          android:backgroundTint="@color/white"
+                          android:hint="@string/email"
+                          android:inputType="textEmailAddress"
+                          android:maxLines="1"
+                          android:textColor="@color/white"
+                          android:textColorHint="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_large"/>
 
-            <CheckBox android:id="@+id/check_box_nyhetsbrev"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentRight="true"
-                      android:layout_below="@id/edit_text_city"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:buttonTint="@color/white"
-                      android:text="@string/nyhetsbrev"
-                      android:textColor="@color/white"/>
+                <EditText android:id="@+id/edit_text_password"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@+id/edit_text_email"
+                          android:layout_marginTop="@dimen/signup_et_margin_top"
+                          android:backgroundTint="@color/white"
+                          android:hint="@string/password"
+                          android:inputType="textPassword"
+                          android:maxLines="1"
+                          android:textColor="@color/white"
+                          android:textColorHint="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_large"/>
 
-            <Button android:id="@+id/button_sign_up"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/check_box_nyhetsbrev"
-                    android:layout_marginTop="@dimen/margin_top_views_signup"
-                    android:background="@color/sign_up_button_background"
-                    android:text="@string/sign_up"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"/>
+                <EditText android:id="@+id/edit_text_city"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/edit_text_password"
+                          android:layout_marginTop="@dimen/signup_et_margin_top"
+                          android:backgroundTint="@color/white"
+                          android:hint="@string/city"
+                          android:inputType="textCapWords"
+                          android:maxLines="1"
+                          android:textColor="@color/white"
+                          android:textColorHint="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_large"/>
 
-            <Button android:id="@+id/button_facebook_sign_up"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/button_sign_up"
-                    android:layout_marginTop="@dimen/margin_top_views_signup"
-                    android:background="@color/sign_up_facebook_button_background"
-                    android:padding="@dimen/padding_drawable_facebook_sign_up"
-                    android:text="@string/sign_up_via_facebook"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"/>
+                <CheckBox android:id="@+id/checkBox_dagens_recept"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentLeft="true"
+                          android:layout_below="@id/edit_text_city"
+                          android:layout_marginTop="@dimen/signup_cb_margin_top"
+                          android:button="@drawable/checkbox_selector"
+                          android:paddingLeft="@dimen/signup_cb_text_padding"
+                          android:text="@string/dagens_recept"
+                          android:textColor="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_medium"/>
 
-            <TextView android:id="@+id/text_view_already_sign_up"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_below="@id/button_facebook_sign_up"
-                      android:layout_marginTop="@dimen/margin_top_views_signup"
-                      android:gravity="center"
-                      android:text="@string/already_a_kakoihop_chef_login_here"
-                      android:textColor="@color/white"/>
+                <CheckBox android:id="@+id/check_box_nyhetsbrev"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:layout_below="@id/edit_text_city"
+                          android:layout_marginTop="@dimen/signup_cb_margin_top"
+                          android:button="@drawable/checkbox_selector"
+                          android:paddingLeft="@dimen/signup_cb_text_padding"
+                          android:text="@string/nyhetsbrev"
+                          android:textColor="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_medium"/>
 
-        </RelativeLayout>
-    </ScrollView>
+                <Button android:id="@+id/button_sign_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/check_box_nyhetsbrev"
+                        android:layout_marginTop="@dimen/signup_btn_signup_margin_top"
+                        android:background="@color/sign_up_button_background"
+                        android:text="@string/sign_up"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/signup_tv_text_size_large"/>
 
-</RelativeLayout>
+                <Button android:id="@+id/button_facebook_sign_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/button_sign_up"
+                        android:layout_marginTop="@dimen/signup_btn_facebook_margin_top"
+                        android:background="@color/sign_up_facebook_button_background"
+                        android:drawableLeft="@drawable/ic_facebook_md"
+                        android:padding="@dimen/padding_drawable_facebook_sign_up"
+                        android:text="@string/sign_up_via_facebook"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/signup_tv_text_size_large"/>
+
+                <TextView android:id="@+id/text_view_already_sign_up"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_below="@id/button_facebook_sign_up"
+                          android:layout_marginTop="@dimen/signup_tv_login_margin_top"
+                          android:gravity="center"
+                          android:text="@string/already_a_kakoihop_chef_login_here"
+                          android:textColor="@color/white"
+                          android:textSize="@dimen/signup_tv_text_size_small"/>
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</layout>
