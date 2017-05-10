@@ -20,7 +20,7 @@
                   android:text="@string/sign_up"
                   android:textColor="@color/white"
                   android:textSize="@dimen/signup_tv_text_size_large"
-                  app:font="@{`SourceSansPro-Bold.ttf`}"/>
+                  app:font="@{`SS-ProRegular`}"/>
 
         <ImageView android:id="@+id/image_view_close"
                    android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/signup_line_title_height"
               android:layout_below="@+id/text_view_label_sign_up"
-              android:layout_marginTop="@dimen/signup_line_title_margin_top"
+              android:layout_marginTop="@dimen/title_margin_top"
               android:background="#ffffff"/>
 
         <ScrollView
@@ -58,7 +58,8 @@
                           android:text="@={viewModel.name}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_large"/>
+                          android:textSize="@dimen/signup_tv_text_size_large"
+                          app:font="@{`SS-ProRegular`}"/>
 
                 <EditText android:id="@+id/edit_text_email"
                           android:layout_width="match_parent"
@@ -72,7 +73,8 @@
                           android:text="@={viewModel.userName}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_large"/>
+                          android:textSize="@dimen/signup_tv_text_size_large"
+                          app:font="@{`SS-ProRegular`}"/>
 
                 <EditText android:id="@+id/edit_text_password"
                           android:layout_width="match_parent"
@@ -86,9 +88,10 @@
                           android:text="@={viewModel.password}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_large"/>
+                          android:textSize="@dimen/signup_tv_text_size_large"
+                          app:font="@{`SS-ProRegular`}"/>
 
-                <EditText android:id="@+id/edit_text_city"
+                <TextView android:id="@+id/edit_text_city"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_below="@id/edit_text_password"
@@ -101,7 +104,15 @@
                           android:text="@={viewModel.city}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_large"/>
+                          android:textSize="@dimen/signup_tv_text_size_large"
+                          app:font="@{`SS-ProRegular`}"/>
+
+                <View android:id="@+id/view_underline_city"
+                      android:layout_width="match_parent"
+                      android:layout_height="@dimen/signup_line_title_height"
+                      android:layout_below="@+id/text_view_label_sign_up"
+                      android:layout_marginTop="@dimen/title_margin_top"
+                      android:background="#ffffff"/>
 
                 <CheckBox android:id="@+id/checkBox_dagens_recept"
                           android:layout_width="wrap_content"
@@ -114,7 +125,8 @@
                           android:paddingLeft="@dimen/signup_cb_text_padding"
                           android:text="@string/dagens_recept"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_medium"/>
+                          android:textSize="@dimen/signup_tv_text_size_medium"
+                          app:font="@{`SS-ProRegular`}"/>
 
                 <CheckBox android:id="@+id/check_box_nyhetsbrev"
                           android:layout_width="wrap_content"
@@ -127,7 +139,8 @@
                           android:paddingLeft="@dimen/signup_cb_text_padding"
                           android:text="@string/nyhetsbrev"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_medium"/>
+                          android:textSize="@dimen/signup_tv_text_size_medium"
+                          app:font="@{`SS-ProRegular`}"/>
 
                 <Button android:id="@+id/button_sign_up"
                         android:layout_width="match_parent"
@@ -139,7 +152,8 @@
                         android:text="@string/sign_up"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/signup_tv_text_size_large"/>
+                        android:textSize="@dimen/signup_tv_text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
 
                 <Button android:id="@+id/button_facebook_sign_up"
                         android:layout_width="match_parent"
@@ -153,7 +167,8 @@
                         android:text="@string/sign_up_via_facebook"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/signup_tv_text_size_large"/>
+                        android:textSize="@dimen/signup_tv_text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
 
                 <TextView android:id="@+id/text_view_already_sign_up"
                           android:layout_width="match_parent"
@@ -164,7 +179,8 @@
                           android:onClick="@{(v)->viewModel.openLoginScreen(v)}"
                           android:text="@string/already_a_kakoihop_chef_login_here"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/signup_tv_text_size_small"/>
+                          android:textSize="@dimen/signup_tv_text_size_small"
+                          app:font="@{`SS-ProRegular`}"/>
             </RelativeLayout>
 
         </ScrollView>
