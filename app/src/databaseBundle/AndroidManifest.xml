@@ -4,7 +4,6 @@
           xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name="com.kokaihop.KokaihopApplication"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity android:name="kokaihop.databundle.DatabaseBundlingActivity">
@@ -17,7 +16,7 @@
         </activity>
 
         <activity
-            android:name="com.kokaihop.home.MainActivity"
+            android:name="com.kokaihop.login.LoginActivity"
             android:label="@string/app_name">
             <intent-filter tools:node="remove">
                 <action android:name="android.intent.action.MAIN" />

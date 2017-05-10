@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
+
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.kokaihop.home.MainActivity">
-
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="Database Bundling"
-    />
-
-    <GridView
-        android:id="@+id/cities_list"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="kokaihop.databundle.BundleViewModel"/>
+    </data>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="1"/>
+        android:layout_height="match_parent"
+    >
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+        >
 
-</LinearLayout>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="Database Bundling"
+
+            />
+
+            <ListView
+                android:id="@+id/cities_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+            />
+
+
+        </LinearLayout>
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"
+
+        />
+    </FrameLayout>
+</layout>

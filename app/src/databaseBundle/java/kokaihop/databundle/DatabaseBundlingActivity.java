@@ -1,20 +1,22 @@
 package kokaihop.databundle;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.altaworks.kokaihop.ui.databinding.ActivityDatabaseBundlingBinding;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.kokaihop.home.RecipeDetails;
-import com.kokaihop.home.RecipeResponse;
-import com.kokaihop.utility.RealmBackupRestore;
+import com.kokaihop.recipe.RecipeDetails;
+import com.kokaihop.recipe.RecipeResponse;
+import com.kokaihop.utility.BaseActivity;
+import com.kokaihop.utility.RealmHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,30 +25,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
+import static com.kokaihop.utility.RealmHelper.realm;
 
-public class DatabaseBundlingActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private GridView mGridView;
+public class DatabaseBundlingActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+
+    private ListView listView;
     private RecipeAdapter mAdapter;
-
-    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_database_bundling);
+        ActivityDatabaseBundlingBinding databaseBundlingBinding = DataBindingUtil.setContentView(this, R.layout.activity_database_bundling);
+        BundleViewModel bundleViewModel = new BundleViewModel();
+        databaseBundlingBinding.setViewModel(bundleViewModel);
+        bundleViewModel.getRecipe(0);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(RealmBackupRestore.EXPORT_REALM_FILE_NAME).schemaVersion(1).build();
-
-        // Clear the realm from last time
-//        Realm.deleteRealm(realmConfiguration);
-
-        // Create a new empty instance of Realm
-        realm = Realm.getInstance(realmConfiguration);
     }
 
     @Override
@@ -54,7 +50,7 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
         super.onResume();
 
         // Load from file "cities.json" first time
-        if (mAdapter == null) {
+      /*  if (mAdapter == null) {
             List<RecipeDetails> cities = loadCities();
 
             //This is the GridView adapter
@@ -62,12 +58,12 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
             mAdapter.setData(cities);
 
             //This is the GridView which will display the list of cities
-            mGridView = (GridView) findViewById(R.id.cities_list);
-            mGridView.setAdapter(mAdapter);
-            mGridView.setOnItemClickListener(DatabaseBundlingActivity.this);
+            listView = (ListView) findViewById(R.id.cities_list);
+            listView.setAdapter(mAdapter);
+            listView.setOnItemClickListener(DatabaseBundlingActivity.this);
             mAdapter.notifyDataSetChanged();
-            mGridView.invalidate();
-        }
+            listView.invalidate();
+        }*/
        /* RealmBackupRestore realmBackupRestore = new RealmBackupRestore(MainActivity.this, realm);
         realmBackupRestore.backup();*/
     }
@@ -75,7 +71,9 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close(); // Remember to close Realm when done.
+        if (RealmHelper.getRealmInstance() != null) {
+            RealmHelper.getRealmInstance().close();// Remember to close Realm when done.
+        }
     }
 
     private List<RecipeDetails> loadCities() {
@@ -113,7 +111,7 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
         // Put these items in the Adapter
         mAdapter.setData(cities);
         mAdapter.notifyDataSetChanged();
-        mGridView.invalidate();
+        listView.invalidate();
     }
 
     @Override
@@ -121,16 +119,25 @@ public class DatabaseBundlingActivity extends AppCompatActivity implements Adapt
         RecipeDetails modifiedCity = (RecipeDetails) mAdapter.getItem(position);
 
         // Acquire the RealmObject matching the name of the clicked City.
-        final RecipeDetails city = realm.where(RecipeDetails.class).equalTo("title", modifiedCity.getTitle()).findFirst();
+//        final RecipeDetails city = realm.where(RecipeDetails.class).equalTo("title", modifiedCity.getTitle()).findFirst();
 
         // Create a transaction to increment the vote count for the selected City in the realm
-        realm.executeTransaction(new Realm.Transaction() {
+       /* realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 city.setTitle(city.getTitle() + " Modified Name");
             }
-        });
+        });*/
 
-        updateCities();
+//        updateCities();
+    }
+
+
+    public void insertRecord(RecipeResponse recipeResponse) {
+        realm.beginTransaction();
+//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
+        realm.copyToRealmOrUpdate(recipeResponse.getRecipeDetailsList());
+//        realm.insert(recipeResponse.getRecipeDetailsList());
+        realm.commitTransaction();
     }
 }
