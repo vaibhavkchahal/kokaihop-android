@@ -1,7 +1,6 @@
 package com.kokaihop.utility;
 
 import android.databinding.BindingAdapter;
-import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -12,7 +11,6 @@ public class BindingUtils {
 
     @BindingAdapter({"app:font"})
     public static void setFont(TextView textView, String fontName) {
-        Log.e("Font",fontName);
         textView.setTypeface(CustomFontFamily.getInstance().getFont(fontName));
     }
 }

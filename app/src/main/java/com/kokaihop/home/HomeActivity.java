@@ -12,7 +12,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.kokaihop.utility.RealmBackupRestore;
+import com.kokaihop.database.Recipe;
+import com.kokaihop.recipe.RecipeResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,9 +22,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+
+import static com.kokaihop.utility.RealmHelper.realm;
 
 
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -31,20 +32,12 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     private GridView mGridView;
 //    private CityAdapter mAdapter;
 
-    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(RealmBackupRestore.EXPORT_REALM_FILE_NAME).schemaVersion(1).build();
-
-        // Clear the realm from last time
-//        Realm.deleteRealm(realmConfiguration);
-
-        // Create a new empty instance of Realm
-        realm = Realm.getInstance(realmConfiguration);
     }
 
     @Override
@@ -71,10 +64,9 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close(); // Remember to close Realm when done.
     }
 
-    private List<RecipeDetails> loadCities() {
+    private List<Recipe> loadCities() {
         // In this case we're loading from local assets.
         // NOTE: could alternatively easily load from network
         InputStream stream;
@@ -98,14 +90,14 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         realm.commitTransaction();
 
-        Collection<RecipeDetails> realmCities = realm.where(RecipeDetails.class).findAll();
+        Collection<Recipe> realmCities = realm.where(Recipe.class).findAll();
 
-        return new ArrayList<RecipeDetails>(realmCities);
+        return new ArrayList<Recipe>(realmCities);
     }
 
     public void updateCities() {
         // Pull all the cities from the realm
-        RealmResults<RecipeDetails> cities = realm.where(RecipeDetails.class).findAll();
+        RealmResults<Recipe> cities = realm.where(Recipe.class).findAll();
         // Put these items in the Adapter
 //        mAdapter.setData(cities);
 //        mAdapter.notifyDataSetChanged();

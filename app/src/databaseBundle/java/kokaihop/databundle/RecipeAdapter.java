@@ -23,7 +23,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
-import com.kokaihop.home.RecipeDetails;
+import com.kokaihop.database.Recipe;
 
 import java.util.List;
 
@@ -37,13 +37,13 @@ public class RecipeAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private List<RecipeDetails> cities = null;
+    private List<Recipe> cities = null;
 
     public RecipeAdapter(Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setData(List<RecipeDetails> details) {
+    public void setData(List<Recipe> details) {
         this.cities = details;
     }
 
@@ -74,7 +74,7 @@ public class RecipeAdapter extends BaseAdapter {
             currentView = inflater.inflate(R.layout.city_listitem, parent, false);
         }
 
-        RecipeDetails city = cities.get(position);
+        Recipe city = cities.get(position);
 
         if (city != null) {
             ((TextView) currentView.findViewById(R.id.name)).setText("Title : " + city.getTitle());

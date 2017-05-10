@@ -14,7 +14,6 @@ import static com.kokaihop.utility.FacebookAuthentication.callbackManager;
 public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
-//    private CallbackManager callbackManager = CallbackManager.Factory.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -7,21 +7,19 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding;
+import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
 import com.kokaihop.city.CityLocation;
-import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.FacebookAuthentication;
 
 public class SignUpActivity extends BaseActivity {
 
     private SignUpViewModel signUpViewModel;
-//    private CallbackManager callbackManager = CallbackManager.Factory.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivitySignUpBinding signUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
+        com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding signUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
         signUpViewModel = new SignUpViewModel();
         signUpBinding.setViewModel(signUpViewModel);
     }
