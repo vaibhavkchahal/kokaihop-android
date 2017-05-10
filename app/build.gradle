@@ -62,13 +62,9 @@ android {
         databaseBundle {
             buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
             applicationIdSuffix ".databasebundle"
-
             signingConfig signingConfigs.production
         }
     }
-
-
-
 
     dataBinding {
         enabled = true
@@ -95,6 +91,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.7.0'
     compile 'com.facebook.android:facebook-android-sdk:4.22.0'
-    compile 'com.facebook.stetho:stetho:1.4.1'
-    compile 'com.uphyca:stetho_realm:2.0.0'
+    debugCompile 'com.facebook.stetho:stetho:1.4.1'
+    debugCompile 'com.uphyca:stetho_realm:2.0.0'
 }
