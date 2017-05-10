@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.kokaihop.recipe.RecipeDetails;
+import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.BaseActivity;
 import com.kokaihop.utility.RealmHelper;
@@ -76,7 +76,7 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
         }
     }
 
-    private List<RecipeDetails> loadCities() {
+    private List<Recipe> loadCities() {
         // In this case we're loading from local assets.
         // NOTE: could alternatively easily load from network
         InputStream stream;
@@ -100,14 +100,14 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         realm.commitTransaction();
 
-        Collection<RecipeDetails> realmCities = realm.where(RecipeDetails.class).findAll();
+        Collection<Recipe> realmCities = realm.where(Recipe.class).findAll();
 
-        return new ArrayList<RecipeDetails>(realmCities);
+        return new ArrayList<Recipe>(realmCities);
     }
 
     public void updateCities() {
         // Pull all the cities from the realm
-        RealmResults<RecipeDetails> cities = realm.where(RecipeDetails.class).findAll();
+        RealmResults<Recipe> cities = realm.where(Recipe.class).findAll();
         // Put these items in the Adapter
         mAdapter.setData(cities);
         mAdapter.notifyDataSetChanged();
@@ -116,7 +116,7 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        RecipeDetails modifiedCity = (RecipeDetails) mAdapter.getItem(position);
+        Recipe modifiedCity = (Recipe) mAdapter.getItem(position);
 
         // Acquire the RealmObject matching the name of the clicked City.
 //        final RecipeDetails city = realm.where(RecipeDetails.class).equalTo("title", modifiedCity.getTitle()).findFirst();

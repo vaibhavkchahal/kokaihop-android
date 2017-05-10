@@ -16,7 +16,7 @@ public class KokaihopDebugApplication extends KokaihopApplication {
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this)
-                                .withLimit(100000)
+                                .withLimit(200000)
                                 .build())
 
                         .build());

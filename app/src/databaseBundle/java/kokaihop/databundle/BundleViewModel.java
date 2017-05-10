@@ -3,8 +3,8 @@ package kokaihop.databundle;
 import android.util.Log;
 
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.RecipeApiHelper;
-import com.kokaihop.recipe.RecipeDetails;
 import com.kokaihop.recipe.RecipeRequestParams;
 import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
@@ -55,7 +55,7 @@ public class BundleViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
                 insertRecord(recipeResponse);
-                long recordCount = realm.where(RecipeDetails.class).count();
+                long recordCount = realm.where(Recipe.class).count();
                 Log.e("Saved record in DB", String.valueOf(recordCount));
 
 

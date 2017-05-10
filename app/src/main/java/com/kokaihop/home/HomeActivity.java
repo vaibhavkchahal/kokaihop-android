@@ -12,7 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.kokaihop.recipe.RecipeDetails;
+import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.RecipeResponse;
 
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onDestroy();
     }
 
-    private List<RecipeDetails> loadCities() {
+    private List<Recipe> loadCities() {
         // In this case we're loading from local assets.
         // NOTE: could alternatively easily load from network
         InputStream stream;
@@ -90,14 +90,14 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         realm.commitTransaction();
 
-        Collection<RecipeDetails> realmCities = realm.where(RecipeDetails.class).findAll();
+        Collection<Recipe> realmCities = realm.where(Recipe.class).findAll();
 
-        return new ArrayList<RecipeDetails>(realmCities);
+        return new ArrayList<Recipe>(realmCities);
     }
 
     public void updateCities() {
         // Pull all the cities from the realm
-        RealmResults<RecipeDetails> cities = realm.where(RecipeDetails.class).findAll();
+        RealmResults<Recipe> cities = realm.where(Recipe.class).findAll();
         // Put these items in the Adapter
 //        mAdapter.setData(cities);
 //        mAdapter.notifyDataSetChanged();

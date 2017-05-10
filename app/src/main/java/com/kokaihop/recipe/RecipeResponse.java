@@ -1,6 +1,7 @@
 package com.kokaihop.recipe;
 
 import com.google.gson.annotations.SerializedName;
+import com.kokaihop.database.Recipe;
 
 import java.util.List;
 
@@ -11,15 +12,15 @@ import java.util.List;
 public class RecipeResponse {
 
     @SerializedName("searchResults")
-    private List<RecipeDetails> recipeDetailsList;
+    private List<Recipe> recipeDetailsList;
     @SerializedName("count")
     private int count;
 
-    public List<RecipeDetails> getRecipeDetailsList() {
+    public List<Recipe> getRecipeDetailsList() {
         return recipeDetailsList;
     }
 
-    public void setRecipeDetailsList(List<RecipeDetails> recipeDetailsList) {
+    public void setRecipeDetailsList(List<Recipe> recipeDetailsList) {
         this.recipeDetailsList = recipeDetailsList;
     }
 
