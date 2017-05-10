@@ -10,11 +10,12 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
+import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
-import com.kokaihop.utility.BaseViewModel;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
@@ -50,9 +51,9 @@ public class LoginViewModel extends BaseViewModel {
         if (loginValidations(view, userName, password))
             return;
         setProgressVisible(true);
-        new AuthenticationApiHelper(view.getContext()).doLogin(userName, password, new IApiRequestComplete<LoginApiResponse>() {
+        new AuthenticationApiHelper(view.getContext()).doLogin(userName, password, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
-            public void onSuccess(LoginApiResponse response) {
+            public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
             }
@@ -61,6 +62,10 @@ public class LoginViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(AuthenticationApiResponse response) {
             }
         });
 

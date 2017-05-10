@@ -1,4 +1,4 @@
-package com.kokaihop.utility;
+package com.kokaihop.base;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

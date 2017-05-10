@@ -11,7 +11,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.kokaihop.authentication.login.LoginActivity;
+import com.kokaihop.base.BaseActivity;
 
 import java.util.Arrays;
 
@@ -21,9 +21,10 @@ import java.util.Arrays;
 
 public class FacebookAuthentication {
 
+    public static CallbackManager callbackManager = CallbackManager.Factory.create();
+
     public void facebookLogin(final View view) {
-        LoginActivity activity = (LoginActivity) view.getContext();
-        CallbackManager callbackManager = activity.getCallbackManager();
+        BaseActivity activity = (BaseActivity) view.getContext();
         LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList(activity.getResources().getString(R.string.facebook_email_permisson), activity.getResources().getString(R.string.facebook_public_profile_permisson)));
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -45,4 +46,5 @@ public class FacebookAuthentication {
                     }
                 });
     }
+
 }

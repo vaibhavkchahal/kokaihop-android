@@ -1,8 +1,6 @@
 package com.kokaihop.authentication;
 
 import com.kokaihop.authentication.forgotpassword.ForgotApiResponse;
-import com.kokaihop.authentication.login.LoginApiResponse;
-import com.kokaihop.authentication.signup.SignUpApiResponse;
 import com.kokaihop.city.SignUpRequest;
 
 import retrofit2.Call;
@@ -19,13 +17,13 @@ public interface AuthenticationApi {
 
     @FormUrlEncoded
     @POST("/auth/local")
-    Call<LoginApiResponse> doLogin(@Field("email") String email, @Field("password") String password);
+    Call<AuthenticationApiResponse> doLogin(@Field("email") String email, @Field("password") String password);
 
     @FormUrlEncoded
     @POST("v1/api/users/generateResetPasswordLink")
     Call<ForgotApiResponse> forgot(@Field("email") String email);
 
     @POST("v1/api/users")
-    Call<SignUpApiResponse> signUp(@Body SignUpRequest signUpRequest);
+    Call<AuthenticationApiResponse> signUp(@Body SignUpRequest signUpRequest);
 
 }

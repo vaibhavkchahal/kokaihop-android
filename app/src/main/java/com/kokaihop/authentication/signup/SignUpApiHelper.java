@@ -5,7 +5,7 @@ import android.content.Context;
 import com.kokaihop.authentication.forgotpassword.ForgotApiResponse;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.RetrofitClient;
-import com.kokaihop.utility.ResponseHandler;
+import com.kokaihop.network.ResponseHandler;
 
 import retrofit2.Call;
 

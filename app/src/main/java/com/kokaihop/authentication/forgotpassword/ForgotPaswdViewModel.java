@@ -10,12 +10,12 @@ import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
-import com.kokaihop.utility.BaseViewModel;
+import com.kokaihop.base.BaseViewModel;
 
 
 public class ForgotPaswdViewModel extends BaseViewModel {
 
-    private String userName;
+    private String userName = "";
 
     @Bindable
     public String getUserName() {
@@ -52,6 +52,10 @@ public class ForgotPaswdViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(ForgotApiResponse response) {
             }
         });
     }

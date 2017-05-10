@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityForgotPasswordBinding;
-import com.kokaihop.utility.BaseActivity;
+import com.kokaihop.base.BaseActivity;
 
 public class ForgotPasswordActivity extends BaseActivity {
 

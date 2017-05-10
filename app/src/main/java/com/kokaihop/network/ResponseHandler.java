@@ -1,7 +1,5 @@
-package com.kokaihop.utility;
+package com.kokaihop.network;
 
-
-import com.kokaihop.network.IApiRequestComplete;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,22 +23,15 @@ public class ResponseHandler<T> implements Callback<T> {
             iApiRequestComplete.onSuccess(response.body());
         } else {
             switch (response.code()) {
-                case 400:
-                    iApiRequestComplete.onFailure("Getting 400");
-                    break;
                 case 401:
-                    iApiRequestComplete.onFailure("Getting 401");
+                    iApiRequestComplete.onFailure("UnAuthorized!");
                     break;
-                case 404:
-                    iApiRequestComplete.onFailure("Getting 404");
-                    break;
-                case 500:
-                    iApiRequestComplete.onFailure("Getting 500");
+                case 422:
+                    iApiRequestComplete.onFailure("User Already Exists!");
                     break;
                 default:
-                    iApiRequestComplete.onFailure("default");
+                    iApiRequestComplete.onFailure("Something went wrong, try again!");
                     break;
-
             }
         }
     }

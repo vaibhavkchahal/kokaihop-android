@@ -5,7 +5,7 @@
 
         <import type="android.view.View" />
 
-        <variable name="viewModel" type="com.kokaihop.utility.BaseViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.base.BaseViewModel"/>
 
     </data>
 

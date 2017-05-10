@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySelectCityBinding;
-import com.kokaihop.utility.BaseActivity;
+import com.kokaihop.base.BaseActivity;
 
 public class SelectCityActivity extends BaseActivity implements SelectCityInterface{
 

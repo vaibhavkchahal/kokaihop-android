@@ -3,12 +3,10 @@ package com.kokaihop.authentication;
 import android.content.Context;
 
 import com.kokaihop.authentication.forgotpassword.ForgotApiResponse;
-import com.kokaihop.authentication.login.LoginApiResponse;
-import com.kokaihop.authentication.signup.SignUpApiResponse;
 import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.RetrofitClient;
-import com.kokaihop.utility.ResponseHandler;
+import com.kokaihop.network.ResponseHandler;
 
 import retrofit2.Call;
 
@@ -26,8 +24,8 @@ public class AuthenticationApiHelper {
     }
 
     public void doLogin(String email, String password, final IApiRequestComplete successInterface) {
-        Call<LoginApiResponse> loginApiResponseCall = authenticationApi.doLogin(email, password);
-        loginApiResponseCall.enqueue(new ResponseHandler<LoginApiResponse>(successInterface));
+        Call<AuthenticationApiResponse> loginApiResponseCall = authenticationApi.doLogin(email, password);
+        loginApiResponseCall.enqueue(new ResponseHandler<AuthenticationApiResponse>(successInterface));
     }
 
 
@@ -37,8 +35,8 @@ public class AuthenticationApiHelper {
     }
 
     public void signup(SignUpRequest signUpRequest, final IApiRequestComplete successInterface) {
-        Call<SignUpApiResponse> signUpApiResponseCall = authenticationApi.signUp(signUpRequest);
-        signUpApiResponseCall.enqueue(new ResponseHandler<SignUpApiResponse>(successInterface));
+        Call<AuthenticationApiResponse> signUpApiResponseCall = authenticationApi.signUp(signUpRequest);
+        signUpApiResponseCall.enqueue(new ResponseHandler<AuthenticationApiResponse>(successInterface));
     }
 
 }

@@ -21,6 +21,11 @@
 
         <activity android:name="com.kokaihop.authentication.login.LoginActivity"
         >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
 
@@ -28,11 +33,7 @@
             android:name="com.kokaihop.authentication.signup.SignUpActivity"
             android:label="Sign Up"
         >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"

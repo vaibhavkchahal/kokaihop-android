@@ -11,13 +11,14 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
+import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.SelectCityActivity;
 import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
-import com.kokaihop.utility.BaseViewModel;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
@@ -104,10 +105,10 @@ public class SignUpViewModel extends BaseViewModel {
         if (signUpValidations(context)) return;
         setProgressVisible(true);
         signUpSettings = new SignUpSettings(newsletter, suggestion);
-        signUpRequest = new SignUpRequest(cityLocation, name, userName, password, signUpSettings);
-        new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<SignUpApiResponse>() {
+        signUpRequest = new SignUpRequest(cityLocation, userName, name, password, signUpSettings);
+        new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
-            public void onSuccess(SignUpApiResponse response) {
+            public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
             }
@@ -115,6 +116,12 @@ public class SignUpViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(AuthenticationApiResponse response) {
+                String message = response.getErrorEmail().getDetail().getMessage();
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
         });

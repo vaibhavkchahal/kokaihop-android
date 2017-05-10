@@ -8,15 +8,15 @@ import android.util.Log;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding;
-import com.facebook.CallbackManager;
 import com.kokaihop.city.CityDetails;
 import com.kokaihop.city.CityLocation;
-import com.kokaihop.utility.BaseActivity;
+import com.kokaihop.base.BaseActivity;
+import com.kokaihop.utility.FacebookAuthentication;
 
 public class SignUpActivity extends BaseActivity {
 
     private SignUpViewModel signUpViewModel;
-    private CallbackManager callbackManager = CallbackManager.Factory.create();
+//    private CallbackManager callbackManager = CallbackManager.Factory.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +36,9 @@ public class SignUpActivity extends BaseActivity {
             signUpViewModel.setCity(citySelected.getName());
             Log.e("City Selected", citySelected.getName());
         } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
+            if (FacebookAuthentication.callbackManager != null) {
+                FacebookAuthentication.callbackManager.onActivityResult(requestCode, resultCode, data);
+            }
         }
-    }
-
-    public CallbackManager getCallbackManager() {
-        return callbackManager;
     }
 }
