@@ -2,13 +2,13 @@ package kokaihop.databundle;
 
 import android.util.Log;
 
-import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
+import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
 import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
-import com.kokaihop.utility.BaseViewModel;
 import com.kokaihop.utility.RealmHelper;
 
 import io.realm.Realm;
@@ -64,6 +64,11 @@ public class BundleViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 Log.d("on Failure", message);
+
+            }
+
+            @Override
+            public void onError(RecipeResponse response) {
 
             }
         });
