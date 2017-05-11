@@ -83,11 +83,11 @@
                           android:backgroundTint="@color/white"
                           android:hint="@string/email"
                           android:inputType="textEmailAddress"
-                          android:lineSpacingExtra="6dp"
                           android:maxLines="1"
                           android:text="@={viewModel.userName}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:textSize="@dimen/text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
 
@@ -99,7 +99,7 @@
                           android:backgroundTint="@color/white"
                           android:hint="@string/password"
                           android:inputType="textPassword"
-                          android:lineSpacingExtra="7dp"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:maxLines="1"
                           android:text="@={viewModel.password}"
                           android:textColor="@color/white"
