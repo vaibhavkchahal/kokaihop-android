@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#513200">
+        android:background="@drawable/img_signup">
 
         <TextView android:id="@+id/text_view_label_login"
                   android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                         android:drawableLeft="@drawable/ic_facebook_md"
                         android:onClick="@{(v)->viewModel.facebookLogin(v)}"
                         android:padding="@dimen/padding_drawable_facebook_sign_up"
-                        android:text="@string/sign_up_via_facebook"
+                        android:text="@string/facebook_login"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_large"
@@ -67,7 +67,7 @@
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_below="@+id/button_facebook_sign_up"
-                          android:layout_marginTop="25dp"
+                          android:layout_marginTop="@dimen/margin_top_login_or_text"
                           android:gravity="center"
                           android:text="@string/or_login_text"
                           android:textColor="@color/white"

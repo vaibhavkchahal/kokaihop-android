@@ -13,4 +13,10 @@
     <color name="transparent">#00000000</color>
 
 
+    <color name="forgot_password_title_color">#FF8D929C</color>
+    <color name="forgot_password_edittext_color">#FF8D929C</color>
+    <color name="forgot_password_line_color">#FFD4D4D4</color>
+
+
+
 </resources>

@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/sign_up_background">
+        android:background="@drawable/img_signup">
 
         <TextView android:id="@+id/text_view_label_sign_up"
                   android:layout_width="match_parent"
