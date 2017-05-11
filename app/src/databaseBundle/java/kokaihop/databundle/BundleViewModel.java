@@ -3,16 +3,18 @@ package kokaihop.databundle;
 import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.DBConstants;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
 import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
-import com.kokaihop.utility.RealmHelper;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
+import static com.kokaihop.database.DBConstants.DATABASE_NAME;
 import static com.kokaihop.utility.RealmHelper.realm;
 
 /**
@@ -27,7 +29,14 @@ public class BundleViewModel extends BaseViewModel {
     public BundleViewModel() {
         mRecipeApiHelper = new RecipeApiHelper();
         mRecipeRequestParams = getmRecipeRequestParams();
-        mRealm = RealmHelper.getRealmInstance();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(DATABASE_NAME).
+                schemaVersion(DBConstants.SCHEMA_VERSION).build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+        // Clear the realm from last time
+//        Realm.deleteRealm(realmConfiguration);
+
+        // Create a new empty instance of Realm
+        mRealm = Realm.getDefaultInstance();
 
 
     }

@@ -1,7 +1,7 @@
 package com.kokaihop.home;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -12,9 +12,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.RecipeResponse;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,12 +25,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.kokaihop.utility.RealmHelper.realm;
 
 
-public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class HomeActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private GridView mGridView;
 //    private CityAdapter mAdapter;
@@ -37,7 +41,9 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Recipe> recipe = realm.where(Recipe.class).findAll();
+        Log.e("Recipe loaded",recipe.isLoaded()+" ,"+ recipe.isValid()+ " ,"+recipe.isEmpty()+" ,"+ recipe.size());
     }
 
     @Override
@@ -120,5 +126,22 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         updateCities();*/
+    }
+
+    private String copyBundledRealmFile(InputStream inputStream, String outFileName) {
+        try {
+            File file = new File(this.getFilesDir(), outFileName);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
