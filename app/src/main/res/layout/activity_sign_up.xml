@@ -28,6 +28,7 @@
                    android:layout_alignParentRight="true"
                    android:layout_marginRight="@dimen/signup_iv_close_margin_right"
                    android:layout_marginTop="@dimen/iv_close_margin_top"
+                   android:onClick="@{(v)->viewModel.closeSignup(v)}"
                    android:src="@drawable/ic_close_md"/>
 
         <View android:id="@+id/view_seperator"
@@ -176,7 +177,7 @@
                           android:layout_below="@id/button_facebook_sign_up"
                           android:layout_marginTop="@dimen/signup_tv_login_margin_top"
                           android:gravity="center"
-                          android:onClick="@{(v)->viewModel.openLoginScreen(v)}"
+                          android:onClick="@{(v)->viewModel.closeSignup(v)}"
                           android:text="@string/already_a_kakoihop_chef_login_here"
                           android:textColor="@color/white"
                           android:textSize="@dimen/text_size_small"

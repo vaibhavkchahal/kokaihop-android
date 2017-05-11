@@ -120,6 +120,7 @@ public class SignUpViewModel extends BaseViewModel {
 
             @Override
             public void onError(AuthenticationApiResponse response) {
+                setProgressVisible(false);
                 String message = response.getErrorEmail().getDetail().getMessage();
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
@@ -146,10 +147,8 @@ public class SignUpViewModel extends BaseViewModel {
         return false;
     }
 
-    public void openLoginScreen(View view) {
-        Activity context = (Activity) view.getContext();
-//        view.getContext().startActivity(new Intent(context, LoginActivity.class));
-        context.finish();
+    public void closeSignup(View view) {
+        ((Activity)view.getContext()).finish();
     }
 
     public void openCityScreen(View view) {

@@ -28,6 +28,7 @@
                    android:layout_alignParentRight="true"
                    android:layout_marginRight="@dimen/signup_iv_close_margin_right"
                    android:layout_marginTop="@dimen/close_image_margin_top"
+                   android:onClick="@{(v)->viewModel.finishLogin(v)}"
                    android:src="@drawable/ic_close_md"/>
 
         <View android:id="@+id/view_seperator"
@@ -41,9 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_seperator"
-            android:paddingTop="@dimen/padding_top_login_scroll"
             android:paddingLeft="@dimen/login_padding_left"
-            android:paddingRight="@dimen/login_padding_right">
+            android:paddingRight="@dimen/login_padding_right"
+            android:paddingTop="@dimen/padding_top_login_scroll">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="match_parent">
@@ -82,12 +83,12 @@
                           android:backgroundTint="@color/white"
                           android:hint="@string/email"
                           android:inputType="textEmailAddress"
+                          android:lineSpacingExtra="6dp"
                           android:maxLines="1"
                           android:text="@={viewModel.userName}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
                           android:textSize="@dimen/text_size_large"
-                          android:lineSpacingExtra="6dp"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <EditText android:id="@+id/edit_text_password"
@@ -98,12 +99,12 @@
                           android:backgroundTint="@color/white"
                           android:hint="@string/password"
                           android:inputType="textPassword"
+                          android:lineSpacingExtra="7dp"
                           android:maxLines="1"
                           android:text="@={viewModel.password}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
                           android:textSize="@dimen/text_size_large"
-                          android:lineSpacingExtra="7dp"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <Button android:id="@+id/button_login"
