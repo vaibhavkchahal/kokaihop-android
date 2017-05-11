@@ -18,7 +18,7 @@
     <dimen name="signup_iv_close_margin_top">40.2dp</dimen>
     <dimen name="signup_tv_title_margin_top">33dp</dimen>
     <dimen name="signup_line_title_height">1dp</dimen>
-    <dimen name="signup_sv_formcontainer_margin_top">96.5dp</dimen>
+    <dimen name="signup_sv_formcontainer_margin_top">68dp</dimen>
     <dimen name="signup_sv_formconatainer_padding">20dp</dimen>
     <dimen name="signup_btn_facebook_margin_top">20dp</dimen>
     <dimen name="signup_btn_signup_margin_top">30dp</dimen>
