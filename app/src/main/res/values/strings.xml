@@ -14,7 +14,9 @@
     <string name="sucess_login">Login Success!</string>
     <string name="failed_login">Login Failed!</string>
     <string name="failed">Failed!</string>
-    <string name="forgot_success_msg">Instructions on how to reset your password has been sent to your e-mail.</string>
+    <string name="forgot_success_msg">Instructions on how to reset your password has been sent to
+        your e-mail.
+    </string>
 
 
     <!-- facebook login strings -->
@@ -24,14 +26,15 @@
     <string name="facebook_public_profile_permisson">public_profile</string>
 
     <!-- Sign Up Strings -->
-
     <string name="name">Name</string>
     <string name="city">City</string>
     <string name="nyhetsbrev">Nyhetsbrev</string>
     <string name="dagens_recept">Dagens recept</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_via_facebook">Sign Up via Facebook</string>
-    <string name="already_a_kakoihop_chef_login_here">Already a Kakoihop chef? <b>Login here</b></string>
+    <string name="already_a_kakoihop_chef_login_here">Already a Kakoihop chef?
+        <b>Login here</b>
+    </string>
     <string name="close">X</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
@@ -40,4 +43,8 @@
     <string name="name_required">name required</string>
     <string name="city_validation_msg">city required</string>
     <string name="signup_success">signUp Success</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

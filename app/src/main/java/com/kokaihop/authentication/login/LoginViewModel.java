@@ -66,6 +66,7 @@ public class LoginViewModel extends BaseViewModel {
 
             @Override
             public void onError(AuthenticationApiResponse response) {
+                setProgressVisible(false);
             }
         });
 
@@ -84,6 +85,10 @@ public class LoginViewModel extends BaseViewModel {
     public void facebookLogin(final View view) {
         FacebookAuthentication authentication = new FacebookAuthentication();
         authentication.facebookLogin(view);
+    }
+
+    public void finishLogin(final View view) {
+        ((Activity)view.getContext()).finish();
     }
 
     // validate fields for login.

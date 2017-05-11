@@ -3,18 +3,24 @@
 
     <data>
 
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
 
         <variable name="viewModel" type="com.kokaihop.base.BaseViewModel"/>
 
     </data>
 
-    <ProgressBar
-        android:id="@+id/login_progressBar_loading"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="@{viewModel.progressVisible?View.VISIBLE:View.GONE}"/>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+        <ProgressBar
+            android:id="@+id/login_progressBar_loading"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{viewModel.progressVisible?View.VISIBLE:View.GONE}"/>
+
+    </RelativeLayout>
 
 </layout>

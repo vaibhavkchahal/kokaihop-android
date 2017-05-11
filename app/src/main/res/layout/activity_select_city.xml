@@ -19,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/selectcity_title_background"
+            android:paddingTop="33dp"
+            android:paddingBottom="14dp"
             android:minHeight="?attr/actionBarSize">
 
             <RelativeLayout android:layout_width="match_parent"
@@ -29,7 +31,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="@string/cancel"
-                    android:textColor="@color/white"/>
+                    android:textSize="@dimen/text_size_large"
+                    android:textColor="@color/white"
+                    app:font="@{`SS-ProRegular`}"/>
 
                 <TextView
                     android:id="@+id/toolbar_title"
@@ -37,8 +41,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
+                    android:textSize="@dimen/text_size_large"
                     android:text="@string/cities"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    app:font="@{`SS-ProRegular`}"/>
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -48,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar_top"
-            android:background="@color/selectcity_search_background"
-            android:padding="10dp">
+            android:background="@color/black_overlay"
+            android:padding="@dimen/city_search_bar_padding">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchview_search_city"
@@ -57,8 +63,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner_layout"
                 android:gravity="center"
-
-                android:iconifiedByDefault="false"
+                android:iconifiedByDefault="true"
                 app:defaultQueryHint="Search Here"/>
 
         </RelativeLayout>

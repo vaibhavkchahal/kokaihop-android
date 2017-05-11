@@ -38,8 +38,8 @@ public class ForgotPaswdViewModel extends BaseViewModel {
         new AuthenticationApiHelper(view.getContext()).doForgot(userName, new IApiRequestComplete<ForgotApiResponse>() {
             @Override
             public void onSuccess(ForgotApiResponse response) {
+                setProgressVisible(false);
                 if (response.isSuccess()) {
-                    setProgressVisible(false);
                     Toast.makeText(view.getContext(), R.string.forgot_success_msg, Toast.LENGTH_SHORT).show();
                     activity.finish();
 
@@ -56,8 +56,13 @@ public class ForgotPaswdViewModel extends BaseViewModel {
 
             @Override
             public void onError(ForgotApiResponse response) {
+                setProgressVisible(false);
             }
         });
+    }
+
+    public void onBackPressed(View view) {
+        ((Activity) view.getContext()).finish();
     }
 
 }
