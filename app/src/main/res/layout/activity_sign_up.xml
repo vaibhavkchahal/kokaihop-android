@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_seperator"
             android:layout_marginTop="@dimen/signup_sv_formcontainer_margin_top"
-            android:paddingRight="@dimen/signup_sv_formconatainer_padding"
-            android:paddingLeft="@dimen/signup_sv_formconatainer_padding">
+            android:paddingLeft="@dimen/signup_sv_formconatainer_padding"
+            android:paddingRight="@dimen/signup_sv_formconatainer_padding">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -56,6 +56,7 @@
                           android:hint="@string/name"
                           android:inputType="textCapWords"
                           android:maxLines="1"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:text="@={viewModel.name}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
@@ -71,6 +72,7 @@
                           android:hint="@string/email"
                           android:inputType="textEmailAddress"
                           android:maxLines="1"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:text="@={viewModel.userName}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
@@ -86,6 +88,7 @@
                           android:hint="@string/password"
                           android:inputType="textPassword"
                           android:maxLines="1"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:text="@={viewModel.password}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
@@ -98,12 +101,13 @@
                           android:layout_below="@id/edit_text_password"
                           android:layout_marginTop="@dimen/signup_et_margin_top"
                           android:backgroundTint="@color/white"
-                          android:hint="@string/city"
                           android:focusable="false"
-                          android:textColorHint="@color/white"
+                          android:hint="@string/city"
                           android:onClick="@{(v)->viewModel.openCityScreen(v)}"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:text="@={viewModel.city}"
                           android:textColor="@color/white"
+                          android:textColorHint="@color/white"
                           android:textSize="@dimen/text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
 
@@ -142,11 +146,11 @@
                         android:layout_marginTop="@dimen/signup_btn_signup_margin_top"
                         android:background="@color/kokaihop_orange_color"
                         android:onClick="@{(v)->viewModel.signup(v)}"
+                        android:paddingBottom="@dimen/signup_button_padding_bottom"
+                        android:paddingTop="@dimen/signup_button_padding_top"
                         android:text="@string/sign_up"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:paddingTop="@dimen/signup_button_padding_top"
-                        android:paddingBottom="@dimen/signup_button_padding_bottom"
                         android:textSize="@dimen/text_size_large"
                         app:font="@{`SS-ProRegular`}"/>
 
@@ -158,9 +162,9 @@
                         android:background="@color/sign_up_facebook_button_background"
                         android:drawableLeft="@drawable/ic_facebook_md"
                         android:onClick="@{(v)->viewModel.signUpWithFacebook(v)}"
-                        android:padding="@dimen/padding_drawable_facebook_sign_up"
-                        android:paddingTop="@dimen/signup_button_fb_padding_top"
+                        android:drawablePadding="@dimen/padding_drawable_facebook_sign_up"
                         android:paddingBottom="@dimen/signup_button_fb_padding_bottom"
+                        android:paddingTop="@dimen/signup_button_fb_padding_top"
                         android:text="@string/sign_up_via_facebook"
                         android:textAllCaps="false"
                         android:textColor="@color/white"

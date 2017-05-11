@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- common textsizes -->
+
+    <!-- common dimens-->
+    <dimen name="screen_close_btn_margin_top">37.2dp</dimen>
+    <dimen name="screen_title_margin_top">30dp</dimen>
+    <dimen name="edittext_line_text_padding">6dp</dimen>
     <dimen name="text_size_large">19sp</dimen>
     <dimen name="text_size_medium">17sp</dimen>
     <dimen name="text_size_small">15sp</dimen>
-
-    <!-- common scrren dimens-->
-    <dimen name="screen_close_btn_margin_top">40.2dp</dimen>
-    <dimen name="screen_title_margin_top">33dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="no_margin">0dp</dimen>
@@ -25,13 +25,12 @@
     <dimen name="padding_drawable_facebook_sign_up">10dp</dimen>
     <dimen name="signup_iv_close_margin_right">23.2dp</dimen>
     <dimen name="signup_line_title_height">1dp</dimen>
-    <dimen name="signup_sv_formcontainer_margin_top">68dp</dimen>
+    <dimen name="signup_sv_formcontainer_margin_top">71dp</dimen>
     <dimen name="signup_sv_formconatainer_padding">20dp</dimen>
     <dimen name="signup_btn_facebook_margin_top">20dp</dimen>
     <dimen name="signup_btn_signup_margin_top">30dp</dimen>
-    <dimen name="signup_tv_login_margin_top">15dp</dimen>
+    <dimen name="signup_tv_login_margin_top">16dp</dimen>
     <dimen name="signup_cb_margin_top">30dp</dimen>
-
     <dimen name="signup_cb_text_padding">11dp</dimen>
 
 
