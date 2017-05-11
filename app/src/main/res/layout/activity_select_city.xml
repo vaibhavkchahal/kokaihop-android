@@ -19,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/selectcity_title_background"
+            android:paddingTop="33dp"
+            android:paddingBottom="14dp"
             android:minHeight="?attr/actionBarSize">
 
             <RelativeLayout android:layout_width="match_parent"
@@ -29,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="@string/cancel"
-                    android:textSize="@dimen/signup_tv_text_size_large"
+                    android:textSize="@dimen/text_size_large"
                     android:textColor="@color/white"
                     app:font="@{`SS-ProRegular`}"/>
 
@@ -39,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:textSize="@dimen/signup_tv_text_size_large"
+                    android:textSize="@dimen/text_size_large"
                     android:text="@string/cities"
                     android:textColor="@color/white"
                     app:font="@{`SS-ProRegular`}"/>
@@ -61,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner_layout"
                 android:gravity="center"
-                android:iconifiedByDefault="false"
+                android:iconifiedByDefault="true"
                 app:defaultQueryHint="Search Here"/>
 
         </RelativeLayout>

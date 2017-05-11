@@ -15,7 +15,7 @@
         <TextView android:id="@+id/text_view_label_login"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="@dimen/login_title_margin_top"
+                  android:layout_marginTop="@dimen/screen_title_margin_top"
                   android:gravity="center_horizontal"
                   android:text="@string/login"
                   android:textColor="@color/white"
@@ -27,7 +27,7 @@
                    android:layout_height="wrap_content"
                    android:layout_alignParentRight="true"
                    android:layout_marginRight="@dimen/signup_iv_close_margin_right"
-                   android:layout_marginTop="@dimen/close_image_margin_top"
+                   android:layout_marginTop="@dimen/screen_close_btn_margin_top"
                    android:onClick="@{(v)->viewModel.finishLogin(v)}"
                    android:src="@drawable/ic_close_md"/>
 
@@ -35,7 +35,7 @@
               android:layout_width="match_parent"
               android:layout_height="@dimen/signup_line_title_height"
               android:layout_below="@+id/text_view_label_login"
-              android:layout_marginTop="@dimen/title_margin_top"
+              android:layout_marginTop="@dimen/title_separator_margin_top"
               android:background="#ffffff"/>
 
         <ScrollView
