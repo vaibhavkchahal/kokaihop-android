@@ -5,15 +5,15 @@
         <variable name="city" type="com.kokaihop.city.CityDetails"/>
     </data>
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/rowcity_rl_padding_left"
-                    android:paddingBottom="@dimen/rowcity_rl_padding_bottom"
-                    android:paddingTop="@dimen/rowcity_rl_padding_top">
+                    android:layout_height="wrap_content">
 
         <TextView android:id="@+id/text_view_city"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:text="@{city.name}"
+                  android:layout_marginTop="15dp"
+                  android:layout_marginLeft="20dp"
+                  android:layout_marginBottom="15dp"
                   android:textSize="@dimen/text_size_large"
                   app:font="@{`SS-ProRegular`}"/>
 
