@@ -70,10 +70,11 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+
         if (RealmHelper.getRealmInstance() != null) {
             RealmHelper.getRealmInstance().close();// Remember to close Realm when done.
         }
+        super.onDestroy();
     }
 
     private List<Recipe> loadCities() {
