@@ -24,7 +24,7 @@ public class ResponseHandler<T> implements Callback<T> {
         } else {
             switch (response.code()) {
                 case 401:
-                    iApiRequestComplete.onFailure("UnAuthorized!");
+                    iApiRequestComplete.onFailure("Not a Registered user!");
                     break;
                 case 422:
                     iApiRequestComplete.onFailure("User Already Exists!");

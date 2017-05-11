@@ -7,4 +7,5 @@ package com.kokaihop.utility;
 public class Constants {
 
     public static final int PASSWORD_MAX_LENGTH = 7;
+    public static final long SPLASH_VISIBLE_TIME = 3000;
 }
