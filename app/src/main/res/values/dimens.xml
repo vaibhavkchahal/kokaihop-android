@@ -4,6 +4,7 @@
 
     <!-- common dimens-->
     <dimen name="screen_close_btn_margin_top">37.2dp</dimen>
+    <dimen name="screen_close_btn_margin_bottom">14dp</dimen>
     <dimen name="screen_title_margin_top">30dp</dimen>
     <dimen name="edittext_line_text_padding">6dp</dimen>
     <dimen name="text_size_large">19sp</dimen>
@@ -22,8 +23,10 @@
     <dimen name="title_separator_margin_top">14dp</dimen>
 
     <!--Sign Up Dimensions-->
-    <dimen name="padding_drawable_facebook_sign_up">10dp</dimen>
-    <dimen name="signup_iv_close_margin_right">23.2dp</dimen>
+    <dimen name="signup_fb_drawable_padding">10dp</dimen>
+    <dimen name="signup_iv_close_padding_right">23.2dp</dimen>
+    <dimen name="signup_iv_close_padding_left">23.2dp</dimen>
+    <dimen name="signup_iv_close_margin_bottom">14dp</dimen>
     <dimen name="signup_line_title_height">1dp</dimen>
     <dimen name="signup_sv_formcontainer_margin_top">71dp</dimen>
     <dimen name="signup_sv_formconatainer_padding">20dp</dimen>
@@ -48,8 +51,8 @@
 
 
     <!--Forgot Password-->
-    <dimen name="forgot_password_iv_back_margin_left">20dp</dimen>
-    <dimen name="forgotpassword_iv_back_margin_top">37dp</dimen>
+    <dimen name="forgot_password_iv_back_padding_left">20dp</dimen>
+    <dimen name="forgotpassword_iv_back_padding_top">37dp</dimen>
     <dimen name="forgot_password_tv_title_margin_top">30dp</dimen>
     <dimen name="forgot_password_et_drawable_padding">15dp</dimen>
     <dimen name="forgot_password_rl_container_padding_left">20dp</dimen>
@@ -73,4 +76,7 @@
     <dimen name="margin_top_forgot_passwd">45dp</dimen>
     <dimen name="margin_top_signupnow">15dp</dimen>
     <dimen name="margin_top_login_or_text">25dp</dimen>
+    <dimen name="button_corner_radius">2dp</dimen>
+    <dimen name="forgot_password_iv_back_padding_bottom">14dp</dimen>
+    <dimen name="forgot_password_iv_back_padding_right">20dp</dimen>
 </resources>
