@@ -10,16 +10,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#513200">
+        android:background="@mipmap/sign_up_background">
 
         <TextView android:id="@+id/text_view_label_sign_up"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginTop="@dimen/tv_title_margin_top"
+                  android:layout_marginTop="@dimen/signup_tv_title_margin_top"
                   android:gravity="center_horizontal"
                   android:text="@string/sign_up"
                   android:textColor="@color/white"
-                  android:textSize="@dimen/text_size_large"
+                  android:textSize="@dimen/signup_tv_text_size_large"
                   app:font="@{`SS-ProRegular`}"/>
 
         <ImageView android:id="@+id/image_view_close"
@@ -27,23 +27,23 @@
                    android:layout_height="wrap_content"
                    android:layout_alignParentRight="true"
                    android:layout_marginRight="@dimen/signup_iv_close_margin_right"
-                   android:layout_marginTop="@dimen/iv_close_margin_top"
-                   android:onClick="@{(v)->viewModel.closeSignup(v)}"
+                   android:layout_marginTop="@dimen/signup_iv_close_margin_top"
                    android:src="@drawable/ic_close_md"/>
 
         <View android:id="@+id/view_seperator"
               android:layout_width="match_parent"
               android:layout_height="@dimen/signup_line_title_height"
               android:layout_below="@+id/text_view_label_sign_up"
-              android:layout_marginTop="@dimen/title_margin_top"
-              android:background="#ffffff"/>
+              android:layout_marginTop="@dimen/title_line_margin_top"
+              android:background="@color/white"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_seperator"
             android:layout_marginTop="@dimen/signup_sv_formcontainer_margin_top"
-            android:padding="@dimen/signup_sv_formconatainer_padding">
+            android:paddingRight="@dimen/signup_sv_formconatainer_padding"
+            android:paddingLeft="@dimen/signup_sv_formconatainer_padding">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -51,7 +51,6 @@
                 <EditText android:id="@+id/edit_text_name"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:layout_marginTop="@dimen/signup_et_margin_top"
                           android:backgroundTint="@color/white"
                           android:hint="@string/name"
                           android:inputType="textCapWords"
@@ -59,14 +58,14 @@
                           android:text="@={viewModel.name}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/text_size_large"
+                          android:textSize="@dimen/signup_tv_text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <EditText android:id="@+id/edit_text_email"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_below="@+id/edit_text_name"
-                          android:layout_marginTop="@dimen/signup_et_margin_top"
+                          android:layout_marginTop="@dimen/signup_et_email_margin_top"
                           android:backgroundTint="@color/white"
                           android:hint="@string/email"
                           android:inputType="textEmailAddress"
@@ -74,7 +73,7 @@
                           android:text="@={viewModel.userName}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/text_size_large"
+                          android:textSize="@dimen/signup_tv_text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <EditText android:id="@+id/edit_text_password"
@@ -89,31 +88,23 @@
                           android:text="@={viewModel.password}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:textSize="@dimen/text_size_large"
+                          android:textSize="@dimen/signup_tv_text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
 
-                <TextView android:id="@+id/edit_text_city"
+                <EditText android:id="@+id/edit_text_city"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:layout_below="@id/edit_text_password"
                           android:layout_marginTop="@dimen/signup_et_margin_top"
                           android:backgroundTint="@color/white"
                           android:hint="@string/city"
-                          android:inputType="textCapWords"
-                          android:maxLines="1"
+                          android:focusable="false"
+                          android:textColorHint="@color/white"
                           android:onClick="@{(v)->viewModel.openCityScreen(v)}"
                           android:text="@={viewModel.city}"
                           android:textColor="@color/white"
-                          android:textColorHint="@color/white"
-                          android:textSize="@dimen/text_size_large"
+                          android:textSize="@dimen/signup_tv_text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
-
-                <View android:id="@+id/view_underline_city"
-                      android:layout_width="match_parent"
-                      android:layout_height="@dimen/signup_line_title_height"
-                      android:layout_below="@+id/edit_text_city"
-                      android:layout_marginTop="8.5dp"
-                      android:background="#ffffff"/>
 
                 <CheckBox android:id="@+id/checkBox_dagens_recept"
                           android:layout_width="wrap_content"
@@ -126,7 +117,7 @@
                           android:paddingLeft="@dimen/signup_cb_text_padding"
                           android:text="@string/dagens_recept"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/text_size_medium"
+                          android:textSize="@dimen/signup_tv_text_size_medium"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <CheckBox android:id="@+id/check_box_nyhetsbrev"
@@ -140,7 +131,7 @@
                           android:paddingLeft="@dimen/signup_cb_text_padding"
                           android:text="@string/nyhetsbrev"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/text_size_medium"
+                          android:textSize="@dimen/signup_tv_text_size_medium"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <Button android:id="@+id/button_sign_up"
@@ -148,12 +139,14 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/check_box_nyhetsbrev"
                         android:layout_marginTop="@dimen/signup_btn_signup_margin_top"
-                        android:background="@color/kokaihop_orange_color"
+                        android:background="@color/sign_up_button_background"
                         android:onClick="@{(v)->viewModel.signup(v)}"
                         android:text="@string/sign_up"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_large"
+                        android:paddingTop="@dimen/signup_button_padding_top"
+                        android:paddingBottom="@dimen/signup_button_padding_bottom"
+                        android:textSize="@dimen/signup_tv_text_size_large"
                         app:font="@{`SS-ProRegular`}"/>
 
                 <Button android:id="@+id/button_facebook_sign_up"
@@ -165,10 +158,12 @@
                         android:drawableLeft="@drawable/ic_facebook_md"
                         android:onClick="@{(v)->viewModel.signUpWithFacebook(v)}"
                         android:padding="@dimen/padding_drawable_facebook_sign_up"
+                        android:paddingTop="@dimen/signup_button_fb_padding_top"
+                        android:paddingBottom="@dimen/signup_button_fb_padding_bottom"
                         android:text="@string/sign_up_via_facebook"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_large"
+                        android:textSize="@dimen/signup_tv_text_size_large"
                         app:font="@{`SS-ProRegular`}"/>
 
                 <TextView android:id="@+id/text_view_already_sign_up"
@@ -177,13 +172,12 @@
                           android:layout_below="@id/button_facebook_sign_up"
                           android:layout_marginTop="@dimen/signup_tv_login_margin_top"
                           android:gravity="center"
-                          android:onClick="@{(v)->viewModel.closeSignup(v)}"
+                          android:onClick="@{(v)->viewModel.openLoginScreen(v)}"
                           android:text="@string/already_a_kakoihop_chef_login_here"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/text_size_small"
+                          android:textSize="@dimen/signup_tv_text_size_small"
                           app:font="@{`SS-ProRegular`}"/>
             </RelativeLayout>
-
         </ScrollView>
         <include
             layout="@layout/progress_bar"
