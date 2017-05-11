@@ -55,4 +55,6 @@
     <dimen name="forgot_password_et_margin_top">33dp</dimen>
     <dimen name="forgotpassword_rl_container_margin_top">33dp</dimen>
     <dimen name="forgotpassword_button_margin_top">20.3dp</dimen>
+    <dimen name="forgot_password_button_padding_top">10dp</dimen>
+    <dimen name="forgot_password_button_padding_bottom">12dp</dimen>
 </resources>
