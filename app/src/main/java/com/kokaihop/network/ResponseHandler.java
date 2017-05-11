@@ -1,6 +1,8 @@
 package com.kokaihop.network;
 
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,10 +26,10 @@ public class ResponseHandler<T> implements Callback<T> {
         } else {
             switch (response.code()) {
                 case 401:
-                    iApiRequestComplete.onFailure("Not a Registered user!");
+                    iApiRequestComplete.onFailure("Email or password is incorrect. Please try again.");
                     break;
                 case 422:
-                    iApiRequestComplete.onFailure("User Already Exists!");
+                    iApiRequestComplete.onFailure("A user with the email address you provided already exists");
                     break;
                 default:
                     iApiRequestComplete.onFailure("Something went wrong, try again!");
@@ -38,6 +40,9 @@ public class ResponseHandler<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        iApiRequestComplete.onFailure(t.getMessage());
+        if (t instanceof IOException)
+            iApiRequestComplete.onFailure("Check Your Internet Connection!");
+        else
+            iApiRequestComplete.onFailure("Something went wrong, try again!");
     }
 }
