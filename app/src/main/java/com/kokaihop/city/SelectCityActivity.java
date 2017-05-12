@@ -24,6 +24,7 @@ public class SelectCityActivity extends BaseActivity implements SelectCityInterf
         selectCityViewModel = new SelectCityViewModel(this);
         selectCityBinding = DataBindingUtil.setContentView(this, R.layout.activity_select_city);
         selectCityBinding.setSelectCityViewModel(selectCityViewModel);
+//        setSupportActionBar(selectCityBinding.toolbarTop);
 
         selectCityBinding.searchviewSearchCity.setOnClickListener(new View.OnClickListener() {
             @Override

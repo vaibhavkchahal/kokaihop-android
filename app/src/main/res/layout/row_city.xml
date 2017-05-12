@@ -10,17 +10,17 @@
         <TextView android:id="@+id/text_view_city"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/city_row_tv_margin_vertical"
+                  android:layout_marginLeft="@dimen/city_row_tv_margin_left"
+                  android:layout_marginTop="@dimen/city_row_tv_margin_vertical"
                   android:text="@{city.name}"
-                  android:layout_marginTop="15dp"
-                  android:layout_marginLeft="20dp"
-                  android:layout_marginBottom="15dp"
                   android:textSize="@dimen/text_size_large"
                   app:font="@{`SS-ProRegular`}"/>
 
         <View android:layout_width="match_parent"
               android:layout_height="@dimen/list_seperator_width"
               android:layout_below="@+id/text_view_city"
-              android:background="@color/black_overlay"/>
+              android:background="@color/selectcity_items_divider_color"/>
 
     </RelativeLayout>
 </layout>

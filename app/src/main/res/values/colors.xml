@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#FFF75A15</color>
+    <color name="colorPrimaryDark">#FFF75A15</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="white_40">#66FFFFFF</color>
     <color name="kokaihop_orange_color">#FFF75A15</color>
     <color name="sign_up_facebook_button_background">#FF3B5998</color>
 
@@ -16,6 +18,8 @@
     <color name="forgot_password_title_color">#FF8D929C</color>
     <color name="forgot_password_edittext_color">#FF8D929C</color>
     <color name="forgot_password_line_color">#FFD4D4D4</color>
+
+    <color name="selectcity_items_divider_color">#FFE3E4E6</color>
 
 
 

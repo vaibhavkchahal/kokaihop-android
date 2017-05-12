@@ -26,11 +26,11 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_alignParentRight="true"
-                   android:paddingRight="@dimen/signup_iv_close_padding_right"
-                   android:paddingLeft="@dimen/signup_iv_close_padding_left"
-                   android:paddingTop="@dimen/screen_close_btn_margin_top"
-                   android:paddingBottom="@dimen/screen_close_btn_margin_bottom"
                    android:onClick="@{(v)->viewModel.finishLogin(v)}"
+                   android:paddingBottom="@dimen/screen_close_btn_margin_bottom"
+                   android:paddingLeft="@dimen/signup_iv_close_padding_left"
+                   android:paddingRight="@dimen/signup_iv_close_padding_right"
+                   android:paddingTop="@dimen/screen_close_btn_margin_top"
                    android:src="@drawable/ic_close_md"/>
 
         <View android:id="@+id/view_seperator"
@@ -51,18 +51,29 @@
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                <Button android:id="@+id/button_facebook_sign_up"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/button_fb_round_corner"
-                        android:drawableLeft="@drawable/ic_facebook_md"
-                        android:onClick="@{(v)->viewModel.facebookLogin(v)}"
-                        android:padding="@dimen/signup_fb_drawable_padding"
-                        android:text="@string/facebook_login"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_large"
-                        app:font="@{`SS-ProRegular`}"/>
+                <RelativeLayout android:id="@+id/button_facebook_sign_up"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:background="@drawable/button_fb_round_corner"
+                                android:onClick="@{(v)->viewModel.facebookLogin(v)}">
+
+                    <ImageView android:id="@+id/signup_iv_fb"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_centerVertical="true"
+                               android:layout_marginLeft="10dp"
+                               android:src="@drawable/ic_facebook_md"/>
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_centerHorizontal="true"
+                              android:layout_centerInParent="true"
+                              android:text="@string/facebook_login"
+                              android:textColor="@color/white"
+                              android:textSize="@dimen/text_size_large"
+                              app:font="@{`SS-ProRegular`}"/>
+
+                </RelativeLayout>
 
 
                 <TextView android:id="@+id/textview_or_login"
@@ -82,14 +93,14 @@
                           android:layout_height="wrap_content"
                           android:layout_below="@+id/textview_or_login"
                           android:layout_marginTop="@dimen/margin_top_login_email"
-                          android:backgroundTint="@color/white"
+                          android:backgroundTint="@color/white_40"
                           android:hint="@string/email"
                           android:inputType="textEmailAddress"
                           android:maxLines="1"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:text="@={viewModel.userName}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
-                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:textSize="@dimen/text_size_large"
                           app:font="@{`SS-ProRegular`}"/>
 
@@ -98,11 +109,11 @@
                           android:layout_height="wrap_content"
                           android:layout_below="@+id/edit_text_email"
                           android:layout_marginTop="@dimen/margin_top_login_passwd"
-                          android:backgroundTint="@color/white"
+                          android:backgroundTint="@color/white_40"
                           android:hint="@string/password"
                           android:inputType="textPassword"
-                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:maxLines="1"
+                          android:paddingBottom="@dimen/edittext_line_text_padding"
                           android:text="@={viewModel.password}"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
@@ -116,6 +127,7 @@
                         android:layout_marginTop="@dimen/margin_top_login_button"
                         android:background="@drawable/button_round_corner"
                         android:onClick="@{(v)->viewModel.login(v)}"
+                        android:stateListAnimator="@null"
                         android:text="@string/login"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
