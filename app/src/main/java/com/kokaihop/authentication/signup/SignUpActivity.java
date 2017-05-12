@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseActivity;
@@ -32,7 +31,6 @@ public class SignUpActivity extends BaseActivity {
             CityLocation cityLocation = new CityLocation(citySelected);
             signUpViewModel.setCityLocation(cityLocation);
             signUpViewModel.setCity(citySelected.getName());
-            Log.e("City Selected", citySelected.getName());
         } else {
             if (FacebookAuthentication.callbackManager != null) {
                 FacebookAuthentication.callbackManager.onActivityResult(requestCode, resultCode, data);

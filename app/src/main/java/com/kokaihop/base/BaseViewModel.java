@@ -11,7 +11,7 @@ import com.altaworks.kokaihop.ui.BR;
 
 public class BaseViewModel extends BaseObservable {
 
-    private boolean isProgressVisible = false;
+    public static boolean isProgressVisible = false;
 
     @Bindable
     public boolean isProgressVisible() {

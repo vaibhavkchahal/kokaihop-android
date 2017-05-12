@@ -24,11 +24,15 @@ public class SignUpRequest {
     @SerializedName("settings")
     private SignUpSettings signUpSettings;
 
-    public SignUpRequest(CityLocation cityLocation, String email, String name, String password, SignUpSettings signUpSettings) {
+    @SerializedName("fbId")
+    private String fbId;
+
+    public SignUpRequest(CityLocation cityLocation, String email, String name, String password, SignUpSettings signUpSettings,String fbId) {
         this.cityLocation = cityLocation;
         this.email = email;
         this.name = name;
         this.password = password;
         this.signUpSettings = signUpSettings;
+        this.fbId = fbId;
     }
 }

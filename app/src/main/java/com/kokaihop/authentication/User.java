@@ -1,4 +1,4 @@
-package com.kokaihop.authentication.login;
+package com.kokaihop.authentication;
 
 import com.google.gson.annotations.SerializedName;
 

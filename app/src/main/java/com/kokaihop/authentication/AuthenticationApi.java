@@ -26,4 +26,7 @@ public interface AuthenticationApi {
     @POST("v1/api/users")
     Call<AuthenticationApiResponse> signUp(@Body SignUpRequest signUpRequest);
 
+    @POST("/auth/facebook/app")
+    Call<AuthenticationApiResponse> facebookloginSignup(@Body FacebookAuthRequest facebookAuthRequest);
+
 }

@@ -39,4 +39,9 @@ public class AuthenticationApiHelper {
         signUpApiResponseCall.enqueue(new ResponseHandler<AuthenticationApiResponse>(successInterface));
     }
 
+    public void facebookloginSignup(FacebookAuthRequest facebookAuthRequest, final IApiRequestComplete successInterface) {
+        Call<AuthenticationApiResponse> facebookAuthCall = authenticationApi.facebookloginSignup(facebookAuthRequest);
+        facebookAuthCall.enqueue(new ResponseHandler<AuthenticationApiResponse>(successInterface));
+    }
+
 }

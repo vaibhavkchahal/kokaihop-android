@@ -11,11 +11,12 @@ import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
+import com.kokaihop.authentication.FacebookAuthRequest;
 import com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity;
 import com.kokaihop.authentication.signup.SignUpActivity;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
-import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
@@ -47,21 +48,23 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     // request login.
-    public void login(final View view) {
-        if (loginValidations(view, userName, password))
+    public void login(View view) {
+        final Context context = view.getContext();
+        if (loginValidations(context, userName, password))
             return;
         setProgressVisible(true);
         new AuthenticationApiHelper(view.getContext()).doLogin(userName, password, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                AppUtility.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -73,32 +76,62 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     public void openForgotPasswordScreen(View view) {
-        Context context = view.getContext();
-        view.getContext().startActivity(new Intent(context, ForgotPasswordActivity.class));
+        view.getContext().startActivity(new Intent(view.getContext(), ForgotPasswordActivity.class));
     }
 
     public void openSignupScreen(View view) {
-        Activity activity = (Activity) view.getContext();
-        activity.startActivity(new Intent(activity, SignUpActivity.class));
+        view.getContext().startActivity(new Intent(view.getContext(), SignUpActivity.class));
     }
 
     public void facebookLogin(final View view) {
         FacebookAuthentication authentication = new FacebookAuthentication();
-        authentication.facebookLogin(view);
+        authentication.facebookLogin(view, new FacebookAuthentication.FacebookResponseCallback() {
+            @Override
+            public void onSuccess(FacebookAuthRequest facebookAuthRequest) {
+                setProgressVisible(true);
+                new AuthenticationApiHelper(view.getContext()).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
+                    @Override
+                    public void onSuccess(AuthenticationApiResponse response) {
+                        setProgressVisible(false);
+                        Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                        AppUtility.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        setProgressVisible(false);
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(AuthenticationApiResponse response) {
+                        setProgressVisible(false);
+                        String message = response.getErrorEmail().getDetail().getMessage();
+                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onfailure(String error) {
+                Toast.makeText(view.getContext(), error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void finishLogin(final View view) {
-        ((Activity)view.getContext()).finish();
+        ((Activity) view.getContext()).finish();
     }
 
     // validate fields for login.
-    private boolean loginValidations(View view, String username, String password) {
+    private boolean loginValidations(Context context, String username, String password) {
         if (username.isEmpty() || !AppUtility.isValidEmail(username)) {
-            Toast.makeText(view.getContext(), R.string.invalid_email, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return true;
         }
         if (password.isEmpty() || password.length() < Constants.PASSWORD_MAX_LENGTH) {
-            Toast.makeText(view.getContext(), R.string.password_validation_msg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.password_validation_msg, Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;

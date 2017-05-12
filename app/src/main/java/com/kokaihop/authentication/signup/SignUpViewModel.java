@@ -12,6 +12,7 @@ import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
+import com.kokaihop.authentication.FacebookAuthRequest;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.SelectCityActivity;
@@ -104,11 +105,12 @@ public class SignUpViewModel extends BaseViewModel {
         if (signUpValidations(context)) return;
         setProgressVisible(true);
         signUpSettings = new SignUpSettings(newsletter, suggestion);
-        signUpRequest = new SignUpRequest(cityLocation, userName, name, password, signUpSettings);
+        signUpRequest = new SignUpRequest(cityLocation, userName, name, password, signUpSettings, "");
         new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
+                AppUtility.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
             }
 
@@ -148,7 +150,7 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void closeSignup(View view) {
-        ((Activity)view.getContext()).finish();
+        ((Activity) view.getContext()).finish();
     }
 
     public void openCityScreen(View view) {
@@ -156,10 +158,45 @@ public class SignUpViewModel extends BaseViewModel {
         ((Activity) view.getContext()).startActivityForResult(new Intent(context, SelectCityActivity.class), REQUEST_CODE);
     }
 
-    public void signUpWithFacebook(final View view) {
+    public void signUpWithFacebook(View view) {
+        final Context context = view.getContext();
         FacebookAuthentication authentication = new FacebookAuthentication();
-        authentication.facebookLogin(view);
+        authentication.facebookLogin(view, new FacebookAuthentication.FacebookResponseCallback() {
+            @Override
+            public void onSuccess(FacebookAuthRequest facebookAuthRequest) {
+                setProgressVisible(true);
+                new AuthenticationApiHelper(context).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
+                    @Override
+                    public void onSuccess(AuthenticationApiResponse response) {
+                        AppUtility.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                        setProgressVisible(false);
+                        Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        setProgressVisible(false);
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(AuthenticationApiResponse response) {
+                        setProgressVisible(false);
+                        String message = response.getErrorEmail().getDetail().getMessage();
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onfailure(String error) {
+                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
 
     public void onCheckChangeNewsletter(CheckBox checkBox) {
         if (checkBox.isChecked()) {
