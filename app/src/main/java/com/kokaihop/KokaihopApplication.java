@@ -50,16 +50,6 @@ public class KokaihopApplication extends Application {
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);
-
-       /* Realm.init(this);
-
-        copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), Realm.DEFAULT_REALM_NAME); // more info about this is said later
-        RealmConfiguration config = new RealmConfiguration.Builder()
-                .schemaVersion(DBConstants.SCHEMA_VERSION + 1)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-//        Realm.deleteRealm(config);
-        Realm.setDefaultConfiguration(config);*/
         customFontFamily = CustomFontFamily.getInstance();
 
         customFontFamily.addFont("RS-Bold", "RobotoSlab-Bold.ttf");
