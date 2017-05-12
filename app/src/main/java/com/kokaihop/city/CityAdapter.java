@@ -20,15 +20,15 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.ViewHolder> implements Filterable{
+public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> implements Filterable{
 
     private ArrayList<CityDetails> cityList;
     private ArrayList<CityDetails> OriginalcityList;
-    SelectCityInterface selectCityInterface;
+    CityViewModel.CityInterface cityInterface;
 
-    public SelectCityAdapter(@NonNull ArrayList<CityDetails> cityList, SelectCityInterface selectCityInterface) {
+    public CityAdapter(@NonNull ArrayList<CityDetails> cityList, CityViewModel.CityInterface cityInterface) {
         this.cityList = cityList;
-        this.selectCityInterface = selectCityInterface;
+        this.cityInterface = cityInterface;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(SelectCityAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(CityAdapter.ViewHolder holder, int position) {
         final CityDetails city = cityList.get(position);
         holder.bind(city);
     }
@@ -90,7 +90,7 @@ public class SelectCityAdapter extends RecyclerView.Adapter<SelectCityAdapter.Vi
         @Override
         public void onClick(View v) {
             String city = (String) ((TextView) v).getText();
-            selectCityInterface.citySelected(cityList.get(getAdapterPosition()));
+            cityInterface.citySelected(cityList.get(getAdapterPosition()));
             Log.e("city", city);
         }
 

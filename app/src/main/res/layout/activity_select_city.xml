@@ -6,7 +6,7 @@
     tools:context="com.altaworks.kokaihop.ui.com.kokaihop.selectcity.SearchCityActivity">
 
     <data>
-        <variable name="selectCityViewModel" type="com.kokaihop.city.SelectCityViewModel"/>
+        <variable name="selectCityViewModel" type="com.kokaihop.city.CityViewModel"/>
     </data>
 
     <RelativeLayout

@@ -15,13 +15,13 @@ import retrofit2.Response;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class SelectCityViewModel extends BaseViewModel implements SetCitiesInterface{
+public class CityViewModel extends BaseViewModel{
     private ArrayList<CityDetails> cityList = new ArrayList<>();
-    private SelectCityInterface selectCityInterface;
+    private CityInterface cityInterface;
 
-    public SelectCityViewModel(SelectCityInterface selectCityInterface) {
+    public CityViewModel(CityInterface cityInterface) {
         getCities();
-        this.selectCityInterface = selectCityInterface;
+        this.cityInterface = cityInterface;
     }
 
     public ArrayList<CityDetails> getCityList() {
@@ -32,10 +32,9 @@ public class SelectCityViewModel extends BaseViewModel implements SetCitiesInter
         this.cityList = cityList;
     }
 
-    @Override
     public void setCities(ArrayList<CityDetails> cityList) {
         this.cityList = cityList;
-        selectCityInterface.setCitiesOnRecyclerView();
+        cityInterface.setCitiesOnRecyclerView();
         //Select City
     }
 
@@ -63,4 +62,10 @@ public class SelectCityViewModel extends BaseViewModel implements SetCitiesInter
             }
         });
     }
+    public interface CityInterface {
+        void citySelected(CityDetails selectedCity);
+        void setCitiesOnRecyclerView();
+    }
+
 }
+

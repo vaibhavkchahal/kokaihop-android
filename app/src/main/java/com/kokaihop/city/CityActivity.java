@@ -13,17 +13,17 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySelectCityBinding;
 import com.kokaihop.base.BaseActivity;
 
-public class SelectCityActivity extends BaseActivity implements SelectCityInterface, android.support.v7.widget.SearchView.OnQueryTextListener, View.OnClickListener{
+public class CityActivity extends BaseActivity implements CityViewModel.CityInterface, android.support.v7.widget.SearchView.OnQueryTextListener, View.OnClickListener{
 
-    SelectCityViewModel selectCityViewModel;
+    CityViewModel cityViewModel;
     ActivitySelectCityBinding selectCityBinding;
-    SelectCityAdapter cityAdapter;
+    CityAdapter cityAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selectCityViewModel = new SelectCityViewModel(this);
+        cityViewModel = new CityViewModel(this);
         selectCityBinding = DataBindingUtil.setContentView(this, R.layout.activity_select_city);
-        selectCityBinding.setSelectCityViewModel(selectCityViewModel);
+        selectCityBinding.setSelectCityViewModel(cityViewModel);
 //        setSupportActionBar(selectCityBinding.toolbarTop);
 
         selectCityBinding.searchviewSearchCity.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class SelectCityActivity extends BaseActivity implements SelectCityInterf
     public void setCitiesOnRecyclerView() {
         RecyclerView cityListRecyclerView = selectCityBinding.recyclerViewCityList;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        cityAdapter = new SelectCityAdapter(selectCityViewModel.getCityList(), this);
+        cityAdapter = new CityAdapter(cityViewModel.getCityList(), this);
         cityListRecyclerView.setLayoutManager(layoutManager);
         cityListRecyclerView.setAdapter(cityAdapter);
     }

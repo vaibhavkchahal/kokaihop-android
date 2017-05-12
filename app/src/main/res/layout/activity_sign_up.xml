@@ -108,6 +108,7 @@
                           android:onClick="@{(v)->viewModel.openCityScreen(v)}"
                           android:paddingBottom="@dimen/signup_city_line_padding"
                           android:text="@={viewModel.city}"
+                          android:inputType="textNoSuggestions"
                           android:textColor="@color/white"
                           android:textColorHint="@color/white"
                           android:textSize="@dimen/text_size_large"
@@ -183,8 +184,8 @@
                 </RelativeLayout>
 
                 <TextView android:id="@+id/text_view_already_sign_up"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
                           android:layout_below="@id/button_facebook_sign_up"
                           android:layout_marginTop="@dimen/signup_tv_login_margin_top"
                           android:gravity="center"

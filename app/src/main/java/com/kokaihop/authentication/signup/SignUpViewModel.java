@@ -15,7 +15,7 @@ import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.FacebookAuthRequest;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityLocation;
-import com.kokaihop.city.SelectCityActivity;
+import com.kokaihop.city.CityActivity;
 import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
@@ -155,7 +155,7 @@ public class SignUpViewModel extends BaseViewModel {
 
     public void openCityScreen(View view) {
         Activity context = (Activity) view.getContext();
-        ((Activity) view.getContext()).startActivityForResult(new Intent(context, SelectCityActivity.class), REQUEST_CODE);
+        ((Activity) view.getContext()).startActivityForResult(new Intent(context, CityActivity.class), REQUEST_CODE);
     }
 
     public void signUpWithFacebook(View view) {
