@@ -34,8 +34,11 @@
 
         <activity android:name="com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity"
                   android:screenOrientation="portrait"/>
+
         <activity android:name="com.kokaihop.city.SelectCityActivity"
+                  android:theme="@style/AppToolbarTheme"
                   android:screenOrientation="portrait"/>
+
         <activity android:name="com.kokaihop.SplashActivity"
                   android:screenOrientation="portrait">
             <intent-filter>

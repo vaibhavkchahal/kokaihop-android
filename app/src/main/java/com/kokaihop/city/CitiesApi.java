@@ -7,7 +7,7 @@ import retrofit2.http.GET;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public interface CitiesApiInterface {
+public interface CitiesApi {
 
     @GET("/v1/api/cities")
     Call<CitiesApiResponse> getCities();
