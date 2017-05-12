@@ -62,9 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner_layout"
-                android:gravity="center"
-                android:iconifiedByDefault="true"
-                app:defaultQueryHint="Search Here"/>
+                android:textAlignment="center"
+                app:defaultQueryHint="@string/search_here"/>
 
         </RelativeLayout>
 
@@ -74,6 +73,9 @@
             android:layout_height="match_parent"
             android:layout_below="@id/rl_container_search">
         </android.support.v7.widget.RecyclerView>
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{selectCityViewModel}"/>
     </RelativeLayout>
 
 </layout>
