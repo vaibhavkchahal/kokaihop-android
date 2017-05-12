@@ -20,9 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.database.Recipe;
 
 import java.util.List;
@@ -71,14 +69,14 @@ public class RecipeAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View currentView, ViewGroup parent) {
         if (currentView == null) {
-            currentView = inflater.inflate(R.layout.city_listitem, parent, false);
+//            currentView = inflater.inflate(R.layout.city_listitem, parent, false);
         }
 
         Recipe city = cities.get(position);
 
         if (city != null) {
-            ((TextView) currentView.findViewById(R.id.name)).setText("Title : " + city.getTitle());
-            ((TextView) currentView.findViewById(R.id.votes)).setText("Type : " + city.getType() + position);
+//            ((TextView) currentView.findViewById(R.id.name)).setText("Title : " + city.getTitle());
+//            ((TextView) currentView.findViewById(R.id.votes)).setText("Type : " + city.getType() + position);
         }
 
         return currentView;

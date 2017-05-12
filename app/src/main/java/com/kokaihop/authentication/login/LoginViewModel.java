@@ -80,7 +80,8 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     public void openSignupScreen(View view) {
-        view.getContext().startActivity(new Intent(view.getContext(), SignUpActivity.class));
+        Activity activity = (Activity) view.getContext();
+        activity.startActivity(new Intent(view.getContext(), SignUpActivity.class));
     }
 
     public void facebookLogin(final View view) {

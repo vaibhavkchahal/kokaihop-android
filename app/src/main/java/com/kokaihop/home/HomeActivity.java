@@ -1,10 +1,13 @@
 package com.kokaihop.home;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.google.gson.Gson;
@@ -12,9 +15,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.kokaihop.authentication.login.LoginActivity;
+import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.RecipeResponse;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,22 +29,42 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.kokaihop.utility.RealmHelper.realm;
 
 
-public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class HomeActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
-    private GridView mGridView;
-//    private CityAdapter mAdapter;
+    private ListView mListView;
+    private Button mButtonSignIn;
+    private TextView mTextViewCount;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mListView = (ListView) findViewById(R.id.recipe_list);
+        mButtonSignIn = (Button) findViewById(R.id.button_signin);
+        mButtonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Recipe> recipe = realm.where(Recipe.class).findAll();
+        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+        recipeAdapter.setData(recipe);
+        mListView.setAdapter(recipeAdapter);
+        mTextViewCount = (TextView) findViewById(R.id.textview_count);
+        mTextViewCount.setText("Recipe Count: " + String.valueOf(recipe.size()));
 
+
+        Log.e("Recipe loaded", recipe.isLoaded() + " ," + recipe.isValid() + " ," + recipe.isEmpty() + " ," + recipe.size());
     }
 
     @Override
@@ -120,5 +147,22 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
         updateCities();*/
+    }
+
+    private String copyBundledRealmFile(InputStream inputStream, String outFileName) {
+        try {
+            File file = new File(this.getFilesDir(), outFileName);
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
