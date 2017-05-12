@@ -1,10 +1,13 @@
 package com.kokaihop.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.google.gson.Gson;
@@ -12,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.RecipeResponse;
@@ -33,17 +37,34 @@ import static com.kokaihop.utility.RealmHelper.realm;
 
 public class HomeActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
-    private GridView mGridView;
-//    private CityAdapter mAdapter;
+    private ListView mListView;
+    private Button mButtonSignIn;
+    private TextView mTextViewCount;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mListView = (ListView) findViewById(R.id.recipe_list);
+        mButtonSignIn = (Button) findViewById(R.id.button_signin);
+        mButtonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Recipe> recipe = realm.where(Recipe.class).findAll();
-        Log.e("Recipe loaded",recipe.isLoaded()+" ,"+ recipe.isValid()+ " ,"+recipe.isEmpty()+" ,"+ recipe.size());
+        RecipeAdapter recipeAdapter = new RecipeAdapter(this);
+        recipeAdapter.setData(recipe);
+        mListView.setAdapter(recipeAdapter);
+        mTextViewCount = (TextView) findViewById(R.id.textview_count);
+        mTextViewCount.setText("Recipe Count: " + String.valueOf(recipe.size()));
+
+
+        Log.e("Recipe loaded", recipe.isLoaded() + " ," + recipe.isValid() + " ," + recipe.isEmpty() + " ," + recipe.size());
     }
 
     @Override
