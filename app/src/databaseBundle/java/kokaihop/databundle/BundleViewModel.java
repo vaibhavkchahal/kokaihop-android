@@ -100,6 +100,7 @@ public class BundleViewModel extends BaseViewModel {
         mRealm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
         mRealm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
+
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         mRealm.commitTransaction();
     }

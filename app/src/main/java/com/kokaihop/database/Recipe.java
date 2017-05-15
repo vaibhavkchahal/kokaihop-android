@@ -129,11 +129,12 @@ public class Recipe extends RealmObject {
     private CookingMethod cookingMethod;
     @SerializedName("counter")
     private Counter counter;
+    @SerializedName("badgeType")
     private String badgeType;
-    private String cookingSteps;
-    private boolean isFavorite;
     @SerializedName("isMine")
     private boolean isMine;
+    private String cookingSteps;
+    private boolean isFavorite;
 
 
     public String getTitle() {
