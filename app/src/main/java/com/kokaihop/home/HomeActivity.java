@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
-import kokaihop.databundle.SearchResponse;
+import com.kokaihop.recipe.SearchResponse;
 
 import java.io.File;
 import java.io.FileOutputStream;

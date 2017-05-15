@@ -1,4 +1,4 @@
-package kokaihop.databundle;
+package com.kokaihop.recipe;
 
 import com.google.gson.annotations.SerializedName;
 import com.kokaihop.database.Recipe;
