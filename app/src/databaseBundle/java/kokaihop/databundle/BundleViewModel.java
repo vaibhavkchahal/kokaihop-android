@@ -8,7 +8,6 @@ import com.kokaihop.database.Recipe;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
-import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
 
 import io.realm.Realm;

@@ -15,7 +15,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
-import com.kokaihop.recipe.RecipeResponse;
 import com.kokaihop.utility.RealmHelper;
 
 import java.io.IOException;

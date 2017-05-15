@@ -1,5 +1,6 @@
 package com.kokaihop.recipe;
 
+import kokaihop.databundle.RecipeResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
