@@ -4,7 +4,6 @@ import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
 
-import kokaihop.databundle.SearchResponse;
 import retrofit2.Call;
 
 /**

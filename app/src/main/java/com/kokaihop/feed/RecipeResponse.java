@@ -16,6 +16,9 @@ public class RecipeResponse {
     @SerializedName("totalCount")
     private int count;
 
+    /*@SerializedName("myLikes")
+    private List count;
+*/
     public List<Recipe> getRecipeDetailsList() {
         return recipeDetailsList;
     }
