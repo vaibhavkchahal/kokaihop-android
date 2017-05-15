@@ -6,7 +6,7 @@
     tools:context="com.altaworks.kokaihop.ui.com.kokaihop.selectcity.SearchCityActivity">
 
     <data>
-        <variable name="selectCityViewModel" type="com.kokaihop.city.CityViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.city.CityViewModel"/>
     </data>
 
     <RelativeLayout
@@ -67,7 +67,7 @@
             android:layout_marginTop="@dimen/selectcity_rv_margin_top">
         </android.support.v7.widget.RecyclerView>
         <include
-            bind:viewModel="@{selectCityViewModel}"
+            bind:viewModel="@{viewModel}"
             layout="@layout/progress_bar"/>
     </RelativeLayout>
 

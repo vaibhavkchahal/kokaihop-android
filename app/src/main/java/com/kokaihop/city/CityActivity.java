@@ -13,17 +13,18 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySelectCityBinding;
 import com.kokaihop.base.BaseActivity;
 
-public class CityActivity extends BaseActivity implements CityViewModel.CityInterface, android.support.v7.widget.SearchView.OnQueryTextListener, View.OnClickListener{
+public class CityActivity extends BaseActivity implements CityViewModel.CityInterface, android.support.v7.widget.SearchView.OnQueryTextListener, View.OnClickListener {
 
     CityViewModel cityViewModel;
     ActivitySelectCityBinding selectCityBinding;
     CityAdapter cityAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cityViewModel = new CityViewModel(this);
         selectCityBinding = DataBindingUtil.setContentView(this, R.layout.activity_select_city);
-        selectCityBinding.setSelectCityViewModel(cityViewModel);
+        selectCityBinding.setViewModel(cityViewModel);
 //        setSupportActionBar(selectCityBinding.toolbarTop);
 
         selectCityBinding.searchviewSearchCity.setOnClickListener(new View.OnClickListener() {
@@ -39,9 +40,9 @@ public class CityActivity extends BaseActivity implements CityViewModel.CityInte
 
     @Override
     public void citySelected(CityDetails selectedCity) {
-        Log.e("Selected City",selectedCity.getName());
+        Log.e("Selected City", selectedCity.getName());
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("citySelected",selectedCity);
+        resultIntent.putExtra("citySelected", selectedCity);
         setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }

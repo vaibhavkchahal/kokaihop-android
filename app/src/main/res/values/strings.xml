@@ -49,4 +49,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="search">Search</string>
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
+    <string name="title_activity_feed">FeedActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>
