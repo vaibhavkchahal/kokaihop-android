@@ -47,17 +47,17 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <android.support.v7.widget.SearchView
-            android:id="@+id/searchview_search_city"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar_top"
-            android:layout_marginLeft="@dimen/selectcity_sv_margin_left"
-            android:layout_marginRight="@dimen/selectcity_sv_margin_right"
-            android:layout_marginTop="@dimen/selectcity_sv_margin_top"
-            android:background="@drawable/round_corner_layout"
-            android:textAlignment="center"
-            app:defaultQueryHint="@string/search"/>
+            <android.support.v7.widget.SearchView
+                android:id="@+id/searchview_search_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar_top"
+                android:layout_marginLeft="@dimen/selectcity_sv_margin_left"
+                android:layout_marginRight="@dimen/selectcity_sv_margin_right"
+                android:layout_marginTop="@dimen/selectcity_sv_margin_top"
+                android:background="@drawable/round_corner_layout"
+                android:textAlignment="center"
+                app:defaultQueryHint="@string/search"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_city_list"
