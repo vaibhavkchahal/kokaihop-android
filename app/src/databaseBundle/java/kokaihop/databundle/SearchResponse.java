@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Rajendra Singh on 5/5/17.
  */
 
-public class RecipeResponse {
+public class SearchResponse {
 
     @SerializedName("searchResults")
     private List<Recipe> recipeDetailsList;

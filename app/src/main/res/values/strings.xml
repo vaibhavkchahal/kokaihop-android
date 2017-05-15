@@ -51,4 +51,7 @@
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
     <string name="title_activity_feed">FeedActivity</string>
     <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

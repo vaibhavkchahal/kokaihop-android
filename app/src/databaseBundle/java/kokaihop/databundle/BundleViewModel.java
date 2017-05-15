@@ -45,24 +45,24 @@ public class BundleViewModel extends BaseViewModel {
         mRecipeRequestParams.setOffset(offset);
         Log.e("offset before request", String.valueOf(offset));
 
-        mRecipeApiHelper.getRecipe(mRecipeRequestParams, new IApiRequestComplete<RecipeResponse>() {
+        mRecipeApiHelper.getRecipe(mRecipeRequestParams, new IApiRequestComplete<SearchResponse>() {
             @Override
-            public void onSuccess(RecipeResponse recipeResponse) {
-                if (mRecipeRequestParams.getMax() + mRecipeRequestParams.getOffset() < recipeResponse.getCount()) {
+            public void onSuccess(SearchResponse searchResponse) {
+                if (mRecipeRequestParams.getMax() + mRecipeRequestParams.getOffset() < searchResponse.getCount()) {
                     int offset = mRecipeRequestParams.getMax() + mRecipeRequestParams.getOffset();
                     Log.e("offset after response", String.valueOf(offset));
-                    Log.e("count", String.valueOf(recipeResponse.getCount()));
+                    Log.e("count", String.valueOf(searchResponse.getCount()));
                     getRecipe(mRecipeRequestParams.getMax() + mRecipeRequestParams.getOffset());
 
                 } else {
                     Log.e("end of recipe data", "end of recipe data");
-                    Log.e("count", String.valueOf(recipeResponse.getCount()));
+                    Log.e("count", String.valueOf(searchResponse.getCount()));
                     Log.e("offset", String.valueOf(mRecipeRequestParams.getMax() + mRecipeRequestParams.getOffset()));
 
 
                     setProgressVisible(false);
                 }
-                insertRecord(recipeResponse);
+                insertRecord(searchResponse);
                 long recordCount = realm.where(Recipe.class).count();
                 Log.e("Saved record in DB", String.valueOf(recordCount));
 
@@ -76,7 +76,7 @@ public class BundleViewModel extends BaseViewModel {
             }
 
             @Override
-            public void onError(RecipeResponse response) {
+            public void onError(SearchResponse response) {
 
             }
         });
@@ -95,11 +95,11 @@ public class BundleViewModel extends BaseViewModel {
         return recipeRequestParams;
     }
 
-    public void insertRecord(RecipeResponse recipeResponse) {
+    public void insertRecord(SearchResponse searchResponse) {
 
         mRealm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
-        mRealm.copyToRealmOrUpdate(recipeResponse.getRecipeDetailsList());
+        mRealm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         mRealm.commitTransaction();
     }

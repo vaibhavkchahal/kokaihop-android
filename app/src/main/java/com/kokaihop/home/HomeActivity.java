@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
-import kokaihop.databundle.RecipeResponse;
+import kokaihop.databundle.SearchResponse;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -106,14 +106,14 @@ public class HomeActivity extends BaseActivity implements AdapterView.OnItemClic
         Gson gson = new GsonBuilder().create();
 
         JsonElement json = new JsonParser().parse(new InputStreamReader(stream));
-        RecipeResponse recipeResponse = gson.fromJson(json, new TypeToken<RecipeResponse>() {
+        SearchResponse searchResponse = gson.fromJson(json, new TypeToken<SearchResponse>() {
         }.getType());
 
         // Open a transaction to store items into the realm
         // Use copyToRealm() to convert the objects into proper RealmObjects managed by Realm.
         realm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
-        realm.copyToRealmOrUpdate(recipeResponse.getRecipeDetailsList());
+        realm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         realm.commitTransaction();
 
