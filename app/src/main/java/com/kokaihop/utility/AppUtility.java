@@ -30,7 +30,7 @@ public class AppUtility {
 
     public static String getSharedPrefStringData(Context context, String key) {
         prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
-        String value = prefs.getString(key, null);
+        String value = prefs.getString(key, "");
         return value;
     }
 
