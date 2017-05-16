@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 
 public class UserFeedFragment extends Fragment {
-
+    static UserFeedFragment fragment;
     public UserFeedFragment() {
 
     }
 
-    public static UserFeedFragment newInstance(String param1, String param2) {
-        UserFeedFragment fragment = new UserFeedFragment();
+    public static UserFeedFragment getInstance() {
+        if(fragment==null){
+            fragment = new UserFeedFragment();
+        }
         return fragment;
     }
 

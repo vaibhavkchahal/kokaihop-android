@@ -4,88 +4,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data></data>
-    <RelativeLayout
-
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context="com.kokaihop.home.HomeActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_top"
-            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/selectcity_title_background"
-            android:minHeight="?attr/actionBarSize"
-            android:paddingBottom="14dp"
-            android:paddingTop="33dp"/>
-        <RelativeLayout
-            android:id="@+id/rl_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar_top"
-            android:background="@color/kokaihop_orange_color">
-            <ImageView
-                android:id="@+id/iv_kokai_ic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:src="@drawable/logo_koka_md"/>
-
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchview_search_city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_toRightOf="@id/iv_kokai_ic"
-                android:background="@drawable/round_corner_layout"
-                android:queryBackground="@color/kokaihop_orange_color"
-                android:textAlignment="center"
-                app:defaultQueryHint="@string/search"/>
-        </RelativeLayout>
-
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:background="?attr/colorPrimary"
             android:elevation="6dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:tabBackground="@color/tab_background"
+            app:tabIndicatorHeight="0dp"
+            app:tabGravity="fill"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/TabLayoutText"
+            app:tabTextColor="@color/white"
+        />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@id/rl_header"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/tab_layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:paddingRight="5dp">-->
-        <!--<Button android:id="@+id/button_signin"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:text="Sign in"-->
-        <!--/>-->
-        <!--<TextView android:id="@+id/textview_count"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"/>-->
-
-        <!--</RelativeLayout>-->
-        <!--<ListView-->
-        <!--android:id="@+id/recipe_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:paddingLeft="5dp"-->
-        <!--android:paddingRight="5dp"/>-->
-
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

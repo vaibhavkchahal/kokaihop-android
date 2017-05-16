@@ -83,4 +83,18 @@
     <dimen name="selectcity_sv_margin_left">16dp</dimen>
     <dimen name="selectcity_sv_margin_right">15dp</dimen>
     <dimen name="selectcity_sv_margin_top">17dp</dimen>
+    <dimen name="home_header_horizontal_margin">15dp</dimen>
+    <dimen name="home_header_margin_bottom">12dp</dimen>
+    <dimen name="home_header_ic_sv_margin">21dp</dimen>
+    <dimen name="home_header_margin_top">36dp</dimen>
+    <dimen name="home_sv_padding_left">9dp</dimen>
+    <dimen name="home_sv_padding_vertical">8dp</dimen>
+    <dimen name="profile_tab_text_large">20sp</dimen>
+    <dimen name="profile_tab_text_small">12sp</dimen>
+    <dimen name="constraint_match_parent">0dp</dimen>
+    <dimen name="status_bar_height">25dp</dimen>
+    <dimen name="home_tab_padding">3dp</dimen>
+    <dimen name="home_tab_text_size">8sp</dimen>
+    <dimen name="home_tab_margin_bottom">7.6dp</dimen>
+    <dimen name="home_tab_padding_top">6dp</dimen>
 </resources>

@@ -1,4 +1,4 @@
-package com.kokaihop.home;
+package com.kokaihop.home.userprofile;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by Rajendra Singh on 15/5/17.
  */
 
-public class TabViewAdapter extends FragmentPagerAdapter {
+public class ProfileAdapter extends FragmentPagerAdapter {
 
     int totalTabs;
 
-    public TabViewAdapter(FragmentManager fm, int totalTabs) {
+    public ProfileAdapter(FragmentManager fm, int totalTabs) {
         super(fm);
         this.totalTabs = totalTabs;
     }
@@ -21,15 +21,13 @@ public class TabViewAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new UserFeedFragment();
+                return RecipeFragment.getInstance();
             case 1:
-                return new UserProfileFragment();
+                return FollowersFragment.getInstance();
             case 2:
-                return new UserFeedFragment();
+                return FollowingFragment.getInstance();
             case 3:
-                return new UserFeedFragment();
-            case 4  :
-                return new UserFeedFragment();
+                return HistoryFragment.getInstance();
         }
         return null;
     }

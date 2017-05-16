@@ -3,6 +3,7 @@
     <color name="colorPrimary">#FFF75A15</color>
     <color name="colorPrimaryDark">#FFF75A15</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentLight">#FFFF720C</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="white_40">#66FFFFFF</color>
@@ -21,6 +22,9 @@
 
     <color name="selectcity_items_divider_color">#FFE3E4E6</color>
 
-
+    <color name="tab_background">#FF262F40</color>
+    <color name="profile_tab_background">#00FFFFFF</color>
+    <color name="follow_button_back">#FF3BC48A</color>
+    <color name="profile_tab_text_color">#FFD4D4D4</color>
 
 </resources>

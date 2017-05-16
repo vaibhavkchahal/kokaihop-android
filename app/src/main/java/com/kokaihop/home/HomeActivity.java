@@ -5,16 +5,18 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
+import com.altaworks.kokaihop.ui.databinding.HomeTablayoutTabBinding;
 import com.kokaihop.base.BaseActivity;
 
 
-public class HomeActivity extends BaseActivity{
+public class HomeActivity extends BaseActivity {
 
     private ListView mListView;
     private Button mButtonSignIn;
@@ -22,11 +24,29 @@ public class HomeActivity extends BaseActivity{
     ViewPager viewPager;
     TabLayout tabLayout;
     ActivityHomeBinding activityHomeBinding;
+    int tabCount = 5;
+    int[] activeTabsIcon = {
+            R.drawable.ic_feed_orange_sm,
+            R.drawable.ic_cookbooks_orange_sm,
+            R.drawable.ic_list_orange_sm,
+            R.drawable.ic_comments_orange_sm,
+            R.drawable.ic_user_orange_sm
+    };
+    int[] inactiveTabsIcon = {
+            R.drawable.ic_feed_white_sm,
+            R.drawable.ic_cookbooks_white_sm,
+            R.drawable.ic_list_white_sm,
+            R.drawable.ic_comments_white_sm,
+            R.drawable.ic_user_white_sm
+    };
+    String[] tabsText = {"Feed", "Cookbooks", "List", "Comments", "Me"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityHomeBinding = DataBindingUtil.setContentView(this,R.layout.activity_home);
+        activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         setTabView();
+
 //        mListView = (ListView) findViewById(R.id.recipe_list);
 //        mButtonSignIn = (Button) findViewById(R.id.button_signin);
 //        mButtonSignIn.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +167,7 @@ public class HomeActivity extends BaseActivity{
 //        return null;
 //    }
 
-    public void setTabView(){
+    public void setTabView() {
         tabLayout = activityHomeBinding.tabLayout;
         viewPager = activityHomeBinding.pager;
         tabLayout.addTab(tabLayout.newTab());
@@ -155,17 +175,48 @@ public class HomeActivity extends BaseActivity{
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-        TabViewAdapter adapter = new TabViewAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        HomeAdapter adapter = new HomeAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        setTabIcons();
+        setTabTextIcons();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                Log.e("Logan", tabLayout.getTabAt(1).getCustomView() + "");
+                ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                        .getCustomView()
+                        .findViewById(R.id.text1))
+                        .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                        .getCustomView()
+                        .findViewById(R.id.text1))
+                        .setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                    .getCustomView()
+                    .findViewById(R.id.text1))
+                    .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+            }
+        });
+        tabLayout.getTabAt(0).select();
     }
 
-    public void setTabIcons(){
-        tabLayout.getTabAt(0).setText("Feed").setIcon(R.drawable.com_facebook_button_icon);
-        tabLayout.getTabAt(1).setText("Cookbooks").setIcon(R.drawable.com_facebook_button_icon);
-        tabLayout.getTabAt(2).setText("List").setIcon(R.drawable.com_facebook_button_icon);
-        tabLayout.getTabAt(3).setText("Comments").setIcon(R.drawable.com_facebook_button_icon);
-        tabLayout.getTabAt(4).setText("Me").setIcon(R.drawable.com_facebook_button_icon);
+    public void setTabTextIcons() {
+        for (int i = 0; i < tabCount; i++) {
+            HomeTablayoutTabBinding tabBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.home_tablayout_tab, tabLayout, false);
+            View tabView = tabBinding.getRoot();
+            tabLayout.getTabAt(i).setCustomView(tabView);
+            tabBinding.text1.setText(tabsText[i]);
+            tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[i], 0, 0);
+        }
     }
+
 }

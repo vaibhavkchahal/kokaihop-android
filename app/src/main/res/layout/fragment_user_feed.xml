@@ -1,13 +1,50 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.altaworks.kokaihop.ui.com.kokaihop.home.UserFeedFragment">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="User Feed"/>
+    <data></data>
 
-</FrameLayout>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 tools:context="com.altaworks.kokaihop.ui.com.kokaihop.home.UserFeedFragment">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/kokaihop_orange_color"
+            android:paddingBottom="@dimen/home_header_margin_bottom"
+            android:paddingLeft="@dimen/home_header_horizontal_margin"
+            android:paddingRight="@dimen/home_header_horizontal_margin"
+            android:paddingTop="@dimen/home_header_margin_top">
+            <ImageView
+                android:id="@+id/iv_kokai_ic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/logo_koka_sm"/>
+
+            <TextView
+                android:id="@+id/textview_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/home_header_ic_sv_margin"
+                android:layout_toRightOf="@id/iv_kokai_ic"
+                android:background="@drawable/round_corner_home_search_layout"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="4.9dp"
+                android:paddingBottom="@dimen/home_sv_padding_vertical"
+                android:paddingLeft="@dimen/home_sv_padding_left"
+                android:paddingTop="@dimen/home_sv_padding_vertical"
+                android:text="@string/search"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</layout>

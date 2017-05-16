@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data></data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="match_parent"
+            android:layout_height= "match_parent"
+            android:gravity="center"
+            android:paddingTop="@dimen/home_tab_padding_top"
+            android:textColor="@color/profile_tab_text_color"
+            android:textSize="@dimen/home_tab_text_size"
+            android:layout_marginBottom="@dimen/home_tab_margin_bottom"
+            app:font="@{`SS-ProLight`}"/>
+    </LinearLayout>
+
+</layout>
