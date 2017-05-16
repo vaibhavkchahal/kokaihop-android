@@ -96,9 +96,9 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
         // Open a transaction to store items into the realm
         // Use copyToRealm() to convert the objects into proper RealmObjects managed by Realm.
         realm.beginTransaction();
-//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
+//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
         realm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
-//        realm.insert(recipeResponse.getRecipeDetailsList());
+//        realm.insert(recipeResponse.getRecipeList());
         realm.commitTransaction();
 
         Collection<Recipe> realmCities = realm.where(Recipe.class).findAll();
@@ -136,9 +136,9 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
 
     public void insertRecord(SearchResponse searchResponse) {
         realm.beginTransaction();
-//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
+//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
         realm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
-//        realm.insert(recipeResponse.getRecipeDetailsList());
+//        realm.insert(recipeResponse.getRecipeList());
         realm.commitTransaction();
     }
 }

@@ -112,9 +112,9 @@ public class HomeActivity extends BaseActivity implements AdapterView.OnItemClic
         // Open a transaction to store items into the realm
         // Use copyToRealm() to convert the objects into proper RealmObjects managed by Realm.
         realm.beginTransaction();
-//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
+//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
         realm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
-//        realm.insert(recipeResponse.getRecipeDetailsList());
+//        realm.insert(recipeResponse.getRecipeList());
         realm.commitTransaction();
 
         Collection<Recipe> realmCities = realm.where(Recipe.class).findAll();

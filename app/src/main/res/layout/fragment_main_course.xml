@@ -13,7 +13,7 @@
             android:id="@+id/rv_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            bind:items="@{viewModel.recipeDetailsList}"
+            bind:items="@{viewModel.recipeList}"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>

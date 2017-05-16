@@ -98,10 +98,10 @@ public class BundleViewModel extends BaseViewModel {
     public void insertRecord(SearchResponse searchResponse) {
 
         mRealm.beginTransaction();
-//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
+//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
         mRealm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
 
-//        realm.insert(recipeResponse.getRecipeDetailsList());
+//        realm.insert(recipeResponse.getRecipeList());
         mRealm.commitTransaction();
     }
 }
