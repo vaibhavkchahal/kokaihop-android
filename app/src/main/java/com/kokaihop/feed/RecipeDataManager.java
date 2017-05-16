@@ -27,9 +27,10 @@ public class RecipeDataManager {
     }
 
 
-    public void insertOrUdpateData(final List<Recipe> realmResults) {
+    public void insertOrUpdateData(final List<Recipe> realmResults) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(realmResults);
+//        Collection<Recipe> recipes=realm.copyToRealmOrUpdate(realmResults);
         realm.commitTransaction();
     }
 

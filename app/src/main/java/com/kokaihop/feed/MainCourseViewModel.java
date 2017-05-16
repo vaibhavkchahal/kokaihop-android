@@ -1,5 +1,7 @@
 package com.kokaihop.feed;
 
+import android.util.Log;
+
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
@@ -17,13 +19,11 @@ import java.util.List;
 public class MainCourseViewModel extends BaseViewModel {
 
     private int offset = 0;
-    private int max = 100;
+    private int max = 10;
     private boolean isLike = true;
-    private String badgeType = "MAIN_COURSE_OF_THE_DAY";
-
 
     public MainCourseViewModel() {
-        getRecipes();
+//        getRecipes();
     }
 
     public void getRecipes() {
@@ -33,11 +33,12 @@ public class MainCourseViewModel extends BaseViewModel {
             public void onSuccess(RecipeResponse response) {
 
                 RecipeDataManager dataManager = new RecipeDataManager();
-                List<Recipe> mRecipeList = new ArrayList<Recipe>();
+                List<Recipe> mRecipeList = new ArrayList<>();
                 for (RecipeInfo recipeInfo : response.getRecipeDetailsList()) {
                     mRecipeList.add(recipeInfo.getRecipe());
+                    Log.d("id", recipeInfo.getRecipe().get_id());
                 }
-                dataManager.insertOrUdpateData(mRecipeList);
+                dataManager.insertOrUpdateData(mRecipeList);
 
 
                 setProgressVisible(false);

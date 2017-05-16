@@ -28,8 +28,8 @@ public class FeedFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_recipe);
         tabLayout.addTab(tabLayout.newTab().setText("MAIN COURSE OF THE DAY"));
-        tabLayout.addTab(tabLayout.newTab().setText("APPETIZER OF THE DAY"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+//        tabLayout.addTab(tabLayout.newTab().setText("APPETIZER OF THE DAY"));
+//        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.pager);
