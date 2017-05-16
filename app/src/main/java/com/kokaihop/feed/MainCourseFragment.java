@@ -40,7 +40,6 @@ public class MainCourseFragment extends Fragment {
                 container,
                 false);
 
-        MainCourseViewModel mainCourseViewModel = new MainCourseViewModel();
         mainCourseBinding.setViewModel(new MainCourseViewModel());
         View rootView = mainCourseBinding.getRoot();
         return rootView;
