@@ -29,8 +29,12 @@ public class RecipeDataManager {
 
     public void insertOrUpdateData(final List<Recipe> realmResults) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(realmResults);
-//        Collection<Recipe> recipes=realm.copyToRealmOrUpdate(realmResults);
+        for(Recipe recipe : realmResults) {
+            Recipe recipeInDatabase=realm.where(Recipe.class)
+                    .equalTo("_id", recipe.get_id()).findFirst();
+            recipeInDatabase.setBadgeType(recipe.getBadgeType());
+            realm.insertOrUpdate(recipeInDatabase);
+        }
         realm.commitTransaction();
     }
 
