@@ -1,15 +1,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable name="viewModel" type="com.kokaihop.feed.MainCourseViewModel"/>
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_feed"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.kokaihop.feed.MainCourseFragment">
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:items="@{viewModel.recipeDetailsList}"
+            tools:context="com.kokaihop.feed.MainCourseFragment">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
+
+    </RelativeLayout>
+
 </layout>

@@ -21,6 +21,19 @@ public class MainCourseViewModel extends BaseViewModel {
     private int offset = 0;
     private int max = 10;
     private boolean isLike = true;
+    private String badgeType = "MAIN_COURSE_OF_THE_DAY";
+
+    private List<Recipe> recipeDetailsList = new ArrayList<>();
+
+    @Bindable
+    public List<Recipe> getRecipeDetailsList() {
+        return recipeDetailsList;
+    }
+
+    public void setRecipeDetailsList(List<Recipe> recipeDetailsList) {
+        this.recipeDetailsList = recipeDetailsList;
+        notifyPropertyChanged(BR.recipeDetailsList);
+    }
 
     public MainCourseViewModel() {
 //        getRecipes();
@@ -42,6 +55,7 @@ public class MainCourseViewModel extends BaseViewModel {
 
 
                 setProgressVisible(false);
+                setRecipeDetailsList(response.getRecipeDetailsList());
             }
 
             @Override
@@ -55,5 +69,13 @@ public class MainCourseViewModel extends BaseViewModel {
             }
         });
 
+    }
+
+    public void addItems() {
+        for (int i = 1; i < 51; ++i) {
+            Recipe recipe = new Recipe();
+            recipe.setTitle("Recipe->"+i);
+            recipeDetailsList.add(recipe);
+        }
     }
 }
