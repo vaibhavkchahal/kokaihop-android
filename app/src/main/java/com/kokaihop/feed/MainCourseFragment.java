@@ -41,7 +41,6 @@ public class MainCourseFragment extends Fragment {
                 false);
 
         mainCourseBinding.setViewModel(new MainCourseViewModel());
-
         View rootView = mainCourseBinding.getRoot();
         return rootView;
     }
