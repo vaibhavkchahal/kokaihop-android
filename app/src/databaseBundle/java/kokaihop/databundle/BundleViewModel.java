@@ -45,6 +45,7 @@ public class BundleViewModel extends BaseViewModel {
         mRecipeRequestParams.setOffset(offset);
         Log.e("offset before request", String.valueOf(offset));
 
+
         mRecipeApiHelper.getRecipe(mRecipeRequestParams, new IApiRequestComplete<SearchResponse>() {
             @Override
             public void onSuccess(SearchResponse searchResponse) {
