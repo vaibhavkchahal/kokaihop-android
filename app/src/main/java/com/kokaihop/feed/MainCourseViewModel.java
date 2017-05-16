@@ -3,7 +3,6 @@ package com.kokaihop.feed;
 import android.databinding.Bindable;
 import android.util.Log;
 
-import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
@@ -23,9 +22,18 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     private int offset = 0;
     private int max = 20;
     private boolean isLike = true;
+    private int recipeCount;
     RecipeDataManager dataManager = null;
 
     private List<Recipe> recipeList = new ArrayList<>();
+
+    public int getRecipeCount() {
+        return recipeCount;
+    }
+
+    public void setRecipeCount(int recipeCount) {
+        this.recipeCount = recipeCount;
+    }
 
     public int getOffset() {
         return offset;
@@ -43,19 +51,21 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         this.max = max;
     }
 
-    public List<RecipeInfo> getRecipeDetailsList() {
-        return recipeDetailsList;
+    public List<Recipe> getRecipeDetailsList() {
+        return recipeList;
+    }
+
     @Bindable
     public List<Recipe> getRecipeList() {
         return recipeList;
     }
 
-    public void setRecipeDetailsList(List<RecipeInfo> recipeDetailsList) {
-        this.recipeDetailsList.addAll(recipeDetailsList);
+    public void setRecipeDetailsList(List<Recipe> recipeDetailsList) {
+        this.recipeList = recipeDetailsList;
     }
 
-    private void addRecipe(RecipeInfo recipeInfo) {
-        recipeDetailsList.add(recipeInfo);
+    private void addRecipe(Recipe recipeInfo) {
+        recipeList.add(recipeInfo);
     }
 
 
@@ -71,18 +81,16 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         new FeedApiHelper().getRecepies(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
+                setRecipeCount(response.getCount());
                 List<Recipe> mRecipeList = new ArrayList<>();
                 for (RecipeInfo recipeInfo : response.getRecipeDetailsList()) {
                     mRecipeList.add(recipeInfo.getRecipe());
                     Log.d("id", recipeInfo.getRecipe().get_id());
                 }
                 dataManager.insertOrUpdateData(mRecipeList);
-
                 List<Recipe> recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
-
-
                 setProgressVisible(false);
-                setRecipeList(recipeList);
+                setRecipeDetailsList(recipeList);
             }
 
             @Override
@@ -102,7 +110,6 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     public void onTransactionComplete(boolean executed) {
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         //TODO: update Recycler view
-
     }
 
 

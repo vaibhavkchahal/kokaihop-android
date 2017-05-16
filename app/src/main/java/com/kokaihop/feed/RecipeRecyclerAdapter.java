@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RecipeRecyclerItemBinding;
-import com.kokaihop.database.RecipeInfo;
+import com.kokaihop.database.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
 
-    private List<RecipeInfo> recipeList = new ArrayList<>();
+    private List<Recipe> recipeList = new ArrayList<>();
 
-    public RecipeRecyclerAdapter(List<RecipeInfo> list) {
+    public RecipeRecyclerAdapter(List<Recipe> list) {
         recipeList = list;
     }
 
@@ -33,8 +33,8 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        RecipeInfo recipeInfo = recipeList.get(position);
-        holder.binder.setRecipe(recipeInfo.getRecipe());
+        Recipe recipe = recipeList.get(position);
+        holder.binder.setRecipe(recipe);
         holder.binder.executePendingBindings();
     }
 

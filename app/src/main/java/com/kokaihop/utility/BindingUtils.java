@@ -6,7 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.kokaihop.database.RecipeInfo;
+import com.kokaihop.database.Recipe;
 import com.kokaihop.feed.RecipeRecyclerAdapter;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class BindingUtils {
     }
 
     @BindingAdapter("bind:items")
-    public  static GridLayoutManager bindList(RecyclerView view, List<RecipeInfo> list,GridLayoutManager gridLayoutManager) {
+    public  static GridLayoutManager bindList(RecyclerView view, List<Recipe> list) {
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
         view.setLayoutManager(layoutManager);
         view.setAdapter(new RecipeRecyclerAdapter(list));
