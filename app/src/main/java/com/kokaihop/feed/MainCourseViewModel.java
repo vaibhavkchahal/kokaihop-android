@@ -3,6 +3,7 @@ package com.kokaihop.feed;
 import android.databinding.Bindable;
 import android.util.Log;
 
+import com.android.databinding.library.baseAdapters.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
@@ -62,6 +63,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
 
     public void setRecipeDetailsList(List<Recipe> recipeDetailsList) {
         this.recipeList = recipeDetailsList;
+        notifyPropertyChanged(BR.recipeList);
     }
 
     private void addRecipe(Recipe recipeInfo) {

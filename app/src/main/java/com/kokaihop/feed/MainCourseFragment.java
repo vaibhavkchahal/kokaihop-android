@@ -47,9 +47,7 @@ public class MainCourseFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-        final GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-        mainCourseBinding.rvFeed.setLayoutManager(layoutManager);
-        mainCourseBinding.rvFeed.setAdapter(new RecipeRecyclerAdapter(mainCourseViewModel.getRecipeDetailsList()));
+
         mainCourseBinding.rvFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -59,9 +57,12 @@ public class MainCourseFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                GridLayoutManager gridLayoutManager = (GridLayoutManager)recyclerView.getLayoutManager();
+
+                int visibleItemCount = gridLayoutManager.getChildCount();
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
 
 //                Log.i("item no->",)
 
