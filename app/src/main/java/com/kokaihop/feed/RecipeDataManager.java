@@ -14,8 +14,10 @@ import io.realm.RealmResults;
 
 public class RecipeDataManager {
     private Realm realm;
+    private RecipeDataListener recipeDataListener;
 
-    public RecipeDataManager() {
+    public RecipeDataManager(RecipeDataListener recipeDataListener) {
+        this.recipeDataListener = recipeDataListener;
         realm = Realm.getDefaultInstance();
 
     }
@@ -29,9 +31,18 @@ public class RecipeDataManager {
 
     public void insertOrUpdateData(final List<Recipe> realmResults) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(realmResults);
-//        Collection<Recipe> recipes=realm.copyToRealmOrUpdate(realmResults);
+        for (Recipe recipe : realmResults) {
+            Recipe recipeInDatabase = realm.where(Recipe.class)
+                    .equalTo("_id", recipe.get_id()).findFirst();
+            recipeInDatabase.setBadgeType(recipe.getBadgeType());
+            realm.insertOrUpdate(recipeInDatabase);
+        }
+        recipeDataListener.onTransactionComplete(true);
         realm.commitTransaction();
+    }
+
+    public interface RecipeDataListener {
+        void onTransactionComplete(boolean executed);
     }
 
 
