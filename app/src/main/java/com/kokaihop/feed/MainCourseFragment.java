@@ -40,7 +40,10 @@ public class MainCourseFragment extends Fragment {
                 container,
                 false);
 
+        MainCourseViewModel mainCourseViewModel = new MainCourseViewModel();
         mainCourseBinding.setViewModel(new MainCourseViewModel());
+        mainCourseViewModel.getRecipes();
+
         View rootView = mainCourseBinding.getRoot();
         return rootView;
     }

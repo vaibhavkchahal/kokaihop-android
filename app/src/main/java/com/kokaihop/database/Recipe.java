@@ -13,7 +13,7 @@ import io.realm.annotations.PrimaryKey;
 public class Recipe extends RealmObject {
 
     @PrimaryKey
-    @SerializedName("_id")
+    @SerializedName(value="_id", alternate={"id"})
     private String _id;
     @SerializedName("dateCreated")
     private long dateCreated;
@@ -23,10 +23,8 @@ public class Recipe extends RealmObject {
     private String type;
     @SerializedName("title")
     private String title;
-
     @SerializedName("status")
     private String status;
-
     @SerializedName("cuisine")
     private Cuisine cuisine;
     @SerializedName("createdBy")
@@ -35,6 +33,16 @@ public class Recipe extends RealmObject {
     private RealmList<Ingredients> ingredientsList;
     @SerializedName("category")
     private Category category;
+    @SerializedName("cookingMethod")
+    private CookingMethod cookingMethod;
+    @SerializedName("counter")
+    private Counter counter;
+    @SerializedName("badgeType")
+    private String badgeType;
+    @SerializedName("isMine")
+    private boolean isMine;
+    private String cookingSteps;
+    private boolean isFavorite;
 
     public String getStatus() {
         return status;
@@ -124,16 +132,7 @@ public class Recipe extends RealmObject {
         isMine = mine;
     }
 
-    @SerializedName("cookingMethod")
 
-    private CookingMethod cookingMethod;
-    @SerializedName("counter")
-    private Counter counter;
-    private String badgeType;
-    private String cookingSteps;
-    private boolean isFavorite;
-    @SerializedName("isMine")
-    private boolean isMine;
 
 
     public String getTitle() {

@@ -23,15 +23,15 @@ public class RecipeTabAdapter extends FragmentStatePagerAdapter {
             case 0:
                 MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
                 return mainCourseFragment;
-            case 1:
-                MainCourseFragment mainCourseFragment1 = MainCourseFragment.newInstance();
+            /*case 1:
+//                MainCourseFragment mainCourseFragment1 = MainCourseFragment.newInstance();
                 return mainCourseFragment1;
             case 2:
                 MainCourseFragment mainCourseFragment2 = MainCourseFragment.newInstance();
                 return mainCourseFragment2;
             case 3:
                 MainCourseFragment mainCourseFragment3 = MainCourseFragment.newInstance();
-                return mainCourseFragment3;
+                return mainCourseFragment3;*/
             default:
                 return null;
         }

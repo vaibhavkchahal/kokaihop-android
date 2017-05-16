@@ -7,6 +7,20 @@ package com.kokaihop.utility;
 public class ApiConstants {
 
     public static final String MOST_RECENT = "most_recent";
+    private String badgeType = "MAIN_COURSE_OF_THE_DAY";
+
+
+    public enum BadgeType {
+        MAIN_COURSE_OF_THE_DAY("mainCourseOfTheDay"),
+        APPETIZER_OF_THE_DAY("appetizerOfTheDay");
+
+        public String value;
+
+        BadgeType(String value) {
+            this.value = value;
+        }
+
+    }
 
     public enum RecipeType {Recipe}
 }

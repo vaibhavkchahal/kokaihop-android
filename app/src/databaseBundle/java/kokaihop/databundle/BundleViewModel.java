@@ -8,13 +8,13 @@ import com.kokaihop.database.Recipe;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
+import com.kokaihop.recipe.SearchResponse;
 import com.kokaihop.utility.ApiConstants;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 import static com.kokaihop.database.DBConstants.DATABASE_NAME;
-import static com.kokaihop.utility.RealmHelper.realm;
 
 /**
  * Created by Rajendra Singh on 8/5/17.
@@ -63,7 +63,7 @@ public class BundleViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
                 insertRecord(searchResponse);
-                long recordCount = realm.where(Recipe.class).count();
+                long recordCount = mRealm.where(Recipe.class).count();
                 Log.e("Saved record in DB", String.valueOf(recordCount));
 
 
@@ -100,6 +100,7 @@ public class BundleViewModel extends BaseViewModel {
         mRealm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeDetailsList());
         mRealm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
+
 //        realm.insert(recipeResponse.getRecipeDetailsList());
         mRealm.commitTransaction();
     }
