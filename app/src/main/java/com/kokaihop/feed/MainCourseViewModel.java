@@ -1,5 +1,6 @@
 package com.kokaihop.feed;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
@@ -67,13 +68,10 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     }
 
 
-    public MainCourseViewModel() {
+    public MainCourseViewModel(Context context) {
         dataManager = new RecipeDataManager(this);
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
 
-        if (recipeList!=null){
-
-        }
         getRecipes(offset);
     }
 
