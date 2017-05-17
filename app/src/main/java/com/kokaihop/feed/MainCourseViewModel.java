@@ -1,11 +1,9 @@
 package com.kokaihop.feed;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
-import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.ApiConstants;
 
@@ -79,12 +77,8 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
             @Override
             public void onSuccess(RecipeResponse response) {
                 setRecipeCount(response.getCount());
-                List<Recipe> recipeList = new ArrayList<>();
-                for (RecipeInfo recipeInfo : response.getRecipeDetailsList()) {
-                    recipeList.add(recipeInfo.getRecipe());
-                    Log.d("id", recipeInfo.getRecipe().get_id());
-                }
-                dataManager.insertOrUpdateData(recipeList);
+
+                dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb();
                 setProgressVisible(false);
             }

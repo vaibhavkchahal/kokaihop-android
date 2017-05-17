@@ -16,8 +16,16 @@ public class RecipeResponse {
     @SerializedName("totalCount")
     private int count;
 
+    public List<String> getMyLikes() {
+        return myLikes;
+    }
+
+    public void setMyLikes(List<String> myLikes) {
+        this.myLikes = myLikes;
+    }
+
     @SerializedName("myLikes")
-    String myLikes[];
+   private List<String> myLikes;
 
     public List<RecipeInfo> getRecipeDetailsList() {
         return recipeDetailsList;
