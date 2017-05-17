@@ -62,7 +62,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     public MainCourseViewModel(Context context) {
         this.context = context;
         dataManager = new RecipeDataManager(this);
-        recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+        fetchRecipeFromDb();
 
         if (recipeList != null) {
 
@@ -79,13 +79,13 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
             @Override
             public void onSuccess(RecipeResponse response) {
                 setRecipeCount(response.getCount());
-                List<Recipe> mRecipeList = new ArrayList<>();
+                List<Recipe> recipeList = new ArrayList<>();
                 for (RecipeInfo recipeInfo : response.getRecipeDetailsList()) {
-                    mRecipeList.add(recipeInfo.getRecipe());
+                    recipeList.add(recipeInfo.getRecipe());
                     Log.d("id", recipeInfo.getRecipe().get_id());
                 }
-                dataManager.insertOrUpdateData(mRecipeList);
-                recipeList= dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+                dataManager.insertOrUpdateData(recipeList);
+                fetchRecipeFromDb();
                 setProgressVisible(false);
             }
 
@@ -102,14 +102,14 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
 
     }
 
-    public void fetchRecipe() {
+    public void fetchRecipeFromDb() {
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
 
     }
 
     @Override
     public void onTransactionComplete(boolean executed) {
-//        recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+//        recipeList = dataManager.fetchRecipeFromDb(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         //TODO: update Recycler view
     }
 
