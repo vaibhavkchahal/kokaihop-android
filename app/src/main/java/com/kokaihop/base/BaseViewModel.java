@@ -9,7 +9,7 @@ import com.altaworks.kokaihop.ui.BR;
  * Created by Vaibhav Chahal on 4/5/17.
  */
 
-public class BaseViewModel extends BaseObservable {
+public abstract class BaseViewModel extends BaseObservable {
 
     public static boolean isProgressVisible = false;
 
@@ -22,5 +22,8 @@ public class BaseViewModel extends BaseObservable {
         isProgressVisible = progressVisible;
         this.notifyPropertyChanged(BR.progressVisible);
     }
+
+    protected abstract void destroy();
+
 
 }

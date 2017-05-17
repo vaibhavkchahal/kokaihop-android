@@ -39,7 +39,7 @@ public class MainCourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainCourseBinding = inflate(LayoutInflater.from(getActivity()), R.layout.fragment_main_course, container, false);
-        mainCourseViewModel = new MainCourseViewModel();
+        mainCourseViewModel = new MainCourseViewModel(getContext());
         mainCourseBinding.setViewModel(mainCourseViewModel);
         initializeRecycleView();
         View rootView = mainCourseBinding.getRoot();
@@ -66,7 +66,7 @@ public class MainCourseFragment extends Fragment {
 
 //                Log.i("item no->",)
 
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && mainCourseViewModel.getRecipeCount() > mainCourseViewModel.getRecipeDetailsList().size()) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && mainCourseViewModel.getRecipeCount() > mainCourseViewModel.getRecipeList().size()) {
                     mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax());
 
                 }

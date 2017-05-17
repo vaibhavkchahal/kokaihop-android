@@ -62,6 +62,12 @@ public class CityViewModel extends BaseViewModel{
             }
         });
     }
+
+    @Override
+    protected void destroy() {
+
+    }
+
     public interface CityInterface {
         void citySelected(CityDetails selectedCity);
         void setCitiesOnRecyclerView();

@@ -2,6 +2,7 @@ package com.kokaihop.feed;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 /**
@@ -12,7 +13,7 @@ public interface FeedApi {
     // https://staging-kokaihop.herokuapp.com/v1/api/badges?badgeType=MAIN_COURSE_OF_THE_DAY&isLike=true&max=20&offset=0
 
     @GET("/v1/api/badges")
-    Call<RecipeResponse> getRecepies(@Query("badgeType") String badgeType, @Query("isLike") boolean isLike,
+    Call<RecipeResponse> getRecepies(@Header("Authorization") String authorization,@Query("badgeType") String badgeType, @Query("isLike") boolean isLike,
                                      @Query("offset") int offset, @Query("max") int max);
 
 }

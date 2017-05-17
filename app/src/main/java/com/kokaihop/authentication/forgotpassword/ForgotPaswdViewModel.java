@@ -65,4 +65,8 @@ public class ForgotPaswdViewModel extends BaseViewModel {
         ((Activity) view.getContext()).finish();
     }
 
+    @Override
+    protected void destroy() {
+
+    }
 }

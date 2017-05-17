@@ -1,5 +1,6 @@
 package com.kokaihop.feed;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
@@ -10,6 +11,8 @@ import com.kokaihop.utility.ApiConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kokaihop.utility.Constants.AUTHORIZATION_BEARER;
 
 
 /**
@@ -22,7 +25,8 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     private int max = 20;
     private boolean isLike = true;
     private int recipeCount;
-    RecipeDataManager dataManager = null;
+    private RecipeDataManager dataManager = null;
+    private Context context;
 
     private List<Recipe> recipeList = new ArrayList<>();
 
@@ -50,28 +54,17 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         this.max = max;
     }
 
-    public List<Recipe> getRecipeDetailsList() {
-        return recipeList;
-    }
-
     public List<Recipe> getRecipeList() {
         return recipeList;
     }
 
-    public void setRecipeDetailsList(List<Recipe> recipeDetailsList) {
-        this.recipeList = recipeDetailsList;
-    }
 
-    private void addRecipe(Recipe recipeInfo) {
-        recipeList.add(recipeInfo);
-    }
-
-
-    public MainCourseViewModel() {
+    public MainCourseViewModel(Context context) {
+        this.context = context;
         dataManager = new RecipeDataManager(this);
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
 
-        if (recipeList!=null){
+        if (recipeList != null) {
 
         }
         getRecipes(offset);
@@ -80,7 +73,9 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     public void getRecipes(int offset) {
         setOffset(offset);
         setProgressVisible(true);
-        new FeedApiHelper().getRecepies(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max, new IApiRequestComplete<RecipeResponse>() {
+//        String authorizationToken = AUTHORIZATION_BEARER+AppUtility.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
+        new FeedApiHelper().getRecepies(authorizationToken, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
                 setRecipeCount(response.getCount());
@@ -90,9 +85,8 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
                     Log.d("id", recipeInfo.getRecipe().get_id());
                 }
                 dataManager.insertOrUpdateData(mRecipeList);
-                List<Recipe> recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+                recipeList= dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
                 setProgressVisible(false);
-                setRecipeDetailsList(recipeList);
             }
 
             @Override
@@ -108,13 +102,20 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
 
     }
 
+    public void fetchRecipe() {
+        recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+
+    }
+
     @Override
     public void onTransactionComplete(boolean executed) {
-        recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+//        recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         //TODO: update Recycler view
     }
 
 
+    @Override
+    protected void destroy() {
 
-
+    }
 }
