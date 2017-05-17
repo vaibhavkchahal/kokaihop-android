@@ -7,9 +7,11 @@
     </data>
 
     <LinearLayout
+        android:padding="30dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
         android:weightSum="2">
         <ImageView
             android:layout_width="match_parent"

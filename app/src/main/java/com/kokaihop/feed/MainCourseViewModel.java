@@ -1,9 +1,7 @@
 package com.kokaihop.feed;
 
-import android.databinding.Bindable;
 import android.util.Log;
 
-import com.android.databinding.library.baseAdapters.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
@@ -56,14 +54,12 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         return recipeList;
     }
 
-    @Bindable
     public List<Recipe> getRecipeList() {
         return recipeList;
     }
 
     public void setRecipeDetailsList(List<Recipe> recipeDetailsList) {
         this.recipeList = recipeDetailsList;
-        notifyPropertyChanged(BR.recipeList);
     }
 
     private void addRecipe(Recipe recipeInfo) {
@@ -74,6 +70,10 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     public MainCourseViewModel() {
         dataManager = new RecipeDataManager(this);
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+
+        if (recipeList!=null){
+
+        }
         getRecipes(offset);
     }
 
@@ -113,6 +113,8 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         //TODO: update Recycler view
     }
+
+
 
 
 }

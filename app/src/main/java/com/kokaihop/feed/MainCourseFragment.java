@@ -68,7 +68,7 @@ public class MainCourseFragment extends Fragment {
 
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && mainCourseViewModel.getRecipeCount() > mainCourseViewModel.getRecipeDetailsList().size()) {
                     mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax());
-                    mainCourseBinding.rvFeed.getAdapter().notifyDataSetChanged();
+
                 }
 
             }
