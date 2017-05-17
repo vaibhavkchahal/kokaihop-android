@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> implements Filterable{
+public class    CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> implements Filterable{
 
     private ArrayList<CityDetails> cityList;
     private ArrayList<CityDetails> OriginalcityList;

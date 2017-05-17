@@ -177,6 +177,7 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab());
         HomeAdapter adapter = new HomeAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(5);
         tabLayout.setupWithViewPager(viewPager);
         setTabTextIcons();
 

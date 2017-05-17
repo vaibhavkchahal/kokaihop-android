@@ -19,7 +19,7 @@
             app:font="@{`RS-Regular`}"/>
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/text2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

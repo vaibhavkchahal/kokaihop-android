@@ -97,4 +97,16 @@
     <dimen name="home_tab_text_size">8sp</dimen>
     <dimen name="home_tab_margin_bottom">7.6dp</dimen>
     <dimen name="home_tab_padding_top">6dp</dimen>
+    <dimen name="user_profile_recycler_padding_horizontal">20dp</dimen>
+    <dimen name="user_profile_recycler_padding_vertical">10dp</dimen>
+    <dimen name="user_pic_name_margin">10dp</dimen>
+    <dimen name="user_followers_list_margin_top">10dp</dimen>
+    <dimen name="none">0dp</dimen>
+    <dimen name="profile_settings_margin_top">35dp</dimen>
+    <dimen name="profile_settings_margin_right">20dp</dimen>
+    <dimen name="user_profile_pic_size">60dp</dimen>
+    <dimen name="user_main_profile_pic_margin_top">30dp</dimen>
+    <dimen name="profile_ctl_height">195dp</dimen>
+    <dimen name="user_profile_toolbar_margin_top">20dp</dimen>
+    <dimen name="profile_toolbar_padding_right">20dp</dimen>
 </resources>

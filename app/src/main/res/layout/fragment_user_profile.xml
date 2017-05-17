@@ -33,13 +33,13 @@
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="206dp"
+                    android:layout_height="@dimen/profile_ctl_height"
                     android:fitsSystemWindows="true"
                     app:collapsedTitleGravity="center_horizontal|top"
                     app:contentScrim="?attr/colorPrimary"
                     app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    app:title="User Name">
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                    >
 
 
                     <RelativeLayout
@@ -47,15 +47,15 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/profile_back_gradient"
                         android:fitsSystemWindows="true"
-                        app:layout_collapseMode="parallax">
+                        app:layout_collapseMode="none">
 
                         <!-- TODO: Set user avatar here -->
                         <ImageView
                             android:id="@+id/user_avatar"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
+                            android:layout_width="@dimen/user_profile_pic_size"
+                            android:layout_height="@dimen/user_profile_pic_size"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="30dp"
+                            android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
                             android:src="@drawable/ic_avtar_sm"/>
 
                         <!-- TODO: Set user name here -->
@@ -65,6 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/user_avatar"
                             android:gravity="center_horizontal"
+                            android:textColor="@color/white"
                             android:text="User Name"
                             android:textSize="20sp"
                             app:font="@{`SS-ProSemiBold`}"/>
@@ -75,9 +76,11 @@
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_marginTop="@dimen/status_bar_height"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                        android:layout_marginTop="@dimen/user_profile_toolbar_margin_top"
+                        android:gravity="center_horizontal"
+                        app:title="User Name"
+                        android:paddingRight="@dimen/profile_toolbar_padding_right"
+                        app:layout_collapseMode="pin">
                     </android.support.v7.widget.Toolbar>
 
                     <android.support.design.widget.TabLayout
@@ -87,8 +90,16 @@
                         android:layout_gravity="bottom"
                         app:layout_collapseMode="parallax"
                         app:tabGravity="fill"
-                        app:tabIndicatorHeight="0dp"
+                        app:tabIndicatorHeight="@dimen/none"
                         app:tabTextAppearance="@style/ProfileTabLayoutText"/>
+                    <ImageView
+                        android:id="@+id/btn_settings"
+                        android:background="@drawable/ic_settings"
+                        android:layout_marginTop="@dimen/profile_settings_margin_top"
+                        android:layout_marginRight="@dimen/profile_settings_margin_right"
+                        android:layout_gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
                 </android.support.design.widget.CollapsingToolbarLayout>
 
             </android.support.design.widget.AppBarLayout>

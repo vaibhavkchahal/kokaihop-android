@@ -26,5 +26,6 @@
     <color name="profile_tab_background">#00FFFFFF</color>
     <color name="follow_button_back">#FF3BC48A</color>
     <color name="profile_tab_text_color">#FFD4D4D4</color>
+    <color name="users_list_name_color">#FF8D929C</color>
 
 </resources>
