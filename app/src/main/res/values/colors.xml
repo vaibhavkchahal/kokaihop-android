@@ -22,5 +22,11 @@
     <color name="selectcity_items_divider_color">#FFE3E4E6</color>
 
 
+    <color name="recipe_title_color">#FF71767F</color>
+    <color name="previous_recipe_title_color">#FF262F40</color>
+    <color name="cook_something_text_color">#FF8D929C</color>
+    <color name="recipe_bottom_separator_color">#FFD4D4D4</color>
+
+
 
 </resources>

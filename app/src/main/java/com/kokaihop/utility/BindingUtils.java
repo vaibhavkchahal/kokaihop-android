@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.kokaihop.database.Recipe;
-import com.kokaihop.feed.RecipeRecyclerAdapter;
+import com.kokaihop.feed.FeedRecyclerAdapter;
 
 import java.util.List;
 
@@ -31,6 +31,6 @@ public class BindingUtils {
     public  static void bindList(RecyclerView view, List<Recipe> list) {
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
         view.setLayoutManager(layoutManager);
-        view.setAdapter(new RecipeRecyclerAdapter(list));
+        view.setAdapter(new FeedRecyclerAdapter(list));
     }
 }

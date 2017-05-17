@@ -52,7 +52,7 @@ public class MainCourseFragment extends Fragment {
         RecyclerView rvFeed = mainCourseBinding.rvFeed;
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         rvFeed.setLayoutManager(layoutManager);
-        rvFeed.setAdapter(new RecipeRecyclerAdapter(mainCourseViewModel.getRecipeList()));
+        rvFeed.setAdapter(new FeedRecyclerAdapter(mainCourseViewModel.getRecipeList()));
 
         ////////////////////////
         EndlessScrollListener scrollListener = new EndlessScrollListener(layoutManager) {
@@ -60,7 +60,7 @@ public class MainCourseFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax());
-                final RecipeRecyclerAdapter adapter = (RecipeRecyclerAdapter) mainCourseBinding.rvFeed.getAdapter();
+                final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) mainCourseBinding.rvFeed.getAdapter();
                 final int curSize = adapter.getItemCount();
                 view.post(new Runnable() {
                     @Override

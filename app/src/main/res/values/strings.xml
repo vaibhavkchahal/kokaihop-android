@@ -54,4 +54,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_course_of_the_day">Main Course of the Day</string>
+    <string name="previous_main_course_of_the_day">Previous Main Course of the Day</string>
+    <string name="cook_something_creating_today">Cook something creating today</string>
 </resources>
