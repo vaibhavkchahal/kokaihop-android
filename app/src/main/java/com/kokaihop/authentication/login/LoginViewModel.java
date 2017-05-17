@@ -138,4 +138,8 @@ public class LoginViewModel extends BaseViewModel {
         return false;
     }
 
+    @Override
+    protected void destroy() {
+
+    }
 }

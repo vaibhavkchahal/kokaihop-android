@@ -213,4 +213,9 @@ public class SignUpViewModel extends BaseViewModel {
             setSuggestion(0);
         }
     }
+
+    @Override
+    protected void destroy() {
+
+    }
 }

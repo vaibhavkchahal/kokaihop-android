@@ -17,8 +17,8 @@ public class FeedApiHelper {
         this.feedApi = RetrofitClient.getInstance().create(FeedApi.class);
     }
 
-    public void getRecepies(String badgeType,boolean isLike,int offset,int max,final IApiRequestComplete successInterface) {
-        Call<RecipeResponse> recipeResponseCall = feedApi.getRecepies(badgeType,isLike,offset,max);
+    public void getRecepies(String authorization, String badgeType,boolean isLike,int offset,int max,final IApiRequestComplete successInterface) {
+        Call<RecipeResponse> recipeResponseCall = feedApi.getRecepies(authorization,badgeType,isLike,offset,max);
         recipeResponseCall.enqueue(new ResponseHandler<RecipeResponse>(successInterface));
     }
 
