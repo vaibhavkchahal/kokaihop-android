@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
-import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.kokaihop.database.Recipe;
 
@@ -33,7 +32,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM_DAY_RECIPE) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_day_recipe_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_recipe_item, parent, false);
             return new ViewHolderRecipeOfDay(v);
         } else if (viewType == TYPE_ITEM_RECIPE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_recipe_item, parent, false);
@@ -50,10 +49,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_ITEM_DAY_RECIPE:
-                ViewHolderRecipeOfDay holderRecipeOfDay = (ViewHolderRecipeOfDay) holder;
-                Recipe recipeOfDay = recipeList.get(position);
-                holderRecipeOfDay.binder.setRecipe(recipeOfDay);
-                holderRecipeOfDay.binder.executePendingBindings();
+//                ViewHolderRecipeOfDay holderRecipeOfDay = (ViewHolderRecipeOfDay) holder;
+//                Recipe recipeOfDay = recipeList.get(position);
+//                holderRecipeOfDay.binder.setRecipe(recipeOfDay);
+//                holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
@@ -83,7 +82,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     public class ViewHolderRecipeOfDay extends RecyclerView.ViewHolder {
-        public FeedRecyclerDayRecipeItemBinding binder;
+        public FeedRecyclerRecipeItemBinding binder;
 
         public ViewHolderRecipeOfDay(View view) {
             super(view);

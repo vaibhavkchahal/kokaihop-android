@@ -100,7 +100,7 @@
     <dimen name="textsize_recipe_type">10sp</dimen>
     <dimen name="textsize_previous_text">15sp</dimen>
     <dimen name="margin_top_previous_text">23dp</dimen>
-    <dimen name="margin_bottom_cook_something_text">18dp</dimen>
+    <dimen name="margin_bottom_cook_something_text">8dp</dimen>
     <dimen name="textsize_cook_smething_text">13sp</dimen>
     <dimen name="padding_left_recipe_type">15.5dp</dimen>
 </resources>

@@ -13,6 +13,10 @@
             android:id="@+id/rv_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="13.5dp"
+            android:paddingBottom="13.5dp"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>
