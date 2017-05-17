@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by Rajendra Singh on 15/5/17.
@@ -28,7 +29,9 @@ public class RecipeDataManager {
 
     public RealmResults<Recipe> fetchRecipe(ApiConstants.BadgeType badgeType) {
 
-        RealmResults<Recipe> recipeList = realm.where(Recipe.class).equalTo("badgeType", badgeType.value).findAll();
+        RealmResults<Recipe> recipeList = realm.where(Recipe.class)
+                .equalTo("badgeType", badgeType.value)
+                .findAllSorted("dateCreated", Sort.DESCENDING);
         return recipeList;
     }
 
