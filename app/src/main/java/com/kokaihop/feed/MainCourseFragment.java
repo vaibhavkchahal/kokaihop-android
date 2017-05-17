@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
+import com.kokaihop.utility.EndlessScrollListener;
 
 import static android.databinding.DataBindingUtil.inflate;
 
@@ -48,31 +49,28 @@ public class MainCourseFragment extends Fragment {
 
     private void initializeRecycleView() {
 
-        mainCourseBinding.rvFeed.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+        RecyclerView rvFeed = mainCourseBinding.rvFeed;
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        rvFeed.setLayoutManager(layoutManager);
+        rvFeed.setAdapter(new RecipeRecyclerAdapter(mainCourseViewModel.getRecipeList()));
+
+        ////////////////////////
+        EndlessScrollListener scrollListener = new EndlessScrollListener(layoutManager) {
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                GridLayoutManager gridLayoutManager = (GridLayoutManager)recyclerView.getLayoutManager();
-
-                int visibleItemCount = gridLayoutManager.getChildCount();
-                int totalItemCount = gridLayoutManager.getItemCount();
-                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
-
-//                Log.i("item no->",)
-
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && mainCourseViewModel.getRecipeCount() > mainCourseViewModel.getRecipeList().size()) {
-                    mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax());
-
-                }
-
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax());
+                final RecipeRecyclerAdapter adapter = (RecipeRecyclerAdapter) mainCourseBinding.rvFeed.getAdapter();
+                final int curSize = adapter.getItemCount();
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyItemRangeInserted(curSize, mainCourseViewModel.getRecipeList().size() - 1);
+                    }
+                });
             }
-        });
+        };
+        mainCourseBinding.rvFeed.addOnScrollListener(scrollListener);
     }
 
 }
