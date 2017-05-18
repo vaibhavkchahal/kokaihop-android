@@ -42,7 +42,7 @@ public class RecipeDataManager {
         for (RecipeInfo recipeInfo : recipeResponse.getRecipeDetailsList()) {
             Recipe recipe = realm.where(Recipe.class)
                     .equalTo("_id", recipeInfo.getRecipe().get_id()).findFirst();
-            recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
+                recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
             if (recipeResponse.getMyLikes() != null) {
                 boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
                 recipe.setFavorite(isLiked);
