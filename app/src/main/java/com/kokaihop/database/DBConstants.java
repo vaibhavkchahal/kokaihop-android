@@ -6,6 +6,6 @@ package com.kokaihop.database;
 
 public class DBConstants {
     public static final int SCHEMA_VERSION = 1;
-    public static final String DATABASE_NAME = "default.realm";
+    public static final String DATABASE_NAME = "kokaihop.realm";
 
 }
