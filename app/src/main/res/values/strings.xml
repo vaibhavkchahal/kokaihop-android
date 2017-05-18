@@ -69,4 +69,9 @@
     <string name="main_course_of_the_day">Main Course of the Day</string>
     <string name="previous_main_course_of_the_day">Previous Main Course of the Day</string>
     <string name="cook_something_creating_today">Cook something creating today</string>
+    <string name="tab_main_course_of_the_day">MAIN COURSE OF THE DAY</string>
+    <string name="tab_appetizer_of_the_day">APPETIZER OF THE DAY</string>
+    <string name="tab_cookie_of_the_day">COOKIE OF THE DAY</string>
+    <string name="tab_dessert_of_the_day">DESSERT OF THE DAY</string>
+    <string name="tab_vegetarian_of_the_day">VEGETARIAN OF THE DAY</string>
 </resources>
