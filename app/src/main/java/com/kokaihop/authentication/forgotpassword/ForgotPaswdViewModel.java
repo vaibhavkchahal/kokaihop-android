@@ -8,9 +8,9 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
-import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.utility.AppUtility;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.utility.ValidationUtils;
 
 
 public class ForgotPaswdViewModel extends BaseViewModel {
@@ -30,7 +30,7 @@ public class ForgotPaswdViewModel extends BaseViewModel {
 
     public void forgot(final View view) {
         final Activity activity = (Activity) view.getContext();
-        if (userName.isEmpty() || !AppUtility.isValidEmail(userName)) {
+        if (userName.isEmpty() || !ValidationUtils.isValidEmail(userName)) {
             Toast.makeText(view.getContext(), R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return;
         }
