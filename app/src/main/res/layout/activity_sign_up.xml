@@ -56,18 +56,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:hintEnabled="false">
-                    <EditText android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:backgroundTint="@color/white_40"
-                              android:hint="@string/name"
-                              android:inputType="textCapWords"
-                              android:maxLines="1"
-                              android:paddingBottom="@dimen/edittext_line_text_padding"
-                              android:text="@={viewModel.name}"
-                              android:textColor="@color/white"
-                              android:textColorHint="@color/white"
-                              android:textSize="@dimen/text_size_large"
-                              app:font="@{`SS-ProRegular`}"/>
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white_40"
+                        android:hint="@string/name"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/edittext_line_text_padding"
+                        android:text="@={viewModel.name}"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -77,18 +78,19 @@
                     android:layout_below="@+id/edit_text_name"
                     android:layout_marginTop="@dimen/signup_et_email_margin_top"
                     app:hintEnabled="false">
-                    <EditText android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:backgroundTint="@color/white_40"
-                              android:hint="@string/email"
-                              android:inputType="textEmailAddress"
-                              android:maxLines="1"
-                              android:paddingBottom="@dimen/edittext_line_text_padding"
-                              android:text="@={viewModel.userName}"
-                              android:textColor="@color/white"
-                              android:textColorHint="@color/white"
-                              android:textSize="@dimen/text_size_large"
-                              app:font="@{`SS-ProRegular`}"/>
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white_40"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/edittext_line_text_padding"
+                        android:text="@={viewModel.userName}"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -98,7 +100,7 @@
                     android:layout_below="@+id/edit_text_email"
                     android:layout_marginTop="@dimen/signup_et_margin_top"
                     app:hintEnabled="false">
-                    <EditText
+                    <android.support.v7.widget.AppCompatEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/white_40"
@@ -120,19 +122,20 @@
                     android:layout_marginTop="@dimen/signup_et_margin_top"
                     app:hintEnabled="false">
 
-                    <EditText android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:backgroundTint="@color/white_40"
-                              android:hint="@string/city"
-                              android:focusableInTouchMode="false"
-                              android:onClick="@{(v)->viewModel.openCityScreen(v)}"
-                              android:inputType="textNoSuggestions"
-                              android:paddingBottom="@dimen/signup_city_line_padding"
-                              android:text="@={viewModel.city}"
-                              android:textColor="@color/white"
-                              android:textColorHint="@color/white"
-                              android:textSize="@dimen/text_size_large"
-                              app:font="@{`SS-ProRegular`}"/>
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white_40"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/city"
+                        android:inputType="textNoSuggestions"
+                        android:onClick="@{(v)->viewModel.openCityScreen(v)}"
+                        android:paddingBottom="@dimen/signup_city_line_padding"
+                        android:text="@={viewModel.city}"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <CheckBox android:id="@+id/checkBox_dagens_recept"

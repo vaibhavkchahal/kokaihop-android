@@ -94,19 +94,20 @@
                     android:layout_below="@+id/textview_or_login"
                     app:hintEnabled="false">
 
-                    <EditText android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:layout_marginTop="@dimen/margin_top_login_email"
-                              android:backgroundTint="@color/white_40"
-                              android:hint="@string/email"
-                              android:inputType="textEmailAddress"
-                              android:maxLines="1"
-                              android:paddingBottom="@dimen/edittext_line_text_padding"
-                              android:text="@={viewModel.userName}"
-                              android:textColor="@color/white"
-                              android:textColorHint="@color/white"
-                              android:textSize="@dimen/text_size_large"
-                              app:font="@{`SS-ProRegular`}"/>
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_top_login_email"
+                        android:backgroundTint="@color/white_40"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/edittext_line_text_padding"
+                        android:text="@={viewModel.userName}"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -116,18 +117,19 @@
                     android:layout_below="@+id/edit_text_email"
                     android:layout_marginTop="@dimen/margin_top_login_passwd"
                     app:hintEnabled="false">
-                    <EditText android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:backgroundTint="@color/white_40"
-                              android:hint="@string/password"
-                              android:inputType="textPassword"
-                              android:maxLines="1"
-                              android:paddingBottom="@dimen/edittext_line_text_padding"
-                              android:text="@={viewModel.password}"
-                              android:textColor="@color/white"
-                              android:textColorHint="@color/white"
-                              android:textSize="@dimen/text_size_large"
-                              app:font="@{`SS-ProRegular`}"/>
+                    <android.support.v7.widget.AppCompatEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/white_40"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:paddingBottom="@dimen/edittext_line_text_padding"
+                        android:text="@={viewModel.password}"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_size_large"
+                        app:font="@{`SS-ProRegular`}"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <Button android:id="@+id/button_login"
