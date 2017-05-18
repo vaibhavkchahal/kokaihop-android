@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
-
+        <import type="com.kokaihop.utility.CloudinaryDetail"></import>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
     </data>
@@ -21,7 +21,8 @@
             android:layout_height="@dimen/recipe_img_height"
             android:scaleType="fitXY"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/img_intro"/>
+            bind:imageUrl="@{CloudinaryDetail.url+CloudinaryDetail.cloudName+CloudinaryDetail.folder+recipe.mainImage.publicId+CloudinaryDetail.format}"
+            />
 
         <TextView
             android:layout_width="wrap_content"

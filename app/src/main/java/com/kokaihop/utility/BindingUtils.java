@@ -4,8 +4,11 @@ import android.databinding.BindingAdapter;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.kokaihop.Logger;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 
@@ -28,9 +31,15 @@ public class BindingUtils {
     }
 
     @BindingAdapter("bind:items")
-    public  static void bindList(RecyclerView view, List<Recipe> list) {
-        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
+    public static void bindList(RecyclerView view, List<Recipe> list) {
+        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
         view.setLayoutManager(layoutManager);
         view.setAdapter(new FeedRecyclerAdapter(list));
+    }
+
+    @BindingAdapter({"app:imageUrl"})
+    public static void loadImage(ImageView view, String url) {
+        Logger.d("url", url);
+        Glide.with(view.getContext()).load(url).into(view);
     }
 }
