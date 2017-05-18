@@ -12,4 +12,7 @@ public class CloudinaryDetail {
     public  static String format=".jpg";
 
 
+    public  static String compleleteUrl = url+cloudName+folder;
+
+
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.kokaihop.utility.CloudinaryDetail"></import>
+        <import type="kokaihop.utility.CloudinaryDetail"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
     </data>
 
@@ -17,7 +17,7 @@
             android:layout_width="@dimen/card_width_recipe_of_day"
             android:layout_height="@dimen/card_height_recipe_of_day"
             android:layout_marginTop="@dimen/card_margin_top"
-            android:paddingLeft="15dp"
+            android:paddingLeft="@dimen/card_left_right_padding"
             android:paddingRight="15dp"
             app:cardCornerRadius="5dp">
 
@@ -31,8 +31,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/img_height_recipe_of_day"
                     android:scaleType="fitXY"
-                    bind:imageUrl="@{CloudinaryDetail.url+CloudinaryDetail.cloudName+CloudinaryDetail.folder+recipe.mainImage.publicId+CloudinaryDetail.format}"
-                    />
+                    bind:imageUrl="@{CloudinaryDetail.compleleteUrl+recipe.mainImage.publicId+CloudinaryDetail.format}"
+                    bind:error="@{@drawable/ic_avtar_sm}"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                     android:text="@{recipe.badgeType}"
                     android:textColor="@color/recipe_title_color"
                     android:textSize="@dimen/textsize_recipe_type"
-                    app:font="@{`SS-ProRegular`}"/>
+                    bind:font="@{`SS-ProRegular`}"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:text="@{recipe.title}"
                     android:textColor="@color/recipe_title_color"
                     android:textSize="@dimen/textsize_recipe_name"
-                    app:font="@{`SS-ProSemiBold`}"/>
+                    bind:font="@{`SS-ProSemiBold`}"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -65,7 +65,7 @@
             android:text="@string/previous_main_course_of_the_day"
             android:textColor="@color/previous_recipe_title_color"
             android:textSize="@dimen/textsize_previous_text"
-            app:font="@{`SS-ProRegular`}"/>
+            bind:font="@{`SS-ProRegular`}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:text="@string/cook_something_creating_today"
             android:textColor="@color/cook_something_text_color"
             android:textSize="@dimen/textsize_cook_smething_text"
-            app:font="@{`SS-ProRegular`}"/>
+            bind:font="@{`SS-ProRegular`}"/>
 
 
     </LinearLayout>
