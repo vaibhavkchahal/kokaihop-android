@@ -51,8 +51,13 @@
             android:id="@+id/tablayout_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_header"
             app:tabMode="scrollable"
+            app:tabGravity="center"
+            app:tabPaddingStart="@dimen/none"
+            app:tabPaddingEnd="@dimen/none"
+            app:tabIndicatorColor="@color/colorPrimary"
+            android:layout_below="@+id/rl_header"
+            app:tabIndicatorHeight="@dimen/feed_tab_indicator_height"
 
         />
         <!-- View pager to swipe views -->

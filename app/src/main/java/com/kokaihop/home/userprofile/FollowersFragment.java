@@ -62,6 +62,4 @@ public class FollowersFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);
     }
-
-
 }
