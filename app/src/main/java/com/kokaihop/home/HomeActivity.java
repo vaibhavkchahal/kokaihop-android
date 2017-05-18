@@ -13,8 +13,6 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.kokaihop.base.BaseActivity;
-import com.kokaihop.database.Recipe;
-import com.kokaihop.recipe.SearchResponse;
 
 public class HomeActivity extends BaseActivity {
 
