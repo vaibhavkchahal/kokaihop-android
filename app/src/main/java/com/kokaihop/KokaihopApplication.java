@@ -15,6 +15,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.internal.IOException;
 
+import static com.kokaihop.database.DBConstants.DATABASE_NAME;
 import static com.kokaihop.database.DBConstants.SCHEMA_VERSION;
 
 /**
@@ -35,18 +36,18 @@ public class KokaihopApplication extends Application {
         boolean overwriteDatabase = false;
 
         if (overwriteDatabase) {
-            copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), Realm.DEFAULT_REALM_NAME);
+            copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
         } else {
             //check if the db is already in place
             if (!fileFound(Realm.DEFAULT_REALM_NAME, this.getFilesDir())) {
-                copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), Realm.DEFAULT_REALM_NAME);
+                copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
             }
         }
         //Config Realm for the application
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(SCHEMA_VERSION)
-                .name(Realm.DEFAULT_REALM_NAME)
+                .name(DATABASE_NAME)
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);

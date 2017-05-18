@@ -16,9 +16,10 @@ import com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
+import com.kokaihop.utility.ValidationUtils;
 
 
 public class LoginViewModel extends BaseViewModel {
@@ -57,7 +58,7 @@ public class LoginViewModel extends BaseViewModel {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
-                AppUtility.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
             }
 
@@ -95,7 +96,7 @@ public class LoginViewModel extends BaseViewModel {
                     public void onSuccess(AuthenticationApiResponse response) {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
-                        AppUtility.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
+                        SharedPrefUtils.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
                     }
 
                     @Override
@@ -127,7 +128,7 @@ public class LoginViewModel extends BaseViewModel {
 
     // validate fields for login.
     private boolean loginValidations(Context context, String username, String password) {
-        if (username.isEmpty() || !AppUtility.isValidEmail(username)) {
+        if (username.isEmpty() || !ValidationUtils.isValidEmail(username)) {
             Toast.makeText(context, R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return true;
         }

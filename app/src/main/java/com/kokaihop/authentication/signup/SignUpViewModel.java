@@ -18,9 +18,10 @@ import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.CityActivity;
 import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
+import com.kokaihop.utility.ValidationUtils;
 
 
 public class SignUpViewModel extends BaseViewModel {
@@ -110,7 +111,7 @@ public class SignUpViewModel extends BaseViewModel {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
-                AppUtility.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
             }
 
@@ -134,7 +135,7 @@ public class SignUpViewModel extends BaseViewModel {
             Toast.makeText(context, R.string.name_required, Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (userName.isEmpty() || !AppUtility.isValidEmail(userName)) {
+        if (userName.isEmpty() || !ValidationUtils.isValidEmail(userName)) {
             Toast.makeText(context, R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return true;
         }
@@ -168,7 +169,7 @@ public class SignUpViewModel extends BaseViewModel {
                 new AuthenticationApiHelper(context).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
-                        AppUtility.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                        SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                         setProgressVisible(false);
                         Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
                     }

@@ -105,4 +105,9 @@ public class BundleViewModel extends BaseViewModel {
 //        realm.insert(recipeResponse.getRecipeList());
         mRealm.commitTransaction();
     }
+
+    @Override
+    protected void destroy() {
+
+    }
 }
