@@ -27,7 +27,7 @@ public class UserProfileFragment extends Fragment {
     FragmentUserProfileSignUpBinding userProfileSignUpBinding;
     private String[] tabTitles = {"Recipes", "Followers", "Following"};
     private ViewPager viewPager;
-    private boolean signedUp = false;
+    private boolean signedUp = true;
     private LayoutInflater inflater;
     private ViewGroup container;
 
@@ -70,7 +70,6 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getContext(), SignUpActivity.class));
-                getActivity().finish();
 //                TODO:to be Checked
             }
         });

@@ -25,8 +25,7 @@
             app:tabGravity="fill"
             app:tabSelectedTextColor="@color/white"
             app:tabTextAppearance="@style/TabLayoutText"
-            app:tabTextColor="@color/white"
-        />
+            app:tabTextColor="@color/white"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
