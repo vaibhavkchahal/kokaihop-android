@@ -1,6 +1,5 @@
 package com.kokaihop.utility;
 
-import android.content.SharedPreferences;
 import android.util.Patterns;
 
 import java.util.regex.Pattern;
@@ -11,12 +10,8 @@ import java.util.regex.Pattern;
 
 public class ValidationUtils {
 
-    private static SharedPreferences prefs;
-
     public static boolean isValidEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
-
-
 }
