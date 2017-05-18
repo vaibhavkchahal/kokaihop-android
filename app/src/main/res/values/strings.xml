@@ -56,7 +56,7 @@
         search history, and change your settings
     </string>
     <string name="sign_up_now">Sign Up Now</string>
-    <string name="user_settings">User Settings</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="save">Save</string>
     <string name="push_notifications">Push Notifications</string>
     <string name="daily_email_preferences">Daily Email Preferences</string>

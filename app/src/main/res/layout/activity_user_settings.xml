@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        tools:context="com.kokaihop.home.userprofile.UserSettingsActivity">
     <data></data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.kokaihop.home.userprofile.UserSettingsActivity">
+        android:layout_height="match_parent">
         <android.support.v7.widget.Toolbar
             android:id="@+id/settings_toolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/toolbar_height"
             android:background="@color/kokaihop_orange_color"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -23,9 +23,9 @@
                     android:id="@+id/settings_iv_back"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
+                    android:paddingBottom="@dimen/settings_iv_back_margin_bottom"
+                    android:paddingRight="@dimen/settings_iv_back_margin_right"
+                    android:paddingTop="@dimen/settings_iv_back_margin_top"
                     android:src="@drawable/ic_back_arrow_white_md"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -34,16 +34,13 @@
                     android:id="@+id/settings_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/user_settings"
+                    android:layout_marginBottom="@dimen/settings_title_margin_bottom"
+                    android:layout_marginTop="@dimen/settings_title_margin_top"
+                    android:text="@string/edit_profile"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_large"
                     app:font="@{`SS-ProRegular`}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_bias="0.502"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -51,7 +48,9 @@
                     android:id="@+id/settings_save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/settings_save_margin_bottom"
                     android:layout_marginRight="@dimen/settings_save_margin_right"
+                    android:layout_marginTop="@dimen/settings_save_margin_top"
                     android:text="@string/save"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_small"
@@ -64,10 +63,9 @@
         <TextView
             android:id="@+id/settings_email"
             android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="52dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="0dp"
+            android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
+            android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/daily_email_preferences"
             android:textColor="@color/user_settings_list_color"
             android:textSize="@dimen/text_size_medium"
@@ -84,10 +82,9 @@
         <TextView
             android:id="@+id/settings_notification"
             android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="52dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="0dp"
+            android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
+            android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/push_notifications"
             android:textColor="@color/user_settings_list_color"
             android:textSize="@dimen/text_size_medium"
@@ -104,10 +101,9 @@
         <TextView
             android:id="@+id/settings_change_password"
             android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="52dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="0dp"
+            android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
+            android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/change_password"
             android:textColor="@color/user_settings_list_color"
             android:textSize="@dimen/text_size_medium"
@@ -121,28 +117,24 @@
               android:background="@color/user_settings_divider_color"
               app:layout_constraintTop_toBottomOf="@+id/settings_change_password"/>
 
-        <Button
+        <TextView
             android:id="@+id/settings_logout"
             android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="52dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="0dp"
+            android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
+            android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/log_out"
-            android:textAllCaps="false"
-            android:shadowColor="@color/white"
-            android:background="@color/white"
             android:textColor="@color/user_settings_list_color"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_change_password"/>
 
-        <View android:id="@+id/settings_divider_logout"
-              android:layout_width="0dp"
-              android:layout_height="@dimen/user_settings_divider_height"
-              android:background="@color/user_settings_divider_color"
-              app:layout_constraintTop_toBottomOf="@+id/settings_logout"/>
+        <!--<View android:id="@+id/settings_divider_logout"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="@dimen/user_settings_divider_height"-->
+        <!--android:background="@color/user_settings_divider_color"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/settings_logout"/>-->
 
     </android.support.constraint.ConstraintLayout>
 
