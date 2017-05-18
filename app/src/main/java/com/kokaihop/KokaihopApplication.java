@@ -48,6 +48,7 @@ public class KokaihopApplication extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(SCHEMA_VERSION)
                 .name(DATABASE_NAME)
+                .deleteRealmIfMigrationNeeded()
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);
