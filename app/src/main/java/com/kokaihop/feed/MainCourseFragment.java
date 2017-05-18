@@ -48,12 +48,10 @@ public class MainCourseFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-
         RecyclerView rvFeed = mainCourseBinding.rvFeed;
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         rvFeed.setLayoutManager(layoutManager);
         rvFeed.setAdapter(new FeedRecyclerAdapter(mainCourseViewModel.getRecipeList()));
-
         ////////////////////////
         EndlessScrollListener scrollListener = new EndlessScrollListener(layoutManager) {
 

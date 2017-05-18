@@ -35,7 +35,11 @@
     <color name="recipe_title_color">#FF71767F</color>
     <color name="previous_recipe_title_color">#FF262F40</color>
     <color name="cook_something_text_color">#FF8D929C</color>
-    <color name="recipe_bottom_separator_color">#FFD4D4D4</color>
+    <color name="recipe_bottom_separator_color">#66D4D4D4</color>
+    <color name="textview_recipe_likes_color">#99262F40</color>
+    <color name="grey_CC999999">#CC999999</color>
+    <color name="grey_FF999999">#FF999999</color>
+    <color name="black_1A000000">#1A000000</color>
 
 
 
