@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
 import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.SpacingItemDecoration;
 
 import static android.databinding.DataBindingUtil.inflate;
 
@@ -49,7 +50,29 @@ public class MainCourseFragment extends Fragment {
 
     private void initializeRecycleView() {
         RecyclerView rvFeed = mainCourseBinding.rvFeed;
+
+        int spacingInPixels = getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+
+        rvFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels,spacingInPixels,spacingInPixels,spacingInPixels));
+
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+
+        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeList());
+
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch(recyclerAdapter.getItemViewType(position)){
+                    case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
+                        return 2;
+                    case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
+                        return 1;
+                    default:
+                        return -1;
+                }
+            }
+        });
+
         rvFeed.setLayoutManager(layoutManager);
         rvFeed.setAdapter(new FeedRecyclerAdapter(mainCourseViewModel.getRecipeList()));
         ////////////////////////
