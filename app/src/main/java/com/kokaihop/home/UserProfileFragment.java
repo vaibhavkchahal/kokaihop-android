@@ -15,8 +15,8 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
-import com.altaworks.kokaihop.ui.databinding.ProfileTabBinding;
-import com.altaworks.kokaihop.ui.databinding.TablayoutTabBinding;
+import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
+import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.home.userprofile.ProfileAdapter;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
@@ -27,7 +27,7 @@ public class UserProfileFragment extends Fragment {
     FragmentUserProfileSignUpBinding userProfileSignUpBinding;
     private String[] tabTitles = {"Recipes", "Followers", "Following"};
     private ViewPager viewPager;
-    private boolean signedUp = true;
+    private boolean signedUp = false;
     private LayoutInflater inflater;
     private ViewGroup container;
 
@@ -93,13 +93,13 @@ public class UserProfileFragment extends Fragment {
 
 
         for (int i = 0; i < 3; i++) {
-            ProfileTabBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.profile_tab, null, false);
+            TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText("457");
             tabBinding.text2.setText(tabTitles[i]);
         }
-        TablayoutTabBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tablayout_tab, null, false);
+        TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
         View tabView = tabBinding.getRoot();
         tabLayout.getTabAt(3).setCustomView(tabView);
         tabBinding.text1.setText("History");

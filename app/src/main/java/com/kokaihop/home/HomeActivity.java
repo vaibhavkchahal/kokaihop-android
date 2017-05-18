@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
-import com.altaworks.kokaihop.ui.databinding.HomeTablayoutTabBinding;
+import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.kokaihop.base.BaseActivity;
 
 public class HomeActivity extends BaseActivity {
@@ -210,7 +209,7 @@ public class HomeActivity extends BaseActivity {
 
     public void setTabTextIcons() {
         for (int i = 0; i < tabCount; i++) {
-            HomeTablayoutTabBinding tabBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.home_tablayout_tab, tabLayout, false);
+            TabHomeTabLayoutBinding tabBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.tab_home_tab_layout, tabLayout, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText(tabsText[i]);

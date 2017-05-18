@@ -88,6 +88,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:paddingBottom="14dp"
                         app:layout_collapseMode="parallax"
                         app:tabGravity="fill"
                         app:tabIndicatorHeight="@dimen/none"

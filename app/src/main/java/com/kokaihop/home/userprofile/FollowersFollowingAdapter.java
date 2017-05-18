@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.ProfileFollowerFollowingRowBinding;
+import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ProfileFollowerFollowingRowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.profile_follower_following_row,parent,false);
+        RowProfileFollowerFollowingBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.row_profile_follower_following,parent,false);
         return new ViewHolder(binding);
     }
 
@@ -41,9 +41,9 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        ProfileFollowerFollowingRowBinding binding;
+        RowProfileFollowerFollowingBinding binding;
 
-        public ViewHolder(ProfileFollowerFollowingRowBinding binding) {
+        public ViewHolder(RowProfileFollowerFollowingBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             binding.userName.setOnClickListener(this);
