@@ -13,7 +13,7 @@ import io.realm.annotations.PrimaryKey;
 public class Recipe extends RealmObject {
 
     @PrimaryKey
-    @SerializedName(value="_id", alternate={"id"})
+    @SerializedName(value = "_id", alternate = {"id"})
     private String _id;
     @SerializedName("dateCreated")
     private long dateCreated;
@@ -43,6 +43,27 @@ public class Recipe extends RealmObject {
     private boolean isMine;
     private String cookingSteps;
     private boolean isFavorite;
+    @SerializedName("mainImage")
+    private MainImage mainImage;
+    @SerializedName("rating")
+    private Rating rating;
+
+    public MainImage getMainImage() {
+        return mainImage;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
+    }
+
+    public void setMainImage(MainImage mainImage) {
+        this.mainImage = mainImage;
+    }
+
 
     public String getStatus() {
         return status;
@@ -131,8 +152,6 @@ public class Recipe extends RealmObject {
     public void setMine(boolean mine) {
         isMine = mine;
     }
-
-
 
 
     public String getTitle() {
