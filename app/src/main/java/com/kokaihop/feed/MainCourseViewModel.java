@@ -28,6 +28,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
 
     private List<Recipe> recipeList = new ArrayList<>();
 
+
     public int getRecipeCount() {
         return recipeCount;
     }
@@ -61,9 +62,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         this.context = context;
         dataManager = new RecipeDataManager(this);
         fetchRecipeFromDb();
-
         if (recipeList != null) {
-
         }
         getRecipes(offset);
     }
@@ -73,11 +72,13 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         setProgressVisible(true);
 //        String authorizationToken = AUTHORIZATION_BEARER+AppUtility.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
-        new FeedApiHelper().getRecepies(authorizationToken, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max, new IApiRequestComplete<RecipeResponse>() {
+
+        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max);
+
+        new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
                 setRecipeCount(response.getCount());
-
                 dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb();
                 setProgressVisible(false);
@@ -99,6 +100,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     public void fetchRecipeFromDb() {
         recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
 
+
     }
 
     @Override
@@ -110,6 +112,5 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
 
     @Override
     protected void destroy() {
-
     }
 }

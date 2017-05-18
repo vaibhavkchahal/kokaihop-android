@@ -67,6 +67,8 @@ public class MainCourseFragment extends Fragment {
                         return 2;
                     case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
                         return 1;
+                    case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
+                        return 2;
                     default:
                         return -1;
                 }

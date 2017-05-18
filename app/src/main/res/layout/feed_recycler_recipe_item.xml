@@ -64,6 +64,7 @@
             android:layout_marginTop="@dimen/rating_bar_margin_top"
             android:isIndicator="true"
             android:numStars="5"
+            android:rating="@{Float.parseFloat(String.valueOf(recipe.rating.average))}"
             android:progressDrawable="@drawable/recipe_rating_bar"
             android:stepSize="0.01"/>
 
@@ -75,7 +76,7 @@
             android:layout_below="@+id/rating_bar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/tv_recipe_date_margin_top"
-            android:text="@{DateTimeUtils.getDate(recipe.dateCreated,String.valueOf(`dd mm yyyy`))}"
+            android:text="@{DateTimeUtils.getDate(recipe.dateCreated,String.valueOf(`MMM dd, yyyy`))}"
             android:textColor="@color/cook_something_text_color"
             android:textSize="@dimen/textsize_tv_recipe_date"
             app:font="@{`SS-ProRegular`}"

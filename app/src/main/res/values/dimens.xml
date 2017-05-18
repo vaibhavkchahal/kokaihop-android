@@ -133,7 +133,6 @@
 
     <dimen name="card_width_recipe_of_day">330dp</dimen>
     <dimen name="card_height_recipe_of_day">190dp</dimen>
-    <dimen name="card_margin_left">23dp</dimen>
     <dimen name="card_left_right_margin">15dp</dimen>
     <dimen name="card_margin_top">14dp</dimen>
     <dimen name="img_height_recipe_of_day">130dp</dimen>

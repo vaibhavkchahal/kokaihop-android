@@ -67,7 +67,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //                itemRowHolder.binder.setRecipe(recipe);
 //                itemRowHolder.binder.executePendingBindings();
                 break;
-
             default:
                 break;
 
@@ -76,8 +75,30 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+
+        Object object = recipeList.get(position);
+
         if (isPositionHeader(position))
             return TYPE_ITEM_DAY_RECIPE;
+
+//        if (object instanceof FamilyNoInfo) {
+//            return FAMILY_NO_ITEM;
+//        } else if (object instanceof HeadOfFamilyInfo) {
+//            return HOF_ITEM;
+//        } else if (object instanceof CoupleInfo) {
+//            return COUPLE_ITEM;
+//        } else if (object instanceof HeadOfFamily) {
+//            return MEMBER_ITEM;
+//        } else if (object instanceof AddMoreMember) {
+//            return ADD_MORE_ITEM;
+//        }
+//        return 1;
+
+        if (isPositionHeader(position))
+            return TYPE_ITEM_DAY_RECIPE;
+        else if (position == 3 || (position+3)%3==0){
+            return TYPE_ITEM_ADVT;
+        }
         return TYPE_ITEM_RECIPE;
     }
 
