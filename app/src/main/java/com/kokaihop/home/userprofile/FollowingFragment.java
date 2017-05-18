@@ -50,7 +50,7 @@ public class FollowingFragment extends Fragment {
         userList.add(new User(true, "DD", "url"));
         userList.add(new User(false, "EE", "url"));
         userList.add(new User(false, "FF", "url"));
-        userList.add(new User(true, "GG", "url"));
+        userList.add(new User(true, "gg", "url"));
         userList.add(new User(true, "HH", "url"));
         userList.add(new User(true, "II", "url"));
         userList.add(new User(true, "JJ", "url"));

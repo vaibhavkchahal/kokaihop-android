@@ -48,7 +48,7 @@ public class FollowersFragment extends Fragment {
         userList.add(new User(true,"D","url"));
         userList.add(new User(false,"E","url"));
         userList.add(new User(false,"F","url"));
-        userList.add(new User(true,"G","url"));
+        userList.add(new User(true,"g","url"));
         userList.add(new User(true,"H","url"));
         userList.add(new User(true,"I","url"));
         setupUsersList();

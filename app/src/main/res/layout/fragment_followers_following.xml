@@ -11,6 +11,7 @@
             android:id="@+id/followers_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/user_followers_list_margin_top">
 
         </android.support.v7.widget.RecyclerView>

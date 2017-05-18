@@ -28,4 +28,9 @@
     <color name="profile_tab_text_color">#FFD4D4D4</color>
     <color name="users_list_name_color">#FF8D929C</color>
 
+
+    <color name="user_settings_list_color">#FF71767F</color>
+    <color name="user_settings_divider_color">#FFD4D4D4</color>
+
+
 </resources>

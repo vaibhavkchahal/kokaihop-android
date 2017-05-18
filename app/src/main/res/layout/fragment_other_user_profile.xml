@@ -33,13 +33,12 @@
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/profile_ctl_height"
+                    android:layout_height="@dimen/profile_other_ctl_height"
                     android:fitsSystemWindows="true"
                     app:collapsedTitleGravity="center_horizontal|top"
                     app:contentScrim="?attr/colorPrimary"
                     app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                >
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
 
                     <RelativeLayout
@@ -69,6 +68,16 @@
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:font="@{`SS-ProSemiBold`}"/>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_below="@id/user_name"
+                            android:layout_centerHorizontal="true"
+                            android:textAllCaps="false"
+                            android:text="+ Follow g"
+                            app:font="@{`SS-ProSemiBold`}"
+                            android:background="@drawable/button_follow_round_corner"/>
 
                     </RelativeLayout>
 
@@ -96,12 +105,12 @@
                         android:id="@+id/btn_settings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:paddingRight="@dimen/profile_settings_padding_right"
-                        android:paddingLeft="@dimen/profile_settings_padding_left"
-                        android:paddingBottom="@dimen/profile_settings_padding_bottom"
-                        android:layout_marginTop="@dimen/profile_settings_padding_top"
-                        android:src="@drawable/ic_settings"/>
+                        android:layout_gravity="left"
+                        android:paddingLeft="@dimen/profile_back_padding_left"
+                        android:paddingRight="@dimen/profile_back_padding_right"
+                        android:paddingBottom="@dimen/profile_back_padding_bottom"
+                        android:paddingTop="@dimen/profile_back_padding_top"
+                        android:src="@drawable/ic_back_arrow_white_md"/>
                 </android.support.design.widget.CollapsingToolbarLayout>
 
             </android.support.design.widget.AppBarLayout>

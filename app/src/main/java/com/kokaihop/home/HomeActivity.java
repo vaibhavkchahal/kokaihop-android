@@ -15,7 +15,6 @@ import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.HomeTablayoutTabBinding;
 import com.kokaihop.base.BaseActivity;
 
-
 public class HomeActivity extends BaseActivity {
 
     private ListView mListView;
@@ -184,7 +183,6 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.e("Logan", tabLayout.getTabAt(1).getCustomView() + "");
                 ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
                         .getCustomView()
                         .findViewById(R.id.text1))
@@ -219,5 +217,4 @@ public class HomeActivity extends BaseActivity {
             tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[i], 0, 0);
         }
     }
-
 }

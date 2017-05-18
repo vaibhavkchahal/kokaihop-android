@@ -1,5 +1,6 @@
 package com.kokaihop.home;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,15 +14,22 @@ import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.ProfileTabBinding;
 import com.altaworks.kokaihop.ui.databinding.TablayoutTabBinding;
+import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.home.userprofile.ProfileAdapter;
+import com.kokaihop.home.userprofile.UserSettingsActivity;
 
 public class UserProfileFragment extends Fragment {
-    static UserProfileFragment fragment;
-    FragmentUserProfileBinding userProfileBinding;
-    String[] tabTitles = {"Recipes", "Followers", "Following"};
-    ViewPager viewPager;
+    private static UserProfileFragment fragment;
+    private FragmentUserProfileBinding userProfileBinding;
+    FragmentUserProfileSignUpBinding userProfileSignUpBinding;
+    private String[] tabTitles = {"Recipes", "Followers", "Following"};
+    private ViewPager viewPager;
+    private boolean signedUp = true;
+    private LayoutInflater inflater;
+    private ViewGroup container;
 
     public UserProfileFragment() {
 
@@ -45,6 +53,31 @@ public class UserProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.inflater = inflater;
+        this.container = container;
+        if (signedUp) {
+            showUserProfile();
+            return userProfileBinding.getRoot();
+        } else {
+            showSignUpScreen();
+            return userProfileSignUpBinding.getRoot();
+        }
+    }
+
+    public void showSignUpScreen() {
+        userProfileSignUpBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile_sign_up, container, false);
+        userProfileSignUpBinding.signUpNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), SignUpActivity.class));
+                getActivity().finish();
+//                TODO:to be Checked
+            }
+        });
+    }
+
+
+    public void showUserProfile() {
         userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
         final TabLayout tabLayout = userProfileBinding.tabProfile;
         viewPager = userProfileBinding.viewpagerProfile;
@@ -97,8 +130,13 @@ public class UserProfileFragment extends Fragment {
                 }
             }
         });
+        userProfileBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), UserSettingsActivity.class));
+            }
+        });
+
         tabLayout.getTabAt(0).select();
-        View view = userProfileBinding.getRoot();
-        return view;
     }
 }
