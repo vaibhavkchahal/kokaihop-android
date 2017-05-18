@@ -19,7 +19,7 @@ public class HomeAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 return UserFeedFragment.getInstance();
             case 1:
@@ -28,7 +28,7 @@ public class HomeAdapter extends FragmentPagerAdapter {
                 return ListFragment.getInstance();
             case 3:
                 return CommentsFragment.getInstance();
-            case 4  :
+            case 4:
                 return UserProfileFragment.getInstance();
         }
         return null;
