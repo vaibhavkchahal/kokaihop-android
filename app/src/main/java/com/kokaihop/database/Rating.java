@@ -11,23 +11,23 @@ import io.realm.RealmObject;
 public class Rating extends RealmObject {
 
     @SerializedName("average")
-    private double average;
+    private float average;
     @SerializedName("raters")
-    private long raters;
+    private int raters;
 
-    public double getAverage() {
+    public float getAverage() {
         return average;
     }
 
-    public void setAverage(double average) {
+    public void setAverage(float average) {
         this.average = average;
     }
 
-    public long getRaters() {
+    public int getRaters() {
         return raters;
     }
 
-    public void setRaters(long raters) {
+    public void setRaters(int raters) {
         this.raters = raters;
     }
 }

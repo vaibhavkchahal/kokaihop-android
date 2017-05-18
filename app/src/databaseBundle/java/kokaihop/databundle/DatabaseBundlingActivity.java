@@ -8,24 +8,11 @@ import android.widget.ListView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityDatabaseBundlingBinding;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.recipe.SearchResponse;
-import com.kokaihop.utility.RealmHelper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import io.realm.RealmResults;
+import io.realm.Realm;
 
 import static com.kokaihop.utility.RealmHelper.realm;
 
@@ -71,49 +58,15 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
     @Override
     protected void onDestroy() {
 
-        if (RealmHelper.getRealmInstance() != null) {
-            RealmHelper.getRealmInstance().close();// Remember to close Realm when done.
+        if (Realm.getDefaultInstance() != null) {
+            Realm.getDefaultInstance().close();// Remember to close Realm when done.
         }
         super.onDestroy();
     }
 
-    private List<Recipe> loadCities() {
-        // In this case we're loading from local assets.
-        // NOTE: could alternatively easily load from network
-        InputStream stream;
-        try {
-            stream = getAssets().open("cities.json");
-        } catch (IOException e) {
-            return null;
-        }
 
-        Gson gson = new GsonBuilder().create();
 
-        JsonElement json = new JsonParser().parse(new InputStreamReader(stream));
-        SearchResponse searchResponse = gson.fromJson(json, new TypeToken<SearchResponse>() {
-        }.getType());
 
-        // Open a transaction to store items into the realm
-        // Use copyToRealm() to convert the objects into proper RealmObjects managed by Realm.
-        realm.beginTransaction();
-//        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
-        realm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
-//        realm.insert(recipeResponse.getRecipeList());
-        realm.commitTransaction();
-
-        Collection<Recipe> realmCities = realm.where(Recipe.class).findAll();
-
-        return new ArrayList<Recipe>(realmCities);
-    }
-
-    public void updateCities() {
-        // Pull all the cities from the realm
-        RealmResults<Recipe> cities = realm.where(Recipe.class).findAll();
-        // Put these items in the Adapter
-        mAdapter.setData(cities);
-        mAdapter.notifyDataSetChanged();
-        listView.invalidate();
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

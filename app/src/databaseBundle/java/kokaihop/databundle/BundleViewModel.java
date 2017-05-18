@@ -28,7 +28,8 @@ public class BundleViewModel extends BaseViewModel {
     public BundleViewModel() {
         mRecipeApiHelper = new RecipeApiHelper();
         mRecipeRequestParams = getmRecipeRequestParams();
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(DATABASE_NAME).
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(DATABASE_NAME)
+                .deleteRealmIfMigrationNeeded().
                 schemaVersion(DBConstants.SCHEMA_VERSION).build();
         Realm.setDefaultConfiguration(realmConfiguration);
         // Clear the realm from last time
