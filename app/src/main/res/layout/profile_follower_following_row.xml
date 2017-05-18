@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="user" type="com.kokaihop.home.userprofile.User"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/user_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/user_profile_recycler_padding_vertical"
+        android:paddingLeft="@dimen/user_profile_recycler_padding_horizontal"
+        android:paddingRight="@dimen/user_profile_recycler_padding_horizontal"
+        android:paddingTop="@dimen/user_profile_recycler_padding_vertical">
+
+        <ImageView
+            android:id="@+id/user_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_avtar_lg"/>
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="@dimen/none"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/user_pic_name_margin"
+            android:text="@{user.name}"
+            app:font="@{`SS-ProRegular`}"
+            android:textColor="@color/users_list_name_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/user_pic"
+            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintTop_toTopOf="parent"/>
+        <CheckBox
+            android:id="@+id/user_following"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/checkbox_follow_selector"
+            android:checked="@={user.following}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>

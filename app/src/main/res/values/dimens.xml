@@ -83,6 +83,49 @@
     <dimen name="selectcity_sv_margin_left">16dp</dimen>
     <dimen name="selectcity_sv_margin_right">15dp</dimen>
     <dimen name="selectcity_sv_margin_top">17dp</dimen>
+    <dimen name="home_header_horizontal_margin">15dp</dimen>
+    <dimen name="home_header_margin_bottom">12dp</dimen>
+    <dimen name="home_header_ic_sv_margin">21dp</dimen>
+    <dimen name="home_header_margin_top">36dp</dimen>
+    <dimen name="home_sv_padding_left">9dp</dimen>
+    <dimen name="home_sv_padding_vertical">8dp</dimen>
+    <dimen name="profile_tab_text_large">20sp</dimen>
+    <dimen name="profile_tab_text_small">12sp</dimen>
+    <dimen name="constraint_match_parent">0dp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="home_tab_padding">3dp</dimen>
+    <dimen name="home_tab_text_size">8sp</dimen>
+    <dimen name="home_tab_margin_bottom">7.6dp</dimen>
+    <dimen name="home_tab_padding_top">6dp</dimen>
+    <dimen name="user_profile_recycler_padding_horizontal">20dp</dimen>
+    <dimen name="user_profile_recycler_padding_vertical">10dp</dimen>
+    <dimen name="user_pic_name_margin">10dp</dimen>
+    <dimen name="user_followers_list_margin_top">10dp</dimen>
+    <dimen name="none">0dp</dimen>
+
+    <dimen name="profile_settings_padding_top">35dp</dimen>
+    <dimen name="profile_settings_padding_left">20dp</dimen>
+    <dimen name="profile_settings_padding_right">20dp</dimen>
+    <dimen name="profile_settings_padding_bottom">20dp</dimen>
+
+    <dimen name="user_profile_pic_size">60dp</dimen>
+    <dimen name="user_main_profile_pic_margin_top">30dp</dimen>
+    <dimen name="profile_ctl_height">195dp</dimen>
+    <dimen name="profile_other_ctl_height">224dp</dimen>
+    <dimen name="user_profile_toolbar_margin_top">20dp</dimen>
+    <dimen name="profile_toolbar_padding_right">20dp</dimen>
+
+    <dimen name="profile_signup_iv_margin_bottom">20dp</dimen>
+    <dimen name="profile_signup_text_large">20sp</dimen>
+    <dimen name="profile_signup_text_medium">19sp</dimen>
+    <dimen name="profile_signup_button_margin_top">35dp</dimen>
+    <dimen name="user_settings_divider_height">0.5dp</dimen>
+    <dimen name="settings_save_margin_right">18dp</dimen>
+
+    <dimen name="profile_back_padding_top">42.9dp</dimen>
+    <dimen name="profile_back_padding_left">20dp</dimen>
+    <dimen name="profile_back_padding_bottom">20dp</dimen>
+    <dimen name="profile_back_padding_right">20dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
 
