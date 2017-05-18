@@ -21,11 +21,7 @@ public class UserFeedFragment extends Fragment {
     ViewGroup container;
     LayoutInflater inflater;
     private ViewPager viewPager;
-    private String[] tabTitles = {"MAIN COURSE OF THE DAY",
-            "APPETIZER OF THE DAY",
-            "COOKIE OF THE DAY",
-            "DESSERT OF THE DAY",
-            "VEGETARIAN OF THE DAY"};
+
 
     public UserFeedFragment() {
 
@@ -58,6 +54,11 @@ public class UserFeedFragment extends Fragment {
         userFeedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_feed, container, false);
         final TabLayout tabLayout = userFeedBinding.tablayoutRecipe;
         viewPager = userFeedBinding.pager;
+        String[] tabTitles = {getActivity().getString(R.string.tab_main_course_of_the_day),
+                getActivity().getString(R.string.tab_appetizer_of_the_day),
+                getActivity().getString(R.string.tab_cookie_of_the_day),
+                getActivity().getString(R.string.tab_dessert_of_the_day),
+                getActivity().getString(R.string.tab_vegetarian_of_the_day),};
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
