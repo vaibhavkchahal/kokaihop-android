@@ -1,14 +1,15 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+>
 
-    <data></data>
+    <data>
+        <variable name="user" type="com.kokaihop.home.userprofile.User"/>
+    </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.kokaihop.home.UserProfileFragment">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"
@@ -64,20 +65,25 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/user_avatar"
                             android:gravity="center_horizontal"
-                            android:text="User Name"
+                            android:text="@{user.name}"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:font="@{`SS-ProSemiBold`}"/>
                         <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_marginTop="10dp"
+                            android:id="@+id/btn_follow"
+                            android:layout_width="@dimen/profile_o_follow_button_width"
+                            android:layout_height="@dimen/profile_o_follow_button_height"
                             android:layout_below="@id/user_name"
                             android:layout_centerHorizontal="true"
-                            android:textAllCaps="false"
-                            android:text="+ Follow g"
-                            app:font="@{`SS-ProSemiBold`}"
-                            android:background="@drawable/button_follow_round_corner"/>
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/button_follow_round_corner"
+                            android:drawableLeft="@{user.following ? @drawable/ic_following_white_xs : @drawable/ic_follow_white_xs}"
+                            android:drawablePadding="@dimen/profile_o_follow_padding_drawable"
+                            android:paddingLeft="@dimen/profile_o_follow_padding_left"
+                            android:paddingRight="@dimen/profile_o_follow_padding_right"
+                            android:textSize="@dimen/profile_o_follow_text_size"
+                            android:text="@{user.following ? @string/following : @string/follow}"
+                            app:font="@{`SS-ProSemiBold`}"/>
 
                     </RelativeLayout>
 
@@ -106,9 +112,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
+                        android:paddingBottom="@dimen/profile_back_padding_bottom"
                         android:paddingLeft="@dimen/profile_back_padding_left"
                         android:paddingRight="@dimen/profile_back_padding_right"
-                        android:paddingBottom="@dimen/profile_back_padding_bottom"
                         android:paddingTop="@dimen/profile_back_padding_top"
                         android:src="@drawable/ic_back_arrow_white_md"/>
                 </android.support.design.widget.CollapsingToolbarLayout>

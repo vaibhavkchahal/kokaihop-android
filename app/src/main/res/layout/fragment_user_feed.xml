@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/kokaihop_orange_color"
+            android:background="@color/colorPrimary"
             android:paddingBottom="@dimen/home_header_margin_bottom"
             android:paddingLeft="@dimen/home_header_horizontal_margin"
             android:paddingRight="@dimen/home_header_horizontal_margin"
