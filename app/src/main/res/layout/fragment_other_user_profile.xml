@@ -4,7 +4,7 @@
 >
 
     <data>
-        <variable name="user" type="com.kokaihop.home.userprofile.User"/>
+        <variable name="user" type="com.kokaihop.home.userprofile.UserApiResponse"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

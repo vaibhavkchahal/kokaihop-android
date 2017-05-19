@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
+import com.kokaihop.home.userprofile.model.UserApiResponse;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class FollowersFragment extends Fragment {
     static FollowersFragment fragment;
     FragmentFollowersFollowingBinding followersBinding;
     FollowersFollowingAdapter followersAdapter;
-    ArrayList<User> userList;
+    ArrayList<UserApiResponse> userApiResponseList;
     public FollowersFragment() {
         // Required empty public constructor
     }
@@ -41,16 +42,16 @@ public class FollowersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         followersBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_followers_following,container,false);
-        userList = new ArrayList<>();
-        userList.add(new User(true,"A","url"));
-        userList.add(new User(true,"B","url"));
-        userList.add(new User(false,"C","url"));
-        userList.add(new User(true,"D","url"));
-        userList.add(new User(false,"E","url"));
-        userList.add(new User(false,"F","url"));
-        userList.add(new User(true,"g","url"));
-        userList.add(new User(true,"H","url"));
-        userList.add(new User(true,"I","url"));
+        userApiResponseList = new ArrayList<>();
+        userApiResponseList.add(new UserApiResponse(true,"A","url"));
+        userApiResponseList.add(new UserApiResponse(true,"B","url"));
+        userApiResponseList.add(new UserApiResponse(false,"C","url"));
+        userApiResponseList.add(new UserApiResponse(true,"D","url"));
+        userApiResponseList.add(new UserApiResponse(false,"E","url"));
+        userApiResponseList.add(new UserApiResponse(false,"F","url"));
+        userApiResponseList.add(new UserApiResponse(true,"g","url"));
+        userApiResponseList.add(new UserApiResponse(true,"H","url"));
+        userApiResponseList.add(new UserApiResponse(true,"I","url"));
         setupUsersList();
         return followersBinding.getRoot();
     }
@@ -58,7 +59,7 @@ public class FollowersFragment extends Fragment {
     public void setupUsersList(){
         RecyclerView recyclerView = followersBinding.followersList;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        followersAdapter = new FollowersFollowingAdapter(userList);
+        followersAdapter = new FollowersFollowingAdapter(userApiResponseList);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);
     }
