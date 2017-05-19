@@ -190,4 +190,5 @@
     <dimen name="feed_tab_padding_left">15dp</dimen>
     <dimen name="feed_tab_padding_right">15dp</dimen>
     <dimen name="recycler_item_space">5dp</dimen>
+    <dimen name="card_left_right_padding">15dp</dimen>
 </resources>

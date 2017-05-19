@@ -1,6 +1,7 @@
 package com.kokaihop.utility;
 
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,15 +32,15 @@ public class BindingUtils {
     }
 
     @BindingAdapter("bind:items")
-    public static void bindList(RecyclerView view, List<Recipe> list) {
+    public static void bindList(RecyclerView view, List<Object> list) {
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
         view.setLayoutManager(layoutManager);
         view.setAdapter(new FeedRecyclerAdapter(list));
     }
 
-    @BindingAdapter({"app:imageUrl"})
-    public static void loadImage(ImageView view, String url) {
-        Logger.d("url", url);
-        Glide.with(view.getContext()).load(url).into(view);
+    @BindingAdapter({"app:imageUrl", "app:error"})
+    public static void loadImage(ImageView view, String url, Drawable error) {
+        Glide.with(view.getContext()).load(url).error(error).into(view);
+        Logger.i("url cloudnary-->",url);
     }
 }

@@ -21,7 +21,7 @@
             android:layout_height="@dimen/recipe_img_height"
             android:scaleType="fitXY"
             android:layout_centerHorizontal="true"
-            bind:imageUrl="@{CloudinaryDetail.url+CloudinaryDetail.cloudName+CloudinaryDetail.folder+recipe.mainImage.publicId+CloudinaryDetail.format}"
+            android:src="@drawable/img_intro"
             />
 
         <TextView
