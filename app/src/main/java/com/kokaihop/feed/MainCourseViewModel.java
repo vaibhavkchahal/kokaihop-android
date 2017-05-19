@@ -118,7 +118,6 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
                 recipeListWithAdds.add(position, advtDetail);
             }
         }
-
     }
 
     @Override

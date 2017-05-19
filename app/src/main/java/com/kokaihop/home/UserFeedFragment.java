@@ -4,7 +4,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,12 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserFeedBinding;
 import com.altaworks.kokaihop.ui.databinding.TabFeedTabLayoutBinding;
+import com.kokaihop.feed.AppetizerFragment;
+import com.kokaihop.feed.CookieFragment;
+import com.kokaihop.feed.DessertFragment;
+import com.kokaihop.feed.MainCourseFragment;
 import com.kokaihop.feed.RecipeTabAdapter;
+import com.kokaihop.feed.VegetarianFragment;
 
 public class UserFeedFragment extends Fragment {
     static UserFeedFragment fragment;
@@ -65,7 +69,18 @@ public class UserFeedFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
 
-        final PagerAdapter adapter = new RecipeTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+        final RecipeTabAdapter adapter = new RecipeTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+
+        MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
+        adapter.addFrag(mainCourseFragment,tabTitles[0]);
+        AppetizerFragment appetizerFragment = new AppetizerFragment();
+        adapter.addFrag(appetizerFragment,tabTitles[1]);
+        CookieFragment cookieFragment = new CookieFragment();
+        adapter.addFrag(cookieFragment,tabTitles[2]);
+        DessertFragment dessertFragment = new DessertFragment();
+        adapter.addFrag(dessertFragment,tabTitles[3]);
+        VegetarianFragment vegetarianFragment = new VegetarianFragment();
+        adapter.addFrag(vegetarianFragment,tabTitles[4]);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
         tabLayout.setupWithViewPager(viewPager);
@@ -76,24 +91,6 @@ public class UserFeedFragment extends Fragment {
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText(tabTitles[i]);
         }
-
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(Color.parseColor("#FF8E8E93"));
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(Color.parseColor("#FFD4D4D4"));
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(Color.parseColor("#FFF75A15"));
-//            }
-//        });
 
         tabLayout.getTabAt(0).select();
     }
