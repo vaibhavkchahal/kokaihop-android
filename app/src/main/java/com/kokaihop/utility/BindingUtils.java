@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kokaihop.Logger;
-import com.kokaihop.database.Recipe;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class BindingUtils {
     }
 
     @BindingAdapter("bind:items")
-    public static void bindList(RecyclerView view, List<Recipe> list) {
+    public static void bindList(RecyclerView view, List<Object> list) {
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
         view.setLayoutManager(layoutManager);
         view.setAdapter(new FeedRecyclerAdapter(list));
@@ -40,7 +39,10 @@ public class BindingUtils {
 
     @BindingAdapter({"app:imageUrl", "app:error"})
     public static void loadImage(ImageView view, String url, Drawable error) {
-        Glide.with(view.getContext()).load(url).error(error).into(view);
+
+
+        String imageUrl=CloudinaryDetail.url+CloudinaryDetail.cloudName+CloudinaryDetail.folder+url+CloudinaryDetail.format;
+        Glide.with(view.getContext()).load(imageUrl).error(error).into(view);
         Logger.i("url cloudnary-->",url);
     }
 }

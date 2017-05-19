@@ -50,19 +50,14 @@ public class MainCourseFragment extends Fragment {
 
     private void initializeRecycleView() {
         RecyclerView rvFeed = mainCourseBinding.rvFeed;
-
         int spacingInPixels = getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-
-        rvFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels,spacingInPixels,spacingInPixels,spacingInPixels));
-
+        rvFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
-
-        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeList());
-
+        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeListWithAdds());
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                switch(recyclerAdapter.getItemViewType(position)){
+                switch (recyclerAdapter.getItemViewType(position)) {
                     case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
                         return 2;
                     case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
@@ -74,9 +69,8 @@ public class MainCourseFragment extends Fragment {
                 }
             }
         });
-
         rvFeed.setLayoutManager(layoutManager);
-        rvFeed.setAdapter(new FeedRecyclerAdapter(mainCourseViewModel.getRecipeList()));
+        rvFeed.setAdapter(recyclerAdapter);
         ////////////////////////
         EndlessScrollListener scrollListener = new EndlessScrollListener(layoutManager) {
 
@@ -88,7 +82,7 @@ public class MainCourseFragment extends Fragment {
                 view.post(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyItemRangeInserted(curSize, mainCourseViewModel.getRecipeList().size() - 1);
+                        adapter.notifyItemRangeInserted(curSize, mainCourseViewModel.getRecipeListWithAdds().size() - 1);
                     }
                 });
             }
