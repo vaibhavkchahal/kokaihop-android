@@ -3,7 +3,6 @@ package com.kokaihop.home;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,13 +12,14 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.customviews.NonSwipeableViewPager;
 
 public class HomeActivity extends BaseActivity {
 
     private ListView mListView;
     private Button mButtonSignIn;
     private TextView mTextViewCount;
-    ViewPager viewPager;
+    NonSwipeableViewPager viewPager;
     TabLayout tabLayout;
     ActivityHomeBinding activityHomeBinding;
     int tabCount = 5;
@@ -168,6 +168,7 @@ public class HomeActivity extends BaseActivity {
     public void setTabView() {
         tabLayout = activityHomeBinding.tabLayout;
         viewPager = activityHomeBinding.pager;
+        viewPager.setPagingEnabled(false);
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
