@@ -213,7 +213,7 @@
                           android:layout_below="@id/button_facebook_sign_up"
                           android:layout_marginTop="@dimen/signup_tv_login_margin_top"
                           android:gravity="center"
-                          android:onClick="@{(v)->viewModel.closeSignup(v)}"
+                          android:onClick="@{(v)->viewModel.openLogin(v)}"
                           android:text="@string/already_a_kokaihop_chef_login_here"
                           android:textColor="@color/white"
                           android:textSize="@dimen/text_size_small"

@@ -76,8 +76,13 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     public void getRecipes(int offset) {
         setOffset(offset);
         setProgressVisible(true);
-        String authorizationToken = AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-//        String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
+        //        String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        String authorizationToken = "";
+        if (accessToken != null && !accessToken.isEmpty()) {
+            authorizationToken = AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+
+        }
         RecipeRequestParams params = new RecipeRequestParams(authorizationToken, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max);
         new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
@@ -110,7 +115,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
             if (position == 3 || (prevPos + 7) == position) {
                 prevPos = position;
                 AdvtDetail advtDetail = new AdvtDetail("Kokaihop");
-                recipeListWithAdds.add(position,advtDetail);
+                recipeListWithAdds.add(position, advtDetail);
             }
         }
 
