@@ -27,8 +27,9 @@ public class UserSettingsActivity extends AppCompatActivity{
         userSettingsBinding.settingsLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, "");
-                startActivity(new Intent(context, HomeActivity.class));
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, null);
+                Intent intent = new Intent(context, HomeActivity.class);
+                startActivity(intent);
                 ((Activity)context).finish();
             }
         });
