@@ -191,4 +191,10 @@
     <dimen name="feed_tab_padding_right">15dp</dimen>
     <dimen name="recycler_item_space">5dp</dimen>
     <dimen name="card_left_right_padding">15dp</dimen>
+    <dimen name="profile_o_follow_padding_left">25dp</dimen>
+    <dimen name="profile_o_follow_padding_right">27dp</dimen>
+    <dimen name="profile_o_follow_padding_drawable">9.8dp</dimen>
+    <dimen name="profile_o_follow_button_width">150dp</dimen>
+    <dimen name="profile_o_follow_button_height">35dp</dimen>
+    <dimen name="profile_o_follow_text_size">13sp</dimen>
 </resources>

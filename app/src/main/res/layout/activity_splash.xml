@@ -5,7 +5,7 @@
     android:id="@+id/activity_splash2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/kokaihop_orange_color"
+    android:background="@color/colorPrimary"
     tools:context="com.kokaihop.SplashActivity">
 
     <ImageView android:layout_width="wrap_content"

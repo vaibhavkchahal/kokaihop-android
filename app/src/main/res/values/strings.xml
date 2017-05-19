@@ -69,9 +69,29 @@
     <string name="main_course_of_the_day">Main Course of the Day</string>
     <string name="previous_main_course_of_the_day">Previous Main Course of the Day</string>
     <string name="cook_something_creating_today">Cook something creating today</string>
+
+    <!--User Feed Tabs-->
     <string name="tab_main_course_of_the_day">MAIN COURSE OF THE DAY</string>
     <string name="tab_appetizer_of_the_day">APPETIZER OF THE DAY</string>
     <string name="tab_cookie_of_the_day">COOKIE OF THE DAY</string>
     <string name="tab_dessert_of_the_day">DESSERT OF THE DAY</string>
     <string name="tab_vegetarian_of_the_day">VEGETARIAN OF THE DAY</string>
+
+    <!--Home Activity Tabs-->
+    <string name="tab_feed">Feed</string>
+    <string name="tab_cookbooks">Cookbooks</string>
+    <string name="tab_list">List</string>
+    <string name="tab_comments">Comments</string>
+    <string name="tab_me">Me</string>
+
+    <string name="tab_recipes">Recipes</string>
+    <string name="tab_followers">Followers</string>
+    <string name="tab_following">Following</string>
+    <string name="tab_history">History</string>
+
+    <string name="user_inactive_tab_text_color">#FFD4D4D4</string>
+    <string name="user_active_tab_text_color">#FFF75A15</string>
+    <string name="follow">FOLLOW</string>
+    <string name="following">FOLLOWING</string>
+
 </resources>

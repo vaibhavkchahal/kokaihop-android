@@ -37,7 +37,6 @@ public class HomeActivity extends BaseActivity {
             R.drawable.ic_comments_white_sm,
             R.drawable.ic_user_white_sm
     };
-    String[] tabsText = {"Feed", "Cookbooks", "List", "Comments", "Me"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,6 +207,14 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void setTabTextIcons() {
+
+        String[] tabsText = {getString(R.string.tab_feed),
+                getString(R.string.tab_cookbooks),
+                getString(R.string.tab_list),
+                getString(R.string.tab_comments),
+                getString(R.string.tab_me),
+        };
+
         for (int i = 0; i < tabCount; i++) {
             TabHomeTabLayoutBinding tabBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.tab_home_tab_layout, tabLayout, false);
             View tabView = tabBinding.getRoot();
