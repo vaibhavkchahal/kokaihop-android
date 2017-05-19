@@ -32,7 +32,7 @@ public class BindingUtils {
     }
 
     @BindingAdapter("bind:items")
-    public static void bindList(RecyclerView view, List<Recipe> list) {
+    public static void bindList(RecyclerView view, List<Object> list) {
         GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
         view.setLayoutManager(layoutManager);
         view.setAdapter(new FeedRecyclerAdapter(list));
