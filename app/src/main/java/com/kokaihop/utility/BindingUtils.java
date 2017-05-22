@@ -40,6 +40,5 @@ public class BindingUtils {
     public static void loadImage(ImageView view, String url, Drawable error) {
         Glide.with(view.getContext()).load(url).error(error).into(view);
         Logger.i("url cloudnary-->",url);
-        Logger.i("imageUrl-->",imageUrl);
     }
 }
