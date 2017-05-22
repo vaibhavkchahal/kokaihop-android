@@ -21,13 +21,13 @@ import java.util.List;
 
 public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Recipe> recipeList = new ArrayList<>();
+    private List<Object> recipeListWithAdds = new ArrayList<>();
     public static final int TYPE_ITEM_DAY_RECIPE = 0;
     public static final int TYPE_ITEM_RECIPE = 1;
     public static final int TYPE_ITEM_ADVT = 2;
 
-    public FeedRecyclerAdapter(List<Recipe> list) {
-        recipeList = list;
+    public FeedRecyclerAdapter(List<Object> list) {
+        recipeListWithAdds = list;
     }
 
     @Override
@@ -51,21 +51,18 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (getItemViewType(position)) {
             case TYPE_ITEM_DAY_RECIPE:
                 ViewHolderRecipeOfDay holderRecipeOfDay = (ViewHolderRecipeOfDay) holder;
-                Recipe recipeOfDay = recipeList.get(position);
+                Recipe recipeOfDay = (Recipe) recipeListWithAdds.get(position);
                 holderRecipeOfDay.binder.setRecipe(recipeOfDay);
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
-                Recipe recipe = recipeList.get(position);
+                Recipe recipe = (Recipe) recipeListWithAdds.get(position);
                 viewHolderRecipe.binder.setRecipe(recipe);
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
-//                ViewHolderAdvt itemRowHolder = (ViewHolderRecipe) holder;
-//                Recipe recipe = recipeList.get(position);
-//                itemRowHolder.binder.setRecipe(recipe);
-//                itemRowHolder.binder.executePendingBindings();
+                // TODO add advt.
                 break;
             default:
                 break;
@@ -75,31 +72,22 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+        Object object = recipeListWithAdds.get(position);
+        if (object instanceof Recipe) {
+            if (isPositionHeader(position))
+                return TYPE_ITEM_DAY_RECIPE;
+            return TYPE_ITEM_RECIPE;
+        } else if (object instanceof AdvtDetail) {
+            return TYPE_ITEM_ADVT;
+        }
+        return -1;
 
-        Object object = recipeList.get(position);
-
-        if (isPositionHeader(position))
-            return TYPE_ITEM_DAY_RECIPE;
-
-//        if (object instanceof FamilyNoInfo) {
-//            return FAMILY_NO_ITEM;
-//        } else if (object instanceof HeadOfFamilyInfo) {
-//            return HOF_ITEM;
-//        } else if (object instanceof CoupleInfo) {
-//            return COUPLE_ITEM;
-//        } else if (object instanceof HeadOfFamily) {
-//            return MEMBER_ITEM;
-//        } else if (object instanceof AddMoreMember) {
-//            return ADD_MORE_ITEM;
-//        }
-//        return 1;
-
-        if (isPositionHeader(position))
+        /*if (isPositionHeader(position))
             return TYPE_ITEM_DAY_RECIPE;
         else if (position == 3 || (position+3)%3==0){
             return TYPE_ITEM_ADVT;
         }
-        return TYPE_ITEM_RECIPE;
+        return TYPE_ITEM_RECIPE;*/
     }
 
     private boolean isPositionHeader(int position) {
@@ -108,7 +96,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return recipeList.size();
+        return recipeListWithAdds.size();
     }
 
 

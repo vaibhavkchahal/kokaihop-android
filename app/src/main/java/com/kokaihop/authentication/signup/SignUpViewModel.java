@@ -13,14 +13,16 @@ import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.FacebookAuthRequest;
+import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.CityActivity;
+import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.SignUpRequest;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.utility.SharedPrefUtils;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
+import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
 
 
@@ -113,6 +115,8 @@ public class SignUpViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
+                AppUtility.showHomeScreen(context);
+
             }
 
             @Override
@@ -154,10 +158,19 @@ public class SignUpViewModel extends BaseViewModel {
         ((Activity) view.getContext()).finish();
     }
 
+    public void openLogin(View view) {
+
+
+        ((Activity) view.getContext()).startActivity(new Intent(view.getContext(), LoginActivity.class));
+    }
+
+
     public void openCityScreen(View view) {
         Activity context = (Activity) view.getContext();
         ((Activity) view.getContext()).startActivityForResult(new Intent(context, CityActivity.class), REQUEST_CODE);
     }
+
+
 
     public void signUpWithFacebook(View view) {
         final Context context = view.getContext();
@@ -172,6 +185,7 @@ public class SignUpViewModel extends BaseViewModel {
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                         setProgressVisible(false);
                         Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
+                        AppUtility.showHomeScreen(context);
                     }
 
                     @Override

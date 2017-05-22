@@ -20,6 +20,9 @@ import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.home.userprofile.ProfileAdapter;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
+import com.kokaihop.utility.SharedPrefUtils;
+
+import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
 public class UserProfileFragment extends Fragment {
     private static UserProfileFragment fragment;
@@ -54,7 +57,9 @@ public class UserProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.inflater = inflater;
         this.container = container;
-        if (signedUp) {
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+
+        if (accessToken != null && !accessToken.isEmpty()) {
             showUserProfile();
             return userProfileBinding.getRoot();
         } else {
@@ -84,11 +89,11 @@ public class UserProfileFragment extends Fragment {
         int i;
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
-                                getActivity().getString(R.string.tab_followers),
-                                getActivity().getString(R.string.tab_following),
-                                getActivity().getString(R.string.tab_history)};
+                getActivity().getString(R.string.tab_followers),
+                getActivity().getString(R.string.tab_following),
+                getActivity().getString(R.string.tab_history)};
 //        TODO: counts should be set here.
-        int[] counts = {12300,45600,78900};
+        int[] counts = {12300, 45600, 78900};
 
         viewPager = userProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());
@@ -102,11 +107,11 @@ public class UserProfileFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        for (i = 0; i < (tabCount-1); i++) {
+        for (i = 0; i < (tabCount - 1); i++) {
             TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
-            tabBinding.text1.setText(""+counts[i]);
+            tabBinding.text1.setText("" + counts[i]);
             tabBinding.text2.setText(tabTitles[i]);
         }
         TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);

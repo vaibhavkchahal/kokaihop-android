@@ -40,14 +40,17 @@ public class RecipeDataManager {
         realm.beginTransaction();
         List<Recipe> recipeList = new ArrayList<>();
         for (RecipeInfo recipeInfo : recipeResponse.getRecipeDetailsList()) {
+
             Recipe recipe = realm.where(Recipe.class)
                     .equalTo("_id", recipeInfo.getRecipe().get_id()).findFirst();
+            if (recipe != null) {
                 recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
-            if (recipeResponse.getMyLikes() != null) {
-                boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
-                recipe.setFavorite(isLiked);
+                if (recipeResponse.getMyLikes() != null) {
+                    boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
+                    recipe.setFavorite(isLiked);
+                }
+                recipeList.add(recipe);
             }
-            recipeList.add(recipe);
 //            realm.insertOrUpdate(recipe);
             Log.d("id", recipeInfo.getRecipe().get_id());
         }

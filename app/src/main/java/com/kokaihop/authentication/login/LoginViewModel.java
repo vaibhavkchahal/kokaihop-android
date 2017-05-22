@@ -13,13 +13,15 @@ import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.FacebookAuthRequest;
 import com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity;
-import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.utility.SharedPrefUtils;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
+import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
+
+import static com.kokaihop.utility.AppUtility.showHomeScreen;
 
 
 public class LoginViewModel extends BaseViewModel {
@@ -59,6 +61,7 @@ public class LoginViewModel extends BaseViewModel {
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                showHomeScreen(context);
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
             }
 
@@ -76,13 +79,16 @@ public class LoginViewModel extends BaseViewModel {
 
     }
 
+
+
     public void openForgotPasswordScreen(View view) {
         view.getContext().startActivity(new Intent(view.getContext(), ForgotPasswordActivity.class));
     }
 
     public void openSignupScreen(View view) {
         Activity activity = (Activity) view.getContext();
-        activity.startActivity(new Intent(view.getContext(), SignUpActivity.class));
+//        activity.startActivity(new Intent(view.getContext(), SignUpActivity.class));
+        activity.finish();
     }
 
     public void facebookLogin(final View view) {
@@ -97,6 +103,7 @@ public class LoginViewModel extends BaseViewModel {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
                         SharedPrefUtils.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
+                        AppUtility.showHomeScreen(view.getContext());
                     }
 
                     @Override
