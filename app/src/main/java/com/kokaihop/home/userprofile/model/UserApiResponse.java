@@ -13,15 +13,7 @@ import com.google.gson.annotations.SerializedName;
 public class UserApiResponse extends BaseObservable{
 
     private static UserApiResponse userApiResponse;
-    private UserApiResponse(){};
 
-    public static UserApiResponse getInstance()
-    {
-        if(userApiResponse == null){
-            userApiResponse = new UserApiResponse();
-        }
-        return userApiResponse;
-    }
 
     @SerializedName("_id")
     private String _id;
@@ -351,7 +343,23 @@ public class UserApiResponse extends BaseObservable{
         notifyPropertyChanged(BR.totalFeeds);
     }
 
+    private UserApiResponse(){};
 
+    public static UserApiResponse getUserApiResponse() {
+        return userApiResponse;
+    }
+
+    public static void setUserApiResponse(UserApiResponse userApiResponse) {
+        UserApiResponse.userApiResponse = userApiResponse;
+    }
+
+    public static UserApiResponse getInstance()
+    {
+        if(userApiResponse == null){
+            userApiResponse = new UserApiResponse();
+        }
+        return userApiResponse;
+    }
 
 }
 

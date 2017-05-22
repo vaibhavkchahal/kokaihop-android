@@ -1,11 +1,13 @@
 package com.kokaihop.home.userprofile;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
@@ -20,21 +22,32 @@ import java.util.ArrayList;
 public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFollowingAdapter.ViewHolder>{
 
     private ArrayList<FollowingUser> usersList;
-
+    FollowingViewModel followingViewModel;
+    RowProfileFollowerFollowingBinding binding;
+    Context context;
     public FollowersFollowingAdapter(ArrayList<FollowingUser> usersList) {
         this.usersList = usersList;
         Log.e(usersList.size()+"","Size");
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RowProfileFollowerFollowingBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.row_profile_follower_following,parent,false);
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.row_profile_follower_following,parent,false);
+        context = parent.getContext();
         return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.bind(usersList.get(position));
+        binding.userFollowing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                followingViewModel = new FollowingViewModel(context);
+                String userId = usersList.get(position).get_id();
+                followingViewModel.toggleFollowing(userId, isChecked);
+            }
+        });
     }
 
     @Override

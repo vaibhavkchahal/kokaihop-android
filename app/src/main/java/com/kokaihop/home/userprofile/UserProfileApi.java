@@ -1,11 +1,15 @@
 package com.kokaihop.home.userprofile;
 
 import com.kokaihop.home.userprofile.model.FollowingApiResponse;
+import com.kokaihop.home.userprofile.model.ToggleFollowingRequest;
+import com.kokaihop.home.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.home.userprofile.model.UserApiResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -24,4 +28,9 @@ public interface UserProfileApi {
                                                 @Path("userId") String userId,
                                                 @Query("max") int max,
                                                 @Query("offset") int offset);
+
+    @POST("v1/api/users/toggleFollowUser")
+    Call<FollowingToggleResponse> toggleFollowing(@Header("Authorization") String authorization,
+                                                  @Body ToggleFollowingRequest toggleFollowingRequest);
+
 }

@@ -18,7 +18,11 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
 import com.kokaihop.authentication.signup.SignUpActivity;
+import com.kokaihop.home.userprofile.FollowersFragment;
 import com.kokaihop.home.userprofile.ProfileAdapter;
+import com.kokaihop.home.userprofile.FollowingFragment;
+import com.kokaihop.home.userprofile.HistoryFragment;
+import com.kokaihop.home.userprofile.RecipeFragment;
 import com.kokaihop.home.userprofile.UserApiCallback;
 import com.kokaihop.home.userprofile.UserProfileViewModel;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
@@ -84,15 +88,15 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
     }
 
     @Override
-    public void showUserProfile(UserApiResponse userApiResponse) {
+    public void showUserProfile() {
+        UserApiResponse userApiResponse = UserApiResponse.getInstance();
         final TabLayout tabLayout = userProfileBinding.tabProfile;
-        userViewModel.getFollowingUsers();
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
         int tabCount = 4;
         int i;
 
-        userProfileBinding.setViewModel(userViewModel.getUserApiResponse());
+        userProfileBinding.setViewModel(UserApiResponse.getInstance());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_followers),
@@ -110,7 +114,12 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
 
-        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
+//        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
+        ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(),tabLayout.getTabCount());
+        adapter.addFrag(new RecipeFragment(),"Recipes");
+        adapter.addFrag(new FollowersFragment(),"Followers");
+        adapter.addFrag(new FollowingFragment(),"Following");
+        adapter.addFrag(new HistoryFragment(),"History");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
         tabLayout.setupWithViewPager(viewPager);

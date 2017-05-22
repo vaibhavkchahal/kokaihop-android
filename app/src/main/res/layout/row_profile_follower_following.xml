@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="user" type="com.kokaihop.home.userprofile.model.FollowingUser"/>
+        <variable name="viewModel" type="com.kokaihop.home.userprofile.FollowingViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -39,6 +40,7 @@
             android:id="@+id/user_following"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:button="@drawable/checkbox_follow_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

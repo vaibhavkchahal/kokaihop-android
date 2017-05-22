@@ -43,4 +43,12 @@ public class FollowingApiResponse {
     public void setTotal(int total) {
         this.total = total;
     }
+
+    public static FollowingApiResponse getFollowingApiResponse() {
+        return followingApiResponse;
+    }
+
+    public static void setFollowingApiResponse(FollowingApiResponse followingApiResponse) {
+        FollowingApiResponse.followingApiResponse = followingApiResponse;
+    }
 }
