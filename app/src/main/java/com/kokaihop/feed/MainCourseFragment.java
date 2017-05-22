@@ -20,7 +20,6 @@ public class MainCourseFragment extends Fragment {
 
     private FragmentMainCourseBinding mainCourseBinding;
     private MainCourseViewModel mainCourseViewModel;
-    private int offset = 0;
 
     public MainCourseFragment() {
         // Required empty public constructor

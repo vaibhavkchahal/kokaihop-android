@@ -15,10 +15,9 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_height_recipe_of_day"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_margin_top"
             android:paddingLeft="@dimen/card_left_right_padding"
-            android:paddingRight="@dimen/card_left_right_padding"
             app:cardCornerRadius="5dp">
 
 
@@ -29,9 +28,8 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/img_height_recipe_of_day"
-                    android:scaleType="fitXY"
-                    android:src="@{@color/profile_tab_text_color}"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageview_recipe_of_day"
                     bind:error="@{@color/profile_tab_text_color}"
                     bind:imageUrl="@{imageUrl}"/>
 

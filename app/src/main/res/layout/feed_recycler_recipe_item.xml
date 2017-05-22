@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+>
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
@@ -18,12 +18,11 @@
         <ImageView
             android:id="@+id/iv_recipe"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/recipe_img_height"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitXY"
-            app:imageUrl="@{imageUrl}"
             android:src="@{@color/profile_tab_text_color}"
             app:error="@{@color/profile_tab_text_color}"
+            app:imageUrl="@{imageUrl}"
         />
 
         <TextView

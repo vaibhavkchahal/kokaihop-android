@@ -26,8 +26,8 @@
             android:id="@+id/rv_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
+            android:paddingLeft="@dimen/padding_5dp"
+            android:paddingRight="@dimen/padding_5dp"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/progressBar_bottom"
             tools:context="com.kokaihop.feed.MainCourseFragment">
