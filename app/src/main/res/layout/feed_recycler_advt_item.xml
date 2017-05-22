@@ -7,16 +7,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
+        android:orientation="horizontal"
         android:padding="30dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="18dp"
+            android:text="Space For Advertisement"
             android:textColor="@color/white"
-            android:text="Placeholder for the Advertisement."
         />
-
 
     </LinearLayout>
 
