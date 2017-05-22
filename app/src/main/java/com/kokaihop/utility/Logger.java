@@ -1,4 +1,4 @@
-package com.kokaihop;
+package com.kokaihop.utility;
 
 import android.util.Log;
 

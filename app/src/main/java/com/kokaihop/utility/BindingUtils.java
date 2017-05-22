@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.kokaihop.Logger;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 
 import java.util.List;

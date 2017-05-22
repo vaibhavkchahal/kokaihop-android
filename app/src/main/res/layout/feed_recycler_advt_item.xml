@@ -7,20 +7,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:orientation="horizontal"
         android:padding="30dp">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo_koka_md"
-        />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:text="Placeholder for the Advertisement."
         />
+
+
     </LinearLayout>
 
 </layout>

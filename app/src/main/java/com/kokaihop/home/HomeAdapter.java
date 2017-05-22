@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.kokaihop.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,6 @@ public class HomeAdapter extends FragmentPagerAdapter {
     public void addFrag(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
-        Logger.i("list size", mFragmentList.size() + "");
     }
 
     /**

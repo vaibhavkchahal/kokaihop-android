@@ -14,23 +14,25 @@ import com.kokaihop.home.HomeActivity;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
-public class UserSettingsActivity extends AppCompatActivity{
+public class UserSettingsActivity extends AppCompatActivity {
 
     private Context context;
     private ActivityUserSettingsBinding userSettingsBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
-        userSettingsBinding = DataBindingUtil.setContentView(this,R.layout.activity_user_settings);
+        userSettingsBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_settings);
 
         userSettingsBinding.settingsLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, null);
                 Intent intent = new Intent(context, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                ((Activity)context).finish();
+                ((Activity) context).finish();
             }
         });
     }

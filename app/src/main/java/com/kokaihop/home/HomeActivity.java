@@ -11,11 +11,12 @@ import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
+import com.kokaihop.feed.PagerTabAdapter;
 
 public class HomeActivity extends BaseActivity {
-    private  NonSwipeableViewPager viewPager;
-    private  TabLayout tabLayout;
-    private  ActivityHomeBinding activityHomeBinding;
+    private NonSwipeableViewPager viewPager;
+    private TabLayout tabLayout;
+    private ActivityHomeBinding activityHomeBinding;
     private int tabCount = 5;
     private int[] activeTabsIcon = {
             R.drawable.ic_feed_orange_sm,
@@ -55,12 +56,12 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-        HomeAdapter adapter = new HomeAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        adapter.addFrag(new UserFeedFragment(),getString(R.string.tab_feed));
+        final PagerTabAdapter adapter = new PagerTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
         adapter.addFrag(new CookbooksFragment(), getString(R.string.tab_cookbooks));
         adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
-        adapter.addFrag(new CommentsFragment(),getString(R.string.tab_comments));
-        adapter.addFrag(new UserProfileFragment(),getString(R.string.tab_me));
+        adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
+        adapter.addFrag(new UserProfileFragment(), getString(R.string.tab_me));
         viewPager.setAdapter(adapter);
 //        viewPager.setOffscreenPageLimit(5);
         tabLayout.setupWithViewPager(viewPager);
@@ -69,7 +70,7 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                ((TextView) tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
@@ -77,7 +78,7 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                ((TextView) tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
@@ -85,10 +86,10 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                ((TextView)tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
-                    .getCustomView()
-                    .findViewById(R.id.text1))
-                    .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+                ((TextView) tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                        .getCustomView()
+                        .findViewById(R.id.text1))
+                        .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
             }
         });
         tabLayout.getTabAt(0).select();
