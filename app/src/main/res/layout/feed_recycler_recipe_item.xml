@@ -2,11 +2,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+>
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
         <variable name="imageUrl" type="String"/>
+        <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
     </data>
 
 
@@ -21,24 +22,28 @@
             android:layout_height="@dimen/recipe_img_height"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{imageUrl}"
             android:src="@{@color/profile_tab_text_color}"
-            app:error="@{@color/profile_tab_text_color}"
+            app:error="@{@color/white}"
+            app:imageUrl="@{imageUrl}"
         />
 
-        <TextView
+        <CheckBox
+            android:id="@+id/checkbox_recipe_like"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/tv_like_height"
-            android:layout_marginLeft="@dimen/tv_like_margin_left"
             android:layout_marginTop="@dimen/tv_like_margin_top"
             android:background="@drawable/recipe_likes_border"
+            android:button="@null"
             android:drawablePadding="@dimen/tv_likes_drawable_padding"
             android:drawableStart="@{recipe.isFavorite ? @drawable/ic_like_sm : @drawable/ic_unlike_sm}"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/tv_likes_padding_left"
+            android:onCheckedChanged="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
             android:paddingRight="9dp"
+            android:layout_marginLeft="8dp"
+            android:paddingLeft="10dp"
             android:text="@{String.valueOf(recipe.counter.likes)}"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+        />
 
         <TextView
             android:id="@+id/tv_recipe_name"
