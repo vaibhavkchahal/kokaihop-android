@@ -103,6 +103,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null)
                     viewHolderRecipe.binder.setImageUrl(CloudinaryUtils.getImageUrl("35036626", String.valueOf(layoutParamsRecipe.width), String.valueOf(layoutParamsRecipe.height)));
                 viewHolderRecipe.binder.setRecipe(recipe);
+                viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:

@@ -41,8 +41,11 @@ public class Recipe extends RealmObject {
     private String badgeType;
     @SerializedName("isMine")
     private boolean isMine;
+
     private String cookingSteps;
-    private boolean isFavorite;
+
+    public boolean isFavorite;
+
     @SerializedName("mainImage")
     private MainImage mainImage;
     @SerializedName("rating")
