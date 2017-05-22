@@ -11,6 +11,7 @@ import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.kokaihop.database.Recipe;
+import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,15 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ViewHolderRecipeOfDay holderRecipeOfDay = (ViewHolderRecipeOfDay) holder;
                 Recipe recipeOfDay = (Recipe) recipeListWithAdds.get(position);
                 holderRecipeOfDay.binder.setRecipe(recipeOfDay);
+                if (recipeOfDay.getMainImage() != null && recipeOfDay.getMainImage().getPublicId() != null)
+                    holderRecipeOfDay.binder.setImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), "750", "460"));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 Recipe recipe = (Recipe) recipeListWithAdds.get(position);
+                if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null)
+                    viewHolderRecipe.binder.setImageUrl(CloudinaryUtils.getImageUrl(recipe.getMainImage().getPublicId(), "750", "460"));
                 viewHolderRecipe.binder.setRecipe(recipe);
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
@@ -82,12 +87,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return -1;
 
-        /*if (isPositionHeader(position))
-            return TYPE_ITEM_DAY_RECIPE;
-        else if (position == 3 || (position+3)%3==0){
-            return TYPE_ITEM_ADVT;
-        }
-        return TYPE_ITEM_RECIPE;*/
+
     }
 
     private boolean isPositionHeader(int position) {

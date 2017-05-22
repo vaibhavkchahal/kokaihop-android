@@ -6,6 +6,7 @@
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
+        <variable name="imageUrl" type="String"/>
     </data>
 
 
@@ -20,7 +21,7 @@
             android:layout_height="@dimen/recipe_img_height"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            app:imageUrl="@{recipe.mainImage.publicId}"
+            app:imageUrl="@{imageUrl}"
             android:src="@{@color/profile_tab_text_color}"
             app:error="@{@color/profile_tab_text_color}"
         />

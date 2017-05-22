@@ -38,10 +38,7 @@ public class BindingUtils {
 
     @BindingAdapter({"app:imageUrl", "app:error"})
     public static void loadImage(ImageView view, String url, Drawable error) {
-
-
-        String imageUrl=CloudinaryDetail.url+CloudinaryDetail.cloudName+CloudinaryDetail.folder+url+CloudinaryDetail.format;
-        Glide.with(view.getContext()).load(imageUrl).error(error).into(view);
+        Glide.with(view.getContext()).load(url).error(error).into(view);
         Logger.i("url cloudnary-->",url);
     }
 }
