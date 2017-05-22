@@ -11,16 +11,18 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
+import com.kokaihop.home.userprofile.model.FollowingApiResponse;
+import com.kokaihop.home.userprofile.model.FollowingUser;
 import com.kokaihop.home.userprofile.model.UserApiResponse;
 
 import java.util.ArrayList;
 
-public class FollowingFragment extends Fragment {
+public class FollowingFragment extends Fragment implements UserApiCallback{
 
     static FollowingFragment fragment;
     FragmentFollowersFollowingBinding followingBinding;
     FollowersFollowingAdapter followingAdapter;
-    ArrayList<UserApiResponse> userApiResponseList;
+    ArrayList<FollowingUser> followingUsers;
 
     public FollowingFragment() {
         // Required empty public constructor
@@ -36,6 +38,7 @@ public class FollowingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        followingUsers = new ArrayList<>();
     }
 
     @Override
@@ -43,32 +46,20 @@ public class FollowingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         followingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
-
-        userApiResponseList = new ArrayList<>();
-        userApiResponseList.add(new UserApiResponse(true, "AA", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "BB", "url"));
-        userApiResponseList.add(new UserApiResponse(false, "CC", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "DD", "url"));
-        userApiResponseList.add(new UserApiResponse(false, "EE", "url"));
-        userApiResponseList.add(new UserApiResponse(false, "FF", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "gg", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "HH", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "II", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "JJ", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "KK", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "LL", "url"));
-        userApiResponseList.add(new UserApiResponse(true, "MM", "url"));
-        setupUsersList();
         return followingBinding.getRoot();
     }
 
     public void setupUsersList() {
         RecyclerView recyclerView = followingBinding.followersList;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        followingAdapter = new FollowersFollowingAdapter(userApiResponseList);
+        followingAdapter = new FollowersFollowingAdapter(followingUsers);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followingAdapter);
     }
 
-
+    @Override
+    public void showUserProfile(UserApiResponse userApiResponse) {
+        followingUsers = FollowingApiResponse.getInstance().getUsers();
+        setupUsersList();
+    }
 }

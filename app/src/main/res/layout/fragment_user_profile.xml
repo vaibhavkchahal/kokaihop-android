@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data></data>
+    <data>
+        <variable name="viewModel" type="com.kokaihop.home.userprofile.model.UserApiResponse"/>
+    </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -65,7 +67,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/user_avatar"
                             android:gravity="center_horizontal"
-                            android:text="User Name"
+                            android:text="@{viewModel.name.full}"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:font="@{`SS-ProSemiBold`}"/>

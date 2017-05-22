@@ -13,17 +13,17 @@ import com.google.gson.annotations.SerializedName;
 public class Loc extends BaseObservable{
 
     @SerializedName("coordinates")
-    private int[] coordinates;
+    private float[] coordinates;
 
     @SerializedName("type")
     private String type;
 
     @Bindable
-    public int[] getCoordinates() {
+    public float[] getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(int[] coordinates) {
+    public void setCoordinates(float[] coordinates) {
         this.coordinates = coordinates;
         notifyPropertyChanged(BR.coordinates);
     }

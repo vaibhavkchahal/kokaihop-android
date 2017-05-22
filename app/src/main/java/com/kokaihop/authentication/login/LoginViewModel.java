@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -61,6 +62,7 @@ public class LoginViewModel extends BaseViewModel {
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUser().getId());
                 showHomeScreen(context);
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
             }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.FollowingUser;
 
 import java.util.ArrayList;
 
@@ -19,10 +19,11 @@ import java.util.ArrayList;
 
 public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFollowingAdapter.ViewHolder>{
 
-    private ArrayList<UserApiResponse> usersList;
+    private ArrayList<FollowingUser> usersList;
 
-    public FollowersFollowingAdapter(ArrayList<UserApiResponse> usersList) {
+    public FollowersFollowingAdapter(ArrayList<FollowingUser> usersList) {
         this.usersList = usersList;
+        Log.e(usersList.size()+"","Size");
     }
 
     @Override
@@ -53,11 +54,10 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
 
         @Override
         public void onClick(View v) {
-            Log.e("User",usersList.get(getAdapterPosition()).getName());
         }
 
-        public void bind(UserApiResponse userApiResponse){
-            binding.setUser(userApiResponse);
+        public void bind(FollowingUser followingUser){
+            binding.setUser(followingUser);
             binding.executePendingBindings();
         }
     }

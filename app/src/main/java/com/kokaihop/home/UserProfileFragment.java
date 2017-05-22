@@ -19,17 +19,20 @@ import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.home.userprofile.ProfileAdapter;
+import com.kokaihop.home.userprofile.UserApiCallback;
+import com.kokaihop.home.userprofile.UserProfileViewModel;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
+import com.kokaihop.home.userprofile.model.UserApiResponse;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends Fragment implements UserApiCallback{
     private static UserProfileFragment fragment;
     private FragmentUserProfileBinding userProfileBinding;
     FragmentUserProfileSignUpBinding userProfileSignUpBinding;
+    UserProfileViewModel userViewModel;
     private ViewPager viewPager;
-    private boolean signedUp = true;
     private LayoutInflater inflater;
     private ViewGroup container;
 
@@ -48,8 +51,6 @@ public class UserProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -60,7 +61,10 @@ public class UserProfileFragment extends Fragment {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
 
         if (accessToken != null && !accessToken.isEmpty()) {
-            showUserProfile();
+//            showUserProfile();
+            userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
+            userViewModel = new UserProfileViewModel(getContext(), this);
+            userViewModel.getUserData();
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -79,21 +83,26 @@ public class UserProfileFragment extends Fragment {
         });
     }
 
-
-    public void showUserProfile() {
-        userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
+    @Override
+    public void showUserProfile(UserApiResponse userApiResponse) {
         final TabLayout tabLayout = userProfileBinding.tabProfile;
+        userViewModel.getFollowingUsers();
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
         int tabCount = 4;
         int i;
+
+        userProfileBinding.setViewModel(userViewModel.getUserApiResponse());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_followers),
                 getActivity().getString(R.string.tab_following),
                 getActivity().getString(R.string.tab_history)};
 //        TODO: counts should be set here.
-        int[] counts = {12300, 45600, 78900};
+
+        int[] counts = {userApiResponse.getRecipeCount(),
+                        userApiResponse.getFollowers().length,
+                        userApiResponse.getFollowing().length};
 
         viewPager = userProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());

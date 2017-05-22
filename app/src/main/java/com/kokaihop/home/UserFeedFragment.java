@@ -81,6 +81,7 @@ public class UserFeedFragment extends Fragment {
         adapter.addFrag(dessertFragment,tabTitles[3]);
         VegetarianFragment vegetarianFragment = new VegetarianFragment();
         adapter.addFrag(vegetarianFragment,tabTitles[4]);
+
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
         tabLayout.setupWithViewPager(viewPager);

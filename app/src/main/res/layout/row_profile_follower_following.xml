@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="user" type="com.kokaihop.home.userprofile.UserApiResponse"/>
+        <variable name="user" type="com.kokaihop.home.userprofile.model.FollowingUser"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -28,8 +28,8 @@
             android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/user_pic_name_margin"
-            android:text="@{user.name}"
             app:font="@{`SS-ProRegular`}"
+            android:text="@{user.name.full}"
             android:textColor="@color/users_list_name_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/user_pic"
@@ -40,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_follow_selector"
-            android:checked="@={user.following}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
