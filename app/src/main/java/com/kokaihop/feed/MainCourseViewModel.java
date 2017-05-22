@@ -1,7 +1,9 @@
 package com.kokaihop.feed;
 
 import android.content.Context;
+import android.databinding.Bindable;
 
+import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.network.IApiRequestComplete;
@@ -27,6 +29,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     private int recipeCount;
     private RecipeDataManager dataManager = null;
     private Context context;
+    private boolean isLoadMore;
 
     private List<Recipe> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
@@ -63,6 +66,15 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         return recipeList;
     }
 
+    @Bindable
+    public boolean isLoadMore() {
+        return isLoadMore;
+    }
+
+    public void setLoadMore(boolean loadMore) {
+        isLoadMore = loadMore;
+        notifyPropertyChanged(BR.loadMore);
+    }
 
     public MainCourseViewModel(Context context) {
         this.context = context;
@@ -70,12 +82,12 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
         fetchRecipeFromDb();
         if (recipeList != null) {
         }
-        getRecipes(offset);
+        getRecipes(offset,true);
     }
 
-    public void getRecipes(int offset) {
+    public void getRecipes(int offset,boolean isLoadMore) {
         setOffset(offset);
-        setProgressVisible(true);
+        setLoadMore(isLoadMore);
         //        String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         String authorizationToken = "";
@@ -90,17 +102,17 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
                 setRecipeCount(response.getCount());
                 dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb();
-                setProgressVisible(false);
+                setLoadMore(false);
             }
 
             @Override
             public void onFailure(String message) {
-                setProgressVisible(false);
+                setLoadMore(false);
             }
 
             @Override
             public void onError(RecipeResponse response) {
-                setProgressVisible(false);
+                setLoadMore(false);
             }
         });
 

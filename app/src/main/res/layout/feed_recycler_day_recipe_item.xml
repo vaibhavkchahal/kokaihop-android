@@ -18,7 +18,7 @@
             android:layout_height="@dimen/card_height_recipe_of_day"
             android:layout_marginTop="@dimen/card_margin_top"
             android:paddingLeft="@dimen/card_left_right_padding"
-            android:paddingRight="15dp"
+            android:paddingRight="@dimen/card_left_right_padding"
             app:cardCornerRadius="5dp">
 
 

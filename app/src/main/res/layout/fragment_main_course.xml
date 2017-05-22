@@ -3,11 +3,24 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable name="viewModel" type="com.kokaihop.feed.MainCourseViewModel"/>
     </data>
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/progressBar_bottom"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="@color/colorPrimary"
+            android:visibility="@{viewModel.loadMore?View.VISIBLE:View.GONE}"
+        />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_feed"
@@ -15,9 +28,12 @@
             android:layout_height="match_parent"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/progressBar_bottom"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>
+
 
         <include
             layout="@layout/progress_bar"
