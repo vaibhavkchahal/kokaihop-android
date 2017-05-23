@@ -11,28 +11,26 @@
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:gravity="center_horizontal"
+                  android:layout_marginBottom="@dimen/margin_bottom_cook_something_text"
                   android:orientation="vertical">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_height_recipe_of_day"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_margin_top"
-            android:paddingLeft="@dimen/card_left_right_padding"
-            android:paddingRight="@dimen/card_left_right_padding"
             app:cardCornerRadius="5dp">
 
 
             <LinearLayout android:layout_width="match_parent"
-                          android:layout_height="match_parent"
+                          android:layout_height="wrap_content"
                           android:background="@color/white"
                           android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/img_height_recipe_of_day"
-                    android:scaleType="fitXY"
-                    android:src="@{@color/color_FFD4D4D4}"
-                    bind:error="@{@color/color_FFD4D4D4}"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageview_recipe_of_day"
+                    bind:error="@{@color/profile_tab_text_color}"
                     bind:imageUrl="@{imageUrl}"/>
 
                 <TextView
@@ -71,7 +69,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom_cook_something_text"
             android:paddingLeft="@dimen/padding_left_recipe_type"
             android:text="@string/cook_something_creating_today"
             android:textColor="@color/color_FF8D929C"

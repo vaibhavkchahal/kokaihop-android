@@ -105,8 +105,7 @@
 
     <dimen name="card_width_recipe_of_day">330dp</dimen>
     <dimen name="card_height_recipe_of_day">190dp</dimen>
-    <dimen name="card_left_right_margin">15dp</dimen>
-    <dimen name="card_margin_top">14dp</dimen>
+    <dimen name="card_margin_top">9dp</dimen>
     <dimen name="img_height_recipe_of_day">130dp</dimen>
     <dimen name="padding_top_recipe_type">14dp</dimen>
     <dimen name="padding_bottom_recipe_name">16dp</dimen>
@@ -174,12 +173,21 @@
     <dimen name="settings_list_item_height">48.5dp</dimen>
     <dimen name="settings_list_item_padding_left">20dp</dimen>
 
+    <dimen name="feed_tab_text_small">13sp</dimen>
+    <dimen name="feed_tab_padding_bottom">13dp</dimen>
+    <dimen name="feed_tab_padding_top">15dp</dimen>
+    <dimen name="feed_tab_indicator_height">2dp</dimen>
+    <dimen name="feed_tab_padding_left">15dp</dimen>
+    <dimen name="feed_tab_padding_right">15dp</dimen>
+    <dimen name="recycler_item_space">5dp</dimen>
+    <dimen name="card_left_right_margin">10dp</dimen>
     <dimen name="profile_o_follow_padding_left">25dp</dimen>
     <dimen name="profile_o_follow_padding_right">27dp</dimen>
     <dimen name="profile_o_follow_padding_drawable">9.8dp</dimen>
     <dimen name="profile_o_follow_button_width">150dp</dimen>
     <dimen name="profile_o_follow_button_height">35dp</dimen>
     <dimen name="profile_o_follow_text_size">13sp</dimen>
+    <dimen name="padding_5dp">5dp</dimen>
 
     <dimen name="user_profile_recycler_padding_horizontal">20dp</dimen>
     <dimen name="user_profile_recycler_padding_vertical">10dp</dimen>
