@@ -29,8 +29,13 @@ public class AppUtility {
         return size;
     }
 
-    public static int getHeightInAspectRatio(int width) {
-        int height = (width * 9) / 16;
+    public static int getHeightInAspectRatio(int width, float ratio) {
+        float height = (width * ratio);
+        return (int) height;
+    }
+
+    public static int getHeightIn4Into3Ratio(int width) {
+        int height = (width * 4) / 3;
         return height;
     }
 }

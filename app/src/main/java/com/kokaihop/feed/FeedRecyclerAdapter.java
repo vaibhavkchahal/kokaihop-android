@@ -45,14 +45,16 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         Point point = AppUtility.getDisplayPoint(context);
-        int marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.padding_5dp);
+        int marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.card_left_right_margin) +
+                2 * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
 
         if (viewType == TYPE_ITEM_DAY_RECIPE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_day_recipe_item, parent, false);
             //set beam image
             Logger.e("point x", point.x + " point y " + point.y);
             int width = point.x - marginInPx;
-            int height = getHeightInAspectRatio(width);
+            float ratio = (float) 13 / 33;
+            int height = getHeightInAspectRatio(width, ratio);
             ImageView imageViewRecipe = (ImageView) v.findViewById(R.id.imageview_recipe_of_day);
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageViewRecipe.getLayoutParams();
             layoutParams.height = height;
@@ -62,11 +64,13 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             return new ViewHolderRecipeOfDay(v);
         } else if (viewType == TYPE_ITEM_RECIPE) {
+            marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.card_left_right_margin) +
+                    4 * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_recipe_item, parent, false);
             Logger.e("point x", point.x + " point y " + point.y);
-            int centerMargin = context.getResources().getDimensionPixelOffset(R.dimen.padding_5dp) / 2;
-            int width = point.x - (marginInPx + centerMargin);
-            int height = getHeightInAspectRatio(width);
+            int width = (point.x - marginInPx)/2;
+            float ratio = (float) 3 / 4;
+            int height = getHeightInAspectRatio(width, ratio);
             ImageView imageViewRecipe = (ImageView) v.findViewById(R.id.iv_recipe);
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageViewRecipe.getLayoutParams();
             layoutParams.height = height;

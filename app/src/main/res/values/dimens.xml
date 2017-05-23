@@ -133,8 +133,7 @@
 
     <dimen name="card_width_recipe_of_day">330dp</dimen>
     <dimen name="card_height_recipe_of_day">190dp</dimen>
-    <dimen name="card_left_right_margin">15dp</dimen>
-    <dimen name="card_margin_top">14dp</dimen>
+    <dimen name="card_margin_top">9dp</dimen>
     <dimen name="img_height_recipe_of_day">130dp</dimen>
     <dimen name="padding_top_recipe_type">14dp</dimen>
     <dimen name="padding_bottom_recipe_name">16dp</dimen>
@@ -190,7 +189,7 @@
     <dimen name="feed_tab_padding_left">15dp</dimen>
     <dimen name="feed_tab_padding_right">15dp</dimen>
     <dimen name="recycler_item_space">5dp</dimen>
-    <dimen name="card_left_right_padding">15dp</dimen>
+    <dimen name="card_left_right_margin">10dp</dimen>
     <dimen name="profile_o_follow_padding_left">25dp</dimen>
     <dimen name="profile_o_follow_padding_right">27dp</dimen>
     <dimen name="profile_o_follow_padding_drawable">9.8dp</dimen>
