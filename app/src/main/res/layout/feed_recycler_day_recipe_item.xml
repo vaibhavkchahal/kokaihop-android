@@ -31,8 +31,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/img_height_recipe_of_day"
                     android:scaleType="fitXY"
-                    android:src="@{@color/profile_tab_text_color}"
-                    bind:error="@{@color/profile_tab_text_color}"
+                    android:src="@{@color/color_FFD4D4D4}"
+                    bind:error="@{@color/color_FFD4D4D4}"
                     bind:imageUrl="@{imageUrl}"/>
 
                 <TextView
@@ -41,7 +41,7 @@
                     android:paddingLeft="@dimen/padding_left_recipe_type"
                     android:paddingTop="@dimen/padding_top_recipe_type"
                     android:text="@{recipe.badgeType}"
-                    android:textColor="@color/recipe_title_color"
+                    android:textColor="@color/color_FF71767F"
                     android:textSize="@dimen/textsize_recipe_type"
                     bind:font="@{`SS-ProRegular`}"/>
 
@@ -51,7 +51,7 @@
                     android:paddingBottom="@dimen/padding_bottom_recipe_name"
                     android:paddingLeft="@dimen/padding_left_recipe_type"
                     android:text="@{recipe.title}"
-                    android:textColor="@color/recipe_title_color"
+                    android:textColor="@color/color_FF71767F"
                     android:textSize="@dimen/textsize_recipe_name"
                     bind:font="@{`SS-ProSemiBold`}"/>
 
@@ -64,7 +64,7 @@
             android:layout_marginTop="@dimen/margin_top_previous_text"
             android:paddingLeft="@dimen/padding_left_recipe_type"
             android:text="@string/previous_main_course_of_the_day"
-            android:textColor="@color/previous_recipe_title_color"
+            android:textColor="@color/color_FF262F40"
             android:textSize="@dimen/textsize_previous_text"
             bind:font="@{`SS-ProRegular`}"/>
 
@@ -74,7 +74,7 @@
             android:layout_marginBottom="@dimen/margin_bottom_cook_something_text"
             android:paddingLeft="@dimen/padding_left_recipe_type"
             android:text="@string/cook_something_creating_today"
-            android:textColor="@color/cook_something_text_color"
+            android:textColor="@color/color_FF8D929C"
             android:textSize="@dimen/textsize_cook_smething_text"
             bind:font="@{`SS-ProRegular`}"/>
 

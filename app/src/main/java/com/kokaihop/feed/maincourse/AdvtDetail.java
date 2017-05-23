@@ -1,4 +1,4 @@
-package com.kokaihop.feed;
+package com.kokaihop.feed.maincourse;
 
 public class AdvtDetail {
 

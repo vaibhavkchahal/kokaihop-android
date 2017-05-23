@@ -1,4 +1,4 @@
-package com.kokaihop.feed;
+package com.kokaihop.feed.maincourse;
 
 import android.content.Context;
 import android.databinding.Bindable;
@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.Recipe;
+import com.kokaihop.feed.FeedApiHelper;
+import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.Constants;

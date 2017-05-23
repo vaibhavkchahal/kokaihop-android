@@ -1,4 +1,4 @@
-package com.kokaihop.feed;
+package com.kokaihop.feed.maincourse;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;

@@ -30,7 +30,7 @@
             android:layout_marginLeft="@dimen/user_pic_name_margin"
             android:text="@{user.name}"
             app:font="@{`SS-ProRegular`}"
-            android:textColor="@color/users_list_name_color"
+            android:textColor="@color/color_FF8D929C"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/user_pic"
             app:layout_constraintRight_toLeftOf="@+id/user_following"

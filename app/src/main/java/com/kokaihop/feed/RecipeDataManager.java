@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
+import com.kokaihop.feed.maincourse.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class RecipeDataManager {
         void onTransactionComplete(boolean executed);
     }
 
-    public void updateIsFavorite(final boolean checked, final Recipe recipe) {
+    public void updateIsFavoriteInDB(final boolean checked, final Recipe recipe) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

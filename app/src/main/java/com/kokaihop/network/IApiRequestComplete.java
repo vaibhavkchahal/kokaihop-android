@@ -11,6 +11,5 @@ public interface IApiRequestComplete<T> {
     public void onFailure(String message);
 
     public void onError(T response);
-
-
+    
 }

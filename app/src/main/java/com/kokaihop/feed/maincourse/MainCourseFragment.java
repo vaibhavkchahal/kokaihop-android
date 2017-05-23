@@ -1,4 +1,4 @@
-package com.kokaihop.feed;
+package com.kokaihop.feed.maincourse;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

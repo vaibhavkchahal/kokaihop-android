@@ -2,6 +2,7 @@ package com.kokaihop.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -27,4 +28,9 @@ public class SharedPrefUtils {
         return value;
     }
 
+    public static String getSharedPrefStringData(View view, String key) {
+        prefs = view.getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+        String value = prefs.getString(key, "");
+        return value;
+    }
 }

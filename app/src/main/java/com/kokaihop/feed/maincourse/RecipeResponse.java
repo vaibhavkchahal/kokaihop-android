@@ -1,4 +1,4 @@
-package com.kokaihop.feed;
+package com.kokaihop.feed.maincourse;
 
 import com.google.gson.annotations.SerializedName;
 import com.kokaihop.database.RecipeInfo;

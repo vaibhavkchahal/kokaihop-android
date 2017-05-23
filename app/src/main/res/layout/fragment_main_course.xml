@@ -4,7 +4,7 @@
 
     <data>
         <import type="android.view.View"/>
-        <variable name="viewModel" type="com.kokaihop.feed.MainCourseViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.feed.maincourse.MainCourseViewModel"/>
     </data>
 
     <RelativeLayout android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:paddingRight="5dp"
             android:layout_alignParentTop="true"
             android:layout_above="@+id/progressBar_bottom"
-            tools:context="com.kokaihop.feed.MainCourseFragment">
+            tools:context="com.kokaihop.feed.maincourse.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>
 
