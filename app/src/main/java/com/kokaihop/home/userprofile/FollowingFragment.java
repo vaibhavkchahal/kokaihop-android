@@ -3,6 +3,7 @@ package com.kokaihop.home.userprofile;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
-import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
 import com.kokaihop.home.userprofile.model.FollowingApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingUser;
 
@@ -49,10 +49,17 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
         // Inflate the layout for this fragment
         followingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
         followingViewModel.getFollowingUsers();
+        followingBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                followingViewModel.getFollowingUsers();
+            }
+        });
         return followingBinding.getRoot();
     }
 
     public void setupUsersList() {
+        followingBinding.refreshList.setRefreshing(false);
         RecyclerView recyclerView = followingBinding.followersList;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         followingAdapter = new FollowersFollowingAdapter(followingUsers);

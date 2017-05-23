@@ -1,6 +1,5 @@
 package com.kokaihop.home.userprofile;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -30,7 +29,14 @@ public class UserSettingsActivity extends AppCompatActivity{
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, null);
                 Intent intent = new Intent(context, HomeActivity.class);
                 startActivity(intent);
-                ((Activity)context).finish();
+                finish();
+            }
+        });
+
+        userSettingsBinding.settingsIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

@@ -60,7 +60,7 @@
 
                         <!-- TODO: Set user name here -->
                         <TextView
-                            android:id="@+id/user_name"
+                            android:id="@+id/tv_user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/user_avatar"
@@ -72,7 +72,7 @@
                             android:id="@+id/btn_follow"
                             android:layout_width="@dimen/profile_o_follow_button_width"
                             android:layout_height="@dimen/profile_o_follow_button_height"
-                            android:layout_below="@id/user_name"
+                            android:layout_below="@id/tv_user_name"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/button_follow_round_corner"

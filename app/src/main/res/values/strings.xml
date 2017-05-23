@@ -86,7 +86,7 @@
 
     <string name="tab_recipes">Recipes</string>
     <string name="tab_followers">Followers</string>
-    <string name="tab_following">Following</string>
+    <string name="tab_following">Followings</string>
     <string name="tab_history">History</string>
 
     <string name="user_inactive_tab_text_color">#FFD4D4D4</string>

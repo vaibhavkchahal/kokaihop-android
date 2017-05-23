@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_avtar_lg"/>
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/tv_user_name"
             android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/user_pic_name_margin"
@@ -34,10 +34,10 @@
             android:textColor="@color/users_list_name_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/user_pic"
-            app:layout_constraintRight_toLeftOf="@+id/user_following"
+            app:layout_constraintRight_toLeftOf="@+id/cb_user_following"
             app:layout_constraintTop_toTopOf="parent"/>
         <CheckBox
-            android:id="@+id/user_following"
+            android:id="@+id/cb_user_following"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
