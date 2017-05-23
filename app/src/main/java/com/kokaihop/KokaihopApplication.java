@@ -39,7 +39,7 @@ public class KokaihopApplication extends Application {
             copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
         } else {
             //check if the db is already in place
-            if (!fileFound(Realm.DEFAULT_REALM_NAME, this.getFilesDir())) {
+            if (!fileFound(DATABASE_NAME, this.getFilesDir())) {
                 copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
             }
         }

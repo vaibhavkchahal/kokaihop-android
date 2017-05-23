@@ -57,7 +57,7 @@ public class RecipeDataManager {
 //            realm.insertOrUpdate(recipe);
             Log.d("id", recipeInfo.getRecipe().get_id());
         }
-        realm.copyToRealmOrUpdate(recipeList);
+        realm.insertOrUpdate(recipeList);
 //        recipeDataListener.onTransactionComplete(true);
         realm.commitTransaction();
     }
