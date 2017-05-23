@@ -16,7 +16,7 @@ import com.kokaihop.feed.AppetizerFragment;
 import com.kokaihop.feed.CookieFragment;
 import com.kokaihop.feed.DessertFragment;
 import com.kokaihop.feed.MainCourseFragment;
-import com.kokaihop.feed.RecipeTabAdapter;
+import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
 
 public class UserFeedFragment extends Fragment {
@@ -69,7 +69,7 @@ public class UserFeedFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
 
-        final RecipeTabAdapter adapter = new RecipeTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+        final PagerTabAdapter adapter = new PagerTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
 
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
         adapter.addFrag(mainCourseFragment,tabTitles[0]);

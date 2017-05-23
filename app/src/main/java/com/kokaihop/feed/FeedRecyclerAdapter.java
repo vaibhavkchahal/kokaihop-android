@@ -1,19 +1,29 @@
 package com.kokaihop.feed;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.kokaihop.database.Recipe;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kokaihop.utility.AppUtility.getHeightInAspectRatio;
 
 /**
  * Created by Vaibhav Chahal on 15/5/17.
@@ -25,6 +35,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int TYPE_ITEM_DAY_RECIPE = 0;
     public static final int TYPE_ITEM_RECIPE = 1;
     public static final int TYPE_ITEM_ADVT = 2;
+    private Context context;
 
     public FeedRecyclerAdapter(List<Object> list) {
         recipeListWithAdds = list;
@@ -32,11 +43,40 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        Point point = AppUtility.getDisplayPoint(context);
+        int marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.card_left_right_margin) +
+                2 * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+
         if (viewType == TYPE_ITEM_DAY_RECIPE) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_day_recipe_item, parent, false);
+            //set beam image
+            Logger.e("point x", point.x + " point y " + point.y);
+            int width = point.x - marginInPx;
+            float ratio = (float) 13 / 33;
+            int height = getHeightInAspectRatio(width, ratio);
+            ImageView imageViewRecipe = (ImageView) v.findViewById(R.id.imageview_recipe_of_day);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageViewRecipe.getLayoutParams();
+            layoutParams.height = height;
+            layoutParams.width = width;
+            imageViewRecipe.setLayoutParams(layoutParams);
+
+
             return new ViewHolderRecipeOfDay(v);
         } else if (viewType == TYPE_ITEM_RECIPE) {
+            marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.card_left_right_margin) +
+                    4 * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_recipe_item, parent, false);
+            Logger.e("point x", point.x + " point y " + point.y);
+            int width = (point.x - marginInPx)/2;
+            float ratio = (float) 3 / 4;
+            int height = getHeightInAspectRatio(width, ratio);
+            ImageView imageViewRecipe = (ImageView) v.findViewById(R.id.iv_recipe);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageViewRecipe.getLayoutParams();
+            layoutParams.height = height;
+            layoutParams.width = width;
+            imageViewRecipe.setLayoutParams(layoutParams);
+
             return new ViewHolderRecipe(v);
         } else if (viewType == TYPE_ITEM_ADVT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_advt_item, parent, false);
@@ -53,12 +93,21 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ViewHolderRecipeOfDay holderRecipeOfDay = (ViewHolderRecipeOfDay) holder;
                 Recipe recipeOfDay = (Recipe) recipeListWithAdds.get(position);
                 holderRecipeOfDay.binder.setRecipe(recipeOfDay);
+                LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holderRecipeOfDay.binder.imageviewRecipeOfDay.getLayoutParams();
+                Logger.e("height", layoutParams.height + ", width " + layoutParams.width);
+                if (recipeOfDay.getMainImage() != null && recipeOfDay.getMainImage().getPublicId() != null)
+                    holderRecipeOfDay.binder.setImageUrl(CloudinaryUtils.getImageUrl("35036626", String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 Recipe recipe = (Recipe) recipeListWithAdds.get(position);
+                RelativeLayout.LayoutParams layoutParamsRecipe = (RelativeLayout.LayoutParams) viewHolderRecipe.binder.ivRecipe.getLayoutParams();
+                Logger.e("height", layoutParamsRecipe.height + ", width " + layoutParamsRecipe.width);
+                if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null)
+                    viewHolderRecipe.binder.setImageUrl(CloudinaryUtils.getImageUrl("35036626", String.valueOf(layoutParamsRecipe.width), String.valueOf(layoutParamsRecipe.height)));
                 viewHolderRecipe.binder.setRecipe(recipe);
+                viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
@@ -82,12 +131,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return -1;
 
-        /*if (isPositionHeader(position))
-            return TYPE_ITEM_DAY_RECIPE;
-        else if (position == 3 || (position+3)%3==0){
-            return TYPE_ITEM_ADVT;
-        }
-        return TYPE_ITEM_RECIPE;*/
+
     }
 
     private boolean isPositionHeader(int position) {
@@ -106,6 +150,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public ViewHolderRecipeOfDay(View view) {
             super(view);
             binder = DataBindingUtil.bind(view);
+
         }
     }
 

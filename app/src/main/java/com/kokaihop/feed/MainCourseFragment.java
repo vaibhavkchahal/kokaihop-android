@@ -20,7 +20,6 @@ public class MainCourseFragment extends Fragment {
 
     private FragmentMainCourseBinding mainCourseBinding;
     private MainCourseViewModel mainCourseViewModel;
-    private int offset = 0;
 
     public MainCourseFragment() {
         // Required empty public constructor
@@ -76,15 +75,17 @@ public class MainCourseFragment extends Fragment {
 
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax());
-                final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) mainCourseBinding.rvFeed.getAdapter();
-                final int curSize = adapter.getItemCount();
-                view.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyItemRangeInserted(curSize, mainCourseViewModel.getRecipeListWithAdds().size() - 1);
-                    }
-                });
+                if (!mainCourseViewModel.isLoadMore()) {
+                    mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax(), true);
+                    final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) mainCourseBinding.rvFeed.getAdapter();
+                    final int curSize = adapter.getItemCount();
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyItemRangeInserted(curSize, mainCourseViewModel.getRecipeListWithAdds().size() - 1);
+                        }
+                    });
+                }
             }
         };
         mainCourseBinding.rvFeed.addOnScrollListener(scrollListener);

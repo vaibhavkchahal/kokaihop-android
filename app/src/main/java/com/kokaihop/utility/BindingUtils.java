@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.kokaihop.Logger;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 
 import java.util.List;
@@ -39,10 +38,7 @@ public class BindingUtils {
 
     @BindingAdapter({"app:imageUrl", "app:error"})
     public static void loadImage(ImageView view, String url, Drawable error) {
-
-
-        String imageUrl=CloudinaryDetail.url+CloudinaryDetail.cloudName+CloudinaryDetail.folder+url+CloudinaryDetail.format;
-        Glide.with(view.getContext()).load(imageUrl).error(error).into(view);
-        Logger.i("url cloudnary-->",url);
+        Glide.with(view.getContext()).load(url).error(error).into(view);
+        Logger.i("url cloudnary-->", url);
     }
 }
