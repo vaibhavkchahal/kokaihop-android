@@ -7,7 +7,8 @@
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <import type="android.view.View"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
-        <variable name="imageUrl" type="String"/>
+        <variable name="feedImageUrl" type="String"/>
+        <variable name="profileImageUrl" type="String"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.maincourse.RecipeHandler"/>
         <import type="com.kokaihop.utility.SharedPrefUtils"/>
         <import type="com.kokaihop.utility.Constants"/>
@@ -24,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:error="@{@color/white}"
-            app:imageUrl="@{imageUrl}"
+            app:imageUrl="@{feedImageUrl}"
         />
 
         <CheckBox
@@ -112,7 +113,7 @@
                 android:layout_marginLeft="@dimen/iv_profile_margin_left"
                 android:scaleType="fitXY"
                 app:error="@{@drawable/ic_avtar_sm}"
-                app:imageUrl="@{imageUrl}"
+                app:imageUrl="@{profileImageUrl}"
             />
 
             <TextView

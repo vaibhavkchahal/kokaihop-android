@@ -19,5 +19,11 @@ public class CloudinaryUtils {
         return url;
     }
 
+    public static String getRoundedImageUrl(String publicId, String width, String height) {
+        String url = CloudinaryDetail.url + CloudinaryDetail.cloudName + CloudinaryDetail.folder + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_max" + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
+        Logger.e("imageUrl", url);
+        return url;
+    }
+
 
 }
