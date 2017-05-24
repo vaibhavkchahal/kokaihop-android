@@ -94,21 +94,20 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Recipe recipeOfDay = (Recipe) recipeListWithAdds.get(position);
                 holderRecipeOfDay.binder.setRecipe(recipeOfDay);
                 Logger.e("height", layoutParamsRecipeDay.height + ", width " + layoutParamsRecipeDay.width);
-                if (recipeOfDay.getMainImage() != null && recipeOfDay.getMainImage().getPublicId() != null)
-                {
+                if (recipeOfDay.getMainImage() != null && recipeOfDay.getMainImage().getPublicId() != null) {
                     holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
 
                 }
-                    holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
+                holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 Recipe recipe = (Recipe) recipeListWithAdds.get(position);
                 Logger.e("height", layoutParamsRecipeItem.height + ", width " + layoutParamsRecipeItem.width);
-                if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null)
-                {
+                if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null) {
                     viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipe.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
+
                 }
                 int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_profile_height_width);
                 if (recipe.getCreatedBy() != null && recipe.getCreatedBy().getProfileImageId() != null)

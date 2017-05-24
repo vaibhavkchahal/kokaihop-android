@@ -30,8 +30,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/recycler_item_space"
             android:layout_marginLeft="@dimen/card_left_right_margin"
-            android:layout_marginRight="@dimen/card_left_right_margin"
-            tools:context="com.kokaihop.feed.maincourse.MainCourseFragment">
+            android:layout_marginRight="@dimen/card_left_right_margin">
 
         </android.support.v7.widget.RecyclerView>
 

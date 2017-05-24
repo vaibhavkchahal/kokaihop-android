@@ -40,7 +40,7 @@ public class AppetizerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentAppetizerBinding = inflate(LayoutInflater.from(getActivity()), R.layout.fragment_appetizer, container, false);
-        apeetizerViewModel = new RecipeFeedViewModel(getContext(), ApiConstants.BadgeType.APPETIZER_OF_THE_DAY.name());
+        apeetizerViewModel = new RecipeFeedViewModel(getContext(), ApiConstants.BadgeType.APPETIZER_OF_THE_DAY);
         fragmentAppetizerBinding.setViewModel(apeetizerViewModel);
         initializeRecycleView();
         View rootView = fragmentAppetizerBinding.getRoot();
@@ -49,13 +49,10 @@ public class AppetizerFragment extends Fragment {
 
     private void initializeRecycleView() {
         RecyclerView rvAppetizer = fragmentAppetizerBinding.rvAppetizer;
-        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(apeetizerViewModel, rvAppetizer,ApiConstants.BadgeType.APPETIZER_OF_THE_DAY.name());
-
+        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(apeetizerViewModel, rvAppetizer, ApiConstants.BadgeType.APPETIZER_OF_THE_DAY);
         int spacingInPixels = rvAppetizer.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvAppetizer.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-
         EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
-
         rvAppetizer.addOnScrollListener(scrollListener);
     }
 
