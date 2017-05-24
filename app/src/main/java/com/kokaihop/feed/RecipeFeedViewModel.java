@@ -33,7 +33,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
     private RecipeDataManager dataManager = null;
     private Context context;
     private boolean isDownloading;
-    public static int MAX_BADGE=60;
+    public static int MAX_BADGE = 60;
 
     private List<Recipe> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
@@ -42,13 +42,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
         return recipeListWithAdds;
     }
 
-    public int getRecipeCount() {
-        return recipeCount;
-    }
-
-    public void setRecipeCount(int recipeCount) {
-        this.recipeCount = recipeCount;
-    }
 
     public int getOffset() {
         return offset;
@@ -100,7 +93,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
         new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
-                setRecipeCount(MAX_BADGE);
                 dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb();
                 setDownloading(false);
