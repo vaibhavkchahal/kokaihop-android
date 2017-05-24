@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -25,8 +26,12 @@ import com.kokaihop.home.userprofile.RecipeFragment;
 import com.kokaihop.home.userprofile.UserApiCallback;
 import com.kokaihop.home.userprofile.UserProfileViewModel;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
+import com.kokaihop.home.userprofile.model.NotificationCount;
 import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
+
+import java.util.ArrayList;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
@@ -38,6 +43,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
     private ViewPager viewPager;
     private LayoutInflater inflater;
     private ViewGroup container;
+    ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
 
@@ -80,7 +86,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         userProfileSignUpBinding.signUpNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialogSignUp signUp = (CustomDialogSignUp) CustomDialogSignUp.instantiate(getActivity(),"CustomDialogSignUp");
+                CustomDialogSignUp signUp = (CustomDialogSignUp) DialogFragment.instantiate(getActivity(),"com.kokaihop.home.CustomDialogSignUp");
                 signUp.show(getFragmentManager(),"");
 //                startActivity(new Intent(getContext(), SignUpActivity.class));
 //                TODO:to be Checked
@@ -94,6 +100,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         final TabLayout tabLayout = userProfileBinding.tabProfile;
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
+        notificationCount = new ArrayList<>();
         int tabCount = 4;
         int i;
 
@@ -104,10 +111,10 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
                 getActivity().getString(R.string.tab_following),
                 getActivity().getString(R.string.tab_history)};
 //        TODO: counts should be set here.
-
-        int[] counts = {userApiResponse.getRecipeCount(),
-                        userApiResponse.getFollowers().size(),
-                        userApiResponse.getFollowing().size()};
+        notificationCount.add(new NotificationCount());
+        notificationCount.add(new NotificationCount());
+        notificationCount.add(new NotificationCount());
+        setNotificationCount();
 
         viewPager = userProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());
@@ -130,7 +137,8 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
             TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
-            tabBinding.text1.setText("" + counts[i]);
+            tabBinding.setNotification(notificationCount.get(i));
+//            tabBinding.text1.setText("" + counts[i]);
             tabBinding.text2.setText(tabTitles[i]);
         }
         TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
@@ -171,6 +179,18 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
             }
         });
 
-        tabLayout.getTabAt(0).select();
+        tabLayout.getTabAt(Constants.TAB_RECIPES).select();
+    }
+
+    @Override
+    public void followToggeled() {
+
+    }
+
+    public void setNotificationCount() {
+        UserApiResponse userApiResponse = UserApiResponse.getInstance();
+        notificationCount.get(Constants.TAB_RECIPES).setCount(userApiResponse.getRecipeCount());
+        notificationCount.get(Constants.TAB_FOLLOWERS).setCount(userApiResponse.getFollowers().size());
+        notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(userApiResponse.getFollowing().size());
     }
 }

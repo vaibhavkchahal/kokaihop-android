@@ -144,4 +144,9 @@ public class OtherUserProfileFragment extends Fragment implements UserApiCallbac
 
         tabLayout.getTabAt(0).select();
     }
+
+    @Override
+    public void followToggeled() {
+
+    }
 }

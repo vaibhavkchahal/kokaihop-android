@@ -6,4 +6,6 @@ package com.kokaihop.home.userprofile;
 
 public interface UserApiCallback {
     void showUserProfile();
+
+    void followToggeled();
 }

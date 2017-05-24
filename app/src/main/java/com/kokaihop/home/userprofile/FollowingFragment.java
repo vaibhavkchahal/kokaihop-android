@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
+import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 
@@ -72,5 +73,10 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
     public void showUserProfile() {
         followingUsers = FollowingFollowersApiResponse.getFollowingInstance().getUsers();
         setupUsersList();
+    }
+
+    @Override
+    public void followToggeled() {
+        ((UserProfileFragment) getParentFragment()).setNotificationCount();
     }
 }

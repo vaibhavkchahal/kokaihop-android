@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.home.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.home.userprofile.model.UserApiResponse;
@@ -136,11 +136,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     public void onToggleFollowing(View checkbox, FollowingFollowerUser user) {
 
         String userId = user.get_id();
+
         if(((CheckBox)checkbox).isChecked()){
             UserApiResponse.getInstance().getFollowing().add(user.get_id());
         }else{
             UserApiResponse.getInstance().getFollowing().remove(user.get_id());
         }
         toggleFollowing(userId, ((CheckBox)checkbox).isChecked());
+        userApiCallback.followToggeled();
+
     }
 }

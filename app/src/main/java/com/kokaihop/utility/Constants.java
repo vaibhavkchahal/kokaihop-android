@@ -13,4 +13,10 @@ public class Constants {
     public static final String AUTHORIZATION_BEARER= "Bearer " ;
     public static final String USER_ID= "userId " ;
 
+    //Tab Numbers
+    public static final int TAB_RECIPES = 0;
+    public static final int TAB_FOLLOWERS = 1;
+    public static final int TAB_FOLLOWINGS = 2;
+
+
 }
