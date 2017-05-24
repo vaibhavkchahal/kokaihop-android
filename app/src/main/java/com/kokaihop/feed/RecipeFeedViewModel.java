@@ -33,6 +33,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
     private RecipeDataManager dataManager = null;
     private Context context;
     private boolean isDownloading;
+    public static int MAX_BADGE=60;
 
     private List<Recipe> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
@@ -91,7 +92,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
         new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
-                setRecipeCount(response.getCount());
+                setRecipeCount(MAX_BADGE);
                 dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb(badgeType);
                 setDownloading(false);
