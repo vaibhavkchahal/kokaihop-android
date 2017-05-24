@@ -23,7 +23,7 @@ import static com.kokaihop.utility.Constants.AUTHORIZATION_BEARER;
  * Created by Vaibhav Chahal on 15/5/17.
  */
 
-public class MainCourseViewModel extends BaseViewModel implements RecipeDataManager.RecipeDataListener {
+public class MainCourseViewModel extends BaseViewModel {
 
     private int offset = 0;
     private int max = 20;
@@ -80,12 +80,12 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
 
     public MainCourseViewModel(Context context) {
         this.context = context;
-        dataManager = new RecipeDataManager(this);
+        dataManager = new RecipeDataManager();
         fetchRecipeFromDb();
-        getRecipes(offset,true);
+        getRecipes(getOffset(), true);
     }
 
-    public void getRecipes(int offset,boolean isDownloading) {
+    public void getRecipes(int offset, boolean isDownloading) {
         setOffset(offset);
         setDownloading(isDownloading);
         //        String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
@@ -95,7 +95,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
             authorizationToken = AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
 
         }
-        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), max);
+        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name(), isLike, getOffset(), getMax());
         new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
@@ -130,12 +130,6 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
                 recipeListWithAdds.add(position, advtDetail);
             }
         }
-    }
-
-    @Override
-    public void onTransactionComplete(boolean executed) {
-//        recipeList = dataManager.fetchRecipeFromDb(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
-        //TODO: update Recycler view
     }
 
 
