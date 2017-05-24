@@ -52,7 +52,7 @@ public class FeedRecyclerListingOperation {
 
             @Override
             public void onLoadMore(RecyclerView view) {
-                if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() < feedViewModel.getRecipeCount()) {
+                if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() < feedViewModel.MAX_BADGE) {
                     feedViewModel.getRecipes(feedViewModel.getOffset() + feedViewModel.getMax(), true, badgeType);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) view.getAdapter();
                     final int curSize = adapter.getItemCount();
