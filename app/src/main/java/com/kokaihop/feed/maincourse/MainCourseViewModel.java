@@ -31,7 +31,7 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     private int recipeCount;
     private RecipeDataManager dataManager = null;
     private Context context;
-    private boolean isLoadMore;
+    private boolean isDownloading;
 
     private List<Recipe> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
@@ -69,27 +69,25 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
     }
 
     @Bindable
-    public boolean isLoadMore() {
-        return isLoadMore;
+    public boolean isDownloading() {
+        return isDownloading;
     }
 
-    public void setLoadMore(boolean loadMore) {
-        isLoadMore = loadMore;
-        notifyPropertyChanged(BR.loadMore);
+    public void setDownloading(boolean downloading) {
+        isDownloading = downloading;
+        notifyPropertyChanged(BR.downloading);
     }
 
     public MainCourseViewModel(Context context) {
         this.context = context;
         dataManager = new RecipeDataManager(this);
         fetchRecipeFromDb();
-        if (recipeList != null) {
-        }
         getRecipes(offset,true);
     }
 
-    public void getRecipes(int offset,boolean isLoadMore) {
+    public void getRecipes(int offset,boolean isDownloading) {
         setOffset(offset);
-        setLoadMore(isLoadMore);
+        setDownloading(isDownloading);
         //        String authorizationToken = AUTHORIZATION_BEARER + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         String authorizationToken = "";
@@ -104,17 +102,17 @@ public class MainCourseViewModel extends BaseViewModel implements RecipeDataMana
                 setRecipeCount(response.getCount());
                 dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb();
-                setLoadMore(false);
+                setDownloading(false);
             }
 
             @Override
             public void onFailure(String message) {
-                setLoadMore(false);
+                setDownloading(false);
             }
 
             @Override
             public void onError(RecipeResponse response) {
-                setLoadMore(false);
+                setDownloading(false);
             }
         });
 

@@ -48,7 +48,7 @@ public class MainCourseFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-        RecyclerView rvFeed = mainCourseBinding.rvFeed;
+        final RecyclerView rvFeed = mainCourseBinding.rvFeed;
         int spacingInPixels = getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -74,12 +74,13 @@ public class MainCourseFragment extends Fragment {
         EndlessScrollListener scrollListener = new EndlessScrollListener(layoutManager) {
 
             @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if (!mainCourseViewModel.isLoadMore()) {
+            public void onLoadMore() {
+
+                if (!mainCourseViewModel.isDownloading() && mainCourseViewModel.getOffset() + mainCourseViewModel.getMax() < mainCourseViewModel.getRecipeCount()) {
                     mainCourseViewModel.getRecipes(mainCourseViewModel.getOffset() + mainCourseViewModel.getMax(), true);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) mainCourseBinding.rvFeed.getAdapter();
                     final int curSize = adapter.getItemCount();
-                    view.post(new Runnable() {
+                    rvFeed.post(new Runnable() {
                         @Override
                         public void run() {
                             adapter.notifyItemRangeInserted(curSize, mainCourseViewModel.getRecipeListWithAdds().size() - 1);
