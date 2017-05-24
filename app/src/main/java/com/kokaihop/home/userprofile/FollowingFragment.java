@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
-import com.kokaihop.home.userprofile.model.FollowingApiResponse;
-import com.kokaihop.home.userprofile.model.FollowingUser;
+import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
+import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 
 import java.util.ArrayList;
 
@@ -21,9 +21,9 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
 
     private static FollowingFragment fragment;
     private FragmentFollowersFollowingBinding followingBinding;
-    private FollowersFollowingAdapter followingAdapter;
-    private ArrayList<FollowingUser> followingUsers;
-    private FollowingViewModel followingViewModel;
+    private FollowersFollowingAdapter followersAdapter;
+    private ArrayList<FollowingFollowerUser> followingUsers;
+    private FollowersFollowingViewModel followingViewModel;
 
     public FollowingFragment() {
         // Required empty public constructor
@@ -40,7 +40,7 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         followingUsers = new ArrayList<>();
-        followingViewModel = new FollowingViewModel(this,getContext());
+        followingViewModel = new FollowersFollowingViewModel(this,getContext());
     }
 
     @Override
@@ -62,15 +62,15 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
         followingBinding.refreshList.setRefreshing(false);
         RecyclerView recyclerView = followingBinding.followersList;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        followingAdapter = new FollowersFollowingAdapter(followingUsers);
+        followersAdapter = new FollowersFollowingAdapter(followingUsers,followingViewModel);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(followingAdapter);
+        recyclerView.setAdapter(followersAdapter);
     }
 
 
     @Override
     public void showUserProfile() {
-        followingUsers = FollowingApiResponse.getInstance().getUsers();
+        followingUsers = FollowingFollowersApiResponse.getFollowingInstance().getUsers();
         setupUsersList();
     }
 }

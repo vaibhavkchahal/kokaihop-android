@@ -7,11 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
-import com.kokaihop.home.userprofile.model.FollowingUser;
+import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -23,13 +22,14 @@ import java.util.ArrayList;
 
 public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFollowingAdapter.ViewHolder> {
 
-    private ArrayList<FollowingUser> usersList;
-    FollowingViewModel followingViewModel;
+    private ArrayList<FollowingFollowerUser> usersList;
+    FollowersFollowingViewModel followingViewModel;
     RowProfileFollowerFollowingBinding binding;
     Context context;
 
-    public FollowersFollowingAdapter(ArrayList<FollowingUser> usersList) {
+    public FollowersFollowingAdapter(ArrayList<FollowingFollowerUser> usersList, FollowersFollowingViewModel followingViewModel) {
         this.usersList = usersList;
+        this.followingViewModel = followingViewModel;
         Log.e(usersList.size() + "", "Size");
     }
 
@@ -42,22 +42,16 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.bind(usersList.get(position));
+        final FollowingFollowerUser user = usersList.get(position);
+        holder.bind(user);
+//        binding.setUser(user);
         Log.e("Sh", SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
-        Log.e("ID", usersList.get(position).get_id()+ " : " + usersList.get(position).getName().getFull());
-        if (SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID).equals(usersList.get(position).get_id())) {
-            binding.cbUserFollowing.setVisibility(View.GONE);
+        Log.e("ID", usersList.get(position).get_id() + " : " + user.getName().getFull());
+        if (SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID).equals(user.get_id())) {
+            user.setButtonVisibility(View.GONE);
             Log.e("Hidden", "true");
         }
 
-        binding.cbUserFollowing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                followingViewModel = new FollowingViewModel(context);
-                String userId = usersList.get(position).get_id();
-                followingViewModel.toggleFollowing(userId, isChecked);
-            }
-        });
     }
 
     @Override
@@ -79,8 +73,9 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
         public void onClick(View v) {
         }
 
-        public void bind(FollowingUser followingUser) {
-            binding.setUser(followingUser);
+        public void bind(FollowingFollowerUser followingFollowerUser) {
+            binding.setUser(followingFollowerUser);
+            binding.setViewModel(followingViewModel);
             binding.executePendingBindings();
         }
     }

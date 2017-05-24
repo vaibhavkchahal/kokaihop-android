@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
-import com.kokaihop.Logger;
+import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

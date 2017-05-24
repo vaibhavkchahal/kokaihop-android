@@ -6,6 +6,8 @@ import android.databinding.Bindable;
 import com.altaworks.kokaihop.ui.BR;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by Rajendra Singh on 17/5/17.
  */
@@ -26,9 +28,9 @@ public class UserApiResponse extends BaseObservable{
     @SerializedName("location")
     private Location location;
     @SerializedName("followers")
-    private String[] followers;
+    private ArrayList<String> followers;
     @SerializedName("following")
-    private String[] following;
+    private ArrayList<String> following;
     @SerializedName("dateCreated")
     private long dateCreated;
     @SerializedName("loginCount")
@@ -122,21 +124,21 @@ public class UserApiResponse extends BaseObservable{
     }
 
     @Bindable
-    public String[] getFollowers() {
+    public ArrayList<String> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(String[] followers) {
+    public void setFollowers(ArrayList<String> followers) {
         this.followers = followers;
         notifyPropertyChanged(BR.followers);
     }
 
     @Bindable
-    public String[] getFollowing() {
+    public ArrayList<String> getFollowing() {
         return following;
     }
 
-    public void setFollowing(String[] following) {
+    public void setFollowing(ArrayList<String> following) {
         this.following = following;
         notifyPropertyChanged(BR.following);
     }

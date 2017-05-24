@@ -1,6 +1,6 @@
 package com.kokaihop.home.userprofile;
 
-import com.kokaihop.home.userprofile.model.FollowingApiResponse;
+import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.home.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.home.userprofile.model.UserApiResponse;
@@ -29,10 +29,16 @@ public interface UserProfileApi {
                                            @Query("languageCode") String languageCode);
 
     @GET("v1/api/users/{userId}/following")
-    Call<FollowingApiResponse> getUserFollowing(@Header("Authorization") String authorization,
-                                                @Path("userId") String userId,
-                                                @Query("max") int max,
-                                                @Query("offset") int offset);
+    Call<FollowingFollowersApiResponse> getFollowingUsers(@Header("Authorization") String authorization,
+                                                     @Path("userId") String userId,
+                                                     @Query("max") int max,
+                                                     @Query("offset") int offset);
+
+    @GET("v1/api/users/{userId}/followers")
+    Call<FollowingFollowersApiResponse> getFollowers(@Header("Authorization") String authorization,
+                                                     @Path("userId") String userId,
+                                                     @Query("max") int max,
+                                                     @Query("offset") int offset);
 
     @POST("v1/api/users/toggleFollowUser")
     Call<FollowingToggleResponse> toggleFollowing(@Header("Authorization") String authorization,

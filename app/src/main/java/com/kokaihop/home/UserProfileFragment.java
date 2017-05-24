@@ -105,8 +105,8 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
 //        TODO: counts should be set here.
 
         int[] counts = {userApiResponse.getRecipeCount(),
-                        userApiResponse.getFollowers().length,
-                        userApiResponse.getFollowing().length};
+                        userApiResponse.getFollowers().size(),
+                        userApiResponse.getFollowing().size()};
 
         viewPager = userProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());
