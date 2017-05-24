@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
+import com.kokaihop.feed.maincourse.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class RecipeDataManager {
 //            realm.insertOrUpdate(recipe);
             Log.d("id", recipeInfo.getRecipe().get_id());
         }
-        realm.copyToRealmOrUpdate(recipeList);
+        realm.insertOrUpdate(recipeList);
 //        recipeDataListener.onTransactionComplete(true);
         realm.commitTransaction();
     }
@@ -65,7 +66,7 @@ public class RecipeDataManager {
         void onTransactionComplete(boolean executed);
     }
 
-    public void updateIsFavorite(final boolean checked, final Recipe recipe) {
+    public void updateIsFavoriteInDB(final boolean checked, final Recipe recipe) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

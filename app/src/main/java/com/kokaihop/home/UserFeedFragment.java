@@ -15,7 +15,7 @@ import com.altaworks.kokaihop.ui.databinding.TabFeedTabLayoutBinding;
 import com.kokaihop.feed.AppetizerFragment;
 import com.kokaihop.feed.CookieFragment;
 import com.kokaihop.feed.DessertFragment;
-import com.kokaihop.feed.MainCourseFragment;
+import com.kokaihop.feed.maincourse.MainCourseFragment;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
 

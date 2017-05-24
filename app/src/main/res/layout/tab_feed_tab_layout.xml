@@ -11,7 +11,7 @@
 
         <View android:layout_width="1dp"
               android:layout_height="match_parent"
-              android:background="@color/feed_tab_divider_color"/>
+              android:background="@color/color_FFF7F7F7"/>
 
         <TextView
             android:id="@+id/text1"
@@ -22,13 +22,13 @@
             android:paddingTop="@dimen/feed_tab_padding_top"
             android:paddingLeft="@dimen/feed_tab_padding_left"
             android:paddingRight="@dimen/feed_tab_padding_right"
-            android:textColor="@color/feed_tab_text_color"
+            android:textColor="@color/color_FF8E8E93"
             android:textSize="@dimen/feed_tab_text_small"
             app:font="@{`SS-ProRegular`}"/>
 
         <View android:layout_width="1dp"
               android:layout_height="match_parent"
-              android:background="@color/feed_tab_divider_color"/>
+              android:background="@color/color_FFF7F7F7"/>
 
     </LinearLayout>
 

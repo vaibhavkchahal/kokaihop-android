@@ -5,9 +5,13 @@
 >
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
+        <import type="android.view.View"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
-        <variable name="imageUrl" type="String"/>
-        <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
+        <variable name="feedImageUrl" type="String"/>
+        <variable name="profileImageUrl" type="String"/>
+        <variable name="recipeHandler" type="com.kokaihop.feed.maincourse.RecipeHandler"/>
+        <import type="com.kokaihop.utility.SharedPrefUtils"/>
+        <import type="com.kokaihop.utility.Constants"/>
     </data>
 
 
@@ -20,14 +24,15 @@
             android:id="@+id/iv_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:error="@{@color/white}"
-            app:imageUrl="@{imageUrl}"
+            app:error="@{@color/color_FFD4D4D4}"
+            app:imageUrl="@{feedImageUrl}"
         />
 
         <CheckBox
             android:id="@+id/checkbox_recipe_like"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/tv_like_height"
+            android:layout_marginLeft="@dimen/recipe_likes_margin_left"
             android:layout_marginTop="@dimen/tv_like_margin_top"
             android:background="@drawable/recipe_likes_border"
             android:button="@null"
@@ -35,17 +40,17 @@
             android:drawableStart="@{recipe.isFavorite ? @drawable/ic_like_sm : @drawable/ic_unlike_sm}"
             android:gravity="center_vertical"
             android:onCheckedChanged="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
-            android:paddingRight="9dp"
-            android:layout_marginLeft="8dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="@dimen/padding_left_recipe_like"
+            android:paddingRight="@dimen/padding_right_recipe_right"
             android:text="@{String.valueOf(recipe.counter.likes)}"
             android:textColor="@color/white"
+            android:visibility="@{(SharedPrefUtils.getSharedPrefStringData(checkboxRecipeLike,Constants.ACCESS_TOKEN).equals(``) || SharedPrefUtils.getSharedPrefStringData(checkboxRecipeLike,Constants.ACCESS_TOKEN)==null) ? View.GONE : View.VISIBLE}"
         />
 
         <TextView
             android:id="@+id/tv_recipe_name"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/recipe_name_width"
+            android:layout_height="@dimen/recipe_name_height"
             android:layout_below="@+id/iv_recipe"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/tv_recipe_name_margin_left"
@@ -55,7 +60,7 @@
             android:maxLength="19"
             android:maxLines="2"
             android:text="@{recipe.title}"
-            android:textColor="@color/recipe_title_color"
+            android:textColor="@color/color_FF71767F"
             android:textSize="@dimen/textsize_tv_recipe_name"
             app:font="@{`SS-ProRegular`}"
         />
@@ -63,7 +68,7 @@
         <RatingBar
             android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
-            android:layout_height="12dp"
+            android:layout_height="@dimen/rating_bar_height"
             android:layout_below="@+id/tv_recipe_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/rating_bar_margin_top"
@@ -82,7 +87,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/tv_recipe_date_margin_top"
             android:text="@{DateTimeUtils.getDate(recipe.dateCreated,String.valueOf(`MMM dd, yyyy`))}"
-            android:textColor="@color/cook_something_text_color"
+            android:textColor="@color/color_FF8D929C"
             android:textSize="@dimen/textsize_tv_recipe_date"
             app:font="@{`SS-ProRegular`}"
         />
@@ -93,7 +98,7 @@
             android:layout_height="@dimen/recipe_separator_height"
             android:layout_below="@+id/tv_recipe_date"
             android:layout_marginTop="@dimen/recipe_separator_margin_top"
-            android:background="@color/recipe_bottom_separator_color"/>
+            android:background="@color/color_66D4D4D4"/>
 
 
         <RelativeLayout android:layout_width="match_parent"
@@ -107,7 +112,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/iv_profile_margin_left"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_avtar_sm"/>
+                app:error="@{@drawable/ic_avtar_sm}"
+                app:imageUrl="@{profileImageUrl}"
+            />
 
             <TextView
                 android:id="@+id/tv_user_name"
@@ -121,7 +128,7 @@
                 android:ellipsize="end"
                 android:maxLength="7"
                 android:text="@{recipe.createdBy.name}"
-                android:textColor="@color/grey_CC999999"
+                android:textColor="@color/color_CC999999"
                 android:textSize="@dimen/textsize_tv_user_name"
                 app:font="@{`SS-ProRegular`}"/>
 
@@ -135,7 +142,7 @@
                 android:layout_marginLeft="@dimen/tv_comment_count_margin_left"
                 android:layout_marginRight="@dimen/tv_coment_count_margin_right"
                 android:text="@{String.valueOf(recipe.counter.comments)}"
-                android:textColor="@color/grey_FF999999"
+                android:textColor="@color/color_FF999999"
                 android:textSize="@dimen/tv_comment_count_textsize"
                 app:font="@{`SS-ProRegular`}"/>
 

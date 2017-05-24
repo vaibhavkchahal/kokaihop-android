@@ -33,7 +33,7 @@
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+        <item name="android:background">@color/color_66000000</item>
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -55,7 +55,7 @@
     </style>
 
     <style name="ProfileTabLayoutText" parent="@android:style/TextAppearance.Widget.TabWidget">
-        <item name="android:textColor">@color/profile_tab_text_color</item>
+        <item name="android:textColor">@color/color_FFD4D4D4</item>
         <item name="android:textSize">12sp</item>
     </style>
 

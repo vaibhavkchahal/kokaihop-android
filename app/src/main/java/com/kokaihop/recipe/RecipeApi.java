@@ -14,4 +14,5 @@ public interface RecipeApi {
     Call<SearchResponse> getRecipe(@Query("fetchFacets") int fetchFacets, @Query("max") int max,
                                    @Query("offset") int offset, @Query("sortParams") String sortParams,
                                    @Query("type") String type);
+
 }

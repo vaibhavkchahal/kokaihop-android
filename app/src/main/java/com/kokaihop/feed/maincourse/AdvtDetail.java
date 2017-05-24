@@ -1,11 +1,10 @@
-package com.kokaihop.feed;
+package com.kokaihop.feed.maincourse;
 
 public class AdvtDetail {
 
     private String title;
 
-    public AdvtDetail(String title) {
-        this.title = title;
+    public AdvtDetail() {
     }
 
     public String getTitle() {
