@@ -14,7 +14,7 @@ public class ApiConstants {
         MAIN_COURSE_OF_THE_DAY("mainCourseOfTheDay"),
         APPETIZER_OF_THE_DAY("appetizerOfTheDay"),
         COOKIE_OF_THE_DAY("cookieOfTheDay"),
-        DESERT_OF_THE_DAY("desertOfTheDay"),
+        DESSERT_OF_THE_DAY("dessertOfTheDay"),
         VEGETARIAN_OF_THE_DAY("vegetarianOfTheDay");
 
         public String value;
