@@ -4,8 +4,7 @@ public class AdvtDetail {
 
     private String title;
 
-    public AdvtDetail(String title) {
-        this.title = title;
+    public AdvtDetail() {
     }
 
     public String getTitle() {

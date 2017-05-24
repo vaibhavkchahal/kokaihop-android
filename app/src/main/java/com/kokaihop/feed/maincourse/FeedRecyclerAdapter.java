@@ -61,9 +61,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             layoutParams.height = height;
             layoutParams.width = width;
             imageViewRecipe.setLayoutParams(layoutParams);
-
             layoutParamsRecipeDay = (LinearLayout.LayoutParams) imageViewRecipe.getLayoutParams();
-
             return new ViewHolderRecipeOfDay(v);
         } else if (viewType == TYPE_ITEM_RECIPE) {
             marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.card_left_right_margin) +
@@ -78,9 +76,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             layoutParams.height = height;
             layoutParams.width = width;
             imageViewRecipe.setLayoutParams(layoutParams);
-
             layoutParamsRecipeItem = (RelativeLayout.LayoutParams) imageViewRecipe.getLayoutParams();
-
             return new ViewHolderRecipe(v);
         } else if (viewType == TYPE_ITEM_ADVT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_advt_item, parent, false);
@@ -103,25 +99,20 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
 
                 }
+                    holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 Recipe recipe = (Recipe) recipeListWithAdds.get(position);
-
                 Logger.e("height", layoutParamsRecipeItem.height + ", width " + layoutParamsRecipeItem.width);
                 if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null)
                 {
                     viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipe.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
-
                 }
-
                 int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_profile_height_width);
-
                 if (recipe.getCreatedBy() != null && recipe.getCreatedBy().getProfileImageId() != null)
                     viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipe.getCreatedBy().getProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
-
-
                 viewHolderRecipe.binder.setRecipe(recipe);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();

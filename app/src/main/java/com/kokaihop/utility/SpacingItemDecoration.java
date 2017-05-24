@@ -14,7 +14,7 @@ public class SpacingItemDecoration extends RecyclerView.ItemDecoration {
     private int topSpace;
     private int bottomSpace;
 
-    public SpacingItemDecoration(int left,int right,int top,int bottom) {
+    public SpacingItemDecoration(int left, int right, int top, int bottom) {
         this.leftSpace = left;
         this.rightSpace = right;
         this.topSpace = top;
@@ -28,11 +28,5 @@ public class SpacingItemDecoration extends RecyclerView.ItemDecoration {
         outRect.right = rightSpace;
         outRect.bottom = bottomSpace;
         outRect.top = topSpace;
-//        // Add top margin only for the first item to avoid double space between items
-//        if (parent.getChildLayoutPosition(view) == 0) {
-//            outRect.top = space;
-//        } else {
-//            outRect.top = 0;
-//        }
     }
 }
