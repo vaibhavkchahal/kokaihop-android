@@ -17,11 +17,10 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
-import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.home.userprofile.FollowersFragment;
-import com.kokaihop.home.userprofile.ProfileAdapter;
 import com.kokaihop.home.userprofile.FollowingFragment;
 import com.kokaihop.home.userprofile.HistoryFragment;
+import com.kokaihop.home.userprofile.ProfileAdapter;
 import com.kokaihop.home.userprofile.RecipeFragment;
 import com.kokaihop.home.userprofile.UserApiCallback;
 import com.kokaihop.home.userprofile.UserProfileViewModel;
@@ -81,7 +80,9 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         userProfileSignUpBinding.signUpNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), SignUpActivity.class));
+                CustomDialogSignUp signUp = (CustomDialogSignUp) CustomDialogSignUp.instantiate(getActivity(),"CustomDialogSignUp");
+                signUp.show(getFragmentManager(),"");
+//                startActivity(new Intent(getContext(), SignUpActivity.class));
 //                TODO:to be Checked
             }
         });

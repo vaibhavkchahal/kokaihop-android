@@ -197,4 +197,5 @@
     <dimen name="profile_o_follow_button_height">35dp</dimen>
     <dimen name="profile_o_follow_text_size">13sp</dimen>
     <dimen name="padding_5dp">5dp</dimen>
+    <dimen name="dialog_corner_radius">10dp</dimen>
 </resources>
