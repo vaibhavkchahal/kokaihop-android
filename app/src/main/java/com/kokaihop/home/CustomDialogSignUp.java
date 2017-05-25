@@ -53,7 +53,7 @@ public class CustomDialogSignUp extends DialogFragment implements View.OnClickLi
                 startActivity(new Intent(getActivity(), SignUpActivity.class));
                 break;
             case R.id.dialog_log_in:
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+                startActivity(new Intent(getActivity(), LoginActivity.class).putExtra("profile",true));
                 break;
         }
         this.dismiss();

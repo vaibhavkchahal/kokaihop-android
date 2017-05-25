@@ -29,6 +29,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     private Context context;
     private UserProfileApi userProfileApi;
     private String accessToken;
+    private String userId;
 
     public FollowersFollowingViewModel(Context context) {
         this.context = context;
@@ -44,11 +45,10 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     //Getting list of following users through api call
 
     public void getFollowingUsers() {
+        setProgressVisible(true);
         setUpApiCall();
         setProgressVisible(true);
         Log.e("Get", "Following");
-//        String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
-        String userId = "56387ade1a258f0300c3074e";
         Call<FollowingFollowersApiResponse> followingApiResponseCall = userProfileApi.getFollowingUsers(accessToken, userId, 20, 0);
 
         followingApiResponseCall.enqueue(new Callback<FollowingFollowersApiResponse>() {
@@ -92,11 +92,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     //Getting list of followers through api call
     public void getFollowers() {
-        setUpApiCall();
         setProgressVisible(true);
+        setUpApiCall();
         Log.e("Get", "Following");
-//        String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
-        String userId = "56387ade1a258f0300c3074e";
         Call<FollowingFollowersApiResponse> followersApiResponseCall = userProfileApi.getFollowers(accessToken, userId, 20, 0);
 
         followersApiResponseCall.enqueue(new Callback<FollowingFollowersApiResponse>() {
@@ -123,7 +121,11 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         String bearer = Constants.AUTHORIZATION_BEARER;
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-        accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
+        accessToken = bearer + token;
+        userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
+
+//        userId = "56387ade1a258f0300c3074e";
+//        accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
     }
 
     @Override
@@ -137,12 +139,12 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
         String userId = user.get_id();
 
-        if(((CheckBox)checkbox).isChecked()){
+        if (((CheckBox) checkbox).isChecked()) {
             UserApiResponse.getInstance().getFollowing().add(user.get_id());
-        }else{
+        } else {
             UserApiResponse.getInstance().getFollowing().remove(user.get_id());
         }
-        toggleFollowing(userId, ((CheckBox)checkbox).isChecked());
+        toggleFollowing(userId, ((CheckBox) checkbox).isChecked());
         userApiCallback.followToggeled();
 
     }

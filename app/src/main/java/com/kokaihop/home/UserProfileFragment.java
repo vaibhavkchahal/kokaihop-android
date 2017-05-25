@@ -74,6 +74,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
             userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
             userViewModel = new UserProfileViewModel(getContext(), this);
             userViewModel.getUserData();
+            userProfileBinding.setViewModel(userViewModel);
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -104,7 +105,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         int tabCount = 4;
         int i;
 
-        userProfileBinding.setViewModel(UserApiResponse.getInstance());
+        userProfileBinding.setUser(UserApiResponse.getInstance());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_followers),

@@ -51,9 +51,7 @@
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="signup_message">This is where you’ll connect with other chefs, Get to see your
-        search history, and change your settings
-    </string>
+    <string name="signup_message">This is where you’ll connect with other chefs, Get to see your search history, and change your settings</string>
     <string name="sign_up_now">Login or become member for free!</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save">Save</string>
@@ -93,5 +91,10 @@
     <string name="user_active_tab_text_color">#FFF75A15</string>
     <string name="follow">FOLLOW</string>
     <string name="following">FOLLOWING</string>
+
+
+    <!--SignUp/Login Dialog-->
+    <string name="access_profile">Access Profile</string>
+    <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your search history, and change your settings</string>
 
 </resources>

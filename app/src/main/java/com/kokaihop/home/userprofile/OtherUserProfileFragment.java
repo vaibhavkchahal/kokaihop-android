@@ -68,7 +68,7 @@ public class OtherUserProfileFragment extends Fragment implements UserApiCallbac
         int tabCount = 4;
         int i;
 
-        userProfileBinding.setViewModel(UserApiResponse.getInstance());
+        userProfileBinding.setUser(UserApiResponse.getInstance());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_cookbooks),

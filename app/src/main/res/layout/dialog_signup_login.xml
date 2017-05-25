@@ -14,50 +14,52 @@
         <TextView
             android:id="@+id/dialog_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dialog_item_height"
             android:gravity="center"
-            android:text="@string/sign_up"
+            android:text="@string/access_profile"
             app:font="@{`SS-ProBold`}"/>
 
         <TextView
             android:id="@+id/dialog_title_msg"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dialog_item_height"
             android:gravity="center"
-            android:text="@string/signup_message"
+            android:paddingLeft="@dimen/dialog_title_horizontal_padding"
+            android:paddingRight="@dimen/dialog_title_horizontal_padding"
+            android:text="@string/signup_dialog_message"
             app:font="@{`SS-ProRegular`}"/>
         <View
             android:layout_width="match_parent"
             android:background="@color/black"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/list_seperator_width"/>
         <TextView
             android:id="@+id/dialog_log_in"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dialog_item_height"
             android:gravity="center"
             android:text="@string/login"
             app:font="@{`SS-ProRegular`}"/>
         <View
             android:layout_width="match_parent"
             android:background="@color/black"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/list_seperator_width"/>
 
         <TextView
             android:id="@+id/dialog_sign_up"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dialog_item_height"
             android:gravity="center"
             android:text="@string/sign_up"
             app:font="@{`SS-ProRegular`}"/>
         <View
             android:layout_width="match_parent"
             android:background="@color/black"
-            android:layout_height="1dp"/>
+            android:layout_height="@dimen/list_seperator_width"/>
 
         <TextView
             android:id="@+id/dialog_cancel"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dialog_item_height"
             android:gravity="center"
             android:text="@string/cancel"
             app:font="@{`SS-ProRegular`}"/>

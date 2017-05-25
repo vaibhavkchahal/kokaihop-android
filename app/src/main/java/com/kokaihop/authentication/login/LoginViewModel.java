@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,6 +13,7 @@ import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.FacebookAuthRequest;
 import com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity;
+import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
@@ -82,15 +82,17 @@ public class LoginViewModel extends BaseViewModel {
     }
 
 
-
     public void openForgotPasswordScreen(View view) {
         view.getContext().startActivity(new Intent(view.getContext(), ForgotPasswordActivity.class));
     }
 
     public void openSignupScreen(View view) {
         Activity activity = (Activity) view.getContext();
-//        activity.startActivity(new Intent(view.getContext(), SignUpActivity.class));
+        if (activity.getIntent().getBooleanExtra("profile", false)) {
+            activity.startActivity(new Intent(view.getContext(), SignUpActivity.class));
+        }
         activity.finish();
+
     }
 
     public void facebookLogin(final View view) {
