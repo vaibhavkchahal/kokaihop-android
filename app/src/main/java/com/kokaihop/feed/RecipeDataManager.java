@@ -48,6 +48,7 @@ public class RecipeDataManager {
                     .equalTo("_id", recipeInfo.getRecipe().get_id()).findFirst();
             if (recipe != null) {
                 recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
+                recipe.setDateCreated(recipeInfo.getRecipe().getDateCreated());
                 if (recipeResponse.getMyLikes() != null) {
                     boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
                     recipe.setFavorite(isLiked);

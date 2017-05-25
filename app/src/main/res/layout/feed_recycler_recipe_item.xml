@@ -24,8 +24,9 @@
             android:id="@+id/iv_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey_FFD4D4D4"
+            android:src="@color/grey_FFD4D4D4"
             app:error="@{@color/grey_FFD4D4D4}"
+            android:scaleType="fitXY"
             app:imageUrl="@{feedImageUrl}"
         />
 
