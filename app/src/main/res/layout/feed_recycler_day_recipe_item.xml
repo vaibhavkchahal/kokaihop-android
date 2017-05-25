@@ -34,6 +34,7 @@
                     android:layout_height="wrap_content"
                     bind:error="@{@color/grey_FFD4D4D4}"
                     app:placeholder="@{@color/grey_FFD4D4D4}"
+                    android:scaleType="fitXY"
                     bind:imageUrl="@{feedImageUrl}"/>
 
                 <TextView
