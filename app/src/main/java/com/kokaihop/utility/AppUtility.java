@@ -38,4 +38,5 @@ public class AppUtility {
         int height = (width * 4) / 3;
         return height;
     }
+
 }

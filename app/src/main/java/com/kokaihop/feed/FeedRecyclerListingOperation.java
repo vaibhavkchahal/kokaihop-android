@@ -22,7 +22,7 @@ public class FeedRecyclerListingOperation {
     private RecipeFeedViewModel feedViewModel;
     private ApiConstants.BadgeType badgeType;
 
-    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,ApiConstants.BadgeType badgeType) {
+    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView, ApiConstants.BadgeType badgeType) {
         this.recyclerViewFeed = recyclerView;
         this.feedViewModel = feedViewModel;
         this.badgeType = badgeType;

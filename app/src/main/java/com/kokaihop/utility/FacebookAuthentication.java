@@ -75,11 +75,15 @@ public class FacebookAuthentication {
         String firstName = user.optString("first_name");
         String lastName = user.optString("last_name");
         String facebookId = user.optString("id");
+        FacebookUserLocation facebookLocation = new FacebookUserLocation();
         JSONObject location = user.optJSONObject("location");
-        String locationId = location.optString("id");
-        String locationName = location.optString("name");
+        if (location != null) {
+            String locationId = location.optString("id");
+            String locationName = location.optString("name");
+            facebookLocation.setId(locationId);
+            facebookLocation.setName(locationName);
+        }
         FacebookUserName facebookName = new FacebookUserName(firstName, fullName, lastName);
-        FacebookUserLocation facebookLocation = new FacebookUserLocation(locationId, locationName);
         return new FacebookAuthRequest(facebookName, accessToken.getToken(), email, facebookId, facebookLocation);
     }
 

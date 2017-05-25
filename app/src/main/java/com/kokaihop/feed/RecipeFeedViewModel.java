@@ -78,7 +78,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
             setDownloading(false);
 
         } else {
-
             setDownloading(isDownloading);
 
         }

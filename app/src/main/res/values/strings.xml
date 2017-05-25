@@ -100,5 +100,8 @@
     <!--SignUp/Login Dialog-->
     <string name="access_profile">Access Profile</string>
     <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your search history, and change your settings</string>
+    <string name="members_area">Memebers area</string>
+    <string name="login_like_message">You need to logged in to make a recipe favourite</string>
+    <string name="welcome_text">Welcome to kokaihop</string>
 
 </resources>

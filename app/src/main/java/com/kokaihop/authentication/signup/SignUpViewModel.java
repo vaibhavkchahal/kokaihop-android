@@ -115,8 +115,14 @@ public class SignUpViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
-                AppUtility.showHomeScreen(context);
-
+                boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
+                if (isComingFromLike) {
+                    Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
+                    ((SignUpActivity) context).setResult(Activity.RESULT_OK);
+                    ((SignUpActivity) context).finish();
+                } else {
+                    AppUtility.showHomeScreen(context);
+                }
             }
 
             @Override
@@ -169,7 +175,6 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
 
-
     public void signUpWithFacebook(View view) {
         final Context context = view.getContext();
         FacebookAuthentication authentication = new FacebookAuthentication();
@@ -183,7 +188,14 @@ public class SignUpViewModel extends BaseViewModel {
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                         setProgressVisible(false);
                         Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
-                        AppUtility.showHomeScreen(context);
+                        boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
+                        if (isComingFromLike) {
+                            ((SignUpActivity) context).setResult(Activity.RESULT_OK);
+                            ((SignUpActivity) context).finish();
+                            Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
+                        } else {
+                            AppUtility.showHomeScreen(context);
+                        }
                     }
 
                     @Override
@@ -229,6 +241,5 @@ public class SignUpViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
-
     }
 }
