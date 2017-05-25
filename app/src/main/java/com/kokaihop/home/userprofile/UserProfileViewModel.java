@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.User;
 import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -44,18 +44,18 @@ public class UserProfileViewModel extends BaseViewModel {
 //        String accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
         String accessToken = bearer + token;
         Log.e("Token", accessToken);
-        Call<UserApiResponse> userApiCall = userProfileApi.getUserData(accessToken, countryCode);
-        userApiCall.enqueue(new Callback<UserApiResponse>() {
+        Call<User> userApiCall = userProfileApi.getUserData(accessToken, countryCode);
+        userApiCall.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<UserApiResponse> call, Response<UserApiResponse> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 Log.e("User ID : ", response.body().get_id());
-                UserApiResponse.setUserApiResponse(response.body());
+                User.setUser(response.body());
                 userApiCallback.showUserProfile();
                 setProgressVisible(false);
             }
 
             @Override
-            public void onFailure(Call<UserApiResponse> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 setProgressVisible(false);
             }
         });

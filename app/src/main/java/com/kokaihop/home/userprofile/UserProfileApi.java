@@ -3,7 +3,7 @@ package com.kokaihop.home.userprofile;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.home.userprofile.model.ToggleFollowingRequest;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,13 +20,13 @@ import retrofit2.http.Query;
 public interface UserProfileApi {
 
     @GET("v1/api/users/me")
-    Call<UserApiResponse> getUserData(@Header("Authorization") String authorization,
-                                      @Query("languageCode") String languageCode);
+    Call<User> getUserData(@Header("Authorization") String authorization,
+                           @Query("languageCode") String languageCode);
 
     @GET("v1/api/users/profile")
-    Call<UserApiResponse> getOtherUserData(@Header("Authorization") String authorization,
-                                           @Query("friendlyUrl") String friendlyUrl,
-                                           @Query("languageCode") String languageCode);
+    Call<User> getOtherUserData(@Header("Authorization") String authorization,
+                                @Query("friendlyUrl") String friendlyUrl,
+                                @Query("languageCode") String languageCode);
 
     @GET("v1/api/users/{userId}/following")
     Call<FollowingFollowersApiResponse> getFollowingUsers(@Header("Authorization") String authorization,

@@ -16,7 +16,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.User;
 
 import java.util.ArrayList;
 
@@ -75,7 +75,7 @@ public class FollowersFragment extends Fragment implements UserApiCallback{
     public void showUserProfile() {
         followers = FollowingFollowersApiResponse.getFollowersInstance().getUsers();
         followers = FollowingFollowersApiResponse.getFollowersInstance().getUsers();
-        ArrayList<String> usersFollowing = UserApiResponse.getInstance().getFollowing();
+        ArrayList<String> usersFollowing = User.getInstance().getFollowing();
         for(FollowingFollowerUser user : followers){
             Log.e(user.get_id() , user.getName().getFull());
             if(! usersFollowing.contains(user.get_id())){

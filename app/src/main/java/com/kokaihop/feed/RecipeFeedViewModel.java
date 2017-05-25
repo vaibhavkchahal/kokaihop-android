@@ -74,7 +74,14 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     public void getRecipes(int offset, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
         setOffset(offset);
-        setDownloading(isDownloading);
+        if (recipeList.size() == MAX_BADGE) {
+            setDownloading(false);
+
+        } else {
+
+            setDownloading(isDownloading);
+
+        }
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         String authorizationToken = "";
         if (accessToken != null && !accessToken.isEmpty()) {
