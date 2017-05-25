@@ -32,8 +32,8 @@
                     android:id="@+id/imageview_recipe_of_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/grey_FFD4D4D4"
                     bind:error="@{@color/grey_FFD4D4D4}"
+                    app:placeholder="@{@color/grey_FFD4D4D4}"
                     bind:imageUrl="@{feedImageUrl}"/>
 
                 <TextView
