@@ -1,4 +1,4 @@
-package kokaihop.utility;
+package com.kokaihop.utility;
 
 /**
  * Created by Rajendra Singh on 18/5/17.
