@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Rajendra Singh on 19/5/17.
  */
 
-public class Address extends BaseObservable{
+public class Address{
 
     @SerializedName("loc")
     private Loc loc;
@@ -45,13 +45,11 @@ public class Address extends BaseObservable{
         this.countryCode = countryCode;
     }
 
-    @Bindable
     public Loc getLoc() {
         return loc;
     }
 
     public void setLoc(Loc loc) {
         this.loc = loc;
-        notifyPropertyChanged(BR.loc);
     }
 }

@@ -1,9 +1,5 @@
 package com.kokaihop.home.userprofile.model;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-
-import com.altaworks.kokaihop.ui.BR;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -12,7 +8,7 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 17/5/17.
  */
 
-public class UserApiResponse extends BaseObservable{
+public class UserApiResponse{
 
     private static UserApiResponse userApiResponse;
 
@@ -72,277 +68,220 @@ public class UserApiResponse extends BaseObservable{
     @SerializedName("totalFeeds")
     private int totalFeeds;
 
-    @Bindable
     public String get_id() {
         return _id;
     }
     public void set_id(String _id) {
         this._id = _id;
-        notifyPropertyChanged(BR._id);
 
     }
 
-    @Bindable
     public String getFriendlyUrl() {
         return friendlyUrl;
     }
 
     public void setFriendlyUrl(String friendlyUrl) {
         this.friendlyUrl = friendlyUrl;
-        notifyPropertyChanged(BR.friendlyUrl);
     }
 
-    @Bindable
     public int getOldId() {
         return oldId;
     }
 
     public void setOldId(int oldId) {
         this.oldId = oldId;
-        notifyPropertyChanged(BR.oldId);
-
     }
 
-    @Bindable
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-        notifyPropertyChanged(BR.email);
     }
 
-    @Bindable
     public Location getLocation() {
         return location;
     }
 
     public void setLocation(Location location) {
         this.location = location;
-        notifyPropertyChanged(BR.location);
     }
 
-    @Bindable
     public ArrayList<String> getFollowers() {
         return followers;
     }
 
     public void setFollowers(ArrayList<String> followers) {
         this.followers = followers;
-        notifyPropertyChanged(BR.followers);
     }
 
-    @Bindable
     public ArrayList<String> getFollowing() {
         return following;
     }
 
     public void setFollowing(ArrayList<String> following) {
         this.following = following;
-        notifyPropertyChanged(BR.following);
     }
 
-    @Bindable
     public long getDateCreated() {
         return dateCreated;
     }
 
     public void setDateCreated(long dateCreated) {
         this.dateCreated = dateCreated;
-        notifyPropertyChanged(BR.dateCreated);
     }
 
-    @Bindable
     public int getLoginCount() {
         return loginCount;
     }
 
     public void setLoginCount(int loginCount) {
         this.loginCount = loginCount;
-        notifyPropertyChanged(BR.loginCount);
     }
 
-    @Bindable
     public long getLastLoginDate() {
         return lastLoginDate;
     }
 
     public void setLastLoginDate(long lastLoginDate) {
         this.lastLoginDate = lastLoginDate;
-        notifyPropertyChanged(BR.lastLoginDate);
-
     }
 
-    @Bindable
     public Settings getSettings() {
         return settings;
     }
 
     public void setSettings(Settings settings) {
         this.settings = settings;
-        notifyPropertyChanged(BR.settings);
-    }
-
-    @Bindable
-    public long getLastViewedNewsOn() {
-        return lastViewedNewsOn;
     }
 
     public void setLastViewedNewsOn(long lastViewedNewsOn) {
         this.lastViewedNewsOn = lastViewedNewsOn;
-        notifyPropertyChanged(BR.lastViewedNewsOn);
     }
 
-    @Bindable
+    public long getLastViewedNewsOn() {
+        return lastViewedNewsOn;
+    }
+
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
-        notifyPropertyChanged(BR.role);
-
     }
 
-    @Bindable
     public boolean isEnabled() {
         return enabled;
     }
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        notifyPropertyChanged(BR.enabled);
     }
 
-    @Bindable
     public UserName getName() {
         return name;
     }
 
     public void setName(UserName name) {
         this.name = name;
-        notifyPropertyChanged(BR.name);
     }
 
-    @Bindable
     public int get__v() {
         return __v;
     }
 
     public void set__v(int __v) {
         this.__v = __v;
-        notifyPropertyChanged(BR.__v);
     }
 
-    @Bindable
     public CloudinaryImage getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(CloudinaryImage profileImage) {
-        this.profileImage = profileImage;
-        notifyPropertyChanged(BR.profileImage);
-    }
-
-    @Bindable
     public long getLastSeenTime() {
         return lastSeenTime;
     }
 
-    public void setLastSeenTime(long lastSeenTime) {
-        this.lastSeenTime = lastSeenTime;
-        notifyPropertyChanged(BR.lastSeenTime);
+    public void setProfileImage(CloudinaryImage profileImage) {
+        this.profileImage = profileImage;
     }
 
-    @Bindable
+    public void setLastSeenTime(long lastSeenTime) {
+        this.lastSeenTime = lastSeenTime;
+    }
+
     public boolean isOnline() {
         return isOnline;
     }
 
     public void setOnline(boolean online) {
         isOnline = online;
-        notifyPropertyChanged(BR.online);
     }
 
-    @Bindable
     public String getAboutMe() {
         return aboutMe;
     }
 
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
-        notifyPropertyChanged(BR.aboutMe);
     }
 
-    @Bindable
     public Counter getCounter() {
         return counter;
     }
 
     public void setCounter(Counter counter) {
         this.counter = counter;
-        notifyPropertyChanged(BR.counter);
     }
 
-    @Bindable
     public boolean isHasPassword() {
         return hasPassword;
     }
 
     public void setHasPassword(boolean hasPassword) {
         this.hasPassword = hasPassword;
-        notifyPropertyChanged(BR.hasPassword);
     }
 
-    @Bindable
     public int getRecipesCollectionCount() {
         return recipesCollectionCount;
     }
 
     public void setRecipesCollectionCount(int recipesCollectionCount) {
         this.recipesCollectionCount = recipesCollectionCount;
-        notifyPropertyChanged(BR.recipesCollectionCount);
     }
 
-    @Bindable
     public int getBlogPostCount() {
         return blogPostCount;
     }
 
     public void setBlogPostCount(int blogPostCount) {
         this.blogPostCount = blogPostCount;
-        notifyPropertyChanged(BR.blogPostCount);
     }
 
-    @Bindable
     public CloudinaryImage getCoverImage() {
         return coverImage;
     }
 
-    public void setCoverImage(CloudinaryImage coverImage) {
-        this.coverImage = coverImage;
-        notifyPropertyChanged(BR.coverImage);
-    }
-
-    @Bindable
     public int getRecipeCount() {
         return recipeCount;
     }
 
-    public void setRecipeCount(int recipeCount) {
-        this.recipeCount = recipeCount;
-        notifyPropertyChanged(BR.recipeCount);
+    public void setCoverImage(CloudinaryImage coverImage) {
+        this.coverImage = coverImage;
     }
 
-    @Bindable
+    public void setRecipeCount(int recipeCount) {
+        this.recipeCount = recipeCount;
+    }
+
     public int getTotalFeeds() {
         return totalFeeds;
     }
 
     public void setTotalFeeds(int totalFeeds) {
         this.totalFeeds = totalFeeds;
-        notifyPropertyChanged(BR.totalFeeds);
     }
 
     private UserApiResponse(){};

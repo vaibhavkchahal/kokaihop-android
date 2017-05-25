@@ -63,7 +63,7 @@ public class FollowersFragment extends Fragment implements UserApiCallback{
 
     public void setupUsersList(){
         followersBinding.refreshList.setRefreshing(false);
-        RecyclerView recyclerView = followersBinding.followersList;
+        RecyclerView recyclerView = followersBinding.rvFollowerFollowingList;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         followersAdapter = new FollowersFollowingAdapter(followers,followersViewModel);
         recyclerView.setLayoutManager(layoutManager);

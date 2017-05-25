@@ -15,6 +15,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.utility.EndlessScrollListener;
 
 import java.util.ArrayList;
 
@@ -59,13 +60,20 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
         return followingBinding.getRoot();
     }
 
+//    Setting up users list to the recycler view.
     public void setupUsersList() {
         followingBinding.refreshList.setRefreshing(false);
-        RecyclerView recyclerView = followingBinding.followersList;
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        RecyclerView recyclerView = followingBinding.rvFollowerFollowingList;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         followersAdapter = new FollowersFollowingAdapter(followingUsers,followingViewModel);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);
+        recyclerView.addOnScrollListener(new EndlessScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(RecyclerView recyclerView) {
+
+            }
+        });
     }
 
 

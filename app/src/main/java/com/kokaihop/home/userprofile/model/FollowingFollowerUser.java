@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Rajendra Singh on 22/5/17.
  */
 
-public class FollowingFollowerUser extends BaseObservable{
+public class FollowingFollowerUser{
 
     @SerializedName("_id")
     private String _id;
@@ -59,24 +59,20 @@ public class FollowingFollowerUser extends BaseObservable{
         this.profileImage = profileImage;
     }
 
-    @Bindable
     public int getButtonVisibility() {
         return buttonVisibility;
     }
 
     public void setButtonVisibility(int buttonVisibility) {
         this.buttonVisibility = buttonVisibility;
-        notifyPropertyChanged(BR.buttonVisibility);
     }
 
-    @Bindable
     public boolean isFollowingUser() {
         return followingUser;
     }
 
     public void setFollowingUser(boolean followingUser) {
         this.followingUser = followingUser;
-        notifyPropertyChanged(BR.followingUser);
     }
 
     public String get_id() {
