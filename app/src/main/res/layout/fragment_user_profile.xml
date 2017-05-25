@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="user" type="com.kokaihop.home.userprofile.model.UserApiResponse"/>
+        <variable name="user" type="com.kokaihop.home.userprofile.model.User"/>
         <variable name="viewModel" type="com.kokaihop.home.userprofile.UserProfileViewModel"/>
     </data>
 

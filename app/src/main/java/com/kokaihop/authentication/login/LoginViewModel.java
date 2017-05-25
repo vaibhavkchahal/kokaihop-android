@@ -62,7 +62,7 @@ public class LoginViewModel extends BaseViewModel {
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
-                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUser().getId());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                 showHomeScreen(context);
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
             }

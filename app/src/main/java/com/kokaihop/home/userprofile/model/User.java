@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 17/5/17.
  */
 
-public class UserApiResponse extends BaseObservable{
+public class User extends BaseObservable{
 
-    private static UserApiResponse userApiResponse;
+    private static User user;
 
 
     @SerializedName("_id")
@@ -345,22 +345,22 @@ public class UserApiResponse extends BaseObservable{
         notifyPropertyChanged(BR.totalFeeds);
     }
 
-    private UserApiResponse(){};
+    private User(){};
 
-    public static UserApiResponse getUserApiResponse() {
-        return userApiResponse;
+    public static User getUser() {
+        return user;
     }
 
-    public static void setUserApiResponse(UserApiResponse userApiResponse) {
-        UserApiResponse.userApiResponse = userApiResponse;
+    public static void setUser(User user) {
+        User.user = user;
     }
 
-    public static UserApiResponse getInstance()
+    public static User getInstance()
     {
-        if(userApiResponse == null){
-            userApiResponse = new UserApiResponse();
+        if(user == null){
+            user = new User();
         }
-        return userApiResponse;
+        return user;
     }
 
 }

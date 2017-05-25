@@ -11,7 +11,7 @@ public class AuthenticationApiResponse {
     private String token;
 
     @SerializedName("user")
-    private User user;
+    private UserAuthenticationDetail userAuthenticationDetail;
 
     @SerializedName("errors")
     private ErrorEmail errorEmail;
@@ -20,8 +20,8 @@ public class AuthenticationApiResponse {
         return token;
     }
 
-    public User getUser() {
-        return user;
+    public UserAuthenticationDetail getUserAuthenticationDetail() {
+        return userAuthenticationDetail;
     }
 
     public ErrorEmail getErrorEmail() {
