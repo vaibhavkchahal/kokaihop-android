@@ -3,6 +3,7 @@ package com.kokaihop.home;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
@@ -28,6 +31,8 @@ import com.kokaihop.home.userprofile.UserProfileViewModel;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
 import com.kokaihop.home.userprofile.model.NotificationCount;
 import com.kokaihop.home.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -43,6 +48,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
     private ViewPager viewPager;
     private LayoutInflater inflater;
     private ViewGroup container;
+    private Point point;
     ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
@@ -60,6 +66,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -104,7 +111,8 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         notificationCount = new ArrayList<>();
         int tabCount = 4;
         int i;
-
+        setCoverImage();
+        setProfileImage();
         userProfileBinding.setUser(User.getInstance());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
@@ -193,5 +201,33 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
         notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers().size());
         notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowing().size());
+    }
+
+    public void setCoverImage(){
+        point = AppUtility.getDisplayPoint(getContext());
+        int width = point.x;
+        float ratio = (float)195/320;
+        int height = AppUtility.getHeightInAspectRatio(width,ratio);
+        ImageView ivCover = userProfileBinding.ivProfileCover;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivCover.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
+        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(User.getInstance().getCoverImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        userProfileBinding.executePendingBindings();
+    }
+
+    public void setProfileImage(){
+        int width = userProfileBinding.userAvatar.getWidth();
+        int height = width;
+        ImageView ivProfile = userProfileBinding.userAvatar;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivProfile.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+        userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(User.getInstance().getProfileImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        userProfileBinding.executePendingBindings();
     }
 }
