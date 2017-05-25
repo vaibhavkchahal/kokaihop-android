@@ -27,7 +27,7 @@ import com.kokaihop.home.userprofile.UserApiCallback;
 import com.kokaihop.home.userprofile.UserProfileViewModel;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
 import com.kokaihop.home.userprofile.model.NotificationCount;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -97,7 +97,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
 
     @Override
     public void showUserProfile() {
-        UserApiResponse userApiResponse = UserApiResponse.getInstance();
+        User user = User.getInstance();
         final TabLayout tabLayout = userProfileBinding.tabProfile;
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
@@ -105,7 +105,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         int tabCount = 4;
         int i;
 
-        userProfileBinding.setUser(UserApiResponse.getInstance());
+        userProfileBinding.setUser(User.getInstance());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_followers),
@@ -189,9 +189,9 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
     }
 
     public void setNotificationCount() {
-        UserApiResponse userApiResponse = UserApiResponse.getInstance();
-        notificationCount.get(Constants.TAB_RECIPES).setCount(userApiResponse.getRecipeCount());
-        notificationCount.get(Constants.TAB_FOLLOWERS).setCount(userApiResponse.getFollowers().size());
-        notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(userApiResponse.getFollowing().size());
+        User user = User.getInstance();
+        notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
+        notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers().size());
+        notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowing().size());
     }
 }

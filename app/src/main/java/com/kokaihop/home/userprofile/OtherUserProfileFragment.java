@@ -16,7 +16,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.User;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
@@ -61,14 +61,14 @@ public class OtherUserProfileFragment extends Fragment implements UserApiCallbac
 
     @Override
     public void showUserProfile() {
-        UserApiResponse userApiResponse = UserApiResponse.getInstance();
+        User user = User.getInstance();
         final TabLayout tabLayout = userProfileBinding.tabProfile;
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
         int tabCount = 4;
         int i;
 
-        userProfileBinding.setUser(UserApiResponse.getInstance());
+        userProfileBinding.setUser(User.getInstance());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_cookbooks),
@@ -76,9 +76,9 @@ public class OtherUserProfileFragment extends Fragment implements UserApiCallbac
                 getActivity().getString(R.string.tab_following)};
 //        TODO: counts should be set here.
 
-        int[] counts = {userApiResponse.getRecipeCount(),
-                userApiResponse.getFollowers().size(),
-                userApiResponse.getFollowing().size()};
+        int[] counts = {user.getRecipeCount(),
+                user.getFollowers().size(),
+                user.getFollowing().size()};
 
         viewPager = userProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());

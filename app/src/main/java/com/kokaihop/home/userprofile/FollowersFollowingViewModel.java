@@ -10,7 +10,7 @@ import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.home.userprofile.model.ToggleFollowingRequest;
-import com.kokaihop.home.userprofile.model.UserApiResponse;
+import com.kokaihop.home.userprofile.model.User;
 import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -140,9 +140,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         String userId = user.get_id();
 
         if (((CheckBox) checkbox).isChecked()) {
-            UserApiResponse.getInstance().getFollowing().add(user.get_id());
+            User.getInstance().getFollowing().add(user.get_id());
         } else {
-            UserApiResponse.getInstance().getFollowing().remove(user.get_id());
+            User.getInstance().getFollowing().remove(user.get_id());
         }
         toggleFollowing(userId, ((CheckBox) checkbox).isChecked());
         userApiCallback.followToggeled();

@@ -1,7 +1,7 @@
 package com.kokaihop.authentication.signup;
 
 import com.google.gson.annotations.SerializedName;
-import com.kokaihop.authentication.User;
+import com.kokaihop.authentication.UserAuthenticationDetail;
 
 /**
  * Created by Vaibhav Chahal on 3/5/17.
@@ -12,7 +12,7 @@ public class SignUpApiResponse {
     private String token;
 
     @SerializedName("user")
-    private User user;
+    private UserAuthenticationDetail userAuthenticationDetail;
 
     @SerializedName("errors")
     private ErrorEmail errorEmail;
@@ -21,8 +21,8 @@ public class SignUpApiResponse {
         return token;
     }
 
-    public User getUser() {
-        return user;
+    public UserAuthenticationDetail getUserAuthenticationDetail() {
+        return userAuthenticationDetail;
     }
 
     public ErrorEmail getErrorEmail() {

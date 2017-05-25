@@ -159,9 +159,7 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void openLogin(View view) {
-
-
-        ((Activity) view.getContext()).startActivity(new Intent(view.getContext(), LoginActivity.class));
+        ((Activity) view.getContext()).startActivity(new Intent(view.getContext(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
 
