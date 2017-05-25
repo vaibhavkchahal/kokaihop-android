@@ -17,7 +17,7 @@
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/color_66000000</item>
+        <item name="android:background">@color/grey_66000000</item>
     </style>
 
 </resources>

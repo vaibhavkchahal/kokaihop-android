@@ -41,7 +41,7 @@
                     android:paddingLeft="@dimen/padding_left_recipe_type"
                     android:paddingTop="@dimen/padding_top_recipe_type"
                     android:text="@{recipe.badgeType}"
-                    android:textColor="@color/color_FF71767F"
+                    android:textColor="@color/grey_FF71767F"
                     android:textSize="@dimen/textsize_recipe_type"
                     bind:font="@{`SS-ProRegular`}"/>
 
@@ -51,7 +51,7 @@
                     android:paddingBottom="@dimen/padding_bottom_recipe_name"
                     android:paddingLeft="@dimen/padding_left_recipe_type"
                     android:text="@{recipe.title}"
-                    android:textColor="@color/color_FF71767F"
+                    android:textColor="@color/grey_FF71767F"
                     android:textSize="@dimen/textsize_recipe_name"
                     bind:font="@{`SS-ProSemiBold`}"/>
 
@@ -64,7 +64,7 @@
             android:layout_marginTop="@dimen/margin_top_previous_text"
             android:paddingLeft="@dimen/padding_left_recipe_type"
             android:text="@{@string/text_previous+` `+ (TextUtils.equals(recipe.badgeType, badgeType.MAIN_COURSE_OF_THE_DAY.value) ? @string/main_course_of_the_day : TextUtils.equals(recipe.badgeType, badgeType.APPETIZER_OF_THE_DAY.value) ? @string/appetizer_of_the_day : TextUtils.equals(recipe.badgeType, badgeType.COOKIE_OF_THE_DAY.value) ? @string/cookie_of_the_day : TextUtils.equals(recipe.badgeType, badgeType.DESSERT_OF_THE_DAY.value) ? @string/desert_of_the_day:TextUtils.equals(recipe.badgeType, badgeType.VEGETARIAN_OF_THE_DAY.value) ? @string/vegetarian_of_the_day:``)}"
-            android:textColor="@color/color_FF262F40"
+            android:textColor="@color/black_FF262F40"
             android:textSize="@dimen/textsize_previous_text"
             bind:font="@{`SS-ProRegular`}"/>
 
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_left_recipe_type"
             android:text="@string/cook_something_creating_today"
-            android:textColor="@color/color_FF8D929C"
+            android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/textsize_cook_smething_text"
             bind:font="@{`SS-ProRegular`}"/>
 

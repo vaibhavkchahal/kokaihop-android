@@ -14,7 +14,7 @@
             android:layout_height= "match_parent"
             android:gravity="center"
             android:paddingTop="@dimen/home_tab_padding_top"
-            android:textColor="@color/color_FFD4D4D4"
+            android:textColor="@color/grey_FFD4D4D4"
             android:textSize="@dimen/home_tab_text_size"
             android:layout_marginBottom="@dimen/home_tab_margin_bottom"
             app:font="@{`SS-ProLight`}"/>

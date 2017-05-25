@@ -20,7 +20,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:tabBackground="@color/color_FF262F40"
+            app:tabBackground="@color/black_FF262F40"
             app:tabIndicatorHeight="0dp"
             app:tabGravity="fill"
             app:tabSelectedTextColor="@color/white"

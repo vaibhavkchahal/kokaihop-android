@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|bottom"
-            android:textColor="@color/color_FFD4D4D4"
+            android:textColor="@color/grey_FFD4D4D4"
             android:text="@{notification.count+``}"
             android:textSize="@dimen/profile_tab_text_large"
             app:font="@{`RS-Regular`}"/>
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/color_FFD4D4D4"
+            android:textColor="@color/grey_FFD4D4D4"
             android:textSize="@dimen/profile_tab_text_small"
             app:font="@{`SS-ProRegular`}"/>
 

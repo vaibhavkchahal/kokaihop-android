@@ -60,7 +60,7 @@
             android:maxLength="19"
             android:maxLines="2"
             android:text="@{recipe.title}"
-            android:textColor="@color/color_FF71767F"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/textsize_tv_recipe_name"
             app:font="@{`SS-ProRegular`}"
         />
@@ -87,7 +87,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/tv_recipe_date_margin_top"
             android:text="@{DateTimeUtils.getDate(recipe.dateCreated,String.valueOf(`MMM dd, yyyy`))}"
-            android:textColor="@color/color_FF8D929C"
+            android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/textsize_tv_recipe_date"
             app:font="@{`SS-ProRegular`}"
         />
@@ -98,7 +98,7 @@
             android:layout_height="@dimen/recipe_separator_height"
             android:layout_below="@+id/tv_recipe_date"
             android:layout_marginTop="@dimen/recipe_separator_margin_top"
-            android:background="@color/color_66D4D4D4"/>
+            android:background="@color/grey_66D4D4D4"/>
 
 
         <RelativeLayout android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                 android:ellipsize="end"
                 android:maxLength="7"
                 android:text="@{recipe.createdBy.name}"
-                android:textColor="@color/color_CC999999"
+                android:textColor="@color/grey_CC999999"
                 android:textSize="@dimen/textsize_tv_user_name"
                 app:font="@{`SS-ProRegular`}"/>
 
@@ -142,7 +142,7 @@
                 android:layout_marginLeft="@dimen/tv_comment_count_margin_left"
                 android:layout_marginRight="@dimen/tv_coment_count_margin_right"
                 android:text="@{String.valueOf(recipe.counter.comments)}"
-                android:textColor="@color/color_FF999999"
+                android:textColor="@color/grey_FF999999"
                 android:textSize="@dimen/tv_comment_count_textsize"
                 app:font="@{`SS-ProRegular`}"/>
 

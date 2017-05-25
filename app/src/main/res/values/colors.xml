@@ -8,32 +8,32 @@
     <color name="black">#FF000000</color>
     <color name="white_40">#66FFFFFF</color>
     <color name="kokaihop_orange_color">#FFF75A15</color>
-    <color name="color_FF3B5998">#FF3B5998</color>
+    <color name="blue_FF3B5998">#FF3B5998</color>
 
-    <color name="color_FFD5F0">#FFD5F0</color>
-    <color name="color_FFF75A15">#FFF75A15</color>
-    <color name="color_66000000">#66000000</color>
+    <color name="pink_FFD5F0">#FFD5F0</color>
+    <color name="orange_FFF75A15">#FFF75A15</color>
+    <color name="grey_66000000">#66000000</color>
     <color name="transparent_color">#00000000</color>
 
 
-    <color name="color_FFE3E4E6">#FFE3E4E6</color>
+    <color name="grey_FFE3E4E6">#FFE3E4E6</color>
 
     <color name="tab_background">#FF262F40</color>
-    <color name="color_00FFFFFF">#00FFFFFF</color>
-    <color name="color_FF3BC48A">#FF3BC48A</color>
-    <color name="color_FF8E8E93">#FF8E8E93</color>
+    <color name="white_00FFFFFF">#00FFFFFF</color>
+    <color name="green_FF3BC48A">#FF3BC48A</color>
+    <color name="grey_FF8E8E93">#FF8E8E93</color>
 
-    <color name="color_FFD4D4D4">#FFD4D4D4</color>
-    <color name="color_FFF7F7F7">#FFF7F7F7</color>
+    <color name="grey_FFD4D4D4">#FFD4D4D4</color>
+    <color name="white_FFF7F7F7">#FFF7F7F7</color>
 
-    <color name="color_FF71767F">#FF71767F</color>
-    <color name="color_FF262F40">#FF262F40</color>
-    <color name="color_FF8D929C">#FF8D929C</color>
-    <color name="color_66D4D4D4">#66D4D4D4</color>
-    <color name="color_99262F40">#99262F40</color>
-    <color name="color_CC999999">#CC999999</color>
-    <color name="color_FF999999">#FF999999</color>
-    <color name="color_1A000000">#1A000000</color>
+    <color name="grey_FF71767F">#FF71767F</color>
+    <color name="black_FF262F40">#FF262F40</color>
+    <color name="grey_FF8D929C">#FF8D929C</color>
+    <color name="grey_66D4D4D4">#66D4D4D4</color>
+    <color name="grey_99262F40">#99262F40</color>
+    <color name="grey_CC999999">#CC999999</color>
+    <color name="grey_FF999999">#FF999999</color>
+    <color name="grey_1A000000">#1A000000</color>
 
 
 </resources>

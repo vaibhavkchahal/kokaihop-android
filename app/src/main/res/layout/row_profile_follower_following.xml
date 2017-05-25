@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/user_pic_name_margin"
             app:font="@{`SS-ProRegular`}"
-            android:textColor="@color/color_FF8D929C"
+            android:textColor="@color/grey_FF8D929C"
             android:text="@{user.name.full}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/user_pic"

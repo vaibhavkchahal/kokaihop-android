@@ -14,7 +14,7 @@
             android:layout_height= "match_parent"
             android:gravity="center|bottom"
             android:drawablePadding="3dp"
-            android:textColor="@color/color_FFD4D4D4"
+            android:textColor="@color/grey_FFD4D4D4"
             android:textSize="@dimen/profile_tab_text_small"
             app:font="@{`SS-ProRegular`}"/>
     </LinearLayout>

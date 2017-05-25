@@ -67,7 +67,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/daily_email_preferences"
-            android:textColor="@color/color_FF71767F"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -76,7 +76,7 @@
         <View android:id="@+id/settings_divider_email"
               android:layout_width="0dp"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:background="@color/color_FFD4D4D4"
+              android:background="@color/grey_FFD4D4D4"
               app:layout_constraintTop_toBottomOf="@+id/settings_email"/>
 
         <TextView
@@ -86,7 +86,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/push_notifications"
-            android:textColor="@color/color_FF71767F"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -95,7 +95,7 @@
         <View android:id="@+id/settings_divider_notification"
               android:layout_width="0dp"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:background="@color/color_FFD4D4D4"
+              android:background="@color/grey_FFD4D4D4"
               app:layout_constraintTop_toBottomOf="@+id/settings_notification"/>
 
         <TextView
@@ -105,7 +105,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/change_password"
-            android:textColor="@color/color_FF71767F"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -114,7 +114,7 @@
         <View android:id="@+id/settings_divider_change_password"
               android:layout_width="0dp"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:background="@color/color_FFD4D4D4"
+              android:background="@color/grey_FFD4D4D4"
               app:layout_constraintTop_toBottomOf="@+id/settings_change_password"/>
 
         <TextView
@@ -124,7 +124,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/settings_list_item_padding_left"
             android:text="@string/log_out"
-            android:textColor="@color/color_FF71767F"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
