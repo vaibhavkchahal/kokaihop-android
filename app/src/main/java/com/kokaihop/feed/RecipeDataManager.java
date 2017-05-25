@@ -35,7 +35,7 @@ public class RecipeDataManager {
     public RealmResults<Recipe> fetchRecipe(ApiConstants.BadgeType badgeType) {
         RealmResults<Recipe> recipeList = realm.where(Recipe.class)
                 .equalTo("badgeType", badgeType.value)
-                .findAllSorted("dateCreated", Sort.DESCENDING);
+                .findAllSorted("badgeDateCreated", Sort.DESCENDING);
         return recipeList;
     }
 
@@ -48,14 +48,15 @@ public class RecipeDataManager {
                     .equalTo("_id", recipeInfo.getRecipe().get_id()).findFirst();
             if (recipe != null) {
                 recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
-                recipe.setDateCreated(recipeInfo.getRecipe().getDateCreated());
+                recipe.setBadgeDateCreated(recipeInfo.getRecipe().getDateCreated());
                 if (recipeResponse.getMyLikes() != null) {
                     boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
                     recipe.setFavorite(isLiked);
                 }
-                recipeList.add(recipe);
+            } else {
+                recipe = recipeInfo.getRecipe();
             }
-//            realm.insertOrUpdate(recipe);
+            recipeList.add(recipe);
             Log.d("id", recipeInfo.getRecipe().get_id());
         }
         realm.insertOrUpdate(recipeList);

@@ -50,6 +50,7 @@ public class Recipe extends RealmObject {
     private MainImage mainImage;
     @SerializedName("rating")
     private Rating rating;
+    private long badgeDateCreated;
 
     public MainImage getMainImage() {
         return mainImage;
@@ -198,4 +199,11 @@ public class Recipe extends RealmObject {
     }
 
 
+    public long getBadgeDateCreated() {
+        return badgeDateCreated;
+    }
+
+    public void setBadgeDateCreated(long badgeDateCreated) {
+        this.badgeDateCreated = badgeDateCreated;
+    }
 }
