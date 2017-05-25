@@ -42,7 +42,7 @@ public class MainCourseFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mainCourseBinding = inflate(LayoutInflater.from(getActivity()), R.layout.fragment_main_course, container, false);
-        mainCourseViewModel = new RecipeFeedViewModel(getContext(), ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name());
+        mainCourseViewModel = new RecipeFeedViewModel(getContext(), ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         mainCourseBinding.setViewModel(mainCourseViewModel);
         initializeRecycleView();
         View rootView = mainCourseBinding.getRoot();
@@ -51,7 +51,7 @@ public class MainCourseFragment extends Fragment {
 
     private void initializeRecycleView() {
         RecyclerView rvMainCourse = mainCourseBinding.rvMainCourse;
-        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(mainCourseViewModel, rvMainCourse, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY.name());
+        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(mainCourseViewModel, rvMainCourse, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();

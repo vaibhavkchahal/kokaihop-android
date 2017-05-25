@@ -65,7 +65,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="main_course_of_the_day">Main Course of the Day</string>
-    <string name="previous_main_course_of_the_day">Previous Main Course of the Day</string>
+    <string name="appetizer_of_the_day">Appetizer of the Day</string>
+    <string name="cookie_of_the_day">Cookie of the Day</string>
+    <string name="desert_of_the_day">Desert of the Day</string>
+    <string name="vegetarian_of_the_day">Vegetarian of the Day</string>
+    <string name="text_previous">Previous</string>
     <string name="cook_something_creating_today">Cook something creating today</string>
 
     <!--User Feed Tabs-->

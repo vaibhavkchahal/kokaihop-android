@@ -73,17 +73,17 @@ public class UserFeedFragment extends Fragment {
 
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
         adapter.addFrag(mainCourseFragment,tabTitles[0]);
-        AppetizerFragment appetizerFragment = new AppetizerFragment();
+        AppetizerFragment appetizerFragment = new AppetizerFragment().newInstance();
         adapter.addFrag(appetizerFragment,tabTitles[1]);
-        CookieFragment cookieFragment = new CookieFragment();
+        CookieFragment cookieFragment = new CookieFragment().newInstance();
         adapter.addFrag(cookieFragment,tabTitles[2]);
-        DessertFragment dessertFragment = new DessertFragment();
+        DessertFragment dessertFragment = new DessertFragment().newInstance();
         adapter.addFrag(dessertFragment,tabTitles[3]);
-        VegetarianFragment vegetarianFragment = new VegetarianFragment();
+        VegetarianFragment vegetarianFragment = new VegetarianFragment().newInstance();
         adapter.addFrag(vegetarianFragment,tabTitles[4]);
 
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
+//        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {

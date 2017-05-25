@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.text.TextUtils"/>
         <variable name="recipe" type="com.kokaihop.database.Recipe"/>
         <variable name="feedImageUrl" type="String"/>
     </data>
@@ -61,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top_previous_text"
             android:paddingLeft="@dimen/padding_left_recipe_type"
-            android:text="@string/previous_main_course_of_the_day"
+            android:text="@{@string/text_previous+` `+ (TextUtils.equals(recipe.badgeType, `mainCourseOfTheDay`) ? @string/main_course_of_the_day : TextUtils.equals(recipe.badgeType, `appetizerOfTheDay`) ? @string/appetizer_of_the_day : TextUtils.equals(recipe.badgeType, `cookieOfTheDay`) ? @string/cookie_of_the_day : TextUtils.equals(recipe.badgeType, `dessertOfTheDay`) ? @string/desert_of_the_day:TextUtils.equals(recipe.badgeType, `vegetarianOfTheDay`) ? @string/vegetarian_of_the_day:``)}"
             android:textColor="@color/color_FF262F40"
             android:textSize="@dimen/textsize_previous_text"
             bind:font="@{`SS-ProRegular`}"/>

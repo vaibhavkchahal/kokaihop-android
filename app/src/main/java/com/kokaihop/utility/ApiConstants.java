@@ -12,7 +12,10 @@ public class ApiConstants {
 
     public enum BadgeType {
         MAIN_COURSE_OF_THE_DAY("mainCourseOfTheDay"),
-        APPETIZER_OF_THE_DAY("appetizerOfTheDay");
+        APPETIZER_OF_THE_DAY("appetizerOfTheDay"),
+        COOKIE_OF_THE_DAY("cookieOfTheDay"),
+        DESSERT_OF_THE_DAY("dessertOfTheDay"),
+        VEGETARIAN_OF_THE_DAY("vegetarianOfTheDay");
 
         public String value;
 

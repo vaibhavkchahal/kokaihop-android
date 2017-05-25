@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.feed.maincourse.FeedRecyclerAdapter;
+import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.EndlessScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
 
@@ -19,15 +20,17 @@ public class FeedRecyclerListingOperation {
     private GridLayoutManager layoutManager;
     private RecyclerView recyclerViewFeed;
     private RecipeFeedViewModel feedViewModel;
-    private String badgeType;
+    private ApiConstants.BadgeType badgeType;
 
-    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,String badgeType) {
+    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,ApiConstants.BadgeType badgeType) {
         this.recyclerViewFeed = recyclerView;
         this.feedViewModel = feedViewModel;
         this.badgeType = badgeType;
     }
 
     public EndlessScrollListener prepareFeedRecyclerView() {
+        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         layoutManager = new GridLayoutManager(getContext(), 2);
         final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds());
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -52,7 +55,7 @@ public class FeedRecyclerListingOperation {
 
             @Override
             public void onLoadMore(RecyclerView view) {
-                if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() < feedViewModel.getRecipeCount()) {
+                if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() < feedViewModel.MAX_BADGE) {
                     feedViewModel.getRecipes(feedViewModel.getOffset() + feedViewModel.getMax(), true, badgeType);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) view.getAdapter();
                     final int curSize = adapter.getItemCount();

@@ -3,65 +3,60 @@ package com.kokaihop.feed;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
+import com.altaworks.kokaihop.ui.databinding.FragmentCookieBinding;
+import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.SpacingItemDecoration;
+
+import static android.databinding.DataBindingUtil.inflate;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CookieFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CookieFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private FragmentCookieBinding cookieBinding;
+    private RecipeFeedViewModel cookieViewModel;
 
     public CookieFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CookieFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CookieFragment newInstance(String param1, String param2) {
+    public static CookieFragment newInstance() {
         CookieFragment fragment = new CookieFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cookie, container, false);
+        cookieBinding = inflate(LayoutInflater.from(getActivity()), R.layout.fragment_cookie, container, false);
+        cookieViewModel = new RecipeFeedViewModel(getContext(), ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
+        cookieBinding.setViewModel(cookieViewModel);
+        initializeRecycleView();
+        View rootView = cookieBinding.getRoot();
+        return rootView;
+
     }
+
+    private void initializeRecycleView() {
+        RecyclerView rvCookie = cookieBinding.rvCookie;
+        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(cookieViewModel, rvCookie, ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
+        int spacingInPixels = rvCookie.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+        rvCookie.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        rvCookie.addOnScrollListener(scrollListener);
+    }
+
 
 }

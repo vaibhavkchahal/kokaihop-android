@@ -33,6 +33,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
     private RecipeDataManager dataManager = null;
     private Context context;
     private boolean isDownloading;
+    public static int MAX_BADGE = 60;
 
     private List<Recipe> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
@@ -41,13 +42,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
         return recipeListWithAdds;
     }
 
-    public int getRecipeCount() {
-        return recipeCount;
-    }
-
-    public void setRecipeCount(int recipeCount) {
-        this.recipeCount = recipeCount;
-    }
 
     public int getOffset() {
         return offset;
@@ -61,14 +55,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
         return max;
     }
 
-    public void setMax(int max) {
-        this.max = max;
-    }
-
-    public List<Recipe> getRecipeList() {
-        return recipeList;
-    }
-
     @Bindable
     public boolean isDownloading() {
         return isDownloading;
@@ -79,14 +65,14 @@ public class RecipeFeedViewModel extends BaseViewModel {
         notifyPropertyChanged(BR.downloading);
     }
 
-    public RecipeFeedViewModel(Context context, String badgeType) {
+    public RecipeFeedViewModel(Context context, ApiConstants.BadgeType badgeType) {
         this.context = context;
         dataManager = new RecipeDataManager();
-        fetchRecipeFromDb();
+        fetchRecipeFromDb(badgeType);
         getRecipes(getOffset(), true, badgeType);
     }
 
-    public void getRecipes(int offset, boolean isDownloading, String badgeType) {
+    public void getRecipes(int offset, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
         setOffset(offset);
         setDownloading(isDownloading);
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
@@ -95,13 +81,12 @@ public class RecipeFeedViewModel extends BaseViewModel {
             authorizationToken = AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
 
         }
-        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, badgeType, isLike, getOffset(), getMax());
+        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, badgeType.name(), isLike, getOffset(), getMax());
         new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
-                setRecipeCount(response.getCount());
                 dataManager.insertOrUpdateData(response);
-                fetchRecipeFromDb();
+                fetchRecipeFromDb(badgeType);
                 setDownloading(false);
             }
 
@@ -118,8 +103,8 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     }
 
-    public void fetchRecipeFromDb() {
-        recipeList = dataManager.fetchRecipe(ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
+    public void fetchRecipeFromDb(ApiConstants.BadgeType badgeType) {
+        recipeList = dataManager.fetchRecipe(badgeType);
         recipeListWithAdds.clear();
         recipeListWithAdds.addAll(recipeList);
         addAdvtInRecipeList();
