@@ -83,7 +83,7 @@ public class UserFeedFragment extends Fragment {
         adapter.addFrag(vegetarianFragment,tabTitles[4]);
 
         viewPager.setAdapter(adapter);
-//        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
+        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {

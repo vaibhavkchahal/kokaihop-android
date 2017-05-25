@@ -1,6 +1,5 @@
 package com.kokaihop.utility;
 
-import kokaihop.utility.CloudinaryDetail;
 
 /**
  * Created by Rajendra Singh on 22/5/17.

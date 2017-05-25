@@ -22,7 +22,6 @@ public class ApiConstants {
         BadgeType(String value) {
             this.value = value;
         }
-
     }
 
     public enum RecipeType {Recipe}
