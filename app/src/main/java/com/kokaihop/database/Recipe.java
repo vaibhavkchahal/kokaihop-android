@@ -52,6 +52,10 @@ public class Recipe extends RealmObject {
     private Rating rating;
     private long badgeDateCreated;
 
+    private long lastUpdated;
+    private long lastViewed;
+    private boolean viewed;
+
     public MainImage getMainImage() {
         return mainImage;
     }
@@ -205,5 +209,29 @@ public class Recipe extends RealmObject {
 
     public void setBadgeDateCreated(long badgeDateCreated) {
         this.badgeDateCreated = badgeDateCreated;
+    }
+
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public long isLastViewed() {
+        return lastViewed;
+    }
+
+    public void setLastViewed(long lastViewed) {
+        this.lastViewed = lastViewed;
+    }
+
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 }
