@@ -87,7 +87,7 @@
             android:layout_below="@+id/rating_bar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/tv_recipe_date_margin_top"
-            android:text="@{DateTimeUtils.getDate(recipe.dateCreated,String.valueOf(`MMM dd, yyyy`))}"
+            android:text="@{DateTimeUtils.getDate(recipe.badgeDateCreated,String.valueOf(`MMM dd, yyyy`))}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/textsize_tv_recipe_date"
             app:font="@{`SS-ProRegular`}"

@@ -2,6 +2,7 @@ package com.kokaihop.feed;
 
 import android.util.Log;
 
+import com.kokaihop.database.Counter;
 import com.kokaihop.database.Recipe;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.feed.maincourse.RecipeResponse;
@@ -48,6 +49,7 @@ public class RecipeDataManager {
                     .equalTo("_id", recipeInfo.getRecipe().get_id()).findFirst();
             if (recipe != null) {
                 recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
+                recipe.setCounter(updateCounter(recipeInfo.getRecipe()));
                 recipe.setBadgeDateCreated(recipeInfo.getRecipe().getDateCreated());
                 if (recipeResponse.getMyLikes() != null) {
                     boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
@@ -62,6 +64,18 @@ public class RecipeDataManager {
         realm.insertOrUpdate(recipeList);
 //        recipeDataListener.onTransactionComplete(true);
         realm.commitTransaction();
+    }
+
+    private Counter updateCounter(Recipe recipe) {
+        Counter counter = realm.createObject(Counter.class);
+        Counter counterTemp = recipe.getCounter();
+        counter.setAddedToCollection(counterTemp.getAddedToCollection());
+        counter.setComments(counterTemp.getComments());
+        counter.setLikes(counterTemp.getLikes());
+        counter.setMail(counterTemp.getMail());
+        counter.setPrinted(counterTemp.getPrinted());
+        counter.setViewed(counterTemp.getViewed());
+        return counter;
     }
 
     public interface RecipeDataListener {
