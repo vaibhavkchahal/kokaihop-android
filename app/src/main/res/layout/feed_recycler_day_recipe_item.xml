@@ -32,8 +32,8 @@
                     android:id="@+id/imageview_recipe_of_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:placeholder="@{@drawable/ic_recipeplaceholder_md}"
-                    bind:error="@{@drawable/ic_recipeplaceholder_md}"
+                    bind:placeholder="@{@drawable/ic_recipeplaceholder_md2}"
+                    bind:error="@{@drawable/ic_recipeplaceholder_md2}"
                     android:scaleType="fitXY"
                     bind:imageUrl="@{feedImageUrl}"/>
 
