@@ -16,7 +16,7 @@ import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.User;
-import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
 
@@ -71,7 +71,7 @@ public class FollowersFragment extends Fragment implements UserApiCallback {
             }
         });
 
-        recyclerView.addOnScrollListener(new EndlessScrollListener(layoutManager) {
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
                 if (followersViewModel.getOffset() + followersViewModel.getMax() <= FollowingFollowersApiResponse.getFollowingApiResponse().getTotal())

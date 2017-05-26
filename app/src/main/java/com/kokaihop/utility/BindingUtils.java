@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kokaihop.feed.maincourse.FeedRecyclerAdapter;
+import com.kokaihop.utility.glide.GlideCircularTranform;
 
 import java.util.List;
 
@@ -41,4 +42,15 @@ public class BindingUtils {
         Glide.with(view.getContext()).load(url).error(error).into(view);
         Logger.i("url cloudnary-->", url);
     }
+
+    @BindingAdapter({"app:imageUrl", "app:error", "app:isCircular"})
+    public static void loadImage(ImageView view, String url, Drawable error, boolean isCircular) {
+        if (isCircular) {
+            Glide.with(view.getContext()).load(url).transform(new GlideCircularTranform(view.getContext())).error(error).into(view);
+        } else {
+            Glide.with(view.getContext()).load(url).error(error).into(view);
+        }
+        Logger.i("url cloudnary-->", url);
+    }
+
 }

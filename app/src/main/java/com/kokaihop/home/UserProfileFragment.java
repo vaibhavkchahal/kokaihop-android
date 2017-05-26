@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -209,12 +210,18 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         float ratio = (float)195/320;
         int height = AppUtility.getHeightInAspectRatio(width,ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
+        CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;
+
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         layoutParams.height = height;
         layoutParams.width = width;
         ivCover.setLayoutParams(layoutParams);
+
+//        collapsingToolbarLayout.setl/a
+
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(User.getInstance().getCoverImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+//        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl("35035757",String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
         userProfileBinding.executePendingBindings();
     }
 

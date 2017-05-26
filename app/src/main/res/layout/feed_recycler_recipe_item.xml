@@ -113,6 +113,7 @@
                 android:layout_marginLeft="@dimen/iv_profile_margin_left"
                 android:scaleType="fitXY"
                 app:error="@{@drawable/ic_avtar_sm}"
+                app:isCircular="@{true}"
                 app:imageUrl="@{profileImageUrl}"
             />
 

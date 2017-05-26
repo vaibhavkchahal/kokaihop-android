@@ -15,8 +15,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
-import com.kokaihop.utility.EndlessScrollListener;
-import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
 
@@ -81,7 +80,7 @@ public class FollowingFragment extends Fragment implements UserApiCallback {
         followingAdapter.notifyDataSetChanged();
 //        recyclerView.setAdapter(followingAdapter);
 
-        recyclerView.addOnScrollListener(new EndlessScrollListener(layoutManager) {
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
                 if (followingViewModel.getOffset() + followingViewModel.getMax() <= FollowingFollowersApiResponse.getFollowingApiResponse().getTotal())
