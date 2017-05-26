@@ -57,8 +57,7 @@ android {
             versionNameSuffix "-uat"
         }
         production {
-//            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
-            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
+            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
         }
 
         databaseBundle {
