@@ -87,10 +87,6 @@ public class FollowingFragment extends Fragment implements UserApiCallback {
                     followingViewModel.getFollowingUsers(followingViewModel.getOffset() + followingViewModel.getMax());
             }
 
-            @Override
-            public void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition) {
-
-            }
         });
     }
 

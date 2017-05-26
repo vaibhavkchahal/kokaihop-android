@@ -18,8 +18,8 @@
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -53,7 +53,8 @@
                                    android:layout_width="match_parent"
                                    android:layout_height="wrap_content"
                                    android:scaleType="fitXY"
-                                   app:error="@{@color/color_FFD4D4D4}"
+                                   app:error="@{@color/grey_FFD4D4D4}"
+                                   app:placeholder="@{@color/grey_FFD4D4D4}"
                                    app:imageUrl="@{imageCoverUrl}"/>
 
 
@@ -74,6 +75,7 @@
                                 android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
                                 app:error="@{@drawable/ic_avtar_sm}"
                                 app:imageUrl="@{imageProfileUrl}"
+                                app:placeholder="@{@drawable/ic_avtar_sm}"
                                 app:isCircular="@{true}"/>
 
                             <!-- TODO: Set user name here -->
@@ -133,6 +135,7 @@
         </android.support.design.widget.CoordinatorLayout>
         <include
             layout="@layout/progress_bar"
-            bind:viewModel="@{viewModel}"/>
+            bind:viewModel="@{viewModel}" android:layout_height="0dp" android:layout_width="0dp"
+            tools:layout_editor_absoluteY="0dp" tools:layout_editor_absoluteX="0dp"/>
     </android.support.constraint.ConstraintLayout>
 </layout>
