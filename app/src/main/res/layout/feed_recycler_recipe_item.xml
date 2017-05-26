@@ -46,7 +46,6 @@
             android:paddingRight="@dimen/padding_right_recipe_right"
             android:text="@{String.valueOf(recipe.counter.likes)}"
             android:textColor="@color/white"
-            android:visibility="@{(SharedPrefUtils.getSharedPrefStringData(checkboxRecipeLike,Constants.ACCESS_TOKEN).equals(``) || SharedPrefUtils.getSharedPrefStringData(checkboxRecipeLike,Constants.ACCESS_TOKEN)==null) ? View.GONE : View.VISIBLE}"
         />
 
         <TextView
@@ -115,8 +114,9 @@
                 android:layout_marginLeft="@dimen/iv_profile_margin_left"
                 android:scaleType="fitXY"
                 app:error="@{@drawable/ic_avtar_sm}"
-                app:placeholder="@{@drawable/ic_avtar_sm}"
+                app:isCircular="@{true}"
                 app:imageUrl="@{profileImageUrl}"
+                app:placeholder="@{@drawable/ic_avtar_sm}"
             />
 
             <TextView

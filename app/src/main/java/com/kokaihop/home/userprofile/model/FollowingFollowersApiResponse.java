@@ -8,33 +8,19 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 22/5/17.
  */
 
-public class FollowingFollowersApiResponse {
+public class FollowingFollowersApiResponse{
 
     private static FollowingFollowersApiResponse followingApiResponse;
 
     private static FollowingFollowersApiResponse followersApiResponse;
 
     @SerializedName("users")
-    private ArrayList<FollowingFollowerUser> users;
+    private ArrayList<FollowingFollowerUser> users = new ArrayList<>();
 
     @SerializedName("total")
     private int total;
 
-    private FollowingFollowersApiResponse(){
-    }
-
-    public static FollowingFollowersApiResponse getFollowingInstance(){
-        if(followingApiResponse ==null){
-            followingApiResponse = new FollowingFollowersApiResponse();
-        }
-        return followingApiResponse;
-    }
-
-    public static FollowingFollowersApiResponse getFollowersInstance(){
-        if(followersApiResponse ==null){
-            followersApiResponse = new FollowingFollowersApiResponse();
-        }
-        return followersApiResponse;
+    private FollowingFollowersApiResponse() {
     }
 
     public ArrayList<FollowingFollowerUser> getUsers() {
@@ -55,14 +41,22 @@ public class FollowingFollowersApiResponse {
 
 
     public static FollowingFollowersApiResponse getFollowingApiResponse() {
+        if (followingApiResponse == null) {
+            followingApiResponse = new FollowingFollowersApiResponse();
+        }
         return followingApiResponse;
     }
+
 
     public static void setFollowingApiResponse(FollowingFollowersApiResponse followingApiResponse) {
         FollowingFollowersApiResponse.followingApiResponse = followingApiResponse;
     }
 
+
     public static FollowingFollowersApiResponse getFollowersApiResponse() {
+        if (followersApiResponse == null) {
+            followersApiResponse = new FollowingFollowersApiResponse();
+        }
         return followersApiResponse;
     }
 

@@ -55,5 +55,5 @@ public class AppetizerFragment extends Fragment {
         EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
         rvAppetizer.addOnScrollListener(scrollListener);
     }
-
+    
 }

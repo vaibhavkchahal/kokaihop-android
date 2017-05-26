@@ -29,7 +29,7 @@ public class LoginViewModel extends BaseViewModel {
 
     private String userName = "";
     private String password = "";
-    private static final int REQUEST_CODE = 10;
+    public static final int REQUEST_CODE = 10;
 
     @Bindable
     public String getUserName() {
@@ -63,8 +63,14 @@ public class LoginViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
-                showHomeScreen(context);
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                boolean isComingFromLike = ((LoginActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
+                if (isComingFromLike) {
+                    ((LoginActivity) context).finish();
+                } else {
+                    showHomeScreen(context);
+                }
+
             }
 
             @Override
@@ -87,8 +93,17 @@ public class LoginViewModel extends BaseViewModel {
     }
 
     public void openSignupScreen(View view) {
+        Intent intent = new Intent(view.getContext(), SignUpActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Activity activity = (Activity) view.getContext();
-        activity.startActivity(new Intent(view.getContext(), SignUpActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
+        if (isComingFromLike) {
+            intent.putExtra("isComingFromLike", true);
+            activity.startActivityForResult(intent, REQUEST_CODE);
+        } else {
+            activity.startActivity(intent);
+        }
+
     }
 
     public void facebookLogin(final View view) {
@@ -103,7 +118,13 @@ public class LoginViewModel extends BaseViewModel {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
                         SharedPrefUtils.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
-                        AppUtility.showHomeScreen(view.getContext());
+                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
+                        if (isComingFromLike) {
+                            ((LoginActivity) view.getContext()).finish();
+                        } else {
+                            AppUtility.showHomeScreen(view.getContext());
+                        }
+
                     }
 
                     @Override
@@ -148,6 +169,5 @@ public class LoginViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
-
     }
 }

@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="user" type="com.kokaihop.home.userprofile.model.FollowingFollowerUser"/>
+        <variable name="profilePic" type="String"/>
         <variable name="viewModel" type="com.kokaihop.home.userprofile.FollowersFollowingViewModel"/>
     </data>
 
@@ -23,7 +24,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_avtar_lg"/>
+            android:scaleType="fitXY"
+            app:error="@{@drawable/ic_avtar_lg}"
+            app:imageUrl="@{profilePic}"
+        />
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="@dimen/none"

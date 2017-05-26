@@ -6,6 +6,8 @@
 
     <data>
         <variable name="user" type="com.kokaihop.home.userprofile.model.User"/>
+        <variable name="imageProfileUrl" type="String"/>
+        <variable name="imageCoverUrl" type="String"/>
         <variable name="viewModel" type="com.kokaihop.home.userprofile.UserProfileViewModel"/>
     </data>
 
@@ -16,8 +18,8 @@
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"
-            android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="@dimen/constraint_match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -28,7 +30,6 @@
                 android:id="@+id/appbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/sign_up_background"
                 android:fitsSystemWindows="true"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -37,7 +38,7 @@
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/profile_ctl_height"
+                    android:layout_height="wrap_content"
                     android:fitsSystemWindows="true"
                     app:collapsedTitleGravity="center_horizontal|top"
                     app:contentScrim="?attr/colorPrimary"
@@ -45,35 +46,49 @@
                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 >
 
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/profile_back_gradient"
-                        android:fitsSystemWindows="true"
-                        app:layout_collapseMode="none">
+                        <ImageView android:id="@+id/iv_profile_cover"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:scaleType="fitXY"
+                                   app:error="@{@color/color_FFD4D4D4}"
+                                   app:imageUrl="@{imageCoverUrl}"/>
 
-                        <!-- TODO: Set user avatar here -->
-                        <ImageView
-                            android:id="@+id/user_avatar"
-                            android:layout_width="@dimen/user_profile_pic_size"
-                            android:layout_height="@dimen/user_profile_pic_size"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
-                            android:src="@drawable/ic_avtar_sm"/>
 
-                        <!-- TODO: Set user name here -->
-                        <TextView
-                            android:id="@+id/tv_user_name"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/user_avatar"
-                            android:gravity="center_horizontal"
-                            android:text="@{user.name.full}"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            app:font="@{`SS-ProSemiBold`}"/>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/profile_back_gradient"
+                            android:fitsSystemWindows="true"
+                            app:layout_collapseMode="none">
 
+
+                            <!-- TODO: Set user avatar here -->
+                            <ImageView
+                                android:id="@+id/user_avatar"
+                                android:layout_width="@dimen/user_profile_pic_size"
+                                android:layout_height="@dimen/user_profile_pic_size"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
+                                app:error="@{@drawable/ic_avtar_sm}"
+                                app:imageUrl="@{imageProfileUrl}"
+                                app:isCircular="@{true}"/>
+
+                            <!-- TODO: Set user name here -->
+                            <TextView
+                                android:id="@+id/tv_user_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/user_avatar"
+                                android:gravity="center_horizontal"
+                                android:text="@{user.name.full}"
+                                android:textColor="@color/white"
+                                android:textSize="20sp"
+                                app:font="@{`SS-ProSemiBold`}"/>
+
+                        </RelativeLayout>
                     </RelativeLayout>
 
                     <android.support.v7.widget.Toolbar
@@ -102,10 +117,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:paddingRight="@dimen/profile_settings_padding_right"
-                        android:paddingLeft="@dimen/profile_settings_padding_left"
-                        android:paddingBottom="@dimen/profile_settings_padding_bottom"
                         android:layout_marginTop="@dimen/profile_settings_padding_top"
+                        android:paddingBottom="@dimen/profile_settings_padding_bottom"
+                        android:paddingLeft="@dimen/profile_settings_padding_left"
+                        android:paddingRight="@dimen/profile_settings_padding_right"
                         android:src="@drawable/ic_settings"/>
                 </android.support.design.widget.CollapsingToolbarLayout>
 

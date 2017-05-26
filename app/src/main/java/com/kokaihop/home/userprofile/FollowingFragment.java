@@ -13,19 +13,21 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
-import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.home.userprofile.model.FollowingFollowerUser;
-import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.home.userprofile.model.FollowingFollowersApiResponse;
+import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
 
-public class FollowingFragment extends Fragment implements UserApiCallback{
+public class FollowingFragment extends Fragment implements UserApiCallback {
 
     private static FollowingFragment fragment;
     private FragmentFollowersFollowingBinding followingBinding;
-    private FollowersFollowingAdapter followersAdapter;
+    private FollowersFollowingAdapter followingAdapter;
     private ArrayList<FollowingFollowerUser> followingUsers;
     private FollowersFollowingViewModel followingViewModel;
+    private LinearLayoutManager layoutManager;
+    private RecyclerView recyclerView;
 
     public FollowingFragment() {
         // Required empty public constructor
@@ -42,36 +44,47 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         followingUsers = new ArrayList<>();
-        followingViewModel = new FollowersFollowingViewModel(this,getContext());
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        followingViewModel = new FollowersFollowingViewModel(this, getContext());
+        FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().clear();
+        followingAdapter = new FollowersFollowingAdapter(FollowingFollowersApiResponse.getFollowingApiResponse().getUsers(), followingViewModel);
+        layoutManager = new LinearLayoutManager(this.getContext());
+
         followingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
-        followingViewModel.getFollowingUsers();
+        recyclerView = followingBinding.rvFollowerFollowingList;
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(followingAdapter);
+        followingViewModel.getFollowingUsers(0);
         followingBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                followingViewModel.getFollowingUsers();
+                FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().clear();
+                followingViewModel.setDownloading(true);
+                followingViewModel.getFollowingUsers(0);
             }
         });
+
         return followingBinding.getRoot();
     }
 
-//    Setting up users list to the recycler view.
-    public void setupUsersList() {
+    @Override
+    public void showUserProfile() {
+//        followingUsers = FollowingFollowersApiResponse.getFollowingApiResponse().getUsers();
         followingBinding.refreshList.setRefreshing(false);
-        RecyclerView recyclerView = followingBinding.rvFollowerFollowingList;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        followersAdapter = new FollowersFollowingAdapter(followingUsers,followingViewModel);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(followersAdapter);
-        recyclerView.addOnScrollListener(new EndlessScrollListener(layoutManager) {
+        followingAdapter.notifyDataSetChanged();
+//        recyclerView.setAdapter(followingAdapter);
+
+        recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
-
+                if (followingViewModel.getOffset() + followingViewModel.getMax() <= FollowingFollowersApiResponse.getFollowingApiResponse().getTotal())
+                    followingViewModel.getFollowingUsers(followingViewModel.getOffset() + followingViewModel.getMax());
             }
 
             @Override
@@ -79,13 +92,6 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
 
             }
         });
-    }
-
-
-    @Override
-    public void showUserProfile() {
-        followingUsers = FollowingFollowersApiResponse.getFollowingInstance().getUsers();
-        setupUsersList();
     }
 
     @Override
