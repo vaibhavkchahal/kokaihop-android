@@ -34,13 +34,24 @@ public class RecipeHandler {
     }
 
     private void performOperationOncheck(CheckBox checkBox, Recipe recipe) {
+        RecipeDataManager recipeDataManager = new RecipeDataManager();
+        long likes=0;
         if (checkBox.isChecked()) {
+             likes = recipe.getCounter().getLikes();
+            likes = likes + 1;
+            recipeDataManager.updateLikes(recipe, likes);
             checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_sm, 0, 0, 0);
         } else {
+             likes = recipe.getCounter().getLikes();
+            if (likes != 0) {
+                likes = likes - 1;
+
+            }
             checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unlike_sm, 0, 0, 0);
         }
-        RecipeDataManager recipeDataManager = new RecipeDataManager();
         recipeDataManager.updateIsFavoriteInDB(checkBox.isChecked(), recipe);
+        recipeDataManager.updateLikes(recipe, likes);
+        checkBox.setText(String.valueOf(likes));
         updatelikeStatusOnServer(checkBox, recipe);
     }
 

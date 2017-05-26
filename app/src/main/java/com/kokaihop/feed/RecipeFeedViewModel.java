@@ -33,7 +33,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
     private RecipeDataManager dataManager = null;
     private Context context;
     private boolean showProgressDialog;
-    public static int MAX_BADGE = 60;
+    public static int MAX_BADGE = 45; //TODO: it should be 60,as QA data is not complete so we are taking it 45
 
     private boolean isDownloading;
 

@@ -18,6 +18,7 @@ import com.kokaihop.feed.DessertFragment;
 import com.kokaihop.feed.maincourse.MainCourseFragment;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
+import com.kokaihop.utility.Logger;
 
 public class UserFeedFragment extends Fragment {
     static UserFeedFragment fragment;
@@ -41,6 +42,7 @@ public class UserFeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Logger.i("onCreate user feed fragment", "onCreate");
         if (getArguments() != null) {
         }
     }
@@ -58,6 +60,7 @@ public class UserFeedFragment extends Fragment {
         userFeedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_feed, container, false);
         final TabLayout tabLayout = userFeedBinding.tablayoutRecipe;
         viewPager = userFeedBinding.pager;
+        viewPager.setOffscreenPageLimit(5);
         String[] tabTitles = {getActivity().getString(R.string.tab_main_course_of_the_day),
                 getActivity().getString(R.string.tab_appetizer_of_the_day),
                 getActivity().getString(R.string.tab_cookie_of_the_day),
@@ -72,15 +75,15 @@ public class UserFeedFragment extends Fragment {
         final PagerTabAdapter adapter = new PagerTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
 
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
-        adapter.addFrag(mainCourseFragment,tabTitles[0]);
+        adapter.addFrag(mainCourseFragment, tabTitles[0]);
         AppetizerFragment appetizerFragment = new AppetizerFragment().newInstance();
-        adapter.addFrag(appetizerFragment,tabTitles[1]);
+        adapter.addFrag(appetizerFragment, tabTitles[1]);
         CookieFragment cookieFragment = new CookieFragment().newInstance();
-        adapter.addFrag(cookieFragment,tabTitles[2]);
+        adapter.addFrag(cookieFragment, tabTitles[2]);
         DessertFragment dessertFragment = new DessertFragment().newInstance();
-        adapter.addFrag(dessertFragment,tabTitles[3]);
+        adapter.addFrag(dessertFragment, tabTitles[3]);
         VegetarianFragment vegetarianFragment = new VegetarianFragment().newInstance();
-        adapter.addFrag(vegetarianFragment,tabTitles[4]);
+        adapter.addFrag(vegetarianFragment, tabTitles[4]);
 
         viewPager.setAdapter(adapter);
 //        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );

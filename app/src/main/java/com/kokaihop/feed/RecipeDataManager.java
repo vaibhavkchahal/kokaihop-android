@@ -92,4 +92,15 @@ public class RecipeDataManager {
     }
 
 
+    public void updateLikes(final Recipe recipe, final long likes) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                recipe.getCounter().setLikes(likes);
+
+            }
+        });
+    }
+
+
 }
