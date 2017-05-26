@@ -22,7 +22,7 @@ public class FeedRecyclerListingOperation {
     private RecipeFeedViewModel feedViewModel;
     private ApiConstants.BadgeType badgeType;
 
-    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,ApiConstants.BadgeType badgeType) {
+    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView, ApiConstants.BadgeType badgeType) {
         this.recyclerViewFeed = recyclerView;
         this.feedViewModel = feedViewModel;
         this.badgeType = badgeType;
@@ -56,7 +56,10 @@ public class FeedRecyclerListingOperation {
             @Override
             public void onLoadMore(RecyclerView view) {
                 if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() < feedViewModel.MAX_BADGE) {
-                    feedViewModel.getRecipes(feedViewModel.getOffset() + feedViewModel.getMax(), true, badgeType);
+                    boolean showProgressDialog = true;
+                    boolean isDownloading = true;
+
+                    feedViewModel.getRecipes(feedViewModel.getOffset() + feedViewModel.getMax(), showProgressDialog, isDownloading, badgeType);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) view.getAdapter();
                     final int curSize = adapter.getItemCount();
                     view.post(new Runnable() {
@@ -65,6 +68,37 @@ public class FeedRecyclerListingOperation {
                             adapter.notifyItemRangeInserted(curSize, feedViewModel.getRecipeListWithAdds().size() - 1);
                         }
                     });
+                }
+            }
+
+            @Override
+            public void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition) {
+
+                if (!feedViewModel.isDownloading()) {
+
+                    if (lastVisibleItemPosition <= feedViewModel.getMax()) {
+                        feedViewModel.setOffset(0);
+
+                    } else if (lastVisibleItemPosition > feedViewModel.getMax() && lastVisibleItemPosition <= feedViewModel.getMax() * 2) {
+                        feedViewModel.setOffset(feedViewModel.getMax());
+
+                    } else if (lastVisibleItemPosition > feedViewModel.getMax() * 2) {
+                        feedViewModel.setOffset(feedViewModel.getMax() * 2);
+
+
+                    }
+                    boolean showProgressDialog = false;
+                    boolean isDownloading = true;
+                    feedViewModel.getRecipes(feedViewModel.getOffset(), showProgressDialog, isDownloading, badgeType);
+                    final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) recyclerView.getAdapter();
+                    final int curSize = adapter.getItemCount();
+                    recyclerView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyItemRangeInserted(curSize, feedViewModel.getRecipeListWithAdds().size() - 1);
+                        }
+                    });
+
                 }
             }
         };

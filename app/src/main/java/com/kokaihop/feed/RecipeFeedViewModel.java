@@ -32,8 +32,10 @@ public class RecipeFeedViewModel extends BaseViewModel {
     private int recipeCount;
     private RecipeDataManager dataManager = null;
     private Context context;
-    private boolean isDownloading;
+    private boolean showProgressDialog;
     public static int MAX_BADGE = 60;
+
+    private boolean isDownloading;
 
     private List<Recipe> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
@@ -56,32 +58,26 @@ public class RecipeFeedViewModel extends BaseViewModel {
     }
 
     @Bindable
-    public boolean isDownloading() {
-        return isDownloading;
+    public boolean isShowProgressDialog() {
+        return showProgressDialog;
     }
 
-    public void setDownloading(boolean downloading) {
-        isDownloading = downloading;
-        notifyPropertyChanged(BR.downloading);
+    public void setShowProgressDialog(boolean showProgressDialog) {
+        this.showProgressDialog = showProgressDialog;
+        notifyPropertyChanged(BR.showProgressDialog);
     }
 
     public RecipeFeedViewModel(Context context, ApiConstants.BadgeType badgeType) {
         this.context = context;
         dataManager = new RecipeDataManager();
         fetchRecipeFromDb(badgeType);
-        getRecipes(getOffset(), true, badgeType);
+        getRecipes(getOffset(), true, true, badgeType);
     }
 
-    public void getRecipes(int offset, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
+    public void getRecipes(int offset, boolean showProgressDialog, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
         setOffset(offset);
-        if (recipeList.size() == MAX_BADGE) {
-            setDownloading(false);
-
-        } else {
-
-            setDownloading(isDownloading);
-
-        }
+        setShowProgressDialog(showProgressDialog);
+        setDownloading(isDownloading);
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         String authorizationToken = "";
         if (accessToken != null && !accessToken.isEmpty()) {
@@ -94,17 +90,23 @@ public class RecipeFeedViewModel extends BaseViewModel {
             public void onSuccess(RecipeResponse response) {
                 dataManager.insertOrUpdateData(response);
                 fetchRecipeFromDb(badgeType);
+                setShowProgressDialog(false);
                 setDownloading(false);
+
             }
 
             @Override
             public void onFailure(String message) {
+                setShowProgressDialog(false);
                 setDownloading(false);
+
             }
 
             @Override
             public void onError(RecipeResponse response) {
+                setShowProgressDialog(false);
                 setDownloading(false);
+
             }
         });
 
@@ -131,5 +133,13 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
+    }
+
+    public boolean isDownloading() {
+        return isDownloading;
+    }
+
+    public void setDownloading(boolean downloading) {
+        isDownloading = downloading;
     }
 }

@@ -3,6 +3,8 @@ package com.kokaihop.utility;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import static com.kokaihop.feed.RecipeFeedViewModel.MAX_BADGE;
+
 /**
  * Created by Vaibhav Chahal on 17/5/17.
  */
@@ -20,6 +22,7 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
+//        Logger.e("onScrolled", "onScrolled");
 
 
        /* visibleItemCount = recyclerView.getChildCount();
@@ -34,35 +37,40 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        switch (newState)
-        {
+        switch (newState) {
             case RecyclerView.SCROLL_STATE_IDLE:
-                Logger.e("SCROLL_STATE_IDLE",RecyclerView.SCROLL_STATE_IDLE+"");
+                Logger.i("SCROLL_STATE_IDLE", RecyclerView.SCROLL_STATE_IDLE + "");
 
 
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = layoutManager.getItemCount();
                 firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
-                Logger.e("visibleItemCount", visibleItemCount +"");
-                Logger.e("totalItemCount", totalItemCount +"");
-                Logger.e("firstVisibleItem position", firstVisibleItem +"");
-                Logger.e("lastVisibleItem position", layoutManager.findLastVisibleItemPosition()+"");
-                if (firstVisibleItem + visibleItemCount + visibleThreshold >= totalItemCount - visibleThreshold) {
+                Logger.i("visibleItemCount", visibleItemCount + "");
+                Logger.i("totalItemCount", totalItemCount + "");
+
+                Logger.e("firstVisibleItem position", firstVisibleItem + "");
+                if (totalItemCount > MAX_BADGE) {
+                    Logger.i("onSyncDatabase", "onSyncDatabase");
+
+                    Logger.i("lastVisibleItem position", layoutManager.findLastVisibleItemPosition() + "");
+                    int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+
+                    onSyncDatabase(recyclerView, lastVisibleItemPosition);
+
+                } else if (firstVisibleItem + visibleItemCount + visibleThreshold >= totalItemCount - visibleThreshold) {
+
+
+                    Logger.i("onLoadMore", "onLoadMore");
                     onLoadMore(recyclerView);
-                }
-                else if(totalItemCount ==70)
-                {
-                    //TODO: data sync work
+
                 }
                 break;
 
             case RecyclerView.SCROLL_STATE_DRAGGING:
-                Logger.e("SCROLL_STATE_DRAGGING",RecyclerView.SCROLL_STATE_DRAGGING+"");
 
                 break;
 
             case RecyclerView.SCROLL_STATE_SETTLING:
-                Logger.e("SCROLL_STATE_SETTLING",RecyclerView.SCROLL_STATE_DRAGGING+"");
 
                 break;
 
@@ -70,6 +78,14 @@ public abstract class EndlessScrollListener extends RecyclerView.OnScrollListene
     }
 
     public abstract void onLoadMore(RecyclerView recyclerView);
+
+    {
+
+
+    }
+
+    public abstract void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition);
+
     {
 
 

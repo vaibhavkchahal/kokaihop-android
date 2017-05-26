@@ -73,6 +73,11 @@ public class FollowingFragment extends Fragment implements UserApiCallback{
             public void onLoadMore(RecyclerView recyclerView) {
 
             }
+
+            @Override
+            public void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition) {
+
+            }
         });
     }
 
