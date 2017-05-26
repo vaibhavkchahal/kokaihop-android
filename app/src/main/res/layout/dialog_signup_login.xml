@@ -22,11 +22,11 @@
         <TextView
             android:id="@+id/dialog_title_msg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_item_height"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingLeft="@dimen/dialog_title_horizontal_padding"
             android:paddingRight="@dimen/dialog_title_horizontal_padding"
-            android:paddingBottom="@dimen/dialog_title_horizontal_padding"
+            android:layout_marginBottom="@dimen/dialog_title_horizontal_padding"
             android:text="@string/signup_dialog_message"
             app:font="@{`SS-ProRegular`}"/>
         <View
