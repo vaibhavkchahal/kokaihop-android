@@ -4,8 +4,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.database.Recipe;
+import com.kokaihop.feed.maincourse.AdvtDetail;
 import com.kokaihop.feed.maincourse.FeedRecyclerAdapter;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.EndlessScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
 
@@ -74,7 +77,14 @@ public class FeedRecyclerListingOperation {
             @Override
             public void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition) {
 
-                if (!feedViewModel.isDownloading()) {
+                Object object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition);
+
+                if (object instanceof AdvtDetail) {
+                    object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition - 1);
+                }
+                Recipe recipe = (Recipe) object;
+
+                if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1) {
 
                     if (lastVisibleItemPosition <= feedViewModel.getMax()) {
                         feedViewModel.setOffset(0);

@@ -58,6 +58,7 @@ public class RecipeDataManager {
             } else {
                 recipe = recipeInfo.getRecipe();
             }
+            recipe.setLastUpdated(System.currentTimeMillis());
             recipeList.add(recipe);
             Log.d("id", recipeInfo.getRecipe().get_id());
         }
