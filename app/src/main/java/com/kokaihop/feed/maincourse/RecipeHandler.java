@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -44,7 +45,7 @@ public class RecipeHandler {
         updatelikeStatusOnServer(checkBox, recipe);
     }
 
-    public void updatelikeStatusOnServer(CheckBox checkBox, Recipe recipe) {
+    public void updatelikeStatusOnServer(final CheckBox checkBox, Recipe recipe) {
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         RecipeLikeRequest request = new RecipeLikeRequest(recipe.get_id(), checkBox.isChecked());
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
@@ -55,6 +56,7 @@ public class RecipeHandler {
 
             @Override
             public void onFailure(String message) {
+                Toast.makeText(checkBox.getContext(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
