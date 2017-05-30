@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -66,6 +67,7 @@ public class RecipeHandler {
 
             @Override
             public void onFailure(String message) {
+                Toast.makeText(checkBox.getContext(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override

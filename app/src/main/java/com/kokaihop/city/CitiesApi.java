@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 
 public interface CitiesApi {
 
-    @GET("/v1/api/cities")
+    @GET("v1/api/cities")
     Call<CitiesApiResponse> getCities();
 }

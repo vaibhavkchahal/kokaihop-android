@@ -1,6 +1,9 @@
 package com.kokaihop.network;
 
 
+import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.KokaihopApplication;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -26,13 +29,13 @@ public class ResponseHandler<T> implements Callback<T> {
         } else {
             switch (response.code()) {
                 case 401:
-                    iApiRequestComplete.onFailure("Email or password is incorrect. Please try again.");
+                    iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.incorrect_email_passwd));
                     break;
                 case 422:
-                    iApiRequestComplete.onFailure("A user with the email address you provided already exists");
+                    iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.user_already_exists));
                     break;
                 default:
-                    iApiRequestComplete.onFailure("Something went wrong, try again!");
+                    iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.something_went_wrong_msg));
                     break;
             }
         }
@@ -41,8 +44,8 @@ public class ResponseHandler<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         if (t instanceof IOException)
-            iApiRequestComplete.onFailure("Check Your Internet Connection!");
+            iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.check_intenet_connection));
         else
-            iApiRequestComplete.onFailure("Something went wrong, try again!");
+            iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.something_went_wrong_msg));
     }
 }
