@@ -9,10 +9,11 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/ctlLayout"
+            android:id="@+id/collapsing_toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
@@ -30,33 +31,61 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
+                <ImageView
+                    android:id="@+id/viewpager_swipe_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/ic_swipeleft_md"/>
+
+                <ImageView
+                    android:id="@+id/viewpager_swipe_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_swiperight_md"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutDots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal"/>
+
                 <TextView android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:layout_alignParentBottom="true"
                           android:layout_alignParentRight="true"
-                          android:gravity="center_vertical"
-                          android:drawableRight="@drawable/ic_avtar_sm"
-                          android:textColor="@color/white"
                           android:layout_marginBottom="17dp"
                           android:layout_marginRight="20dp"
                           android:drawablePadding="10dp"
-                          android:text="ella0256"/>
+                          android:drawableRight="@drawable/ic_avtar_sm"
+                          android:gravity="center_vertical"
+                          android:text="ella0256"
+                          android:textColor="@color/white"/>
 
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/appbar"
+                android:id="@+id/recipe_detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+            />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/catalogueRV"
+        android:id="@+id/recycler_view_recipe_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

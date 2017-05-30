@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.kokaihop.feed.FeedActivity">
+
+    <item android:id="@+id/icon_share"
+          android:orderInCategory="100"
+          android:title="@string/action_settings"
+          android:icon="@drawable/ic_share_md"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/icon_camera"
+          android:orderInCategory="100"
+          android:title="@string/action_settings"
+          android:icon="@drawable/ic_camera"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/icon_like"
+          android:orderInCategory="100"
+          android:title="@string/action_settings"
+          android:icon="@drawable/ic_like_md"
+          app:showAsAction="always"/>
+
+    <item android:id="@+id/icon_add_to_wishlist"
+          android:orderInCategory="100"
+          android:title="@string/action_settings"
+          android:icon="@drawable/ic_bookmark_md"
+          app:showAsAction="always"/>
+</menu>

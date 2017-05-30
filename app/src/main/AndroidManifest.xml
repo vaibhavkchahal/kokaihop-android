@@ -53,7 +53,8 @@
                   android:theme="@style/AppToolbarTheme">
         </activity>
 
-        <activity android:name="com.kokaihop.recipe.recipedetail.RecipeDetailActivity">
+        <activity android:name="com.kokaihop.recipe.recipedetail.RecipeDetailActivity"
+                    android:label="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
