@@ -3,12 +3,9 @@ package com.kokaihop.feed;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.altaworks.kokaihop.ui.R;
-import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.EndlessScrollListener;
-import com.kokaihop.utility.SpacingItemDecoration;
 
 import static com.kokaihop.KokaihopApplication.getContext;
 
@@ -30,8 +27,8 @@ public class FeedRecyclerListingOperation {
     }
 
     public EndlessScrollListener prepareFeedRecyclerView() {
-        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+//        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+//        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         layoutManager = new GridLayoutManager(getContext(), 2);
         final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds());
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -80,9 +77,9 @@ public class FeedRecyclerListingOperation {
                 if (object instanceof AdvtDetail) {
                     object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition - 1);
                 }
-                RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
+                Recipe recipe = (Recipe) object;
 
-                if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipeRealmObject.getLastUpdated()) >= 1) {
+                if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1) {
 
                     if (lastVisibleItemPosition <= feedViewModel.getMax()) {
                         feedViewModel.setOffset(0);

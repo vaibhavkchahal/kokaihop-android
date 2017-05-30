@@ -20,23 +20,44 @@ import io.realm.Sort;
 
 public class RecipeDataManager {
     private Realm realm;
-    private RecipeDataListener recipeDataListener;
-
-    public RecipeDataManager(RecipeDataListener recipeDataListener) {
-        this.recipeDataListener = recipeDataListener;
-        realm = Realm.getDefaultInstance();
-
-    }
 
     public RecipeDataManager() {
         realm = Realm.getDefaultInstance();
     }
 
-    public RealmResults<RecipeRealmObject> fetchRecipe(ApiConstants.BadgeType badgeType) {
+    public List<Recipe> fetchRecipe(ApiConstants.BadgeType badgeType) {
         RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class)
                 .equalTo("badgeType", badgeType.value)
                 .findAllSorted("badgeDateCreated", Sort.DESCENDING);
-        return recipeRealmObjectList;
+        List<Recipe> recipeList = new ArrayList<>(recipeRealmObjectList.size());
+        for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList) {
+            recipeList.add(getRecipe(recipeRealmObject));
+        }
+        return recipeList;
+    }
+
+    private Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
+        Recipe recipe = new Recipe();
+        recipe.set_id(recipeRealmObject.get_id());
+        recipe.setTitle(recipeRealmObject.getTitle());
+        recipe.setType(recipeRealmObject.getType());
+        recipe.setCreatedById(recipeRealmObject.getCreatedByRealmObject().getId());
+        recipe.setCreatedByName(recipeRealmObject.getCreatedByRealmObject().getName());
+        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedByRealmObject().getProfileImageId());
+        if(recipeRealmObject.getMainImageRealmObject()!=null)
+        {
+            recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
+        }
+        recipe.setFavorite(recipeRealmObject.isFavorite());
+        recipe.setLikes(recipeRealmObject.getCounterRealmObject().getLikes());
+        recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
+        recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
+        recipe.setComments(recipeRealmObject.getCounterRealmObject().getComments());
+        recipe.setBadgeType(recipeRealmObject.getBadgeType());
+
+
+        return recipe;
+
     }
 
 
@@ -78,24 +99,24 @@ public class RecipeDataManager {
         return counterRealmObject;
     }
 
-    public interface RecipeDataListener {
-        void onTransactionComplete(boolean executed);
-    }
-
-    public void updateIsFavoriteInDB(final boolean checked, final RecipeRealmObject recipeRealmObject) {
+    public void updateIsFavoriteInDB(final boolean checked, final Recipe recipe) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                        .equalTo("_id", recipe.get_id()).findFirst();
                 recipeRealmObject.setFavorite(checked);
             }
         });
     }
 
 
-    public void updateLikes(final RecipeRealmObject recipeRealmObject, final long likes) {
+    public void updateLikes(final Recipe recipe, final long likes) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                        .equalTo("_id", recipe.get_id()).findFirst();
                 recipeRealmObject.getCounterRealmObject().setLikes(likes);
 
             }
