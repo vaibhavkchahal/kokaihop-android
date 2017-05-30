@@ -1,4 +1,4 @@
-package com.kokaihop.feed.maincourse;
+package com.kokaihop.feed;
 
 /**
  * Created by Vaibhav Chahal on 18/5/17.

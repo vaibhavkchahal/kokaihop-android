@@ -1,4 +1,4 @@
-package com.kokaihop.feed.maincourse;
+package com.kokaihop.feed;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -98,7 +98,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObjectOfDay.getMainImageRealmObject().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
 
                 }
-                holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObjectOfDay.getMainImageRealmObject().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
@@ -111,7 +110,9 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_profile_height_width);
                 if (recipeRealmObject.getCreatedByRealmObject() != null && recipeRealmObject.getCreatedByRealmObject().getProfileImageId() != null)
+                {
                     viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipeRealmObject.getCreatedByRealmObject().getProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
+                }
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();

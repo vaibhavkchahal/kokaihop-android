@@ -1,9 +1,5 @@
 package com.kokaihop.feed;
 
-import com.kokaihop.feed.maincourse.RecipeLikeApiResponse;
-import com.kokaihop.feed.maincourse.RecipeLikeRequest;
-import com.kokaihop.feed.maincourse.RecipeResponse;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

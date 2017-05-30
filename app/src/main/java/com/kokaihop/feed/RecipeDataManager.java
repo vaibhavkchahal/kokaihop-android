@@ -5,7 +5,6 @@ import android.util.Log;
 import com.kokaihop.database.CounterRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.RecipeInfo;
-import com.kokaihop.feed.maincourse.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
 
 import java.util.ArrayList;

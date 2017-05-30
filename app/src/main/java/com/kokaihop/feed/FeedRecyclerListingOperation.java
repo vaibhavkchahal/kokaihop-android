@@ -5,8 +5,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.database.RecipeRealmObject;
-import com.kokaihop.feed.maincourse.AdvtDetail;
-import com.kokaihop.feed.maincourse.FeedRecyclerAdapter;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.EndlessScrollListener;
