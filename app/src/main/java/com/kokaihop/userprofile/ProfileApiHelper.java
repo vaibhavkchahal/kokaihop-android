@@ -1,12 +1,12 @@
 package com.kokaihop.userprofile;
 
-import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
-import com.kokaihop.userprofile.model.FollowingToggleResponse;
-import com.kokaihop.userprofile.model.ToggleFollowingRequest;
-import com.kokaihop.userprofile.model.User;
+import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
+import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
+import com.kokaihop.userprofile.model.FollowingToggleResponse;
+import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 
 import retrofit2.Call;
 
@@ -37,9 +37,9 @@ public class ProfileApiHelper {
         followingToggleResponseCall.enqueue(new ResponseHandler<FollowingToggleResponse>(successInterface));
     }
 
-    public void getUserData(String accessToken, String laanguageCode, final IApiRequestComplete successInterface){
-        Call<User> userResponseCall = userProfileApi.getUserData(accessToken,laanguageCode);
-        userResponseCall.enqueue(new ResponseHandler<User>(successInterface));
+    public void getUserData(String accessToken, String languageCode, final IApiRequestComplete successInterface){
+        Call<UserRealmObject> userResponseCall = userProfileApi.getUserData(accessToken,languageCode);
+        userResponseCall.enqueue(new ResponseHandler<UserRealmObject>(successInterface));
     }
 
 }

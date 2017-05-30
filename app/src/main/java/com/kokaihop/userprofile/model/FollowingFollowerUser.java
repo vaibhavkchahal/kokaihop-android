@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Rajendra Singh on 22/5/17.
  */
 
-public class FollowingFollowerUser{
+public class FollowingFollowerUser {
 
     @SerializedName("_id")
     private String _id;
@@ -21,9 +21,6 @@ public class FollowingFollowerUser{
 
     @SerializedName("aboutMe")
     private String aboutMe;
-
-    @SerializedName("location")
-    private Location location ;
 
     @SerializedName("profileImage")
     private CloudinaryImage profileImage;
@@ -38,14 +35,6 @@ public class FollowingFollowerUser{
 
     public void setAboutMe(String aboutMe) {
         this.aboutMe = aboutMe;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
     public CloudinaryImage getProfileImage() {
