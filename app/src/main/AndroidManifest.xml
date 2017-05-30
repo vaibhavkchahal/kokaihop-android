@@ -46,11 +46,7 @@
         <activity
             android:name="com.kokaihop.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name="com.kokaihop.userprofile.UserSettingsActivity"
                   android:screenOrientation="portrait"
@@ -58,6 +54,11 @@
         </activity>
 
         <activity android:name="com.kokaihop.recipe.recipedetail.RecipeDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
