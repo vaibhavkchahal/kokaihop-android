@@ -21,7 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.kokaihop.database.Recipe;
+
+import com.kokaihop.database.RecipeRealmObject;
 
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class RecipeAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private List<Recipe> cities = null;
+    private List<RecipeRealmObject> cities = null;
 
     public RecipeAdapter(Context context) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setData(List<Recipe> details) {
+    public void setData(List<RecipeRealmObject> details) {
         this.cities = details;
     }
 
@@ -72,9 +73,9 @@ public class RecipeAdapter extends BaseAdapter {
 //            currentView = inflater.inflate(R.layout.city_listitem, parent, false);
         }
 
-        Recipe city = cities.get(position);
+        RecipeRealmObject recipeRealmObject = cities.get(position);
 
-        if (city != null) {
+        if (recipeRealmObject != null) {
 //            ((TextView) currentView.findViewById(R.id.name)).setText("Title : " + city.getTitle());
 //            ((TextView) currentView.findViewById(R.id.votes)).setText("Type : " + city.getType() + position);
         }

@@ -22,16 +22,17 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
-import com.kokaihop.home.userprofile.FollowersFragment;
-import com.kokaihop.home.userprofile.FollowingFragment;
-import com.kokaihop.home.userprofile.HistoryFragment;
-import com.kokaihop.home.userprofile.ProfileAdapter;
-import com.kokaihop.home.userprofile.RecipeFragment;
-import com.kokaihop.home.userprofile.UserApiCallback;
-import com.kokaihop.home.userprofile.UserProfileViewModel;
-import com.kokaihop.home.userprofile.UserSettingsActivity;
-import com.kokaihop.home.userprofile.model.NotificationCount;
-import com.kokaihop.home.userprofile.model.User;
+import com.kokaihop.userprofile.FollowersFragment;
+import com.kokaihop.userprofile.FollowingFragment;
+import com.kokaihop.userprofile.HistoryFragment;
+import com.kokaihop.userprofile.ProfileAdapter;
+import com.kokaihop.userprofile.RecipeFragment;
+import com.kokaihop.userprofile.UserApiCallback;
+import com.kokaihop.userprofile.UserProfileViewModel;
+import com.kokaihop.userprofile.UserSettingsActivity;
+import com.kokaihop.userprofile.model.CloudinaryImage;
+import com.kokaihop.userprofile.model.NotificationCount;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
@@ -220,7 +221,10 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
 //        collapsingToolbarLayout.setl/a
 
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
-        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(User.getInstance().getCoverImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        CloudinaryImage coverImage = User.getInstance().getCoverImage();
+        if(coverImage!=null){
+            userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        }
 //        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl("35035757",String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
         userProfileBinding.executePendingBindings();
     }
@@ -234,7 +238,10 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         layoutParams.width = width;
         ivProfile.setLayoutParams(layoutParams);
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-        userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(User.getInstance().getProfileImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        CloudinaryImage profileImage = User.getInstance().getProfileImage();
+        if(profileImage != null){
+            userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        }
         userProfileBinding.executePendingBindings();
     }
 }

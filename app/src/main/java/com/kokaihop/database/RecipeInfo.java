@@ -10,13 +10,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class RecipeInfo extends BaseObservable{
     @SerializedName("recipe")
-    private Recipe recipe;
+    private RecipeRealmObject recipeRealmObject;
 
-    public Recipe getRecipe() {
-        return recipe;
+    public RecipeRealmObject getRecipeRealmObject() {
+        return recipeRealmObject;
     }
 
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+    public void setRecipeRealmObject(RecipeRealmObject recipeRealmObject) {
+        this.recipeRealmObject = recipeRealmObject;
     }
 }

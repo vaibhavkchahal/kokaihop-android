@@ -11,13 +11,14 @@
         android:name="com.kokaihop.KokaihopApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.kokaihop.home.HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+        >
         </activity>
         <activity
             android:name="com.kokaihop.authentication.login.LoginActivity"
@@ -51,11 +52,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.kokaihop.home.userprofile.UserSettingsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme">
+        <activity android:name="com.kokaihop.userprofile.UserSettingsActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppToolbarTheme">
         </activity>
+
         <activity android:name="com.kokaihop.recipe.recipedetail.RecipeDetailActivity">
         </activity>
     </application>

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.FeedApiHelper;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
@@ -25,40 +25,40 @@ import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeHandler {
 
-    public void onCheckChangeRecipe(CheckBox checkBox, Recipe recipe) {
+    public void onCheckChangeRecipe(CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
             showDialog(checkBox);
         } else {
-            performOperationOncheck(checkBox, recipe);
+            performOperationOncheck(checkBox, recipeRealmObject);
         }
     }
 
-    private void performOperationOncheck(CheckBox checkBox, Recipe recipe) {
+    private void performOperationOncheck(CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
         RecipeDataManager recipeDataManager = new RecipeDataManager();
         long likes=0;
         if (checkBox.isChecked()) {
-             likes = recipe.getCounter().getLikes();
+             likes = recipeRealmObject.getCounterRealmObject().getLikes();
             likes = likes + 1;
-            recipeDataManager.updateLikes(recipe, likes);
+            recipeDataManager.updateLikes(recipeRealmObject, likes);
             checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_sm, 0, 0, 0);
         } else {
-             likes = recipe.getCounter().getLikes();
+             likes = recipeRealmObject.getCounterRealmObject().getLikes();
             if (likes != 0) {
                 likes = likes - 1;
 
             }
             checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unlike_sm, 0, 0, 0);
         }
-        recipeDataManager.updateIsFavoriteInDB(checkBox.isChecked(), recipe);
-        recipeDataManager.updateLikes(recipe, likes);
+        recipeDataManager.updateIsFavoriteInDB(checkBox.isChecked(), recipeRealmObject);
+        recipeDataManager.updateLikes(recipeRealmObject, likes);
         checkBox.setText(String.valueOf(likes));
-        updatelikeStatusOnServer(checkBox, recipe);
+        updatelikeStatusOnServer(checkBox, recipeRealmObject);
     }
 
-    public void updatelikeStatusOnServer(final CheckBox checkBox, Recipe recipe) {
+    public void updatelikeStatusOnServer(final CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
-        RecipeLikeRequest request = new RecipeLikeRequest(recipe.get_id(), checkBox.isChecked());
+        RecipeLikeRequest request = new RecipeLikeRequest(recipeRealmObject.get_id(), checkBox.isChecked());
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {

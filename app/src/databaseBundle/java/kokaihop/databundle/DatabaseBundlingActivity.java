@@ -9,7 +9,7 @@ import android.widget.ListView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityDatabaseBundlingBinding;
 import com.kokaihop.base.BaseActivity;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.recipe.SearchResponse;
 
 import io.realm.Realm;
@@ -28,7 +28,6 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
         ActivityDatabaseBundlingBinding databaseBundlingBinding = DataBindingUtil.setContentView(this, R.layout.activity_database_bundling);
         BundleViewModel bundleViewModel = new BundleViewModel();
         databaseBundlingBinding.setViewModel(bundleViewModel);
-        bundleViewModel.getRecipe(0);
 
     }
 
@@ -70,7 +69,7 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Recipe modifiedCity = (Recipe) mAdapter.getItem(position);
+        RecipeRealmObject modifiedCity = (RecipeRealmObject) mAdapter.getItem(position);
 
         // Acquire the RealmObject matching the name of the clicked City.
 //        final RecipeDetails city = realm.where(RecipeDetails.class).equalTo("title", modifiedCity.getTitle()).findFirst();
@@ -90,7 +89,7 @@ public class DatabaseBundlingActivity extends BaseActivity implements AdapterVie
     public void insertRecord(SearchResponse searchResponse) {
         realm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
-        realm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
+        realm.copyToRealmOrUpdate(searchResponse.getRecipeRealmObjects());
 //        realm.insert(recipeResponse.getRecipeList());
         realm.commitTransaction();
     }
