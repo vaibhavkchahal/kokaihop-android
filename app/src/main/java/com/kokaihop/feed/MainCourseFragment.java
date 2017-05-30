@@ -1,4 +1,4 @@
-package com.kokaihop.feed.maincourse;
+package com.kokaihop.feed;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
-import com.kokaihop.feed.FeedRecyclerListingOperation;
-import com.kokaihop.feed.RecipeFeedViewModel;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.EndlessScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;

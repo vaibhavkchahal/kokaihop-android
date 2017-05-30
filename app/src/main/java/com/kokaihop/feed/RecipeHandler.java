@@ -1,4 +1,4 @@
-package com.kokaihop.feed.maincourse;
+package com.kokaihop.feed;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,8 +11,6 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.database.RecipeRealmObject;
-import com.kokaihop.feed.FeedApiHelper;
-import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;

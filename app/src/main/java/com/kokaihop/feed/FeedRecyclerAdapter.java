@@ -1,4 +1,4 @@
-package com.kokaihop.feed.maincourse;
+package com.kokaihop.feed;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

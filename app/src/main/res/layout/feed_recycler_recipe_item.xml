@@ -9,7 +9,7 @@
         <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
         <variable name="feedImageUrl" type="String"/>
         <variable name="profileImageUrl" type="String"/>
-        <variable name="recipeHandler" type="com.kokaihop.feed.maincourse.RecipeHandler"/>
+        <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
         <import type="com.kokaihop.utility.SharedPrefUtils"/>
         <import type="com.kokaihop.utility.Constants"/>
     </data>
