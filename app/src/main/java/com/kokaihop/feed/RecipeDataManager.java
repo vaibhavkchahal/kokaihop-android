@@ -2,8 +2,8 @@ package com.kokaihop.feed;
 
 import android.util.Log;
 
-import com.kokaihop.database.Counter;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.CounterRealmObject;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.feed.maincourse.RecipeResponse;
 import com.kokaihop.utility.ApiConstants;
@@ -33,71 +33,71 @@ public class RecipeDataManager {
         realm = Realm.getDefaultInstance();
     }
 
-    public RealmResults<Recipe> fetchRecipe(ApiConstants.BadgeType badgeType) {
-        RealmResults<Recipe> recipeList = realm.where(Recipe.class)
+    public RealmResults<RecipeRealmObject> fetchRecipe(ApiConstants.BadgeType badgeType) {
+        RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class)
                 .equalTo("badgeType", badgeType.value)
                 .findAllSorted("badgeDateCreated", Sort.DESCENDING);
-        return recipeList;
+        return recipeRealmObjectList;
     }
 
 
     public void insertOrUpdateData(RecipeResponse recipeResponse) {
         realm.beginTransaction();
-        List<Recipe> recipeList = new ArrayList<>();
+        List<RecipeRealmObject> recipeRealmObjectList = new ArrayList<>();
         for (RecipeInfo recipeInfo : recipeResponse.getRecipeDetailsList()) {
-            Recipe recipe = realm.where(Recipe.class)
-                    .equalTo("_id", recipeInfo.getRecipe().get_id()).findFirst();
-            if (recipe != null) {
-                recipe.setBadgeType(recipeInfo.getRecipe().getBadgeType());
-                recipe.setCounter(updateCounter(recipeInfo.getRecipe()));
-                recipe.setBadgeDateCreated(recipeInfo.getRecipe().getDateCreated());
+            RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                    .equalTo("_id", recipeInfo.getRecipeRealmObject().get_id()).findFirst();
+            if (recipeRealmObject != null) {
+                recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
+                recipeRealmObject.setCounterRealmObject(updateCounter(recipeInfo.getRecipeRealmObject()));
+                recipeRealmObject.setBadgeDateCreated(recipeInfo.getRecipeRealmObject().getDateCreated());
                 if (recipeResponse.getMyLikes() != null) {
-                    boolean isLiked = recipeResponse.getMyLikes().contains(recipe.get_id());
-                    recipe.setFavorite(isLiked);
+                    boolean isLiked = recipeResponse.getMyLikes().contains(recipeRealmObject.get_id());
+                    recipeRealmObject.setFavorite(isLiked);
                 }
             } else {
-                recipe = recipeInfo.getRecipe();
+                recipeRealmObject = recipeInfo.getRecipeRealmObject();
             }
-            recipe.setLastUpdated(System.currentTimeMillis());
-            recipeList.add(recipe);
-            Log.d("id", recipeInfo.getRecipe().get_id());
+            recipeRealmObject.setLastUpdated(System.currentTimeMillis());
+            recipeRealmObjectList.add(recipeRealmObject);
+            Log.d("id", recipeInfo.getRecipeRealmObject().get_id());
         }
-        realm.insertOrUpdate(recipeList);
+        realm.insertOrUpdate(recipeRealmObjectList);
 //        recipeDataListener.onTransactionComplete(true);
         realm.commitTransaction();
     }
 
-    private Counter updateCounter(Recipe recipe) {
-        Counter counter = realm.createObject(Counter.class);
-        Counter counterTemp = recipe.getCounter();
-        counter.setAddedToCollection(counterTemp.getAddedToCollection());
-        counter.setComments(counterTemp.getComments());
-        counter.setLikes(counterTemp.getLikes());
-        counter.setMail(counterTemp.getMail());
-        counter.setPrinted(counterTemp.getPrinted());
-        counter.setViewed(counterTemp.getViewed());
-        return counter;
+    private CounterRealmObject updateCounter(RecipeRealmObject recipeRealmObject) {
+        CounterRealmObject counterRealmObject = realm.createObject(CounterRealmObject.class);
+        CounterRealmObject counterRealmObjectTemp = recipeRealmObject.getCounterRealmObject();
+        counterRealmObject.setAddedToCollection(counterRealmObjectTemp.getAddedToCollection());
+        counterRealmObject.setComments(counterRealmObjectTemp.getComments());
+        counterRealmObject.setLikes(counterRealmObjectTemp.getLikes());
+        counterRealmObject.setMail(counterRealmObjectTemp.getMail());
+        counterRealmObject.setPrinted(counterRealmObjectTemp.getPrinted());
+        counterRealmObject.setViewed(counterRealmObjectTemp.getViewed());
+        return counterRealmObject;
     }
 
     public interface RecipeDataListener {
         void onTransactionComplete(boolean executed);
     }
 
-    public void updateIsFavoriteInDB(final boolean checked, final Recipe recipe) {
+    public void updateIsFavoriteInDB(final boolean checked, final RecipeRealmObject recipeRealmObject) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                recipe.setFavorite(checked);
+                recipeRealmObject.setFavorite(checked);
             }
         });
     }
 
 
-    public void updateLikes(final Recipe recipe, final long likes) {
+    public void updateLikes(final RecipeRealmObject recipeRealmObject, final long likes) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                recipe.getCounter().setLikes(likes);
+                recipeRealmObject.getCounterRealmObject().setLikes(likes);
 
             }
         });

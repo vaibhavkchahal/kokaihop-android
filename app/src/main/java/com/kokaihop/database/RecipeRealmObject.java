@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Rajendra Singh on 5/5/17.
  */
 
-public class Recipe extends RealmObject {
+public class RecipeRealmObject extends RealmObject {
 
     @PrimaryKey
     @SerializedName(value = "_id", alternate = {"id"})
@@ -26,17 +26,17 @@ public class Recipe extends RealmObject {
     @SerializedName("status")
     private String status;
     @SerializedName("cuisine")
-    private Cuisine cuisine;
+    private CuisineRealmObject cuisineRealmObject;
     @SerializedName("createdBy")
-    private CreatedBy createdBy;
+    private CreatedByRealmObject createdByRealmObject;
     @SerializedName("ingredients")
-    private RealmList<Ingredients> ingredientsList;
+    private RealmList<IngredientsRealmObject> ingredientsRealmObjectList;
     @SerializedName("category")
-    private Category category;
+    private CategoryRealmObject categoryRealmObject;
     @SerializedName("cookingMethod")
-    private CookingMethod cookingMethod;
+    private CookingMethodRealmObject cookingMethodRealmObject;
     @SerializedName("counter")
-    private Counter counter;
+    private CounterRealmObject counterRealmObject;
     @SerializedName("badgeType")
     private String badgeType;
     @SerializedName("isMine")
@@ -47,29 +47,29 @@ public class Recipe extends RealmObject {
     public boolean isFavorite;
 
     @SerializedName("mainImage")
-    private MainImage mainImage;
+    private MainImageRealmObject mainImageRealmObject;
     @SerializedName("rating")
-    private Rating rating;
+    private RatingRealmObject ratingRealmObject;
     private long badgeDateCreated;
 
     private long lastUpdated;
     private long lastViewed;
     private boolean viewed;
 
-    public MainImage getMainImage() {
-        return mainImage;
+    public MainImageRealmObject getMainImageRealmObject() {
+        return mainImageRealmObject;
     }
 
-    public Rating getRating() {
-        return rating;
+    public RatingRealmObject getRatingRealmObject() {
+        return ratingRealmObject;
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
+    public void setRatingRealmObject(RatingRealmObject ratingRealmObject) {
+        this.ratingRealmObject = ratingRealmObject;
     }
 
-    public void setMainImage(MainImage mainImage) {
-        this.mainImage = mainImage;
+    public void setMainImageRealmObject(MainImageRealmObject mainImageRealmObject) {
+        this.mainImageRealmObject = mainImageRealmObject;
     }
 
 
@@ -81,52 +81,52 @@ public class Recipe extends RealmObject {
         this.status = status;
     }
 
-    public Cuisine getCuisine() {
-        return cuisine;
+    public CuisineRealmObject getCuisineRealmObject() {
+        return cuisineRealmObject;
     }
 
-    public void setCuisine(Cuisine cuisine) {
-        this.cuisine = cuisine;
+    public void setCuisineRealmObject(CuisineRealmObject cuisineRealmObject) {
+        this.cuisineRealmObject = cuisineRealmObject;
     }
 
-    public CreatedBy getCreatedBy() {
-        return createdBy;
+    public CreatedByRealmObject getCreatedByRealmObject() {
+        return createdByRealmObject;
     }
 
-    public void setCreatedBy(CreatedBy createdBy) {
-        this.createdBy = createdBy;
+    public void setCreatedByRealmObject(CreatedByRealmObject createdByRealmObject) {
+        this.createdByRealmObject = createdByRealmObject;
     }
 
-    public RealmList<Ingredients> getIngredientsList() {
-        return ingredientsList;
+    public RealmList<IngredientsRealmObject> getIngredientsRealmObjectList() {
+        return ingredientsRealmObjectList;
     }
 
-    public void setIngredientsList(RealmList<Ingredients> ingredientsList) {
-        this.ingredientsList = ingredientsList;
+    public void setIngredientsRealmObjectList(RealmList<IngredientsRealmObject> ingredientsRealmObjectList) {
+        this.ingredientsRealmObjectList = ingredientsRealmObjectList;
     }
 
-    public Category getCategory() {
-        return category;
+    public CategoryRealmObject getCategoryRealmObject() {
+        return categoryRealmObject;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryRealmObject(CategoryRealmObject categoryRealmObject) {
+        this.categoryRealmObject = categoryRealmObject;
     }
 
-    public CookingMethod getCookingMethod() {
-        return cookingMethod;
+    public CookingMethodRealmObject getCookingMethodRealmObject() {
+        return cookingMethodRealmObject;
     }
 
-    public void setCookingMethod(CookingMethod cookingMethod) {
-        this.cookingMethod = cookingMethod;
+    public void setCookingMethodRealmObject(CookingMethodRealmObject cookingMethodRealmObject) {
+        this.cookingMethodRealmObject = cookingMethodRealmObject;
     }
 
-    public Counter getCounter() {
-        return counter;
+    public CounterRealmObject getCounterRealmObject() {
+        return counterRealmObject;
     }
 
-    public void setCounter(Counter counter) {
-        this.counter = counter;
+    public void setCounterRealmObject(CounterRealmObject counterRealmObject) {
+        this.counterRealmObject = counterRealmObject;
     }
 
     public String getBadgeType() {

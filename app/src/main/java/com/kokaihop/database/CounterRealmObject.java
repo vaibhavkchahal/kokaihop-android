@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * Created by Rajendra Singh on 10/5/17.
  */
 
-public class Counter extends RealmObject {
+public class CounterRealmObject extends RealmObject {
 
     public long getAddedToCollection() {
         return addedToCollection;

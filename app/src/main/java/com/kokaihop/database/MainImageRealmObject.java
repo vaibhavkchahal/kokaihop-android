@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * Created by Rajendra Singh on 18/5/17.
  */
 
-public class MainImage extends RealmObject {
+public class MainImageRealmObject extends RealmObject {
 
     public String getPublicId() {
         return publicId;
