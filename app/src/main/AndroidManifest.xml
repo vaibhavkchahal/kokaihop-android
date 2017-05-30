@@ -57,6 +57,9 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/AppToolbarTheme">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8758669065188b730ad910ad159df3c707ec5523" />
     </application>
 
 </manifest>
