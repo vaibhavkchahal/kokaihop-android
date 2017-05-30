@@ -50,7 +50,11 @@ public class RecipeDataManager {
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
         recipe.setLikes(recipeRealmObject.getCounterRealmObject().getLikes());
-        recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
+        if(recipeRealmObject.getRatingRealmObject()!=null)
+        {
+            recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
+
+        }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
         recipe.setComments(recipeRealmObject.getCounterRealmObject().getComments());
         recipe.setBadgeType(recipeRealmObject.getBadgeType());
