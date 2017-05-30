@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="user" type="com.kokaihop.home.userprofile.model.FollowingFollowerUser"/>
+        <variable name="user" type="com.kokaihop.userprofile.model.FollowingFollowerUser"/>
         <variable name="profilePic" type="String"/>
         <variable name="viewModel"
-                  type="com.kokaihop.home.userprofile.FollowersFollowingViewModel"/>
+                  type="com.kokaihop.userprofile.FollowersFollowingViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout

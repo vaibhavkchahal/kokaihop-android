@@ -2,22 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="notification" type="com.kokaihop.home.userprofile.model.NotificationCount"/>
+        <variable name="notification" type="com.kokaihop.userprofile.model.NotificationCount"/>
     </data>
     <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:layout_alignParentBottom="true"
-                  android:gravity="center|bottom"
-                  android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:gravity="center|bottom"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|bottom"
-            android:textColor="@color/grey_FFD4D4D4"
             android:text="@{notification.count+``}"
+            android:textColor="@color/grey_FFD4D4D4"
             android:textSize="@dimen/profile_tab_text_large"
             app:font="@{`RS-Regular`}"/>
 

@@ -5,16 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="user" type="com.kokaihop.home.userprofile.model.User"/>
+        <variable name="user" type="com.kokaihop.userprofile.model.User"/>
         <variable name="imageProfileUrl" type="String"/>
         <variable name="imageCoverUrl" type="String"/>
-        <variable name="viewModel" type="com.kokaihop.home.userprofile.UserProfileViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.userprofile.UserProfileViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.kokaihop.home.UserProfileFragment">
+        tools:context="com.kokaihop.UserProfileFragment">
 
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/main_content"
