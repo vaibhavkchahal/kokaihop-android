@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 
 public interface RecipeApi {
 
-    @GET("/v1/api/recipes?")
+    @GET("v1/api/recipes?")
     Call<SearchResponse> getRecipe(@Query("fetchFacets") int fetchFacets, @Query("max") int max,
                                    @Query("offset") int offset, @Query("sortParams") String sortParams,
                                    @Query("type") String type);

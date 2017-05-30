@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -43,5 +44,9 @@ public interface UserProfileApi {
     @POST("v1/api/users/toggleFollowUser")
     Call<FollowingToggleResponse> toggleFollowing(@Header("Authorization") String authorization,
                                                   @Body ToggleFollowingRequest toggleFollowingRequest);
+
+
+    @PUT("v1/api/users/updateLogoutDetails")
+    Call<LogoutResponse> logoutUser(@Header("Authorization") String authorization);
 
 }
