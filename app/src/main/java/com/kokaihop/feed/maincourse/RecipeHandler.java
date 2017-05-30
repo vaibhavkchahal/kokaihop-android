@@ -56,7 +56,7 @@ public class RecipeHandler {
         updatelikeStatusOnServer(checkBox, recipeRealmObject);
     }
 
-    public void updatelikeStatusOnServer(CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
+    public void updatelikeStatusOnServer(final CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         RecipeLikeRequest request = new RecipeLikeRequest(recipeRealmObject.get_id(), checkBox.isChecked());
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
