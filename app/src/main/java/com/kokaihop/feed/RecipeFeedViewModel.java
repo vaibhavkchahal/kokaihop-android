@@ -5,7 +5,7 @@ import android.databinding.Bindable;
 
 import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.maincourse.AdvtDetail;
 import com.kokaihop.feed.maincourse.RecipeRequestParams;
 import com.kokaihop.feed.maincourse.RecipeResponse;
@@ -37,7 +37,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     private boolean isDownloading;
 
-    private List<Recipe> recipeList = new ArrayList<>();
+    private List<RecipeRealmObject> recipeRealmObjectList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
 
     public List<Object> getRecipeListWithAdds() {
@@ -113,9 +113,9 @@ public class RecipeFeedViewModel extends BaseViewModel {
     }
 
     public void fetchRecipeFromDb(ApiConstants.BadgeType badgeType) {
-        recipeList = dataManager.fetchRecipe(badgeType);
+        recipeRealmObjectList = dataManager.fetchRecipe(badgeType);
         recipeListWithAdds.clear();
-        recipeListWithAdds.addAll(recipeList);
+        recipeListWithAdds.addAll(recipeRealmObjectList);
         addAdvtInRecipeList();
     }
 

@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * Created by Rajendra Singh on 10/5/17.
  */
 
-public class CreatedBy extends RealmObject {
+public class CreatedByRealmObject extends RealmObject {
 
     public String getId() {
         return id;

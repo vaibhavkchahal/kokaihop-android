@@ -15,7 +15,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Logger;
@@ -91,28 +91,28 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (getItemViewType(position)) {
             case TYPE_ITEM_DAY_RECIPE:
                 ViewHolderRecipeOfDay holderRecipeOfDay = (ViewHolderRecipeOfDay) holder;
-                Recipe recipeOfDay = (Recipe) recipeListWithAdds.get(position);
-                holderRecipeOfDay.binder.setRecipe(recipeOfDay);
+                RecipeRealmObject recipeRealmObjectOfDay = (RecipeRealmObject) recipeListWithAdds.get(position);
+                holderRecipeOfDay.binder.setRecipe(recipeRealmObjectOfDay);
                 Logger.e("height", layoutParamsRecipeDay.height + ", width " + layoutParamsRecipeDay.width);
-                if (recipeOfDay.getMainImage() != null && recipeOfDay.getMainImage().getPublicId() != null) {
-                    holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
+                if (recipeRealmObjectOfDay.getMainImageRealmObject() != null && recipeRealmObjectOfDay.getMainImageRealmObject().getPublicId() != null) {
+                    holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObjectOfDay.getMainImageRealmObject().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
 
                 }
-                holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeOfDay.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
+                holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObjectOfDay.getMainImageRealmObject().getPublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
-                Recipe recipe = (Recipe) recipeListWithAdds.get(position);
+                RecipeRealmObject recipeRealmObject = (RecipeRealmObject) recipeListWithAdds.get(position);
                 Logger.e("height", layoutParamsRecipeItem.height + ", width " + layoutParamsRecipeItem.width);
-                if (recipe.getMainImage() != null && recipe.getMainImage().getPublicId() != null) {
-                    viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipe.getMainImage().getPublicId(), String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
+                if (recipeRealmObject.getMainImageRealmObject() != null && recipeRealmObject.getMainImageRealmObject().getPublicId() != null) {
+                    viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObject.getMainImageRealmObject().getPublicId(), String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
 
                 }
                 int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_profile_height_width);
-                if (recipe.getCreatedBy() != null && recipe.getCreatedBy().getProfileImageId() != null)
-                    viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipe.getCreatedBy().getProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
-                viewHolderRecipe.binder.setRecipe(recipe);
+                if (recipeRealmObject.getCreatedByRealmObject() != null && recipeRealmObject.getCreatedByRealmObject().getProfileImageId() != null)
+                    viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipeRealmObject.getCreatedByRealmObject().getProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
+                viewHolderRecipe.binder.setRecipe(recipeRealmObject);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
@@ -128,7 +128,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         Object object = recipeListWithAdds.get(position);
-        if (object instanceof Recipe) {
+        if (object instanceof RecipeRealmObject) {
             if (isPositionHeader(position))
                 return TYPE_ITEM_DAY_RECIPE;
             return TYPE_ITEM_RECIPE;

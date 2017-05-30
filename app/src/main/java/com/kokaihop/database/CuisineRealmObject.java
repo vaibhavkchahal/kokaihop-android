@@ -3,16 +3,17 @@ package com.kokaihop.database;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Rajendra Singh on 10/5/17.
  */
 
-public class CookingMethod extends RealmObject {
+public class CuisineRealmObject extends RealmObject {
 
-    @PrimaryKey @SerializedName("id")
+    @SerializedName("id")
     private String id;
+    @SerializedName("oldId")
+    private long oldId;
     @SerializedName("name")
     private String name;
 
@@ -24,6 +25,14 @@ public class CookingMethod extends RealmObject {
         this.id = id;
     }
 
+    public long getOldId() {
+        return oldId;
+    }
+
+    public void setOldId(long oldId) {
+        this.oldId = oldId;
+    }
+
     public String getName() {
         return name;
     }
@@ -31,4 +40,6 @@ public class CookingMethod extends RealmObject {
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

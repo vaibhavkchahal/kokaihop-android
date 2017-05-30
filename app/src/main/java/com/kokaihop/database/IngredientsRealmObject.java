@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Rajendra Singh on 10/5/17.
  */
 
-public class Ingredients extends RealmObject {
+public class IngredientsRealmObject extends RealmObject {
 
     @SerializedName("id")
     private String id;

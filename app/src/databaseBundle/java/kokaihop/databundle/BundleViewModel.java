@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.DBConstants;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
@@ -37,6 +37,13 @@ public class BundleViewModel extends BaseViewModel {
 
         // Create a new empty instance of Realm
         mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+                getRecipe(0);
+            }
+        });
 
 
     }
@@ -65,7 +72,7 @@ public class BundleViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
                 insertRecord(searchResponse);
-                long recordCount = mRealm.where(Recipe.class).count();
+                long recordCount = mRealm.where(RecipeRealmObject.class).count();
                 Log.e("Saved record in DB", String.valueOf(recordCount));
 
 
@@ -101,7 +108,7 @@ public class BundleViewModel extends BaseViewModel {
 
         mRealm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
-        mRealm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
+        mRealm.copyToRealmOrUpdate(searchResponse.getRecipeRealmObjects());
 
 //        realm.insert(recipeResponse.getRecipeList());
         mRealm.commitTransaction();

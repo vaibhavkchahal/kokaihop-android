@@ -48,7 +48,7 @@ public class UserProfileViewModel extends BaseViewModel {
         userApiCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.e("User ID : ", response.body().get_id());
+//                Log.e("User ID : ", response.body().get_id());
                 User.setUser(response.body());
                 userApiCallback.showUserProfile();
                 setProgressVisible(false);

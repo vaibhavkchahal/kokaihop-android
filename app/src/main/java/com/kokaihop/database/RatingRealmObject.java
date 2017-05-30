@@ -8,7 +8,7 @@ import io.realm.RealmObject;
  * Created by Rajendra Singh on 18/5/17.
  */
 
-public class Rating extends RealmObject {
+public class RatingRealmObject extends RealmObject {
 
     @SerializedName("average")
     private float average;
