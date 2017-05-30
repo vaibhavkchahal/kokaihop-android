@@ -30,6 +30,7 @@ import com.kokaihop.home.userprofile.RecipeFragment;
 import com.kokaihop.home.userprofile.UserApiCallback;
 import com.kokaihop.home.userprofile.UserProfileViewModel;
 import com.kokaihop.home.userprofile.UserSettingsActivity;
+import com.kokaihop.home.userprofile.model.CloudinaryImage;
 import com.kokaihop.home.userprofile.model.NotificationCount;
 import com.kokaihop.home.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
@@ -220,7 +221,10 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
 //        collapsingToolbarLayout.setl/a
 
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
-        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(User.getInstance().getCoverImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        CloudinaryImage coverImage = User.getInstance().getCoverImage();
+        if(coverImage!=null){
+            userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        }
 //        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl("35035757",String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
         userProfileBinding.executePendingBindings();
     }
@@ -234,7 +238,10 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         layoutParams.width = width;
         ivProfile.setLayoutParams(layoutParams);
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-        userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(User.getInstance().getProfileImage().getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        CloudinaryImage profileImage = User.getInstance().getProfileImage();
+        if(profileImage != null){
+            userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        }
         userProfileBinding.executePendingBindings();
     }
 }
