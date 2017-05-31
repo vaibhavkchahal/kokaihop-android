@@ -15,7 +15,7 @@ public class MainImageRealmObject extends RealmObject {
     }
 
     @SerializedName("publicId")
-    String publicId;
+   private String publicId;
 
     public void setPublicId(String publicId) {
         this.publicId = publicId;
