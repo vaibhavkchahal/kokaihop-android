@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.DBConstants;
-import com.kokaihop.database.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
@@ -13,8 +13,6 @@ import com.kokaihop.utility.ApiConstants;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-
-import static com.kokaihop.database.DBConstants.DATABASE_NAME;
 
 /**
  * Created by Rajendra Singh on 8/5/17.
@@ -28,7 +26,7 @@ public class BundleViewModel extends BaseViewModel {
     public BundleViewModel() {
         mRecipeApiHelper = new RecipeApiHelper();
         mRecipeRequestParams = getmRecipeRequestParams();
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(DATABASE_NAME)
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(Realm.DEFAULT_REALM_NAME)
                 .deleteRealmIfMigrationNeeded().
                 schemaVersion(DBConstants.SCHEMA_VERSION).build();
         Realm.setDefaultConfiguration(realmConfiguration);
@@ -37,6 +35,13 @@ public class BundleViewModel extends BaseViewModel {
 
         // Create a new empty instance of Realm
         mRealm = Realm.getDefaultInstance();
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+                getRecipe(0);
+            }
+        });
 
 
     }
@@ -65,7 +70,7 @@ public class BundleViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
                 insertRecord(searchResponse);
-                long recordCount = mRealm.where(Recipe.class).count();
+                long recordCount = mRealm.where(RecipeRealmObject.class).count();
                 Log.e("Saved record in DB", String.valueOf(recordCount));
 
 
@@ -101,7 +106,7 @@ public class BundleViewModel extends BaseViewModel {
 
         mRealm.beginTransaction();
 //        Collection<RecipeDetails> realmCities = realm.copyToRealm(recipeResponse.getRecipeList());
-        mRealm.copyToRealmOrUpdate(searchResponse.getRecipeDetailsList());
+        mRealm.copyToRealmOrUpdate(searchResponse.getRecipeRealmObjects());
 
 //        realm.insert(recipeResponse.getRecipeList());
         mRealm.commitTransaction();

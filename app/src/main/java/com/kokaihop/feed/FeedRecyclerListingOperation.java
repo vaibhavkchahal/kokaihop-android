@@ -3,14 +3,9 @@ package com.kokaihop.feed;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.altaworks.kokaihop.ui.R;
-import com.kokaihop.database.Recipe;
-import com.kokaihop.feed.maincourse.AdvtDetail;
-import com.kokaihop.feed.maincourse.FeedRecyclerAdapter;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.EndlessScrollListener;
-import com.kokaihop.utility.SpacingItemDecoration;
 
 import static com.kokaihop.KokaihopApplication.getContext;
 
@@ -25,15 +20,16 @@ public class FeedRecyclerListingOperation {
     private RecipeFeedViewModel feedViewModel;
     private ApiConstants.BadgeType badgeType;
 
-    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView, ApiConstants.BadgeType badgeType) {
+    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,
+                                        ApiConstants.BadgeType badgeType) {
         this.recyclerViewFeed = recyclerView;
         this.feedViewModel = feedViewModel;
         this.badgeType = badgeType;
     }
 
     public EndlessScrollListener prepareFeedRecyclerView() {
-        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+//        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+//        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         layoutManager = new GridLayoutManager(getContext(), 2);
         final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds());
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -58,11 +54,16 @@ public class FeedRecyclerListingOperation {
 
             @Override
             public void onLoadMore(RecyclerView view) {
-                if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() < feedViewModel.MAX_BADGE) {
+                if (!feedViewModel.isDownloading() && feedViewModel.getOffset() + feedViewModel.getMax() <= feedViewModel.MAX_BADGE) {
                     boolean showProgressDialog = true;
                     boolean isDownloading = true;
+                    int max = feedViewModel.getMax();
+                    int offset = feedViewModel.getOffset() + feedViewModel.getMax();
 
-                    feedViewModel.getRecipes(feedViewModel.getOffset() + feedViewModel.getMax(), showProgressDialog, isDownloading, badgeType);
+                    if (feedViewModel.getOffset() + feedViewModel.getMax() == 20) {
+                        offset = feedViewModel.getOffset() + feedViewModel.getMax() + 1; // to get the 21th recipe
+                    }
+                    feedViewModel.getRecipes(offset, max, showProgressDialog, isDownloading, badgeType);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) view.getAdapter();
                     final int curSize = adapter.getItemCount();
                     view.post(new Runnable() {
@@ -85,21 +86,20 @@ public class FeedRecyclerListingOperation {
                 Recipe recipe = (Recipe) object;
 
                 if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1) {
+                    int max = feedViewModel.getMax();
 
                     if (lastVisibleItemPosition <= feedViewModel.getMax()) {
                         feedViewModel.setOffset(0);
+                        max = feedViewModel.getMax() + 1; // to get the 21th recipe
 
                     } else if (lastVisibleItemPosition > feedViewModel.getMax() && lastVisibleItemPosition <= feedViewModel.getMax() * 2) {
-                        feedViewModel.setOffset(feedViewModel.getMax());
-
+                        feedViewModel.setOffset(feedViewModel.getMax() + 1);
                     } else if (lastVisibleItemPosition > feedViewModel.getMax() * 2) {
-                        feedViewModel.setOffset(feedViewModel.getMax() * 2);
-
-
+                        feedViewModel.setOffset(feedViewModel.getMax() * 2 + 1);
                     }
                     boolean showProgressDialog = false;
                     boolean isDownloading = true;
-                    feedViewModel.getRecipes(feedViewModel.getOffset(), showProgressDialog, isDownloading, badgeType);
+                    feedViewModel.getRecipes(feedViewModel.getOffset(), max, showProgressDialog, isDownloading, badgeType);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) recyclerView.getAdapter();
                     final int curSize = adapter.getItemCount();
                     recyclerView.post(new Runnable() {

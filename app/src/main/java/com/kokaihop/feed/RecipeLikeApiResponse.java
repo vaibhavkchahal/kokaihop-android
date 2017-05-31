@@ -1,0 +1,18 @@
+package com.kokaihop.feed;
+
+import com.google.gson.annotations.SerializedName;
+
+
+public class RecipeLikeApiResponse {
+
+    @SerializedName("id")
+    private String id;
+
+    public RecipeLikeApiResponse(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+}

@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Kokaihop</string>
 
+    <!-- common msg -->
+    <string name="something_went_wrong_msg">Something went wrong, try again!</string>
+    <string name="check_intenet_connection">Check Your Internet Connection!</string>
+
+
     <!-- Strings related to login -->
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -16,6 +21,10 @@
     <string name="failed">Failed!</string>
     <string name="forgot_success_msg">Instructions on how to reset your password has been sent to
         your e-mail.
+    </string>
+
+    <string name="incorrect_email_passwd">Email or password is incorrect. Please try again.</string>
+    <string name="user_already_exists">A user with the email address you provided already exists
     </string>
 
 
@@ -51,7 +60,9 @@
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="signup_message">This is where you’ll connect with other chefs, Get to see your search history, and change your settings</string>
+    <string name="signup_message">This is where you’ll connect with other chefs, Get to see your
+        search history, and change your settings
+    </string>
     <string name="sign_up_now">Login or become member for free!</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save">Save</string>
@@ -99,7 +110,9 @@
 
     <!--SignUp/Login Dialog-->
     <string name="access_profile">Access Profile</string>
-    <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your search history, and change your settings</string>
+    <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your
+        search history, and change your settings
+    </string>
     <string name="members_area">Memebers area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite</string>
     <string name="welcome_text">Welcome to kokaihop</string>

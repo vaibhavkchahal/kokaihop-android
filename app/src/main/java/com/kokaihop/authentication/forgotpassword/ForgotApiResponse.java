@@ -10,7 +10,15 @@ public class ForgotApiResponse {
     @SerializedName("success")
     private boolean success;
 
+    @SerializedName("msg")
+    private String msg;
+
     public boolean isSuccess() {
         return success;
     }
+
+    public String getMsg() {
+        return msg;
+    }
+
 }

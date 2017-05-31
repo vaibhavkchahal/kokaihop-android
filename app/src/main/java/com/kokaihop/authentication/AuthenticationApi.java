@@ -16,7 +16,7 @@ import retrofit2.http.POST;
 public interface AuthenticationApi {
 
     @FormUrlEncoded
-    @POST("/auth/local")
+    @POST("auth/local")
     Call<AuthenticationApiResponse> doLogin(@Field("email") String email, @Field("password") String password);
 
     @FormUrlEncoded
@@ -26,7 +26,7 @@ public interface AuthenticationApi {
     @POST("v1/api/users")
     Call<AuthenticationApiResponse> signUp(@Body SignUpRequest signUpRequest);
 
-    @POST("/auth/facebook/app")
+    @POST("auth/facebook/app")
     Call<AuthenticationApiResponse> facebookloginSignup(@Body FacebookAuthRequest facebookAuthRequest);
 
 }

@@ -44,7 +44,7 @@ public class ForgotPaswdViewModel extends BaseViewModel {
                     activity.finish();
 
                 } else {
-                    Toast.makeText(view.getContext(), R.string.failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), response.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
 

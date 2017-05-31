@@ -2,9 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="user" type="com.kokaihop.home.userprofile.model.FollowingFollowerUser"/>
+        <variable name="user" type="com.kokaihop.userprofile.model.FollowingFollowerUser"/>
         <variable name="profilePic" type="String"/>
-        <variable name="viewModel" type="com.kokaihop.home.userprofile.FollowersFollowingViewModel"/>
+        <variable name="viewModel"
+                  type="com.kokaihop.userprofile.FollowersFollowingViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -21,22 +22,23 @@
             android:id="@+id/user_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:error="@{@drawable/ic_avtar_lg}"
+            app:imageUrl="@{profilePic}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="fitXY"
-            app:error="@{@drawable/ic_avtar_lg}"
             app:placeholder="@{@drawable/ic_avtar_lg}"
-            app:imageUrl="@{profilePic}"
         />
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/user_pic_name_margin"
-            app:font="@{`SS-ProRegular`}"
-            android:textColor="@color/grey_FF8D929C"
             android:text="@{user.name.full}"
+            android:textColor="@color/grey_FF8D929C"
+            android:textSize="@dimen/row_follower_following_text_size"
+            app:font="@{`SS-ProRegular`}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/user_pic"
             app:layout_constraintRight_toLeftOf="@+id/cb_user_following"
@@ -45,10 +47,10 @@
             android:id="@+id/cb_user_following"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{user.buttonVisibility}"
+            android:button="@drawable/checkbox_follow_selector"
             android:checked="@={user.followingUser}"
             android:onCheckedChanged="@{()->viewModel.onToggleFollowing(cbUserFollowing,user)}"
-            android:button="@drawable/checkbox_follow_selector"
+            android:visibility="@{user.buttonVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

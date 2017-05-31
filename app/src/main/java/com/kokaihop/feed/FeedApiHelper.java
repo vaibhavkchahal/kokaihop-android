@@ -1,9 +1,5 @@
 package com.kokaihop.feed;
 
-import com.kokaihop.feed.maincourse.RecipeLikeApiResponse;
-import com.kokaihop.feed.maincourse.RecipeLikeRequest;
-import com.kokaihop.feed.maincourse.RecipeRequestParams;
-import com.kokaihop.feed.maincourse.RecipeResponse;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;

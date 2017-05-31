@@ -5,10 +5,6 @@ import android.databinding.Bindable;
 
 import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.database.Recipe;
-import com.kokaihop.feed.maincourse.AdvtDetail;
-import com.kokaihop.feed.maincourse.RecipeRequestParams;
-import com.kokaihop.feed.maincourse.RecipeResponse;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.Constants;
@@ -27,13 +23,18 @@ import static com.kokaihop.utility.Constants.AUTHORIZATION_BEARER;
 public class RecipeFeedViewModel extends BaseViewModel {
 
     private int offset = 0;
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
     private int max = 20;
     private boolean isLike = true;
     private int recipeCount;
     private RecipeDataManager dataManager = null;
     private Context context;
     private boolean showProgressDialog;
-    public static int MAX_BADGE = 45; //TODO: it should be 60,as QA data is not complete so we are taking it 45
+    public static int MAX_BADGE = 61; //TODO: it should be 60,as QA data is not complete so we are taking it 45
 
     private boolean isDownloading;
 
@@ -71,10 +72,10 @@ public class RecipeFeedViewModel extends BaseViewModel {
         this.context = context;
         dataManager = new RecipeDataManager();
         fetchRecipeFromDb(badgeType);
-        getRecipes(getOffset(), true, true, badgeType);
+        getRecipes(getOffset(),getMax()+1, true, true, badgeType);
     }
 
-    public void getRecipes(int offset, boolean showProgressDialog, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
+    public void getRecipes(int offset,int max, boolean showProgressDialog, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
         setOffset(offset);
         setShowProgressDialog(showProgressDialog);
         setDownloading(isDownloading);
@@ -84,7 +85,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
             authorizationToken = AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
 
         }
-        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, badgeType.name(), isLike, getOffset(), getMax());
+        RecipeRequestParams params = new RecipeRequestParams(authorizationToken, badgeType.name(), isLike, getOffset(), max);
         new FeedApiHelper().getRecepies(params, new IApiRequestComplete<RecipeResponse>() {
             @Override
             public void onSuccess(RecipeResponse response) {
