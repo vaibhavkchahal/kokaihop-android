@@ -49,7 +49,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            ext.betaDistributionGroupAliases = "koka-tester"
+            ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
         }
     }
 
@@ -114,4 +115,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
+
 }
