@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ public class RecipeDetailActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ActivityRecipeDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
+        binding.setViewModel(new RecipeDetailViewModel());
         getRecipeObject(binding);
         setToolbar(binding);
         initializeViewPager(binding);
@@ -59,6 +61,12 @@ public class RecipeDetailActivity extends BaseActivity {
 
     private void setToolbar(ActivityRecipeDetailBinding binding) {
         Toolbar toolbar = binding.recipeDetailToolbar;
+        binding.imgviewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         setSupportActionBar(toolbar);
     }
 
@@ -85,7 +93,7 @@ public class RecipeDetailActivity extends BaseActivity {
 
 
     private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
-        /*// Images left navigation
+        // Images left navigation
         leftSlide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +114,7 @@ public class RecipeDetailActivity extends BaseActivity {
                 tab++;
                 viewPager.setCurrentItem(tab);
             }
-        });*/
+        });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

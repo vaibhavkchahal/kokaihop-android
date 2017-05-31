@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+    </data>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="20dp">
+
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/recipe_detail_rating_bar_height"
+            android:layout_marginTop="@dimen/recipe_detai_rating_bar_margin_top"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressDrawable="@drawable/recipe_rating_bar"
+            android:rating="@{recipe.ratingAverage}"
+            android:saveEnabled="false"
+
+            android:stepSize="0.01"/>
+
+        <ImageView
+            android:id="@+id/imgview_badgeType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/badge_vegetarian"/>
+
+        <TextView
+            android:id="@+id/txtview_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            app:font="@{`RS-Light`}"
+            android:layout_below="@+id/imgview_badgeType"/>
+
+        <TextView
+            android:id="@+id/txtview_recipe_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/black_FF262F40"
+            android:layout_below="@+id/txtview_recipe_name"
+            android:layout_marginTop="3dp"/>
+
+    </RelativeLayout>
+
+</layout>
