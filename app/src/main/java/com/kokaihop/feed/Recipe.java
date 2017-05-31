@@ -1,10 +1,16 @@
 package com.kokaihop.feed;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.android.databinding.library.baseAdapters.BR;
+
+
 /**
  * Created by Rajendra Singh on 30/5/17.
  */
 
-public class Recipe {
+public class Recipe extends BaseObservable {
 
     private String _id;
     private String title;
@@ -15,7 +21,7 @@ public class Recipe {
     private String createdByProfileImageId;
     private String mainImagePublicId;
     public boolean isFavorite;
-    private long likes;
+    private String likes;
     private float ratingAverage;
     private long badgeDateCreated;
     private long comments;
@@ -79,20 +85,26 @@ public class Recipe {
         this.mainImagePublicId = mainImagePublicId;
     }
 
+    @Bindable
     public boolean isFavorite() {
         return isFavorite;
     }
 
+
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+        notifyPropertyChanged(BR.favorite);
+
     }
 
-    public long getLikes() {
+    @Bindable
+    public String getLikes() {
         return likes;
     }
 
-    public void setLikes(long likes) {
+    public void setLikes(String likes) {
         this.likes = likes;
+        notifyPropertyChanged(BR.likes);
     }
 
     public float getRatingAverage() {
