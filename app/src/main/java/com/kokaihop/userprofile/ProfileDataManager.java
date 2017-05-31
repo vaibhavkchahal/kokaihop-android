@@ -37,7 +37,7 @@ public class ProfileDataManager {
         user.getName().setFirst(userRealmObject.getName().getFirst());
         user.getName().setLast(userRealmObject.getName().getLast());
         user.getName().setFull(userRealmObject.getName().getFull());
-
+        Logger.e("User Name",user.getName().getFull());
         user.getFollowing().clear();
         for (StringObject userid : userRealmObject.getFollowing()) {
             user.getFollowing().add(userid.getString());
