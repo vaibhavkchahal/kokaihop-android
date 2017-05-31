@@ -6,17 +6,21 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.UserRealmObject;
+import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.network.RetrofitClient;
+import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
-import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
+
+import io.realm.RealmList;
 
 /**
  * Created by Rajendra Singh on 22/5/17.
@@ -34,6 +38,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     private int offset = 0;
     private int totalFollowing;
     private int totalFollowers;
+    ProfileDataManager profileDataManager;
 
     public FollowersFollowingViewModel(Context context) {
         this.context = context;
@@ -45,6 +50,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.userApiCallback = userApiCallback;
         this.context = context;
         userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
+        profileDataManager = new ProfileDataManager();
+
     }
 
     public boolean isDownloading() {
@@ -91,12 +98,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             new ProfileApiHelper().getFollowing(accessToken, userId, getMax(), getOffset(), new IApiRequestComplete<FollowingFollowersApiResponse>() {
                 @Override
                 public void onSuccess(FollowingFollowersApiResponse response) {
-                    ArrayList<FollowingFollowerUser> userList = response.getUsers();
-                    FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().addAll(userList);
-                    FollowingFollowersApiResponse.getFollowingApiResponse().setTotal(response.getTotal());
-                    setTotalFollowing(response.getTotal());
-                    Logger.e("List Size", FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().size() + "");
+                    RealmList<UserRealmObject> userList = response.getUsers();
+                    profileDataManager.insertOrUpdateFollowing(userList,userId);
 
+                    ArrayList<FollowingFollowerUser> followingList;
+                    followingList = profileDataManager.fetchFollowingList(userId);
+                    FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);
+                    FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
+                    setTotalFollowing(response.getTotal());
                     if (getOffset() + getMax() >= getTotalFollowing()) {
                         setDownloading(false);
                     }
@@ -109,12 +118,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     Logger.e("Error", message);
                     setDownloading(false);
                     setProgressVisible(false);
+                    userApiCallback.showUserProfile();
                 }
 
                 @Override
                 public void onError(FollowingFollowersApiResponse response) {
                     setDownloading(false);
                     setProgressVisible(false);
+                    userApiCallback.showUserProfile();
                 }
             });
             Logger.e("Get", "Downloading");
@@ -133,11 +144,16 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             new ProfileApiHelper().getFollowers(accessToken, userId, getMax(), getOffset(), new IApiRequestComplete<FollowingFollowersApiResponse>() {
                 @Override
                 public void onSuccess(FollowingFollowersApiResponse response) {
-                    ArrayList<FollowingFollowerUser> userList = response.getUsers();
-                    FollowingFollowersApiResponse.getFollowersApiResponse().getUsers().addAll(userList);
-                    FollowingFollowersApiResponse.getFollowersApiResponse().setTotal(response.getTotal());
+                    RealmList<UserRealmObject> userList = response.getUsers();
+                    profileDataManager.insertOrUpdateFollowers(userList, userId);
+
+                    ArrayList<FollowingFollowerUser> followersList = new ArrayList<FollowingFollowerUser>();
+                    followersList =  profileDataManager.fetchFollowersList(userId);
+                    FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
+                    FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
+
                     setTotalFollowers(response.getTotal());
-                    Logger.e("Followers Size", FollowingFollowersApiResponse.getFollowersApiResponse().getUsers().size() + "");
+
                     if (getOffset() + getMax() >= getTotalFollowers()) {
                         setDownloading(false);
                     }
@@ -198,6 +214,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         accessToken = bearer + token;
         userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
+
+        Logger.e("token : ", token);
 
 //        userId = "56387ade1a258f0300c3074e";
 //        accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";

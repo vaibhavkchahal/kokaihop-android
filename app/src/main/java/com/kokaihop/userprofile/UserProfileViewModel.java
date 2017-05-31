@@ -49,7 +49,7 @@ public class UserProfileViewModel extends BaseViewModel {
                 Logger.e("User ID : ", response.get_id());
 //                User.setUser(response);
                 profileDataManager.insertOrUpdate(response);
-                profileDataManager.fetchUserData();
+                profileDataManager.fetchUserData(response.get_id());
                 userApiCallback.showUserProfile();
 
                 Logger.e(User.getInstance().get_id()+"Success", "name : "+ User.getInstance().getName().getFull());

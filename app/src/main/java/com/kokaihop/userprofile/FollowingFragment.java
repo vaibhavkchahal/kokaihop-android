@@ -3,7 +3,6 @@ package com.kokaihop.userprofile;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +12,8 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
+import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
-import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
@@ -52,8 +51,8 @@ public class FollowingFragment extends Fragment implements UserApiCallback {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         followingViewModel = new FollowersFollowingViewModel(this, getContext());
-        FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().clear();
-        followingAdapter = new FollowersFollowingAdapter(FollowingFollowersApiResponse.getFollowingApiResponse().getUsers(), followingViewModel);
+        FollowersFollowingList.getFollowingList().getUsers().clear();
+        followingAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowingList().getUsers(), followingViewModel);
         layoutManager = new LinearLayoutManager(this.getContext());
 
         followingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
@@ -61,29 +60,28 @@ public class FollowingFragment extends Fragment implements UserApiCallback {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followingAdapter);
         followingViewModel.getFollowingUsers(0);
-        followingBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().clear();
-                followingViewModel.setDownloading(true);
-                followingViewModel.getFollowingUsers(0);
-            }
-        });
+//        followingBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                FollowersFollowingList.getFollowingList().getUsers().clear();
+//                followingViewModel.getFollowingUsers(0);
+//            }
+//        });
 
         return followingBinding.getRoot();
     }
 
     @Override
     public void showUserProfile() {
-//        followingUsers = FollowingFollowersApiResponse.getFollowingApiResponse().getUsers();
-        followingBinding.refreshList.setRefreshing(false);
+        followingUsers = FollowersFollowingList.getFollowingList().getUsers();
+//        followingBinding.refreshList.setRefreshing(false);
         followingAdapter.notifyDataSetChanged();
-//        recyclerView.setAdapter(followingAdapter);
+        recyclerView.setAdapter(followingAdapter);
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
-                if (followingViewModel.getOffset() + followingViewModel.getMax() <= FollowingFollowersApiResponse.getFollowingApiResponse().getTotal())
+                if (followingViewModel.getOffset() + followingViewModel.getMax() <= FollowersFollowingList.getFollowingList().getTotal())
                     followingViewModel.getFollowingUsers(followingViewModel.getOffset() + followingViewModel.getMax());
             }
 

@@ -3,7 +3,6 @@ package com.kokaihop.userprofile;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +12,8 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
+import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
-import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
@@ -54,27 +53,28 @@ public class FollowersFragment extends Fragment implements UserApiCallback {
         followersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
 
         followers = new ArrayList<>();
-        FollowingFollowersApiResponse.getFollowersApiResponse().getUsers().clear();
+        FollowersFollowingList.getFollowersList().getUsers().clear();
         followersViewModel = new FollowersFollowingViewModel(this, getContext());
-        followersAdapter = new FollowersFollowingAdapter(FollowingFollowersApiResponse.getFollowersApiResponse().getUsers(), followersViewModel);
+        followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
         layoutManager = new LinearLayoutManager(this.getContext());
+
         recyclerView = followersBinding.rvFollowerFollowingList;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);
         followersViewModel.getFollowers(0);
-        followersBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                FollowingFollowersApiResponse.getFollowersApiResponse().getUsers().clear();
-                followersViewModel.setDownloading(true);
-                followersViewModel.getFollowers(0);
-            }
-        });
+//        followersBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                FollowersFollowingList.getFollowersList().getUsers().clear();
+//                followersViewModel.setDownloading(true);
+//                followersViewModel.getFollowers(0);
+//            }
+//        });
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
-                if (followersViewModel.getOffset() + followersViewModel.getMax() <= FollowingFollowersApiResponse.getFollowingApiResponse().getTotal())
+                if (followersViewModel.getOffset() + followersViewModel.getMax() <= followersViewModel.getTotalFollowers())
                     followersViewModel.getFollowers(followersViewModel.getOffset() + followersViewModel.getMax());
             }
         });
@@ -85,7 +85,7 @@ public class FollowersFragment extends Fragment implements UserApiCallback {
     //Checking whether the user is following the follower or not
     @Override
     public void showUserProfile() {
-        followers = FollowingFollowersApiResponse.getFollowersApiResponse().getUsers();
+//        followers = FollowingFollowersApiResponse.getFollowersApiResponse().getUsers();
         followersAdapter.notifyDataSetChanged();
         ArrayList<String> usersFollowing = User.getInstance().getFollowing();
         for (FollowingFollowerUser user : followers) {
@@ -93,7 +93,7 @@ public class FollowersFragment extends Fragment implements UserApiCallback {
                 user.setFollowingUser(false);
             }
         }
-        followersBinding.refreshList.setRefreshing(false);
+//        followersBinding.refreshList.setRefreshing(false);
     }
 
     @Override

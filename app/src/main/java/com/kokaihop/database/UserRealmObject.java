@@ -27,6 +27,10 @@ public class UserRealmObject extends RealmObject {
     @SerializedName("following")
     private RealmList<StringObject> following;
 
+    private RealmList<UserRealmObject> followersList;
+
+    private RealmList<UserRealmObject> followingList;
+
     @SerializedName("dateCreated")
     private long dateCreated;
     @SerializedName("loginCount")
@@ -241,6 +245,21 @@ public class UserRealmObject extends RealmObject {
         this.totalFeeds = totalFeeds;
     }
 
+    public RealmList<UserRealmObject> getFollowersList() {
+        return followersList;
+    }
+
+    public void setFollowersList(RealmList<UserRealmObject> followersList) {
+        this.followersList = followersList;
+    }
+
+    public RealmList<UserRealmObject> getFollowingList() {
+        return followingList;
+    }
+
+    public void setFollowingList(RealmList<UserRealmObject> followingList) {
+        this.followingList = followingList;
+    }
 
     public RealmList<StringObject> getFollowers() {
         return followers;

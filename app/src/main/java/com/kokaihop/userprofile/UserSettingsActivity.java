@@ -28,6 +28,7 @@ public class UserSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, null);
+                new ProfileDataManager().removeData(SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID));
                 Intent intent = new Intent(context, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
