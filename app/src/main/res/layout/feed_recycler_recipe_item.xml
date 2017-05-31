@@ -6,7 +6,7 @@
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <import type="android.view.View"/>
-        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
+        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
         <variable name="feedImageUrl" type="String"/>
         <variable name="profileImageUrl" type="String"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
@@ -45,7 +45,7 @@
             android:onCheckedChanged="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
             android:paddingLeft="@dimen/padding_left_recipe_like"
             android:paddingRight="@dimen/padding_right_recipe_right"
-            android:text="@{String.valueOf(recipe.counterRealmObject.likes)}"
+            android:text="@{String.valueOf(recipe.likes)}"
             android:textColor="@color/white"
         />
 
@@ -77,7 +77,8 @@
             android:isIndicator="true"
             android:numStars="5"
             android:progressDrawable="@drawable/recipe_rating_bar"
-            android:rating="@{Float.parseFloat(String.valueOf(recipe.ratingRealmObject.average))}"
+            android:rating="@{recipe.ratingAverage}"
+            android:saveEnabled="false"
             android:stepSize="0.01"/>
 
 
@@ -115,8 +116,8 @@
                 android:layout_marginLeft="@dimen/iv_profile_margin_left"
                 android:scaleType="fitXY"
                 app:error="@{@drawable/ic_avtar_sm}"
-                app:isCircular="@{true}"
                 app:imageUrl="@{profileImageUrl}"
+                app:isCircular="@{true}"
                 app:placeholder="@{@drawable/ic_avtar_sm}"
             />
 
@@ -131,7 +132,7 @@
                 android:layout_toRightOf="@+id/iv_profile"
                 android:ellipsize="end"
                 android:maxLength="7"
-                android:text="@{recipe.createdByRealmObject.name}"
+                android:text="@{recipe.createdByName}"
                 android:textColor="@color/grey_CC999999"
                 android:textSize="@dimen/textsize_tv_user_name"
                 app:font="@{`SS-ProRegular`}"/>
@@ -145,7 +146,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/tv_comment_count_margin_left"
                 android:layout_marginRight="@dimen/tv_coment_count_margin_right"
-                android:text="@{String.valueOf(recipe.counterRealmObject.comments)}"
+                android:text="@{String.valueOf(recipe.comments)}"
                 android:textColor="@color/grey_FF999999"
                 android:textSize="@dimen/tv_comment_count_textsize"
                 app:font="@{`SS-ProRegular`}"/>

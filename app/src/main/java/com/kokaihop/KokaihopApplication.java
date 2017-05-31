@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.altaworks.kokaihop.ui.R;
+import com.crashlytics.android.Crashlytics;
 import com.kokaihop.utility.CustomFontFamily;
 
 import java.io.File;
@@ -11,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.internal.IOException;
@@ -31,6 +33,7 @@ public class KokaihopApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+        Fabric.with(getApplicationContext(), new Crashlytics());
 
         //Set true to overwrite database - Optional
         boolean overwriteDatabase = false;

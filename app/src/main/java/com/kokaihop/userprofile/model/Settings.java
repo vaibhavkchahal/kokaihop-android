@@ -1,50 +1,33 @@
 package com.kokaihop.userprofile.model;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Rajendra Singh on 19/5/17.
  */
 
-class Settings {
+public class Settings {
 
-    @SerializedName("blogYouCommented")
     private SettingsData blogYouCommented;
 
-    @SerializedName("recipeYouCommented")
     private SettingsData recipeYouCommented;
 
-    @SerializedName("blogComment")
     private SettingsData blogComment;
 
-    @SerializedName("newPrescriptionImage")
     private SettingsData newPrescriptionImage;
 
-    @SerializedName("recipeComment")
     private SettingsData recipeComment;
 
-    @SerializedName("reviewedRecipe")
     private SettingsData reviewedRecipe;
 
-    @SerializedName("newFollower")
     private SettingsData newFollower;
 
-    @SerializedName("newMessage")
     private SettingsData newMessage;
 
-    @SerializedName("newsletters")
     private boolean newsletters;
 
-    @SerializedName("suggestionsOfTheDay")
     private boolean suggestionsOfTheDay;
 
-    @SerializedName("notificationSoundEnabled")
     private boolean notificationSoundEnabled;
 
-    @SerializedName("web")
-    private Web web;
-
-    @SerializedName("noEmails")
     private boolean noEmails;
 
     public SettingsData getBlogYouCommented() {
@@ -133,14 +116,6 @@ class Settings {
 
     public void setNotificationSoundEnabled(boolean notificationSoundEnabled) {
         this.notificationSoundEnabled = notificationSoundEnabled;
-    }
-
-    public Web getWeb() {
-        return web;
-    }
-
-    public void setWeb(Web web) {
-        this.web = web;
     }
 
     public boolean isNoEmails() {

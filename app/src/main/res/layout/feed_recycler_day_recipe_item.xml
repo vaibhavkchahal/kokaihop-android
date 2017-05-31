@@ -5,7 +5,7 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.text.TextUtils"/>
-        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
+        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
         <variable name="feedImageUrl" type="String"/>
         <variable name="badgeType" type="com.kokaihop.utility.ApiConstants.BadgeType"/>
     </data>

@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
-public class UserProfileFragment extends Fragment implements UserApiCallback{
+public class UserProfileFragment extends Fragment implements UserApiCallback {
     private static UserProfileFragment fragment;
     private FragmentUserProfileBinding userProfileBinding;
     FragmentUserProfileSignUpBinding userProfileSignUpBinding;
@@ -96,8 +96,8 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         userProfileSignUpBinding.signUpNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomDialogSignUp signUp = (CustomDialogSignUp) DialogFragment.instantiate(getActivity(),"com.kokaihop.home.CustomDialogSignUp");
-                signUp.show(getFragmentManager(),"");
+                CustomDialogSignUp signUp = (CustomDialogSignUp) DialogFragment.instantiate(getActivity(), "com.kokaihop.home.CustomDialogSignUp");
+                signUp.show(getFragmentManager(), "");
 //                startActivity(new Intent(getContext(), SignUpActivity.class));
 //                TODO:to be Checked
             }
@@ -134,11 +134,11 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         tabLayout.addTab(tabLayout.newTab());
 
 //        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
-        ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(),tabLayout.getTabCount());
-        adapter.addFrag(new RecipeFragment(),"Recipes");
-        adapter.addFrag(new FollowersFragment(),"Followers");
-        adapter.addFrag(new FollowingFragment(),"Following");
-        adapter.addFrag(new HistoryFragment(),"History");
+        ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+        adapter.addFrag(new RecipeFragment(), "Recipes");
+        adapter.addFrag(new FollowersFragment(), "Followers");
+        adapter.addFrag(new FollowingFragment(), "Following");
+        adapter.addFrag(new HistoryFragment(), "History");
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
         tabLayout.setupWithViewPager(viewPager);
@@ -201,15 +201,15 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
     public void setNotificationCount() {
         User user = User.getInstance();
         notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
-        notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers().size());
-        notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowing().size());
+        notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
+        notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
     }
 
-    public void setCoverImage(){
+    public void setCoverImage() {
         point = AppUtility.getDisplayPoint(getContext());
         int width = point.x;
-        float ratio = (float)195/320;
-        int height = AppUtility.getHeightInAspectRatio(width,ratio);
+        float ratio = (float) 195 / 320;
+        int height = AppUtility.getHeightInAspectRatio(width, ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
         CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;
 
@@ -222,14 +222,14 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
 
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         CloudinaryImage coverImage = User.getInstance().getCoverImage();
-        if(coverImage!=null){
-            userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        if (coverImage != null) {
+            userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
         }
 //        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl("35035757",String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
         userProfileBinding.executePendingBindings();
     }
 
-    public void setProfileImage(){
+    public void setProfileImage() {
         int width = userProfileBinding.userAvatar.getWidth();
         int height = width;
         ImageView ivProfile = userProfileBinding.userAvatar;
@@ -239,8 +239,8 @@ public class UserProfileFragment extends Fragment implements UserApiCallback{
         ivProfile.setLayoutParams(layoutParams);
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
         CloudinaryImage profileImage = User.getInstance().getProfileImage();
-        if(profileImage != null){
-            userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(),String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
+        if (profileImage != null) {
+            userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
         }
         userProfileBinding.executePendingBindings();
     }

@@ -8,10 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 class SettingsData{
 
-    @SerializedName("email")
     private String email;
 
-    @SerializedName("mobile")
     private String mobile;
 
     public String getEmail() {

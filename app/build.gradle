@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'realm-android'
 
 
@@ -39,7 +49,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            ext.betaDistributionGroupAliases = "koka-tester"
+            ext.betaDistributionReleaseNotesFilePath = "release_notes.txt"
         }
     }
 
@@ -61,8 +72,8 @@ android {
         }
 
         databaseBundle {
-            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
-//            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
+//            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
+            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
             applicationIdSuffix ".databasebundle"
             signingConfig signingConfigs.production
         }
@@ -77,6 +88,7 @@ repositories {
     maven {
         url 'https://github.com/linchaolong/stetho-realm/raw/master/maven-repo'
     }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -100,4 +112,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     debugCompile 'com.facebook.stetho:stetho:1.4.2'
     debugCompile 'com.uphyca:stetho_realm:2.0.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
+
 }

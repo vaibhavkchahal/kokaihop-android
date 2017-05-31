@@ -1,5 +1,6 @@
 package com.kokaihop.userprofile;
 
+import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
@@ -21,8 +22,8 @@ import retrofit2.http.Query;
 public interface UserProfileApi {
 
     @GET("v1/api/users/me")
-    Call<User> getUserData(@Header("Authorization") String authorization,
-                           @Query("languageCode") String languageCode);
+    Call<UserRealmObject> getUserData(@Header("Authorization") String authorization,
+                                      @Query("languageCode") String languageCode);
 
     @GET("v1/api/users/profile")
     Call<User> getOtherUserData(@Header("Authorization") String authorization,

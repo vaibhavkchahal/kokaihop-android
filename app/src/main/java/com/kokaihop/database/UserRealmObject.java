@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class UserRealmObject extends RealmObject {
 
-   @PrimaryKey @SerializedName("_id")
+   @PrimaryKey @SerializedName(value = "_id", alternate = {"id"})
     private String _id;
     @SerializedName("friendlyUrl")
     private String friendlyUrl;
@@ -20,8 +20,50 @@ public class UserRealmObject extends RealmObject {
     private int oldId;
     @SerializedName("email")
     private String email;
+
     @SerializedName("followers")
     private RealmList<StringObject> followers;
+
+    @SerializedName("following")
+    private RealmList<StringObject> following;
+
+    @SerializedName("dateCreated")
+    private long dateCreated;
+    @SerializedName("loginCount")
+    private int loginCount;
+    @SerializedName("lastLoginDate")
+    private long lastLoginDate;
+    @SerializedName("settings")
+    private SettingsRealmObject settingsRealmObject;
+    @SerializedName("lastViewedNewsOn")
+    private long lastViewedNewsOn;
+    @SerializedName("role")
+    private String role;
+    @SerializedName("enabled")
+    private boolean enabled;
+    @SerializedName("name")
+    private UserNameRealmObject name;
+    @SerializedName("profileImage")
+    private CloudinaryImageRealmObject profileImage;
+    @SerializedName("lastSeenTime")
+    private long lastSeenTime;
+    @SerializedName("isOnline")
+    private boolean isOnline;
+    @SerializedName("aboutMe")
+    private String aboutMe;
+    @SerializedName("hasPassword")
+    private boolean hasPassword;
+    @SerializedName("recipesCollectionCount")
+    private int recipesCollectionCount;
+    @SerializedName("blogPostCount")
+    private int blogPostCount;
+    @SerializedName("coverImage")
+    private CloudinaryImageRealmObject coverImage;
+    @SerializedName("recipeCount")
+    private int recipeCount;
+    @SerializedName("totalFeeds")
+    private int totalFeeds;
+
 
     public String get_id() {
         return _id;
@@ -53,22 +95,6 @@ public class UserRealmObject extends RealmObject {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public RealmList<StringObject> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(RealmList<StringObject> followers) {
-        this.followers = followers;
-    }
-
-    public RealmList<StringObject> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(RealmList<StringObject> following) {
-        this.following = following;
     }
 
     public long getDateCreated() {
@@ -215,44 +241,21 @@ public class UserRealmObject extends RealmObject {
         this.totalFeeds = totalFeeds;
     }
 
-    @SerializedName("following")
-    private RealmList<StringObject> following;
-    @SerializedName("dateCreated")
-    private long dateCreated;
-    @SerializedName("loginCount")
-    private int loginCount;
-    @SerializedName("lastLoginDate")
-    private long lastLoginDate;
-    @SerializedName("settings")
-    private SettingsRealmObject settingsRealmObject;
-    @SerializedName("lastViewedNewsOn")
-    private long lastViewedNewsOn;
-    @SerializedName("role")
-    private String role;
-    @SerializedName("enabled")
-    private boolean enabled;
-    @SerializedName("name")
-    private UserNameRealmObject name;
-    @SerializedName("profileImage")
-    private CloudinaryImageRealmObject profileImage;
-    @SerializedName("lastSeenTime")
-    private long lastSeenTime;
-    @SerializedName("isOnline")
-    private boolean isOnline;
-    @SerializedName("aboutMe")
-    private String aboutMe;
-    @SerializedName("hasPassword")
-    private boolean hasPassword;
-    @SerializedName("recipesCollectionCount")
-    private int recipesCollectionCount;
-    @SerializedName("blogPostCount")
-    private int blogPostCount;
-    @SerializedName("coverImage")
-    private CloudinaryImageRealmObject coverImage;
-    @SerializedName("recipeCount")
-    private int recipeCount;
-    @SerializedName("totalFeeds")
-    private int totalFeeds;
 
+    public RealmList<StringObject> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(RealmList<StringObject> followers) {
+        this.followers = followers;
+    }
+
+    public RealmList<StringObject> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(RealmList<StringObject> following) {
+        this.following = following;
+    }
 }
 

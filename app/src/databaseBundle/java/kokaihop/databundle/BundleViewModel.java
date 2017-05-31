@@ -14,8 +14,6 @@ import com.kokaihop.utility.ApiConstants;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-import static com.kokaihop.database.DBConstants.DATABASE_NAME;
-
 /**
  * Created by Rajendra Singh on 8/5/17.
  */
@@ -28,7 +26,7 @@ public class BundleViewModel extends BaseViewModel {
     public BundleViewModel() {
         mRecipeApiHelper = new RecipeApiHelper();
         mRecipeRequestParams = getmRecipeRequestParams();
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(DATABASE_NAME)
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(Realm.DEFAULT_REALM_NAME)
                 .deleteRealmIfMigrationNeeded().
                 schemaVersion(DBConstants.SCHEMA_VERSION).build();
         Realm.setDefaultConfiguration(realmConfiguration);

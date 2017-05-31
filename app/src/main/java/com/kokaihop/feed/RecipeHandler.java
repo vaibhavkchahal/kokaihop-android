@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
-import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.recipedetail.RecipeDetailActivity;
 import com.kokaihop.utility.Constants;
@@ -25,25 +24,25 @@ import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeHandler {
 
-    public void onCheckChangeRecipe(CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
+    public void onCheckChangeRecipe(CheckBox checkBox, Recipe recipe) {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
             showDialog(checkBox);
         } else {
-            performOperationOncheck(checkBox, recipeRealmObject);
+            performOperationOncheck(checkBox, recipe);
         }
     }
 
-    private void performOperationOncheck(CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
+    private void performOperationOncheck(CheckBox checkBox, Recipe recipeRealmObject) {
         RecipeDataManager recipeDataManager = new RecipeDataManager();
         long likes=0;
         if (checkBox.isChecked()) {
-             likes = recipeRealmObject.getCounterRealmObject().getLikes();
+             likes = recipeRealmObject.getLikes();
             likes = likes + 1;
             recipeDataManager.updateLikes(recipeRealmObject, likes);
             checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_sm, 0, 0, 0);
         } else {
-             likes = recipeRealmObject.getCounterRealmObject().getLikes();
+             likes = recipeRealmObject.getLikes();
             if (likes != 0) {
                 likes = likes - 1;
 
@@ -56,9 +55,9 @@ public class RecipeHandler {
         updatelikeStatusOnServer(checkBox, recipeRealmObject);
     }
 
-    public void updatelikeStatusOnServer(final CheckBox checkBox, RecipeRealmObject recipeRealmObject) {
+    public void updatelikeStatusOnServer(final CheckBox checkBox, Recipe recipe) {
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
-        RecipeLikeRequest request = new RecipeLikeRequest(recipeRealmObject.get_id(), checkBox.isChecked());
+        RecipeLikeRequest request = new RecipeLikeRequest(recipe.get_id(), checkBox.isChecked());
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
