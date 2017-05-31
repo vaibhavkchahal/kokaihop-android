@@ -4,6 +4,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.EndlessScrollListener;
 
 import static com.kokaihop.KokaihopApplication.getContext;
@@ -19,7 +20,8 @@ public class FeedRecyclerListingOperation {
     private RecipeFeedViewModel feedViewModel;
     private ApiConstants.BadgeType badgeType;
 
-    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView, ApiConstants.BadgeType badgeType) {
+    public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,
+                                        ApiConstants.BadgeType badgeType) {
         this.recyclerViewFeed = recyclerView;
         this.feedViewModel = feedViewModel;
         this.badgeType = badgeType;
@@ -59,7 +61,7 @@ public class FeedRecyclerListingOperation {
                     int offset = feedViewModel.getOffset() + feedViewModel.getMax();
 
                     if (feedViewModel.getOffset() + feedViewModel.getMax() == 20) {
-                        offset = feedViewModel.getOffset() + feedViewModel.getMax() + 1;
+                        offset = feedViewModel.getOffset() + feedViewModel.getMax() + 1; // to get the 21th recipe
                     }
                     feedViewModel.getRecipes(offset, max, showProgressDialog, isDownloading, badgeType);
                     final FeedRecyclerAdapter adapter = (FeedRecyclerAdapter) view.getAdapter();
@@ -83,12 +85,12 @@ public class FeedRecyclerListingOperation {
                 }
                 Recipe recipe = (Recipe) object;
 
-                if (!feedViewModel.isDownloading()/* && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1*/) {
+                if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1) {
                     int max = feedViewModel.getMax();
 
                     if (lastVisibleItemPosition <= feedViewModel.getMax()) {
                         feedViewModel.setOffset(0);
-                        max = feedViewModel.getMax() + 1;
+                        max = feedViewModel.getMax() + 1; // to get the 21th recipe
 
                     } else if (lastVisibleItemPosition > feedViewModel.getMax() && lastVisibleItemPosition <= feedViewModel.getMax() * 2) {
                         feedViewModel.setOffset(feedViewModel.getMax() + 1);
