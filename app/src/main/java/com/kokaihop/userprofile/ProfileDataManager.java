@@ -6,6 +6,7 @@ import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
+import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class ProfileDataManager {
     public User fetchUserData(String userId) {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id",userId).findFirst();
         User user = getUserData(userRealmObject);
+        Logger.e("User",userId);
         return user;
     }
 
