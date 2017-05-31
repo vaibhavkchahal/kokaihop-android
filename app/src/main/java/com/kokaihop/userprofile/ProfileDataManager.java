@@ -27,7 +27,6 @@ public class ProfileDataManager {
     public User fetchUserData(String userId) {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id",userId).findFirst();
         User user = getUserData(userRealmObject);
-        Logger.e("User",userId);
         return user;
     }
 
