@@ -18,7 +18,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private int[] images = new int[]{R.drawable.ic_recipeplaceholder_sm, R.drawable.ic_avtar_lg, R.drawable.ic_list_orange_sm};
+    private int[] images = new int[]{R.drawable.img_intro, R.drawable.badge_dessert, R.drawable.ic_list_orange_sm};
 
     public RecipeDetailPagerAdapter(Context context) {
         mContext = context;

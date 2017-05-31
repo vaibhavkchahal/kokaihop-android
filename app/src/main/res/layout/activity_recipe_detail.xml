@@ -1,94 +1,111 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+    <data>
+        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
+        <variable name="viewModel" type="com.kokaihop.recipe.recipedetail.RecipeDetailViewModel"/>
+    </data>
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_collapseMode="parallax"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="280dp">
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/viewpager_recipe_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/transparent_color"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-
-                <ImageView
-                    android:id="@+id/viewpager_swipe_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical|left"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/ic_swipeleft_md"/>
-
-                <ImageView
-                    android:id="@+id/viewpager_swipe_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_swiperight_md"/>
-
-                <LinearLayout
-                    android:id="@+id/layoutDots"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:orientation="horizontal"/>
-
-                <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentBottom="true"
-                          android:layout_alignParentRight="true"
-                          android:layout_marginBottom="17dp"
-                          android:layout_marginRight="20dp"
-                          android:drawablePadding="10dp"
-                          android:drawableRight="@drawable/ic_avtar_sm"
-                          android:gravity="center_vertical"
-                          android:text="ella0256"
-                          android:textColor="@color/white"/>
-
-            </RelativeLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/recipe_detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-            />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_recipe_detail"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_collapseMode="parallax"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="280dp">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/viewpager_recipe_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent_color"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
-</android.support.design.widget.CoordinatorLayout>
+                    <ImageView
+                        android:id="@+id/viewpager_swipe_left"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical|left"
+                        android:layout_marginLeft="10dp"
+                        android:onClick="@{(v)->viewModel.actionOnLeftSlider(viewpagerSwipeLeft,viewpagerRecipeDetail)}"
+                        android:src="@drawable/ic_swipeleft_md"/>
+
+                    <ImageView
+                        android:id="@+id/viewpager_swipe_right"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="10dp"
+                        android:onClick="@{(v)->viewModel.actionOnRightSlider(viewpagerSwipeRight,viewpagerRecipeDetail)}"
+                        android:src="@drawable/ic_swiperight_md"/>
+
+                    <LinearLayout
+                        android:id="@+id/layoutDots"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"/>
+
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_alignParentBottom="true"
+                              android:layout_alignParentRight="true"
+                              android:layout_marginBottom="17dp"
+                              android:layout_marginRight="20dp"
+                              android:drawablePadding="10dp"
+                              android:drawableRight="@drawable/ic_avtar_sm"
+                              android:gravity="center_vertical"
+                              android:text="ella0256"
+                              android:textColor="@color/white"/>
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/recipe_detail_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin">
+
+                    <ImageView android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:onClick="@{(v)->viewModel.actionOnBack(v)}"
+                               android:src="@drawable/ic_back_arrow_md"/>
+
+                </android.support.v7.widget.Toolbar>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_recipe_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

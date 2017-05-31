@@ -18,6 +18,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id)}"
         android:background="@drawable/recipe_item_border">
 
         <ImageView

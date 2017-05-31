@@ -1,47 +1,92 @@
 package com.kokaihop.recipe.recipedetail;
 
-import android.graphics.Color;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.database.RecipeRealmObject;
+
+import io.realm.Realm;
 
 public class RecipeDetailActivity extends BaseActivity {
 
-    private ImageView leftNav;
-    private ImageView rightNav;
-    private TextView[] dots;
     private ViewPager viewPager;
     private LinearLayout dotsLayout;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_detail);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        ActivityRecipeDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
+        getRecipeObject(binding);
+        setToolbar(binding);
+        initializeViewPager(binding);
+    }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.recipe_detail_toolbar);
-        toolbar.setLogo(R.drawable.ic_back_arrow_md);
-        setSupportActionBar(toolbar);
-        leftNav = (ImageView) findViewById(R.id.viewpager_swipe_left);
-        rightNav = (ImageView) findViewById(R.id.viewpager_swipe_right);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager_recipe_detail);
+    private void initializeViewPager(ActivityRecipeDetailBinding binding) {
+        ImageView leftSlider = binding.viewpagerSwipeLeft;
+        ImageView rightSlider = binding.viewpagerSwipeRight;
+        dotsLayout = binding.layoutDots;
+        viewPager = binding.viewpagerRecipeDetail;
         viewPager.setAdapter(new RecipeDetailPagerAdapter(this));
+        addDotsToPager(0);
+        enablePagerLeftRightSlider(leftSlider, rightSlider);
+    }
 
-        addBottomDots(0);
+    private void getRecipeObject(ActivityRecipeDetailBinding binding) {
+        realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo("_id", getIntent().getStringExtra("recipeId")).findFirst();
+        binding.setRecipe(recipeRealmObject);
+        realm.commitTransaction();
+    }
 
-        // Images left navigation
-        leftNav.setOnClickListener(new View.OnClickListener() {
+    private void setToolbar(ActivityRecipeDetailBinding binding) {
+        Toolbar toolbar = binding.recipeDetailToolbar;
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_recipe_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void addDotsToPager(int currentPage) {
+        TextView[] dots = new TextView[viewPager.getAdapter().getCount()];
+        dotsLayout.removeAllViews();
+        for (int i = 0; i < dots.length; i++) {
+            dots[i] = new TextView(this);
+            dots[i].setText(Html.fromHtml("&#8226;"));
+            dots[i].setTextSize(30);
+            dots[i].setTextColor(ContextCompat.getColor(this, R.color.white_FFEEEEEE));
+            dotsLayout.addView(dots[i]);
+        }
+        if (dots.length > 0)
+            dots[currentPage].setTextColor(ContextCompat.getColor(this, R.color.orange_FFF75A15));
+    }
+
+
+    private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
+        /*// Images left navigation
+        leftSlide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int tab = viewPager.getCurrentItem();
@@ -53,16 +98,15 @@ public class RecipeDetailActivity extends BaseActivity {
                 }
             }
         });
-        // Images right navigatin
-        rightNav.setOnClickListener(new View.OnClickListener() {
+        // Images right navigation
+        rightSlide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int tab = viewPager.getCurrentItem();
                 tab++;
                 viewPager.setCurrentItem(tab);
             }
-        });
-
+        });*/
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -70,35 +114,12 @@ public class RecipeDetailActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                addBottomDots(position);
+                addDotsToPager(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_recipe_detail, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    private void addBottomDots(int currentPage) {
-        dots = new TextView[viewPager.getAdapter().getCount()];
-        dotsLayout.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new TextView(this);
-//            dots[i].getLayoutParams().height = 6;
-
-            dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(30);
-            dots[i].setTextColor(Color.parseColor("#E8E8E8"));
-            dotsLayout.addView(dots[i]);
-        }
-        if (dots.length > 0)
-            dots[currentPage].setTextColor(Color.parseColor("#06AAE4"));
     }
 }
