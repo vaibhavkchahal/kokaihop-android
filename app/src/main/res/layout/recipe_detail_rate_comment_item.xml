@@ -12,7 +12,7 @@
                     android:orientation="horizontal">
 
         <View android:layout_width="match_parent"
-              android:layout_height="1dp"
+              android:layout_height="@dimen/divider_height"
               android:background="@color/white_FFFAFAFA"/>
 
         <RelativeLayout
@@ -21,28 +21,28 @@
             android:layout_height="wrap_content"
             android:background="#FAFAFA"
             android:orientation="horizontal"
-            android:paddingBottom="40dp"
-            android:paddingTop="35dp">
+            android:paddingBottom="@dimen/rate_comment_view_padding_bottom"
+            android:paddingTop="@dimen/rate_coment_view_oadding_top">
 
             <TextView
                 android:id="@+id/txtview_rate_title"
-                android:layout_width="222dp"
+                android:layout_width="@dimen/txtview_rate_title_width"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/txtview_rate_title_margin_left"
                 android:gravity="center"
                 android:text="@string/like_to_rate_text"
                 android:textColor="@color/black_FF262F40"
-                android:textSize="17sp"
+                android:textSize="@dimen/txtview_rate_title_textsize"
                 app:font="@{`SS-ProRegular`}"/>
 
             <RatingBar
-                android:id="@+id/rating_bar"
+                android:id="@+id/comment_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/recipe_detail_dialog_rating_bar_height"
                 android:layout_below="@+id/txtview_rate_title"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="15.8dp"
+                android:layout_marginTop="@dimen/comment_rating_bar_margin_top"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:progressDrawable="@drawable/recipe_detail_rate_comment_rating_bar"
@@ -53,20 +53,20 @@
             <EditText
                 android:id="@+id/edittxt_write_comment"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="@dimen/editxt_write_coment_height"
                 android:layout_below="@+id/rating_bar"
-                android:layout_marginLeft="21dp"
-                android:layout_marginRight="19dp"
-                android:layout_marginTop="23.2dp"
+                android:layout_marginLeft="@dimen/edttxt_write_comment_margin_left"
+                android:layout_marginRight="@dimen/edttxt_write_comment_margin_right"
+                android:layout_marginTop="@dimen/edttxt_write_comment_margin_top"
                 android:background="@color/white"
                 android:elevation="15dp"
                 android:hint="@string/write_a_comment_text"
-                android:paddingBottom="13dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="13dp"
+                android:paddingBottom="@dimen/edttxt_write_comment_padding_botm"
+                android:paddingLeft="@dimen/edttxt_write_comment_padding_left_right"
+                android:paddingRight="@dimen/edttxt_write_comment_padding_left_right"
+                android:paddingTop="@dimen/editxt_write_coment_padding_top"
                 android:textColorHint="@color/grey_FF8D929C"
-                android:textSize="15sp"
+                android:textSize="@dimen/editxt_write_coment_textsize"
                 app:font="@{`SS-ProRegular`}"/>
 
             <TextView

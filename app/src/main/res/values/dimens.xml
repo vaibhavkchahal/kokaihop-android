@@ -267,5 +267,35 @@
     <dimen name="txtview_addlistdrawable_padding">9dp</dimen>
     <dimen name="txtview_addlist_textsize">15sp</dimen>
     <dimen name="divider_height">1dp</dimen>
-    <item name="txtview_portion_count_margin_left" type="dimen" format="float">6.5dp</item>
+    <dimen name="item_ingrdnt_padding_bottom">11dp</dimen>
+    <dimen name="item_ingrdnt_padding_left">20dp</dimen>
+    <dimen name="item_ingrdnt_padding_right">20dp</dimen>
+    <dimen name="item_ingrdnt_padding_top">7dp</dimen>
+    <dimen name="txtview_ingrdnt_width">112dp</dimen>
+    <dimen name="txtview_ingrdnt_quantity_textsize">17sp</dimen>
+    <dimen name="txtview_ingrdnt_name_width">162dp</dimen>
+    <dimen name="txtview_ingrdnt_name_textsize">17sp</dimen>
+    <dimen name="recipe_detail_top_header_padding_bottom">20dp</dimen>
+    <dimen name="recipe_detail_top_header_pading_left">20dp</dimen>
+    <dimen name="imgview_badgetype_margin_top">10dp</dimen>
+    <dimen name="txtview_recipe_name_textsize">20sp</dimen>
+    <dimen name="txtview_recipe_description_textsize">14sp</dimen>
+    <dimen name="txtview_recipe_descption_margin_top">3dp</dimen>
+    <dimen name="recipe_detail_list_item_padding_left">20dp</dimen>
+    <dimen name="txtview_comment_username_textsize">15sp</dimen>
+    <dimen name="rate_comment_view_padding_bottom">40dp</dimen>
+    <dimen name="rate_coment_view_oadding_top">35dp</dimen>
+    <dimen name="txtview_rate_title_width">222dp</dimen>
+    <dimen name="txtview_rate_title_margin_left">10dp</dimen>
+    <dimen name="txtview_rate_title_textsize">17sp</dimen>
+    <dimen name="txtview_portion_count_margin_left">6.5dp</dimen>
+    <dimen name="comment_rating_bar_margin_top">15.8dp</dimen>
+    <dimen name="editxt_write_coment_height">70dp</dimen>
+    <dimen name="edttxt_write_comment_margin_left">21dp</dimen>
+    <dimen name="edttxt_write_comment_margin_right">19dp</dimen>
+    <dimen name="edttxt_write_comment_margin_top">23.2dp</dimen>
+    <dimen name="edttxt_write_comment_padding_botm">13dp</dimen>
+    <dimen name="edttxt_write_comment_padding_left_right">20dp</dimen>
+    <dimen name="editxt_write_coment_padding_top">13dp</dimen>
+    <dimen name="editxt_write_coment_textsize">15sp</dimen>
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
     </data>
@@ -8,27 +9,27 @@
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingBottom="11dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="7dp">
+                    android:paddingBottom="@dimen/item_ingrdnt_padding_bottom"
+                    android:paddingLeft="@dimen/item_ingrdnt_padding_left"
+                    android:paddingRight="@dimen/item_ingrdnt_padding_right"
+                    android:paddingTop="@dimen/item_ingrdnt_padding_top">
 
         <TextView
             android:id="@+id/txtview_ingredent_quantity"
-            android:layout_width="112dp"
+            android:layout_width="@dimen/txtview_ingrdnt_width"
             android:layout_height="wrap_content"
-            android:text="title"
             android:textColor="@color/grey_FF71767F"
-            android:textSize="17sp"
+            android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
+            tools:text="title"
         />
 
         <TextView
             android:id="@+id/txtview_ingredent_name"
-            android:layout_width="162dp"
+            android:layout_width="@dimen/txtview_ingrdnt_name_width"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
             android:textColor="@color/grey_FF71767F"
-            android:textSize="17sp"
+            android:textSize="@dimen/txtview_ingrdnt_name_textsize"
         />
 
     </RelativeLayout>
