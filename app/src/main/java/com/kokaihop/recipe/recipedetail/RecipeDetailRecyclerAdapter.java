@@ -1,3 +1,4 @@
+/*
 package com.kokaihop.recipe.recipedetail;
 
 import android.content.Context;
@@ -102,7 +103,6 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                     holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObjectOfDay.getMainImagePublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
 
                 }
-
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE:
@@ -184,4 +184,4 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
         }
     }
-}
+}*/
