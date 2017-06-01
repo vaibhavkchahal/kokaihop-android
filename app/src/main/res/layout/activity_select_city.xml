@@ -21,7 +21,7 @@
             android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:paddingBottom="14dp"
-            android:paddingTop="33dp">
+            android:paddingTop="@dimen/toolbar_top_padding">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
