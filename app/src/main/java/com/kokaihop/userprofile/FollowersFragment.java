@@ -19,7 +19,7 @@ import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
 
-public class FollowersFragment extends Fragment implements UserApiCallback {
+public class FollowersFragment extends Fragment implements UserDataListener {
 
     static FollowersFragment fragment;
     FragmentFollowersFollowingBinding followersBinding;

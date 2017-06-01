@@ -24,7 +24,7 @@ public class Logger {
     public static void d(String Tag, String msg) {
         if (DEBUG) {
             if (msg != null)
-                Log.e(Tag, msg);
+                Log.d(Tag, msg);
         }
     }
 
@@ -34,7 +34,7 @@ Print Information log in console
     public static void i(String Tag, String msg) {
         if (DEBUG) {
             if (msg != null)
-                Log.e(Tag, msg);
+                Log.i(Tag, msg);
         }
     }
 }

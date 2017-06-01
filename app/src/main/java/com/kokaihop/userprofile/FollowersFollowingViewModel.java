@@ -28,7 +28,7 @@ import io.realm.RealmList;
 
 public class FollowersFollowingViewModel extends BaseViewModel {
 
-    private UserApiCallback userApiCallback;
+    private UserDataListener userDataListener;
     private Context context;
     private UserProfileApi userProfileApi;
     private String accessToken;
@@ -44,10 +44,10 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.context = context;
     }
 
-    public FollowersFollowingViewModel(UserApiCallback userApiCallback, Context context) {
+    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context) {
         this.max = 20;
         this.offset = 0;
-        this.userApiCallback = userApiCallback;
+        this.userDataListener = userDataListener;
         this.context = context;
         userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         profileDataManager = new ProfileDataManager();
@@ -110,7 +110,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    userApiCallback.showUserProfile();
+                    userDataListener.showUserProfile();
                 }
 
                 @Override
@@ -118,14 +118,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     Logger.e("Error", message);
                     setDownloading(false);
                     setProgressVisible(false);
-                    userApiCallback.showUserProfile();
+                    userDataListener.showUserProfile();
                 }
 
                 @Override
                 public void onError(FollowingFollowersApiResponse response) {
                     setDownloading(false);
                     setProgressVisible(false);
-                    userApiCallback.showUserProfile();
+                    userDataListener.showUserProfile();
                 }
             });
             Logger.e("Get", "Downloading");
@@ -158,7 +158,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    userApiCallback.showUserProfile();
+                    userDataListener.showUserProfile();
                 }
 
                 @Override
@@ -238,7 +238,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             User.getInstance().getFollowing().remove(user.get_id());
         }
         toggleFollowing(userId, ((CheckBox) checkbox).isChecked());
-        userApiCallback.followToggeled();
+        userDataListener.followToggeled();
 
     }
 
