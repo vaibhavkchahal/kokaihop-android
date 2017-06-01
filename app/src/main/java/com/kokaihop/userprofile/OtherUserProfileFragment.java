@@ -21,7 +21,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
-public class OtherUserProfileFragment extends Fragment implements UserApiCallback {
+public class OtherUserProfileFragment extends Fragment implements UserDataListener {
     private static OtherUserProfileFragment fragment;
     private FragmentUserProfileBinding userProfileBinding;
     UserProfileViewModel userViewModel;

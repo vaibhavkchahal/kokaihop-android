@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
 import com.kokaihop.utility.ApiConstants;
-import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import static android.databinding.DataBindingUtil.inflate;
@@ -52,7 +52,7 @@ public class MainCourseFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(mainCourseViewModel, rvMainCourse, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
         mainCourseBinding.rvMainCourse.addOnScrollListener(scrollListener);
     }
 

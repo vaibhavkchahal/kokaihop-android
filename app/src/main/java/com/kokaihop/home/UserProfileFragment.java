@@ -27,7 +27,7 @@ import com.kokaihop.userprofile.FollowingFragment;
 import com.kokaihop.userprofile.HistoryFragment;
 import com.kokaihop.userprofile.ProfileAdapter;
 import com.kokaihop.userprofile.RecipeFragment;
-import com.kokaihop.userprofile.UserApiCallback;
+import com.kokaihop.userprofile.UserDataListener;
 import com.kokaihop.userprofile.UserProfileViewModel;
 import com.kokaihop.userprofile.UserSettingsActivity;
 import com.kokaihop.userprofile.model.CloudinaryImage;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
-public class UserProfileFragment extends Fragment implements UserApiCallback {
+public class UserProfileFragment extends Fragment implements UserDataListener {
     private static UserProfileFragment fragment;
     private FragmentUserProfileBinding userProfileBinding;
     FragmentUserProfileSignUpBinding userProfileSignUpBinding;
@@ -208,7 +208,7 @@ public class UserProfileFragment extends Fragment implements UserApiCallback {
     public void setCoverImage() {
         point = AppUtility.getDisplayPoint(getContext());
         int width = point.x;
-        float ratio = (float) 195 / 320;
+        float ratio = (float) 195 / 320; // to get the image in aspect ratio
         int height = AppUtility.getHeightInAspectRatio(width, ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
         CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;

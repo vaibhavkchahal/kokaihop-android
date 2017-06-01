@@ -1,10 +1,8 @@
 package com.kokaihop.feed;
 
-import android.util.Log;
-
 import com.kokaihop.database.CounterRealmObject;
-import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.RecipeInfo;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class RecipeDataManager {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
-        recipe.setLikes(recipeRealmObject.getCounterRealmObject().getLikes());
+        recipe.setLikes(String.valueOf(recipeRealmObject.getCounterRealmObject().getLikes()));
         if(recipeRealmObject.getRatingRealmObject()!=null)
         {
             recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
@@ -58,6 +56,7 @@ public class RecipeDataManager {
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
         recipe.setComments(recipeRealmObject.getCounterRealmObject().getComments());
         recipe.setBadgeType(recipeRealmObject.getBadgeType());
+        recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
 
 
         return recipe;
@@ -84,7 +83,6 @@ public class RecipeDataManager {
             }
             recipeRealmObject.setLastUpdated(System.currentTimeMillis());
             recipeRealmObjectList.add(recipeRealmObject);
-            Log.d("id", recipeInfo.getRecipeRealmObject().get_id());
         }
         realm.insertOrUpdate(recipeRealmObjectList);
 //        recipeDataListener.onTransactionComplete(true);
@@ -115,7 +113,7 @@ public class RecipeDataManager {
     }
 
 
-    public void updateLikes(final Recipe recipe, final long likes) {
+    public void updateLikesCount(final Recipe recipe, final long likes) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

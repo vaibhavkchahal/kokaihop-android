@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -33,46 +31,55 @@ public class RecipeHandler {
         }
     }
 
-    private void performOperationOncheck(CheckBox checkBox, Recipe recipeRealmObject) {
-        RecipeDataManager recipeDataManager = new RecipeDataManager();
-        long likes=0;
-        if (checkBox.isChecked()) {
-             likes = recipeRealmObject.getLikes();
-            likes = likes + 1;
-            recipeDataManager.updateLikes(recipeRealmObject, likes);
-            checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_like_sm, 0, 0, 0);
-        } else {
-             likes = recipeRealmObject.getLikes();
-            if (likes != 0) {
-                likes = likes - 1;
+    private void performOperationOncheck(CheckBox checkBox, Recipe recipe) {
 
-            }
-            checkBox.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unlike_sm, 0, 0, 0);
-        }
-        recipeDataManager.updateIsFavoriteInDB(checkBox.isChecked(), recipeRealmObject);
-        recipeDataManager.updateLikes(recipeRealmObject, likes);
-        checkBox.setText(String.valueOf(likes));
-        updatelikeStatusOnServer(checkBox, recipeRealmObject);
+        updateSatusInDB(checkBox.isChecked(), recipe);
+
+        updatelikeStatusOnServer(checkBox, recipe);
     }
 
-    public void updatelikeStatusOnServer(final CheckBox checkBox, Recipe recipe) {
+    private void updateSatusInDB(boolean checked, Recipe recipe) {
+        RecipeDataManager recipeDataManager = new RecipeDataManager();
+        long likes = 0;
+        likes = Long.valueOf(recipe.getLikes());
+        if (checked) {
+            likes = likes + 1;
+        } else {
+            if (likes != 0) {
+                likes = likes - 1;
+            }
+        }
+        recipeDataManager.updateIsFavoriteInDB(checked, recipe);
+        recipeDataManager.updateLikesCount(recipe, likes);
+        recipe.setLikes(String.valueOf(likes));
+        recipe.setFavorite(checked);
+    }
+
+    public void updatelikeStatusOnServer(final CheckBox checkBox, final Recipe recipe) {
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         RecipeLikeRequest request = new RecipeLikeRequest(recipe.get_id(), checkBox.isChecked());
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                Log.i("success", ((RecipeLikeApiResponse) response).getId());
+
             }
 
             @Override
             public void onFailure(String message) {
                 Toast.makeText(checkBox.getContext(), message, Toast.LENGTH_SHORT).show();
+                revertLikeStatus(checkBox, recipe);
             }
 
             @Override
             public void onError(Object response) {
+                revertLikeStatus(checkBox, recipe);
+
             }
         });
+    }
+
+    private void revertLikeStatus(CheckBox checkBox, Recipe recipe) {
+        updateSatusInDB(!checkBox.isChecked(), recipe);
     }
 
 

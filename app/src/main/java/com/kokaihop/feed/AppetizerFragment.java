@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentAppetizerBinding;
 import com.kokaihop.utility.ApiConstants;
-import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import static android.databinding.DataBindingUtil.inflate;
@@ -52,7 +52,7 @@ public class AppetizerFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(apeetizerViewModel, rvAppetizer, ApiConstants.BadgeType.APPETIZER_OF_THE_DAY);
         int spacingInPixels = rvAppetizer.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvAppetizer.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
         rvAppetizer.addOnScrollListener(scrollListener);
     }
     

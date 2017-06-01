@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_follow_selector"
             android:checked="@={user.followingUser}"
-            android:onCheckedChanged="@{()->viewModel.onToggleFollowing(cbUserFollowing,user)}"
+            android:onClick="@{()->viewModel.onToggleFollowing(cbUserFollowing,user)}"
             android:visibility="@{user.buttonVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

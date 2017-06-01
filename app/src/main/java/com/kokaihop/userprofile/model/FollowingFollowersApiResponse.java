@@ -1,8 +1,9 @@
 package com.kokaihop.userprofile.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.kokaihop.database.UserRealmObject;
 
-import java.util.ArrayList;
+import io.realm.RealmList;
 
 /**
  * Created by Rajendra Singh on 22/5/17.
@@ -10,24 +11,17 @@ import java.util.ArrayList;
 
 public class FollowingFollowersApiResponse{
 
-    private static FollowingFollowersApiResponse followingApiResponse;
-
-    private static FollowingFollowersApiResponse followersApiResponse;
-
     @SerializedName("users")
-    private ArrayList<FollowingFollowerUser> users = new ArrayList<>();
+    private RealmList<UserRealmObject> users = new RealmList<>();
 
     @SerializedName("total")
     private int total;
 
-    private FollowingFollowersApiResponse() {
-    }
-
-    public ArrayList<FollowingFollowerUser> getUsers() {
+    public RealmList<UserRealmObject> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<FollowingFollowerUser> users) {
+    public void setUsers(RealmList<UserRealmObject> users) {
         this.users = users;
     }
 
@@ -37,30 +31,5 @@ public class FollowingFollowersApiResponse{
 
     public void setTotal(int total) {
         this.total = total;
-    }
-
-
-    public static FollowingFollowersApiResponse getFollowingApiResponse() {
-        if (followingApiResponse == null) {
-            followingApiResponse = new FollowingFollowersApiResponse();
-        }
-        return followingApiResponse;
-    }
-
-
-    public static void setFollowingApiResponse(FollowingFollowersApiResponse followingApiResponse) {
-        FollowingFollowersApiResponse.followingApiResponse = followingApiResponse;
-    }
-
-
-    public static FollowingFollowersApiResponse getFollowersApiResponse() {
-        if (followersApiResponse == null) {
-            followersApiResponse = new FollowingFollowersApiResponse();
-        }
-        return followersApiResponse;
-    }
-
-    public static void setFollowersApiResponse(FollowingFollowersApiResponse followersApiResponse) {
-        FollowingFollowersApiResponse.followersApiResponse = followersApiResponse;
     }
 }

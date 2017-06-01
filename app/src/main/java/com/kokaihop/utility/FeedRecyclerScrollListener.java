@@ -9,13 +9,13 @@ import static com.kokaihop.feed.RecipeFeedViewModel.MAX_BADGE;
  * Created by Vaibhav Chahal on 17/5/17.
  */
 
-public abstract class EndlessScrollListener extends RecyclerView.OnScrollListener {
+public abstract class FeedRecyclerScrollListener extends RecyclerView.OnScrollListener {
     private int visibleThreshold = 2;
     private int firstVisibleItem, visibleItemCount, totalItemCount;
 
     private LinearLayoutManager layoutManager;
 
-    public EndlessScrollListener(LinearLayoutManager layoutManager) {
+    public FeedRecyclerScrollListener(LinearLayoutManager layoutManager) {
         this.layoutManager = layoutManager;
     }
 

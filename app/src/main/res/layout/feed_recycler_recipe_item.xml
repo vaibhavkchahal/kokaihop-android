@@ -42,10 +42,11 @@
             android:drawablePadding="@dimen/tv_likes_drawable_padding"
             android:drawableStart="@{recipe.isFavorite ? @drawable/ic_like_sm : @drawable/ic_unlike_sm}"
             android:gravity="center_vertical"
-            android:onCheckedChanged="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
+            android:onClick="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
             android:paddingLeft="@dimen/padding_left_recipe_like"
             android:paddingRight="@dimen/padding_right_recipe_right"
-            android:text="@{String.valueOf(recipe.likes)}"
+            android:checked="@{recipe.isFavorite ?true: false}"
+            android:text="@={recipe.likes}"
             android:textColor="@color/white"
         />
 

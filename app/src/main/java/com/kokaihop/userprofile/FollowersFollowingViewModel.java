@@ -1,22 +1,25 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.UserRealmObject;
+import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.network.RetrofitClient;
+import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
-import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
+
+import io.realm.RealmList;
 
 /**
  * Created by Rajendra Singh on 22/5/17.
@@ -24,7 +27,7 @@ import java.util.ArrayList;
 
 public class FollowersFollowingViewModel extends BaseViewModel {
 
-    private UserApiCallback userApiCallback;
+    private UserDataListener userDataListener;
     private Context context;
     private UserProfileApi userProfileApi;
     private String accessToken;
@@ -34,17 +37,20 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     private int offset = 0;
     private int totalFollowing;
     private int totalFollowers;
+    ProfileDataManager profileDataManager;
 
     public FollowersFollowingViewModel(Context context) {
         this.context = context;
     }
 
-    public FollowersFollowingViewModel(UserApiCallback userApiCallback, Context context) {
+    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context) {
         this.max = 20;
         this.offset = 0;
-        this.userApiCallback = userApiCallback;
+        this.userDataListener = userDataListener;
         this.context = context;
         userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
+        profileDataManager = new ProfileDataManager();
+
     }
 
     public boolean isDownloading() {
@@ -91,17 +97,19 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             new ProfileApiHelper().getFollowing(accessToken, userId, getMax(), getOffset(), new IApiRequestComplete<FollowingFollowersApiResponse>() {
                 @Override
                 public void onSuccess(FollowingFollowersApiResponse response) {
-                    ArrayList<FollowingFollowerUser> userList = response.getUsers();
-                    FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().addAll(userList);
-                    FollowingFollowersApiResponse.getFollowingApiResponse().setTotal(response.getTotal());
-                    setTotalFollowing(response.getTotal());
-                    Logger.e("List Size", FollowingFollowersApiResponse.getFollowingApiResponse().getUsers().size() + "");
+                    RealmList<UserRealmObject> userList = response.getUsers();
+                    profileDataManager.insertOrUpdateFollowing(userList,userId);
 
+                    ArrayList<FollowingFollowerUser> followingList;
+                    followingList = profileDataManager.fetchFollowingList(userId);
+                    FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);
+                    FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
+                    setTotalFollowing(response.getTotal());
                     if (getOffset() + getMax() >= getTotalFollowing()) {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    userApiCallback.showUserProfile();
+                    userDataListener.showUserProfile();
                 }
 
                 @Override
@@ -109,12 +117,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     Logger.e("Error", message);
                     setDownloading(false);
                     setProgressVisible(false);
+                    userDataListener.showUserProfile();
                 }
 
                 @Override
                 public void onError(FollowingFollowersApiResponse response) {
                     setDownloading(false);
                     setProgressVisible(false);
+                    userDataListener.showUserProfile();
                 }
             });
             Logger.e("Get", "Downloading");
@@ -133,16 +143,21 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             new ProfileApiHelper().getFollowers(accessToken, userId, getMax(), getOffset(), new IApiRequestComplete<FollowingFollowersApiResponse>() {
                 @Override
                 public void onSuccess(FollowingFollowersApiResponse response) {
-                    ArrayList<FollowingFollowerUser> userList = response.getUsers();
-                    FollowingFollowersApiResponse.getFollowersApiResponse().getUsers().addAll(userList);
-                    FollowingFollowersApiResponse.getFollowersApiResponse().setTotal(response.getTotal());
+                    RealmList<UserRealmObject> userList = response.getUsers();
+                    profileDataManager.insertOrUpdateFollowers(userList, userId);
+
+                    ArrayList<FollowingFollowerUser> followersList = new ArrayList<FollowingFollowerUser>();
+                    followersList =  profileDataManager.fetchFollowersList(userId);
+                    FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
+                    FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
+
                     setTotalFollowers(response.getTotal());
-                    Logger.e("Followers Size", FollowingFollowersApiResponse.getFollowersApiResponse().getUsers().size() + "");
+
                     if (getOffset() + getMax() >= getTotalFollowers()) {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    userApiCallback.showUserProfile();
+                    userDataListener.showUserProfile();
                 }
 
                 @Override
@@ -163,15 +178,15 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     }
 
     //API call to follow or unfollow a user
-    public void toggleFollowing(String friendId, final boolean followRequest) {
+    public void toggleFollowing(String friendId, final CheckBox checkBox) {
         setUpApiCall();
         ToggleFollowingRequest request = new ToggleFollowingRequest();
         request.setFriendId(friendId);
-        request.setFollowRequest(followRequest);
+        request.setFollowRequest(checkBox.isChecked());
         new ProfileApiHelper().toggleFollowing(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                if(followRequest){
+                if(checkBox.isChecked()){
                     Toast.makeText(context,"Follow Successful",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context,"Unfollow Successful",Toast.LENGTH_SHORT).show();
@@ -180,15 +195,17 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
+                checkBox.setChecked(!checkBox.isChecked());
 
             }
 
             @Override
             public void onError(Object response) {
-
+                checkBox.setChecked(!checkBox.isChecked());
             }
         });
     }
+
 
     //Seting the access token for the api calls
 
@@ -198,6 +215,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         accessToken = bearer + token;
         userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
+
+        Logger.e("token : ", token);
 
 //        userId = "56387ade1a258f0300c3074e";
 //        accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
@@ -210,7 +229,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     // method to manage the data before follow or unfollow the user
 
-    public void onToggleFollowing(View checkbox, FollowingFollowerUser user) {
+    public void onToggleFollowing(CheckBox checkbox, FollowingFollowerUser user) {
 
         String userId = user.get_id();
 
@@ -219,8 +238,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         } else {
             User.getInstance().getFollowing().remove(user.get_id());
         }
-        toggleFollowing(userId, ((CheckBox) checkbox).isChecked());
-        userApiCallback.followToggeled();
+        toggleFollowing(userId, checkbox);
+        userDataListener.followToggeled();
 
     }
 
