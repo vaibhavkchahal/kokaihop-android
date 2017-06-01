@@ -6,7 +6,6 @@ import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
-import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -81,7 +80,7 @@ public class ProfileDataManager {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
         realm.beginTransaction();
         for (UserRealmObject follower : userRealmObjectRealmList) {
-            insertOrUpdate(userRealmObject);
+            realm.insertOrUpdate(userRealmObject);
             userRealmObject.getFollowingList().add(follower);
         }
         realm.commitTransaction();
