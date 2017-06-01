@@ -18,6 +18,7 @@ public class UserProfileViewModel extends BaseViewModel {
 
     private UserDataListener userDataListener;
     private Context context;
+    private String userId;
     private String countryCode = "en";
     private ProfileDataManager profileDataManager;
 
@@ -43,12 +44,11 @@ public class UserProfileViewModel extends BaseViewModel {
         new ProfileApiHelper().getUserData(accessToken, countryCode, new IApiRequestComplete<UserRealmObject>() {
             @Override
             public void onSuccess(UserRealmObject response) {
-                Logger.e("User ID : ", response.get_id());
+                userId = response.get_id();
+                Logger.e("User ID : ", userId);
 //                User.setUser(response);
                 profileDataManager.insertOrUpdate(response);
-                profileDataManager.fetchUserData(response.get_id());
-                userDataListener.showUserProfile();
-
+                fetchUserDataFromDB();
                 Logger.e(User.getInstance().get_id()+"Success", "name : "+ User.getInstance().getName().getFull());
                 setProgressVisible(false);
             }
@@ -68,5 +68,13 @@ public class UserProfileViewModel extends BaseViewModel {
 
             }
         });
+    }
+    public void fetchUserDataFromDB(){
+        if(userId==null){
+            userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
+        }
+        profileDataManager.fetchUserData(userId);
+        userDataListener.showUserProfile();
+
     }
 }

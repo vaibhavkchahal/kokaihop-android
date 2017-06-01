@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
@@ -59,13 +60,15 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final FollowingFollowerUser user = usersList.get(position);
+        if(!User.getInstance().getFollowing().contains(user.get_id())){
+            user.setFollowingUser(false);
+        }
         holder.bind(user);
 //        binding.setUser(user);
         Log.e("Sh", SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
         Log.e("ID", usersList.get(position).get_id() + " : " + user.getName().getFull());
         if (SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID).equals(user.get_id())) {
             user.setButtonVisibility(View.GONE);
-            Log.e("Hidden", "true");
         }
 
 

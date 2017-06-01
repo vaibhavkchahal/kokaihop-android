@@ -60,6 +60,7 @@ public class FollowingFragment extends Fragment implements UserDataListener {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followingAdapter);
         followingViewModel.getFollowingUsers(0);
+        followingViewModel.fetchFollowersFromDB();
 //        followingBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
 //            public void onRefresh() {

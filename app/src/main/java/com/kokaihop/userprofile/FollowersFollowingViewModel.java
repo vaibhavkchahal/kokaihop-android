@@ -101,16 +101,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     RealmList<UserRealmObject> userList = response.getUsers();
                     profileDataManager.insertOrUpdateFollowing(userList,userId);
 
-                    ArrayList<FollowingFollowerUser> followingList;
-                    followingList = profileDataManager.fetchFollowingList(userId);
-                    FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);
                     FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
                     setTotalFollowing(response.getTotal());
                     if (getOffset() + getMax() >= getTotalFollowing()) {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    userDataListener.showUserProfile();
+                    fetchFollowersFromDB();
                 }
 
                 @Override
@@ -131,6 +128,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             Logger.e("Get", "Downloading");
         }
 
+    }
+
+    public void fetchFollowersFromDB(){
+        ArrayList<FollowingFollowerUser> followingList;
+
+        followingList = profileDataManager.fetchFollowingList(userId);
+        FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);
+        userDataListener.showUserProfile();
     }
 
     //Getting list of followers through api call

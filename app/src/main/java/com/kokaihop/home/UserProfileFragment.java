@@ -83,6 +83,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
             userViewModel = new UserProfileViewModel(getContext(), this);
             userViewModel.getUserData();
+            userViewModel.fetchUserDataFromDB();
             userProfileBinding.setViewModel(userViewModel);
             return userProfileBinding.getRoot();
         } else {
@@ -211,7 +212,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         float ratio = (float) 195 / 320; // to get the image in aspect ratio
         int height = AppUtility.getHeightInAspectRatio(width, ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
-        CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;
+//        CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         layoutParams.height = height;

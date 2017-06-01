@@ -1,6 +1,8 @@
 package com.kokaihop.userprofile;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -27,12 +29,7 @@ public class UserSettingsActivity extends AppCompatActivity {
         userSettingsBinding.settingsLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, null);
-                new ProfileDataManager().removeData(SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID));
-                Intent intent = new Intent(context, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                showDialog();
             }
         });
 
@@ -43,4 +40,28 @@ public class UserSettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void showDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setTitle("Confirm Logout");
+        dialog.setMessage("Do you really want to logout!!!");
+
+        dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, null);
+                new ProfileDataManager().removeData(SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
+                Intent intent = new Intent(context, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
 }
