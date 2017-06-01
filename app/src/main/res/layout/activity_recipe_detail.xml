@@ -4,7 +4,7 @@
 
     <data>
         <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
-        <variable name="viewModel" type="com.kokaihop.recipe.recipedetail.RecipeDetailViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.recipedetail.RecipeDetailViewModel"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout

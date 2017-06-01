@@ -28,7 +28,6 @@ public class AuthenticationApiHelper {
         loginApiResponseCall.enqueue(new ResponseHandler<AuthenticationApiResponse>(successInterface));
     }
 
-
     public void doForgot(String email, final IApiRequestComplete successInterface) {
         Call<ForgotApiResponse> forgotApiResponseCall = authenticationApi.forgot(email);
         forgotApiResponseCall.enqueue(new ResponseHandler<ForgotApiResponse>(successInterface));

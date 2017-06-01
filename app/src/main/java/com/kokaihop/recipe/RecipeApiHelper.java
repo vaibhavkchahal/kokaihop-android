@@ -20,4 +20,6 @@ public class RecipeApiHelper {
                 recipeRequestParams.getType());
         loginApiResponseCall.enqueue(new ResponseHandler<SearchResponse>(successCallback));
     }
+
+
 }

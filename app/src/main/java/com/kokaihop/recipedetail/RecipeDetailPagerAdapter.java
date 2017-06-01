@@ -1,4 +1,4 @@
-package com.kokaihop.recipe.recipedetail;
+package com.kokaihop.recipedetail;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.recipe.recipedetail.RecipeDetailActivity;
+import com.kokaihop.recipedetail.RecipeDetailActivity;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
