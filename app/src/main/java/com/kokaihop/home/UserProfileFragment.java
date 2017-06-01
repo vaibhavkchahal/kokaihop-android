@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -150,8 +149,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.setNotification(notificationCount.get(i));
-//            tabBinding.text1.setText("" + counts[i]);
             tabBinding.text2.setText(tabTitles[i]);
+
         }
         TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
         View tabView = tabBinding.getRoot();
@@ -162,9 +161,11 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
-                if (tab.getCustomView().findViewById(R.id.text2) != null) {
-                    ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                if(tab.getCustomView()!=null){
+                    ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
+                    if (tab.getCustomView().findViewById(R.id.text2) != null) {
+                        ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                    }
                 }
             }
 
@@ -212,7 +213,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         float ratio = (float) 195 / 320; // to get the image in aspect ratio
         int height = AppUtility.getHeightInAspectRatio(width, ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
-//        CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         layoutParams.height = height;

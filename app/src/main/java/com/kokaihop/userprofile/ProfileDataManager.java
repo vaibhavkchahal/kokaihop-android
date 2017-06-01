@@ -32,29 +32,32 @@ public class ProfileDataManager {
 
     private User getUserData(UserRealmObject userRealmObject) {
         User user = User.getInstance();
-        user.set_id(userRealmObject.get_id());
-        user.setName(new UserName());
-        user.getName().setFirst(userRealmObject.getName().getFirst());
-        user.getName().setLast(userRealmObject.getName().getLast());
-        user.getName().setFull(userRealmObject.getName().getFull());
-        user.getFollowing().clear();
-        for (StringObject userid : userRealmObject.getFollowing()) {
-            user.getFollowing().add(userid.getString());
+        if(userRealmObject!=null){
+            user.set_id(userRealmObject.get_id());
+            user.setName(new UserName());
+            user.getName().setFirst(userRealmObject.getName().getFirst());
+            user.getName().setLast(userRealmObject.getName().getLast());
+            user.getName().setFull(userRealmObject.getName().getFull());
+            user.getFollowing().clear();
+            for (StringObject userid : userRealmObject.getFollowing()) {
+                user.getFollowing().add(userid.getString());
+            }
+
+            user.getFollowers().clear();
+            for (StringObject userid : userRealmObject.getFollowers()) {
+                user.getFollowers().add(userid.getString());
+            }
+            if (userRealmObject.getProfileImage() != null) {
+                user.setProfileImage(new CloudinaryImage());
+                user.getProfileImage().setCloudinaryId(userRealmObject.getProfileImage().getCloudinaryId());
+            }
+            if (userRealmObject.getCoverImage() != null) {
+                user.setCoverImage(new CloudinaryImage());
+                user.getCoverImage().setCloudinaryId(userRealmObject.getCoverImage().getCloudinaryId());
+            }
+            user.setRecipeCount(userRealmObject.getRecipeCount());
         }
 
-        user.getFollowers().clear();
-        for (StringObject userid : userRealmObject.getFollowers()) {
-            user.getFollowers().add(userid.getString());
-        }
-        if (userRealmObject.getProfileImage() != null) {
-            user.setProfileImage(new CloudinaryImage());
-            user.getProfileImage().setCloudinaryId(userRealmObject.getProfileImage().getCloudinaryId());
-        }
-        if (userRealmObject.getCoverImage() != null) {
-            user.setCoverImage(new CloudinaryImage());
-            user.getCoverImage().setCloudinaryId(userRealmObject.getCoverImage().getCloudinaryId());
-        }
-        user.setRecipeCount(userRealmObject.getRecipeCount());
         return user;
     }
 
@@ -122,18 +125,23 @@ public class ProfileDataManager {
 
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
-        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst().getFollowingList();
-        for (UserRealmObject following : userRealmObjects) {
-            FollowingFollowerUser user = new FollowingFollowerUser();
-            user.set_id(following.get_id());
-            user.setName(new UserName());
-            user.getName().setFull(following.getName().getFull());
-            if (following.getProfileImage() != null) {
-                user.setProfileImage(new CloudinaryImage());
-                user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
+        UserRealmObject userRealmObject =  realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        RealmList<UserRealmObject> userRealmObjects = new RealmList<>();
+        if(userRealmObject!=null){
+            userRealmObjects = userRealmObject.getFollowingList();
+            for (UserRealmObject following : userRealmObjects) {
+                FollowingFollowerUser user = new FollowingFollowerUser();
+                user.set_id(following.get_id());
+                user.setName(new UserName());
+                user.getName().setFull(following.getName().getFull());
+                if (following.getProfileImage() != null) {
+                    user.setProfileImage(new CloudinaryImage());
+                    user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
+                }
+                followingList.add(user);
             }
-            followingList.add(user);
         }
+
         return followingList;
     }
 
