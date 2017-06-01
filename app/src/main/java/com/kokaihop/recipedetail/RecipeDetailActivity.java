@@ -1,4 +1,4 @@
-package com.kokaihop.recipe.recipedetail;
+package com.kokaihop.recipedetail;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -34,7 +34,6 @@ public class RecipeDetailActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ActivityRecipeDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
-        binding.setViewModel(new RecipeDetailViewModel());
         getRecipeObject(binding);
         setToolbar(binding);
         initializeViewPager(binding);
@@ -57,6 +56,7 @@ public class RecipeDetailActivity extends BaseActivity {
                 .equalTo("_id", getIntent().getStringExtra("recipeId")).findFirst();
         binding.setRecipe(recipeRealmObject);
         realm.commitTransaction();
+        binding.setViewModel(new RecipeDetailViewModel(recipeRealmObject.getFriendlyUrl()));
     }
 
     private void setToolbar(ActivityRecipeDetailBinding binding) {

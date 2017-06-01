@@ -60,7 +60,7 @@
             android:name="io.fabric.ApiKey"
             android:value="89bc1de20821702ad15f1584b5ca90b908e4fbd3" />
 
-        <activity android:name="com.kokaihop.recipe.recipedetail.RecipeDetailActivity"
+        <activity android:name="com.kokaihop.recipedetail.RecipeDetailActivity"
                   android:label=""
                   android:screenOrientation="portrait">
         </activity>
