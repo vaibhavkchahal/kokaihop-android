@@ -56,6 +56,9 @@ public class RecipeRealmObject extends RealmObject {
     private long lastViewed;
     private boolean viewed;
 
+    @SerializedName("comments")
+    private RealmList<CommentRealmObject> commentsList;
+
     public MainImageRealmObject getMainImageRealmObject() {
         return mainImageRealmObject;
     }
