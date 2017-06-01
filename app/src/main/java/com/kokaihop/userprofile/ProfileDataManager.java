@@ -6,7 +6,6 @@ import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
-import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -70,28 +69,15 @@ public class ProfileDataManager {
     public void insertOrUpdateFollowing(RealmList<UserRealmObject> userRealmObjectRealmList, final String userId) {
 
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
-        realm.beginTransaction();
-        Logger.e("Following ", userRealmObject.getFollowingList().size() + "");
 
+        realm.beginTransaction();
         for (UserRealmObject following : userRealmObjectRealmList) {
             if(!following.get_id().equals(userId)){
                 realm.insertOrUpdate(following);
                 userRealmObject.getFollowingList().add(following);
             }
         }
-        Logger.e("Following ", userRealmObject.getFollowingList().size() + "");
         realm.commitTransaction();
-
-//        realm.where(UserRealmObject.class).equalTo("_id",userId).findFirst().setFollowingList(followingList);
-
-//        realm.executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                UserRealmObject userRealmObject = realm.where(UserRealmObject.class)
-//                        .equalTo("_id", userId).findFirst();
-//                userRealmObject.setFollowingList(followingList);
-//            }
-//        });
 
     }
 
@@ -99,6 +85,8 @@ public class ProfileDataManager {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
         realm.beginTransaction();
         for (UserRealmObject follower : userRealmObjectRealmList) {
+            realm.insertOrUpdate(userRealmObject);
+            userRealmObject.getFollowingList().add(follower);
             realm.insertOrUpdate(follower);
             userRealmObject.getFollowersList().add(follower);
         }

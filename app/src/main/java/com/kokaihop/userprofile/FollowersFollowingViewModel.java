@@ -1,7 +1,6 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -184,15 +183,15 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     }
 
     //API call to follow or unfollow a user
-    public void toggleFollowing(String friendId, final boolean followRequest) {
+    public void toggleFollowing(String friendId, final CheckBox checkBox) {
         setUpApiCall();
         ToggleFollowingRequest request = new ToggleFollowingRequest();
         request.setFriendId(friendId);
-        request.setFollowRequest(followRequest);
+        request.setFollowRequest(checkBox.isChecked());
         new ProfileApiHelper().toggleFollowing(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                if(followRequest){
+                if(checkBox.isChecked()){
                     Toast.makeText(context,"Follow Successful",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context,"Unfollow Successful",Toast.LENGTH_SHORT).show();
@@ -201,15 +200,17 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
+                checkBox.setChecked(!checkBox.isChecked());
 
             }
 
             @Override
             public void onError(Object response) {
-
+                checkBox.setChecked(!checkBox.isChecked());
             }
         });
     }
+
 
     //Seting the access token for the api calls
 
@@ -233,7 +234,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     // method to manage the data before follow or unfollow the user
 
-    public void onToggleFollowing(View checkbox, FollowingFollowerUser user) {
+    public void onToggleFollowing(CheckBox checkbox, FollowingFollowerUser user) {
 
         String userId = user.get_id();
 
@@ -242,7 +243,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         } else {
             User.getInstance().getFollowing().remove(user.get_id());
         }
-        toggleFollowing(userId, ((CheckBox) checkbox).isChecked());
+        toggleFollowing(userId, checkbox);
         userDataListener.followToggeled();
 
     }
