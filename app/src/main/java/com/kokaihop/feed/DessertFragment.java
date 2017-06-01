@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentDessertBinding;
 import com.kokaihop.utility.ApiConstants;
-import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import static android.databinding.DataBindingUtil.inflate;
@@ -52,7 +52,7 @@ public class DessertFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(desertViewModel, rvDesert, ApiConstants.BadgeType.DESSERT_OF_THE_DAY);
         int spacingInPixels = rvDesert.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvDesert.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        EndlessScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
         rvDesert.addOnScrollListener(scrollListener);
     }
 

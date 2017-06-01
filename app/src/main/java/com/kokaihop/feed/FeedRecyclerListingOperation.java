@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.DateTimeUtils;
-import com.kokaihop.utility.EndlessScrollListener;
+import com.kokaihop.utility.FeedRecyclerScrollListener;
 
 import static com.kokaihop.KokaihopApplication.getContext;
 
@@ -27,7 +27,7 @@ public class FeedRecyclerListingOperation {
         this.badgeType = badgeType;
     }
 
-    public EndlessScrollListener prepareFeedRecyclerView() {
+    public FeedRecyclerScrollListener prepareFeedRecyclerView() {
 //        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
 //        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         layoutManager = new GridLayoutManager(getContext(), 2);
@@ -50,7 +50,7 @@ public class FeedRecyclerListingOperation {
         );
         recyclerViewFeed.setLayoutManager(layoutManager);
         recyclerViewFeed.setAdapter(recyclerAdapter);
-        EndlessScrollListener scrollListener = new EndlessScrollListener(layoutManager) {
+        FeedRecyclerScrollListener scrollListener = new FeedRecyclerScrollListener(layoutManager) {
 
             @Override
             public void onLoadMore(RecyclerView view) {
