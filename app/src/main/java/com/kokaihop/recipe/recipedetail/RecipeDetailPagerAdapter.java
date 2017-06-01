@@ -37,7 +37,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View itemView = mLayoutInflater.inflate(R.layout.recipe_detai_pager_item, container, false);
+        View itemView = mLayoutInflater.inflate(R.layout.recipe_detail_pager_item, container, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageview_recipe_pic);
         imageView.setImageResource(images[position]);
         container.addView(itemView);

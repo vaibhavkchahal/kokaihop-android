@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+    </data>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white_FFFAFAFA"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_recipe_creator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FAFAFA"
+            android:orientation="horizontal"
+            android:paddingBottom="40dp"
+            android:paddingTop="35dp">
+
+            <TextView
+                android:id="@+id/txtview_rate_title"
+                android:layout_width="222dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="@string/like_to_rate_text"
+                android:textColor="@color/black_FF262F40"
+                android:textSize="17sp"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/recipe_detail_dialog_rating_bar_height"
+                android:layout_below="@+id/txtview_rate_title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15.8dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressDrawable="@drawable/recipe_detail_rate_comment_rating_bar"
+                android:saveEnabled="false"
+                android:stepSize="0.01"/>
+
+
+            <EditText
+                android:id="@+id/edittxt_write_comment"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/rating_bar"
+                android:layout_marginLeft="21dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="23.2dp"
+                android:background="@color/white"
+                android:elevation="15dp"
+                android:hint="@string/write_a_comment_text"
+                android:paddingBottom="13dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="13dp"
+                android:textColorHint="@color/grey_FF8D929C"
+                android:textSize="15sp"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <TextView
+                android:id="@+id/txtview_upload_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edittxt_write_comment"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@string/text_upload_image_to_recipe"
+                android:textColor="@color/kokaihop_orange_color"
+                android:textSize="13sp"
+                app:font="@{`SS-ProSemiBold`}"
+            />
+
+            <Button
+                android:layout_width="86dp"
+                android:layout_height="36dp"
+                android:layout_below="@+id/txtview_upload_recipe"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/recipe_detail_send_button_border"
+                android:gravity="center"
+                android:text="Send"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/relative_layout_recipe_creator"
+            android:background="@color/grey_FFD4D4D4"
+        />
+
+    </RelativeLayout>
+
+</layout>

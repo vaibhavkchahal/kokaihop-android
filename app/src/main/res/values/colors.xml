@@ -36,6 +36,9 @@
     <color name="grey_1A000000">#1A000000</color>
 
     <color name="white_FFEEEEEE">#FFEEEEEE</color>
+    <color name="grey_FFF3F3F3">#FFF3F3F3</color>
+    <color name="grey_FFE6E2DA">#FFE6E2DA</color>
+    <color name="white_FFFAFAFA">#FFFAFAFA</color>
 
 
 </resources>

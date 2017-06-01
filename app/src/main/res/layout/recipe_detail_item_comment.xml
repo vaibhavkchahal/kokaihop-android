@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
     </data>
@@ -9,43 +10,44 @@
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="13dp"
                     android:background="@color/white"
-                    android:paddingTop="27dp">
+                    android:paddingLeft="@dimen/comment_item_padding_left"
+                    android:paddingTop="@dimen/comment_item_padding_top">
+
 
         <ImageView
             android:id="@+id/txtview_ingredent_quantity"
-            android:layout_width="40dp"
-            android:layout_height="38.1dp"
+            android:layout_width="@dimen/imgview_ingrdnt_quantity_width"
+            android:layout_height="@dimen/imgview_ingrdnt_quantity_height"
             android:src="@drawable/ic_avtar_sm"
-            android:text="title"
         />
 
         <TextView
             android:id="@+id/txtview_comment_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
-            android:text="title"
-            android:textSize="15sp"
-            android:textColor="@color/tab_background"
-            app:font="@{`SS-ProRegular`}"
+            android:layout_marginLeft="@dimen/txtview_coment_username_margin_left"
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
+            android:textColor="@color/tab_background"
+            android:textSize="@dimen/txtview_comment_user_textsize"
+            app:font="@{`SS-ProRegular`}"
+            tools:text="title"
         />
 
 
         <TextView
-            android:textSize="15sp"
-            android:text="title"
+            android:id="@+id/txtview_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtview_comment_username"
-            android:layout_marginLeft="9dp"
-            android:layout_marginRight="28dp"
-            android:layout_marginTop="3dp"
-            android:textColor="@color/grey_FF8D929C"
-            app:font="@{`SS-ProRegular`}"
+            android:layout_marginLeft="@dimen/txtview_comment_margin_left"
+            android:layout_marginRight="@dimen/txtview_comment_margin_right"
+            android:layout_marginTop="@dimen/txtview_comment_margin_top"
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
+            android:textColor="@color/grey_FF8D929C"
+            android:textSize="@dimen/txtview_coment_textsize"
+            app:font="@{`SS-ProRegular`}"
+            tools:text="title"
         />
     </RelativeLayout>
 
