@@ -14,6 +14,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
@@ -60,14 +61,6 @@ public class FollowingFragment extends Fragment implements UserDataListener {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followingAdapter);
         followingViewModel.getFollowingUsers(0);
-        followingViewModel.fetchFollowersFromDB();
-//        followingBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                FollowersFollowingList.getFollowingList().getUsers().clear();
-//                followingViewModel.getFollowingUsers(0);
-//            }
-//        });
 
         return followingBinding.getRoot();
     }
@@ -75,15 +68,16 @@ public class FollowingFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         followingUsers = FollowersFollowingList.getFollowingList().getUsers();
-//        followingBinding.refreshList.setRefreshing(false);
+
         followingAdapter.notifyDataSetChanged();
-        recyclerView.setAdapter(followingAdapter);
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
-                if (followingViewModel.getOffset() + followingViewModel.getMax() <= FollowersFollowingList.getFollowingList().getTotal())
+                if (followingViewModel.getOffset() + followingViewModel.getMax() <= FollowersFollowingList.getFollowingList().getTotal()) {
                     followingViewModel.getFollowingUsers(followingViewModel.getOffset() + followingViewModel.getMax());
+                }
+                followingAdapter.notifyDataSetChanged();
             }
 
         });

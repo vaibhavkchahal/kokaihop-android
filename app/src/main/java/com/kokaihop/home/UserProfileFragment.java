@@ -5,10 +5,12 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +86,22 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userViewModel.getUserData();
             userViewModel.fetchUserDataFromDB();
             userProfileBinding.setViewModel(userViewModel);
+
+            userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    userViewModel.getUserData();
+                    userProfileBinding.srlProfileRefresh.setRefreshing(false);
+                }
+            });
+
+            userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset  ==0);
+                }
+            });
+
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -161,7 +179,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getCustomView()!=null){
+                if (tab.getCustomView() != null) {
                     ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
                     if (tab.getCustomView().findViewById(R.id.text2) != null) {
                         ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
@@ -218,20 +236,19 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         layoutParams.height = height;
         layoutParams.width = width;
         ivCover.setLayoutParams(layoutParams);
-
-//        collapsingToolbarLayout.setl/a
-
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         CloudinaryImage coverImage = User.getInstance().getCoverImage();
         if (coverImage != null) {
             userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
         }
-//        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl("35035757",String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
         userProfileBinding.executePendingBindings();
     }
 
+
+    //To set the user profile image from cloudinary image-url
     public void setProfileImage() {
-        int width = userProfileBinding.userAvatar.getWidth();
+
+      int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
         int height = width;
         ImageView ivProfile = userProfileBinding.userAvatar;
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
@@ -241,7 +258,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
         CloudinaryImage profileImage = User.getInstance().getProfileImage();
         if (profileImage != null) {
-            userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
+            String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
+            imageUrl = imageUrl.replace("hufennija","hpdqvydpn");
+            userProfileBinding.setImageProfileUrl(imageUrl);
         }
         userProfileBinding.executePendingBindings();
     }

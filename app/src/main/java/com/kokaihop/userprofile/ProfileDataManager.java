@@ -6,6 +6,7 @@ import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
+import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,7 @@ public class ProfileDataManager {
 
     private User getUserData(UserRealmObject userRealmObject) {
         User user = User.getInstance();
-        if(userRealmObject!=null){
+        if (userRealmObject != null) {
             user.set_id(userRealmObject.get_id());
             user.setName(new UserName());
             user.getName().setFirst(userRealmObject.getName().getFirst());
@@ -60,35 +61,61 @@ public class ProfileDataManager {
         return user;
     }
 
-    public void insertOrUpdate(UserRealmObject userRealmObject) {
+    public void insertOrUpdateUserData(UserRealmObject userRealmObject) {
         realm.beginTransaction();
         realm.insertOrUpdate(userRealmObject);
         realm.commitTransaction();
     }
 
-    public void insertOrUpdateFollowing(RealmList<UserRealmObject> userRealmObjectRealmList, final String userId) {
+    public void insertOrUpdateFollowing(final RealmList<UserRealmObject> userRealmObjectList, final String userId) {
 
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
-
+        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
         realm.beginTransaction();
-        for (UserRealmObject following : userRealmObjectRealmList) {
-            if(!following.get_id().equals(userId)){
+
+        for (UserRealmObject following : userRealmObjectList) {
+
+            if (!following.get_id().equals(userId)) {
                 realm.insertOrUpdate(following);
-                userRealmObject.getFollowingList().add(following);
+
+                if (!alreadyExists(userRealmObject.getFollowingList(), following)) {
+                    userRealmObject.getFollowingList().add(following);
+                } else {
+                    Logger.e("Exists Following", following.getName().getFull());
+                }
             }
         }
         realm.commitTransaction();
 
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+//                RealmList<UserRealmObject> userList = userRealmObject.getFollowingList();
+//                userList.addAll(userRealmObjectList);
+//                Logger.e("Exists", userRealmObjectList.size()+"");
+//                userRealmObject.setFollowingList(userList);
+//
+//            }
+//        });
+
+
     }
 
-    public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectRealmList, String userId) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+    public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectList, String userId) {
+        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
         realm.beginTransaction();
-        for (UserRealmObject follower : userRealmObjectRealmList) {
-            realm.insertOrUpdate(userRealmObject);
-            userRealmObject.getFollowingList().add(follower);
-            realm.insertOrUpdate(follower);
-            userRealmObject.getFollowersList().add(follower);
+
+        for (UserRealmObject follower : userRealmObjectList) {
+
+            if (!follower.get_id().equals(userId)) {
+                realm.insertOrUpdate(follower);
+
+                if (!alreadyExists(userRealmObject.getFollowersList(), follower)) {
+                    userRealmObject.getFollowersList().add(follower);
+                } else {
+                    Logger.e("Exists Follower", follower.getName().getFull());
+                }
+            }
         }
         realm.commitTransaction();
     }
@@ -113,10 +140,13 @@ public class ProfileDataManager {
 
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
-        UserRealmObject userRealmObject =  realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
-        RealmList<UserRealmObject> userRealmObjects = new RealmList<>();
-        if(userRealmObject!=null){
+
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        RealmList<UserRealmObject> userRealmObjects;
+
+        if (userRealmObject != null) {
             userRealmObjects = userRealmObject.getFollowingList();
+            Logger.e("FollowingDB", userRealmObjects.size() + "");
             for (UserRealmObject following : userRealmObjects) {
                 FollowingFollowerUser user = new FollowingFollowerUser();
                 user.set_id(following.get_id());
@@ -126,8 +156,12 @@ public class ProfileDataManager {
                     user.setProfileImage(new CloudinaryImage());
                     user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
                 }
+                Logger.e("Following User", user.getName().getFull());
+
                 followingList.add(user);
             }
+
+            Logger.e("Following Count", followingList.size() + "");
         }
 
         return followingList;
@@ -137,5 +171,14 @@ public class ProfileDataManager {
         realm.beginTransaction();
         realm.where(UserRealmObject.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
+    }
+
+    //To check whether the user already exists in list or not
+    public boolean alreadyExists(RealmList<UserRealmObject> list, UserRealmObject user) {
+        for (UserRealmObject userInList : list) {
+            if (user.get_id().equals(userInList.get_id()))
+                return true;
+        }
+        return false;
     }
 }

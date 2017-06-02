@@ -42,7 +42,7 @@ public class UserSettingsActivity extends AppCompatActivity {
     }
 
     public void showDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context,R.style.AlertDialogStyle);
         dialog.setTitle("Confirm Logout");
         dialog.setMessage("Do you really want to logout!!!");
 

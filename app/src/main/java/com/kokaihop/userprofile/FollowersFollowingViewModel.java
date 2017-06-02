@@ -50,7 +50,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.context = context;
         userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         profileDataManager = new ProfileDataManager();
-
     }
 
     public boolean isDownloading() {
@@ -87,9 +86,10 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 //Getting list of following users through api call
 
     public void getFollowingUsers(final int offset) {
+        fetchFollowingFromDB();
+
         setOffset(offset);
         setDownloading(isDownloading);
-
         setProgressVisible(true);
         setUpApiCall();
         setProgressVisible(true);
@@ -98,7 +98,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                 @Override
                 public void onSuccess(FollowingFollowersApiResponse response) {
                     RealmList<UserRealmObject> userList = response.getUsers();
-                    profileDataManager.insertOrUpdateFollowing(userList,userId);
+                    profileDataManager.insertOrUpdateFollowing(userList, userId);
 
                     FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
                     setTotalFollowing(response.getTotal());
@@ -106,7 +106,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    fetchFollowersFromDB();
+                    fetchFollowingFromDB();
                 }
 
                 @Override
@@ -124,15 +124,15 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     userDataListener.showUserProfile();
                 }
             });
-            Logger.e("Get", "Downloading");
         }
 
     }
 
-    public void fetchFollowersFromDB(){
+    public void fetchFollowingFromDB() {
         ArrayList<FollowingFollowerUser> followingList;
 
         followingList = profileDataManager.fetchFollowingList(userId);
+        FollowersFollowingList.getFollowingList().getUsers().clear();
         FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);
         userDataListener.showUserProfile();
     }
@@ -151,12 +151,10 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     RealmList<UserRealmObject> userList = response.getUsers();
                     profileDataManager.insertOrUpdateFollowers(userList, userId);
 
-                    ArrayList<FollowingFollowerUser> followersList = new ArrayList<FollowingFollowerUser>();
-                    followersList =  profileDataManager.fetchFollowersList(userId);
-                    FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
                     FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
 
                     setTotalFollowers(response.getTotal());
+                    fetchFollowersFromDB();
 
                     if (getOffset() + getMax() >= getTotalFollowers()) {
                         setDownloading(false);
@@ -182,6 +180,16 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         }
     }
 
+    public void fetchFollowersFromDB() {
+        ArrayList<FollowingFollowerUser> followingList;
+
+        ArrayList<FollowingFollowerUser> followersList;
+        followersList = profileDataManager.fetchFollowersList(userId);
+        FollowersFollowingList.getFollowersList().getUsers().clear();
+        FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
+        userDataListener.showUserProfile();
+    }
+
     //API call to follow or unfollow a user
     public void toggleFollowing(String friendId, final CheckBox checkBox) {
         setUpApiCall();
@@ -191,10 +199,10 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         new ProfileApiHelper().toggleFollowing(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                if(checkBox.isChecked()){
-                    Toast.makeText(context,"Follow Successful",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(context,"Unfollow Successful",Toast.LENGTH_SHORT).show();
+                if (checkBox.isChecked()) {
+                    Toast.makeText(context, "Follow Successful", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Unfollow Successful", Toast.LENGTH_SHORT).show();
                 }
             }
 

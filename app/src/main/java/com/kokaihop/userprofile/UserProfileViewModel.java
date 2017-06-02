@@ -47,7 +47,7 @@ public class UserProfileViewModel extends BaseViewModel {
                 userId = response.get_id();
                 Logger.e("User ID : ", userId);
 //                User.setUser(response);
-                profileDataManager.insertOrUpdate(response);
+                profileDataManager.insertOrUpdateUserData(response);
                 fetchUserDataFromDB();
                 Logger.e(User.getInstance().get_id()+"Success", "name : "+ User.getInstance().getName().getFull());
                 setProgressVisible(false);
