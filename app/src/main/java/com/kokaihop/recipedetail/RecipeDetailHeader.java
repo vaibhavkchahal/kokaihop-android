@@ -11,6 +11,13 @@ public class RecipeDetailHeader {
     private String badgeType;
     private String description;
 
+    public RecipeDetailHeader(float rating, String title, String badgeType, String description) {
+        this.rating = rating;
+        this.title = title;
+        this.badgeType = badgeType;
+        this.description = description;
+    }
+
     public float getRating() {
         return rating;
     }

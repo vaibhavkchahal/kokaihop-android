@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="model" type="com.kokaihop.recipedetail.RecipeCookingDirection"/>
     </data>
 
 
@@ -18,7 +18,6 @@
             android:id="@+id/txtview_direction_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="title"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/txtview_direction_textsize"
         />
@@ -30,6 +29,7 @@
             android:layout_marginLeft="@dimen/txtview_direction_margin_left"
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
             android:textColor="@color/grey_FF71767F"
+            android:text="@{model.direction}"
             android:textSize="@dimen/txtview_direction_textsize"
         />
 

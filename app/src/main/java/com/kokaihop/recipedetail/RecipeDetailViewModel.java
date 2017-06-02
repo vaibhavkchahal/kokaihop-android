@@ -50,12 +50,15 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 try {
                     ResponseBody responseBody = (ResponseBody) response;
                     final JSONObject json = new JSONObject(responseBody.string());
+                    recipeDataManager.insertOrUpdateRecipeDetails(json);
+                    recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
+                    prepareRecipeDetailList(recipeRealmObject);
+                    Logger.i("badgeType", recipeRealmObject.getBadgeType());
                     JSONObject recipeJSONObject = json.getJSONObject("recipe");
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
                     fetchSimilarRecipe(recipeFriendlyUrl,5,recipeDataManager.fetchRecipe(recipeID).getTitle());
                 } catch (JSONException e) {
                     e.printStackTrace();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -63,12 +66,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
             @Override
             public void onError(Object response) {
-
             }
         });
 
@@ -112,25 +113,41 @@ public class RecipeDetailViewModel extends BaseViewModel {
         recipeDetailItemsList.add(new RecipeDetailHeader());
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Ingredients"));
-        for (int i = 0; i < 10; i++) {
-            RecipeDetailIndgredient indgredient = new RecipeDetailIndgredient(i + 1, "smor" + i, false);
-            recipeDetailItemsList.add(indgredient);
+        for (int i = 0; i < recipeRealmObject.getIngredientsRealmObjectList().size(); i++) {
+            recipeDetailItemsList.add(recipeRealmObject.getIngredientsRealmObjectList().get(i));
         }
-        recipeDetailItemsList.add(new RecipeQuantityVariator());
+        recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Direction"));
-        for (int i = 0; i < 10; i++) {
-            recipeDetailItemsList.add(new RecipeCookingDirection("skar kotter i cm " + i));
-        }
-        recipeDetailItemsList.add(new RecipeSpecifications());
-        for (int i = 0; i < 15; i++) {
-            recipeDetailItemsList.add(new RecipeComment("User " + i, "comment " + i));
+//        for (int i = 0; i < recipeRealmObject.getCookingSteps().length; i++) {
+//            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps()[i].getString()));
+//        }
+        RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
+        recipeDetailItemsList.add(recipeSpecifications);
+        for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
+            if (i > 2) {
+                break;
+            }
+            recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         recipeDetailItemsList.add(new ListHeading("SimilarRecipies"));
         for (int i = 0; i < 5; i++) {
             recipeDetailItemsList.add(new SimilarRecipe());
         }
 
+    }
+
+    private RecipeSpecifications getRecipeSpecifications(RecipeRealmObject recipeRealmObject) {
+        RecipeSpecifications specifications = new RecipeSpecifications();
+//        specifications.setName(recipeRealmObject.getCreatedByRealmObject().getName());
+//        specifications.setDateCreated(recipeRealmObject.getDateCreated());
+//        specifications.setCategory1(recipeRealmObject.getCookingMethodRealmObject().getName());
+//        specifications.setCategory2(recipeRealmObject.getCuisineRealmObject().getName());
+//        specifications.setCategory3(recipeRealmObject.getCategoryRealmObject().getName());
+//        specifications.setViewerCount(recipeRealmObject.getCounterRealmObject().getViewed());
+//        specifications.setPrinted(recipeRealmObject.getCounterRealmObject().getPrinted());
+//        specifications.setAddToCollections(recipeRealmObject.getCounterRealmObject().getAddedToCollection());
+        return specifications;
     }
 
 

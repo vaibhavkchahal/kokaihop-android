@@ -19,6 +19,16 @@ public class CommentRealmObject extends RealmObject {
     @SerializedName("sourceUser")
     private UserRealmObject sourceUser;
 
+    private Payload payload;
+
+    public Payload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Payload payload) {
+        this.payload = payload;
+    }
+
     public String get_id() {
         return _id;
     }

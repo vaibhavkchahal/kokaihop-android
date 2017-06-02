@@ -42,7 +42,18 @@ public class RecipeRealmObject extends RealmObject {
     @SerializedName("isMine")
     private boolean isMine;
 
-    private String cookingSteps;
+    @SerializedName("servings")
+    private int servings;
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+//    private StringObject[] cookingSteps;
 
     public boolean isFavorite;
 
@@ -142,13 +153,6 @@ public class RecipeRealmObject extends RealmObject {
         this.badgeType = badgeType;
     }
 
-    public String getCookingSteps() {
-        return cookingSteps;
-    }
-
-    public void setCookingSteps(String cookingSteps) {
-        this.cookingSteps = cookingSteps;
-    }
 
     public boolean isFavorite() {
         return isFavorite;
@@ -247,6 +251,14 @@ public class RecipeRealmObject extends RealmObject {
     public void setComments(RealmList<CommentRealmObject> comments) {
         this.comments = comments;
     }
+
+  /*  public StringObject[] getCookingSteps() {
+        return cookingSteps;
+    }
+
+    public void setCookingSteps(StringObject[] cookingSteps) {
+        this.cookingSteps = cookingSteps;
+    }*/
 
     public RealmList<RecipeRealmObject> getSimilarRecipes() {
         return similarRecipes;

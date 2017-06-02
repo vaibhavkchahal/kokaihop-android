@@ -5,13 +5,17 @@ package com.kokaihop.recipedetail;
  */
 
 public class RecipeQuantityVariator {
-    private String quantity;
+    private int quantity;
 
-    public String getQuantity() {
+    public RecipeQuantityVariator(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 }

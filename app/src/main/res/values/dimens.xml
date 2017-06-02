@@ -299,4 +299,5 @@
     <dimen name="editxt_write_coment_padding_top">13dp</dimen>
     <dimen name="editxt_write_coment_textsize">15sp</dimen>
     <dimen name="toolbar_top_padding">33dp</dimen>
+    <dimen name="comment_padding_bottom">27dp</dimen>
 </resources>
