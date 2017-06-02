@@ -1,5 +1,7 @@
 package com.kokaihop.recipedetail;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
@@ -27,6 +29,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private RecipeDataManager recipeDataManager;
     private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     public List<Object> getRecipeDetailItemsList() {
         return recipeDetailItemsList;
@@ -36,23 +39,30 @@ public class RecipeDetailViewModel extends BaseViewModel {
         this.recipeDetailItemsList = recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(String recipeID) {
+    public RecipeDetailViewModel(String recipeID, RecyclerView recyclerView) {
         this.recipeID = recipeID;
+        this.recyclerView = recyclerView;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
     }
 
     private void getRecipeDetails(String recipeFriendlyUrl, int commentToLoad) {
+
+        setProgressVisible(true);
         new RecipeDetailApiHelper().getRecipeDetail(recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 try {
+                    setProgressVisible(false);
                     ResponseBody responseBody = (ResponseBody) response;
                     final JSONObject json = new JSONObject(responseBody.string());
                     recipeDataManager.insertOrUpdateRecipeDetails(json);
                     recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
                     prepareRecipeDetailList(recipeRealmObject);
+
+                    recyclerView.getAdapter().notifyDataSetChanged();
+
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -63,10 +73,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
+                setProgressVisible(false);
             }
 
             @Override
             public void onError(Object response) {
+                setProgressVisible(false);
             }
         });
 
