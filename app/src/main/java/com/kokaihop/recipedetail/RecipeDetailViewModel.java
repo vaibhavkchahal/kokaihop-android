@@ -7,6 +7,7 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +48,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
     }
 
-    private void getRecipeDetails(String recipeFriendlyUrl, int commentToLoad) {
+    private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
 
         setProgressVisible(true);
         new RecipeDetailApiHelper().getRecipeDetail(recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
