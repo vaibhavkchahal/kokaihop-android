@@ -11,8 +11,15 @@ public class RecipeSpecifications {
     private String category2;
     private String category3;
 
-    private String recipeLikes;
-    private String viewerCount,printed,commentCount;
+    private long viewerCount, printed, addToCollections;
+
+    public long getAddToCollections() {
+        return addToCollections;
+    }
+
+    public void setAddToCollections(long addToCollections) {
+        this.addToCollections = addToCollections;
+    }
 
     public String getName() {
         return name;
@@ -54,35 +61,19 @@ public class RecipeSpecifications {
         this.category3 = category3;
     }
 
-    public String getRecipeLikes() {
-        return recipeLikes;
-    }
-
-    public void setRecipeLikes(String recipeLikes) {
-        this.recipeLikes = recipeLikes;
-    }
-
-    public String getViewerCount() {
+    public long getViewerCount() {
         return viewerCount;
     }
 
-    public void setViewerCount(String viewerCount) {
+    public void setViewerCount(long viewerCount) {
         this.viewerCount = viewerCount;
     }
 
-    public String getPrinted() {
+    public long getPrinted() {
         return printed;
     }
 
-    public void setPrinted(String printed) {
+    public void setPrinted(long printed) {
         this.printed = printed;
-    }
-
-    public String getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(String commentCount) {
-        this.commentCount = commentCount;
     }
 }

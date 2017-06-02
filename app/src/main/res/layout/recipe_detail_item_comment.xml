@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
     </data>
 
 
@@ -12,6 +12,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:paddingLeft="@dimen/comment_item_padding_left"
+                    android:paddingBottom="@dimen/comment_padding_bottom"
                     android:paddingTop="@dimen/comment_item_padding_top">
 
 
@@ -31,7 +32,7 @@
             android:textColor="@color/tab_background"
             android:textSize="@dimen/txtview_comment_user_textsize"
             app:font="@{`SS-ProRegular`}"
-            tools:text="title"
+            android:text="@{model.sourceUser.userNameRealmObject.full}"
         />
 
 
@@ -47,7 +48,7 @@
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/txtview_coment_textsize"
             app:font="@{`SS-ProRegular`}"
-            tools:text="title"
+            android:text="@{model.payload.comment.content}"
         />
     </RelativeLayout>
 

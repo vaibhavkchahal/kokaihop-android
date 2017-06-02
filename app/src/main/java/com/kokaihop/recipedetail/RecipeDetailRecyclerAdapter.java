@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
-import com.altaworks.kokaihop.ui.databinding.RecipeCreatorDetailItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemDirectionBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemIngredentVariatorBinding;
@@ -18,6 +17,9 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemMainHeaderBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailListItemsHeadingBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailRateCommentItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBinding;
+import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
+import com.kokaihop.database.CommentRealmObject;
+import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.feed.AdvtDetail;
 
 import java.util.List;
@@ -64,15 +66,17 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_direction, parent, false);
             return new ViewHolderItemDirection(v);
         } else if (viewType == TYPE_ITEM_RECIPE_SPECIFICATIONS) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_creator_detail_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_specification_item, parent, false);
             return new ViewHolderItemRecipeCreator(v);
         } else if (viewType == TYPE_ITEM_SHOW_ALL_COMMENTS) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_comment, parent, false);
             return new ViewHolderItemComment(v);
-        } else if (viewType == TYPE_ITEM_RATE_AND_COMMENT) {
+        }
+       /* else if (viewType == TYPE_ITEM_RATE_AND_COMMENT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_rate_comment_item, parent, false);
             return new ViewHolderItemRateComment(v);
-        } else if (viewType == TYPE_ITEM_SIMILAR_ITEM) {
+        }*/
+        else if (viewType == TYPE_ITEM_SIMILAR_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_similar_recipe_item, parent, false);
             return new ViewHolderItemSimilarRecipe(v);
         }
@@ -83,43 +87,64 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_ITEM_RECIPE_MAIN_HEADER:
-                ViewHolderMainHeader mainHeader = (ViewHolderMainHeader) holder;
-                mainHeader.binder.executePendingBindings();
+                ViewHolderMainHeader holderMainHeader = (ViewHolderMainHeader) holder;
+                RecipeDetailHeader recipeDetailHeader = (RecipeDetailHeader) recipeDetailItemsList.get(position);
+                holderMainHeader.binder.setModel(recipeDetailHeader);
+                holderMainHeader.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
                 ViewHolderAdvt holderAdvt = (ViewHolderAdvt) holder;
+//                AdvtDetail advtDetail = (AdvtDetail) recipeDetailItemsList.get(position);
+//                holderAdvt.binder.setModel(advtDetail);
                 holderAdvt.binder.executePendingBindings();
                 break;
             case TYPE_LIST_ITEM_HEADING:
                 ViewHolderListItemHeading holderHeading = (ViewHolderListItemHeading) holder;
+                ListHeading listHeading = (ListHeading) recipeDetailItemsList.get(position);
+                holderHeading.binder.setModel(listHeading);
                 holderHeading.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE_INGREDIENT:
                 ViewHolderItemIngredient holderIngredient = (ViewHolderItemIngredient) holder;
+                IngredientsRealmObject ingredientsRealmObject = (IngredientsRealmObject) recipeDetailItemsList.get(position);
+                holderIngredient.binder.setModel(ingredientsRealmObject);
                 holderIngredient.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR:
                 ViewHolderIngrdientVariator holderVariator = (ViewHolderIngrdientVariator) holder;
+                RecipeQuantityVariator variator = (RecipeQuantityVariator) recipeDetailItemsList.get(position);
+                holderVariator.binder.setModel(variator);
                 holderVariator.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_DIRECTION:
                 ViewHolderItemDirection holderDirection = (ViewHolderItemDirection) holder;
+                RecipeCookingDirection direction = (RecipeCookingDirection) recipeDetailItemsList.get(position);
+                holderDirection.binder.setModel(direction);
                 holderDirection.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE_SPECIFICATIONS:
                 ViewHolderItemRecipeCreator holderRecipeCreator = (ViewHolderItemRecipeCreator) holder;
+                RecipeSpecifications specifications = (RecipeSpecifications) recipeDetailItemsList.get(position);
+                holderRecipeCreator.binder.setModel(specifications);
                 holderRecipeCreator.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_SHOW_ALL_COMMENTS:
                 ViewHolderItemComment holderItemComment = (ViewHolderItemComment) holder;
+                CommentRealmObject commentRealmObject = (CommentRealmObject) recipeDetailItemsList.get(position);
+                holderItemComment.binder.setModel(commentRealmObject);
                 holderItemComment.binder.executePendingBindings();
                 break;
-            case TYPE_ITEM_RATE_AND_COMMENT:
+            /*case TYPE_ITEM_RATE_AND_COMMENT:
                 ViewHolderItemRateComment holderItemRateComment = (ViewHolderItemRateComment) holder;
+                RecipeDetailHeader recipeDetailHeader = (RecipeDetailHeader) recipeDetailItemsList.get(position);
+                holderMainHeader.binder.setModel(recipeDetailHeader);
+
                 holderItemRateComment.binder.executePendingBindings();
-                break;
+                break;*/
             case TYPE_ITEM_SIMILAR_ITEM:
                 ViewHolderItemSimilarRecipe holderItemSimilarRecipe = (ViewHolderItemSimilarRecipe) holder;
+//                SimilarRecipe similarRecipe = (SimilarRecipe) recipeDetailItemsList.get(position);
+//                holderItemSimilarRecipe.binder.setModel(similarRecipe);
                 holderItemSimilarRecipe.binder.executePendingBindings();
                 break;
             default:
@@ -137,13 +162,13 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             return TYPE_ITEM_ADVT;
         } else if (object instanceof ListHeading) {
             return TYPE_LIST_ITEM_HEADING;
-        } else if (object instanceof RecipeDetailIndgredient) {
+        } else if (object instanceof IngredientsRealmObject) {
             return TYPE_ITEM_RECIPE_INGREDIENT;
         } else if (object instanceof RecipeQuantityVariator) {
             return TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR;
         } else if (object instanceof RecipeCookingDirection) {
             return TYPE_ITEM_DIRECTION;
-        } else if (object instanceof RecipeComment) {
+        } else if (object instanceof CommentRealmObject) {
             return TYPE_ITEM_SHOW_ALL_COMMENTS;
         } else if (object instanceof RecipeSpecifications) {
             return TYPE_ITEM_RECIPE_SPECIFICATIONS;
@@ -244,7 +269,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private class ViewHolderItemRecipeCreator extends RecyclerView.ViewHolder {
-        public RecipeCreatorDetailItemBinding binder;
+        public RecipeSpecificationItemBinding binder;
 
         ViewHolderItemRecipeCreator(View view) {
             super(view);

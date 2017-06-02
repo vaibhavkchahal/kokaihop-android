@@ -9,9 +9,9 @@ import io.realm.annotations.PrimaryKey;
  * Created by Rajendra Singh on 10/5/17.
  */
 
-public class CookingMethodRealmObject extends RealmObject {
+public class CookingMethod extends RealmObject {
 
-    @PrimaryKey @SerializedName("id")
+   @PrimaryKey @SerializedName("id")
     private String id;
     @SerializedName("name")
     private String name;

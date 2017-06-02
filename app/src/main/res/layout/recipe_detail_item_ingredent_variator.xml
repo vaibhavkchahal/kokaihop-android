@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="model" type="com.kokaihop.recipedetail.RecipeQuantityVariator"/>
     </data>
 
 
@@ -38,9 +38,10 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/txtview_portion_count_margin_left"
             android:layout_toRightOf="@+id/txtview_portion"
-            tools:text="9"
+            android:text="@{String.valueOf(model.quantity)}"
             android:textColor="@color/kokaihop_orange_color"
             android:textSize="@dimen/txtview_portion_count_textsize"
+
             app:font="@{`SS-ProRegular`}"
         />
 

@@ -1,5 +1,7 @@
 package com.kokaihop.recipedetail;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
@@ -7,6 +9,7 @@ import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,8 +28,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private final int COMMENTS_TO_LOAD = 100;
     private RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
-    private  String recipeID;
+    private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     public List<Object> getRecipeDetailItemsList() {
         return recipeDetailItemsList;
@@ -36,25 +40,27 @@ public class RecipeDetailViewModel extends BaseViewModel {
         this.recipeDetailItemsList = recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(String recipeID) {
-        this.recipeID=recipeID;
+    public RecipeDetailViewModel(String recipeID, RecyclerView recyclerView) {
+        this.recipeID = recipeID;
+        this.recyclerView = recyclerView;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
     }
 
-    private void getRecipeDetails(String recipeFriendlyUrl, int commentToLoad) {
+    private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
+
+        setProgressVisible(true);
         new RecipeDetailApiHelper().getRecipeDetail(recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 try {
+                    setProgressVisible(false);
                     ResponseBody responseBody = (ResponseBody) response;
                     final JSONObject json = new JSONObject(responseBody.string());
-                    recipeDataManager.insertOrUpdateRecipeDetails(json);
-                    recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
-                    Logger.i("badgeType",recipeRealmObject.getBadgeType());
-
-
+                    JSONObject recipeJSONObject = json.getJSONObject("recipe");
+                    recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
+                    fetchSimilarRecipe(recipeFriendlyUrl,5,recipeDataManager.fetchRecipe(recipeID).getTitle());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -64,72 +70,92 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
             @Override
             public void onError(Object response) {
-
             }
         });
-//        RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
 
-//        Call<ResponseBody> myCall = recipeDetailApi.getRecipeDetails(recipeFriendlyUrl, commentToLoad);
-
-
-      /*  myCall.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("response recipe detail",""+response.body());
-
-                try {
-                   final JSONObject json = new JSONObject(response.body().string());
-                    final JSONObject recipeJSONObject=json.getJSONObject("recipe");
-                    Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            Realm.getDefaultInstance().createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-
-        });*/
     }
 
-    private void prepareRecipeDetailList() {
-        recipeDetailItemsList.add(new RecipeDetailHeader());
+
+    private void fetchSimilarRecipe(String recipeFriendlyUrl, int limit, String title) {
+        //https://staging-kokaihop.herokuapp.com/v1/api/recipes/getSimilarRecipes?friendlyUrl=varldens-enklaste-kyckling-i-ugn&limit=5&title=Världens enklaste kyckling i ugn
+
+        new RecipeDetailApiHelper().getSimilarRecipe(recipeFriendlyUrl, limit, title, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                     JSONObject json = new JSONObject(responseBody.string());
+                    JSONArray recipeJSONArray = json.getJSONArray("similarRecipes");
+                    recipeDataManager.updateSimilarRecipe(recipeID, recipeJSONArray);
+                    recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
+                    prepareRecipeDetailList(recipeRealmObject);
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                    Logger.i("badgeType", recipeRealmObject.getBadgeType());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onError(Object response) {
+                setProgressVisible(false);
+            }
+        });
+
+    }
+
+    private void prepareRecipeDetailList(RecipeRealmObject recipeRealmObject) {
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRatingRealmObject().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getStatus());
+        recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Ingredients"));
-        for (int i = 0; i < 10; i++) {
-            RecipeDetailIndgredient indgredient = new RecipeDetailIndgredient(i + 1, "smor" + i, false);
-            recipeDetailItemsList.add(indgredient);
+        for (int i = 0; i < recipeRealmObject.getIngredients().size(); i++) {
+            recipeDetailItemsList.add(recipeRealmObject.getIngredients().get(i));
         }
-        recipeDetailItemsList.add(new RecipeQuantityVariator());
+        recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Direction"));
-        for (int i = 0; i < 10; i++) {
-            recipeDetailItemsList.add(new RecipeCookingDirection("skar kotter i cm " + i));
-        }
-        recipeDetailItemsList.add(new RecipeSpecifications());
-        for (int i = 0; i < 15; i++) {
-            recipeDetailItemsList.add(new RecipeComment("User " + i, "comment " + i));
+// for (int i = 0; i < recipeRealmObject.getCookingSteps().length; i++) {
+// recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps()[i].getString()));
+// }
+        RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
+        recipeDetailItemsList.add(recipeSpecifications);
+        for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
+            if (i > 2) {
+                break;
+            }
+            recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         recipeDetailItemsList.add(new ListHeading("SimilarRecipies"));
         for (int i = 0; i < 5; i++) {
             recipeDetailItemsList.add(new SimilarRecipe());
         }
 
+    }
+
+    private RecipeSpecifications getRecipeSpecifications(RecipeRealmObject recipeRealmObject) {
+        RecipeSpecifications specifications = new RecipeSpecifications();
+        specifications.setName(recipeRealmObject.getCreatedBy().getName());
+        specifications.setDateCreated(recipeRealmObject.getDateCreated());
+        specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
+        specifications.setCategory2(recipeRealmObject.getCuisine().getName());
+        specifications.setCategory3(recipeRealmObject.getCategory().getName());
+        specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
+        specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
+        specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
+        return specifications;
     }
 
 

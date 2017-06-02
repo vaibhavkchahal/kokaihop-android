@@ -26,23 +26,34 @@ public class RecipeRealmObject extends RealmObject {
     @SerializedName("status")
     private String status;
     @SerializedName("cuisine")
-    private CuisineRealmObject cuisineRealmObject;
+    private CuisineRealmObject cuisine;
     @SerializedName("createdBy")
-    private CreatedByRealmObject createdByRealmObject;
+    private CreatedByRealmObject createdBy;
     @SerializedName("ingredients")
-    private RealmList<IngredientsRealmObject> ingredientsRealmObjectList;
+    private RealmList<IngredientsRealmObject> ingredients;
     @SerializedName("category")
-    private CategoryRealmObject categoryRealmObject;
+    private CategoryRealmObject category;
     @SerializedName("cookingMethod")
-    private CookingMethodRealmObject cookingMethodRealmObject;
+    private CookingMethod cookingMethod;
     @SerializedName("counter")
-    private CounterRealmObject counterRealmObject;
+    private CounterRealmObject counter;
     @SerializedName("badgeType")
     private String badgeType;
     @SerializedName("isMine")
     private boolean isMine;
 
-    private String cookingSteps;
+    @SerializedName("servings")
+    private int servings;
+
+    public int getServings() {
+        return servings;
+    }
+
+    public void setServings(int servings) {
+        this.servings = servings;
+    }
+
+//    private StringObject[] cookingSteps;
 
     public boolean isFavorite;
 
@@ -55,6 +66,8 @@ public class RecipeRealmObject extends RealmObject {
     private long lastUpdated;
     private long lastViewed;
     private boolean viewed;
+
+    private RealmList<RecipeRealmObject> similarRecipes;
 
     @SerializedName("comments")
     private RealmList<CommentRealmObject> comments;
@@ -84,54 +97,6 @@ public class RecipeRealmObject extends RealmObject {
         this.status = status;
     }
 
-    public CuisineRealmObject getCuisineRealmObject() {
-        return cuisineRealmObject;
-    }
-
-    public void setCuisineRealmObject(CuisineRealmObject cuisineRealmObject) {
-        this.cuisineRealmObject = cuisineRealmObject;
-    }
-
-    public CreatedByRealmObject getCreatedByRealmObject() {
-        return createdByRealmObject;
-    }
-
-    public void setCreatedByRealmObject(CreatedByRealmObject createdByRealmObject) {
-        this.createdByRealmObject = createdByRealmObject;
-    }
-
-    public RealmList<IngredientsRealmObject> getIngredientsRealmObjectList() {
-        return ingredientsRealmObjectList;
-    }
-
-    public void setIngredientsRealmObjectList(RealmList<IngredientsRealmObject> ingredientsRealmObjectList) {
-        this.ingredientsRealmObjectList = ingredientsRealmObjectList;
-    }
-
-    public CategoryRealmObject getCategoryRealmObject() {
-        return categoryRealmObject;
-    }
-
-    public void setCategoryRealmObject(CategoryRealmObject categoryRealmObject) {
-        this.categoryRealmObject = categoryRealmObject;
-    }
-
-    public CookingMethodRealmObject getCookingMethodRealmObject() {
-        return cookingMethodRealmObject;
-    }
-
-    public void setCookingMethodRealmObject(CookingMethodRealmObject cookingMethodRealmObject) {
-        this.cookingMethodRealmObject = cookingMethodRealmObject;
-    }
-
-    public CounterRealmObject getCounterRealmObject() {
-        return counterRealmObject;
-    }
-
-    public void setCounterRealmObject(CounterRealmObject counterRealmObject) {
-        this.counterRealmObject = counterRealmObject;
-    }
-
     public String getBadgeType() {
         return badgeType;
     }
@@ -140,13 +105,6 @@ public class RecipeRealmObject extends RealmObject {
         this.badgeType = badgeType;
     }
 
-    public String getCookingSteps() {
-        return cookingSteps;
-    }
-
-    public void setCookingSteps(String cookingSteps) {
-        this.cookingSteps = cookingSteps;
-    }
 
     public boolean isFavorite() {
         return isFavorite;
@@ -244,5 +202,69 @@ public class RecipeRealmObject extends RealmObject {
 
     public void setComments(RealmList<CommentRealmObject> comments) {
         this.comments = comments;
+    }
+
+  /*  public StringObject[] getCookingSteps() {
+        return cookingSteps;
+    }
+
+    public void setCookingSteps(StringObject[] cookingSteps) {
+        this.cookingSteps = cookingSteps;
+    }*/
+
+    public RealmList<RecipeRealmObject> getSimilarRecipes() {
+        return similarRecipes;
+    }
+
+    public void setSimilarRecipes(RealmList<RecipeRealmObject> similarRecipes) {
+        this.similarRecipes = similarRecipes;
+    }
+
+    public CookingMethod getCookingMethod() {
+        return cookingMethod;
+    }
+
+    public void setCookingMethod(CookingMethod cookingMethod) {
+        this.cookingMethod = cookingMethod;
+    }
+
+    public CuisineRealmObject getCuisine() {
+        return cuisine;
+    }
+
+    public void setCuisine(CuisineRealmObject cuisine) {
+        this.cuisine = cuisine;
+    }
+
+    public CreatedByRealmObject getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(CreatedByRealmObject createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public RealmList<IngredientsRealmObject> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(RealmList<IngredientsRealmObject> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public CategoryRealmObject getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryRealmObject category) {
+        this.category = category;
+    }
+
+    public CounterRealmObject getCounter() {
+        return counter;
+    }
+
+    public void setCounter(CounterRealmObject counter) {
+        this.counter = counter;
     }
 }
