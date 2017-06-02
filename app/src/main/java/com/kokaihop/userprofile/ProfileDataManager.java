@@ -20,16 +20,19 @@ import io.realm.RealmList;
 public class ProfileDataManager {
     private Realm realm;
 
+    //    Default Constructor
     public ProfileDataManager() {
         realm = Realm.getDefaultInstance();
     }
 
+    //    Geting the user data from the database on the basis of userId
     public User fetchUserData(String userId) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
         User user = getUserData(userRealmObject);
         return user;
     }
 
+    //    Setting user data obtained from database to a User Model object
     private User getUserData(UserRealmObject userRealmObject) {
         User user = User.getInstance();
         if (userRealmObject != null) {
@@ -61,12 +64,14 @@ public class ProfileDataManager {
         return user;
     }
 
+    //    Inserting or updating the user data into the database
     public void insertOrUpdateUserData(UserRealmObject userRealmObject) {
         realm.beginTransaction();
         realm.insertOrUpdate(userRealmObject);
         realm.commitTransaction();
     }
 
+    //    Inserting or updating the following users data into the database
     public void insertOrUpdateFollowing(final RealmList<UserRealmObject> userRealmObjectList, final String userId) {
 
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
@@ -89,6 +94,7 @@ public class ProfileDataManager {
 
     }
 
+    //    Inserting or updating the followers data into the database
     public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectList, String userId) {
         final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
         realm.beginTransaction();
@@ -108,6 +114,7 @@ public class ProfileDataManager {
         realm.commitTransaction();
     }
 
+//Getting the  user
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
         RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst().getFollowersList();
@@ -125,6 +132,7 @@ public class ProfileDataManager {
         }
         return followersList;
     }
+
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
 

@@ -20,11 +20,11 @@
 
         <ImageView
             android:id="@+id/user_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/follow_row_image_size"
+            android:layout_height="@dimen/follow_row_image_size"
             android:scaleType="fitXY"
             app:error="@{@drawable/ic_avtar_lg}"
-            app:imageUrl="@{profilePic}"
+            app:imageUrl="@{user.profileImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
