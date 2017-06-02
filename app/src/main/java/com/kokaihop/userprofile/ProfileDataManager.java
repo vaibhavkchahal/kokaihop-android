@@ -24,18 +24,18 @@ public class ProfileDataManager {
     }
 
     public User fetchUserData(String userId) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id",userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst();
         User user = getUserData(userRealmObject);
         return user;
     }
 
     private User getUserData(UserRealmObject userRealmObject) {
         User user = User.getInstance();
-        user.set_id(userRealmObject.get_id());
+        user.set_id(userRealmObject.getId());
         user.setName(new UserName());
-        user.getName().setFirst(userRealmObject.getName().getFirst());
-        user.getName().setLast(userRealmObject.getName().getLast());
-        user.getName().setFull(userRealmObject.getName().getFull());
+        user.getName().setFirst(userRealmObject.getUserNameRealmObject().getFirst());
+        user.getName().setLast(userRealmObject.getUserNameRealmObject().getLast());
+        user.getName().setFull(userRealmObject.getUserNameRealmObject().getFull());
         user.getFollowing().clear();
         for (StringObject userid : userRealmObject.getFollowing()) {
             user.getFollowing().add(userid.getString());
@@ -65,7 +65,7 @@ public class ProfileDataManager {
 
     public void insertOrUpdateFollowing(RealmList<UserRealmObject> userRealmObjectRealmList, String userId) {
 
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
 
         realm.beginTransaction();
         for (UserRealmObject following : userRealmObjectRealmList) {
@@ -77,7 +77,7 @@ public class ProfileDataManager {
     }
 
     public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectRealmList, String userId) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
         realm.beginTransaction();
         for (UserRealmObject follower : userRealmObjectRealmList) {
             realm.insertOrUpdate(userRealmObject);
@@ -88,11 +88,11 @@ public class ProfileDataManager {
 
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
-        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("_id",userId).findFirst().getFollowersList();
+        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst().getFollowersList();
         for(UserRealmObject follower : userRealmObjects){
             FollowingFollowerUser user =  new FollowingFollowerUser();
-            user.set_id(follower.get_id());
-            user.getName().setFull(follower.getName().getFull());
+            user.set_id(follower.getId());
+            user.getName().setFull(follower.getUserNameRealmObject().getFull());
             user.getProfileImage().setCloudinaryId(follower.getProfileImage().getCloudinaryId());
             followersList.add(user);
         }
@@ -100,12 +100,12 @@ public class ProfileDataManager {
     }
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
-        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("_id",userId).findFirst().getFollowingList();
+        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst().getFollowingList();
         for(UserRealmObject following : userRealmObjects){
             FollowingFollowerUser user =  new FollowingFollowerUser();
-            user.set_id(following.get_id());
+            user.set_id(following.getId());
             user.setName(new UserName());
-            user.getName().setFull(following.getName().getFull());
+            user.getName().setFull(following.getUserNameRealmObject().getFull());
             if(following.getProfileImage()!=null){
                 user.setProfileImage(new CloudinaryImage());
                 user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());

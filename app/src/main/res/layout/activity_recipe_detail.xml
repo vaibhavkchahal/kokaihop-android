@@ -3,7 +3,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
         <variable name="viewModel" type="com.kokaihop.recipedetail.RecipeDetailViewModel"/>
     </data>
 

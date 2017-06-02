@@ -1,23 +1,23 @@
 package com.kokaihop.database;
 
 import com.google.gson.annotations.SerializedName;
-import com.kokaihop.userprofile.model.User;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Rajendra Singh on 1/6/17.
  */
 
 
-class CommentRealmObject extends RealmObject {
+public class CommentRealmObject extends RealmObject {
 
-    @SerializedName("_id")
+    @PrimaryKey @SerializedName("_id")
     private String _id;
     @SerializedName("name")
     private String name;
     @SerializedName("sourceUser")
-    private User sourceUser;
+    private UserRealmObject sourceUser;
 
     public String get_id() {
         return _id;
@@ -35,11 +35,11 @@ class CommentRealmObject extends RealmObject {
         this.name = name;
     }
 
-    public User getSourceUser() {
+    public UserRealmObject getSourceUser() {
         return sourceUser;
     }
 
-    public void setSourceUser(User sourceUser) {
+    public void setSourceUser(UserRealmObject sourceUser) {
         this.sourceUser = sourceUser;
     }
 

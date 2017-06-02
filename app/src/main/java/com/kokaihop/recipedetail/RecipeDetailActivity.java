@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.kokaihop.base.BaseActivity;
-import com.kokaihop.database.RecipeRealmObject;
 
 import io.realm.Realm;
 
@@ -34,7 +33,10 @@ public class RecipeDetailActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ActivityRecipeDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
-        getRecipeObject(binding);
+        String recipeID = getIntent().getStringExtra("recipeId");
+        binding.setViewModel(new RecipeDetailViewModel(recipeID));
+
+//        getRecipeObject(binding);
         setToolbar(binding);
         initializeViewPager(binding);
     }
@@ -49,15 +51,14 @@ public class RecipeDetailActivity extends BaseActivity {
         enablePagerLeftRightSlider(leftSlider, rightSlider);
     }
 
-    private void getRecipeObject(ActivityRecipeDetailBinding binding) {
+  /*  private void getRecipeObject(ActivityRecipeDetailBinding binding) {
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                 .equalTo("_id", getIntent().getStringExtra("recipeId")).findFirst();
         binding.setRecipe(recipeRealmObject);
         realm.commitTransaction();
-        binding.setViewModel(new RecipeDetailViewModel(recipeRealmObject.getFriendlyUrl()));
-    }
+    }*/
 
     private void setToolbar(ActivityRecipeDetailBinding binding) {
         Toolbar toolbar = binding.recipeDetailToolbar;
