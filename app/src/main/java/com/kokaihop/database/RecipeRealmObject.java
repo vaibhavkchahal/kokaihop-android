@@ -56,6 +56,8 @@ public class RecipeRealmObject extends RealmObject {
     private long lastViewed;
     private boolean viewed;
 
+    private RealmList<RecipeRealmObject> similarRecipes;
+
     @SerializedName("comments")
     private RealmList<CommentRealmObject> comments;
 
@@ -244,5 +246,13 @@ public class RecipeRealmObject extends RealmObject {
 
     public void setComments(RealmList<CommentRealmObject> comments) {
         this.comments = comments;
+    }
+
+    public RealmList<RecipeRealmObject> getSimilarRecipes() {
+        return similarRecipes;
+    }
+
+    public void setSimilarRecipes(RealmList<RecipeRealmObject> similarRecipes) {
+        this.similarRecipes = similarRecipes;
     }
 }

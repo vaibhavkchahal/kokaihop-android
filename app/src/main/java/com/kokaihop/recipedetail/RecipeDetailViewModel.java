@@ -5,8 +5,8 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.utility.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +25,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private final int COMMENTS_TO_LOAD = 100;
     private RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
-    private  String recipeID;
+    private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
 
     public List<Object> getRecipeDetailItemsList() {
@@ -37,26 +37,25 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public RecipeDetailViewModel(String recipeID) {
-        this.recipeID=recipeID;
+        this.recipeID = recipeID;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
     }
 
-    private void getRecipeDetails(String recipeFriendlyUrl, int commentToLoad) {
+    private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
         new RecipeDetailApiHelper().getRecipeDetail(recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 try {
                     ResponseBody responseBody = (ResponseBody) response;
                     final JSONObject json = new JSONObject(responseBody.string());
-                    recipeDataManager.insertOrUpdateRecipeDetails(json);
-                    recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
-                    Logger.i("badgeType",recipeRealmObject.getBadgeType());
-
-
+                    JSONObject recipeJSONObject = json.getJSONObject("recipe");
+                    recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
+                    fetchSimilarRecipe(recipeFriendlyUrl,5,recipeDataManager.fetchRecipe(recipeID).getTitle());
                 } catch (JSONException e) {
                     e.printStackTrace();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -72,39 +71,41 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             }
         });
-//        RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
 
-//        Call<ResponseBody> myCall = recipeDetailApi.getRecipeDetails(recipeFriendlyUrl, commentToLoad);
+    }
 
 
-      /*  myCall.enqueue(new Callback<ResponseBody>() {
+    private void fetchSimilarRecipe(String recipeFriendlyUrl, int limit, String title) {
+        //https://staging-kokaihop.herokuapp.com/v1/api/recipes/getSimilarRecipes?friendlyUrl=varldens-enklaste-kyckling-i-ugn&limit=5&title=Världens enklaste kyckling i ugn
+
+        new RecipeDetailApiHelper().getSimilarRecipe(recipeFriendlyUrl, limit, title, new IApiRequestComplete() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.i("response recipe detail",""+response.body());
+            public void onSuccess(Object response) {
 
+                ResponseBody responseBody = (ResponseBody) response;
                 try {
-                   final JSONObject json = new JSONObject(response.body().string());
-                    final JSONObject recipeJSONObject=json.getJSONObject("recipe");
-                    Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            Realm.getDefaultInstance().createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                     JSONObject json = new JSONObject(responseBody.string());
+                    JSONArray recipeJSONArray = json.getJSONArray("similarRecipes");
+                    recipeDataManager.updateSimilarRecipe(recipeID, recipeJSONArray);
+                    recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
+            }
+
+            @Override
+            public void onFailure(String message) {
 
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
+            public void onError(Object response) {
 
-        });*/
+            }
+        });
     }
 
     private void prepareRecipeDetailList() {

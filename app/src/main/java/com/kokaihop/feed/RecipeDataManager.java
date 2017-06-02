@@ -5,6 +5,7 @@ import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +22,8 @@ import io.realm.Sort;
 
 public class RecipeDataManager {
     private Realm realm;
+
+    private static final String RECIPE_ID="_id";
 
     public RecipeDataManager() {
         realm = Realm.getDefaultInstance();
@@ -70,7 +73,7 @@ public class RecipeDataManager {
         List<RecipeRealmObject> recipeRealmObjectList = new ArrayList<>();
         for (RecipeInfo recipeInfo : recipeResponse.getRecipeDetailsList()) {
             RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                    .equalTo("_id", recipeInfo.getRecipeRealmObject().get_id()).findFirst();
+                    .equalTo(RECIPE_ID, recipeInfo.getRecipeRealmObject().get_id()).findFirst();
             if (recipeRealmObject != null) {
                 recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
                 recipeRealmObject.setCounterRealmObject(updateCounter(recipeInfo.getRecipeRealmObject()));
@@ -107,7 +110,7 @@ public class RecipeDataManager {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo("_id", recipe.get_id()).findFirst();
+                        .equalTo(RECIPE_ID, recipe.get_id()).findFirst();
                 recipeRealmObject.setFavorite(checked);
             }
         });
@@ -119,7 +122,7 @@ public class RecipeDataManager {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo("_id", recipe.get_id()).findFirst();
+                        .equalTo(RECIPE_ID, recipe.get_id()).findFirst();
                 recipeRealmObject.getCounterRealmObject().setLikes(likes);
 
             }
@@ -127,26 +130,56 @@ public class RecipeDataManager {
     }
 
 
-    public void insertOrUpdateRecipeDetails(JSONObject jsonObject) {
+    public void insertOrUpdateRecipeDetails(final JSONObject jsonObject) {
         final JSONObject recipeJSONObject;
-        try {
-            recipeJSONObject = jsonObject.getJSONObject("recipe");
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
+                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
                 }
             });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    }
+
+
+    public void insertOrUpdateRecipe(final JSONArray jsonObject) {
+        final JSONObject recipeJSONObject;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.createOrUpdateAllFromJson(RecipeRealmObject.class, jsonObject);
+            }
+        });
     }
 
     public RecipeRealmObject fetchRecipe(String recipeID) {
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                .equalTo("_id", recipeID).findFirst();
+                .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
     }
+
+    public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                        .equalTo(RECIPE_ID, recipeID).findFirst();
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject recipeJSONObject=(JSONObject) jsonArray.get(i);
+                        RecipeRealmObject similarRecipe=realm.createOrUpdateObjectFromJson(RecipeRealmObject.class,recipeJSONObject);
+                        recipeRealmObject.getSimilarRecipes().add(similarRecipe);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
 
 }
 
