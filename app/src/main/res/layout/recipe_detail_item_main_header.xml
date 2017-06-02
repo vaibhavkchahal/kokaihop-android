@@ -9,7 +9,7 @@
 
 
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/recipe_detail_top_header_padding_bottom"
                     android:paddingLeft="@dimen/recipe_detail_top_header_pading_left">
 

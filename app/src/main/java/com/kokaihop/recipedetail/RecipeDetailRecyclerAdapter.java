@@ -19,9 +19,8 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailListItemsHeadingBinding
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailRateCommentItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBinding;
 import com.kokaihop.feed.AdvtDetail;
-import com.kokaihop.feed.Recipe;
 
-import static com.kokaihop.feed.FeedRecyclerAdapter.TYPE_ITEM_RECIPE;
+import java.util.List;
 
 public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -31,12 +30,17 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     public static final int TYPE_ITEM_RECIPE_INGREDIENT = 3;
     public static final int TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR = 4;
     public static final int TYPE_ITEM_DIRECTION = 5;
-    public static final int TYPE_ITEM_RECIPE_CREATOR = 6;
+    public static final int TYPE_ITEM_RECIPE_SPECIFICATIONS = 6;
     public static final int TYPE_ITEM_SHOW_ALL_COMMENTS = 7;
     public static final int TYPE_ITEM_RATE_AND_COMMENT = 8;
     public static final int TYPE_ITEM_SIMILAR_ITEM = 9;
+    private final List<Object> recipeDetailItemsList;
 
     private Context context;
+
+    public RecipeDetailRecyclerAdapter(List<Object> list) {
+        recipeDetailItemsList = list;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -52,25 +56,25 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             return new ViewHolderListItemHeading(v);
         } else if (viewType == TYPE_ITEM_RECIPE_INGREDIENT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_ingredient, parent, false);
-            return new ViewHolderAdvt(v);
+            return new ViewHolderItemIngredient(v);
         } else if (viewType == TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_ingredent_variator, parent, false);
-            return new ViewHolderAdvt(v);
+            return new ViewHolderIngrdientVariator(v);
         } else if (viewType == TYPE_ITEM_DIRECTION) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_direction, parent, false);
-            return new ViewHolderAdvt(v);
-        } else if (viewType == TYPE_ITEM_RECIPE_CREATOR) {
+            return new ViewHolderItemDirection(v);
+        } else if (viewType == TYPE_ITEM_RECIPE_SPECIFICATIONS) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_creator_detail_item, parent, false);
-            return new ViewHolderAdvt(v);
+            return new ViewHolderItemRecipeCreator(v);
         } else if (viewType == TYPE_ITEM_SHOW_ALL_COMMENTS) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_comment, parent, false);
-            return new ViewHolderAdvt(v);
+            return new ViewHolderItemComment(v);
         } else if (viewType == TYPE_ITEM_RATE_AND_COMMENT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_rate_comment_item, parent, false);
-            return new ViewHolderAdvt(v);
+            return new ViewHolderItemRateComment(v);
         } else if (viewType == TYPE_ITEM_SIMILAR_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_similar_recipe_item, parent, false);
-            return new ViewHolderAdvt(v);
+            return new ViewHolderItemSimilarRecipe(v);
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
@@ -102,7 +106,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 ViewHolderItemDirection holderDirection = (ViewHolderItemDirection) holder;
                 holderDirection.binder.executePendingBindings();
                 break;
-            case TYPE_ITEM_RECIPE_CREATOR:
+            case TYPE_ITEM_RECIPE_SPECIFICATIONS:
                 ViewHolderItemRecipeCreator holderRecipeCreator = (ViewHolderItemRecipeCreator) holder;
                 holderRecipeCreator.binder.executePendingBindings();
                 break;
@@ -126,26 +130,32 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        Object object = null;
-        if (object instanceof Recipe) {
-            if (isPositionHeader(position))
-                return TYPE_ITEM_RECIPE_MAIN_HEADER;
-            return TYPE_ITEM_RECIPE;
+        Object object = recipeDetailItemsList.get(position);
+        if (object instanceof RecipeDetailHeader) {
+            return TYPE_ITEM_RECIPE_MAIN_HEADER;
         } else if (object instanceof AdvtDetail) {
             return TYPE_ITEM_ADVT;
+        } else if (object instanceof ListHeading) {
+            return TYPE_LIST_ITEM_HEADING;
+        } else if (object instanceof RecipeDetailIndgredient) {
+            return TYPE_ITEM_RECIPE_INGREDIENT;
+        } else if (object instanceof RecipeQuantityVariator) {
+            return TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR;
+        } else if (object instanceof RecipeCookingDirection) {
+            return TYPE_ITEM_DIRECTION;
+        } else if (object instanceof RecipeComment) {
+            return TYPE_ITEM_SHOW_ALL_COMMENTS;
+        } else if (object instanceof RecipeSpecifications) {
+            return TYPE_ITEM_RECIPE_SPECIFICATIONS;
+        } else if (object instanceof SimilarRecipe) {
+            return TYPE_ITEM_SIMILAR_ITEM;
         }
         return -1;
-
-
-    }
-
-    private boolean isPositionHeader(int position) {
-        return position == 0;
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return recipeDetailItemsList.size();
     }
 
 

@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
@@ -27,19 +29,30 @@ public class RecipeDetailActivity extends BaseActivity {
     private ViewPager viewPager;
     private LinearLayout dotsLayout;
     private Realm realm;
+    private ActivityRecipeDetailBinding binding;
+    private RecipeDetailViewModel recipeDetailViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        ActivityRecipeDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
-        getRecipeObject(binding);
-        setToolbar(binding);
-        initializeViewPager(binding);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
+        getRecipeObject();
+        setToolbar();
+        initializeViewPager();
+        initializeRecycleView();
     }
 
-    private void initializeViewPager(ActivityRecipeDetailBinding binding) {
+    private void initializeRecycleView() {
+        RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        RecipeDetailRecyclerAdapter recyclerAdapter = new RecipeDetailRecyclerAdapter(recipeDetailViewModel.getRecipeDetailItemsList());
+        recyclerViewRecipeDetail.setLayoutManager(layoutManager);
+        recyclerViewRecipeDetail.setAdapter(recyclerAdapter);
+    }
+
+    private void initializeViewPager() {
         ImageView leftSlider = binding.viewpagerSwipeLeft;
         ImageView rightSlider = binding.viewpagerSwipeRight;
         dotsLayout = binding.layoutDots;
@@ -49,17 +62,18 @@ public class RecipeDetailActivity extends BaseActivity {
         enablePagerLeftRightSlider(leftSlider, rightSlider);
     }
 
-    private void getRecipeObject(ActivityRecipeDetailBinding binding) {
+    private void getRecipeObject() {
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                 .equalTo("_id", getIntent().getStringExtra("recipeId")).findFirst();
         binding.setRecipe(recipeRealmObject);
         realm.commitTransaction();
-        binding.setViewModel(new RecipeDetailViewModel(recipeRealmObject.getFriendlyUrl()));
+        recipeDetailViewModel = new RecipeDetailViewModel(recipeRealmObject.getFriendlyUrl());
+        binding.setViewModel(recipeDetailViewModel);
     }
 
-    private void setToolbar(ActivityRecipeDetailBinding binding) {
+    private void setToolbar() {
         Toolbar toolbar = binding.recipeDetailToolbar;
         binding.imgviewBack.setOnClickListener(new View.OnClickListener() {
             @Override
