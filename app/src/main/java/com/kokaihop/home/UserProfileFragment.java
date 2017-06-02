@@ -52,6 +52,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     private LayoutInflater inflater;
     private ViewGroup container;
     private Point point;
+    TabLayout tabLayout;
+    int selectedTabPosition = 0;
+
     ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
@@ -90,6 +93,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    selectedTabPosition = tabLayout.getSelectedTabPosition();
                     userViewModel.getUserData();
                     userProfileBinding.srlProfileRefresh.setRefreshing(false);
                 }
@@ -98,7 +102,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                 @Override
                 public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                    userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset  ==0);
+                    userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
                 }
             });
 
@@ -125,9 +129,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         User user = User.getInstance();
-        final TabLayout tabLayout = userProfileBinding.tabProfile;
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
+        tabLayout = userProfileBinding.tabProfile;
         notificationCount = new ArrayList<>();
         int tabCount = 4;
         int i;
@@ -210,7 +214,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             }
         });
 
-        tabLayout.getTabAt(Constants.TAB_RECIPES).select();
+        tabLayout.getTabAt(selectedTabPosition).select();
     }
 
     @Override
@@ -248,7 +252,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     //To set the user profile image from cloudinary image-url
     public void setProfileImage() {
 
-      int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
+        int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
         int height = width;
         ImageView ivProfile = userProfileBinding.userAvatar;
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
@@ -259,7 +263,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         CloudinaryImage profileImage = User.getInstance().getProfileImage();
         if (profileImage != null) {
             String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
-            imageUrl = imageUrl.replace("hufennija","hpdqvydpn");
             userProfileBinding.setImageProfileUrl(imageUrl);
         }
         userProfileBinding.executePendingBindings();

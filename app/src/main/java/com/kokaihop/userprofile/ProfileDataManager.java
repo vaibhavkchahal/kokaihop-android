@@ -81,7 +81,7 @@ public class ProfileDataManager {
                 if (!alreadyExists(userRealmObject.getFollowingList(), following)) {
                     userRealmObject.getFollowingList().add(following);
                 } else {
-                    Logger.e("Exists Following", following.getName().getFull());
+                    Logger.e("Exists Following", following.getUserNameRealmObject().getFull());
                 }
             }
         }
@@ -90,7 +90,7 @@ public class ProfileDataManager {
     }
 
     public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectList, String userId) {
-        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
         realm.beginTransaction();
 
         for (UserRealmObject follower : userRealmObjectList) {
@@ -101,7 +101,7 @@ public class ProfileDataManager {
                 if (!alreadyExists(userRealmObject.getFollowersList(), follower)) {
                     userRealmObject.getFollowersList().add(follower);
                 } else {
-                    Logger.e("Exists Follower", follower.getName().getFull());
+                    Logger.e("Exists Follower", follower.getUserNameRealmObject().getFull());
                 }
             }
         }
@@ -110,7 +110,7 @@ public class ProfileDataManager {
 
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
-        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst().getFollowersList();
+        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst().getFollowersList();
         for (UserRealmObject follower : userRealmObjects) {
             FollowingFollowerUser user = new FollowingFollowerUser();
             user.set_id(follower.getId());
@@ -128,7 +128,7 @@ public class ProfileDataManager {
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
 
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
         RealmList<UserRealmObject> userRealmObjects;
 
         if (userRealmObject != null) {
@@ -147,21 +147,7 @@ public class ProfileDataManager {
 
                 followingList.add(user);
             }
-
-            Logger.e("Following Count", followingList.size() + "");
-        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst().getFollowingList();
-        for(UserRealmObject following : userRealmObjects){
-            FollowingFollowerUser user =  new FollowingFollowerUser();
-            user.set_id(following.getId());
-            user.setName(new UserName());
-            user.getName().setFull(following.getUserNameRealmObject().getFull());
-            if(following.getProfileImage()!=null){
-                user.setProfileImage(new CloudinaryImage());
-                user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
-            }
-            followingList.add(user);
         }
-
         return followingList;
     }
 
@@ -174,7 +160,7 @@ public class ProfileDataManager {
     //To check whether the user already exists in list or not
     public boolean alreadyExists(RealmList<UserRealmObject> list, UserRealmObject user) {
         for (UserRealmObject userInList : list) {
-            if (user.get_id().equals(userInList.get_id()))
+            if (user.getId().equals(userInList.getId()))
                 return true;
         }
         return false;
