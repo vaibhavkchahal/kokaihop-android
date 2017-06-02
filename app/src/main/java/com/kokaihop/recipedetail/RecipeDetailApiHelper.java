@@ -1,0 +1,18 @@
+package com.kokaihop.recipedetail;
+
+import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.network.ResponseHandler;
+import com.kokaihop.network.RetrofitClient;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+
+
+public class RecipeDetailApiHelper {
+
+    public void getRecipeDetail(String recipeFriendlyUrl,int commentCount, final IApiRequestComplete successCallback) {
+        RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
+        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getRecipeDetails(recipeFriendlyUrl,commentCount);
+        recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
+    }
+}

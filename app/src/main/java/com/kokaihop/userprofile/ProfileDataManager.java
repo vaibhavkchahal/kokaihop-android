@@ -25,7 +25,7 @@ public class ProfileDataManager {
     }
 
     public User fetchUserData(String userId) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst();
         User user = getUserData(userRealmObject);
         return user;
     }
@@ -33,11 +33,11 @@ public class ProfileDataManager {
     private User getUserData(UserRealmObject userRealmObject) {
         User user = User.getInstance();
         if (userRealmObject != null) {
-            user.set_id(userRealmObject.get_id());
+            user.set_id(userRealmObject.getId());
             user.setName(new UserName());
-            user.getName().setFirst(userRealmObject.getName().getFirst());
-            user.getName().setLast(userRealmObject.getName().getLast());
-            user.getName().setFull(userRealmObject.getName().getFull());
+            user.getName().setFirst(userRealmObject.getUserNameRealmObject().getFirst());
+            user.getName().setLast(userRealmObject.getUserNameRealmObject().getLast());
+            user.getName().setFull(userRealmObject.getUserNameRealmObject().getFull());
             user.getFollowing().clear();
             for (StringObject userid : userRealmObject.getFollowing()) {
                 user.getFollowing().add(userid.getString());
@@ -69,12 +69,13 @@ public class ProfileDataManager {
 
     public void insertOrUpdateFollowing(final RealmList<UserRealmObject> userRealmObjectList, final String userId) {
 
-        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+
         realm.beginTransaction();
 
         for (UserRealmObject following : userRealmObjectList) {
 
-            if (!following.get_id().equals(userId)) {
+            if (!following.getId().equals(userId)) {
                 realm.insertOrUpdate(following);
 
                 if (!alreadyExists(userRealmObject.getFollowingList(), following)) {
@@ -86,19 +87,6 @@ public class ProfileDataManager {
         }
         realm.commitTransaction();
 
-//        realm.executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst();
-//                RealmList<UserRealmObject> userList = userRealmObject.getFollowingList();
-//                userList.addAll(userRealmObjectList);
-//                Logger.e("Exists", userRealmObjectList.size()+"");
-//                userRealmObject.setFollowingList(userList);
-//
-//            }
-//        });
-
-
     }
 
     public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectList, String userId) {
@@ -107,7 +95,7 @@ public class ProfileDataManager {
 
         for (UserRealmObject follower : userRealmObjectList) {
 
-            if (!follower.get_id().equals(userId)) {
+            if (!follower.getId().equals(userId)) {
                 realm.insertOrUpdate(follower);
 
                 if (!alreadyExists(userRealmObject.getFollowersList(), follower)) {
@@ -125,9 +113,9 @@ public class ProfileDataManager {
         RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("_id", userId).findFirst().getFollowersList();
         for (UserRealmObject follower : userRealmObjects) {
             FollowingFollowerUser user = new FollowingFollowerUser();
-            user.set_id(follower.get_id());
+            user.set_id(follower.getId());
             user.setName(new UserName());
-            user.getName().setFull(follower.getName().getFull());
+            user.getName().setFull(follower.getUserNameRealmObject().getFull());
             if (follower.getProfileImage() != null) {
                 user.setProfileImage(new CloudinaryImage());
                 user.getProfileImage().setCloudinaryId(follower.getProfileImage().getCloudinaryId());
@@ -137,7 +125,6 @@ public class ProfileDataManager {
         }
         return followersList;
     }
-
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
 
@@ -149,9 +136,9 @@ public class ProfileDataManager {
             Logger.e("FollowingDB", userRealmObjects.size() + "");
             for (UserRealmObject following : userRealmObjects) {
                 FollowingFollowerUser user = new FollowingFollowerUser();
-                user.set_id(following.get_id());
+                user.set_id(following.getId());
                 user.setName(new UserName());
-                user.getName().setFull(following.getName().getFull());
+                user.getName().setFull(following.getUserNameRealmObject().getFull());
                 if (following.getProfileImage() != null) {
                     user.setProfileImage(new CloudinaryImage());
                     user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
@@ -162,6 +149,17 @@ public class ProfileDataManager {
             }
 
             Logger.e("Following Count", followingList.size() + "");
+        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id",userId).findFirst().getFollowingList();
+        for(UserRealmObject following : userRealmObjects){
+            FollowingFollowerUser user =  new FollowingFollowerUser();
+            user.set_id(following.getId());
+            user.setName(new UserName());
+            user.getName().setFull(following.getUserNameRealmObject().getFull());
+            if(following.getProfileImage()!=null){
+                user.setProfileImage(new CloudinaryImage());
+                user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
+            }
+            followingList.add(user);
         }
 
         return followingList;

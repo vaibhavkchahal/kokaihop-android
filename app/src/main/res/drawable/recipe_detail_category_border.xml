@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/white"/>
+    <stroke
+        android:width="1dp"
+        android:color="@color/grey_FFD4D4D4"
+    />
+
+    <corners android:bottomLeftRadius="@dimen/recipe_detail_category_corner_radius"
+             android:bottomRightRadius="@dimen/recipe_detail_category_corner_radius"
+             android:topLeftRadius="@dimen/recipe_detail_category_corner_radius"
+             android:topRightRadius="@dimen/recipe_detail_category_corner_radius"/>
+
+</shape>

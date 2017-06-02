@@ -44,12 +44,12 @@ public class UserProfileViewModel extends BaseViewModel {
         new ProfileApiHelper().getUserData(accessToken, countryCode, new IApiRequestComplete<UserRealmObject>() {
             @Override
             public void onSuccess(UserRealmObject response) {
-                userId = response.get_id();
+                Logger.e("User ID : ", response.getId());
+                userId = response.getId();
                 Logger.e("User ID : ", userId);
 //                User.setUser(response);
                 profileDataManager.insertOrUpdateUserData(response);
                 fetchUserDataFromDB();
-                Logger.e(User.getInstance().get_id()+"Success", "name : "+ User.getInstance().getName().getFull());
                 setProgressVisible(false);
             }
 

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+    </data>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/recipe_creator_top_bottom_divider_height"
+              android:background="@color/grey_FFF3F3F3"/>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_recipe_creator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/recipe_creator_padding_bottom"
+            android:paddingLeft="@dimen/recipe_creator_padding_left"
+            android:paddingTop="@dimen/recipe_creator_padding_top">
+
+            <ImageView
+                android:id="@+id/imageview_user_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_avtar_sm"/>
+
+            <TextView
+                android:id="@+id/txtview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/creator_margin_left"
+                android:layout_toRightOf="@+id/imageview_user_pic"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/creator_name_textsize"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <TextView
+                android:id="@+id/txtview_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtview_title"
+                android:layout_marginLeft="@dimen/creator_margin_left"
+                android:layout_toRightOf="@+id/imageview_user_pic"
+                android:textColor="@color/kokaihop_orange_color"
+                android:textSize="@dimen/creator_name_textsize"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtview_subtitle"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/recipe_detail_category_border"
+                    android:paddingBottom="@dimen/textview_category_padding_bottom"
+                    android:paddingLeft="@dimen/txtview_category_padding_left_right"
+                    android:paddingRight="@dimen/txtview_category_padding_left_right"
+                    android:paddingTop="@dimen/txtview_category_padding_top"
+                    tools:text="Huvudratt"
+                    android:textColor="@color/grey_FF8D929C"
+                    android:textSize="@dimen/txtview_category_textsize"
+                    app:font="@{`SS-ProRegular`}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/txtview_category_margin_left"
+                    android:background="@drawable/recipe_detail_category_border"
+                    android:paddingBottom="@dimen/textview_category_padding_bottom"
+                    android:paddingLeft="@dimen/txtview_category_padding_left_right"
+                    android:paddingRight="@dimen/txtview_category_padding_left_right"
+                    android:paddingTop="@dimen/txtview_category_padding_top"
+                    tools:text="Skandivaian"
+                    android:textColor="@color/grey_FF8D929C"
+                    android:textSize="@dimen/txtview_category_textsize"
+                    app:font="@{`SS-ProRegular`}"/>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/txtview_category_margin_left"
+                    android:background="@drawable/recipe_detail_category_border"
+                    android:paddingBottom="@dimen/textview_category_padding_bottom"
+                    android:paddingLeft="@dimen/txtview_category_padding_left_right"
+                    android:paddingRight="@dimen/txtview_category_padding_left_right"
+                    android:paddingTop="@dimen/txtview_category_padding_top"
+                    tools:text="Ugh"
+                    android:textColor="@color/grey_FF8D929C"
+                    android:textSize="@dimen/txtview_category_textsize"
+                    app:font="@{`SS-ProRegular`}"/>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtview_specification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linear_layout_category"
+                android:layout_marginTop="@dimen/txtview_specs_margin_top"
+                android:textSize="@dimen/txtview_specs_textsize"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/recipe_creator_top_bottom_divider_height"
+            android:layout_below="@+id/relative_layout_recipe_creator"
+            android:background="@color/grey_FFE6E2DA"
+        />
+
+    </RelativeLayout>
+
+</layout>

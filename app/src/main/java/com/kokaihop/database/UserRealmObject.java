@@ -13,7 +13,7 @@ import io.realm.annotations.PrimaryKey;
 public class UserRealmObject extends RealmObject {
 
    @PrimaryKey @SerializedName(value = "_id", alternate = {"id"})
-    private String _id;
+    private String id;
     @SerializedName("friendlyUrl")
     private String friendlyUrl;
     @SerializedName("oldId")
@@ -46,7 +46,7 @@ public class UserRealmObject extends RealmObject {
     @SerializedName("enabled")
     private boolean enabled;
     @SerializedName("name")
-    private UserNameRealmObject name;
+    private UserNameRealmObject userNameRealmObject;
     @SerializedName("profileImage")
     private CloudinaryImageRealmObject profileImage;
     @SerializedName("lastSeenTime")
@@ -67,15 +67,9 @@ public class UserRealmObject extends RealmObject {
     private int recipeCount;
     @SerializedName("totalFeeds")
     private int totalFeeds;
+//    private String name;
 
 
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
 
     public String getFriendlyUrl() {
         return friendlyUrl;
@@ -157,13 +151,7 @@ public class UserRealmObject extends RealmObject {
         this.enabled = enabled;
     }
 
-    public UserNameRealmObject getName() {
-        return name;
-    }
 
-    public void setName(UserNameRealmObject name) {
-        this.name = name;
-    }
 
     public CloudinaryImageRealmObject getProfileImage() {
         return profileImage;
@@ -276,5 +264,24 @@ public class UserRealmObject extends RealmObject {
     public void setFollowing(RealmList<StringObject> following) {
         this.following = following;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public UserNameRealmObject getUserNameRealmObject() {
+        return userNameRealmObject;
+    }
+
+    public void setUserNameRealmObject(UserNameRealmObject userNameRealmObject) {
+        this.userNameRealmObject = userNameRealmObject;
+    }
+
+
+
 }
 

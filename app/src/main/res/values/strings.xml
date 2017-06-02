@@ -116,5 +116,9 @@
     <string name="members_area">Memebers area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite</string>
     <string name="welcome_text">Welcome to kokaihop</string>
+    <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
+    <string name="write_a_comment_text">Write a comment...</string>
+    <string name="text_upload_image_to_recipe">upload image to recipe</string>
+    <string name="portion_text">Portion</string>
 
 </resources>

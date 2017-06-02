@@ -4,12 +4,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.recipedetail.RecipeDetailActivity;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -31,9 +33,7 @@ public class RecipeHandler {
     }
 
     private void performOperationOncheck(CheckBox checkBox, Recipe recipe) {
-
         updateSatusInDB(checkBox.isChecked(), recipe);
-
         updatelikeStatusOnServer(checkBox, recipe);
     }
 
@@ -60,7 +60,6 @@ public class RecipeHandler {
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-
             }
 
             @Override
@@ -101,6 +100,12 @@ public class RecipeHandler {
             }
         });
         dialog.show();
+    }
+
+    public void openRecipeDetail(View view, String recipeId) {
+        Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.putExtra("recipeId", recipeId);
+        view.getContext().startActivity(intent);
     }
 
 }
