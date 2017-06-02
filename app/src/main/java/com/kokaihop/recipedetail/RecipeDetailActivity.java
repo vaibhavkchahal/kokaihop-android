@@ -36,10 +36,10 @@ public class RecipeDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        ActivityRecipeDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
         String recipeID = getIntent().getStringExtra("recipeId");
-        binding.setViewModel(new RecipeDetailViewModel(recipeID));
-
+        recipeDetailViewModel=new RecipeDetailViewModel(recipeID);
+        binding.setViewModel(recipeDetailViewModel);
 //        getRecipeObject(binding);
         setToolbar();
         initializeViewPager();
