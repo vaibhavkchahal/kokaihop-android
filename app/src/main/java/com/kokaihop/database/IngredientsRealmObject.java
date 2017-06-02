@@ -18,6 +18,16 @@ public class IngredientsRealmObject extends RealmObject {
     @SerializedName("isHeader")
     private boolean isHeader;
 
+    private Unit unit;
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
     @PrimaryKey @SerializedName("_id")
     private String _id;
     @SerializedName("dateCreated")

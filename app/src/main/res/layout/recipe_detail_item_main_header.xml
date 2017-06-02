@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="model" type="com.kokaihop.recipedetail.RecipeDetailHeader"/>
     </data>
 
 
@@ -22,7 +22,7 @@
             android:isIndicator="true"
             android:numStars="5"
             android:progressDrawable="@drawable/recipe_rating_bar"
-            android:rating="@{recipe.ratingAverage}"
+            android:rating="@{model.rating}"
             android:saveEnabled="false"
             android:stepSize="0.01"/>
 
@@ -41,6 +41,7 @@
             android:layout_below="@+id/imgview_badgeType"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/txtview_recipe_name_textsize"
+            android:text="@{model.title}"
             app:font="@{`RS-Light`}"/>
 
         <TextView
@@ -50,6 +51,7 @@
             android:layout_below="@+id/txtview_recipe_name"
             android:layout_marginTop="@dimen/txtview_recipe_descption_margin_top"
             android:textColor="@color/black_FF262F40"
+            android:text="@{model.description}"
             android:textSize="@dimen/txtview_recipe_description_textsize"/>
 
     </RelativeLayout>

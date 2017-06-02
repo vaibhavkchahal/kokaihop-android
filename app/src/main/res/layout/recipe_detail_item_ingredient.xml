@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="model" type="com.kokaihop.database.IngredientsRealmObject"/>
     </data>
 
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
-            tools:text="title"
+            android:text="@{model.unit.name}"
         />
 
         <TextView
@@ -30,6 +30,7 @@
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_ingrdnt_name_textsize"
+            android:text="@{model.name}"
         />
 
     </RelativeLayout>

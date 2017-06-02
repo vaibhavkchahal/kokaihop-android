@@ -1,6 +1,10 @@
 package com.kokaihop.feed;
 
+import com.kokaihop.database.CategoryRealmObject;
+import com.kokaihop.database.CookingMethodRealmObject;
 import com.kokaihop.database.CounterRealmObject;
+import com.kokaihop.database.CreatedByRealmObject;
+import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
@@ -75,6 +79,12 @@ public class RecipeDataManager {
                 recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
                 recipeRealmObject.setCounterRealmObject(updateCounter(recipeInfo.getRecipeRealmObject()));
                 recipeRealmObject.setBadgeDateCreated(recipeInfo.getRecipeRealmObject().getDateCreated());
+//                recipeRealmObject.setCookingMethodRealmObject(updateCooking(recipeInfo.getRecipeRealmObject()));
+//                recipeRealmObject.setCuisineRealmObject(updateCuisineObject(recipeInfo.getRecipeRealmObject()));
+//                recipeRealmObject.setCategoryRealmObject(updateCategoryObject(recipeInfo.getRecipeRealmObject()));
+
+//                recipeRealmObject.setCreatedByRealmObject(updateCreatedByObject(recipeInfo.getRecipeRealmObject()));
+
                 if (recipeResponse.getMyLikes() != null) {
                     boolean isLiked = recipeResponse.getMyLikes().contains(recipeRealmObject.get_id());
                     recipeRealmObject.setFavorite(isLiked);
@@ -88,6 +98,43 @@ public class RecipeDataManager {
         realm.insertOrUpdate(recipeRealmObjectList);
 //        recipeDataListener.onTransactionComplete(true);
         realm.commitTransaction();
+    }
+
+    private CreatedByRealmObject updateCreatedByObject(RecipeRealmObject recipeRealmObject) {
+        CreatedByRealmObject createdByRealmObject = realm.createObject(CreatedByRealmObject.class);
+        CreatedByRealmObject createdByRealmObjectTemp = recipeRealmObject.getCreatedByRealmObject();
+        createdByRealmObject.setName(createdByRealmObjectTemp.getName());
+        createdByRealmObject.setId(createdByRealmObjectTemp.getId());
+        createdByRealmObject.setFriendlyUrl(createdByRealmObjectTemp.getFriendlyUrl());
+        createdByRealmObject.setProfileImageId(createdByRealmObjectTemp.getProfileImageId());
+        return createdByRealmObject;
+    }
+
+    private CategoryRealmObject updateCategoryObject(RecipeRealmObject recipeRealmObject) {
+        CategoryRealmObject categoryRealmObject = realm.createObject(CategoryRealmObject.class);
+        CategoryRealmObject categoryRealmObjectTemp = recipeRealmObject.getCategoryRealmObject();
+        categoryRealmObject.setName(categoryRealmObjectTemp.getName());
+        categoryRealmObject.setId(categoryRealmObjectTemp.getId());
+        categoryRealmObject.setFriendlyUrl(categoryRealmObjectTemp.getFriendlyUrl());
+        return categoryRealmObject;
+    }
+
+
+    private CuisineRealmObject updateCuisineObject(RecipeRealmObject recipeRealmObject) {
+        CuisineRealmObject cuisineRealmObject = realm.createObject(CuisineRealmObject.class);
+        CuisineRealmObject cuisineRealmObjectTemp = recipeRealmObject.getCuisineRealmObject();
+        cuisineRealmObject.setName(cuisineRealmObjectTemp.getName());
+        cuisineRealmObject.setId(cuisineRealmObjectTemp.getId());
+        cuisineRealmObject.setOldId(cuisineRealmObjectTemp.getOldId());
+        return cuisineRealmObject;
+    }
+
+    private CookingMethodRealmObject updateCooking(RecipeRealmObject recipeRealmObject) {
+        CookingMethodRealmObject cookingMethodRealmObject = realm.createObject(CookingMethodRealmObject.class);
+        CookingMethodRealmObject cookingMethodRealmObjectTemp = recipeRealmObject.getCookingMethodRealmObject();
+        cookingMethodRealmObject.setName(cookingMethodRealmObjectTemp.getName());
+        cookingMethodRealmObject.setId(cookingMethodRealmObjectTemp.getId());
+        return cookingMethodRealmObject;
     }
 
     private CounterRealmObject updateCounter(RecipeRealmObject recipeRealmObject) {
