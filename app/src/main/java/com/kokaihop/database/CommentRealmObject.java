@@ -64,27 +64,4 @@ public class CommentRealmObject extends RealmObject {
     @SerializedName("dateCreated")
     private  long dateCreated;
 
-
-
-  /*  {
-        "_id": "563880136561d10300aa03c8",
-            "name": "RECIPE_COMMENT",
-            "sourceUser": {
-        "id": "56387a9d1e443c0300c547ad",
-                "oldId": 26883912,
-                "friendlyUrl": "lennart46"
-    },
-        "payload": {
-        "recipe": {
-            "id": "56387b241a258f0300c46d88",
-                    "oldId": 1546001
-        },
-        "comment": {
-            "content": "Ett till jättebra recept från dej.Tack GOE"
-        },
-        "replyCount": 0,
-                "replyEvents": []
-    },
-        "dateCreated": 1413728779540
-    },*/
 }

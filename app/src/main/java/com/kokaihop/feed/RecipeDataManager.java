@@ -1,14 +1,11 @@
 package com.kokaihop.feed;
 
-import com.kokaihop.database.CategoryRealmObject;
-import com.kokaihop.database.CookingMethodRealmObject;
 import com.kokaihop.database.CounterRealmObject;
-import com.kokaihop.database.CreatedByRealmObject;
-import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +22,8 @@ import io.realm.Sort;
 
 public class RecipeDataManager {
     private Realm realm;
+
+    private static final String RECIPE_ID="_id";
 
     public RecipeDataManager() {
         realm = Realm.getDefaultInstance();
@@ -46,20 +45,20 @@ public class RecipeDataManager {
         recipe.set_id(recipeRealmObject.get_id());
         recipe.setTitle(recipeRealmObject.getTitle());
         recipe.setType(recipeRealmObject.getType());
-        recipe.setCreatedById(recipeRealmObject.getCreatedByRealmObject().getId());
-        recipe.setCreatedByName(recipeRealmObject.getCreatedByRealmObject().getName());
-        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedByRealmObject().getProfileImageId());
+        recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
+        recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
+        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
         if (recipeRealmObject.getMainImageRealmObject() != null) {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
-        recipe.setLikes(String.valueOf(recipeRealmObject.getCounterRealmObject().getLikes()));
+        recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
         if (recipeRealmObject.getRatingRealmObject() != null) {
             recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
 
         }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
-        recipe.setComments(recipeRealmObject.getCounterRealmObject().getComments());
+        recipe.setComments(recipeRealmObject.getCounter().getComments());
         recipe.setBadgeType(recipeRealmObject.getBadgeType());
         recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
 
@@ -74,10 +73,10 @@ public class RecipeDataManager {
         List<RecipeRealmObject> recipeRealmObjectList = new ArrayList<>();
         for (RecipeInfo recipeInfo : recipeResponse.getRecipeDetailsList()) {
             RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                    .equalTo("_id", recipeInfo.getRecipeRealmObject().get_id()).findFirst();
+                    .equalTo(RECIPE_ID, recipeInfo.getRecipeRealmObject().get_id()).findFirst();
             if (recipeRealmObject != null) {
                 recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
-                recipeRealmObject.setCounterRealmObject(updateCounter(recipeInfo.getRecipeRealmObject()));
+                recipeRealmObject.setCounter(updateCounter(recipeInfo.getRecipeRealmObject()));
                 recipeRealmObject.setBadgeDateCreated(recipeInfo.getRecipeRealmObject().getDateCreated());
 //                recipeRealmObject.setCookingMethodRealmObject(updateCooking(recipeInfo.getRecipeRealmObject()));
 //                recipeRealmObject.setCuisineRealmObject(updateCuisineObject(recipeInfo.getRecipeRealmObject()));
@@ -100,46 +99,9 @@ public class RecipeDataManager {
         realm.commitTransaction();
     }
 
-    private CreatedByRealmObject updateCreatedByObject(RecipeRealmObject recipeRealmObject) {
-        CreatedByRealmObject createdByRealmObject = realm.createObject(CreatedByRealmObject.class);
-        CreatedByRealmObject createdByRealmObjectTemp = recipeRealmObject.getCreatedByRealmObject();
-        createdByRealmObject.setName(createdByRealmObjectTemp.getName());
-        createdByRealmObject.setId(createdByRealmObjectTemp.getId());
-        createdByRealmObject.setFriendlyUrl(createdByRealmObjectTemp.getFriendlyUrl());
-        createdByRealmObject.setProfileImageId(createdByRealmObjectTemp.getProfileImageId());
-        return createdByRealmObject;
-    }
-
-    private CategoryRealmObject updateCategoryObject(RecipeRealmObject recipeRealmObject) {
-        CategoryRealmObject categoryRealmObject = realm.createObject(CategoryRealmObject.class);
-        CategoryRealmObject categoryRealmObjectTemp = recipeRealmObject.getCategoryRealmObject();
-        categoryRealmObject.setName(categoryRealmObjectTemp.getName());
-        categoryRealmObject.setId(categoryRealmObjectTemp.getId());
-        categoryRealmObject.setFriendlyUrl(categoryRealmObjectTemp.getFriendlyUrl());
-        return categoryRealmObject;
-    }
-
-
-    private CuisineRealmObject updateCuisineObject(RecipeRealmObject recipeRealmObject) {
-        CuisineRealmObject cuisineRealmObject = realm.createObject(CuisineRealmObject.class);
-        CuisineRealmObject cuisineRealmObjectTemp = recipeRealmObject.getCuisineRealmObject();
-        cuisineRealmObject.setName(cuisineRealmObjectTemp.getName());
-        cuisineRealmObject.setId(cuisineRealmObjectTemp.getId());
-        cuisineRealmObject.setOldId(cuisineRealmObjectTemp.getOldId());
-        return cuisineRealmObject;
-    }
-
-    private CookingMethodRealmObject updateCooking(RecipeRealmObject recipeRealmObject) {
-        CookingMethodRealmObject cookingMethodRealmObject = realm.createObject(CookingMethodRealmObject.class);
-        CookingMethodRealmObject cookingMethodRealmObjectTemp = recipeRealmObject.getCookingMethodRealmObject();
-        cookingMethodRealmObject.setName(cookingMethodRealmObjectTemp.getName());
-        cookingMethodRealmObject.setId(cookingMethodRealmObjectTemp.getId());
-        return cookingMethodRealmObject;
-    }
-
     private CounterRealmObject updateCounter(RecipeRealmObject recipeRealmObject) {
         CounterRealmObject counterRealmObject = realm.createObject(CounterRealmObject.class);
-        CounterRealmObject counterRealmObjectTemp = recipeRealmObject.getCounterRealmObject();
+        CounterRealmObject counterRealmObjectTemp = recipeRealmObject.getCounter();
         counterRealmObject.setAddedToCollection(counterRealmObjectTemp.getAddedToCollection());
         counterRealmObject.setComments(counterRealmObjectTemp.getComments());
         counterRealmObject.setLikes(counterRealmObjectTemp.getLikes());
@@ -154,7 +116,7 @@ public class RecipeDataManager {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo("_id", recipe.get_id()).findFirst();
+                        .equalTo(RECIPE_ID, recipe.get_id()).findFirst();
                 recipeRealmObject.setFavorite(checked);
             }
         });
@@ -166,34 +128,63 @@ public class RecipeDataManager {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo("_id", recipe.get_id()).findFirst();
-                recipeRealmObject.getCounterRealmObject().setLikes(likes);
+                        .equalTo(RECIPE_ID, recipe.get_id()).findFirst();
+                recipeRealmObject.getCounter().setLikes(likes);
 
             }
         });
     }
 
 
-    public void insertOrUpdateRecipeDetails(JSONObject jsonObject) {
-        final JSONObject recipeJSONObject;
-        try {
-            recipeJSONObject = jsonObject.getJSONObject("recipe");
+    public void insertOrUpdateRecipeDetails(final JSONObject jsonObject) {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
+                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
                 }
             });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    }
+
+
+    public void insertOrUpdateRecipe(final JSONArray jsonObject) {
+        final JSONObject recipeJSONObject;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.createOrUpdateAllFromJson(RecipeRealmObject.class, jsonObject);
+            }
+        });
     }
 
     public RecipeRealmObject fetchRecipe(String recipeID) {
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                .equalTo("_id", recipeID).findFirst();
+                .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
     }
+
+    public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                        .equalTo(RECIPE_ID, recipeID).findFirst();
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject recipeJSONObject=(JSONObject) jsonArray.get(i);
+                        RecipeRealmObject similarRecipe=realm.createOrUpdateObjectFromJson(RecipeRealmObject.class,recipeJSONObject);
+                        recipeRealmObject.getSimilarRecipes().add(similarRecipe);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
 
 }
 

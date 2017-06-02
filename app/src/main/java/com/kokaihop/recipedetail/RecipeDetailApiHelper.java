@@ -15,4 +15,14 @@ public class RecipeDetailApiHelper {
         Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getRecipeDetails(recipeFriendlyUrl,commentCount);
         recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
     }
+
+
+    public  void getSimilarRecipe(String recipeFriendlyUrl,int limit, String title, final IApiRequestComplete successCallback)
+    {
+
+        RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
+        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getSimilarRecipe(recipeFriendlyUrl,limit,title);
+        recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
+
+    }
 }
