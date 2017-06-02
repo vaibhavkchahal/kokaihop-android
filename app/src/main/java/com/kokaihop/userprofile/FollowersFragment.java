@@ -62,14 +62,6 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);
         followersViewModel.getFollowers(0);
-//        followersBinding.refreshList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                FollowersFollowingList.getFollowersList().getUsers().clear();
-//                followersViewModel.setDownloading(true);
-//                followersViewModel.getFollowers(0);
-//            }
-//        });
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
@@ -85,15 +77,15 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     //Checking whether the user is following the follower or not
     @Override
     public void showUserProfile() {
-//        followers = FollowingFollowersApiResponse.getFollowersApiResponse().getUsers();
         followersAdapter.notifyDataSetChanged();
         ArrayList<String> usersFollowing = User.getInstance().getFollowing();
+
+        followers = FollowersFollowingList.getFollowersList().getUsers();
         for (FollowingFollowerUser user : followers) {
             if (!usersFollowing.contains(user.get_id())) {
                 user.setFollowingUser(false);
             }
         }
-//        followersBinding.refreshList.setRefreshing(false);
     }
 
     @Override

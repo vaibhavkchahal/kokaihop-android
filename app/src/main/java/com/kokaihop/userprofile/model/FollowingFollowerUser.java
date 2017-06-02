@@ -25,6 +25,8 @@ public class FollowingFollowerUser {
     @SerializedName("profileImage")
     private CloudinaryImage profileImage;
 
+    private String profileImageUrl;
+
     private int buttonVisibility = View.VISIBLE;
 
     private boolean followingUser = true;
@@ -83,5 +85,13 @@ public class FollowingFollowerUser {
 
     public void setFriendlyUrl(String friendlyUrl) {
         this.friendlyUrl = friendlyUrl;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

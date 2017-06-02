@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            android:paddingBottom="14dp"
+            android:paddingBottom="@dimen/select_city_toolbar_padding_top"
             android:paddingTop="@dimen/toolbar_top_padding">
 
             <RelativeLayout android:layout_width="match_parent"

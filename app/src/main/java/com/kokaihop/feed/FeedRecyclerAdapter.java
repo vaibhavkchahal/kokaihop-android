@@ -93,6 +93,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Recipe recipeRealmObjectOfDay = (Recipe) recipeListWithAdds.get(position);
                 holderRecipeOfDay.binder.setRecipe(recipeRealmObjectOfDay);
                 Logger.e("height", layoutParamsRecipeDay.height + ", width " + layoutParamsRecipeDay.width);
+                Logger.e("Recipe Url",recipeRealmObjectOfDay.getMainImagePublicId()+"ID");
                 if (recipeRealmObjectOfDay.getMainImagePublicId() != null) {
                     holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObjectOfDay.getMainImagePublicId(), String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
 
@@ -104,6 +105,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 Recipe recipeRealmObject = (Recipe) recipeListWithAdds.get(position);
                 Logger.e("height", layoutParamsRecipeItem.height + ", width " + layoutParamsRecipeItem.width);
+                Logger.e("Recipe Url",recipeRealmObject.getMainImagePublicId()+"ID");
                 if (recipeRealmObject.getMainImagePublicId() != null) {
                     viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(recipeRealmObject.getMainImagePublicId(), String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
 

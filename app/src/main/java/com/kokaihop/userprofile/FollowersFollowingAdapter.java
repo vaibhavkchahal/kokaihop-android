@@ -13,10 +13,13 @@ import android.widget.ImageView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowProfileFollowerFollowingBinding;
+import com.bumptech.glide.Glide;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
@@ -45,12 +48,11 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
         context = parent.getContext();
 
         point = AppUtility.getDisplayPoint(context);
-        int width = 60;
-        int height = width;
+        int size = context.getResources().getDimensionPixelOffset(R.dimen.follow_row_image_size);
         ImageView ivCover = binding.userPic;
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.userPic.getLayoutParams();
-        layoutParams.height = height;
-        layoutParams.width = width;
+        layoutParams.height = size;
+        layoutParams.width = size;
         ivCover.setLayoutParams(layoutParams);
         return new ViewHolder(binding);
 
@@ -59,20 +61,30 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final FollowingFollowerUser user = usersList.get(position);
-        holder.bind(user);
-//        binding.setUser(user);
-        Log.e("Sh", SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
-        Log.e("ID", usersList.get(position).get_id() + " : " + user.getName().getFull());
+        if(!User.getInstance().getFollowing().contains(user.get_id())){
+            user.setFollowingUser(false);
+        }
         if (SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID).equals(user.get_id())) {
             user.setButtonVisibility(View.GONE);
-            Log.e("Hidden", "true");
         }
 
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.userPic.getLayoutParams();
+        if (user.getProfileImage() != null){
+            user.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(user.getProfileImage().getCloudinaryId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
+        }else{
+            binding.setProfilePic(null);
+            Glide.clear(binding.userPic);
+        }
+        binding.userPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.e("URL",user.getProfileImage().getCloudinaryId());
+            }
+        });
 
-        ConstraintLayout.LayoutParams coverLayoutParams = (ConstraintLayout.LayoutParams) binding.userPic.getLayoutParams();
-        if (usersList.get(position).getProfileImage() != null)
-            binding.setProfilePic(CloudinaryUtils.getRoundedImageUrl(usersList.get(position).getProfileImage().getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
+        holder.bind(user);
         binding.executePendingBindings();
+
 
     }
 

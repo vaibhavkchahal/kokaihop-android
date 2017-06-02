@@ -5,11 +5,12 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     private LayoutInflater inflater;
     private ViewGroup container;
     private Point point;
+    TabLayout tabLayout;
+    int selectedTabPosition = 0;
+
     ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
@@ -83,7 +87,25 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
             userViewModel = new UserProfileViewModel(getContext(), this);
             userViewModel.getUserData();
+            userViewModel.fetchUserDataFromDB();
             userProfileBinding.setViewModel(userViewModel);
+
+            userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    selectedTabPosition = tabLayout.getSelectedTabPosition();
+                    userViewModel.getUserData();
+                    userProfileBinding.srlProfileRefresh.setRefreshing(false);
+                }
+            });
+
+            userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
+                }
+            });
+
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -107,9 +129,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         User user = User.getInstance();
-        final TabLayout tabLayout = userProfileBinding.tabProfile;
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
+        tabLayout = userProfileBinding.tabProfile;
         notificationCount = new ArrayList<>();
         int tabCount = 4;
         int i;
@@ -149,8 +171,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.setNotification(notificationCount.get(i));
-//            tabBinding.text1.setText("" + counts[i]);
             tabBinding.text2.setText(tabTitles[i]);
+
         }
         TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
         View tabView = tabBinding.getRoot();
@@ -161,9 +183,11 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
-                if (tab.getCustomView().findViewById(R.id.text2) != null) {
-                    ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                if (tab.getCustomView() != null) {
+                    ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
+                    if (tab.getCustomView().findViewById(R.id.text2) != null) {
+                        ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                    }
                 }
             }
 
@@ -190,7 +214,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             }
         });
 
-        tabLayout.getTabAt(Constants.TAB_RECIPES).select();
+        tabLayout.getTabAt(selectedTabPosition).select();
     }
 
     @Override
@@ -211,26 +235,24 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         float ratio = (float) 195 / 320; // to get the image in aspect ratio
         int height = AppUtility.getHeightInAspectRatio(width, ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
-        CollapsingToolbarLayout collapsingToolbarLayout = userProfileBinding.collapsingToolbar;
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         layoutParams.height = height;
         layoutParams.width = width;
         ivCover.setLayoutParams(layoutParams);
-
-//        collapsingToolbarLayout.setl/a
-
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         CloudinaryImage coverImage = User.getInstance().getCoverImage();
         if (coverImage != null) {
             userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
         }
-//        userProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl("35035757",String.valueOf(coverLayoutParams.width),String.valueOf(coverLayoutParams.height)));
         userProfileBinding.executePendingBindings();
     }
 
+
+    //To set the user profile image from cloudinary image-url
     public void setProfileImage() {
-        int width = userProfileBinding.userAvatar.getWidth();
+
+        int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
         int height = width;
         ImageView ivProfile = userProfileBinding.userAvatar;
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
@@ -240,7 +262,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
         CloudinaryImage profileImage = User.getInstance().getProfileImage();
         if (profileImage != null) {
-            userProfileBinding.setImageProfileUrl(CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
+            String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
+            userProfileBinding.setImageProfileUrl(imageUrl);
         }
         userProfileBinding.executePendingBindings();
     }

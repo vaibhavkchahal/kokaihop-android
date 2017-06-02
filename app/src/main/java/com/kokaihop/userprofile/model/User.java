@@ -25,6 +25,7 @@ public class User extends BaseObservable{
     private Settings settings;
     private UserName name;
     private CloudinaryImage profileImage;
+    private String profileImageUrl;
     private int recipesCollectionCount;
     private CloudinaryImage coverImage;
     private int recipeCount;
