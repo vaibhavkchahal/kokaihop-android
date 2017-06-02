@@ -5,6 +5,9 @@ import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +45,12 @@ public class RecipeDataManager {
         recipe.setCreatedById(recipeRealmObject.getCreatedByRealmObject().getId());
         recipe.setCreatedByName(recipeRealmObject.getCreatedByRealmObject().getName());
         recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedByRealmObject().getProfileImageId());
-        if(recipeRealmObject.getMainImageRealmObject()!=null)
-        {
+        if (recipeRealmObject.getMainImageRealmObject() != null) {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
         recipe.setLikes(String.valueOf(recipeRealmObject.getCounterRealmObject().getLikes()));
-        if(recipeRealmObject.getRatingRealmObject()!=null)
-        {
+        if (recipeRealmObject.getRatingRealmObject() != null) {
             recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
 
         }
@@ -126,4 +127,27 @@ public class RecipeDataManager {
     }
 
 
+    public void insertOrUpdateRecipeDetails(JSONObject jsonObject) {
+        final JSONObject recipeJSONObject;
+        try {
+            recipeJSONObject = jsonObject.getJSONObject("recipe");
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public RecipeRealmObject fetchRecipe(String recipeID) {
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo("_id", recipeID).findFirst();
+        return recipeRealmObject;
+    }
+
 }
+
+
