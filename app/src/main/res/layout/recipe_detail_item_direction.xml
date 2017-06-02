@@ -8,7 +8,7 @@
 
 
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/row_direction_padding_bottm"
                     android:paddingLeft="@dimen/row_direction_padding_left"
                     android:paddingRight="@dimen/row_direction_padding_right"
