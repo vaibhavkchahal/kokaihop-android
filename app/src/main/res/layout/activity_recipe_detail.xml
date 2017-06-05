@@ -57,15 +57,15 @@
                         android:layout_marginRight="10dp"
                         android:src="@drawable/ic_swiperight_md"/>
 
-                    <LinearLayout
-                        android:id="@+id/layoutDots"
+                    <TextView
+                        android:id="@+id/txtview_pager_progress"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="20dp"
+                        android:textColor="@color/white"
                         android:layout_marginLeft="20dp"
-                        android:gravity="center"
-                        android:orientation="horizontal"/>
+                        />
 
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"

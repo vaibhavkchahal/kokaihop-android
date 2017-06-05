@@ -122,5 +122,6 @@
     <string name="portion_text">Portion</string>
     <string name="text_created">Created</string>
     <string name="text_by">by</string>
+    <string name="text_add_to_list">Add to list</string>
 
 </resources>

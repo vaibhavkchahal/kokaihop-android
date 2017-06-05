@@ -8,67 +8,69 @@
     </data>
 
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="@dimen/item_ingrdnt_variator_height"
-                    android:layout_marginLeft="@dimen/item_ingrdnt_variator_margin_left"
-                    android:layout_marginRight="@dimen/item_ingrdnt_variator_margin_right"
-                    android:background="@drawable/recipe_item_border"
-                    android:orientation="horizontal">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="@dimen/item_ingrdnt_variator_height"
+                        android:layout_marginBottom="19dp"
+                        android:layout_marginLeft="@dimen/item_ingrdnt_variator_margin_left"
+                        android:layout_marginRight="@dimen/item_ingrdnt_variator_margin_right"
+                        android:layout_marginTop="19dp"
+                        android:background="@drawable/recipe_item_border"
+                        android:orientation="horizontal">
 
 
-        <TextView
-            android:id="@+id/txtview_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/txtview_portion_margin_left"
-            android:drawableLeft="@drawable/ic_portion"
-            android:drawablePadding="@dimen/txview_portion_drawable_padding"
-            android:gravity="center_vertical"
-            android:text="@string/portion_text"
-            android:textColor="@color/grey_FF71767F"
-            android:textSize="@dimen/txtview_portion_textsize"
-            app:font="@{`SS-ProRegular`}"
-        />
+            <TextView
+                android:id="@+id/txtview_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/txtview_portion_margin_left"
+                android:drawableLeft="@drawable/ic_portion"
+                android:drawablePadding="@dimen/txview_portion_drawable_padding"
+                android:gravity="center_vertical"
+                android:text="@string/portion_text"
+                android:textColor="@color/grey_FF71767F"
+                android:textSize="@dimen/txtview_portion_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
 
-        <TextView
-            android:id="@+id/txtview_portion_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/txtview_portion_count_margin_left"
-            android:layout_toRightOf="@+id/txtview_portion"
-            android:text="@{String.valueOf(model.quantity)}"
-            android:textColor="@color/kokaihop_orange_color"
-            android:textSize="@dimen/txtview_portion_count_textsize"
-
-            app:font="@{`SS-ProRegular`}"
-        />
-
-        <View
-            android:id="@+id/view_divider"
-            android:layout_width="@dimen/divider_height"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:background="@color/grey_FFD4D4D4"/>
+            <TextView
+                android:id="@+id/txtview_portion_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/txtview_portion_count_margin_left"
+                android:layout_toRightOf="@+id/txtview_portion"
+                android:text="@{String.valueOf(model.quantity)}"
+                android:textColor="@color/kokaihop_orange_color"
+                android:textSize="@dimen/txtview_portion_count_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
 
 
-        <TextView
-            android:id="@+id/txtview_addlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/txtview_addlist_margin_left"
-            android:layout_toRightOf="@+id/view_divider"
-            android:drawableLeft="@drawable/ic_addtolist"
-            android:drawablePadding="@dimen/txtview_addlistdrawable_padding"
-            android:gravity="center_vertical"
-            tools:text="title"
-            android:textColor="@color/grey_FF71767F"
-            android:textSize="@dimen/txtview_addlist_textsize"
-            app:font="@{`SS-ProRegular`}"
-        />
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="@dimen/divider_height"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/grey_FFD4D4D4"/>
 
-    </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtview_addlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/txtview_addlist_margin_left"
+                android:layout_toRightOf="@+id/view_divider"
+                android:drawableLeft="@drawable/ic_addtolist"
+                android:drawablePadding="@dimen/txtview_addlistdrawable_padding"
+                android:gravity="center_vertical"
+                android:text="@string/text_add_to_list"
+                android:textColor="@color/grey_FF71767F"
+                android:textSize="@dimen/txtview_addlist_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
+
+        </RelativeLayout>
 
 </layout>

@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
-            android:text="@{model.unit.name}"
+            android:text="@{model.amount+` `+model.unit.name}"
         />
 
         <TextView

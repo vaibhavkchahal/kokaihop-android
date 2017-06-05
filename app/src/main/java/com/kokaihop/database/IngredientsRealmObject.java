@@ -18,7 +18,17 @@ public class IngredientsRealmObject extends RealmObject {
     @SerializedName("isHeader")
     private boolean isHeader;
 
+    private float amount;
+
     private Unit unit;
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
 
     public Unit getUnit() {
         return unit;

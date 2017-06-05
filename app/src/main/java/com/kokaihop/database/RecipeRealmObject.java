@@ -42,8 +42,19 @@ public class RecipeRealmObject extends RealmObject {
     @SerializedName("isMine")
     private boolean isMine;
 
+    @SerializedName("description")
+    private RecipeDescription description;
+
     @SerializedName("servings")
     private int servings;
+
+    public RecipeDescription getDescription() {
+        return description;
+    }
+
+    public void setDescription(RecipeDescription description) {
+        this.description = description;
+    }
 
     public int getServings() {
         return servings;
@@ -52,7 +63,6 @@ public class RecipeRealmObject extends RealmObject {
     public void setServings(int servings) {
         this.servings = servings;
     }
-
 //    private StringObject[] cookingSteps;
 
     public boolean isFavorite;
@@ -67,6 +77,8 @@ public class RecipeRealmObject extends RealmObject {
     private long lastViewed;
     private boolean viewed;
 
+    private RealmList<RecipeDetailPagerImages> images;
+
     private RealmList<RecipeRealmObject> similarRecipes;
 
     @SerializedName("comments")
@@ -78,6 +90,14 @@ public class RecipeRealmObject extends RealmObject {
 
     public RatingRealmObject getRatingRealmObject() {
         return ratingRealmObject;
+    }
+
+    public RealmList<RecipeDetailPagerImages> getImages() {
+        return images;
+    }
+
+    public void setImages(RealmList<RecipeDetailPagerImages> images) {
+        this.images = images;
     }
 
     public void setRatingRealmObject(RatingRealmObject ratingRealmObject) {

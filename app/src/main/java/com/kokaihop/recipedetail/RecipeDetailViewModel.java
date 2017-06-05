@@ -1,6 +1,8 @@
 package com.kokaihop.recipedetail;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
@@ -31,6 +33,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private ViewPager viewPager;
+    private TextView txtviwPagerProgress;
 
     public List<Object> getRecipeDetailItemsList() {
         return recipeDetailItemsList;
@@ -40,16 +44,17 @@ public class RecipeDetailViewModel extends BaseViewModel {
         this.recipeDetailItemsList = recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(String recipeID, RecyclerView recyclerView) {
+    public RecipeDetailViewModel(String recipeID, RecyclerView recyclerView, ViewPager viewPager, TextView textView) {
         this.recipeID = recipeID;
         this.recyclerView = recyclerView;
+        this.viewPager = viewPager;
+        this.txtviwPagerProgress = textView;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
     }
 
     private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
-
         setProgressVisible(true);
         new RecipeDetailApiHelper().getRecipeDetail(recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
             @Override
@@ -60,7 +65,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     final JSONObject json = new JSONObject(responseBody.string());
                     JSONObject recipeJSONObject = json.getJSONObject("recipe");
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
-                    fetchSimilarRecipe(recipeFriendlyUrl,5,recipeDataManager.fetchRecipe(recipeID).getTitle());
+                    fetchSimilarRecipe(recipeFriendlyUrl, 5, recipeDataManager.fetchRecipe(recipeID).getTitle());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -82,19 +87,19 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private void fetchSimilarRecipe(String recipeFriendlyUrl, int limit, String title) {
         //https://staging-kokaihop.herokuapp.com/v1/api/recipes/getSimilarRecipes?friendlyUrl=varldens-enklaste-kyckling-i-ugn&limit=5&title=Världens enklaste kyckling i ugn
-
         new RecipeDetailApiHelper().getSimilarRecipe(recipeFriendlyUrl, limit, title, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
-                     JSONObject json = new JSONObject(responseBody.string());
+                    JSONObject json = new JSONObject(responseBody.string());
                     JSONArray recipeJSONArray = json.getJSONArray("similarRecipes");
                     recipeDataManager.updateSimilarRecipe(recipeID, recipeJSONArray);
                     recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
                     prepareRecipeDetailList(recipeRealmObject);
                     recyclerView.getAdapter().notifyDataSetChanged();
+                    viewPager.getAdapter().notifyDataSetChanged();
+                    txtviwPagerProgress.setText("1/" + viewPager.getAdapter().getCount());
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -117,7 +122,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     private void prepareRecipeDetailList(RecipeRealmObject recipeRealmObject) {
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRatingRealmObject().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getStatus());
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRatingRealmObject().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getDescription().getRecipeDescription());
         recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Ingredients"));
@@ -127,10 +132,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Direction"));
-// for (int i = 0; i < recipeRealmObject.getCookingSteps().length; i++) {
-// recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps()[i].getString()));
-// }
+//        for (int i = 0; i < recipeRealmObject.getCookingSteps().length; i++) {
+//            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps()[i].getString()));
+//        }
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
+        recipeDetailItemsList.add(new ListHeading("Comments"));
         recipeDetailItemsList.add(recipeSpecifications);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
             if (i > 2) {
@@ -157,7 +163,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
         return specifications;
     }
-
 
     @Override
     protected void destroy() {
