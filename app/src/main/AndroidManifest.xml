@@ -52,10 +52,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.kokaihop.userprofile.UserSettingsActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/AppToolbarTheme">
-        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="89bc1de20821702ad15f1584b5ca90b908e4fbd3" />

@@ -1,6 +1,5 @@
 package com.kokaihop.userprofile;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -138,7 +137,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         userProfileBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), UserSettingsActivity.class));
+//                startActivity(new Intent(getContext(), UserSettingsActivity.class));
             }
         });
 

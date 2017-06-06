@@ -163,7 +163,8 @@
     <dimen name="card_left_right_padding">15dp</dimen>
 
     <!-- profile page dimens-->
-    <dimen name="toolbar_height">53dp</dimen>
+    <dimen name="toolbar_height">57dp</dimen>
+    <dimen name="toolbar_height_with_status">77dp</dimen>
     <dimen name="settings_iv_back_margin_bottom">16.8dp</dimen>
     <dimen name="settings_iv_back_margin_right">18.4dp</dimen>
     <dimen name="settings_iv_back_margin_top">23.9dp</dimen>
@@ -304,6 +305,10 @@
     <dimen name="comment_padding_bottom">27dp</dimen>
     <!--Select city-->
     <dimen name="select_city_toolbar_padding_top">14dp</dimen>
+    <dimen name="changepassword_et_height">50dp</dimen>
+    <dimen name="changepassword_et_padding">10dp</dimen>
+    <dimen name="changepassword_title_content_margin">50dp</dimen>
+    <dimen name="change_password_seperator_margin">10dp</dimen>
 
 
 </resources>
