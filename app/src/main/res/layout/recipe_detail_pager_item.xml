@@ -8,17 +8,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageview_recipe_pic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:error="@{@drawable/ic_recipeplaceholder_md}"
+            android:layout_height="wrap_content"
+            app:error="@{@drawable/ic_recipeplaceholder_lg}"
             app:imageUrl="@{imageUrl}"
-            android:scaleType="fitXY"
-            app:placeholder="@{@drawable/ic_recipeplaceholder_md}"/>
+            app:placeholder="@{@drawable/ic_recipeplaceholder_lg}"/>
 
     </LinearLayout>
 

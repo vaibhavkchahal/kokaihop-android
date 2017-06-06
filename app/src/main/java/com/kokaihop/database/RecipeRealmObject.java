@@ -63,7 +63,8 @@ public class RecipeRealmObject extends RealmObject {
     public void setServings(int servings) {
         this.servings = servings;
     }
-//    private StringObject[] cookingSteps;
+
+//    private RealmList<StringObject> cookingSteps;
 
     public boolean isFavorite;
 
@@ -287,4 +288,12 @@ public class RecipeRealmObject extends RealmObject {
     public void setCounter(CounterRealmObject counter) {
         this.counter = counter;
     }
+
+//    public RealmList<StringObject> getCookingSteps() {
+//        return cookingSteps;
+//    }
+//
+//    public void setCookingSteps(RealmList<StringObject> cookingSteps) {
+//        this.cookingSteps = cookingSteps;
+//    }
 }

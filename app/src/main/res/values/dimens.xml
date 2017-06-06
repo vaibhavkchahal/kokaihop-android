@@ -222,6 +222,10 @@
     <dimen name="dialog_title_horizontal_padding">20dp</dimen>
     <dimen name="row_follower_following_text_size">19sp</dimen>
 
+    <!--Select city-->
+    <dimen name="select_city_toolbar_padding_top">14dp</dimen>
+
+
     <!-- recipe detail dimens -->
     <dimen name="recipe_detail_rating_bar_height">13dp</dimen>
     <dimen name="recipe_detail_dialog_rating_bar_height">26dp</dimen>
@@ -302,8 +306,7 @@
     <dimen name="editxt_write_coment_textsize">15sp</dimen>
     <dimen name="toolbar_top_padding">33dp</dimen>
     <dimen name="comment_padding_bottom">27dp</dimen>
-    <!--Select city-->
-    <dimen name="select_city_toolbar_padding_top">14dp</dimen>
-
-
+    <dimen name="txtsize_recipe_detail_badge_type">11sp</dimen>
+    <dimen name="badgetype_drawable_padding">7.6dp</dimen>
+    <dimen name="recipe_detail_margin_right">10.7dp</dimen>
 </resources>

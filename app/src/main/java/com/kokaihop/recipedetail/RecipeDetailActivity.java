@@ -39,7 +39,7 @@ public class RecipeDetailActivity extends BaseActivity {
         String recipeID = getIntent().getStringExtra("recipeId");
         viewPager = binding.viewpagerRecipeDetail;
         txtviewPagerProgress = binding.txtviewPagerProgress;
-        recipeDetailViewModel = new RecipeDetailViewModel(recipeID, binding.recyclerViewRecipeDetail, viewPager,txtviewPagerProgress);
+        recipeDetailViewModel = new RecipeDetailViewModel(recipeID, binding.recyclerViewRecipeDetail, viewPager, txtviewPagerProgress);
         binding.setViewModel(recipeDetailViewModel);
 //        getRecipeObject(binding);
         setToolbar();
@@ -117,7 +117,6 @@ public class RecipeDetailActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 txtviewPagerProgress.setText(position + 1 + "/" + viewPager.getAdapter().getCount());
-//                addDotsToPager(position);
             }
 
             @Override

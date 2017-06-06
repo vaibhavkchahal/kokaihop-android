@@ -132,9 +132,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading("Direction"));
-//        for (int i = 0; i < recipeRealmObject.getCookingSteps().length; i++) {
-//            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps()[i].getString()));
+
+//        for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
+//            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps().get(i).getString()));
 //        }
+
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
         recipeDetailItemsList.add(new ListHeading("Comments"));
         recipeDetailItemsList.add(recipeSpecifications);

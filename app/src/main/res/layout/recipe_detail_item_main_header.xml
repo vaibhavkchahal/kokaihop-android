@@ -2,9 +2,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeDetailHeader"/>
+        <import type="android.text.TextUtils"/>
+        <variable name="badgeType" type="com.kokaihop.utility.ApiConstants.BadgeType"/>
     </data>
 
 
@@ -26,23 +29,34 @@
             android:saveEnabled="false"
             android:stepSize="0.01"/>
 
-        <ImageView
-            android:id="@+id/imgview_badgeType"
-            android:layout_width="wrap_content"
+
+        <TextView
+            android:id="@+id/txtview_badgeType"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/recipe_detail_margin_right"
             android:layout_marginTop="@dimen/imgview_badgetype_margin_top"
-            android:src="@drawable/badge_vegetarian"/>
+            android:drawableLeft="@drawable/ic_left_flower"
+            android:drawableRight="@drawable/ic_right_flower"
+            android:gravity="center"
+            android:text="@{(TextUtils.equals(model.badgeType, badgeType.MAIN_COURSE_OF_THE_DAY.value) ? @string/main_course_of_the_day : TextUtils.equals(model.badgeType, badgeType.APPETIZER_OF_THE_DAY.value) ? @string/appetizer_of_the_day : TextUtils.equals(model.badgeType, badgeType.COOKIE_OF_THE_DAY.value) ? @string/cookie_of_the_day : TextUtils.equals(model.badgeType, badgeType.DESSERT_OF_THE_DAY.value) ? @string/desert_of_the_day:TextUtils.equals(model.badgeType, badgeType.VEGETARIAN_OF_THE_DAY.value) ? @string/vegetarian_of_the_day:``)}"
+            android:textAllCaps="true"
+            android:textColor="@color/orange_FFFF9326"
+            android:drawablePadding="0dp"
+            android:textSize="@dimen/txtsize_recipe_detail_badge_type"
+            app:font="@{`SS-ProBold`}"/>
 
         <TextView
             android:id="@+id/txtview_recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/imgview_badgeType"
+            android:layout_below="@+id/txtview_badgeType"
+            android:text="@{model.title}"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/txtview_recipe_name_textsize"
-            android:text="@{model.title}"
-            app:font="@{`RS-Light`}"/>
+            app:font="@{`RS-Regular`}"
+        />
 
         <TextView
             android:id="@+id/txtview_recipe_description"
@@ -50,9 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtview_recipe_name"
             android:layout_marginTop="@dimen/txtview_recipe_descption_margin_top"
-            android:textColor="@color/black_FF262F40"
             android:text="@{model.description}"
-            android:textSize="@dimen/txtview_recipe_description_textsize"/>
+            android:textColor="@color/black_FF262F40"
+            android:textSize="@dimen/txtview_recipe_description_textsize"
+            app:font="@{`RS-Light`}"/>
 
     </RelativeLayout>
 
