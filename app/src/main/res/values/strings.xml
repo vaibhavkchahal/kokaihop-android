@@ -128,4 +128,9 @@
     <string name="text_comments">Comments</string>
     <string name="text_directions">Direction</string>
 
+    <string name="count"><![CDATA[
+        <b>%1$s</b>
+        viewed,<b>%2$s</b> printed,<b>%3$s</b> addToCollections]]>
+    </string>
+
 </resources>
