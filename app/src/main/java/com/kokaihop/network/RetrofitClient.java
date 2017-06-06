@@ -6,8 +6,8 @@ import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.kokaihop.database.RealmString;
 import com.kokaihop.database.RealmStringDeserializer;
-import com.kokaihop.database.StringObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +44,7 @@ public class RetrofitClient {
                         return false;
                     }
                 })
-                .registerTypeAdapter(new TypeToken<RealmList<StringObject>>() {
+                .registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
                 }.getType(), new RealmStringDeserializer())
                 .create();
 

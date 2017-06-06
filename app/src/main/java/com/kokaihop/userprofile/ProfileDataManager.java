@@ -1,6 +1,6 @@
 package com.kokaihop.userprofile;
 
-import com.kokaihop.database.StringObject;
+import com.kokaihop.database.RealmString;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
@@ -42,12 +42,12 @@ public class ProfileDataManager {
             user.getName().setLast(userRealmObject.getUserNameRealmObject().getLast());
             user.getName().setFull(userRealmObject.getUserNameRealmObject().getFull());
             user.getFollowing().clear();
-            for (StringObject userid : userRealmObject.getFollowing()) {
+            for (RealmString userid : userRealmObject.getFollowing()) {
                 user.getFollowing().add(userid.getString());
             }
 
             user.getFollowers().clear();
-            for (StringObject userid : userRealmObject.getFollowers()) {
+            for (RealmString userid : userRealmObject.getFollowers()) {
                 user.getFollowers().add(userid.getString());
             }
             if (userRealmObject.getProfileImage() != null) {

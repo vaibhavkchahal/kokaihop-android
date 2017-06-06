@@ -6,6 +6,7 @@
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeSpecifications"/>
+        <import type="android.text.Html"/>
 
     </data>
 
@@ -118,8 +119,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linear_layout_category"
                 android:layout_marginTop="@dimen/txtview_specs_margin_top"
-                android:text="@{model.viewerCount+` `+`viewed,`+model.printed+` `+`printed,`+model.addToCollections+` `+`comented`}"
+                android:text="@{Html.fromHtml(String.format(@string/count, model.viewerCount,model.printed,model.addToCollections))}"
                 android:textSize="@dimen/txtview_specs_textsize"/>
+            <!--android:text="@{model.viewerCount+` `+`viewed,`+model.printed+` `+`printed,`+model.addToCollections+` `+`addToCollections`}"-->
 
         </RelativeLayout>
 

@@ -6,14 +6,14 @@ import io.realm.RealmObject;
  * Created by Rajendra Singh on 30/5/17.
  */
 
-public class StringObject extends RealmObject {
+public class RealmString extends RealmObject {
 
     private String string;
 
-    public StringObject() {
+    public RealmString() {
     }
 
-    public StringObject(String string) {
+    public RealmString(String string) {
         this.string = string;
     }
 
