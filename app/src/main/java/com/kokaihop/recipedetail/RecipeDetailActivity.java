@@ -39,7 +39,7 @@ public class RecipeDetailActivity extends BaseActivity {
         String recipeID = getIntent().getStringExtra("recipeId");
         viewPager = binding.viewpagerRecipeDetail;
         txtviewPagerProgress = binding.txtviewPagerProgress;
-        recipeDetailViewModel = new RecipeDetailViewModel(recipeID, binding.recyclerViewRecipeDetail, viewPager, txtviewPagerProgress);
+        recipeDetailViewModel = new RecipeDetailViewModel(this,recipeID, binding.recyclerViewRecipeDetail, viewPager, txtviewPagerProgress);
         binding.setViewModel(recipeDetailViewModel);
 //        getRecipeObject(binding);
         setToolbar();

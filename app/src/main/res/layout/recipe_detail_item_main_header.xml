@@ -38,12 +38,12 @@
             android:layout_marginRight="@dimen/recipe_detail_margin_right"
             android:layout_marginTop="@dimen/imgview_badgetype_margin_top"
             android:drawableLeft="@drawable/ic_left_flower"
+            android:drawablePadding="0dp"
             android:drawableRight="@drawable/ic_right_flower"
             android:gravity="center"
             android:text="@{(TextUtils.equals(model.badgeType, badgeType.MAIN_COURSE_OF_THE_DAY.value) ? @string/main_course_of_the_day : TextUtils.equals(model.badgeType, badgeType.APPETIZER_OF_THE_DAY.value) ? @string/appetizer_of_the_day : TextUtils.equals(model.badgeType, badgeType.COOKIE_OF_THE_DAY.value) ? @string/cookie_of_the_day : TextUtils.equals(model.badgeType, badgeType.DESSERT_OF_THE_DAY.value) ? @string/desert_of_the_day:TextUtils.equals(model.badgeType, badgeType.VEGETARIAN_OF_THE_DAY.value) ? @string/vegetarian_of_the_day:``)}"
             android:textAllCaps="true"
             android:textColor="@color/orange_FFFF9326"
-            android:drawablePadding="0dp"
             android:textSize="@dimen/txtsize_recipe_detail_badge_type"
             app:font="@{`SS-ProBold`}"/>
 

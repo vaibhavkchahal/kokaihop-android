@@ -21,6 +21,8 @@ import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.feed.AdvtDetail;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.List;
 
@@ -143,8 +145,14 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 break;*/
             case TYPE_ITEM_SIMILAR_ITEM:
                 ViewHolderItemSimilarRecipe holderItemSimilarRecipe = (ViewHolderItemSimilarRecipe) holder;
-//                SimilarRecipe similarRecipe = (SimilarRecipe) recipeDetailItemsList.get(position);
-//                holderItemSimilarRecipe.binder.setModel(similarRecipe);
+                SimilarRecipe similarRecipe = (SimilarRecipe) recipeDetailItemsList.get(position);
+
+                String url = AppUtility.getImageUrlWithAspectRatio(context, 280, 320, holderItemSimilarRecipe.binder.imgviewUserprofile, similarRecipe.getRecipeImageUrl());
+                similarRecipe.setRecipeImageUrl(url);
+                int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.similar_recipe_profile_img_height_width);
+                similarRecipe.setUserImageUrl(CloudinaryUtils.getRoundedImageUrl(similarRecipe.getUserImageUrl(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
+
+                holderItemSimilarRecipe.binder.setModel(similarRecipe);
                 holderItemSimilarRecipe.binder.executePendingBindings();
                 break;
             default:

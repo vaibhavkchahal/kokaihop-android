@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/creator_margin_left"
                 android:layout_toRightOf="@+id/imageview_user_pic"
+                android:text="@{@string/text_created+` `+DateTimeUtils.getDate(model.dateCreated,`yyyy-mm-dd`)+` `+@string/text_by}"
                 android:textColor="@color/grey_FF8D929C"
                 android:textSize="@dimen/creator_name_textsize"
-                android:text="@{@string/text_created+` `+DateTimeUtils.getDate(model.dateCreated,`yyyy-mm-dd`)+` `+@string/text_by}"
                 app:font="@{`SS-ProRegular`}"/>
 
             <TextView
@@ -51,9 +51,9 @@
                 android:layout_below="@+id/txtview_title"
                 android:layout_marginLeft="@dimen/creator_margin_left"
                 android:layout_toRightOf="@+id/imageview_user_pic"
+                android:text="@{model.name}"
                 android:textColor="@color/kokaihop_orange_color"
                 android:textSize="@dimen/creator_name_textsize"
-                android:text="@{model.name}"
                 app:font="@{`SS-ProRegular`}"/>
 
             <LinearLayout
@@ -61,6 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtview_subtitle"
+                android:layout_marginTop="@dimen/category_margin_top"
                 android:orientation="horizontal">
 
                 <TextView
@@ -86,11 +87,11 @@
                     android:paddingLeft="@dimen/txtview_category_padding_left_right"
                     android:paddingRight="@dimen/txtview_category_padding_left_right"
                     android:paddingTop="@dimen/txtview_category_padding_top"
-                    tools:text="Skandivaian"
+                    android:text="@{model.category2}"
                     android:textColor="@color/grey_FF8D929C"
                     android:textSize="@dimen/txtview_category_textsize"
-                    android:text="@{model.category2}"
-                    app:font="@{`SS-ProRegular`}"/>
+                    app:font="@{`SS-ProRegular`}"
+                    tools:text="Skandivaian"/>
 
 
                 <TextView
@@ -102,11 +103,11 @@
                     android:paddingLeft="@dimen/txtview_category_padding_left_right"
                     android:paddingRight="@dimen/txtview_category_padding_left_right"
                     android:paddingTop="@dimen/txtview_category_padding_top"
-                    tools:text="Ugh"
+                    android:text="@{model.category3}"
                     android:textColor="@color/grey_FF8D929C"
                     android:textSize="@dimen/txtview_category_textsize"
-                    android:text="@{model.category3}"
-                    app:font="@{`SS-ProRegular`}"/>
+                    app:font="@{`SS-ProRegular`}"
+                    tools:text="Ugh"/>
 
 
             </LinearLayout>

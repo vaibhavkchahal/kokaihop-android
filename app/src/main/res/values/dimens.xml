@@ -309,4 +309,7 @@
     <dimen name="txtsize_recipe_detail_badge_type">11sp</dimen>
     <dimen name="badgetype_drawable_padding">7.6dp</dimen>
     <dimen name="recipe_detail_margin_right">10.7dp</dimen>
+    <dimen name="category_margin_top">17dp</dimen>
+
+    <dimen name="similar_recipe_profile_img_height_width">30dp</dimen>
 </resources>
