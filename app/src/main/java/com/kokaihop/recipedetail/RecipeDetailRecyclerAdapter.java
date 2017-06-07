@@ -155,11 +155,14 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 ViewHolderItemSimilarRecipe holderItemSimilarRecipe = (ViewHolderItemSimilarRecipe) holder;
                 SimilarRecipe similarRecipe = (SimilarRecipe) recipeDetailItemsList.get(position);
 
-                String url = AppUtility.getImageUrlWithAspectRatio(context, 280, 320, holderItemSimilarRecipe.binder.imgviewUserprofile, similarRecipe.getRecipeImageUrl());
-                similarRecipe.setRecipeImageUrl(url);
-                int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.similar_recipe_profile_img_height_width);
-                similarRecipe.setUserImageUrl(CloudinaryUtils.getRoundedImageUrl(similarRecipe.getUserImageUrl(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
+                View view = AppUtility.getImageUrlWithAspectRatio(280, 320, holderItemSimilarRecipe.binder.imgviewRecipeImg);
+                String recipeUrl = CloudinaryUtils.getImageUrl(similarRecipe.getRecipeImageUrl(), String.valueOf(view.getLayoutParams().width), String.valueOf(view.getLayoutParams().height));
 
+                int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.similar_recipe_profile_img_height_width);
+                String profileImageUrl = CloudinaryUtils.getRoundedImageUrl(similarRecipe.getUserImageUrl(), String.valueOf(profileImageSize), String.valueOf(profileImageSize));
+
+                holderItemSimilarRecipe.binder.setRecipeImageUrl(recipeUrl);
+                holderItemSimilarRecipe.binder.setProfileImageUrl(profileImageUrl);
                 holderItemSimilarRecipe.binder.setModel(similarRecipe);
                 holderItemSimilarRecipe.binder.executePendingBindings();
                 break;

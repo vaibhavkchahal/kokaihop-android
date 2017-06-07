@@ -153,12 +153,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 break;
             }
             RecipeRealmObject realmObject = recipeRealmObject.getSimilarRecipes().get(i);
-            String mainImageUrl = "";
+            String mainImageUrl = "0";
             if (realmObject.getMainImageRealmObject() != null) {
                 mainImageUrl = realmObject.getMainImageRealmObject().getPublicId();
             }
 
-            String profileImageUrl = "";
+            String profileImageUrl = "0";
             if (realmObject.getCreatedBy().getProfileImageId() != null) {
                 profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
             }
