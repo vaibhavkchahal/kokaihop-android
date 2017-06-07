@@ -157,9 +157,17 @@ public class RecipeDataManager {
     }
 
     public RecipeRealmObject fetchRecipe(String recipeID) {
+        //return the managed object
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                 .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
+    }
+
+    public RecipeRealmObject fetchCopyOfRecipe(String recipeID) {
+        //        //return the unmanaged object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(RECIPE_ID, recipeID).findFirst();
+        return realm.copyFromRealm(recipeRealmObject);
     }
 
     public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {

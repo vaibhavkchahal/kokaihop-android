@@ -50,7 +50,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         this.viewPager = viewPager;
         this.txtviwPagerProgress = textView;
         recipeDataManager = new RecipeDataManager();
-        recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
+        recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
     }
 
@@ -95,7 +95,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     JSONObject json = new JSONObject(responseBody.string());
                     JSONArray recipeJSONArray = json.getJSONArray("similarRecipes");
                     recipeDataManager.updateSimilarRecipe(recipeID, recipeJSONArray);
-                    recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
+                    recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
                     prepareRecipeDetailList(recipeRealmObject);
                     recyclerView.getAdapter().notifyDataSetChanged();
                     viewPager.getAdapter().notifyDataSetChanged();

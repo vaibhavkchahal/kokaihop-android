@@ -41,6 +41,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private final List<Object> recipeDetailItemsList;
 
     private Context context;
+    private PortionClickListener onPortionClickListener;
 
     public RecipeDetailRecyclerAdapter(List<Object> list) {
         recipeDetailItemsList = list;
@@ -114,8 +115,15 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 break;
             case TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR:
                 ViewHolderIngrdientVariator holderVariator = (ViewHolderIngrdientVariator) holder;
-                RecipeQuantityVariator variator = (RecipeQuantityVariator) recipeDetailItemsList.get(position);
+                final RecipeQuantityVariator variator = (RecipeQuantityVariator) recipeDetailItemsList.get(position);
                 holderVariator.binder.setModel(variator);
+                holderVariator.binder.setClick(new PortionClickListener() {
+                    @Override
+                    public void onPortionClick(int quantity) {
+
+                        onPortionClickListener.onPortionClick(quantity);
+                    }
+                });
                 holderVariator.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_DIRECTION:
@@ -189,6 +197,11 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemCount() {
         return recipeDetailItemsList.size();
+    }
+
+    public void setPortionClickListener(PortionClickListener onPortionClickListener) {
+        this.onPortionClickListener = onPortionClickListener;
+
     }
 
 
@@ -283,5 +296,10 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             super(view);
             binder = DataBindingUtil.bind(view);
         }
+    }
+
+    public interface PortionClickListener {
+        void onPortionClick(int quantity);
+
     }
 }

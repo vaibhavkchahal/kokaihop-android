@@ -2,21 +2,27 @@ package com.kokaihop.recipedetail;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
+import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 
@@ -24,11 +30,17 @@ import io.realm.Realm;
 
 public class RecipeDetailActivity extends BaseActivity {
 
+    private int portionMinValue = 1;
+    private int portionMaxValue = 79;
+
     private ViewPager viewPager;
     private Realm realm;
     private ActivityRecipeDetailBinding binding;
     private RecipeDetailViewModel recipeDetailViewModel;
     private TextView txtviewPagerProgress;
+    private RecipeDetailRecyclerAdapter recyclerAdapter;
+    private BottomSheetDialog portionDialog;
+    private int quantityOriginal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +51,7 @@ public class RecipeDetailActivity extends BaseActivity {
         String recipeID = getIntent().getStringExtra("recipeId");
         viewPager = binding.viewpagerRecipeDetail;
         txtviewPagerProgress = binding.txtviewPagerProgress;
-        recipeDetailViewModel = new RecipeDetailViewModel(this,recipeID, binding.recyclerViewRecipeDetail, viewPager, txtviewPagerProgress);
+        recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, binding.recyclerViewRecipeDetail, viewPager, txtviewPagerProgress);
         binding.setViewModel(recipeDetailViewModel);
 //        getRecipeObject(binding);
         setToolbar();
@@ -52,14 +64,79 @@ public class RecipeDetailActivity extends BaseActivity {
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        RecipeDetailRecyclerAdapter recyclerAdapter = new RecipeDetailRecyclerAdapter(recipeDetailViewModel.getRecipeDetailItemsList());
+        recyclerAdapter = new RecipeDetailRecyclerAdapter(recipeDetailViewModel.getRecipeDetailItemsList());
         recyclerViewRecipeDetail.setLayoutManager(layoutManager);
+        recyclerAdapter.setPortionClickListener(new RecipeDetailRecyclerAdapter.PortionClickListener() {
+            @Override
+            public void onPortionClick(int quantity) {
+                showPortionDialog(quantity);
+
+            }
+        });
+
         recyclerViewRecipeDetail.setAdapter(recyclerAdapter);
+    }
+
+    private void showPortionDialog(final int quantity) {
+        if (portionDialog == null) {
+            quantityOriginal = quantity;
+        }
+        DialogPortionBinding portionBinding = DataBindingUtil.
+                inflate(LayoutInflater.from(RecipeDetailActivity.this), R.layout.dialog_portion, (ViewGroup) binding.getRoot(), false);
+        portionDialog = setDialogConfigration(portionBinding);
+
+        final NumberPicker numberPicker = portionBinding.numberPickerPortion;
+        numberPicker.setWrapSelectorWheel(true);
+        numberPicker.setMinValue(portionMinValue);
+        numberPicker.setMaxValue(portionMaxValue);
+        numberPicker.setValue(quantityOriginal);
+        TextView doneTextView = portionBinding.textviewDone;
+        doneTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int selectedValue = numberPicker.getValue();
+                for (Object object : recipeDetailViewModel.getRecipeDetailItemsList()
+                        ) {
+                    if (object instanceof IngredientsRealmObject) {
+                        IngredientsRealmObject ingredientsRealmObject = (IngredientsRealmObject) object;
+                        ingredientsRealmObject.setAmount((ingredientsRealmObject.getAmount() / quantity) * selectedValue);
+
+                    }
+                    if (object instanceof RecipeQuantityVariator) {
+                        RecipeQuantityVariator recipeQuantityVariator = (RecipeQuantityVariator) object;
+                        recipeQuantityVariator.setQuantity(selectedValue);
+                    }
+                }
+                portionDialog.dismiss();
+                recyclerAdapter.notifyDataSetChanged();
+
+            }
+        });
+        portionDialog.show();
+
+
+    }
+
+    private BottomSheetDialog setDialogConfigration(DialogPortionBinding portionBinding) {
+        BottomSheetDialog dialog = new BottomSheetDialog(RecipeDetailActivity.this);
+        dialog.setContentView(portionBinding.getRoot());
+        dialog.getWindow()
+                .getAttributes().windowAnimations = R.style.DialogAnimation;
+
+        //Grab the window of the portionDialog, and change the width
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        Window window = dialog.getWindow();
+        lp.copyFrom(window.getAttributes());
+        //This makes the portionDialog take up the full width
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(lp);
+        return dialog;
     }
 
     private void initializeViewPager(String recipeID) {
         RecipeDataManager recipeDataManager = new RecipeDataManager();
-        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeID);
+        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         ImageView leftSlider = binding.viewpagerSwipeLeft;
         ImageView rightSlider = binding.viewpagerSwipeRight;
         viewPager.setAdapter(new RecipeDetailPagerAdapter(this, recipeRealmObject.getImages()));
