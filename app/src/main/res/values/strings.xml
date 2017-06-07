@@ -123,6 +123,18 @@
     <string name="text_created">Created</string>
     <string name="text_by">by</string>
     <string name="text_add_to_list">Add to list</string>
+
+    <string name="text_Ingredients">Ingredients</string>
+    <string name="text_SimilarRecipies">SimilarRecipies</string>
+    <string name="text_comments">Comments</string>
+    <string name="text_directions">Direction</string>
+    <string name="count"><![CDATA[
+        <b>%1$s</b>
+        viewed,<b>%2$s</b> printed,<b>%3$s</b> addToCollections]]>
+    </string>
+    <string name="add_portion">Add Portion</string>
+
+    <!--User Settings-->
     <string name="done">Done</string>
     <string name="settings">Settings</string>
     <string name="new_password">New Password</string>
@@ -134,15 +146,4 @@
     <string name="today_s_recipes_motion">Today\'s Recipes Motion</string>
     <string name="drinking_tips">Drinking Tips and alcohol-related mailings</string>
     <string name="no_email">I do not want to receive newsletters</string>
-    <string name="text_Ingredients">Ingredients</string>
-    <string name="text_SimilarRecipies">SimilarRecipies</string>
-    <string name="text_comments">Comments</string>
-    <string name="text_directions">Direction</string>
-    <string name="count"><![CDATA[
-        <b>%1$s</b>
-        viewed,<b>%2$s</b> printed,<b>%3$s</b> addToCollections]]>
-    </string>
-    <string name="add_portion">Add Portion</string>
-    <string name="done">Done</string>
-
 </resources>

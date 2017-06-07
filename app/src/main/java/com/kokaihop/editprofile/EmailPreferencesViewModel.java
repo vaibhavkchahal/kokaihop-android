@@ -3,6 +3,7 @@ package com.kokaihop.editprofile;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
@@ -43,40 +44,41 @@ public class EmailPreferencesViewModel extends BaseViewModel {
 
     public void preferencesChanged(View view) {
         switch ((view.getId())) {
+
             case R.id.cb_email_pref_no_email:
-                emailPreferences.setTodayRecipe(false);
-                emailPreferences.setDrinkingTips(false);
+                emailPreferences.setTodayRecipe(!((CheckBox) view).isChecked());
+                emailPreferences.setDrinkingTips(!((CheckBox) view).isChecked());
                 break;
             default:
-                if(emailPreferences.isTodayRecipe() || emailPreferences.isDrinkingTips()){
+                if (emailPreferences.isTodayRecipe() || emailPreferences.isDrinkingTips()) {
                     emailPreferences.setNoEmail(false);
-                }else{
+                } else {
                     emailPreferences.setNoEmail(true);
                 }
         }
     }
 
-    public void updatePreferences(){
+    public void updatePreferences() {
         String accessToken = Constants.AUTHORIZATION_BEARER +
-                SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
-        String userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
-        new EditProfileApiHelper().changePreferences(accessToken, userId, emailPreferences, new IApiRequestComplete<EditProfileResponse>() {
+                SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
+        new SettingsApiHelper().changePreferences(accessToken, userId, emailPreferences, new IApiRequestComplete<SettingsResponse>() {
             @Override
-            public void onSuccess(EditProfileResponse response) {
-                if(response.isSuccess()){
-                    Toast.makeText(context,"Settings Updated!!!",Toast.LENGTH_SHORT).show();
-                    ((Activity)context).finish();
+            public void onSuccess(SettingsResponse response) {
+                if (response.isSuccess()) {
+                    Toast.makeText(context, "Settings Updated!!!", Toast.LENGTH_SHORT).show();
+                    ((Activity) context).finish();
                 }
             }
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context,"Settings Can't be updated!!!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Settings Can't be updated!!!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onError(EditProfileResponse response) {
-                Toast.makeText(context,"Settings Can't be updated!!!",Toast.LENGTH_SHORT).show();
+            public void onError(SettingsResponse response) {
+                Toast.makeText(context, "Settings Can't be updated!!!", Toast.LENGTH_SHORT).show();
             }
         });
     }

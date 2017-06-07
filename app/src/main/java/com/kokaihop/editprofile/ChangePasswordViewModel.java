@@ -32,9 +32,9 @@ public class ChangePasswordViewModel {
                 String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
                 String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
                 UserPassword userPassword = new UserPassword(newPassword);
-                new EditProfileApiHelper().changePassword(accessToken, userId, userPassword, new IApiRequestComplete<EditProfileResponse>() {
+                new SettingsApiHelper().changePassword(accessToken, userId, userPassword, new IApiRequestComplete<SettingsResponse>() {
                     @Override
-                    public void onSuccess(EditProfileResponse response) {
+                    public void onSuccess(SettingsResponse response) {
                         if (response.isSuccess()) {
                             Toast.makeText(context, R.string.password_updated, Toast.LENGTH_SHORT).show();
                             ((Activity)context).finish();
@@ -49,7 +49,7 @@ public class ChangePasswordViewModel {
                     }
 
                     @Override
-                    public void onError(EditProfileResponse response) {
+                    public void onError(SettingsResponse response) {
                         Toast.makeText(context, R.string.password_not_updated, Toast.LENGTH_SHORT).show();
                     }
                 });
