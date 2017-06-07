@@ -5,7 +5,6 @@ import android.content.Context;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -55,15 +54,11 @@ public class UserProfileViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-                Logger.e(User.getInstance().get_id() + "Failure",message);
-
                 setProgressVisible(false);
-
             }
 
             @Override
             public void onError(UserRealmObject response) {
-                Logger.e(User.getInstance().get_id()+"Error", "name : "+ User.getInstance().getName().getFull());
                 setProgressVisible(false);
 
             }

@@ -2,11 +2,10 @@ package com.kokaihop.editprofile;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentChangePasswordBinding;
+import com.altaworks.kokaihop.ui.databinding.ActivityChangePasswordBinding;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -18,12 +17,10 @@ import com.kokaihop.utility.SharedPrefUtils;
 public class ChangePasswordViewModel {
 
     Context context;
-    FragmentChangePasswordBinding changePasswordBinding;
-    Fragment fragment;
+    ActivityChangePasswordBinding changePasswordBinding;
 
-    public ChangePasswordViewModel(Fragment fragment, FragmentChangePasswordBinding changePasswordBinding) {
-        this.context = fragment.getContext();
-        this.fragment = fragment;
+    public ChangePasswordViewModel(Context context, ActivityChangePasswordBinding changePasswordBinding) {
+        this.context = context;
         this.changePasswordBinding = changePasswordBinding;
     }
 
@@ -32,16 +29,15 @@ public class ChangePasswordViewModel {
         if (validatePassword(newPassword)) {
 
             if (newPassword.equals(changePasswordBinding.etConfirmPassword.getText().toString())) {
-                Toast.makeText(context, "Password!!!", Toast.LENGTH_SHORT).show();
                 String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
                 String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
                 UserPassword userPassword = new UserPassword(newPassword);
-                new EditProfileApiHelper().changePassword(accessToken, userId, userPassword, new IApiRequestComplete<ChangePasswordResponse>() {
+                new EditProfileApiHelper().changePassword(accessToken, userId, userPassword, new IApiRequestComplete<EditProfileResponse>() {
                     @Override
-                    public void onSuccess(ChangePasswordResponse response) {
+                    public void onSuccess(EditProfileResponse response) {
                         if (response.isSuccess()) {
                             Toast.makeText(context, R.string.password_updated, Toast.LENGTH_SHORT).show();
-                            fragment.getFragmentManager().popBackStack();
+                            ((Activity)context).finish();
                         } else {
                             Toast.makeText(context, R.string.password_not_updated, Toast.LENGTH_SHORT).show();
                         }
@@ -53,11 +49,10 @@ public class ChangePasswordViewModel {
                     }
 
                     @Override
-                    public void onError(ChangePasswordResponse response) {
+                    public void onError(EditProfileResponse response) {
                         Toast.makeText(context, R.string.password_not_updated, Toast.LENGTH_SHORT).show();
                     }
                 });
-                ((Activity) context).getFragmentManager().popBackStack();
             } else {
                 Toast.makeText(context, R.string.password_not_confirmed_msg, Toast.LENGTH_SHORT).show();
             }
@@ -67,7 +62,7 @@ public class ChangePasswordViewModel {
     }
 
     public void backToSettings() {
-        fragment.getFragmentManager().popBackStack();
+        ((Activity)context).finish();
     }
 
     public boolean validatePassword(String password) {
@@ -76,5 +71,4 @@ public class ChangePasswordViewModel {
         }
         return true;
     }
-
 }

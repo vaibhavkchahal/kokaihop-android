@@ -4,7 +4,7 @@ package com.kokaihop.editprofile;
  * Created by Rajendra Singh on 6/6/17.
  */
 
-class ChangePasswordResponse {
+class EditProfileResponse {
 
     private boolean success;
 

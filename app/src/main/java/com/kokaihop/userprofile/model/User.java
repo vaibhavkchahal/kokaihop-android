@@ -141,14 +141,6 @@ public class User extends BaseObservable{
 
     private User(){};
 
-    public static User getUser() {
-        return user;
-    }
-
-    public static void setUser(User user) {
-        User.user = user;
-    }
-
     public static User getInstance()
     {
         if(user == null){

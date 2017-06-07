@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.editprofile.EmailPreferencesViewModel"/>
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="com.kokaihop.editprofile.EmailPreferencesActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/email_pref_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/toolbar_height_with_status"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/status_bar_height"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/iv_email_pref_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewModel.destroy()}"
+                    android:paddingRight="@dimen/settings_iv_back_margin_right"
+                    android:src="@drawable/ic_back_arrow_white_md"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_email_pref_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_preferences"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_large"
+                    app:font="@{`SS-ProRegular`}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_email_pref_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewModel.updatePreferences()}"
+                    android:paddingRight="@dimen/settings_save_margin_right"
+                    android:text="@string/done"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_small"
+                    app:font="@{`SS-ProRegular`}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.Toolbar>
+        <CheckBox
+            android:id="@+id/cb_email_pref_recipe_motion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/email_pref_horizontal_margin"
+            android:layout_marginRight="@dimen/email_pref_horizontal_margin"
+            android:layout_marginTop="@dimen/email_pref_vertical_margin"
+            android:button="@drawable/checkbox_email_pref_selector"
+            android:checked="@={viewModel.emailPreferences.todayRecipe}"
+            android:layoutDirection="rtl"
+            android:onClick="@{(v)->viewModel.preferencesChanged(v)}"
+            android:paddingRight="@dimen/email_pref_horizontal_margin"
+            android:text="@string/today_s_recipes_motion"
+            android:textColor="@color/grey_FF71767F"
+            android:textSize="@dimen/text_size_medium"
+            app:font="@{`SS-ProRegular`}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_pref_toolbar"/>
+
+        <View android:id="@+id/today_recipe_divider"
+              android:layout_width="0dp"
+              android:layout_height="1dp"
+              android:layout_marginTop="@dimen/email_pref_vertical_margin"
+              android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/cb_email_pref_recipe_motion"
+              tools:layout_editor_absoluteX="8dp"/>
+        <CheckBox
+            android:id="@+id/cb_email_pref_drinking_tips"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/email_pref_horizontal_margin"
+            android:layout_marginRight="@dimen/email_pref_horizontal_margin"
+            android:layout_marginTop="@dimen/email_pref_vertical_margin"
+            android:textColor="@color/grey_FF71767F"
+            android:background="@color/white"
+            android:button="@drawable/checkbox_email_pref_selector"
+            android:checked="@={viewModel.emailPreferences.drinkingTips}"
+            android:layoutDirection="rtl"
+            android:onClick="@{(v)->viewModel.preferencesChanged(v)}"
+            android:paddingRight="@dimen/email_pref_horizontal_margin"
+            android:text="@string/drinking_tips"
+            android:textSize="@dimen/text_size_medium"
+            app:font="@{`SS-ProRegular`}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/today_recipe_divider"/>
+
+        <View android:id="@+id/today_dinking_divider"
+              android:layout_width="0dp"
+              android:layout_height="1dp"
+              android:layout_marginTop="@dimen/email_pref_vertical_margin"
+              android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/cb_email_pref_drinking_tips"
+              tools:layout_editor_absoluteX="8dp"/>
+
+        <CheckBox
+            android:id="@+id/cb_email_pref_no_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/email_pref_horizontal_margin"
+            android:layout_marginRight="@dimen/email_pref_horizontal_margin"
+            android:layout_marginTop="@dimen/email_pref_vertical_margin"
+            android:background="@color/white"
+            android:textColor="@color/grey_FF71767F"
+            android:button="@drawable/checkbox_email_pref_selector"
+            android:checked="@={viewModel.emailPreferences.noEmail}"
+            android:layoutDirection="rtl"
+            android:onClick="@{(v)->viewModel.preferencesChanged(v)}"
+            android:paddingRight="@dimen/email_pref_horizontal_margin"
+            android:text="@string/no_email"
+            android:textSize="@dimen/text_size_medium"
+            app:font="@{`SS-ProRegular`}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/today_dinking_divider"/>
+
+        <View android:id="@+id/today_noemail_divider"
+              android:layout_width="0dp"
+              android:layout_height="1dp"
+              android:layout_marginTop="@dimen/email_pref_vertical_margin"
+              android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/cb_email_pref_no_email"
+              tools:layout_editor_absoluteX="8dp"/>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

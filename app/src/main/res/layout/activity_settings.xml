@@ -9,9 +9,8 @@
         android:background="@color/white">
         <android.support.v7.widget.Toolbar
             android:id="@+id/settings_toolbar"
-            android:paddingTop="@dimen/status_bar_height"
             android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="@dimen/toolbar_height_with_status"
+            android:layout_height="@dimen/toolbar_height"
             android:background="@color/colorPrimary"
             android:gravity="center_vertical"
             app:layout_constraintLeft_toLeftOf="parent"

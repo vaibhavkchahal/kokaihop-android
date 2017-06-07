@@ -67,9 +67,6 @@ public class UserRealmObject extends RealmObject {
     private int recipeCount;
     @SerializedName("totalFeeds")
     private int totalFeeds;
-//    private String name;
-
-
 
     public String getFriendlyUrl() {
         return friendlyUrl;

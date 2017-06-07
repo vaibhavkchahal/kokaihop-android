@@ -12,7 +12,6 @@ import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.feed.PagerTabAdapter;
-import com.kokaihop.utility.Logger;
 
 public class HomeActivity extends BaseActivity {
     private NonSwipeableViewPager viewPager;
@@ -111,16 +110,6 @@ public class HomeActivity extends BaseActivity {
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText(tabsText[i]);
             tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[i], 0, 0);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Logger.e("Count",getFragmentManager().getBackStackEntryCount() + "");
-        if(getSupportFragmentManager().getBackStackEntryCount() > 0){
-            getSupportFragmentManager().popBackStack();
-        }else{
-            finish();
         }
     }
 }

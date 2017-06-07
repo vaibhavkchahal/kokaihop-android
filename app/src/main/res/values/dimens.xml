@@ -309,6 +309,9 @@
     <dimen name="changepassword_et_padding">10dp</dimen>
     <dimen name="changepassword_title_content_margin">50dp</dimen>
     <dimen name="change_password_seperator_margin">10dp</dimen>
+    <dimen name="email_pref_done_padding_bottom">14dp</dimen>
+    <dimen name="email_pref_vertical_margin">18dp</dimen>
+    <dimen name="email_pref_horizontal_margin">21dp</dimen>
 
 
 </resources>

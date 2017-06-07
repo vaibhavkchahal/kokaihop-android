@@ -19,8 +19,12 @@ public class EditProfileApiHelper {
 
 
     public void changePassword(String accessToken, String userId, UserPassword password, final IApiRequestComplete successInterface){
-        Call<ChangePasswordResponse> userResponseCall = editUserProfileApi.changePassword(accessToken,userId,password);
-        userResponseCall.enqueue(new ResponseHandler<ChangePasswordResponse >(successInterface));
+        Call<EditProfileResponse> userResponseCall = editUserProfileApi.changePassword(accessToken,userId,password);
+        userResponseCall.enqueue(new ResponseHandler<EditProfileResponse>(successInterface));
+    }
+    public void changePreferences(String accessToken, String userId, EmailPreferences emailPreferences, final IApiRequestComplete successInterface){
+        Call<EditProfileResponse> userResponseCall = editUserProfileApi.changePreferences(accessToken,userId,emailPreferences);
+        userResponseCall.enqueue(new ResponseHandler<EditProfileResponse>(successInterface));
     }
 
 }

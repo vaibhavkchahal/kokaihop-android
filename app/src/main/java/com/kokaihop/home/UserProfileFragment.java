@@ -1,5 +1,6 @@
 package com.kokaihop.home;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -22,7 +23,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
-import com.kokaihop.editprofile.SettingsFragment;
+import com.kokaihop.editprofile.SettingsActivity;
 import com.kokaihop.userprofile.FollowersFragment;
 import com.kokaihop.userprofile.FollowingFragment;
 import com.kokaihop.userprofile.HistoryFragment;
@@ -211,12 +212,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             @Override
             public void onClick(View v) {
                 Logger.e("Setting","Clicked");
-                SettingsFragment settingsFragment = new SettingsFragment();
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.cl_user_profile_container,settingsFragment)
-                        .addToBackStack(null)
-                        .commit();
-//                startActivity(new Intent(getContext(), UserSettingsActivity.class));
+                startActivity(new Intent(getContext(), SettingsActivity.class));
             }
         });
 

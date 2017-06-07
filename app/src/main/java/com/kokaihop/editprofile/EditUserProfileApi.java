@@ -13,9 +13,14 @@ import retrofit2.http.Path;
 public interface EditUserProfileApi {
 
     @PUT("v1/api/users/{userId}")
-    Call<ChangePasswordResponse> changePassword(@Header("Authorization") String authorization,
+    Call<EditProfileResponse> changePassword(@Header("Authorization") String authorization,
+                                             @Path("userId") String userId,
+                                             @Body UserPassword password);
+
+    @PUT("v1/api/users/{userId}")
+    Call<EditProfileResponse> changePreferences(@Header("Authorization") String authorization,
                                                 @Path("userId") String userId,
-                                                @Body UserPassword password);
+                                                @Body EmailPreferences emailPreferences);
 
 
 }

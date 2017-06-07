@@ -4,6 +4,7 @@ import com.kokaihop.database.StringObject;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.userprofile.model.Settings;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
 import com.kokaihop.utility.Logger;
@@ -59,6 +60,10 @@ public class ProfileDataManager {
                 user.getCoverImage().setCloudinaryId(userRealmObject.getCoverImage().getCloudinaryId());
             }
             user.setRecipeCount(userRealmObject.getRecipeCount());
+            user.setSettings(new Settings());
+            user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
+            user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
+            user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
         }
 
         return user;
