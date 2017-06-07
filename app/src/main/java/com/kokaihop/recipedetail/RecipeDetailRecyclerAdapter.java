@@ -21,6 +21,8 @@ import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.feed.AdvtDetail;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private final List<Object> recipeDetailItemsList;
 
     private Context context;
+    private PortionClickListener onPortionClickListener;
 
     public RecipeDetailRecyclerAdapter(List<Object> list) {
         recipeDetailItemsList = list;
@@ -112,8 +115,15 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 break;
             case TYPE_ITEM_RECIPE_INGREDIENT_VARIATOR:
                 ViewHolderIngrdientVariator holderVariator = (ViewHolderIngrdientVariator) holder;
-                RecipeQuantityVariator variator = (RecipeQuantityVariator) recipeDetailItemsList.get(position);
+                final RecipeQuantityVariator variator = (RecipeQuantityVariator) recipeDetailItemsList.get(position);
                 holderVariator.binder.setModel(variator);
+                holderVariator.binder.setClick(new PortionClickListener() {
+                    @Override
+                    public void onPortionClick(int quantity) {
+
+                        onPortionClickListener.onPortionClick(quantity);
+                    }
+                });
                 holderVariator.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_DIRECTION:
@@ -143,8 +153,17 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 break;*/
             case TYPE_ITEM_SIMILAR_ITEM:
                 ViewHolderItemSimilarRecipe holderItemSimilarRecipe = (ViewHolderItemSimilarRecipe) holder;
-//                SimilarRecipe similarRecipe = (SimilarRecipe) recipeDetailItemsList.get(position);
-//                holderItemSimilarRecipe.binder.setModel(similarRecipe);
+                SimilarRecipe similarRecipe = (SimilarRecipe) recipeDetailItemsList.get(position);
+
+                View view = AppUtility.getImageUrlWithAspectRatio(280, 320, holderItemSimilarRecipe.binder.imgviewRecipeImg);
+                String recipeUrl = CloudinaryUtils.getImageUrl(similarRecipe.getRecipeImageUrl(), String.valueOf(view.getLayoutParams().width), String.valueOf(view.getLayoutParams().height));
+
+                int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.similar_recipe_profile_img_height_width);
+                String profileImageUrl = CloudinaryUtils.getRoundedImageUrl(similarRecipe.getUserImageUrl(), String.valueOf(profileImageSize), String.valueOf(profileImageSize));
+
+                holderItemSimilarRecipe.binder.setRecipeImageUrl(recipeUrl);
+                holderItemSimilarRecipe.binder.setProfileImageUrl(profileImageUrl);
+                holderItemSimilarRecipe.binder.setModel(similarRecipe);
                 holderItemSimilarRecipe.binder.executePendingBindings();
                 break;
             default:
@@ -181,6 +200,11 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemCount() {
         return recipeDetailItemsList.size();
+    }
+
+    public void setPortionClickListener(PortionClickListener onPortionClickListener) {
+        this.onPortionClickListener = onPortionClickListener;
+
     }
 
 
@@ -275,5 +299,10 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             super(view);
             binder = DataBindingUtil.bind(view);
         }
+    }
+
+    public interface PortionClickListener {
+        void onPortionClick(int quantity);
+
     }
 }

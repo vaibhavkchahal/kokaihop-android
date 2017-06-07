@@ -6,25 +6,32 @@ package com.kokaihop.recipedetail;
 
 public class SimilarRecipe {
 
-    private int recipeImageId;
-    private int userImageId;
+    private String recipeImageUrl;
+    private String userImageUrl;
     private String userName;
     private String recipeName;
 
-    public int getRecipeImageId() {
-        return recipeImageId;
+    public SimilarRecipe(String recipeName,String recipeImageId, String userImageId, String userName) {
+        this.recipeImageUrl = recipeImageId;
+        this.userImageUrl = userImageId;
+        this.userName = userName;
+        this.recipeName = recipeName;
     }
 
-    public void setRecipeImageId(int recipeImageId) {
-        this.recipeImageId = recipeImageId;
+    public String getRecipeImageUrl() {
+        return recipeImageUrl;
     }
 
-    public int getUserImageId() {
-        return userImageId;
+    public void setRecipeImageUrl(String recipeImageUrl) {
+        this.recipeImageUrl = recipeImageUrl;
     }
 
-    public void setUserImageId(int userImageId) {
-        this.userImageId = userImageId;
+    public String getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public void setUserImageUrl(String userImageUrl) {
+        this.userImageUrl = userImageUrl;
     }
 
     public String getUserName() {

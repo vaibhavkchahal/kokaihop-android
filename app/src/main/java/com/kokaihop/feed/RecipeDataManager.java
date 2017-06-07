@@ -23,7 +23,7 @@ import io.realm.Sort;
 public class RecipeDataManager {
     private Realm realm;
 
-    private static final String RECIPE_ID="_id";
+    private static final String RECIPE_ID = "_id";
 
     public RecipeDataManager() {
         realm = Realm.getDefaultInstance();
@@ -48,6 +48,7 @@ public class RecipeDataManager {
         recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
         recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
         recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        recipe.setCoverImage(recipeRealmObject.getCoverImage());
         if (recipeRealmObject.getMainImageRealmObject() != null) {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
         }
@@ -78,11 +79,7 @@ public class RecipeDataManager {
                 recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
                 recipeRealmObject.setCounter(updateCounter(recipeInfo.getRecipeRealmObject()));
                 recipeRealmObject.setBadgeDateCreated(recipeInfo.getRecipeRealmObject().getDateCreated());
-//                recipeRealmObject.setCookingMethodRealmObject(updateCooking(recipeInfo.getRecipeRealmObject()));
-//                recipeRealmObject.setCuisineRealmObject(updateCuisineObject(recipeInfo.getRecipeRealmObject()));
-//                recipeRealmObject.setCategoryRealmObject(updateCategoryObject(recipeInfo.getRecipeRealmObject()));
-
-//                recipeRealmObject.setCreatedByRealmObject(updateCreatedByObject(recipeInfo.getRecipeRealmObject()));
+                recipeRealmObject.setCoverImage(recipeInfo.getRecipeRealmObject().getCoverImage());
 
                 if (recipeResponse.getMyLikes() != null) {
                     boolean isLiked = recipeResponse.getMyLikes().contains(recipeRealmObject.get_id());
@@ -137,12 +134,12 @@ public class RecipeDataManager {
 
 
     public void insertOrUpdateRecipeDetails(final JSONObject jsonObject) {
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
-                }
-            });
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
+            }
+        });
     }
 
 
@@ -157,9 +154,17 @@ public class RecipeDataManager {
     }
 
     public RecipeRealmObject fetchRecipe(String recipeID) {
+        //return the managed object
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                 .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
+    }
+
+    public RecipeRealmObject fetchCopyOfRecipe(String recipeID) {
+        //        //return the unmanaged object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(RECIPE_ID, recipeID).findFirst();
+        return realm.copyFromRealm(recipeRealmObject);
     }
 
     public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
@@ -172,8 +177,8 @@ public class RecipeDataManager {
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
-                        JSONObject recipeJSONObject=(JSONObject) jsonArray.get(i);
-                        RecipeRealmObject similarRecipe=realm.createOrUpdateObjectFromJson(RecipeRealmObject.class,recipeJSONObject);
+                        JSONObject recipeJSONObject = (JSONObject) jsonArray.get(i);
+                        RecipeRealmObject similarRecipe = realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
                         recipeRealmObject.getSimilarRecipes().add(similarRecipe);
 
                     } catch (JSONException e) {

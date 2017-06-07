@@ -22,10 +22,10 @@ public class UserRealmObject extends RealmObject {
     private String email;
 
     @SerializedName("followers")
-    private RealmList<StringObject> followers;
+    private RealmList<RealmString> followers;
 
     @SerializedName("following")
-    private RealmList<StringObject> following;
+    private RealmList<RealmString> following;
 
     private RealmList<UserRealmObject> followersList;
 
@@ -246,19 +246,19 @@ public class UserRealmObject extends RealmObject {
         this.followingList = followingList;
     }
 
-    public RealmList<StringObject> getFollowers() {
+    public RealmList<RealmString> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(RealmList<StringObject> followers) {
+    public void setFollowers(RealmList<RealmString> followers) {
         this.followers = followers;
     }
 
-    public RealmList<StringObject> getFollowing() {
+    public RealmList<RealmString> getFollowing() {
         return following;
     }
 
-    public void setFollowing(RealmList<StringObject> following) {
+    public void setFollowing(RealmList<RealmString> following) {
         this.following = following;
     }
 

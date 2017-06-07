@@ -5,19 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeQuantityVariator"/>
+        <variable name="click"
+                  type="com.kokaihop.recipedetail.RecipeDetailRecyclerAdapter.PortionClickListener"/>
+
     </data>
 
 
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_ingrdnt_variator_height"
+                    android:layout_marginBottom="19dp"
+                    android:layout_marginLeft="@dimen/item_ingrdnt_variator_margin_left"
+                    android:layout_marginRight="@dimen/item_ingrdnt_variator_margin_right"
+                    android:layout_marginTop="19dp"
+                    android:background="@drawable/recipe_item_border"
+                    android:onClick=""
+                    android:orientation="horizontal">
+
+
         <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="@dimen/item_ingrdnt_variator_height"
-                        android:layout_marginBottom="19dp"
-                        android:layout_marginLeft="@dimen/item_ingrdnt_variator_margin_left"
-                        android:layout_marginRight="@dimen/item_ingrdnt_variator_margin_right"
-                        android:layout_marginTop="19dp"
-                        android:background="@drawable/recipe_item_border"
-                        android:orientation="horizontal">
-
-
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/view_divider"
+                        android:onClick="@{() -> click.onPortionClick(model.quantity)}">
             <TextView
                 android:id="@+id/txtview_portion"
                 android:layout_width="wrap_content"
@@ -45,32 +54,34 @@
                 android:textSize="@dimen/txtview_portion_count_textsize"
                 app:font="@{`SS-ProRegular`}"
             />
+        </RelativeLayout>
 
+        <View
+            android:id="@+id/view_divider"
+            android:layout_width="@dimen/divider_height"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/grey_FFD4D4D4"/>
 
-            <View
-                android:id="@+id/view_divider"
-                android:layout_width="@dimen/divider_height"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@color/grey_FFD4D4D4"/>
-
-
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_centerVertical="true"
+                      android:layout_toRightOf="@+id/view_divider"
+                      android:gravity="center_vertical">
             <TextView
                 android:id="@+id/txtview_addlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/txtview_addlist_margin_left"
-                android:layout_toRightOf="@+id/view_divider"
                 android:drawableLeft="@drawable/ic_addtolist"
                 android:drawablePadding="@dimen/txtview_addlistdrawable_padding"
-                android:gravity="center_vertical"
                 android:text="@string/text_add_to_list"
                 android:textColor="@color/grey_FF71767F"
                 android:textSize="@dimen/txtview_addlist_textsize"
                 app:font="@{`SS-ProRegular`}"
             />
+        </LinearLayout>
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 </layout>

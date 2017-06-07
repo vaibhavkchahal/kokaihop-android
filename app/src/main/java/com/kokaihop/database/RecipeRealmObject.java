@@ -48,6 +48,9 @@ public class RecipeRealmObject extends RealmObject {
     @SerializedName("servings")
     private int servings;
 
+    @SerializedName("coverImage")
+    private  String coverImage;
+
     public RecipeDescription getDescription() {
         return description;
     }
@@ -63,7 +66,8 @@ public class RecipeRealmObject extends RealmObject {
     public void setServings(int servings) {
         this.servings = servings;
     }
-//    private StringObject[] cookingSteps;
+
+//    private RealmList<StringObject> cookingSteps;
 
     public boolean isFavorite;
 
@@ -287,4 +291,20 @@ public class RecipeRealmObject extends RealmObject {
     public void setCounter(CounterRealmObject counter) {
         this.counter = counter;
     }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
+
+//    public RealmList<StringObject> getCookingSteps() {
+//        return cookingSteps;
+//    }
+//
+//    public void setCookingSteps(RealmList<StringObject> cookingSteps) {
+//        this.cookingSteps = cookingSteps;
+//    }
 }

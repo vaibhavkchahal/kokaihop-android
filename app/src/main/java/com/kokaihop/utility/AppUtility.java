@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.kokaihop.home.HomeActivity;
 
@@ -39,4 +41,15 @@ public class AppUtility {
         return height;
     }
 
+    public static View getImageUrlWithAspectRatio(int height, int width, View view) {
+        Point point = getDisplayPoint(view.getContext());
+        int aspectWidth = point.x;
+        float ratio = (float) height / width;
+        int aspectHeight = getHeightInAspectRatio(aspectWidth, ratio);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        layoutParams.height = aspectHeight;
+        layoutParams.width = aspectWidth;
+        view.setLayoutParams(layoutParams);
+        return view;
+    }
 }
