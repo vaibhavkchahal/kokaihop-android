@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.RecipeDataManager;
@@ -29,7 +30,8 @@ import okhttp3.ResponseBody;
 
 public class RecipeDetailViewModel extends BaseViewModel {
 
-    private final int COMMENTS_TO_LOAD = 100;
+    private final int LIMIT_COMMENT = 3;
+    private final int LIMIT_SIMILAR_RECIPE = 5;
     private RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
     private String recipeID;
@@ -51,7 +53,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         this.txtviwPagerProgress = textView;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
-        getRecipeDetails(recipeRealmObject.getFriendlyUrl(), COMMENTS_TO_LOAD);
+        getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
 
     private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
@@ -65,7 +67,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     final JSONObject json = new JSONObject(responseBody.string());
                     JSONObject recipeJSONObject = json.getJSONObject("recipe");
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
-                    fetchSimilarRecipe(recipeFriendlyUrl, 5, recipeDataManager.fetchRecipe(recipeID).getTitle());
+                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeID).getTitle());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -86,7 +88,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
 
     private void fetchSimilarRecipe(String recipeFriendlyUrl, int limit, String title) {
-        //https://staging-kokaihop.herokuapp.com/v1/api/recipes/getSimilarRecipes?friendlyUrl=varldens-enklaste-kyckling-i-ugn&limit=5&title=Världens enklaste kyckling i ugn
         new RecipeDetailApiHelper().getSimilarRecipe(recipeFriendlyUrl, limit, title, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
@@ -142,16 +143,15 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private void addIngredients(RecipeRealmObject recipeRealmObject) {
         recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_Ingredients)));
         for (int i = 0; i < recipeRealmObject.getIngredients().size(); i++) {
-            recipeDetailItemsList.add(recipeRealmObject.getIngredients().get(i));
+            IngredientsRealmObject ingredientsRealmObject = recipeRealmObject.getIngredients().get(i);
+            if (ingredientsRealmObject.getAmount() != 0)
+                recipeDetailItemsList.add(ingredientsRealmObject);
         }
     }
 
     private void addSimilarRecipies(RecipeRealmObject recipeRealmObject) {
         recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_SimilarRecipies)));
         for (int i = 0; i < recipeRealmObject.getSimilarRecipes().size(); i++) {
-            if (i > 4) {
-                break;
-            }
             RecipeRealmObject realmObject = recipeRealmObject.getSimilarRecipes().get(i);
             String mainImageUrl = "0";
             if (realmObject.getMainImageRealmObject() != null) {
@@ -170,9 +170,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private void addComments(RecipeRealmObject recipeRealmObject) {
         recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_comments)));
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
-            if (i > 2) {
-                break;
-            }
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
     }

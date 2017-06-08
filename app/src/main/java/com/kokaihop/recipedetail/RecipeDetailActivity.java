@@ -2,11 +2,14 @@ package com.kokaihop.recipedetail;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +25,9 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 
@@ -41,6 +46,8 @@ public class RecipeDetailActivity extends BaseActivity {
     private RecipeDetailRecyclerAdapter recyclerAdapter;
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
+    private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
+    private RecipeDetailPagerImages recipeDetailPagerImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,35 @@ public class RecipeDetailActivity extends BaseActivity {
         setToolbar();
         initializeViewPager(recipeID);
         initializeRecycleView();
+        setAppBarListener();
+
+
+    }
+
+    private void setAppBarListener() {
+        AppBarLayout appBarLayout = binding.appbarLayout;
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                Log.d("STATE", state.name());
+
+                switch (state) {
+                    case COLLAPSED:
+                        binding.viewpagerSwipeLeft.setVisibility(View.GONE);
+                        binding.viewpagerSwipeRight.setVisibility(View.GONE);
+
+
+                        break;
+                    case EXPANDED:
+                        binding.viewpagerSwipeLeft.setVisibility(View.VISIBLE);
+                        binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
+
+                }
+
+
+            }
+        });
 
     }
 
@@ -139,7 +175,8 @@ public class RecipeDetailActivity extends BaseActivity {
         RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         ImageView leftSlider = binding.viewpagerSwipeLeft;
         ImageView rightSlider = binding.viewpagerSwipeRight;
-        viewPager.setAdapter(new RecipeDetailPagerAdapter(this, recipeRealmObject.getImages()));
+        recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeRealmObject.getImages());
+        viewPager.setAdapter(recipeDetailPagerAdapter);
         txtviewPagerProgress.setText("1/" + recipeRealmObject.getImages().size());
         enablePagerLeftRightSlider(leftSlider, rightSlider);
     }
@@ -194,11 +231,24 @@ public class RecipeDetailActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 txtviewPagerProgress.setText(position + 1 + "/" + viewPager.getAdapter().getCount());
+//                setCollapsingToolbarImage(recipeDetailPagerAdapter.getImageUrl(position));
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    private void setCollapsingToolbarImage(String imageUrl) {
+
+        CollapsingToolbarLayout collapsingToolbarLayout = binding.collapsingToolbarLayout;
+
+//        Glide.with(collapsingToolbarLayout.getContext()).load(url).placeholder(R.color.colorPrimary).into(binding.imageviewToolbarImage);
+
+       /* collapsingToolbarLayout.setContentScrim(
+                context.getResources()
+                        .getDrawable(R.drawable.something);*/
     }
 }
