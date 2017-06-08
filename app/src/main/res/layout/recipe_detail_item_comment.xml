@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
+        <variable name="imageUrl" type="String"/>
     </data>
 
 
@@ -20,7 +21,10 @@
             android:id="@+id/txtview_ingredent_quantity"
             android:layout_width="@dimen/imgview_ingrdnt_quantity_width"
             android:layout_height="@dimen/imgview_ingrdnt_quantity_height"
-            android:src="@drawable/ic_avtar_sm"
+            app:error="@{@drawable/ic_avtar_sm}"
+            app:imageUrl="@{imageUrl}"
+            app:isCircular="@{true}"
+            app:placeholder="@{@drawable/ic_avtar_sm}"
         />
 
         <TextView
@@ -32,7 +36,7 @@
             android:textColor="@color/tab_background"
             android:textSize="@dimen/txtview_comment_user_textsize"
             app:font="@{`SS-ProRegular`}"
-            android:text="@{model.sourceUser.userNameRealmObject.full}"
+            android:text="@{model.sourceUser.userNameRealmObject.first}"
         />
 
 

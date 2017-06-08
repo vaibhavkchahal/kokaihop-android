@@ -6,6 +6,7 @@ package com.kokaihop.recipedetail;
 
 public class RecipeSpecifications {
     private String name;
+    private String ImageId;
     private long dateCreated;
     private String category1;
     private String category2;
@@ -19,6 +20,14 @@ public class RecipeSpecifications {
 
     public void setAddToCollections(long addToCollections) {
         this.addToCollections = addToCollections;
+    }
+
+    public String getImageId() {
+        return ImageId;
+    }
+
+    public void setImageId(String imageId) {
+        ImageId = imageId;
     }
 
     public String getName() {

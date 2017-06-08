@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="model" type="com.kokaihop.database.IngredientsRealmObject"/>
     </data>
@@ -12,24 +13,33 @@
                     android:paddingBottom="@dimen/item_ingrdnt_padding_bottom"
                     android:paddingLeft="@dimen/item_ingrdnt_padding_left"
                     android:paddingRight="@dimen/item_ingrdnt_padding_right"
-                    android:paddingTop="@dimen/item_ingrdnt_padding_top">
+                    android:background="@color/white">
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/grey_FFF3F3F3"
+              android:layout_alignParentTop="true"/>
 
         <TextView
+            android:paddingTop="@dimen/item_ingrdnt_padding_top"
             android:id="@+id/txtview_ingredent_quantity"
             android:layout_width="@dimen/txtview_ingrdnt_width"
             android:layout_height="wrap_content"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
+            app:font="@{`SS-ProRegular`}"
             android:text="@{model.amount+` `+model.unit.name}"
         />
 
         <TextView
+            android:paddingTop="@dimen/item_ingrdnt_padding_top"
             android:id="@+id/txtview_ingredent_name"
             android:layout_width="@dimen/txtview_ingrdnt_name_width"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_ingrdnt_name_textsize"
+            app:font="@{`SS-ProRegular`}"
             android:text="@{model.name}"
         />
 

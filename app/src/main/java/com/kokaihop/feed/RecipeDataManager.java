@@ -49,13 +49,13 @@ public class RecipeDataManager {
         recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
         recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
-        if (recipeRealmObject.getMainImageRealmObject() != null) {
-            recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
+        if (recipeRealmObject.getMainImage() != null) {
+            recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
         recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
-        if (recipeRealmObject.getRatingRealmObject() != null) {
-            recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
+        if (recipeRealmObject.getRating() != null) {
+            recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
 
         }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());

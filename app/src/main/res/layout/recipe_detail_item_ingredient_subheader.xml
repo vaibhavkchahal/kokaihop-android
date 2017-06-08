@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="model" type="com.kokaihop.recipedetail.IngredientSubHeader"/>
+    </data>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/item_ingrdnt_padding_bottom"
+                    android:paddingLeft="@dimen/item_ingrdnt_padding_left"
+                    android:paddingRight="@dimen/item_ingrdnt_padding_right">
+
+        <View android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_alignParentTop="true"
+              android:background="@color/grey_FFF3F3F3"/>
+
+        <TextView
+            android:id="@+id/txtview_ingredient_subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/item_ingrdnt_padding_top"
+            android:text="@{model.title}"
+            android:textColor="@color/black_FF262F40"
+            android:textSize="@dimen/txtview_ingredient_subheader_textsize"
+            app:font="@{`SS-ProSemiBold`}"
+        />
+
+    </RelativeLayout>
+
+</layout>
