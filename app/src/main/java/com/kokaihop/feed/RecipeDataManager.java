@@ -4,6 +4,7 @@ import com.kokaihop.database.CounterRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -174,16 +176,20 @@ public class RecipeDataManager {
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
+                RealmList<RecipeRealmObject> similarRecipes = new RealmList<RecipeRealmObject>();
+
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
                         JSONObject recipeJSONObject = (JSONObject) jsonArray.get(i);
+                        Logger.d("jsonArray", jsonArray.toString());
                         RecipeRealmObject similarRecipe = realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
-                        recipeRealmObject.getSimilarRecipes().add(similarRecipe);
+                        similarRecipes.add(similarRecipe);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    recipeRealmObject.setSimilarRecipes(similarRecipes);
 
                 }
             }
