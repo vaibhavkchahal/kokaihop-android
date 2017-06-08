@@ -31,6 +31,7 @@ import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import static com.kokaihop.utility.AppUtility.getHeightInAspectRatio;
@@ -162,6 +163,8 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             case TYPE_ITEM_RECIPE_INGREDIENT:
                 ViewHolderItemIngredient holderIngredient = (ViewHolderItemIngredient) holder;
                 IngredientsRealmObject ingredientsRealmObject = (IngredientsRealmObject) recipeDetailItemsList.get(position);
+                DecimalFormat decimalFormat = new DecimalFormat("###.#");
+                holderIngredient.binder.setDecimalFormat(decimalFormat);
                 holderIngredient.binder.setModel(ingredientsRealmObject);
                 holderIngredient.binder.executePendingBindings();
                 break;

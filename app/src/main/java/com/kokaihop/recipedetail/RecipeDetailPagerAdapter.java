@@ -16,6 +16,11 @@ import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import io.realm.RealmList;
 
 import static com.kokaihop.utility.AppUtility.getHeightInAspectRatio;
@@ -28,7 +33,9 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private RealmList<RecipeDetailPagerImages> pagerImages;
+    private RealmList<RecipeDetailPagerImages> pagerImages = new RealmList<>();
+    private RecipeDetailPagerItemBinding binding;
+    private Set<String> imageUrlSet = new LinkedHashSet<>();
 
     public RecipeDetailPagerAdapter(Context context, RealmList<RecipeDetailPagerImages> pagerImages) {
         mContext = context;
@@ -48,7 +55,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        RecipeDetailPagerItemBinding binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.recipe_detail_pager_item, container, false);
+        binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.recipe_detail_pager_item, container, false);
         binding.getRoot().setTag(position);
         setImageWithAspectRatio(position, binding);
         container.addView(binding.getRoot());
@@ -65,11 +72,25 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         layoutParams.height = height;
         layoutParams.width = width;
         imageViewRecipe.setLayoutParams(layoutParams);
-        binding.setImageUrl(CloudinaryUtils.getImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
+        String imageUrl = CloudinaryUtils.getImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height));
+        imageUrlSet.add(imageUrl);
+        binding.setImageUrl(imageUrl);
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout) object);
+    }
+
+    public String getImageUrl(int position) {
+        List<String> imageUrlList = new ArrayList<>(imageUrlSet);
+
+        if (position < imageUrlList.size()) {
+            return imageUrlList.get(position);
+        } else {
+            return "";
+        }
+
+
     }
 }

@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="model" type="com.kokaihop.database.IngredientsRealmObject"/>
+        <variable name="decimalFormat" type="java.text.DecimalFormat" />
     </data>
 
 
@@ -29,6 +30,7 @@
             android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
             app:font="@{`SS-ProRegular`}"
             android:text="@{model.amount+` `+model.unit.name}"
+            android:text="@{decimalFormat.format(model.amount)+` `+model.unit.name}"
         />
 
         <TextView
