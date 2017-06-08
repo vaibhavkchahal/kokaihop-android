@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.database.IngredientsRealmObject"/>
+        <variable name="decimalFormat" type="java.text.DecimalFormat" />
     </data>
 
 
@@ -20,7 +21,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
-            android:text="@{model.amount+` `+model.unit.name}"
+            android:text="@{decimalFormat.format(model.amount)+` `+model.unit.name}"
         />
 
         <TextView
