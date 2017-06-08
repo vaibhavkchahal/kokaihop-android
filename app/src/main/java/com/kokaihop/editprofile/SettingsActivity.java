@@ -18,7 +18,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.KokaihopApplication.getContext;
 
-public class SettingsActivity extends BaseActivity implements View.OnClickListener{
+public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 
 
     public SettingsActivity() {
@@ -29,17 +29,18 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreate(savedInstanceState);
-        ActivitySettingsBinding settingsBinding = DataBindingUtil.setContentView(this,R.layout.activity_settings);
+        ActivitySettingsBinding settingsBinding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
         settingsBinding.settingsLogout.setOnClickListener(this);
         settingsBinding.settingsChangePassword.setOnClickListener(this);
         settingsBinding.settingsEmailPreferences.setOnClickListener(this);
+        settingsBinding.settingsEditProfile.setOnClickListener(this);
         settingsBinding.settingsIvBack.setOnClickListener(this);
         settingsBinding.settingsSave.setOnClickListener(this);
     }
 
-//    Display dialogbox to confirm the user for logout process.
+    //    Display dialogbox to confirm the user for logout process.
     public void showDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         dialog.setTitle("Confirm Logout");
         dialog.setMessage("Do you really want to logout!!!");
 
@@ -62,7 +63,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.settings_logout:
                 showDialog();
                 break;
@@ -71,14 +72,21 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
 
+            case R.id.settings_save:
+                finish();
+                break;
+
             case R.id.settings_change_password:
-                startActivity(new Intent(this,ChangePasswordActivity.class));
+                startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;
 
             case R.id.settings_email_preferences:
-                startActivity(new Intent(this,EmailPreferencesActivity.class));
+                startActivity(new Intent(this, EmailPreferencesActivity.class));
                 break;
 
+            case R.id.settings_edit_profile:
+                startActivity(new Intent(this, EditProfileActivity.class));
+                break;
         }
     }
 }

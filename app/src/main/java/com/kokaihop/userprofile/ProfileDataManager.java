@@ -42,6 +42,7 @@ public class ProfileDataManager {
             user.getName().setFirst(userRealmObject.getUserNameRealmObject().getFirst());
             user.getName().setLast(userRealmObject.getUserNameRealmObject().getLast());
             user.getName().setFull(userRealmObject.getUserNameRealmObject().getFull());
+            user.setEmail(userRealmObject.getEmail());
             user.getFollowing().clear();
             for (RealmString userid : userRealmObject.getFollowing()) {
                 user.getFollowing().add(userid.getString());
@@ -64,6 +65,8 @@ public class ProfileDataManager {
             user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
             user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
             user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
+
+            user.setCityName(userRealmObject.getCityName());
         }
 
         return user;

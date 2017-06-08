@@ -57,6 +57,8 @@ public class UserRealmObject extends RealmObject {
     private String aboutMe;
     @SerializedName("hasPassword")
     private boolean hasPassword;
+    @SerializedName("cityName")
+    private String cityName;
     @SerializedName("recipesCollectionCount")
     private int recipesCollectionCount;
     @SerializedName("blogPostCount")
@@ -266,8 +268,17 @@ public class UserRealmObject extends RealmObject {
         return id;
     }
 
+
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public UserNameRealmObject getUserNameRealmObject() {

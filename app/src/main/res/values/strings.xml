@@ -146,4 +146,8 @@
     <string name="today_s_recipes_motion">Today\'s Recipes Motion</string>
     <string name="drinking_tips">Drinking Tips and alcohol-related mailings</string>
     <string name="no_email">I do not want to receive newsletters</string>
+    <string name="settings_updated">Settings Updated!!!</string>
+    <string name="settings_not_updated">Settings Can\'t be updated!!!</string>
+    <string name="change_profile_photo">Change Profile Photo</string>
+    <string name="chhose_profile_pic">Choose Profile Picture</string>
 </resources>

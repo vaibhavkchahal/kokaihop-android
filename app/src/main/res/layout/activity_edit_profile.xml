@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.kokaihop.editprofile.EditProfileActivity">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.editprofile.EditProfileViewModel"/>
+    </data>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/settings_toolbar"
+            android:layout_width="@dimen/none"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_changePassword_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/change_profile_photo"
+                    android:onClick="@{()->viewModel.destroy()}"
+                    android:paddingEnd="@dimen/settings_iv_back_margin_right"
+                    android:paddingStart="@dimen/none"
+                    android:src="@drawable/ic_back_arrow_white_md"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_changePassword_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_profile"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_large"
+                    app:font="@{`SS-ProRegular`}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_changePassword_done"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/settings_save_margin_right"
+                    android:onClick="@{()->viewModel.updateProfile()}"
+                    android:text="@string/done"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    app:font="@{`SS-ProRegular`}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:id="@+id/ll_user_profile_pic_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:onClick="@{()->viewModel.changeProfileImage()}"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_toolbar">
+            <ImageView
+                android:id="@+id/iv_user_profile_pic"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="@dimen/edit_profile_user_pic_margin_top"
+                android:scaleType="fitXY"
+                android:contentDescription="@string/change_profile_photo"
+                app:error="@{@drawable/ic_avtar_lg}"
+                app:imageUrl="@{viewModel.profileImageUrl}"
+                app:placeholder="@{@drawable/ic_avtar_lg}"/>
+
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="@dimen/user_profile_pic_margin_bottom"
+                      android:text="@string/change_profile_photo"
+                      android:textColor="@color/blue_FF1484FF"
+                      app:font="@{`SS-ProRegular`}"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_edit_profile_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/edit_profile_tv_horizontal_margin"
+            android:layout_marginRight="@dimen/edit_profile_tv_horizontal_margin"
+            android:layout_marginTop="@dimen/user_profile_pic_margin_bottom"
+            android:hint="@string/email"
+            android:text="@{viewModel.email}"
+            android:textSize="@dimen/text_size_small"
+            app:font="@{`SS-ProRegular`}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_user_profile_pic_container"/>
+
+        <View
+            android:id="@+id/email_divider"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginEnd="@dimen/edit_profile_divider_horizontal_margin"
+            android:layout_marginLeft="@dimen/edit_profile_divider_horizontal_margin"
+            android:layout_marginRight="@dimen/edit_profile_divider_horizontal_margin"
+            android:layout_marginStart="@dimen/edit_profile_divider_horizontal_margin"
+            android:layout_marginTop="@dimen/edit_profile_divider_margin_top"
+            android:background="@color/grey_FF71767F"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_edit_profile_email"/>
+
+
+        <TextView
+            android:id="@+id/tv_edit_profile_city"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/edit_profile_tv_horizontal_margin"
+            android:layout_marginRight="@dimen/edit_profile_tv_horizontal_margin"
+            android:layout_marginTop="@dimen/user_profile_pic_margin_bottom"
+            android:drawableRight="@drawable/ic_down_arrow_sm"
+            android:hint="@string/city"
+            android:onClick="@{()->viewModel.selectCity()}"
+            android:text="@{viewModel.city}"
+            android:textSize="@dimen/text_size_small"
+            app:font="@{`SS-ProRegular`}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_divider"/>
+
+        <View android:layout_width="0dp"
+              android:layout_height="@dimen/divider_height"
+              android:layout_marginEnd="@dimen/edit_profile_divider_horizontal_margin"
+              android:layout_marginLeft="@dimen/edit_profile_divider_horizontal_margin"
+              android:layout_marginRight="@dimen/edit_profile_divider_horizontal_margin"
+              android:layout_marginStart="@dimen/edit_profile_divider_horizontal_margin"
+              android:layout_marginTop="@dimen/edit_profile_divider_margin_top"
+              android:background="@color/grey_FF71767F"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/tv_edit_profile_city"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>

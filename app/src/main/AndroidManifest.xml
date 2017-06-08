@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:name="com.kokaihop.KokaihopApplication"
         android:allowBackup="true"
@@ -69,7 +69,14 @@
             android:name="com.kokaihop.editprofile.ChangePasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppToolbarTheme"/>
-        <activity android:name="com.kokaihop.editprofile.EmailPreferencesActivity">
+
+        <activity android:name="com.kokaihop.editprofile.EmailPreferencesActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppToolbarTheme">
+        </activity>
+        <activity android:name="com.kokaihop.editprofile.EditProfileActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppToolbarTheme">
         </activity>
     </application>
 

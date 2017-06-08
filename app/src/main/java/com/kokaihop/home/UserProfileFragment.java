@@ -266,6 +266,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         if (profileImage != null) {
             String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
             userProfileBinding.setImageProfileUrl(imageUrl);
+            User.getInstance().setProfileImageUrl(imageUrl);
         }
         userProfileBinding.executePendingBindings();
     }
