@@ -176,7 +176,7 @@ public class RecipeDataManager {
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
-                RealmList<RecipeRealmObject> similarRecipes = new RealmList<RecipeRealmObject>();
+                RealmList<RecipeRealmObject> similarRecipes = new RealmList<>();
 
 
                 for (int i = 0; i < jsonArray.length(); i++) {
