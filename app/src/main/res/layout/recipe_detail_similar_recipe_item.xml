@@ -17,6 +17,7 @@
             android:id="@+id/imgview_recipe_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             app:error="@{@color/grey_FFD4D4D4}"
             app:imageUrl="@{recipeImageUrl}"
             app:placeholder="@{@color/grey_FFD4D4D4}"
@@ -30,6 +31,8 @@
             android:text="@{model.recipeName}"
             android:textColor="@color/white"
             android:textSize="19sp"
+            android:maxLength="30"
+            android:ellipsize="end"
             app:font="@{`SS-ProRegular`}"/>
 
         <TextView

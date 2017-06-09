@@ -72,9 +72,9 @@ public class RecipeRealmObject extends RealmObject {
     public boolean isFavorite;
 
     @SerializedName("mainImage")
-    private MainImageRealmObject mainImageRealmObject;
+    private MainImageRealmObject mainImage;
     @SerializedName("rating")
-    private RatingRealmObject ratingRealmObject;
+    private RatingRealmObject rating;
     private long badgeDateCreated;
 
     private long lastUpdated;
@@ -88,12 +88,12 @@ public class RecipeRealmObject extends RealmObject {
     @SerializedName("comments")
     private RealmList<CommentRealmObject> comments;
 
-    public MainImageRealmObject getMainImageRealmObject() {
-        return mainImageRealmObject;
+    public MainImageRealmObject getMainImage() {
+        return mainImage;
     }
 
-    public RatingRealmObject getRatingRealmObject() {
-        return ratingRealmObject;
+    public RatingRealmObject getRating() {
+        return rating;
     }
 
     public RealmList<RecipeDetailPagerImages> getImages() {
@@ -104,12 +104,12 @@ public class RecipeRealmObject extends RealmObject {
         this.images = images;
     }
 
-    public void setRatingRealmObject(RatingRealmObject ratingRealmObject) {
-        this.ratingRealmObject = ratingRealmObject;
+    public void setRating(RatingRealmObject rating) {
+        this.rating = rating;
     }
 
-    public void setMainImageRealmObject(MainImageRealmObject mainImageRealmObject) {
-        this.mainImageRealmObject = mainImageRealmObject;
+    public void setMainImage(MainImageRealmObject mainImage) {
+        this.mainImage = mainImage;
     }
 
 

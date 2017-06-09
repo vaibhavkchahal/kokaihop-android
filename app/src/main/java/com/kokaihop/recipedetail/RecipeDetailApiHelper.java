@@ -10,18 +10,16 @@ import retrofit2.Call;
 
 public class RecipeDetailApiHelper {
 
-    public void getRecipeDetail(String recipeFriendlyUrl,int commentCount, final IApiRequestComplete successCallback) {
+    public void getRecipeDetail(String recipeFriendlyUrl, int commentCount, final IApiRequestComplete successCallback) {
         RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
-        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getRecipeDetails(recipeFriendlyUrl,commentCount);
+        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getRecipeDetails(recipeFriendlyUrl, commentCount);
         recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
     }
 
 
-    public  void getSimilarRecipe(String recipeFriendlyUrl,int limit, String title, final IApiRequestComplete successCallback)
-    {
-
+    public void getSimilarRecipe(String recipeFriendlyUrl, int limit, String title, final IApiRequestComplete successCallback) {
         RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
-        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getSimilarRecipe(recipeFriendlyUrl,limit,title);
+        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.getSimilarRecipe(recipeFriendlyUrl, limit, title);
         recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
 
     }

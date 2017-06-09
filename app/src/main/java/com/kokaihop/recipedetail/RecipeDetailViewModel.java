@@ -32,7 +32,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private final int LIMIT_COMMENT = 3;
     private final int LIMIT_SIMILAR_RECIPE = 5;
-    private RecipeRealmObject recipeRealmObject;
+    public RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
     private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
@@ -123,13 +123,13 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     private void prepareRecipeDetailList(RecipeRealmObject recipeRealmObject) {
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRatingRealmObject().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getDescription().getRecipeDescription());
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getDescription().getRecipeDescription());
         recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         addIngredients(recipeRealmObject);
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
+//        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
         recipeDetailItemsList.add(recipeSpecifications);
 //        for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
@@ -146,6 +146,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
             IngredientsRealmObject ingredientsRealmObject = recipeRealmObject.getIngredients().get(i);
             if (ingredientsRealmObject.getAmount() != 0)
                 recipeDetailItemsList.add(ingredientsRealmObject);
+            if (ingredientsRealmObject.isHeader()) {
+                recipeDetailItemsList.add(new IngredientSubHeader(ingredientsRealmObject.getName()));
+            }
         }
     }
 
@@ -154,10 +157,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
         for (int i = 0; i < recipeRealmObject.getSimilarRecipes().size(); i++) {
             RecipeRealmObject realmObject = recipeRealmObject.getSimilarRecipes().get(i);
             String mainImageUrl = "0";
-            if (realmObject.getMainImageRealmObject() != null) {
-                mainImageUrl = realmObject.getMainImageRealmObject().getPublicId();
+            if (realmObject.getCoverImage() != null) {
+                mainImageUrl = realmObject.getCoverImage();
+            } else if (realmObject.getMainImage() != null) {
+                mainImageUrl = realmObject.getMainImage().getPublicId();
             }
-
             String profileImageUrl = "0";
             if (realmObject.getCreatedBy().getProfileImageId() != null) {
                 profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
@@ -168,16 +172,19 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     private void addComments(RecipeRealmObject recipeRealmObject) {
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_comments)));
+        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_comments), recipeRealmObject.getCounter().getComments()));
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
+        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.add_comments)));
+
     }
 
     private RecipeSpecifications getRecipeSpecifications(RecipeRealmObject recipeRealmObject) {
         RecipeSpecifications specifications = new RecipeSpecifications();
         specifications.setName(recipeRealmObject.getCreatedBy().getName());
-        specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
+        specifications.setImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        specifications.setDateCreated(recipeRealmObject.getDateCreated());
         specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
         specifications.setCategory2(recipeRealmObject.getCuisine().getName());
         specifications.setCategory3(recipeRealmObject.getCategory().getName());
@@ -185,6 +192,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
         specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
         specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
         return specifications;
+    }
+
+    public String getRecipeImageId() {
+        return recipeRealmObject.getCreatedBy().getProfileImageId();
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -50,13 +51,13 @@ public class RecipeDataManager {
         recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
         recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
-        if (recipeRealmObject.getMainImageRealmObject() != null) {
-            recipe.setMainImagePublicId(recipeRealmObject.getMainImageRealmObject().getPublicId());
+        if (recipeRealmObject.getMainImage() != null) {
+            recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
         recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
-        if (recipeRealmObject.getRatingRealmObject() != null) {
-            recipe.setRatingAverage(recipeRealmObject.getRatingRealmObject().getAverage());
+        if (recipeRealmObject.getRating() != null) {
+            recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
 
         }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
@@ -176,16 +177,20 @@ public class RecipeDataManager {
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
+                RealmList<RecipeRealmObject> similarRecipes = new RealmList<>();
+
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
                         JSONObject recipeJSONObject = (JSONObject) jsonArray.get(i);
+                        Logger.d("jsonArray", jsonArray.toString());
                         RecipeRealmObject similarRecipe = realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
-                        recipeRealmObject.getSimilarRecipes().add(similarRecipe);
+                        similarRecipes.add(similarRecipe);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    recipeRealmObject.setSimilarRecipes(similarRecipes);
 
                 }
             }

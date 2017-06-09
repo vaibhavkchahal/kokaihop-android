@@ -136,6 +136,7 @@
     <dimen name="tv_comment_count_margin_left">5dp</dimen>
     <dimen name="tv_comment_count_textsize">11sp</dimen>
     <dimen name="iv_comment_height_width">15dp</dimen>
+    <dimen name="iv_recipe_creator_height_width">15dp</dimen>
     <dimen name="tv_likes_padding_left">10dp</dimen>
     <dimen name="recipe_separator_margin_top">14.5dp</dimen>
     <dimen name="rating_bar_margin_top">9.4dp</dimen>
@@ -254,7 +255,7 @@
     <dimen name="txtview_comment_margin_top">3dp</dimen>
     <dimen name="row_direction_padding_bottm">11dp</dimen>
     <dimen name="row_direction_padding_right">13dp</dimen>
-    <dimen name="row_direction_padding_top">9dp</dimen>
+    <dimen name="row_direction_padding_top">11dp</dimen>
     <dimen name="row_direction_padding_left">26.3dp</dimen>
     <dimen name="txtview_direction_textsize">17sp</dimen>
     <dimen name="txtview_direction_width">162dp</dimen>
@@ -270,10 +271,10 @@
     <dimen name="txtview_addlistdrawable_padding">9dp</dimen>
     <dimen name="txtview_addlist_textsize">15sp</dimen>
     <dimen name="divider_height">1dp</dimen>
-    <dimen name="item_ingrdnt_padding_bottom">11dp</dimen>
+    <dimen name="item_ingrdnt_padding_bottom">9dp</dimen>
     <dimen name="item_ingrdnt_padding_left">20dp</dimen>
     <dimen name="item_ingrdnt_padding_right">20dp</dimen>
-    <dimen name="item_ingrdnt_padding_top">7dp</dimen>
+    <dimen name="item_ingrdnt_padding_top">9dp</dimen>
     <dimen name="txtview_ingrdnt_width">112dp</dimen>
     <dimen name="txtview_ingrdnt_quantity_textsize">17sp</dimen>
     <dimen name="txtview_ingrdnt_name_width">162dp</dimen>
@@ -328,4 +329,6 @@
     <dimen name="changepass_new_margin_top">29dp</dimen>
     <dimen name="changepass_divider_margin_top">16dp</dimen>
     <dimen name="changepass_confirm_margin_top">20dp</dimen>
+    <dimen name="recipe_detail_header_profile_img_height_width">30dp</dimen>
+    <dimen name="txtview_ingredient_subheader_textsize">17sp</dimen>
 </resources>

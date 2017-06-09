@@ -6,16 +6,23 @@ package com.kokaihop.recipedetail;
 
 public class ListHeading {
     private String title;
+    private long commentCount;
 
     public ListHeading(String title) {
         this.title = title;
+    }
+
+    public ListHeading(String title, long count) {
+        this.title = title;
+        this.commentCount = count;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public long getCommentCount() {
+        return commentCount;
     }
+
 }

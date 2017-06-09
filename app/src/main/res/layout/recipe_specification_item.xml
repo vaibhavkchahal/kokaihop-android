@@ -6,6 +6,7 @@
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeSpecifications"/>
+        <variable name="imageUrl" type="String"/>
         <import type="android.text.Html"/>
 
     </data>
@@ -32,7 +33,10 @@
                 android:id="@+id/imageview_user_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_avtar_sm"/>
+                app:error="@{@drawable/ic_avtar_sm}"
+                app:imageUrl="@{imageUrl}"
+                app:isCircular="@{true}"
+                app:placeholder="@{@drawable/ic_avtar_sm}"/>
 
             <TextView
                 android:id="@+id/txtview_title"

@@ -30,6 +30,7 @@ import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
+import com.kokaihop.utility.CloudinaryUtils;
 
 import io.realm.Realm;
 
@@ -60,7 +61,9 @@ public class RecipeDetailActivity extends BaseActivity {
         txtviewPagerProgress = binding.txtviewPagerProgress;
         recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, binding.recyclerViewRecipeDetail, viewPager, txtviewPagerProgress);
         binding.setViewModel(recipeDetailViewModel);
-//        getRecipeObject(binding);
+        int profileImageSize = getResources().getDimensionPixelOffset(R.dimen.recipe_detail_header_profile_img_height_width);
+        String profileImageUrl = CloudinaryUtils.getRoundedImageUrl(recipeDetailViewModel.getRecipeImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize));
+        binding.setProfileImageUrl(profileImageUrl);
         setToolbar();
         initializeViewPager(recipeID);
         initializeRecycleView();
@@ -109,7 +112,6 @@ public class RecipeDetailActivity extends BaseActivity {
 
             }
         });
-
         recyclerViewRecipeDetail.setAdapter(recyclerAdapter);
     }
 
@@ -120,7 +122,6 @@ public class RecipeDetailActivity extends BaseActivity {
         DialogPortionBinding portionBinding = DataBindingUtil.
                 inflate(LayoutInflater.from(RecipeDetailActivity.this), R.layout.dialog_portion, (ViewGroup) binding.getRoot(), false);
         portionDialog = setDialogConfigration(portionBinding);
-
         final NumberPicker numberPicker = portionBinding.numberPickerPortion;
         numberPicker.setWrapSelectorWheel(true);
         numberPicker.setMinValue(portionMinValue);
@@ -158,7 +159,6 @@ public class RecipeDetailActivity extends BaseActivity {
         dialog.setContentView(portionBinding.getRoot());
         dialog.getWindow()
                 .getAttributes().windowAnimations = R.style.DialogAnimation;
-
         //Grab the window of the portionDialog, and change the width
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
         Window window = dialog.getWindow();
