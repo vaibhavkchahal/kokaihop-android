@@ -51,7 +51,7 @@ public class RecipeDetailActivity extends BaseActivity {
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
-//    private RecipeDetailPagerImages recipeDetailPagerImageList;
+    //    private RecipeDetailPagerImages recipeDetailPagerImageList;
     private ImageView imageviewRecipe, imageViewRecipeBlurr;
     private RealmList<RecipeDetailPagerImages> recipeDetailPagerImageList;
     private Point point;
@@ -82,13 +82,15 @@ public class RecipeDetailActivity extends BaseActivity {
         point = AppUtility.getDisplayPoint(this);
 
         final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize });
+                new int[]{android.R.attr.actionBarSize});
         actionBarSize = (int) styledAttributes.getDimension(0, 0);
         styledAttributes.recycle();
 
-        String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(recipeDetailPagerImageList.get(0).getPublicId()),String.valueOf(point.x),String.valueOf(actionBarSize));
+        if (recipeDetailPagerImageList.size() > 0) {
+            String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(recipeDetailPagerImageList.get(0).getPublicId()), String.valueOf(point.x), String.valueOf(actionBarSize));
+            Glide.with(RecipeDetailActivity.this).load(blurrImageUrl).into(imageViewRecipeBlurr);
+        }
 
-        Glide.with(RecipeDetailActivity.this).load(blurrImageUrl).into(imageViewRecipeBlurr);
 
     }
 
@@ -197,7 +199,7 @@ public class RecipeDetailActivity extends BaseActivity {
         RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         ImageView leftSlider = binding.viewpagerSwipeLeft;
         ImageView rightSlider = binding.viewpagerSwipeRight;
-        recipeDetailPagerImageList =  recipeRealmObject.getImages();
+        recipeDetailPagerImageList = recipeRealmObject.getImages();
         recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeRealmObject.getImages());
         viewPager.setAdapter(recipeDetailPagerAdapter);
         txtviewPagerProgress.setText("1/" + recipeRealmObject.getImages().size());
@@ -259,7 +261,7 @@ public class RecipeDetailActivity extends BaseActivity {
                 txtviewPagerProgress.setText(position + 1 + "/" + viewPager.getAdapter().getCount());
 
 
-                String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(recipeDetailPagerImageList.get(position).getPublicId()),String.valueOf(point.x),String.valueOf(actionBarSize));
+                String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(recipeDetailPagerImageList.get(position).getPublicId()), String.valueOf(point.x), String.valueOf(actionBarSize));
 
                 Glide.with(RecipeDetailActivity.this).load(blurrImageUrl).into(imageViewRecipeBlurr);
 

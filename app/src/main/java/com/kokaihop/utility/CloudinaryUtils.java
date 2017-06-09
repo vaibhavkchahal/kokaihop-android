@@ -60,7 +60,7 @@ public class CloudinaryUtils {
 
 
     public static String getBlurrImageUrl(String publicId, String width, String height) {
-        String url = CloudinaryDetail.url + CloudinaryDetail.cloudName + CloudinaryDetail.folder +"/e_blur:500/" +"w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
+        String url = CloudinaryDetail.URL + CloudinaryDetail.CLOUD_NAME + CloudinaryDetail.FOLDER +"/e_blur:500/" +"w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
 //        Logger.e("imageUrl", url);
         return url;
     }
