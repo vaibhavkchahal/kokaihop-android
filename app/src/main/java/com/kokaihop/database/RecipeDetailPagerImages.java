@@ -7,33 +7,33 @@ import io.realm.RealmObject;
  */
 public class RecipeDetailPagerImages extends RealmObject{
 
-    private int publicId;
-    private int oldId;
-    private long dateCreated;
+    private String publicId;
+    private String oldId;
+    private String dateCreated;
     private String comment;
     private ImageUploader uploader;
 
-    public int getPublicId() {
+    public String getPublicId() {
         return publicId;
     }
 
-    public void setPublicId(int publicId) {
+    public void setPublicId(String publicId) {
         this.publicId = publicId;
     }
 
-    public int getOldId() {
+    public String getOldId() {
         return oldId;
     }
 
-    public void setOldId(int oldId) {
+    public void setOldId(String oldId) {
         this.oldId = oldId;
     }
 
-    public long getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(long dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 

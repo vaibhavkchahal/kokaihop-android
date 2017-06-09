@@ -6,19 +6,18 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:name="com.kokaihop.KokaihopApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.kokaihop.home.HomeActivity"
-            android:screenOrientation="portrait"
-        >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.kokaihop.authentication.login.LoginActivity"
@@ -52,17 +51,32 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.kokaihop.userprofile.UserSettingsActivity"
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="89bc1de20821702ad15f1584b5ca90b908e4fbd3"/>
+
+        <activity
+            android:name="com.kokaihop.recipedetail.RecipeDetailActivity"
+            android:label=""
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.kokaihop.editprofile.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppToolbarTheme"/>
+        <activity
+            android:name="com.kokaihop.editprofile.ChangePasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppToolbarTheme"/>
+
+        <activity android:name="com.kokaihop.editprofile.EmailPreferencesActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppToolbarTheme">
         </activity>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="89bc1de20821702ad15f1584b5ca90b908e4fbd3" />
-
-        <activity android:name="com.kokaihop.recipedetail.RecipeDetailActivity"
-                  android:label=""
-                  android:screenOrientation="portrait">
+        <activity android:name="com.kokaihop.editprofile.EditProfileActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppToolbarTheme">
         </activity>
     </application>
 

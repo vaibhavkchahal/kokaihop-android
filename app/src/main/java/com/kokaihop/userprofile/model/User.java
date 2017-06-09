@@ -29,6 +29,7 @@ public class User extends BaseObservable{
     private int recipesCollectionCount;
     private CloudinaryImage coverImage;
     private int recipeCount;
+    private String cityName;
 
     public String get_id() {
         return _id;
@@ -118,6 +119,21 @@ public class User extends BaseObservable{
         this.recipeCount = recipeCount;
     }
 
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
 
     @Bindable
     public int getFollowersCount() {
@@ -140,14 +156,6 @@ public class User extends BaseObservable{
     }
 
     private User(){};
-
-    public static User getUser() {
-        return user;
-    }
-
-    public static void setUser(User user) {
-        User.user = user;
-    }
 
     public static User getInstance()
     {

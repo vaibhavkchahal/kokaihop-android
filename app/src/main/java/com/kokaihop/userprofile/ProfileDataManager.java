@@ -4,6 +4,7 @@ import com.kokaihop.database.RealmString;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
+import com.kokaihop.userprofile.model.Settings;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
 import com.kokaihop.utility.Logger;
@@ -41,6 +42,7 @@ public class ProfileDataManager {
             user.getName().setFirst(userRealmObject.getUserNameRealmObject().getFirst());
             user.getName().setLast(userRealmObject.getUserNameRealmObject().getLast());
             user.getName().setFull(userRealmObject.getUserNameRealmObject().getFull());
+            user.setEmail(userRealmObject.getEmail());
             user.getFollowing().clear();
             for (RealmString userid : userRealmObject.getFollowing()) {
                 user.getFollowing().add(userid.getString());
@@ -59,6 +61,12 @@ public class ProfileDataManager {
                 user.getCoverImage().setCloudinaryId(userRealmObject.getCoverImage().getCloudinaryId());
             }
             user.setRecipeCount(userRealmObject.getRecipeCount());
+            user.setSettings(new Settings());
+            user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
+            user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
+            user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
+
+            user.setCityName(userRealmObject.getCityName());
         }
 
         return user;

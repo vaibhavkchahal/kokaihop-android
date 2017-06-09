@@ -80,7 +80,7 @@ public class RecipeDataManager {
             if (recipeRealmObject != null) {
                 recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
                 recipeRealmObject.setCounter(updateCounter(recipeInfo.getRecipeRealmObject()));
-                recipeRealmObject.setBadgeDateCreated(recipeInfo.getRecipeRealmObject().getDateCreated());
+                recipeRealmObject.setBadgeDateCreated(Long.parseLong(recipeInfo.getRecipeRealmObject().getDateCreated()));
                 recipeRealmObject.setCoverImage(recipeInfo.getRecipeRealmObject().getCoverImage());
 
                 if (recipeResponse.getMyLikes() != null) {
@@ -161,8 +161,6 @@ public class RecipeDataManager {
                     e.printStackTrace();
                 }
                 realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
-
-
             }
         });
     }

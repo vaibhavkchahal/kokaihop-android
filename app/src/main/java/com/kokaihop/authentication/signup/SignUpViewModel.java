@@ -149,7 +149,7 @@ public class SignUpViewModel extends BaseViewModel {
             Toast.makeText(context, R.string.invalid_email, Toast.LENGTH_SHORT).show();
             return true;
         }
-        if (password.isEmpty() || password.length() < Constants.PASSWORD_MAX_LENGTH) {
+        if (password.isEmpty() || password.length() < Constants.PASSWORD_MIN_LENGTH) {
             Toast.makeText(context, R.string.password_validation_msg, Toast.LENGTH_SHORT).show();
             return true;
         }

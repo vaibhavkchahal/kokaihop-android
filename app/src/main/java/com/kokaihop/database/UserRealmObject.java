@@ -32,7 +32,7 @@ public class UserRealmObject extends RealmObject {
     private RealmList<UserRealmObject> followingList;
 
     @SerializedName("dateCreated")
-    private long dateCreated;
+    private String dateCreated;
     @SerializedName("loginCount")
     private int loginCount;
     @SerializedName("lastLoginDate")
@@ -57,6 +57,8 @@ public class UserRealmObject extends RealmObject {
     private String aboutMe;
     @SerializedName("hasPassword")
     private boolean hasPassword;
+    @SerializedName("cityName")
+    private String cityName;
     @SerializedName("recipesCollectionCount")
     private int recipesCollectionCount;
     @SerializedName("blogPostCount")
@@ -67,9 +69,6 @@ public class UserRealmObject extends RealmObject {
     private int recipeCount;
     @SerializedName("totalFeeds")
     private int totalFeeds;
-//    private String name;
-
-
 
     public String getFriendlyUrl() {
         return friendlyUrl;
@@ -95,11 +94,11 @@ public class UserRealmObject extends RealmObject {
         this.email = email;
     }
 
-    public long getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(long dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
@@ -269,8 +268,17 @@ public class UserRealmObject extends RealmObject {
         return id;
     }
 
+
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public UserNameRealmObject getUserNameRealmObject() {

@@ -13,7 +13,7 @@ public class CuisineRealmObject extends RealmObject {
     @SerializedName("id")
     private String id;
     @SerializedName("oldId")
-    private long oldId;
+    private String oldId;
     @SerializedName("name")
     private String name;
 
@@ -25,11 +25,11 @@ public class CuisineRealmObject extends RealmObject {
         this.id = id;
     }
 
-    public long getOldId() {
+    public String getOldId() {
         return oldId;
     }
 
-    public void setOldId(long oldId) {
+    public void setOldId(String oldId) {
         this.oldId = oldId;
     }
 

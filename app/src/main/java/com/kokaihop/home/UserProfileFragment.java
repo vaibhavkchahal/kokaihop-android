@@ -23,6 +23,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
+import com.kokaihop.editprofile.SettingsActivity;
 import com.kokaihop.userprofile.FollowersFragment;
 import com.kokaihop.userprofile.FollowingFragment;
 import com.kokaihop.userprofile.HistoryFragment;
@@ -30,13 +31,13 @@ import com.kokaihop.userprofile.ProfileAdapter;
 import com.kokaihop.userprofile.RecipeFragment;
 import com.kokaihop.userprofile.UserDataListener;
 import com.kokaihop.userprofile.UserProfileViewModel;
-import com.kokaihop.userprofile.UserSettingsActivity;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.NotificationCount;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
@@ -210,7 +211,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         userProfileBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), UserSettingsActivity.class));
+                Logger.e("Setting","Clicked");
+                startActivity(new Intent(getContext(), SettingsActivity.class));
             }
         });
 
@@ -264,6 +266,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         if (profileImage != null) {
             String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
             userProfileBinding.setImageProfileUrl(imageUrl);
+            User.getInstance().setProfileImageUrl(imageUrl);
         }
         userProfileBinding.executePendingBindings();
     }
