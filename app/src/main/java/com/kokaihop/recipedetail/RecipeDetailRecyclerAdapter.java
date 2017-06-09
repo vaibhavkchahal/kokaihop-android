@@ -183,7 +183,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             case TYPE_ITEM_DIRECTION:
                 ViewHolderItemDirection holderDirection = (ViewHolderItemDirection) holder;
                 RecipeCookingDirection recipeCookingDirection = (RecipeCookingDirection) recipeDetailItemsList.get(position);
-                holderDirection.binder.setModel(recipeCookingDirection);
+                holderDirection.binder.setModel(recipeCookingDirection.getDirection());
                 holderDirection.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_RECIPE_SPECIFICATIONS:

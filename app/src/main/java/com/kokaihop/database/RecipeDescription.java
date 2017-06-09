@@ -1,22 +1,19 @@
 package com.kokaihop.database;
 
-import com.google.gson.annotations.SerializedName;
-
 import io.realm.RealmObject;
 
 /**
  * Created by Vaibhav Chahal on 5/6/17.
  */
-public class RecipeDescription extends RealmObject{
+public class RecipeDescription extends RealmObject {
 
-    @SerializedName("long")
-    private String recipeDescription;
+    private String longDescription;
 
-    public String getRecipeDescription() {
-        return recipeDescription;
+    public String getLongDescription() {
+        return longDescription;
     }
 
-    public void setRecipeDescription(String description) {
-        this.recipeDescription = description;
+    public void setLongDescription(String longDescription) {
+        this.longDescription = longDescription;
     }
 }

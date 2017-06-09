@@ -123,18 +123,19 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     private void prepareRecipeDetailList(RecipeRealmObject recipeRealmObject) {
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getDescription().getRecipeDescription());
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getDescription().getLongDescription());
         recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         addIngredients(recipeRealmObject);
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
-//        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
+        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
+
+        for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
+            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps().get(i)));
+        }
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
         recipeDetailItemsList.add(recipeSpecifications);
-//        for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
-//            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps().get(i).getString()));
-//        }
         addComments(recipeRealmObject);
         addSimilarRecipies(recipeRealmObject);
 
