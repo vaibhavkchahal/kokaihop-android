@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,8 +30,12 @@ import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.FeedApiHelper;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import io.realm.Realm;
 
@@ -92,8 +97,6 @@ public class RecipeDetailActivity extends BaseActivity {
                         binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
 
                 }
-
-
             }
         });
 
@@ -196,7 +199,7 @@ public class RecipeDetailActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_recipe_detail, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
@@ -251,4 +254,31 @@ public class RecipeDetailActivity extends BaseActivity {
                 context.getResources()
                         .getDrawable(R.drawable.something);*/
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.icon_share:
+                Logger.e("Share Picture", "Menu");
+                if(recipeDetailPagerAdapter.getCount()>0){
+                    String imageUrl = recipeDetailPagerAdapter.getImageUrl(viewPager.getCurrentItem());
+//                    CameraUtils.sharePicture(this,imageUrl);
+                }
+                return true;
+            case R.id.icon_camera:
+                Logger.e("Add Picture", "Menu");
+                return true;
+            case R.id.icon_like:
+                Logger.e("Like Recipe", "Menu");
+                String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(this,Constants.ACCESS_TOKEN);
+                return true;
+            case R.id.icon_add_to_wishlist:
+                Logger.e("Add to wishlist", "Menu");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }

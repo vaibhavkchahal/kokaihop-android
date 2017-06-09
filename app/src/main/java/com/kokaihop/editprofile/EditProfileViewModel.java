@@ -21,7 +21,7 @@ public class EditProfileViewModel extends BaseViewModel {
     public static final int REQUEST_CITY = 1;
     public static final int REQUEST_GALLERY = 2;
     public static final int REQUEST_CAMERA = 3;
-    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 4;
+    public static final int MY_PERMISSIONS = 4;
         private Context context;
     private ActivityEditProfileBinding editProfileBinding;
     private String email, city, profileImageUrl;

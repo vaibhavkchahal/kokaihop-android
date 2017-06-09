@@ -18,6 +18,9 @@ import android.support.v7.app.AlertDialog;
 import android.widget.ImageView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.kokaihop.editprofile.EditProfileViewModel;
 
 import java.io.ByteArrayOutputStream;
@@ -27,7 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 /**
  * Created by Rajendra Singh on 9/6/17.
@@ -83,6 +86,7 @@ public class CameraUtils {
     }
 
 
+    //process image if the image is choosen from the gallery
     public static void onSelectFromGalleryResult(Intent data, ImageView view) {
         Bitmap bm = null;
         if (data != null) {
@@ -95,6 +99,7 @@ public class CameraUtils {
         view.setImageBitmap(bm);
     }
 
+    //process image if the image is clicked by camera
     public static void onCaptureImageResult(Intent data, ImageView view) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -115,15 +120,16 @@ public class CameraUtils {
         view.setImageBitmap(thumbnail);
     }
 
+    //check for permissions of user
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static boolean checkPermission(final Context context, final String permission) {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, permission)) {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{permission}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{permission}, MY_PERMISSIONS);
                 } else {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{permission}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{permission}, MY_PERMISSIONS);
                 }
                 return false;
             } else {
@@ -134,20 +140,36 @@ public class CameraUtils {
         }
     }
 
-    public static void sharePicture(Context context, Bitmap icon) {
-        Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            f.createNewFile();
-            FileOutputStream fo = new FileOutputStream(f);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-        context.startActivity(Intent.createChooser(share, "Share Image"));
+//    to share the picture with external applications
+    public static void sharePicture(final Context context, String imageUrl) {
+
+//        try {
+            Glide.with(context).load(imageUrl).asBitmap().listener(new RequestListener<String, Bitmap>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("image/jpeg");
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    resource.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+                    try {
+                        f.createNewFile();
+                        FileOutputStream fo = new FileOutputStream(f);
+                        fo.write(bytes.toByteArray());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+                    context.startActivity(Intent.createChooser(share, "Share Image"));
+                    return false;
+                }
+            }).into(-1,-1);
+//        }
+
     }
 }

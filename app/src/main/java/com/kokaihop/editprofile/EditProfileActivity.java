@@ -11,7 +11,7 @@ import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.CameraUtils;
 
-import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
+import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 public class EditProfileActivity extends BaseActivity {
 
@@ -40,7 +40,7 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+            case MY_PERMISSIONS:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (CameraUtils.userChoosenTask.equals(getString(R.string.take_photo)))
                         CameraUtils.cameraIntent(this);
