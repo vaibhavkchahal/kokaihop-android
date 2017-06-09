@@ -76,13 +76,13 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         imageUrlSet.add(imageUrl);
         binding.setImageUrl(imageUrl);
 
-//        ImageView imageViewRecipeBlurr = (ImageView) binding.getRoot().findViewById(R.id.imageview_recipe_blurred_pic);
-//        FrameLayout.LayoutParams layoutParamsBlurr = (FrameLayout.LayoutParams) imageViewRecipeBlurr.getLayoutParams();
-//        layoutParamsBlurr.height = height;
-//        layoutParamsBlurr.width = width;
-//        imageViewRecipe.setLayoutParams(layoutParamsBlurr);
-//        String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), String.valueOf(layoutParamsBlurr.width), String.valueOf(layoutParamsBlurr.height));
-//        binding.setBlurrImageUrl(blurrImageUrl);
+        ImageView imageViewRecipeBlurr = (ImageView) binding.getRoot().findViewById(R.id.imageview_recipe_blurred_pic);
+        FrameLayout.LayoutParams layoutParamsBlurr = (FrameLayout.LayoutParams) imageViewRecipeBlurr.getLayoutParams();
+        layoutParamsBlurr.height = height;
+        layoutParamsBlurr.width = width;
+        imageViewRecipeBlurr.setLayoutParams(layoutParamsBlurr);
+        String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), String.valueOf(layoutParamsBlurr.width), String.valueOf(layoutParamsBlurr.height));
+        binding.setBlurrImageUrl(blurrImageUrl);
     }
 
     @Override

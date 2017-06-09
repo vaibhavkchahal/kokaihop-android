@@ -99,7 +99,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
                     prepareRecipeDetailList(recipeRealmObject);
                     recyclerView.getAdapter().notifyDataSetChanged();
+
                     viewPager.getAdapter().notifyDataSetChanged();
+                    viewPager.setOffscreenPageLimit(recipeRealmObject.getImages().size());
+
                     txtviwPagerProgress.setText("1/" + viewPager.getAdapter().getCount());
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
                 } catch (JSONException e) {

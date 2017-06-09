@@ -1,8 +1,6 @@
 package com.kokaihop.recipedetail;
 
-import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
-import com.bumptech.glide.Glide;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
@@ -57,11 +54,9 @@ public class RecipeDetailActivity extends BaseActivity {
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
-    //    private RecipeDetailPagerImages recipeDetailPagerImageList;
+    private RecipeDetailPagerImages recipeDetailPagerImages;
     private ImageView imageviewRecipe, imageViewRecipeBlurr;
-    private RealmList<RecipeDetailPagerImages> recipeDetailPagerImageList;
-    private Point point;
-    private int actionBarSize;
+    private int selectedItemPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,21 +77,7 @@ public class RecipeDetailActivity extends BaseActivity {
         initializeRecycleView();
         setAppBarListener();
         imageviewRecipe = (ImageView) viewPager.findViewById(R.id.imageview_recipe_pic);
-        imageViewRecipeBlurr = (ImageView) findViewById(R.id.imageview_recipe_blurred_pic);
-
-
-        point = AppUtility.getDisplayPoint(this);
-
-        final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
-                new int[]{android.R.attr.actionBarSize});
-        actionBarSize = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-
-        if (recipeDetailPagerImageList.size() > 0) {
-            String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(recipeDetailPagerImageList.get(0).getPublicId()), String.valueOf(point.x), String.valueOf(actionBarSize));
-            Glide.with(RecipeDetailActivity.this).load(blurrImageUrl).into(imageViewRecipeBlurr);
-        }
-
+        imageViewRecipeBlurr = (ImageView) viewPager.findViewById(R.id.imageview_recipe_blurred_pic);
 
     }
 
@@ -110,19 +91,20 @@ public class RecipeDetailActivity extends BaseActivity {
                     case COLLAPSED:
                         binding.viewpagerSwipeLeft.setVisibility(View.GONE);
                         binding.viewpagerSwipeRight.setVisibility(View.GONE);
-                        imageViewRecipeBlurr.setVisibility(View.VISIBLE);
-//                        binding.relativeLayoutRecipeDetail.setVisibility(View.GONE);
-//                        binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_pic).setVisibility(View.GONE);
-//                        binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_blurred_pic).setVisibility(View.VISIBLE);
+                        View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
+                        if (viewCollapsed!=null) {
+                            binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_pic).setVisibility(View.GONE);
+                            binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_blurred_pic).setVisibility(View.VISIBLE);
+                        }
                         break;
                     case EXPANDED:
                         binding.viewpagerSwipeLeft.setVisibility(View.VISIBLE);
                         binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
-                        imageViewRecipeBlurr.setVisibility(View.GONE);
-//                        binding.relativeLayoutRecipeDetail.setVisibility(View.VISIBLE);
-//                        binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_pic).setVisibility(View.VISIBLE);
-//                        binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_blurred_pic).setVisibility(View.GONE);
-
+                        View viewExpnaded = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
+                        if (viewExpnaded != null) {
+                            binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_pic).setVisibility(View.VISIBLE);
+                            binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_blurred_pic).setVisibility(View.GONE);
+                        }
                 }
             }
         });
@@ -205,9 +187,10 @@ public class RecipeDetailActivity extends BaseActivity {
         RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         ImageView leftSlider = binding.viewpagerSwipeLeft;
         ImageView rightSlider = binding.viewpagerSwipeRight;
-        recipeDetailPagerImageList = recipeRealmObject.getImages();
         recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeRealmObject.getImages());
         viewPager.setAdapter(recipeDetailPagerAdapter);
+        viewPager.setOffscreenPageLimit(recipeRealmObject.getImages().size());
+
         txtviewPagerProgress.setText("1/" + recipeRealmObject.getImages().size());
         enablePagerLeftRightSlider(leftSlider, rightSlider);
     }
@@ -227,7 +210,7 @@ public class RecipeDetailActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_recipe_detail, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
@@ -265,12 +248,7 @@ public class RecipeDetailActivity extends BaseActivity {
 //                Bitmap bmp = ((BitmapDrawable)imageView.getDrawable().getCurrent()).getBitmap();
 //                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 txtviewPagerProgress.setText(position + 1 + "/" + viewPager.getAdapter().getCount());
-
-
-                String blurrImageUrl = CloudinaryUtils.getBlurrImageUrl(String.valueOf(recipeDetailPagerImageList.get(position).getPublicId()), String.valueOf(point.x), String.valueOf(actionBarSize));
-
-                Glide.with(RecipeDetailActivity.this).load(blurrImageUrl).into(imageViewRecipeBlurr);
-
+                selectedItemPosition = position;
 //                setCollapsingToolbarImage(recipeDetailPagerAdapter.getImageUrl(position));
 //                imageviewRecipe.setDrawingCacheEnabled(true);
 //                Bitmap bitmap = imageviewRecipe.getDrawingCache();
