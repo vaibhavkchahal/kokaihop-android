@@ -6,6 +6,7 @@ package com.kokaihop.utility;
 
 public class Constants {
 
+    public static final String APP_NAME = "Kokaihop" ;
     public static final int PASSWORD_MIN_LENGTH = 7;
     public static final long SPLASH_VISIBLE_TIME = 3000;
     public static final String SHARED_PREFERENCES = "MyPrefs" ;
