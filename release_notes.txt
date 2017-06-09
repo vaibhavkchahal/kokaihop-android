@@ -4,6 +4,7 @@
     -Change profile pics Camera/Gallery option
 2.Recipe Details
     -Recipe Detail Screen design
+    -Add to portion functionality
     -Store detail in Database table.
 
 
