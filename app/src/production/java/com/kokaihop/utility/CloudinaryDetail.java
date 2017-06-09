@@ -6,10 +6,10 @@ package com.kokaihop.utility;
 
 public class CloudinaryDetail {
 
-    //https://res.cloudinary.com/hufennija/image/upload/f_auto,q_50,fl_progressive,w_790,h_460,c_fill/35034475.jpg
-
-    public  static String cloudName="/hufennija";
-    public  static String url="https://res.cloudinary.com";
-    public  static String folder="/image/upload/";  //f_auto,q_50,fl_progressive,w_790,h_460,c_fill
+    public  static final String CLOUD_NAME="hufennija";
+    public  static final String URL ="https://res.cloudinary.com";
+    public  static final String FOLDER="image/upload";
+    public  static final String API_KEY ="333577684626999";
+    public  static final String API_SECRET ="zvL3wMTKLo5-fsaoqoxuBEk9GGg";
 
 }

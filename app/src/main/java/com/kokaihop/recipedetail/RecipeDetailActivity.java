@@ -245,7 +245,7 @@ public class RecipeDetailActivity extends BaseActivity {
 
         CollapsingToolbarLayout collapsingToolbarLayout = binding.collapsingToolbarLayout;
 
-//        Glide.with(collapsingToolbarLayout.getContext()).load(url).placeholder(R.color.colorPrimary).into(binding.imageviewToolbarImage);
+//        Glide.with(collapsingToolbarLayout.getContext()).load(URL).placeholder(R.color.colorPrimary).into(binding.imageviewToolbarImage);
 
        /* collapsingToolbarLayout.setContentScrim(
                 context.getResources()
