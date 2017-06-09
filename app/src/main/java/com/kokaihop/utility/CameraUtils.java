@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -36,6 +37,8 @@ public class CameraUtils {
 
     public static String userChoosenTask;
 
+
+    //Choose whether to click the picture or select from the gallery
     public static void selectImage(final Context context) {
         final CharSequence[] items = {context.getString(R.string.take_photo),
                 context.getString(R.string.choose_from_library),
@@ -65,17 +68,20 @@ public class CameraUtils {
         builder.show();
     }
 
+    //    starting camera for profile picture
     public static void cameraIntent(Context context) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         ((Activity) context).startActivityForResult(intent, EditProfileViewModel.REQUEST_CAMERA);
     }
 
+    //    open gallery for profile picture
     public static void galleryIntent(Context context) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         ((Activity) context).startActivityForResult(Intent.createChooser(intent, "Select File"), EditProfileViewModel.REQUEST_GALLERY);
     }
+
 
     public static void onSelectFromGalleryResult(Intent data, ImageView view) {
         Bitmap bm = null;
@@ -126,5 +132,22 @@ public class CameraUtils {
         } else {
             return true;
         }
+    }
+
+    public static void sharePicture(Context context, Bitmap icon) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("image/jpeg");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            f.createNewFile();
+            FileOutputStream fo = new FileOutputStream(f);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
+        context.startActivity(Intent.createChooser(share, "Share Image"));
     }
 }
