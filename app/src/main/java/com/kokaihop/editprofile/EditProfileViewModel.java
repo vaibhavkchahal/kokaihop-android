@@ -80,21 +80,6 @@ public class EditProfileViewModel extends BaseViewModel {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void changeProfileImage() {
         ((EditProfileActivity)context).selectImage();
-//        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT, null);
-//        galleryIntent.setType("image/*");
-//        galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
-//
-//        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//
-//        Intent chooser = new Intent(Intent.ACTION_CHOOSER);
-//        chooser.putExtra(Intent.EXTRA_INTENT, galleryIntent);
-//        chooser.putExtra(Intent.EXTRA_TITLE, context.getString(R.string.chhose_profile_pic));
-//
-//        Intent[] intentArray = {cameraIntent};
-//        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-//        if (checkPermission(context)) {
-//            ((Activity) context).startActivityForResult(chooser, REQUEST_CODE_PHOTO);
-//        }
 
     }
 
