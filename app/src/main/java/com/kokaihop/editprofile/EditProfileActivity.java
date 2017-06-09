@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.city.CityDetails;
 import com.kokaihop.utility.CameraUtils;
 
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
@@ -30,15 +31,14 @@ public class EditProfileActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY)
-            {
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY){
                 data.getData();
                 CameraUtils.onSelectFromGalleryResult(data, editProfileBinding.ivUserProfilePic);
-            }
-            else if (requestCode == EditProfileViewModel.REQUEST_CAMERA)
-            {
+            }else if (requestCode == EditProfileViewModel.REQUEST_CAMERA){
                 CameraUtils.onCaptureImageResult(data,editProfileBinding.ivUserProfilePic);
-
+            }else if (requestCode == EditProfileViewModel.REQUEST_CITY){
+                CityDetails citySelected = data.getParcelableExtra("citySelected");
+                editProfileViewModel.setCity(citySelected.getName());
             }
         }
     }
