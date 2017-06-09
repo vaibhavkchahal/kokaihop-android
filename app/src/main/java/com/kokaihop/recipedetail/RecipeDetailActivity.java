@@ -33,14 +33,15 @@ import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
-import com.kokaihop.feed.FeedApiHelper;
 import com.kokaihop.feed.RecipeDataManager;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class RecipeDetailActivity extends BaseActivity {
 

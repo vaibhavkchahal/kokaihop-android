@@ -150,7 +150,7 @@ public class RecipeDataManager {
                             String step = cookingStepsJSONArray.getString(i);
                             JSONObject stepJSONObject = new JSONObject();
                             stepJSONObject.put("step", step);
-                            stepJSONObject.put("serialNo", i);
+                            stepJSONObject.put("serialNo", i+1);
                             updatedJSONArray.put(stepJSONObject);
                         }
                         jsonObject.remove("cookingSteps");
