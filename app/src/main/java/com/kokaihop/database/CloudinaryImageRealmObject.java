@@ -14,7 +14,7 @@ public class CloudinaryImageRealmObject extends RealmObject {
     private String cloudinaryId;
 
     @SerializedName("uploaded")
-    private long uploaded;
+    private String uploaded;
 
     public String getCloudinaryId() {
         return cloudinaryId;
@@ -24,11 +24,11 @@ public class CloudinaryImageRealmObject extends RealmObject {
         this.cloudinaryId = cloudinaryId;
     }
 
-    public long getUploaded() {
+    public String getUploaded() {
         return uploaded;
     }
 
-    public void setUploaded(long uploaded) {
+    public void setUploaded(String uploaded) {
         this.uploaded = uploaded;
     }
 }

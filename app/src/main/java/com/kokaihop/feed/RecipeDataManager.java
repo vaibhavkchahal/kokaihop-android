@@ -4,6 +4,7 @@ import com.kokaihop.database.CounterRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +79,7 @@ public class RecipeDataManager {
             if (recipeRealmObject != null) {
                 recipeRealmObject.setBadgeType(recipeInfo.getRecipeRealmObject().getBadgeType());
                 recipeRealmObject.setCounter(updateCounter(recipeInfo.getRecipeRealmObject()));
-                recipeRealmObject.setBadgeDateCreated(recipeInfo.getRecipeRealmObject().getDateCreated());
+                recipeRealmObject.setBadgeDateCreated(Long.parseLong(recipeInfo.getRecipeRealmObject().getDateCreated()));
                 recipeRealmObject.setCoverImage(recipeInfo.getRecipeRealmObject().getCoverImage());
 
                 if (recipeResponse.getMyLikes() != null) {
@@ -137,6 +138,7 @@ public class RecipeDataManager {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                Logger.e("Recipe",jsonObject.toString());
                 realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
             }
         });

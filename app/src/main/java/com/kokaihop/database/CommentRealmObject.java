@@ -53,15 +53,15 @@ public class CommentRealmObject extends RealmObject {
         this.sourceUser = sourceUser;
     }
 
-    public long getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(long dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
     @SerializedName("dateCreated")
-    private  long dateCreated;
+    private  String dateCreated;
 
 }

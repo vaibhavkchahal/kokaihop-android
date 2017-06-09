@@ -32,7 +32,7 @@ public class UserRealmObject extends RealmObject {
     private RealmList<UserRealmObject> followingList;
 
     @SerializedName("dateCreated")
-    private long dateCreated;
+    private String dateCreated;
     @SerializedName("loginCount")
     private int loginCount;
     @SerializedName("lastLoginDate")
@@ -94,11 +94,11 @@ public class UserRealmObject extends RealmObject {
         this.email = email;
     }
 
-    public long getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(long dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 

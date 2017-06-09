@@ -15,10 +15,10 @@ public class RecipeRealmObject extends RealmObject {
     @PrimaryKey
     @SerializedName(value = "_id", alternate = {"id"})
     private String _id;
-    @SerializedName("dateCreated")
-    private long dateCreated;
     @SerializedName("friendlyUrl")
     private String friendlyUrl;
+    @SerializedName("dateCreated")
+    private String dateCreated;
     @SerializedName("type")
     private String type;
     @SerializedName("title")
@@ -163,11 +163,11 @@ public class RecipeRealmObject extends RealmObject {
         this._id = _id;
     }
 
-    public long getDateCreated() {
+    public String getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(long dateCreated) {
+    public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
 
