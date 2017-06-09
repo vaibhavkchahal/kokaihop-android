@@ -4,9 +4,10 @@
 
     <data>
         <variable name="imageUrl" type="String"/>
+        <variable name="blurrImageUrl" type="String"/>
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -17,8 +18,10 @@
             android:layout_height="wrap_content"
             app:error="@{@drawable/ic_recipeplaceholder_lg}"
             app:imageUrl="@{imageUrl}"
+            android:visibility="visible"
             app:placeholder="@{@drawable/ic_recipeplaceholder_lg}"/>
 
-    </LinearLayout>
+
+    </FrameLayout>
 
 </layout>
