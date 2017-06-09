@@ -251,7 +251,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
 
-    //To set the user profile image from cloudinary image-url
+    //To set the user profile image from cloudinary image-URL
     public void setProfileImage() {
 
         int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);

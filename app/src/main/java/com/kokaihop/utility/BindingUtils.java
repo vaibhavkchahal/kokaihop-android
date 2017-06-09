@@ -40,12 +40,12 @@ public class BindingUtils {
     @BindingAdapter({"app:imageUrl", "app:error" , "app:placeholder"})
     public static void loadImage(ImageView view, String url, Drawable error, Drawable placeholder) {
         Glide.with(view.getContext()).load(url).placeholder(placeholder).error(error).into(view);
-        Logger.i("url cloudnary-->", url);
+        Logger.i("URL cloudnary-->", url);
     }
 
     @BindingAdapter({"app:imageUrl", "app:error","app:placeholder", "app:isCircular",})
     public static void loadImage(ImageView view, String url, Drawable error, Drawable placeholder, boolean isCircular) {
-        Logger.i("url cloudnary-->", url);
+        Logger.i("URL cloudnary-->", url);
         if (isCircular) {
             Glide.with(view.getContext()).load(url).transform(new GlideCircularTranform(view.getContext())).placeholder(placeholder).error(error).into(view);
         } else {

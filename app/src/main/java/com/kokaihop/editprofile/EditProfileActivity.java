@@ -31,9 +31,15 @@ public class EditProfileActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY)
+            {
+                data.getData();
                 CameraUtils.onSelectFromGalleryResult(data, editProfileBinding.ivUserProfilePic);
+            }
             else if (requestCode == EditProfileViewModel.REQUEST_CAMERA)
+            {
                 CameraUtils.onCaptureImageResult(data,editProfileBinding.ivUserProfilePic);
+
+            }
         }
     }
 
