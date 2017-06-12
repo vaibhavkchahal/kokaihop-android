@@ -4,7 +4,6 @@
 
     <data>
         <variable name="imageUrl" type="String"/>
-        <variable name="blurrImageUrl" type="String"/>
     </data>
 
     <FrameLayout
@@ -26,6 +25,7 @@
             android:id="@+id/imageview_recipe_blurred_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scaleType="fitXY"
             android:visibility="visible"
         />
 

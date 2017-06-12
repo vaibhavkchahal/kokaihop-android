@@ -6,13 +6,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v8.renderscript.RenderScript;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +29,6 @@ import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
-import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.utility.BlurImageHelper;
@@ -56,9 +53,6 @@ public class RecipeDetailActivity extends BaseActivity {
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
-    private RecipeDetailPagerImages recipeDetailPagerImages;
-    private ImageView imageviewRecipe, imageViewRecipeBlurr;
-    private int selectedItemPosition = 0;
 
     private final Observable.OnPropertyChangedCallback propertyChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
@@ -85,9 +79,6 @@ public class RecipeDetailActivity extends BaseActivity {
         initializeViewPager(recipeID);
         initializeRecycleView();
         setAppBarListener();
-        imageviewRecipe = (ImageView) viewPager.findViewById(R.id.imageview_recipe_pic);
-        imageViewRecipeBlurr = (ImageView) viewPager.findViewById(R.id.imageview_recipe_blurred_pic);
-
 
     }
 
@@ -108,7 +99,6 @@ public class RecipeDetailActivity extends BaseActivity {
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                Log.d("STATE", state.name());
                 View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
                 if (viewCollapsed != null) {
                     ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
@@ -118,8 +108,10 @@ public class RecipeDetailActivity extends BaseActivity {
                             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
                             binding.viewpagerSwipeRight.setVisibility(View.GONE);
 
-                            Bitmap bitmap = captureView(imageViewRecipe);
-                            Bitmap bluredBitmap = createBlurBitmap(bitmap);
+                            Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                            Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
+                                    RenderScript.create(RecipeDetailActivity.this),
+                                    bitmap);
                             imageViewBlurred.setImageBitmap(bluredBitmap);
                             imageViewBlurred.setVisibility(View.VISIBLE);
                             break;
@@ -135,53 +127,6 @@ public class RecipeDetailActivity extends BaseActivity {
             }
         });
 
-    }
-
-
-    public Bitmap createBlurBitmap(Bitmap bitmap) {
-        if (bitmap != null) {
-            BlurImageHelper.blurBitmapWithRenderscript(
-                    RenderScript.create(RecipeDetailActivity.this),
-                    bitmap);
-        }
-        return bitmap;
-    }
-
-   /* public Bitmap captureView(View view) {
-        //Create a Bitmap with the same dimensions as the View
-        Bitmap image = Bitmap.createBitmap(view.getMeasuredWidth(),
-                view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_4444); //reduce quality
-        //Draw the view inside the Bitmap
-        Canvas canvas = new Canvas(image);
-        view.draw(canvas);
-
-        //Make it frosty
-        Paint paint = new Paint();
-        paint.setXfermode(
-                new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        ColorFilter filter =
-                new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
-        //ColorFilter filter =
-        //   new LightingColorFilter(0xFF7F7F7F, 0x00000000); // darken
-        paint.setColorFilter(filter);
-        canvas.drawBitmap(image, 0, 0, paint);
-        return image;
-    }*/
-
-    private Bitmap captureView(View v) {
-        v.setDrawingCacheEnabled(true);
-
-        // this is the important code :)
-        // Without it the view will have a dimension of 0,0 and the bitmap will be null
-        v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
-
-        v.buildDrawingCache(true);
-        Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
-        v.setDrawingCacheEnabled(false); // clear drawing cache
-        return bitmap;
     }
 
     private void initializeRecycleView() {
@@ -310,31 +255,13 @@ public class RecipeDetailActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                currentPosition =
-//                Bitmap bmp = ((BitmapDrawable)imageView.getDrawable().getCurrent()).getBitmap();
-//                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 txtviewPagerProgress.setText(position + 1 + "/" + viewPager.getAdapter().getCount());
-                selectedItemPosition = position;
-//                setCollapsingToolbarImage(recipeDetailPagerAdapter.getImageUrl(position));
-//                imageviewRecipe.setDrawingCacheEnabled(true);
-//                Bitmap bitmap = imageviewRecipe.getDrawingCache();
-//                Bitmap blurredBitmap = BlurrImageBuilder.blur(RecipeDetailActivity.this, bitmap);
-//                imageviewRecipe.setImageBitmap(blurredBitmap);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-    }
-
-    private void setCollapsingToolbarImage(String imageUrl) {
-        CollapsingToolbarLayout collapsingToolbarLayout = binding.collapsingToolbarLayout;
-//        Glide.with(collapsingToolbarLayout.getContext()).load(url).placeholder(R.color.colorPrimary).into(binding.imageviewToolbarImage);
-
-       /* collapsingToolbarLayout.setContentScrim(
-                context.getResources()
-                        .getDrawable(R.drawable.something);*/
     }
 
 

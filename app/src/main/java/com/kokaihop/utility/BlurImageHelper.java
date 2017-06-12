@@ -13,20 +13,25 @@ import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
+import android.view.View;
 
 
 public class BlurImageHelper {
 
-    public static void blurBitmapWithRenderscript(RenderScript rs, Bitmap bitmap2) {
-        //this will blur the bitmapOriginal with a radius of 25 and save it in bitmapOriginal
-        final Allocation input = Allocation.createFromBitmap(rs, bitmap2); //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
-        final Allocation output = Allocation.createTyped(rs, input.getType());
-        final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-        // must be >0 and <= 25
-        script.setRadius(25f);
-        script.setInput(input);
-        script.forEach(output);
-        output.copyTo(bitmap2);
+    public static Bitmap blurBitmapWithRenderscript(RenderScript rs, Bitmap bitmap2) {
+
+        if (bitmap2 != null) {
+            //this will blur the bitmapOriginal with a radius of 25 and save it in bitmapOriginal
+            final Allocation input = Allocation.createFromBitmap(rs, bitmap2); //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
+            final Allocation output = Allocation.createTyped(rs, input.getType());
+            final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            // must be >0 and <= 25
+            script.setRadius(25f);
+            script.setInput(input);
+            script.forEach(output);
+            output.copyTo(bitmap2);
+        }
+        return bitmap2;
     }
 
     public static Bitmap roundCorners(Bitmap bitmap,
@@ -107,4 +112,43 @@ public class BlurImageHelper {
 
         return output;
     }
+
+   /* public static Bitmap captureView(View v) {
+        v.setDrawingCacheEnabled(true);
+
+        // this is the important code :)
+        // Without it the view will have a dimension of 0,0 and the bitmap will be null
+        v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+
+        v.buildDrawingCache(true);
+        Bitmap bitmap = Bitmap.createBitmap(v.getDrawingCache());
+        v.setDrawingCacheEnabled(false); // clear drawing cache
+        return bitmap;
+    }*/
+
+      public static Bitmap captureView(View view){
+        //Create a Bitmap with the same dimensions as the View
+        Bitmap image = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_4444); //reduce quality
+        //Draw the view inside the Bitmap
+        Canvas canvas = new Canvas(image);
+        view.draw(canvas);
+
+        //Make it frosty
+        Paint paint = new Paint();
+        paint.setXfermode(
+                new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        ColorFilter filter =
+                new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
+        //ColorFilter filter =
+        //   new LightingColorFilter(0xFF7F7F7F, 0x00000000); // darken
+        paint.setColorFilter(filter);
+        canvas.drawBitmap(image, 0, 0, paint);
+        return image;
+    }
+
+
 }

@@ -37,7 +37,7 @@ public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffset
             }
             mCurrentState = State.COLLAPSED;
         }
-        else if(previousVerticalOffset>verticalOffset)
+        else if(previousVerticalOffset-2>verticalOffset)
         {
             if (mCurrentState != State.SCROLL_DOWN) {
                 onStateChanged(appBarLayout, State.SCROLL_DOWN);
