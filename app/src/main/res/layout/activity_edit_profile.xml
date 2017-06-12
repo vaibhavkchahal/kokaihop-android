@@ -79,8 +79,8 @@
             app:layout_constraintTop_toBottomOf="@+id/settings_toolbar">
             <ImageView
                 android:id="@+id/iv_user_profile_pic"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/user_profile_pic_size"
+                android:layout_height="@dimen/user_profile_pic_size"
                 android:layout_marginTop="@dimen/edit_profile_user_pic_margin_top"
                 android:scaleType="fitXY"
                 android:contentDescription="@string/change_profile_photo"

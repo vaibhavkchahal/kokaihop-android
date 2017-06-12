@@ -13,6 +13,7 @@ import com.altaworks.kokaihop.ui.databinding.ActivitySettingsBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.home.HomeActivity;
 import com.kokaihop.userprofile.ProfileDataManager;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -47,9 +48,10 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
-                new ProfileDataManager().removeData(SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.USER_ID));
+                new ProfileDataManager().removeData();
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                User.removeInstance();
                 startActivity(intent);
             }
         });

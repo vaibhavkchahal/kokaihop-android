@@ -93,8 +93,6 @@ public class ProfileDataManager {
 
                 if (!alreadyExists(userRealmObject.getFollowingList(), following)) {
                     userRealmObject.getFollowingList().add(following);
-                } else {
-                    Logger.e("Exists Following", following.getUserNameRealmObject().getFull());
                 }
             }
         }
@@ -114,8 +112,6 @@ public class ProfileDataManager {
 
                 if (!alreadyExists(userRealmObject.getFollowersList(), follower)) {
                     userRealmObject.getFollowersList().add(follower);
-                } else {
-                    Logger.e("Exists Follower", follower.getUserNameRealmObject().getFull());
                 }
             }
         }
@@ -159,15 +155,13 @@ public class ProfileDataManager {
                     user.setProfileImage(new CloudinaryImage());
                     user.getProfileImage().setCloudinaryId(following.getProfileImage().getCloudinaryId());
                 }
-                Logger.e("Following User", user.getName().getFull());
-
                 followingList.add(user);
             }
         }
         return followingList;
     }
 
-    public void removeData(String userId) {
+    public void removeData() {
         realm.beginTransaction();
         realm.where(UserRealmObject.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();

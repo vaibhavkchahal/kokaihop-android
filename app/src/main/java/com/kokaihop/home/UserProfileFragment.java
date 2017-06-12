@@ -1,6 +1,8 @@
 package com.kokaihop.home;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -23,6 +25,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
+import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.editprofile.SettingsActivity;
 import com.kokaihop.userprofile.FollowersFragment;
 import com.kokaihop.userprofile.FollowingFragment;
@@ -35,6 +38,7 @@ import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.NotificationCount;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -42,6 +46,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
 
+import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
@@ -104,6 +109,14 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 @Override
                 public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                     userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
+                }
+            });
+
+            userProfileBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.e("User profile","Image Clicked");
+                    selectImage();
                 }
             });
 
@@ -265,9 +278,40 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         CloudinaryImage profileImage = User.getInstance().getProfileImage();
         if (profileImage != null) {
             String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
-            userProfileBinding.setImageProfileUrl(imageUrl);
             User.getInstance().setProfileImageUrl(imageUrl);
         }
         userProfileBinding.executePendingBindings();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                data.getData();
+                CameraUtils.onSelectFromGalleryResult(getContext(), data, userProfileBinding.userAvatar);
+            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                CameraUtils.onCaptureImageResult(getContext(), userProfileBinding.userAvatar);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (CameraUtils.userChoosenTask.equals(getString(R.string.take_photo)))
+                        CameraUtils.cameraIntent(getContext());
+                    else if (CameraUtils.userChoosenTask.equals(getString(R.string.choose_from_library)))
+                        CameraUtils.galleryIntent(getContext());
+                } else {
+                }
+                break;
+        }
+    }
+
+    public void selectImage() {
+        CameraUtils.selectImage(getContext());
     }
 }

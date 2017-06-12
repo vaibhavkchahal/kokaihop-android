@@ -8,12 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -78,9 +80,11 @@ public class CameraUtils {
                     }
                     photo.delete();
                 } catch (Exception e) {
-                    Toast.makeText(context, "Please check SD card! Image shot is impossible!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.sd_card_error, Toast.LENGTH_SHORT).show();
                 }
-                Uri imageUri = Uri.fromFile(photo);
+
+                Uri imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + ".fileprovider", photo);
+
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 ((Activity) context).startActivityForResult(intent, EditProfileViewModel.REQUEST_CAMERA);
             }
@@ -94,13 +98,13 @@ public class CameraUtils {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            ((Activity) context).startActivityForResult(Intent.createChooser(intent, "Select File"), EditProfileViewModel.REQUEST_GALLERY);
+            ((Activity) context).startActivityForResult(Intent.createChooser(intent, context.getString(R.string.select_file)), EditProfileViewModel.REQUEST_GALLERY);
         }
     }
 
 
     //process image if the image is choosen from the gallery
-    public static void onSelectFromGalleryResult(Intent data, ImageView view) {
+    public static void onSelectFromGalleryResult(Context context, Intent data, ImageView view) {
         Bitmap bm = null;
         if (data != null) {
             try {
@@ -109,20 +113,37 @@ public class CameraUtils {
                 e.printStackTrace();
             }
         }
-        view.setImageBitmap(bm);
+        Drawable defaultDrawable = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
+        }else{
+            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
+        }
+//        view.setImageBitmap(bm);
+        Logger.e("Gallery",data.getDataString());
+        BindingUtils.loadImage(view,data.getDataString(),defaultDrawable,defaultDrawable);
     }
 
     //process image if the image is clicked by camera
-    public static void onCaptureImageResult(Intent data, ImageView view) {
+    public static void onCaptureImageResult(Context context, ImageView view) {
         Bitmap thumbnail = null;
+        Uri imageUri= null;
         try {
-            Logger.e(photo.exists() + "", photo.getAbsolutePath());
-            thumbnail = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), Uri.fromFile(photo));
+            imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
+            thumbnail = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUri);
         } catch (IOException e) {
             Logger.e("Exception ", e.toString());
             e.printStackTrace();
         }
-        view.setImageBitmap(thumbnail);
+        Logger.e("Camera",imageUri.toString());
+        Drawable defaultDrawable = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
+        }else{
+            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
+        }
+        BindingUtils.loadImage(view,imageUri.toString(),defaultDrawable,defaultDrawable);
+//        view.setImageBitmap(thumbnail);
     }
 
     //check for permissions of user

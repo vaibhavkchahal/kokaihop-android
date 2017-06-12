@@ -31,12 +31,12 @@ public class EditProfileActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY){
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                 data.getData();
-                CameraUtils.onSelectFromGalleryResult(data, editProfileBinding.ivUserProfilePic);
-            }else if (requestCode == EditProfileViewModel.REQUEST_CAMERA){
-                CameraUtils.onCaptureImageResult(data,editProfileBinding.ivUserProfilePic);
-            }else if (requestCode == EditProfileViewModel.REQUEST_CITY){
+                CameraUtils.onSelectFromGalleryResult(this, data, editProfileBinding.ivUserProfilePic);
+            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                CameraUtils.onCaptureImageResult(this, editProfileBinding.ivUserProfilePic);
+            } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
                 editProfileViewModel.setCity(citySelected.getName());
             }

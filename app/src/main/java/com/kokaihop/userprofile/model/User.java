@@ -164,4 +164,9 @@ public class User extends BaseObservable{
         }
         return user;
     }
+
+    public static void removeInstance()
+    {
+        user = null;
+    }
 }

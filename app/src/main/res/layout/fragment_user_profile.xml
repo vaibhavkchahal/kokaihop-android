@@ -6,7 +6,6 @@
 
     <data>
         <variable name="user" type="com.kokaihop.userprofile.model.User"/>
-        <variable name="imageProfileUrl" type="String"/>
         <variable name="imageCoverUrl" type="String"/>
         <variable name="viewModel" type="com.kokaihop.userprofile.UserProfileViewModel"/>
     </data>
@@ -81,7 +80,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
                                     app:error="@{@drawable/ic_avtar_sm}"
-                                    app:imageUrl="@{imageProfileUrl}"
+                                    app:imageUrl="@{user.profileImageUrl}"
                                     app:isCircular="@{true}"
                                     app:placeholder="@{@drawable/ic_avtar_sm}"/>
 
