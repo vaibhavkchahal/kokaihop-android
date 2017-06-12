@@ -4,29 +4,30 @@
 
     <data>
         <variable name="imageUrl" type="String"/>
-        <variable name="blurrImageUrl" type="String"/>
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageview_recipe_blurred_pic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:imageUrl="@{blurrImageUrl}"/>
+
 
         <ImageView
             android:id="@+id/imageview_recipe_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:drawingCacheQuality="low"
             app:error="@{@drawable/ic_recipeplaceholder_lg}"
             app:imageUrl="@{imageUrl}"
             app:placeholder="@{@drawable/ic_recipeplaceholder_lg}"/>
-
+        <ImageView
+            android:id="@+id/imageview_recipe_blurred_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:visibility="visible"
+        />
 
     </FrameLayout>
 
