@@ -25,6 +25,8 @@ import com.kokaihop.utility.FacebookAuthentication;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
 
+import static com.kokaihop.utility.Constants.EXTRA_FROM;
+
 
 public class SignUpViewModel extends BaseViewModel {
 
@@ -115,8 +117,10 @@ public class SignUpViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
-                boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
-                if (isComingFromLike) {
+//                boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
+                String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
+
+                if (from!=null && from.equals("loginRequired")) {
                     Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
                     ((SignUpActivity) context).setResult(Activity.RESULT_OK);
                     ((SignUpActivity) context).finish();
@@ -188,8 +192,10 @@ public class SignUpViewModel extends BaseViewModel {
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                         setProgressVisible(false);
                         Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
-                        boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
-                        if (isComingFromLike) {
+//                        boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
+                        String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
+
+                        if (from!=null && from.equals("loginRequired")) {
                             ((SignUpActivity) context).setResult(Activity.RESULT_OK);
                             ((SignUpActivity) context).finish();
                             Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();

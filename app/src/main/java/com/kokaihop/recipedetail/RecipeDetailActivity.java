@@ -1,6 +1,7 @@
 package com.kokaihop.recipedetail;
 
 import android.databinding.DataBindingUtil;
+import android.databinding.Observable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
@@ -31,14 +32,12 @@ import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
-import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 
 public class RecipeDetailActivity extends BaseActivity {
 
@@ -57,6 +56,13 @@ public class RecipeDetailActivity extends BaseActivity {
     private RecipeDetailPagerImages recipeDetailPagerImages;
     private ImageView imageviewRecipe, imageViewRecipeBlurr;
     private int selectedItemPosition = 0;
+
+    private final Observable.OnPropertyChangedCallback propertyChangedCallback = new Observable.OnPropertyChangedCallback() {
+        @Override
+        public void onPropertyChanged(Observable observable, int i) {
+            RecipeDetailActivity.this.invalidateOptionsMenu();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +85,19 @@ public class RecipeDetailActivity extends BaseActivity {
         imageviewRecipe = (ImageView) viewPager.findViewById(R.id.imageview_recipe_pic);
         imageViewRecipeBlurr = (ImageView) viewPager.findViewById(R.id.imageview_recipe_blurred_pic);
 
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        binding.getViewModel().addOnPropertyChangedCallback(propertyChangedCallback);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        binding.getViewModel().removeOnPropertyChangedCallback(propertyChangedCallback);
     }
 
     private void setAppBarListener() {
@@ -206,12 +225,7 @@ public class RecipeDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_recipe_detail, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+
 
     private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
         // Images left navigation
@@ -271,6 +285,19 @@ public class RecipeDetailActivity extends BaseActivity {
                         .getDrawable(R.drawable.something);*/
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_recipe_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /*@Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+//        menu.findItem(R.id.icon_like).setVisible(binding.getItem().isVisible());
+    }*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
