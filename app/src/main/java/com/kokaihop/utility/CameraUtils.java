@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -102,7 +104,7 @@ public class CameraUtils {
 
 
     //process image if the image is choosen from the gallery
-    public static String onSelectFromGalleryResult(Intent data) {
+    public static Uri onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
         if (data != null) {
             try {
@@ -120,16 +122,16 @@ public class CameraUtils {
 //        view.setImageBitmap(bm);
 //        BindingUtils.loadImage(view,data.getDataString(),defaultDrawable,defaultDrawable);
 
-        Logger.e("Gallery",data.getDataString());
-        return data.getDataString();
+        Logger.e("Gallery", data.getDataString());
+        return Uri.parse(data.getDataString());
     }
 
     //process image if the image is clicked by camera
-    public static String onCaptureImageResult(Context context) {
+    public static Uri onCaptureImageResult(Context context) {
         Bitmap thumbnail = null;
-        Uri imageUri= null;
+        Uri imageUri = null;
         imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
-        Logger.e("Camera",imageUri.toString());
+        Logger.e("Camera", imageUri.toString());
 
 //        Drawable defaultDrawable = null;
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -139,8 +141,33 @@ public class CameraUtils {
 //        }
 //        BindingUtils.loadImage(view,imageUri.toString(),defaultDrawable,defaultDrawable);
 //        view.setImageBitmap(thumbnail);
-        return imageUri.toString();
+        return imageUri;
 
+    }
+
+
+    public static String getRealPathFromURI(Context context, Uri uri) {
+        String filePath = "";
+        String wholeID = DocumentsContract.getDocumentId(uri);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = {MediaStore.Images.Media.DATA};
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{id}, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+        return filePath;
     }
 
     //check for permissions of user

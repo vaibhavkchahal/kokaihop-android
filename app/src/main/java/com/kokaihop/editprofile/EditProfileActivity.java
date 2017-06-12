@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
@@ -31,18 +32,19 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String imageUrl;
+        Uri imageUri;
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY ||requestCode == EditProfileViewModel.REQUEST_CAMERA) {
-                if(requestCode == EditProfileViewModel.REQUEST_GALLERY){
-                    data.getData();
-                    imageUrl = data.getDataString();
-                }else{
-                    imageUrl = CameraUtils.onCaptureImageResult(this);
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                    imageUri = data.getData();
+                } else {
+                    imageUri = CameraUtils.onCaptureImageResult(this);
                 }
-                Logger.e("Path",imageUrl);
+                String filePath = CameraUtils.getRealPathFromURI(EditProfileActivity.this, imageUri);
+                Logger.e("filePath", filePath);
 
                 //TODO : cloudinary image upload code goes here
+
 
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
