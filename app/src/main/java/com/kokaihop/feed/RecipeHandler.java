@@ -81,6 +81,7 @@ public class RecipeHandler {
 
     public void openRecipeDetail(View view, String recipeId) {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("recipeId", recipeId);
         view.getContext().startActivity(intent);
     }

@@ -78,6 +78,11 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/AppToolbarTheme">
         </activity>
+
+        <activity android:name="com.kokaihop.recipedetail.CookBookActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppToolbarTheme">
+        </activity>
     </application>
 
 </manifest>

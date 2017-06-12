@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -31,7 +32,10 @@ import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
+import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -55,7 +59,6 @@ public class RecipeDetailActivity extends BaseActivity {
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
     private RecipeDetailPagerImages recipeDetailPagerImages;
     private ImageView imageviewRecipe, imageViewRecipeBlurr;
-    private int selectedItemPosition = 0;
 
     private final Observable.OnPropertyChangedCallback propertyChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
@@ -111,7 +114,7 @@ public class RecipeDetailActivity extends BaseActivity {
                         binding.viewpagerSwipeLeft.setVisibility(View.GONE);
                         binding.viewpagerSwipeRight.setVisibility(View.GONE);
                         View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
-                        if (viewCollapsed!=null) {
+                        if (viewCollapsed != null) {
                             binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_pic).setVisibility(View.GONE);
                             binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem()).findViewById(R.id.imageview_recipe_blurred_pic).setVisibility(View.VISIBLE);
                         }
@@ -209,7 +212,6 @@ public class RecipeDetailActivity extends BaseActivity {
         recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeRealmObject.getImages());
         viewPager.setAdapter(recipeDetailPagerAdapter);
         viewPager.setOffscreenPageLimit(recipeRealmObject.getImages().size());
-
         txtviewPagerProgress.setText("1/" + recipeRealmObject.getImages().size());
         enablePagerLeftRightSlider(leftSlider, rightSlider);
     }
@@ -224,7 +226,6 @@ public class RecipeDetailActivity extends BaseActivity {
         });
         setSupportActionBar(toolbar);
     }
-
 
 
     private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
@@ -258,16 +259,7 @@ public class RecipeDetailActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                currentPosition =
-//                Bitmap bmp = ((BitmapDrawable)imageView.getDrawable().getCurrent()).getBitmap();
-//                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 txtviewPagerProgress.setText(position + 1 + "/" + viewPager.getAdapter().getCount());
-                selectedItemPosition = position;
-//                setCollapsingToolbarImage(recipeDetailPagerAdapter.getImageUrl(position));
-//                imageviewRecipe.setDrawingCacheEnabled(true);
-//                Bitmap bitmap = imageviewRecipe.getDrawingCache();
-//                Bitmap blurredBitmap = BlurrImageBuilder.blur(RecipeDetailActivity.this, bitmap);
-//                imageviewRecipe.setImageBitmap(blurredBitmap);
             }
 
             @Override
@@ -293,35 +285,74 @@ public class RecipeDetailActivity extends BaseActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    /*@Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-//        menu.findItem(R.id.icon_like).setVisible(binding.getItem().isVisible());
-    }*/
+        final RecipeHandler recipeHandler = new RecipeHandler();
+        RecipeRealmObject realmObject = binding.getViewModel().recipeRealmObject;
+        final Recipe recipe = binding.getViewModel().getRecipe(realmObject);
+        MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+        setInitialRecipeLikeState(recipe, menuItemLike);
+        menuItemLike.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.icon_like) {
+                    actionOnRecipeLike(item, recipe,recipeHandler);
+                }
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void setInitialRecipeLikeState(Recipe recipe, MenuItem menuItemLike) {
+        if (recipe.isFavorite) {
+            menuItemLike.setIcon(R.drawable.ic_like_sm);
+            menuItemLike.setChecked(recipe.isFavorite);
+        } else {
+            menuItemLike.setIcon(R.drawable.ic_unlike_sm);
+            menuItemLike.setChecked(false);
+        }
+    }
+
+    private void actionOnRecipeLike(MenuItem item, Recipe recipe,RecipeHandler recipeHandler) {
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
+        if (accessToken != null && !accessToken.isEmpty()) {
+            if (item.isChecked()) {
+                item.setIcon(R.drawable.ic_unlike_sm);
+                item.setChecked(false);
+
+            } else {
+                item.setIcon(R.drawable.ic_like_sm);
+                item.setChecked(true);
+            }
+        }
+        CheckBox checkBox = binding.getViewModel().getCheckBox();
+        checkBox.setChecked(item.isChecked());
+        recipeHandler.onCheckChangeRecipe(checkBox, recipe);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
-                if(recipeDetailPagerAdapter.getCount()>0){
+                if (recipeDetailPagerAdapter.getCount() > 0) {
                     String imageUrl = recipeDetailPagerAdapter.getImageUrl(viewPager.getCurrentItem());
-//                    CameraUtils.sharePicture(this,imageUrl);
+                    CameraUtils.sharePicture(this, imageUrl);
                 }
                 return true;
             case R.id.icon_camera:
                 Logger.e("Add Picture", "Menu");
                 return true;
-            case R.id.icon_like:
-                Logger.e("Like Recipe", "Menu");
-                String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(this,Constants.ACCESS_TOKEN);
-                return true;
             case R.id.icon_add_to_wishlist:
                 Logger.e("Add to wishlist", "Menu");
+                binding.getViewModel().openCookBookScreen();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
 }

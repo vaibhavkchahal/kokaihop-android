@@ -58,7 +58,7 @@ public class AppUtility {
     }
 
 
-    public  static void showLoginDialog(final Context context, String title, String message) {
+    public static void showLoginDialog(final Context context, String title, String message) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle(title);
         dialog.setMessage(message);

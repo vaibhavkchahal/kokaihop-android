@@ -42,7 +42,7 @@ public class RecipeDataManager {
         return recipeList;
     }
 
-    private Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
+    public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
         Recipe recipe = new Recipe();
         recipe.set_id(recipeRealmObject.get_id());
         recipe.setTitle(recipeRealmObject.getTitle());

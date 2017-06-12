@@ -18,7 +18,6 @@
                     android:layout_marginRight="@dimen/item_ingrdnt_variator_margin_right"
                     android:layout_marginTop="19dp"
                     android:background="@drawable/recipe_item_border"
-                    android:onClick=""
                     android:orientation="horizontal">
 
 
