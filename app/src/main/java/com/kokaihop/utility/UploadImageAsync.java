@@ -13,21 +13,19 @@ import java.util.Map;
 public class UploadImageAsync extends AsyncTask<Void, Void, Map<String, String>> {
     private final HashMap<String, String> configMap;
     private Context context;
-    private onCompleteListener mOnCompleteListener;
-    private String imagePath;
+    private OnCompleteListener mOnCompleteListener;
 
-    public UploadImageAsync(Context context, HashMap<String, String> configMap, String imagePath, onCompleteListener onCompleteListener) {
+    public UploadImageAsync(Context context, HashMap<String, String> configMap, OnCompleteListener OnCompleteListener) {
         this.context = context;
-        this.imagePath = imagePath;
         this.configMap = configMap;
-        this.mOnCompleteListener = onCompleteListener;
+        this.mOnCompleteListener = OnCompleteListener;
 
     }
 
     @Override
     protected Map<String, String> doInBackground(Void... params) {
         CloudinaryUtils cloudinaryUtils = new CloudinaryUtils();
-        return cloudinaryUtils.uploadImageOnCloudinary(configMap, imagePath);
+        return cloudinaryUtils.uploadImageOnCloudinary(configMap);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class UploadImageAsync extends AsyncTask<Void, Void, Map<String, String>>
     /**
      * Inteface for the caller
      */
-    public interface onCompleteListener {
+    public interface OnCompleteListener {
         void onComplete(Map<String, String> uploadResult);
     }
 }

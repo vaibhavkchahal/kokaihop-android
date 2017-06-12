@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kokaihop.utility.Constants.REQUEST_KEY_CLOUDINARY_IMAGE_PATH;
+
 /**
  * Created by Rajendra Singh on 22/5/17.
  */
@@ -33,9 +35,10 @@ public class CloudinaryUtils {
     }
 
 
-    public Map<String, String> uploadImageOnCloudinary(HashMap<String, String> config, String imagePath) {
+    public Map<String, String> uploadImageOnCloudinary(HashMap<String, String> config) {
         Cloudinary cloudinary = new Cloudinary(config);
         Map<String, String> uploadResult = null;
+        String imagePath=config.get(REQUEST_KEY_CLOUDINARY_IMAGE_PATH);
         try {
 
             // Upload image from url e.g facebook, google+

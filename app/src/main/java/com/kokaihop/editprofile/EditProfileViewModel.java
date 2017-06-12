@@ -12,6 +12,13 @@ import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityActivity;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.CloudinaryDetail;
+import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.UploadImageAsync;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Rajendra Singh on 7/6/17.
@@ -22,7 +29,7 @@ public class EditProfileViewModel extends BaseViewModel {
     public static final int REQUEST_GALLERY = 2;
     public static final int REQUEST_CAMERA = 3;
     public static final int MY_PERMISSIONS = 4;
-        private Context context;
+    private Context context;
     private ActivityEditProfileBinding editProfileBinding;
     private String email, city, profileImageUrl;
     User user;
@@ -79,7 +86,28 @@ public class EditProfileViewModel extends BaseViewModel {
     //    change user profile image
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void changeProfileImage() {
-        ((EditProfileActivity)context).selectImage();
+        ((EditProfileActivity) context).selectImage();
+
+    }
+
+
+    public void uploadImageOnCloudinary(String imagePath) {
+
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_KEY, CloudinaryDetail.API_KEY);
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_SECRET, CloudinaryDetail.API_SECRET);
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_CLOUD_NAME, CloudinaryDetail.CLOUD_NAME);
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_IMAGE_PATH, imagePath);
+
+        UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
+            @Override
+            public void onComplete(Map<String, String> uploadResult) {
+
+                Logger.d("uploadResult", uploadResult.toString());
+
+            }
+        });
+        uploadImageAsync.execute();
 
     }
 

@@ -168,6 +168,9 @@ public class CameraUtils {
         }
         cursor.close();
         return filePath;
+
+
+
     }
 
     //check for permissions of user

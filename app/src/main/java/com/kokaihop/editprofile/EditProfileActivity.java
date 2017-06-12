@@ -44,7 +44,7 @@ public class EditProfileActivity extends BaseActivity {
                 Logger.e("filePath", filePath);
 
                 //TODO : cloudinary image upload code goes here
-
+                editProfileViewModel.uploadImageOnCloudinary(filePath);
 
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
