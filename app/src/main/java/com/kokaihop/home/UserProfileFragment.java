@@ -116,7 +116,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 @Override
                 public void onClick(View v) {
                     Logger.e("User profile","Image Clicked");
-                    selectImage();
+                    CameraUtils.selectImage(getContext());
                 }
             });
 
@@ -289,9 +289,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                 data.getData();
-                CameraUtils.onSelectFromGalleryResult(getContext(), data, userProfileBinding.userAvatar);
             } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
-                CameraUtils.onCaptureImageResult(getContext(), userProfileBinding.userAvatar);
             }
         }
     }
@@ -309,9 +307,5 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 }
                 break;
         }
-    }
-
-    public void selectImage() {
-        CameraUtils.selectImage(getContext());
     }
 }

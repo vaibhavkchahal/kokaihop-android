@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -17,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
@@ -104,7 +102,7 @@ public class CameraUtils {
 
 
     //process image if the image is choosen from the gallery
-    public static void onSelectFromGalleryResult(Context context, Intent data, ImageView view) {
+    public static String onSelectFromGalleryResult(Intent data) {
         Bitmap bm = null;
         if (data != null) {
             try {
@@ -113,37 +111,36 @@ public class CameraUtils {
                 e.printStackTrace();
             }
         }
-        Drawable defaultDrawable = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
-        }else{
-            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
-        }
+//        Drawable defaultDrawable = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
+//        }else{
+//            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
+//        }
 //        view.setImageBitmap(bm);
+//        BindingUtils.loadImage(view,data.getDataString(),defaultDrawable,defaultDrawable);
+
         Logger.e("Gallery",data.getDataString());
-        BindingUtils.loadImage(view,data.getDataString(),defaultDrawable,defaultDrawable);
+        return data.getDataString();
     }
 
     //process image if the image is clicked by camera
-    public static void onCaptureImageResult(Context context, ImageView view) {
+    public static String onCaptureImageResult(Context context) {
         Bitmap thumbnail = null;
         Uri imageUri= null;
-        try {
-            imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
-            thumbnail = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), imageUri);
-        } catch (IOException e) {
-            Logger.e("Exception ", e.toString());
-            e.printStackTrace();
-        }
+        imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
         Logger.e("Camera",imageUri.toString());
-        Drawable defaultDrawable = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
-        }else{
-            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
-        }
-        BindingUtils.loadImage(view,imageUri.toString(),defaultDrawable,defaultDrawable);
+
+//        Drawable defaultDrawable = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
+//        }else{
+//            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
+//        }
+//        BindingUtils.loadImage(view,imageUri.toString(),defaultDrawable,defaultDrawable);
 //        view.setImageBitmap(thumbnail);
+        return imageUri.toString();
+
     }
 
     //check for permissions of user
@@ -198,5 +195,4 @@ public class CameraUtils {
 //        }
 
     }
-
 }

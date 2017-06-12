@@ -11,6 +11,7 @@ import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
 import com.kokaihop.utility.CameraUtils;
+import com.kokaihop.utility.Logger;
 
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
@@ -30,12 +31,19 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        String imageUrl;
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                data.getData();
-                CameraUtils.onSelectFromGalleryResult(this, data, editProfileBinding.ivUserProfilePic);
-            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
-                CameraUtils.onCaptureImageResult(this, editProfileBinding.ivUserProfilePic);
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY ||requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                if(requestCode == EditProfileViewModel.REQUEST_GALLERY){
+                    data.getData();
+                    imageUrl = data.getDataString();
+                }else{
+                    imageUrl = CameraUtils.onCaptureImageResult(this);
+                }
+                Logger.e("Path",imageUrl);
+
+                //TODO : cloudinary image upload code goes here
+
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
                 editProfileViewModel.setCity(citySelected.getName());
@@ -52,7 +60,6 @@ public class EditProfileActivity extends BaseActivity {
                         CameraUtils.cameraIntent(this);
                     else if (CameraUtils.userChoosenTask.equals(getString(R.string.choose_from_library)))
                         CameraUtils.galleryIntent(this);
-                } else {
                 }
                 break;
         }
