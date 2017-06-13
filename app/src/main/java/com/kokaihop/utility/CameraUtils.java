@@ -127,29 +127,15 @@ public class CameraUtils {
     }
 
     //process image if the image is clicked by camera
-    public static Uri onCaptureImageResult(Context context) {
-        Bitmap thumbnail = null;
-        Uri imageUri = null;
-        imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
-        Logger.e("Camera", imageUri.toString());
-
-//        Drawable defaultDrawable = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg,null);
-//        }else{
-//            defaultDrawable = context.getResources().getDrawable(R.drawable.ic_avtar_lg);
-//        }
-//        BindingUtils.loadImage(view,imageUri.toString(),defaultDrawable,defaultDrawable);
-//        view.setImageBitmap(thumbnail);
-        return imageUri;
-
+    public static String onCaptureImageResult() {
+//        Uri imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
+        return photo.getAbsolutePath();
     }
 
 
     public static String getRealPathFromURI(Context context, Uri uri) {
         String filePath = "";
         String wholeID = DocumentsContract.getDocumentId(uri);
-
         // Split at colon, use second item in the array
         String id = wholeID.split(":")[1];
 
@@ -168,7 +154,6 @@ public class CameraUtils {
         }
         cursor.close();
         return filePath;
-
 
 
     }

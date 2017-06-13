@@ -3,6 +3,7 @@ package com.kokaihop.utility;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,11 @@ public class UploadImageAsync extends AsyncTask<Void, Void, Map<String, String>>
     @Override
     protected void onPostExecute(Map<String, String> uploadResult) {
 /* Dismiss the progress dialog after sharing */
-        mOnCompleteListener.onComplete(uploadResult);
+        try {
+            mOnCompleteListener.onComplete(uploadResult);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -45,6 +50,6 @@ public class UploadImageAsync extends AsyncTask<Void, Void, Map<String, String>>
      * Inteface for the caller
      */
     public interface OnCompleteListener {
-        void onComplete(Map<String, String> uploadResult);
+        void onComplete(Map<String, String> uploadResult) throws ParseException;
     }
 }

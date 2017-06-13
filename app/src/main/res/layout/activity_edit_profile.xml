@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/settings_save_margin_right"
-                    android:onClick="@{()->viewModel.updateProfile()}"
+                    android:onClick="@{()->viewModel.updateCity()}"
                     android:text="@string/done"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium"
@@ -134,7 +134,7 @@
             android:drawableRight="@drawable/ic_down_arrow_sm"
             android:hint="@string/city"
             android:onClick="@{()->viewModel.selectCity()}"
-            android:text="@{viewModel.city}"
+            android:text="@{viewModel.cityName}"
             android:textSize="@dimen/text_size_small"
             app:font="@{`SS-ProRegular`}"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -152,5 +152,8 @@
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/tv_edit_profile_city"/>
+        <include
+            bind:viewModel="@{viewModel}"
+            layout="@layout/progress_bar"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

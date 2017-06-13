@@ -6,17 +6,31 @@ import android.content.Intent;
 import android.databinding.Bindable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.BR;
+import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityActivity;
+import com.kokaihop.city.CityDetails;
+import com.kokaihop.database.UserRealmObject;
+import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.ProfileApiHelper;
+import com.kokaihop.userprofile.ProfileDataManager;
+import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryDetail;
+import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.UploadImageAsync;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,16 +45,19 @@ public class EditProfileViewModel extends BaseViewModel {
     public static final int MY_PERMISSIONS = 4;
     private Context context;
     private ActivityEditProfileBinding editProfileBinding;
-    private String email, city, profileImageUrl;
-    User user;
+    private String email, profileImageUrl, cityName, accessToken, userId;
+    private CityDetails city;
+    private SettingsApiHelper settingsApiHelper;
+    private User user;
 
     public EditProfileViewModel(Context context, ActivityEditProfileBinding editProfileBinding) {
         this.context = context;
         this.editProfileBinding = editProfileBinding;
         user = User.getInstance();
         setEmail(User.getInstance().getEmail());
-        setCity(User.getInstance().getCityName());
+        setCityName(user.getCityName());
         setProfileImageUrl(User.getInstance().getProfileImageUrl());
+        settingsApiHelper = new SettingsApiHelper();
     }
 
     @Bindable
@@ -54,13 +71,13 @@ public class EditProfileViewModel extends BaseViewModel {
     }
 
     @Bindable
-    public String getCity() {
-        return city;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-        notifyPropertyChanged(BR.city);
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+        notifyPropertyChanged(BR.cityName);
     }
 
     @Bindable
@@ -98,21 +115,125 @@ public class EditProfileViewModel extends BaseViewModel {
         paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_SECRET, CloudinaryDetail.API_SECRET);
         paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_CLOUD_NAME, CloudinaryDetail.CLOUD_NAME);
         paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_IMAGE_PATH, imagePath);
-
+        setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
             @Override
-            public void onComplete(Map<String, String> uploadResult) {
+            public void onComplete(Map<String, String> uploadResult) throws ParseException {
 
                 Logger.d("uploadResult", uploadResult.toString());
-
+                User user = User.getInstance();
+                user.setProfileImage(new CloudinaryImage());
+                user.getProfileImage().setCloudinaryId(uploadResult.get("public_id"));
+                user.getProfileImage().setUploaded(new Date().getTime());
+                updateProfilePic();
+                setProgressVisible(false);
             }
         });
         uploadImageAsync.execute();
 
     }
 
+    public void updateProfilePic() {
+        setProgressVisible(true);
+        setupApiCall();
+        settingsApiHelper.changeProfilePicture(accessToken, userId, user.getProfileImage(), new IApiRequestComplete<SettingsResponse>() {
+            @Override
+            public void onSuccess(SettingsResponse response) {
+                new ProfileApiHelper().getUserData(accessToken, Constants.LANGUGE_CODE, new IApiRequestComplete<UserRealmObject>() {
+                    @Override
+                    public void onSuccess(UserRealmObject response) {
+                        Toast.makeText(context, "Profile Picture uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        ProfileDataManager profileDataManager = new ProfileDataManager();
+                        profileDataManager.insertOrUpdateUserData(response);
+                        profileDataManager.fetchUserData(userId);
+                        setProfileImage();
+                        setProgressVisible(false);
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        setProgressVisible(false);
+                    }
+
+                    @Override
+                    public void onError(UserRealmObject response) {
+                        setProgressVisible(false);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+                Toast.makeText(context, "Error while updating profile picture", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(SettingsResponse response) {
+                setProgressVisible(false);
+                Toast.makeText(context, "Error while updating profile picture", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void updateCity() {
+        setProgressVisible(true);
+        settingsApiHelper.changeCity(accessToken, userId, city, new IApiRequestComplete<SettingsResponse>() {
+            @Override
+            public void onSuccess(SettingsResponse response) {
+                setProgressVisible(false);
+                Toast.makeText(context, "City updated successfully", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(SettingsResponse response) {
+                setProgressVisible(false);
+                Toast.makeText(context, "Error while updating city", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void setupApiCall() {
+        accessToken = Constants.AUTHORIZATION_BEARER  + SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
+        userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
+    }
+
     @Override
     public void destroy() {
         ((Activity) context).finish();
+    }
+
+    public CityDetails getCity() {
+        return city;
+    }
+
+    public void setCity(CityDetails city) {
+        this.city = city;
+        setCityName(city.getName());
+    }
+
+    public void setProfileImage() {
+        int width = context.getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
+        int height = width;
+        ImageView ivProfile = editProfileBinding.ivUserProfilePic;
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ivProfile.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivProfile.setLayoutParams(layoutParams);
+        LinearLayout.LayoutParams ivProfileLayoutParams = (LinearLayout.LayoutParams) ivProfile.getLayoutParams();
+        CloudinaryImage profileImage = User.getInstance().getProfileImage();
+        if (profileImage != null) {
+            String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(ivProfileLayoutParams.width), String.valueOf(ivProfileLayoutParams.height));
+            User.getInstance().setProfileImageUrl(imageUrl);
+            setProfileImageUrl(imageUrl);
+        }
+        editProfileBinding.executePendingBindings();
     }
 }
