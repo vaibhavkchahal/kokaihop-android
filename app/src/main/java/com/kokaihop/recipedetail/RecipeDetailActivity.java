@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -28,8 +29,6 @@ import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
-import com.kokaihop.database.RecipeRealmObject;
-import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.utility.BlurImageHelper;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
@@ -102,34 +101,33 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
                 if (viewCollapsed != null) {
-                    ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
-                    ImageView imageViewBlurred = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_blurred_pic);
-                    switch (state) {
-                        case COLLAPSED:
-                            binding.viewpagerSwipeLeft.setVisibility(View.GONE);
-                            binding.viewpagerSwipeRight.setVisibility(View.GONE);
+                ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
+                ImageView imageViewBlurred = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_blurred_pic);
+                switch (state) {
+                    case COLLAPSED:
+                        binding.viewpagerSwipeLeft.setVisibility(View.GONE);
+                        binding.viewpagerSwipeRight.setVisibility(View.GONE);
+                        Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                        Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
+                                RenderScript.create(RecipeDetailActivity.this),
+                                bitmap);
+                        imageViewBlurred.setImageBitmap(bluredBitmap);
+                        imageViewBlurred.setVisibility(View.VISIBLE);
+                        break;
+                    case EXPANDED:
+                        toggleLeftRightVisibility(viewPager.getCurrentItem());
+                        imageViewBlurred.setVisibility(View.GONE);
 
-                            Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
-                            Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
-                                    RenderScript.create(RecipeDetailActivity.this),
-                                    bitmap);
-                            imageViewBlurred.setImageBitmap(bluredBitmap);
-                            imageViewBlurred.setVisibility(View.VISIBLE);
-                            break;
-                        case EXPANDED:
-                            toggleLeftRightVisibility(viewPager.getCurrentItem());
-                            imageViewBlurred.setVisibility(View.GONE);
-
-                            break;
-                        case SCROLL_DOWN:
-                            imageViewBlurred.setVisibility(View.GONE);
-
+                        break;
+                    case SCROLL_DOWN:
+                        imageViewBlurred.setVisibility(View.GONE);
                         break;
                 }
             }
+            }
         });
-
     }
+
 
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
@@ -267,6 +265,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void setPagerData() {
         recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
         viewPager.setAdapter(recipeDetailPagerAdapter);
+        viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
             txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
         }
