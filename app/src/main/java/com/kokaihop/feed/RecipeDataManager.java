@@ -64,8 +64,6 @@ public class RecipeDataManager {
         recipe.setComments(recipeRealmObject.getCounter().getComments());
         recipe.setBadgeType(recipeRealmObject.getBadgeType());
         recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
-
-
         return recipe;
 
     }
@@ -82,7 +80,6 @@ public class RecipeDataManager {
                 recipeRealmObject.setCounter(updateCounter(recipeInfo.getRecipeRealmObject()));
                 recipeRealmObject.setBadgeDateCreated(Long.parseLong(recipeInfo.getRecipeRealmObject().getDateCreated()));
                 recipeRealmObject.setCoverImage(recipeInfo.getRecipeRealmObject().getCoverImage());
-
                 if (recipeResponse.getMyLikes() != null) {
                     boolean isLiked = recipeResponse.getMyLikes().contains(recipeRealmObject.get_id());
                     recipeRealmObject.setFavorite(isLiked);
@@ -139,18 +136,15 @@ public class RecipeDataManager {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
                 try {
-
                     if (jsonObject.has("cookingSteps")) {
                         JSONArray cookingStepsJSONArray = jsonObject.getJSONArray("cookingSteps");
-
                         JSONArray updatedJSONArray = new JSONArray();
                         for (int i = 0; i < cookingStepsJSONArray.length(); i++) {
                             String step = cookingStepsJSONArray.getString(i);
                             JSONObject stepJSONObject = new JSONObject();
                             stepJSONObject.put("step", step);
-                            stepJSONObject.put("serialNo", i+1);
+                            stepJSONObject.put("serialNo", i + 1);
                             updatedJSONArray.put(stepJSONObject);
                         }
                         jsonObject.remove("cookingSteps");
@@ -191,15 +185,12 @@ public class RecipeDataManager {
     }
 
     public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
                 RealmList<RecipeRealmObject> similarRecipes = new RealmList<>();
-
-
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
                         JSONObject recipeJSONObject = (JSONObject) jsonArray.get(i);

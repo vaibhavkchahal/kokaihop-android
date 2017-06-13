@@ -111,7 +111,6 @@ public class RecipeDetailActivity extends BaseActivity {
                         case COLLAPSED:
                             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
                             binding.viewpagerSwipeRight.setVisibility(View.GONE);
-
                             Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
                             Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
                                     RenderScript.create(RecipeDetailActivity.this),
@@ -123,7 +122,6 @@ public class RecipeDetailActivity extends BaseActivity {
                             binding.viewpagerSwipeLeft.setVisibility(View.VISIBLE);
                             binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
                             imageViewBlurred.setVisibility(View.GONE);
-
                         case SCROLL_DOWN:
                             imageViewBlurred.setVisibility(View.GONE);
                     }
@@ -227,7 +225,6 @@ public class RecipeDetailActivity extends BaseActivity {
     }
 
 
-
     private void enablePagerLeftRightSlider(ImageView leftSlide, ImageView rightSlide) {
         // Images left navigation
         leftSlide.setOnClickListener(new View.OnClickListener() {
@@ -288,7 +285,7 @@ public class RecipeDetailActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.icon_like) {
-                    actionOnRecipeLike(item, recipe,recipeHandler);
+                    actionOnRecipeLike(item, recipe, recipeHandler);
                 }
                 return false;
             }
@@ -306,7 +303,7 @@ public class RecipeDetailActivity extends BaseActivity {
         }
     }
 
-    private void actionOnRecipeLike(MenuItem item, Recipe recipe,RecipeHandler recipeHandler) {
+    private void actionOnRecipeLike(MenuItem item, Recipe recipe, RecipeHandler recipeHandler) {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {
@@ -321,6 +318,7 @@ public class RecipeDetailActivity extends BaseActivity {
         CheckBox checkBox = binding.getViewModel().getCheckBox();
         checkBox.setChecked(item.isChecked());
         recipeHandler.onCheckChangeRecipe(checkBox, recipe);
+        recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
     }
 
     @Override
