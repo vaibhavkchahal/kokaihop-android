@@ -18,8 +18,8 @@
             android:id="@+id/appbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:fitsSystemWindows="true">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbarLayout"
@@ -28,8 +28,8 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <RelativeLayout android:layout_width="match_parent"
-                                app:layout_collapseMode="parallax"
-                                android:layout_height="280dp">
+                                android:layout_height="280dp"
+                                app:layout_collapseMode="parallax">
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/viewpager_recipe_detail"
@@ -50,7 +50,8 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|left"
                         android:layout_marginLeft="10dp"
-                        android:src="@drawable/ic_swipeleft_md"/>
+                        android:src="@drawable/ic_swipeleft_md"
+                        android:visibility="gone"/>
 
                     <ImageView
                         android:id="@+id/viewpager_swipe_right"
@@ -60,6 +61,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical|right"
                         android:layout_marginRight="10dp"
+                        android:visibility="gone"
                         android:src="@drawable/ic_swiperight_md"/>
 
                     <TextView

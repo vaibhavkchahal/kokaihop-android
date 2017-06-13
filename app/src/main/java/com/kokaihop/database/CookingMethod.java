@@ -12,9 +12,9 @@ import io.realm.annotations.PrimaryKey;
 public class CookingMethod extends RealmObject {
 
    @PrimaryKey @SerializedName("id")
-    private String id;
+    private String id="";
     @SerializedName("name")
-    private String name;
+    private String name="";
 
     public String getId() {
         return id;

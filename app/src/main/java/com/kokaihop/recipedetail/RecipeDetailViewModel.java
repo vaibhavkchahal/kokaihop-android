@@ -1,13 +1,11 @@
 package com.kokaihop.recipedetail;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.RecipeDataManager;
@@ -22,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
 import okhttp3.ResponseBody;
 
 /**
@@ -32,27 +31,31 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private final int LIMIT_COMMENT = 3;
     private final int LIMIT_SIMILAR_RECIPE = 5;
+    private final DataSetListener dataSetListener;
     public RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
     private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private ViewPager viewPager;
-    private TextView txtviwPagerProgress;
     private Context context;
+
+    public RealmList<RecipeDetailPagerImages> getPagerImages() {
+        return pagerImages;
+    }
+
+    RealmList<RecipeDetailPagerImages> pagerImages = new RealmList<>();
 
     public List<Object> getRecipeDetailItemsList() {
         return recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(Context context, String recipeID, RecyclerView recyclerView, ViewPager viewPager, TextView textView) {
+    public RecipeDetailViewModel(Context context, String recipeID ,DataSetListener dataSetListener) {
         this.context = context;
         this.recipeID = recipeID;
-        this.recyclerView = recyclerView;
-        this.viewPager = viewPager;
-        this.txtviwPagerProgress = textView;
+        this.dataSetListener=dataSetListener;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+        pagerImages = recipeRealmObject.getImages();
+        prepareRecipeDetailList(recipeRealmObject);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
 
@@ -77,10 +80,14 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
+                setProgressVisible(false);
+
             }
 
             @Override
             public void onError(Object response) {
+                setProgressVisible(false);
+
             }
         });
 
@@ -98,9 +105,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     recipeDataManager.updateSimilarRecipe(recipeID, recipeJSONArray);
                     recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
                     prepareRecipeDetailList(recipeRealmObject);
-                    recyclerView.getAdapter().notifyDataSetChanged();
-                    viewPager.getAdapter().notifyDataSetChanged();
-                    txtviwPagerProgress.setText("1/" + viewPager.getAdapter().getCount());
+                    pagerImages = recipeRealmObject.getImages();
+                    dataSetListener.onRecipeDetailDataUpdate();
+                    dataSetListener.onPagerDataUpdate();
+                    dataSetListener.onCounterUpdate();
+
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -123,7 +132,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     private void prepareRecipeDetailList(RecipeRealmObject recipeRealmObject) {
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), recipeRealmObject.getDescription().getRecipeDescription());
+        recipeDetailItemsList.clear();
+        String description = "";
+        if (recipeRealmObject.getDescription() != null) {
+            description = recipeRealmObject.getDescription().getRecipeDescription();
+        }
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         addIngredients(recipeRealmObject);
@@ -185,9 +199,15 @@ public class RecipeDetailViewModel extends BaseViewModel {
         specifications.setName(recipeRealmObject.getCreatedBy().getName());
         specifications.setImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
         specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
-        specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
-        specifications.setCategory2(recipeRealmObject.getCuisine().getName());
-        specifications.setCategory3(recipeRealmObject.getCategory().getName());
+        if (recipeRealmObject.getCookingMethod() != null) {
+            specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
+        }
+        if (recipeRealmObject.getCuisine() != null) {
+            specifications.setCategory2(recipeRealmObject.getCuisine().getName());
+        }
+        if (recipeRealmObject.getCategory() != null) {
+            specifications.setCategory3(recipeRealmObject.getCategory().getName());
+        }
         specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
         specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
         specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
@@ -200,5 +220,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
+    }
+
+
+    public interface DataSetListener {
+        void onPagerDataUpdate();
+        void onRecipeDetailDataUpdate();
+        void onCounterUpdate();
     }
 }

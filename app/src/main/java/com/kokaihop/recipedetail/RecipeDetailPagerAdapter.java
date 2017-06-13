@@ -82,6 +82,17 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         container.removeView((LinearLayout) object);
     }
 
+    @Override
+    public int getItemPosition (Object object)
+    {
+        View o = (View) object;
+        int index = pagerImages.indexOf(o.getTag());
+        if (index == -1)
+            return POSITION_NONE;
+        else
+            return index;
+    }
+
     public String getImageUrl(int position) {
         List<String> imageUrlList = new ArrayList<>(imageUrlSet);
 
