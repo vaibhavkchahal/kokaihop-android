@@ -33,22 +33,24 @@ public class EditProfileActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Uri imageUri;
+        String filePath;
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
                 if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                     imageUri = data.getData();
+                    filePath = CameraUtils.getRealPathFromURI(EditProfileActivity.this, imageUri);
                 } else {
-                    imageUri = CameraUtils.onCaptureImageResult(this);
+                    filePath = CameraUtils.onCaptureImageResult();
+
                 }
-                String filePath = CameraUtils.getRealPathFromURI(EditProfileActivity.this, imageUri);
-                Logger.e("filePath", filePath);
+                Logger.d("File Path", filePath);
 
                 //TODO : cloudinary image upload code goes here
                 editProfileViewModel.uploadImageOnCloudinary(filePath);
 
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
-                editProfileViewModel.setCity(citySelected.getName());
+                editProfileViewModel.setCity(citySelected);
             }
         }
     }

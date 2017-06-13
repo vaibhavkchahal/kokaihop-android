@@ -1,6 +1,5 @@
 package com.kokaihop.city;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -51,7 +50,7 @@ public class CityDetails implements Parcelable{
     @SerializedName("isUpdated")
     private boolean isUpdated;
     @SerializedName("loc")
-    private Location loc;
+    private Loc loc;
     @SerializedName("__v")
     private String __v;
     @SerializedName("alternateNames")
@@ -76,7 +75,7 @@ public class CityDetails implements Parcelable{
         timezone = in.readString();
         modificationDate = in.readString();
         isUpdated = in.readByte() != 0;
-        loc = in.readParcelable(Location.class.getClassLoader());
+        loc = in.readParcelable(Loc.class.getClassLoader());
         __v = in.readString();
         alternateNames = in.readParcelable(AlternateNames.class.getClassLoader());
     }
@@ -245,11 +244,11 @@ public class CityDetails implements Parcelable{
         isUpdated = updated;
     }
 
-    public Location getLoc() {
+    public Loc getLoc() {
         return loc;
     }
 
-    public void setLoc(Location loc) {
+    public void setLoc(Loc loc) {
         this.loc = loc;
     }
 

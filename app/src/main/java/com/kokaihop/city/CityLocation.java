@@ -18,4 +18,11 @@ public class CityLocation {
     public CityDetails getCityDetails() {
         return cityDetails;
     }
+
+    @Override
+    public String toString() {
+        return "CityLocation{" +
+                "cityDetails=" + cityDetails +
+                '}';
+    }
 }

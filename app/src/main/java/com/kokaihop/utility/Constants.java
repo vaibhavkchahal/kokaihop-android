@@ -29,4 +29,7 @@ public class Constants {
     public static String REQUEST_KEY_CLOUDINARY_IMAGE_PATH = "imagePath";
 
 
+    public static final String LANGUGE_CODE = "en";
+
+
 }

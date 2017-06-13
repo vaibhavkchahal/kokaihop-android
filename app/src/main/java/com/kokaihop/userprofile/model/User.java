@@ -119,12 +119,15 @@ public class User extends BaseObservable{
         this.recipeCount = recipeCount;
     }
 
+    @Bindable
     public String getProfileImageUrl() {
         return profileImageUrl;
     }
 
+
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+        notifyPropertyChanged(BR.profileImageUrl);
     }
 
     public String getCityName() {
