@@ -13,6 +13,8 @@ import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 /**
@@ -20,6 +22,11 @@ import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
  */
 
 public class RecipeHandler {
+    private int recipePosition = -1;
+
+    public void setRecipePosition(int position) {
+        recipePosition = position;
+    }
 
     public void onCheckChangeRecipe(CheckBox checkBox, Recipe recipe) {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
@@ -54,16 +61,20 @@ public class RecipeHandler {
     }
 
     public void updatelikeStatusOnServer(final CheckBox checkBox, final Recipe recipe) {
+        final Context context = checkBox.getContext();
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         RecipeLikeRequest request = new RecipeLikeRequest(recipe.get_id(), checkBox.isChecked());
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                if (context.getClass().getSimpleName().equals(context.getString(R.string.recipe_detail_activity_title))) {
+                    EventBus.getDefault().postSticky(new RecipeDetailPostEvent(recipe, recipePosition));
+                }
             }
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(checkBox.getContext(), message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 revertLikeStatus(checkBox, recipe);
             }
 
@@ -79,9 +90,11 @@ public class RecipeHandler {
         updateSatusInDB(!checkBox.isChecked(), recipe);
     }
 
-    public void openRecipeDetail(View view, String recipeId) {
+    public void openRecipeDetail(View view, String recipeId, int position) {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("recipeId", recipeId);
+        intent.putExtra("recipePosition", position);
         view.getContext().startActivity(intent);
     }
 

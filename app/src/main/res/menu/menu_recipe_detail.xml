@@ -19,6 +19,7 @@
           android:orderInCategory="100"
           android:title="@string/action_settings"
           android:icon="@drawable/ic_like_md"
+          android:checkable="true"
           app:showAsAction="always"/>
 
     <item android:id="@+id/icon_add_to_wishlist"

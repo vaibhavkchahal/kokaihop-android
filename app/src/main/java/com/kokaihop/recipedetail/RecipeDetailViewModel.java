@@ -1,6 +1,11 @@
 package com.kokaihop.recipedetail;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
@@ -8,6 +13,7 @@ import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
+import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
@@ -144,7 +150,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
         recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
-
         for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
             recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps().get(i)));
         }
@@ -217,6 +222,18 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public String getRecipeImageId() {
         return recipeRealmObject.getCreatedBy().getProfileImageId();
+    }
+
+    public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
+        return recipeDataManager.getRecipe(recipeRealmObject);
+    }
+
+    public CheckBox getCheckBox() {
+        return new CheckBox(context);
+    }
+
+    public void openCookBookScreen() {
+        context.startActivity(new Intent(context, CookBookActivity.class));
     }
 
     @Override

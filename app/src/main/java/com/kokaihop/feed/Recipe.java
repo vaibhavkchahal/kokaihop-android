@@ -30,7 +30,6 @@ public class Recipe extends BaseObservable {
     private  String coverImage;
 
 
-
     public String get_id() {
         return _id;
     }

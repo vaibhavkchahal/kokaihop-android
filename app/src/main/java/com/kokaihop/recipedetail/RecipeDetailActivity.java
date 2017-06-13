@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -29,6 +30,11 @@ import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.Recipe;
+import com.kokaihop.feed.RecipeDataManager;
+import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.BlurImageHelper;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
@@ -296,31 +302,70 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         return super.onCreateOptionsMenu(menu);
     }
 
-    /*@Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-//        menu.findItem(R.id.icon_like).setVisible(binding.getItem().isVisible());
-    }*/
+        final RecipeHandler recipeHandler = new RecipeHandler();
+        RecipeRealmObject realmObject = binding.getViewModel().recipeRealmObject;
+        final Recipe recipe = binding.getViewModel().getRecipe(realmObject);
+        MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+        setInitialRecipeLikeState(recipe, menuItemLike);
+        menuItemLike.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.icon_like) {
+                    actionOnRecipeLike(item, recipe, recipeHandler);
+                }
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void setInitialRecipeLikeState(Recipe recipe, MenuItem menuItemLike) {
+        if (recipe.isFavorite) {
+            menuItemLike.setIcon(R.drawable.ic_like_sm);
+            menuItemLike.setChecked(recipe.isFavorite);
+        } else {
+            menuItemLike.setIcon(R.drawable.ic_unlike_sm);
+            menuItemLike.setChecked(false);
+        }
+    }
+
+    private void actionOnRecipeLike(MenuItem item, Recipe recipe, RecipeHandler recipeHandler) {
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
+        if (accessToken != null && !accessToken.isEmpty()) {
+            if (item.isChecked()) {
+                item.setIcon(R.drawable.ic_unlike_sm);
+                item.setChecked(false);
+
+            } else {
+                item.setIcon(R.drawable.ic_like_sm);
+                item.setChecked(true);
+            }
+        }
+        CheckBox checkBox = binding.getViewModel().getCheckBox();
+        checkBox.setChecked(item.isChecked());
+        recipeHandler.onCheckChangeRecipe(checkBox, recipe);
+        recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
                 if (recipeDetailPagerAdapter.getCount() > 0) {
                     String imageUrl = recipeDetailPagerAdapter.getImageUrl(viewPager.getCurrentItem());
-//                    CameraUtils.sharePicture(this,imageUrl);
+                    CameraUtils.sharePicture(this, imageUrl);
                 }
                 return true;
             case R.id.icon_camera:
                 Logger.e("Add Picture", "Menu");
                 return true;
-            case R.id.icon_like:
-                Logger.e("Like Recipe", "Menu");
-                String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
-                return true;
             case R.id.icon_add_to_wishlist:
                 Logger.e("Add to wishlist", "Menu");
+                binding.getViewModel().openCookBookScreen();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

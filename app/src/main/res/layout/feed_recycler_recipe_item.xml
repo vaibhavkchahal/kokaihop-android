@@ -9,6 +9,7 @@
         <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
         <variable name="feedImageUrl" type="String"/>
         <variable name="profileImageUrl" type="String"/>
+        <variable name="position" type="int"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
         <import type="com.kokaihop.utility.SharedPrefUtils"/>
         <import type="com.kokaihop.utility.Constants"/>
@@ -18,7 +19,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id)}"
+        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,position)}"
         android:background="@drawable/recipe_item_border">
 
         <ImageView

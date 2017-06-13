@@ -127,6 +127,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipeRealmObject.getCreatedByProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
                 }
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
+                viewHolderRecipe.binder.setPosition(position);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;

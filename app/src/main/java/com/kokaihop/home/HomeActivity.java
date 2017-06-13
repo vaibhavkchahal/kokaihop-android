@@ -63,7 +63,7 @@ public class HomeActivity extends BaseActivity {
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(new UserProfileFragment(), getString(R.string.tab_me));
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         setTabTextIcons();
 

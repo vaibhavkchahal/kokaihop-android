@@ -65,8 +65,9 @@ public class LoginViewModel extends BaseViewModel {
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
-                boolean isComingFromLike = ((LoginActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
-                if (isComingFromLike) {
+//                boolean isComingFromLike = ((LoginActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
+                String from = ((LoginActivity) context).getIntent().getStringExtra(EXTRA_FROM);
+                if (from != null && from.equals("loginRequired")) {
                     ((LoginActivity) context).finish();
                 } else {
                     showHomeScreen(context);
@@ -99,8 +100,7 @@ public class LoginViewModel extends BaseViewModel {
         Activity activity = (Activity) view.getContext();
 //        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
         String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
-
-        if (from!=null) {
+        if (from != null) {
             intent.putExtra(EXTRA_FROM, from);
             activity.startActivityForResult(intent, REQUEST_CODE);
         } else {
@@ -122,8 +122,8 @@ public class LoginViewModel extends BaseViewModel {
                         Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
                         SharedPrefUtils.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
 //                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
-                       String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
-                        if (from!=null && from.equals("loginRequired")) {
+                        String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
+                        if (from != null && from.equals("loginRequired")) {
                             ((LoginActivity) view.getContext()).finish();
                         } else {
                             AppUtility.showHomeScreen(view.getContext());

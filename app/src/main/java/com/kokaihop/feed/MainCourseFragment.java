@@ -13,6 +13,9 @@ import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import static android.databinding.DataBindingUtil.inflate;
 
 
@@ -56,4 +59,29 @@ public class MainCourseFragment extends Fragment {
         mainCourseBinding.rvMainCourse.addOnScrollListener(scrollListener);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(sticky = true)
+    public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
+        int recipePosition = recipeDetailPostEvent.getPosition();
+        Recipe recipe = recipeDetailPostEvent.getRecipe();
+        Object object = mainCourseViewModel.getRecipeListWithAdds().get(recipePosition);
+        if (object instanceof Recipe) {
+            Recipe recipeObject = (Recipe) object;
+            recipeObject.setFavorite(recipe.isFavorite());
+            recipeObject.setLikes(recipe.getLikes());
+            mainCourseBinding.rvMainCourse.getAdapter().notifyDataSetChanged();
+        }
+    }
 }

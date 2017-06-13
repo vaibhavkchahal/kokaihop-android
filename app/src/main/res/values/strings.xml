@@ -158,4 +158,5 @@
     <string name="select_file">Select File</string>
     <string name="sd_card_error">Please check SD card!!</string>
     <string name="fileprovider">.fileprovider</string>
+    <string name="recipe_detail_activity_title">RecipeDetailActivity</string>
 </resources>

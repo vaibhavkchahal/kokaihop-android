@@ -131,7 +131,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
         }
     }
 
-
     @Override
     protected void destroy() {
     }
