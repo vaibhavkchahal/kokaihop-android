@@ -1,22 +1,24 @@
 package com.kokaihop.recipedetail;
 
+import com.kokaihop.database.CookingStep;
+
 /**
  * Created by Vaibhav Chahal on 2/6/17.
  */
 
 public class RecipeCookingDirection {
 
-    private String direction;
+    private CookingStep direction;
 
-    public RecipeCookingDirection(String direction) {
+    public RecipeCookingDirection(CookingStep direction) {
         this.direction = direction;
     }
 
-    public String getDirection() {
+    public CookingStep getDirection() {
         return direction;
     }
 
-    public void setDirection(String direction) {
+    public void setDirection(CookingStep direction) {
         this.direction = direction;
     }
 }

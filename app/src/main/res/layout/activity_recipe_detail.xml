@@ -21,6 +21,7 @@
             android:background="@color/white"
             android:fitsSystemWindows="true">
 
+
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbarLayout"
                 android:layout_width="match_parent"
@@ -115,7 +116,7 @@
                         android:id="@+id/imgview_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_back_arrow_md"/>
+                        android:src="@drawable/ic_back_arrow_sm"/>
 
                 </android.support.v7.widget.Toolbar>
 

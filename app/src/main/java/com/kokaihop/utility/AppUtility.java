@@ -1,13 +1,17 @@
 package com.kokaihop.utility;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.home.HomeActivity;
 
 /**
@@ -51,5 +55,26 @@ public class AppUtility {
         layoutParams.width = aspectWidth;
         view.setLayoutParams(layoutParams);
         return view;
+    }
+
+
+    public  static void showLoginDialog(final Context context, String title, String message) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setTitle(title);
+        dialog.setMessage(message);
+        dialog.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Constants.EXTRA_FROM, "loginRequired");
+                context.startActivity(intent);
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

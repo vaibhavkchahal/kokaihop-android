@@ -139,7 +139,27 @@ public class RecipeDataManager {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Logger.e("Recipe",jsonObject.toString());
+
+                try {
+
+                    if (jsonObject.has("cookingSteps")) {
+                        JSONArray cookingStepsJSONArray = jsonObject.getJSONArray("cookingSteps");
+
+                        JSONArray updatedJSONArray = new JSONArray();
+                        for (int i = 0; i < cookingStepsJSONArray.length(); i++) {
+                            String step = cookingStepsJSONArray.getString(i);
+                            JSONObject stepJSONObject = new JSONObject();
+                            stepJSONObject.put("step", step);
+                            stepJSONObject.put("serialNo", i+1);
+                            updatedJSONArray.put(stepJSONObject);
+                        }
+                        jsonObject.remove("cookingSteps");
+                        jsonObject.put("cookingSteps", updatedJSONArray);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
             }
         });
