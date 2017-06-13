@@ -18,6 +18,7 @@ public class Constants {
     public static final int TAB_RECIPES = 0;
     public static final int TAB_FOLLOWERS = 1;
     public static final int TAB_FOLLOWINGS = 2;
+    public static final String EXTRA_FROM = "extraFrom";
 
     // for cloudinary request
     public static String REQUEST_KEY_CLOUDINARY_API_KEY = "api_key";

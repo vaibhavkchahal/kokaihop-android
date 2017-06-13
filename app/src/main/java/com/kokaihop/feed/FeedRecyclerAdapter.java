@@ -102,6 +102,8 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                    publicId = recipeRealmObjectOfDay.getMainImagePublicId();
 
                }
+
+                holderRecipeOfDay.binder.setRecipeHandler(new RecipeHandler());
                 holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(publicId, String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;

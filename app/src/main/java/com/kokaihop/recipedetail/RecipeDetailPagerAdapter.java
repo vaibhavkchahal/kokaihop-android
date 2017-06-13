@@ -7,8 +7,8 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailPagerItemBinding;
@@ -50,7 +50,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((LinearLayout) object);
+        return view == ((FrameLayout) object);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         float ratio = (float) 280 / 320;
         int height = getHeightInAspectRatio(width, ratio);
         ImageView imageViewRecipe = (ImageView) binding.getRoot().findViewById(R.id.imageview_recipe_pic);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) imageViewRecipe.getLayoutParams();
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageViewRecipe.getLayoutParams();
         layoutParams.height = height;
         layoutParams.width = width;
         imageViewRecipe.setLayoutParams(layoutParams);
@@ -79,7 +79,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((FrameLayout) object);
     }
 
     public String getImageUrl(int position) {

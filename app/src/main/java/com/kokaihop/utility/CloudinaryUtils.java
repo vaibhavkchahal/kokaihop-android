@@ -53,13 +53,19 @@ public class CloudinaryUtils {
                 InputStream inputStream = new FileInputStream(file);
                 uploadResult = cloudinary.uploader().upload(inputStream, config);
             }
-           
+
         } catch (Exception exception) {
             exception.printStackTrace();
-           
+
         }
         return uploadResult;
     }
 
+
+    public static String getBlurrImageUrl(String publicId, String width, String height) {
+        String url = CloudinaryDetail.URL +SEPARATOR+ CloudinaryDetail.CLOUD_NAME +SEPARATOR+ CloudinaryDetail.FOLDER +SEPARATOR+"/e_blur:800/" + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
+//        Logger.e("imageUrl", url);
+        return url;
+    }
 
 }

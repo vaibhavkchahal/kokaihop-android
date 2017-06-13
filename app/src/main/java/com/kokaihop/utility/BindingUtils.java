@@ -37,6 +37,12 @@ public class BindingUtils {
         view.setAdapter(new FeedRecyclerAdapter(list));
     }
 
+    @BindingAdapter({"app:imageUrl"})
+    public static void loadImage(ImageView view, String url) {
+        Glide.with(view.getContext()).load(url).into(view);
+        Logger.i("URL cloudnary-->", url);
+    }
+
     @BindingAdapter({"app:imageUrl", "app:error" , "app:placeholder"})
     public static void loadImage(ImageView view, String url, Drawable error, Drawable placeholder) {
         Glide.with(view.getContext()).load(url).placeholder(placeholder).error(error).into(view);

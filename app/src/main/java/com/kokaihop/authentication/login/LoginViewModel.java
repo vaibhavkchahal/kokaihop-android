@@ -23,6 +23,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
 
 import static com.kokaihop.utility.AppUtility.showHomeScreen;
+import static com.kokaihop.utility.Constants.EXTRA_FROM;
 
 
 public class LoginViewModel extends BaseViewModel {
@@ -96,9 +97,11 @@ public class LoginViewModel extends BaseViewModel {
         Intent intent = new Intent(view.getContext(), SignUpActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Activity activity = (Activity) view.getContext();
-        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
-        if (isComingFromLike) {
-            intent.putExtra("isComingFromLike", true);
+//        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
+        String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
+
+        if (from!=null) {
+            intent.putExtra(EXTRA_FROM, from);
             activity.startActivityForResult(intent, REQUEST_CODE);
         } else {
             activity.startActivity(intent);
@@ -118,8 +121,9 @@ public class LoginViewModel extends BaseViewModel {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
                         SharedPrefUtils.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
-                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
-                        if (isComingFromLike) {
+//                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
+                       String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
+                        if (from!=null && from.equals("loginRequired")) {
                             ((LoginActivity) view.getContext()).finish();
                         } else {
                             AppUtility.showHomeScreen(view.getContext());

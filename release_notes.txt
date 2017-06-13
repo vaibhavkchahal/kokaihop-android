@@ -1,5 +1,10 @@
-1.Local database implementation for User profile.
-2.Followers list save data in local database.
-3.Followings list save data in local database.
-4.Recipe Details screen design and API implementation.(Work in Progress)
+1.Edit Profile
+    -Daily email Preferences
+    -Change password
+    -Change profile pics Camera/Gallery option
+2.Recipe Details
+    -Recipe Detail Screen design
+    -Add to portion functionality
+    -Store detail in Database table.
+
 

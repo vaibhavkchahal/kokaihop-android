@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="model" type="com.kokaihop.recipedetail.RecipeCookingDirection"/>
+        <variable name="model" type="com.kokaihop.database.CookingStep"/>
     </data>
 
 
@@ -18,20 +19,24 @@
             android:id="@+id/txtview_direction_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{String.valueOf(model.serialNo)}"
             android:textColor="@color/grey_FF8D929C"
+            app:font="@{`SS-ProBold`}"
+
             android:textSize="@dimen/txtview_direction_textsize"
         />
 
         <TextView
             android:id="@+id/txtview_direction"
-            android:layout_width="@dimen/txtview_direction_width"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/txtview_direction_margin_left"
             android:layout_toRightOf="@+id/txtview_ingredent_quantity"
-            android:text="@{model.direction}"
-            android:textColor="@color/grey_FF71767F"
             android:paddingBottom="@dimen/row_direction_padding_bottm"
+            android:text="@{model.step}"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/txtview_direction_textsize"
+            app:font="@{`SS-ProRegular`}"
         />
 
         <View android:layout_width="match_parent"
