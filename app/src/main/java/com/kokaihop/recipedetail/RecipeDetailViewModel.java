@@ -2,10 +2,7 @@ package com.kokaihop.recipedetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
@@ -54,10 +51,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(Context context, String recipeID ,DataSetListener dataSetListener) {
+    public RecipeDetailViewModel(Context context, String recipeID, DataSetListener dataSetListener) {
         this.context = context;
         this.recipeID = recipeID;
-        this.dataSetListener=dataSetListener;
+        this.dataSetListener = dataSetListener;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         pagerImages = recipeRealmObject.getImages();
@@ -224,6 +221,14 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeRealmObject.getCreatedBy().getProfileImageId();
     }
 
+    public String getRecipeFriendlyUrl() {
+        return recipeRealmObject.getFriendlyUrl();
+    }
+
+    public  String getRecipeTitle()
+    {
+        return recipeRealmObject.getTitle();
+    }
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
         return recipeDataManager.getRecipe(recipeRealmObject);
     }
@@ -243,7 +248,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public interface DataSetListener {
         void onPagerDataUpdate();
+
         void onRecipeDetailDataUpdate();
+
         void onCounterUpdate();
     }
 }

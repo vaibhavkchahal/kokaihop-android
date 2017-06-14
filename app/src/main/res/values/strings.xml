@@ -159,4 +159,6 @@
     <string name="sd_card_error">Please check SD card!!</string>
     <string name="fileprovider">.fileprovider</string>
     <string name="recipe_detail_activity_title">RecipeDetailActivity</string>
+    <string name="email_share_content"><![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
+
 </resources>
