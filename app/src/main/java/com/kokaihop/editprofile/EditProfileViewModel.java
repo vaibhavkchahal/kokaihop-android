@@ -25,7 +25,6 @@ import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
-import com.kokaihop.utility.CloudinaryDetail;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -115,11 +114,7 @@ public class EditProfileViewModel extends BaseViewModel {
 
     public void uploadImageOnCloudinary(String imagePath) {
 
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_KEY, CloudinaryDetail.API_KEY);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_SECRET, CloudinaryDetail.API_SECRET);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_CLOUD_NAME, CloudinaryDetail.CLOUD_NAME);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_IMAGE_PATH, imagePath);
+        HashMap<String, String> paramMap =  CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
             @Override

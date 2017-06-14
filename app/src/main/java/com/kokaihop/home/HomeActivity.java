@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.view.View;
@@ -17,8 +18,8 @@ import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.utility.CameraUtils;
+import com.kokaihop.utility.Logger;
 
-import static com.kokaihop.KokaihopApplication.getContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 public class HomeActivity extends BaseActivity {
@@ -26,6 +27,7 @@ public class HomeActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ActivityHomeBinding activityHomeBinding;
     private int tabCount = 5;
+    private UserProfileFragment userProfileFragment;
     private int[] activeTabsIcon = {
             R.drawable.ic_feed_orange_sm,
             R.drawable.ic_cookbooks_orange_sm,
@@ -65,11 +67,14 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         final PagerTabAdapter adapter = new PagerTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+
+        userProfileFragment = new UserProfileFragment();
+
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
         adapter.addFrag(new CookbooksFragment(), getString(R.string.tab_cookbooks));
         adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
-        adapter.addFrag(new UserProfileFragment(), getString(R.string.tab_me));
+        adapter.addFrag(userProfileFragment, getString(R.string.tab_me));
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
@@ -121,14 +126,25 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Uri imageUri;
+        String filePath;
         if (resultCode == Activity.RESULT_OK) {
+
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                data.getData();
-            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                imageUri = data.getData();
+                filePath = CameraUtils.getRealPathFromURI(HomeActivity.this, imageUri);
+            } else {
+                filePath = CameraUtils.onCaptureImageResult();
+
             }
+            Logger.d("File Path", filePath);
+
+            userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+
         }
     }
 
@@ -138,12 +154,12 @@ public class HomeActivity extends BaseActivity {
             case MY_PERMISSIONS:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (CameraUtils.userChoosenTask.equals(getString(R.string.take_photo)))
-                        CameraUtils.cameraIntent(getContext());
+                        CameraUtils.cameraIntent(this);
                     else if (CameraUtils.userChoosenTask.equals(getString(R.string.choose_from_library)))
-                        CameraUtils.galleryIntent(getContext());
-                } else {
+                        CameraUtils.galleryIntent(this);
                 }
                 break;
         }
     }
+
 }
