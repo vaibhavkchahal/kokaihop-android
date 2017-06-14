@@ -150,6 +150,7 @@ public class LoginViewModel extends BaseViewModel {
             @Override
             public void onfailure(String error) {
                 Toast.makeText(view.getContext(), error, Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
             }
         });
     }
@@ -174,4 +175,5 @@ public class LoginViewModel extends BaseViewModel {
     @Override
     protected void destroy() {
     }
+
 }
