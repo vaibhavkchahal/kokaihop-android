@@ -121,11 +121,11 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         break;
                     case EXPANDED:
                         toggleLeftRightVisibility(viewPager.getCurrentItem());
-                        imageViewBlurred.setVisibility(View.GONE);
+                        imageViewBlurred.setVisibility(View.INVISIBLE);
 
                         break;
                     case SCROLL_DOWN:
-                        imageViewBlurred.setVisibility(View.GONE);
+                        imageViewBlurred.setVisibility(View.INVISIBLE);
                         break;
                 }
             }
