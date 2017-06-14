@@ -116,6 +116,9 @@
                         android:id="@+id/imgview_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/padding_5dp"
+                        android:paddingBottom="@dimen/padding_5dp"
+                        android:paddingRight="@dimen/padding_5dp"
                         android:src="@drawable/ic_back_arrow_sm"/>
 
                 </android.support.v7.widget.Toolbar>
