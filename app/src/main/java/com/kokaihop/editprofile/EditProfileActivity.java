@@ -50,7 +50,13 @@ public class EditProfileActivity extends BaseActivity {
 
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
-                editProfileViewModel.setCity(citySelected);
+
+                editProfileViewModel.getCity().getLiving().setCountryCode(citySelected.getCountryCode());
+                editProfileViewModel.getCity().getLiving().setGeoId(citySelected.getGeoId());
+                editProfileViewModel.getCity().getLiving().setCountryCode(citySelected.getCountryCode());
+                editProfileViewModel.getCity().getLiving().setLoc(citySelected.getLoc());
+                editProfileViewModel.getCity().getLiving().setName(citySelected.getName());
+                editProfileViewModel.setCityName(citySelected.getName());
             }
         }
     }

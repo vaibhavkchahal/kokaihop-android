@@ -15,8 +15,11 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityActivity;
-import com.kokaihop.city.CityDetails;
 import com.kokaihop.database.UserRealmObject;
+import com.kokaihop.editprofile.model.CityLiving;
+import com.kokaihop.editprofile.model.CityLocation;
+import com.kokaihop.editprofile.model.CityUpdateRequest;
+import com.kokaihop.editprofile.model.ProfileImageUpdateRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
@@ -46,7 +49,7 @@ public class EditProfileViewModel extends BaseViewModel {
     private Context context;
     private ActivityEditProfileBinding editProfileBinding;
     private String email, profileImageUrl, cityName, accessToken, userId;
-    private CityDetails city;
+    private CityLocation city;
     private SettingsApiHelper settingsApiHelper;
     private User user;
 
@@ -57,6 +60,8 @@ public class EditProfileViewModel extends BaseViewModel {
         setEmail(User.getInstance().getEmail());
         setCityName(user.getCityName());
         setProfileImageUrl(User.getInstance().getProfileImageUrl());
+        city = new CityLocation();
+        city.setLiving(new CityLiving());
         settingsApiHelper = new SettingsApiHelper();
     }
 
@@ -136,7 +141,9 @@ public class EditProfileViewModel extends BaseViewModel {
     public void updateProfilePic() {
         setProgressVisible(true);
         setupApiCall();
-        settingsApiHelper.changeProfilePicture(accessToken, userId, user.getProfileImage(), new IApiRequestComplete<SettingsResponse>() {
+        ProfileImageUpdateRequest request = new ProfileImageUpdateRequest();
+        request.setProfileImage(user.getProfileImage());
+        settingsApiHelper.changeProfilePicture(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
                 new ProfileApiHelper().getUserData(accessToken, Constants.LANGUGE_CODE, new IApiRequestComplete<UserRealmObject>() {
@@ -178,10 +185,14 @@ public class EditProfileViewModel extends BaseViewModel {
 
     public void updateCity() {
         setProgressVisible(true);
-        settingsApiHelper.changeCity(accessToken, userId, city, new IApiRequestComplete<SettingsResponse>() {
+        setupApiCall();
+        CityUpdateRequest request = new CityUpdateRequest();
+        request.setLocation(city);
+        settingsApiHelper.changeCity(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
                 setProgressVisible(false);
+                user.setCityName(city.getLiving().getName());
                 Toast.makeText(context, "City updated successfully", Toast.LENGTH_SHORT).show();
             }
 
@@ -210,13 +221,12 @@ public class EditProfileViewModel extends BaseViewModel {
         ((Activity) context).finish();
     }
 
-    public CityDetails getCity() {
+    public CityLocation getCity() {
         return city;
     }
 
-    public void setCity(CityDetails city) {
+    public void setCity(CityLocation city) {
         this.city = city;
-        setCityName(city.getName());
     }
 
     public void setProfileImage() {

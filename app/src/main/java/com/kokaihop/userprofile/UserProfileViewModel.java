@@ -39,7 +39,7 @@ public class UserProfileViewModel extends BaseViewModel {
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
 //        String accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1NjM4N2FkZTFhMjU4ZjAzMDBjMzA3NGUiLCJpYXQiOjE0OTQ1NzU3Nzg3MjAsImV4cCI6MTQ5NzE2Nzc3ODcyMH0.dfZQeK4WzKiavqubA0gF4LB15sqxFBdqCQWnUQfDFaA";
         String accessToken = bearer + token;
-        Logger.e(bearer,token);
+        Logger.e(bearer, token);
         new ProfileApiHelper().getUserData(accessToken, countryCode, new IApiRequestComplete<UserRealmObject>() {
             @Override
             public void onSuccess(UserRealmObject response) {
@@ -64,12 +64,17 @@ public class UserProfileViewModel extends BaseViewModel {
             }
         });
     }
-    public void fetchUserDataFromDB(){
-        if(userId==null){
-            userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
+
+    public void fetchUserDataFromDB() {
+        if (userId == null) {
+            userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
         }
         profileDataManager.fetchUserData(userId);
         userDataListener.showUserProfile();
 
+    }
+
+    public void changeProfilePic() {
+        Logger.e("Profile Pic", "Changed");
     }
 }

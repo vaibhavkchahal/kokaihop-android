@@ -1,11 +1,10 @@
 package com.kokaihop.editprofile;
 
-import com.kokaihop.city.CityDetails;
+import com.kokaihop.editprofile.model.CityUpdateRequest;
+import com.kokaihop.editprofile.model.ProfileImageUpdateRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
-import com.kokaihop.userprofile.model.CloudinaryImage;
-import com.kokaihop.utility.Logger;
 
 import retrofit2.Call;
 
@@ -31,12 +30,12 @@ public class SettingsApiHelper {
         userResponseCall.enqueue(new ResponseHandler<SettingsResponse>(successInterface));
     }
 
-    public void changeProfilePicture(String accessToken, String userId, CloudinaryImage cloudinaryImage, final IApiRequestComplete successInterface){
+    public void changeProfilePicture(String accessToken, String userId, ProfileImageUpdateRequest cloudinaryImage, final IApiRequestComplete successInterface){
         Call<SettingsResponse> userResponseCall = settingsApi.changeProfilePic(accessToken,userId,cloudinaryImage);
         userResponseCall.enqueue(new ResponseHandler<SettingsResponse>(successInterface));
     }
 
-    public void changeCity(String accessToken, String userId, CityDetails cityDetails, final IApiRequestComplete successInterface){
+    public void changeCity(String accessToken, String userId, CityUpdateRequest cityDetails, final IApiRequestComplete successInterface){
         Call<SettingsResponse> userResponseCall = settingsApi.changeCity(accessToken,userId,cityDetails);
         userResponseCall.enqueue(new ResponseHandler<SettingsResponse>(successInterface));
     }

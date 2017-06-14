@@ -1,7 +1,7 @@
 package com.kokaihop.editprofile;
 
-import com.kokaihop.city.CityDetails;
-import com.kokaihop.userprofile.model.CloudinaryImage;
+import com.kokaihop.editprofile.model.CityUpdateRequest;
+import com.kokaihop.editprofile.model.ProfileImageUpdateRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,12 +28,12 @@ public interface SettingsApi {
     @PUT("v1/api/users/{userId}")
     Call<SettingsResponse> changeProfilePic(@Header("Authorization") String authorization,
                                              @Path("userId") String userId,
-                                             @Body CloudinaryImage cloudinaryImage);
+                                             @Body ProfileImageUpdateRequest cloudinaryImage);
 
     @PUT("v1/api/users/{userId}")
     Call<SettingsResponse> changeCity(@Header("Authorization") String authorization,
                                              @Path("userId") String userId,
-                                             @Body CityDetails city);
+                                             @Body CityUpdateRequest city);
 
 
 }

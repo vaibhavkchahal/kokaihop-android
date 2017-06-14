@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -111,12 +112,24 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                     userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
                 }
             });
-
+            userProfileBinding.rvToolbarContainer.bringToFront();
             userProfileBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Logger.e("User profile","Image Clicked");
+                    Logger.e("User profile",userProfileBinding.userAvatar.getWidth()+"");
                     CameraUtils.selectImage(getContext());
+                }
+            });
+
+//            TODO: Resolve the user profile pic click issue
+            userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+                @Override
+                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                    if(verticalOffset==0){
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            userProfileBinding.rvToolbarContainer.setBackgroundColor(getResources().getColor(R.color.colorPrimary,null));
+                        }
+                    }
                 }
             });
 

@@ -49,10 +49,10 @@
                         app:collapsedTitleGravity="center_horizontal|top"
                         app:contentScrim="?attr/colorPrimary"
                         app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                    >
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                        <RelativeLayout android:layout_width="match_parent"
+                        <RelativeLayout android:id="@+id/rv_toolbar_container"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent">
 
                             <ImageView android:id="@+id/iv_profile_cover"
@@ -79,6 +79,7 @@
                                     android:layout_height="@dimen/user_profile_pic_size"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
+                                    android:onClick="@{()->viewModel.changeProfilePic()}"
                                     app:error="@{@drawable/ic_avtar_sm}"
                                     app:imageUrl="@{user.profileImageUrl}"
                                     app:isCircular="@{true}"
@@ -98,16 +99,19 @@
 
                             </RelativeLayout>
                         </RelativeLayout>
-
                         <android.support.v7.widget.Toolbar
                             android:id="@+id/toolbar"
                             android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
+                            android:layout_height="@dimen/toolbar_height"
                             android:layout_marginTop="@dimen/toolbar_top_padding"
+                            android:clickable="false"
                             android:gravity="center_horizontal"
+                            android:titleMarginTop="@dimen/status_bar_height"
                             app:layout_collapseMode="pin"
                             app:title="@{user.name.full}">
+
                         </android.support.v7.widget.Toolbar>
+
 
                         <android.support.design.widget.TabLayout
                             android:id="@+id/tab_profile"
