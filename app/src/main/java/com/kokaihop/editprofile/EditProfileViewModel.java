@@ -190,6 +190,7 @@ public class EditProfileViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 user.setCityName(city.getLiving().getName());
                 Toast.makeText(context, "City updated successfully", Toast.LENGTH_SHORT).show();
+                ((Activity)context).finish();
             }
 
             @Override
