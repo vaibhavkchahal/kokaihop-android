@@ -64,11 +64,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
-
     }
 
     public static UserProfileFragment getInstance() {
-
         if (fragment == null) {
             fragment = new UserProfileFragment();
         }
@@ -87,7 +85,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         this.inflater = inflater;
         this.container = container;
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
-
         if (accessToken != null && !accessToken.isEmpty()) {
 //            showUserProfile();
             userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
@@ -95,7 +92,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userViewModel.getUserData();
             userViewModel.fetchUserDataFromDB();
             userProfileBinding.setViewModel(userViewModel);
-
             userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -104,22 +100,19 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                     userProfileBinding.srlProfileRefresh.setRefreshing(false);
                 }
             });
-
             userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
                 @Override
                 public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                     userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
                 }
             });
-
             userProfileBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Logger.e("User profile","Image Clicked");
+                    Logger.e("User profile", "Image Clicked");
                     CameraUtils.selectImage(getContext());
                 }
             });
-
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -152,7 +145,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         setCoverImage();
         setProfileImage();
         userProfileBinding.setUser(User.getInstance());
-
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_followers),
                 getActivity().getString(R.string.tab_following),
@@ -162,13 +154,11 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         notificationCount.add(new NotificationCount());
         notificationCount.add(new NotificationCount());
         setNotificationCount();
-
         viewPager = userProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-
 //        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
         ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         adapter.addFrag(new RecipeFragment(), "Recipes");
@@ -178,8 +168,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
         tabLayout.setupWithViewPager(viewPager);
-
-
         for (i = 0; i < (tabCount - 1); i++) {
             TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
             View tabView = tabBinding.getRoot();
@@ -193,7 +181,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         tabLayout.getTabAt(i).setCustomView(tabView);
         tabBinding.text1.setText(tabTitles[i]);
         tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_history, 0, 0);
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -224,17 +211,15 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         userProfileBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.e("Setting","Clicked");
+                Logger.e("Setting", "Clicked");
                 startActivity(new Intent(getContext(), SettingsActivity.class));
             }
         });
-
         tabLayout.getTabAt(selectedTabPosition).select();
     }
 
     @Override
     public void followToggeled() {
-
     }
 
     public void setNotificationCount() {
@@ -250,7 +235,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         float ratio = (float) 195 / 320; // to get the image in aspect ratio
         int height = AppUtility.getHeightInAspectRatio(width, ratio);
         ImageView ivCover = userProfileBinding.ivProfileCover;
-
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
         layoutParams.height = height;
         layoutParams.width = width;
@@ -266,7 +250,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     //To set the user profile image from cloudinary image-URL
     public void setProfileImage() {
-
         int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
         int height = width;
         ImageView ivProfile = userProfileBinding.userAvatar;

@@ -21,14 +21,9 @@ import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.kokaihop.editprofile.EditProfileViewModel;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -181,32 +176,50 @@ public class CameraUtils {
     //    to share the picture with external applications
     public static void sharePicture(final Context context, String imageUrl) {
 
-//        try {
-        Glide.with(context).load(imageUrl).asBitmap().listener(new RequestListener<String, Bitmap>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-                return false;
-            }
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_TEXT,"abc");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUrl);
+        context.startActivity(Intent.createChooser(shareIntent, "Share using"));
 
-            @Override
-            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("image/jpeg");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                resource.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                File f = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_NAME + "/" + "temporary_file.jpg");
-                try {
-                    f.createNewFile();
-                    FileOutputStream fo = new FileOutputStream(f);
-                    fo.write(bytes.toByteArray());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                share.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///sdcard/temporary_file.jpg"));
-                context.startActivity(Intent.createChooser(share, "Share Image"));
-                return false;
-            }
-        }).into(-1, -1);
+//        imageUrl = "https://res.cloudinary.com/hufennija/image/upload/w_100,h_100,c_fill/608066.jpg";
+////        try {
+//        Glide.with(context).load(imageUrl).asBitmap().listener(new RequestListener<String, Bitmap>() {
+//            @Override
+//            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//
+//
+//                Intent shareIntent = new Intent();
+//
+//                shareIntent.setAction(Intent.ACTION_SEND);
+//                shareIntent.setType("image/*");
+//                shareIntent.putExtra(Intent.EXTRA_TEXT,"abc");
+//                shareIntent.putExtra(Intent.EXTRA_STREAM, resource);
+//                context.startActivity(Intent.createChooser(shareIntent, "Share using"));
+//
+////                Intent share = new Intent(Intent.ACTION_SEND);
+////                share.setType("image/jpeg");
+////                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+////                resource.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+////                File f = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_NAME + "/" + "temporary_file.jpg");
+////                try {
+////                    f.createNewFile();
+////                    FileOutputStream fo = new FileOutputStream(f);
+////                    fo.write(bytes.toByteArray());
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                }
+////                share.putExtra(Intent.EXTRA_STREAM, Uri.parse(model));
+////                context.startActivity(Intent.createChooser(share, "Share Image"));
+//                return false;
+//            }
+//        }).into(-1, -1);
 //        }
 
     }
