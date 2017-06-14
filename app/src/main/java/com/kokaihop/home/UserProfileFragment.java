@@ -26,6 +26,7 @@ import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
+import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.editprofile.SettingsActivity;
 import com.kokaihop.userprofile.FollowersFragment;
@@ -87,47 +88,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         this.container = container;
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
-//            showUserProfile();
-            userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
-            userViewModel = new UserProfileViewModel(getContext(), this);
-            userViewModel.getUserData();
-            userViewModel.fetchUserDataFromDB();
-            userProfileBinding.setViewModel(userViewModel);
-            userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    selectedTabPosition = tabLayout.getSelectedTabPosition();
-                    userViewModel.getUserData();
-                    userProfileBinding.srlProfileRefresh.setRefreshing(false);
-                }
-            });
-            userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                @Override
-                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                    userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
-                }
-            });
-            userProfileBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Logger.e("User profile", "Image Clicked");
-                    Logger.e("User profile",userProfileBinding.userAvatar.getWidth()+"");
-                    CameraUtils.selectImage(getContext());
-                }
-            });
-
-//            TODO: Resolve the user profile pic click issue
-            userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                @Override
-                public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                    if(verticalOffset==0){
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            userProfileBinding.rvToolbarContainer.setBackgroundColor(getResources().getColor(R.color.colorPrimary,null));
-                        }
-                    }
-                }
-            });
-
+            setupUserProfileScreen();
+            setAppBarListener();
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -148,6 +110,48 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         });
     }
 
+    public void setupUserProfileScreen(){
+
+        userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
+        userViewModel = new UserProfileViewModel(getContext(), this);
+        userViewModel.getUserData();
+        userViewModel.fetchUserDataFromDB();
+        userProfileBinding.setViewModel(userViewModel);
+        userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                selectedTabPosition = tabLayout.getSelectedTabPosition();
+                userViewModel.getUserData();
+                userProfileBinding.srlProfileRefresh.setRefreshing(false);
+            }
+        });
+        userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                userProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
+            }
+        });
+        userProfileBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.e("User profile", "Image Clicked");
+                Logger.e("User profile", userProfileBinding.userAvatar.getWidth() + "");
+                CameraUtils.selectImage(getContext());
+            }
+        });
+
+//            TODO: Resolve the user profile pic click issue
+        userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        userProfileBinding.rvToolbarContainer.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
+                    }
+                }
+            }
+        });
+    }
     @Override
     public void showUserProfile() {
         User user = User.getInstance();
@@ -305,5 +309,25 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 }
                 break;
         }
+    }
+
+    private void setAppBarListener() {
+        AppBarLayout appBarLayout = userProfileBinding.appbar;
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
+                switch (state) {
+                    case COLLAPSED:
+                        userProfileBinding.rvToolbarContainer.setVisibility(View.INVISIBLE);
+                        break;
+                    case EXPANDED:
+                        userProfileBinding.rvToolbarContainer.setVisibility(View.VISIBLE);
+                        break;
+                    case SCROLL_DOWN:
+                        userProfileBinding.rvToolbarContainer.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
     }
 }

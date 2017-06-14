@@ -1,5 +1,8 @@
 package com.kokaihop.home;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,7 +14,12 @@ import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
+import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
+import com.kokaihop.utility.CameraUtils;
+
+import static com.kokaihop.KokaihopApplication.getContext;
+import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 public class HomeActivity extends BaseActivity {
     private NonSwipeableViewPager viewPager;
@@ -110,6 +118,32 @@ public class HomeActivity extends BaseActivity {
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText(tabsText[i]);
             tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[i], 0, 0);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                data.getData();
+            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (CameraUtils.userChoosenTask.equals(getString(R.string.take_photo)))
+                        CameraUtils.cameraIntent(getContext());
+                    else if (CameraUtils.userChoosenTask.equals(getString(R.string.choose_from_library)))
+                        CameraUtils.galleryIntent(getContext());
+                } else {
+                }
+                break;
         }
     }
 }
