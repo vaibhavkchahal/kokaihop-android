@@ -130,12 +130,14 @@ public class User extends BaseObservable{
         notifyPropertyChanged(BR.profileImageUrl);
     }
 
+    @Bindable
     public String getCityName() {
         return cityName;
     }
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+        notifyPropertyChanged(BR.cityName);
     }
 
     @Bindable

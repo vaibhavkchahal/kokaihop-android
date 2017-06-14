@@ -58,6 +58,7 @@ public class EditProfileViewModel extends BaseViewModel {
         user = User.getInstance();
         setEmail(User.getInstance().getEmail());
         setCityName(user.getCityName());
+        Logger.d("City name",user.getCityName()+" City");
         setProfileImageUrl(User.getInstance().getProfileImageUrl());
         city = new CityLocation();
         city.setLiving(new CityLiving());

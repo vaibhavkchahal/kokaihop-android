@@ -65,7 +65,6 @@ public class ProfileDataManager {
             user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
             user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
             user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
-
             user.setCityName(userRealmObject.getCityName());
         }
 
