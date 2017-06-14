@@ -30,6 +30,7 @@
 
                 <RelativeLayout android:layout_width="match_parent"
                                 android:layout_height="280dp"
+                                android:id="@+id/relative_layout_pager"
                                 app:layout_collapseMode="parallax">
 
                     <android.support.v4.view.ViewPager
@@ -116,6 +117,9 @@
                         android:id="@+id/imgview_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/padding_5dp"
+                        android:paddingBottom="@dimen/padding_5dp"
+                        android:paddingRight="@dimen/padding_5dp"
                         android:src="@drawable/ic_back_arrow_sm"/>
 
                 </android.support.v7.widget.Toolbar>
