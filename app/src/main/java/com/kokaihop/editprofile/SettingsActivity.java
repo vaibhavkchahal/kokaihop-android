@@ -48,9 +48,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
-                new ProfileDataManager().removeData();
+                ProfileDataManager profileDataManager = new ProfileDataManager();
+                profileDataManager.removeData();
+                profileDataManager.updateIsFavoriteForAllRecipe();
                 Intent intent = new Intent(getContext(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 User.removeInstance();
                 startActivity(intent);
             }

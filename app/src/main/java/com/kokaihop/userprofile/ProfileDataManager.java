@@ -1,6 +1,7 @@
 package com.kokaihop.userprofile;
 
 import com.kokaihop.database.RealmString;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by Rajendra Singh on 30/5/17.
@@ -118,7 +120,7 @@ public class ProfileDataManager {
         realm.commitTransaction();
     }
 
-//Getting the  user
+    //Getting the  user
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
         RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst().getFollowersList();
@@ -174,5 +176,25 @@ public class ProfileDataManager {
                 return true;
         }
         return false;
+    }
+
+
+    /*
+    Clear the favorite preference of the user in recipes
+     */
+    public void updateIsFavoriteForAllRecipe() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class).equalTo("isFavorite", true)
+                        .findAll();
+
+                for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList
+                        ) {
+                    recipeRealmObject.setFavorite(false);
+
+                }
+            }
+        });
     }
 }
