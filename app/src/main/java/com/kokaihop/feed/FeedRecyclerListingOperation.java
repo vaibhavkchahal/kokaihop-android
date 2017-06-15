@@ -59,7 +59,6 @@ public class FeedRecyclerListingOperation {
                     boolean isDownloading = true;
                     int max = feedViewModel.getMax();
                     int offset = feedViewModel.getOffset() + feedViewModel.getMax();
-
                     if (feedViewModel.getOffset() + feedViewModel.getMax() == 20) {
                         offset = feedViewModel.getOffset() + feedViewModel.getMax() + 1; // to get the 21th recipe
                     }
@@ -77,17 +76,13 @@ public class FeedRecyclerListingOperation {
 
             @Override
             public void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition) {
-
                 Object object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition);
-
                 if (object instanceof AdvtDetail) {
                     object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition - 1);
                 }
                 Recipe recipe = (Recipe) object;
-
                 if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1) {
                     int max = feedViewModel.getMax();
-
                     if (lastVisibleItemPosition <= feedViewModel.getMax()) {
                         feedViewModel.setOffset(0);
                         max = feedViewModel.getMax() + 1; // to get the 21th recipe
@@ -108,7 +103,6 @@ public class FeedRecyclerListingOperation {
                             adapter.notifyItemRangeInserted(curSize, feedViewModel.getRecipeListWithAdds().size() - 1);
                         }
                     });
-
                 }
             }
         };

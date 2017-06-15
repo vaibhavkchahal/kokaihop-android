@@ -185,7 +185,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         });
         portionDialog.show();
 
-
     }
 
     private BottomSheetDialog setDialogConfigration(DialogPortionBinding portionBinding) {

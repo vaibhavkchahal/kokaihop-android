@@ -2,10 +2,7 @@ package com.kokaihop.recipedetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
@@ -17,6 +14,7 @@ import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.NetworkUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,10 +52,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(Context context, String recipeID ,DataSetListener dataSetListener) {
+    public RecipeDetailViewModel(Context context, String recipeID, DataSetListener dataSetListener) {
         this.context = context;
         this.recipeID = recipeID;
-        this.dataSetListener=dataSetListener;
+        this.dataSetListener = dataSetListener;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         pagerImages = recipeRealmObject.getImages();
@@ -115,7 +113,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     dataSetListener.onRecipeDetailDataUpdate();
                     dataSetListener.onPagerDataUpdate();
                     dataSetListener.onCounterUpdate();
-
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -192,11 +189,20 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     private void addComments(RecipeRealmObject recipeRealmObject) {
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_comments), recipeRealmObject.getCounter().getComments()));
+        ListHeading commentsHeading = new ListHeading(context.getString(R.string.text_comments));
+        commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
+        commentsHeading.setRecipeId(recipeID);
+        recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
+            if (!NetworkUtils.isNetworkConnected(context) && i == 3) {
+                break;
+
+            }
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.add_comments)));
+        ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
+        addCommentsHeading.setRecipeId(recipeID);
+        recipeDetailItemsList.add(addCommentsHeading);
 
     }
 
@@ -243,7 +249,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public interface DataSetListener {
         void onPagerDataUpdate();
+
         void onRecipeDetailDataUpdate();
+
         void onCounterUpdate();
     }
 }

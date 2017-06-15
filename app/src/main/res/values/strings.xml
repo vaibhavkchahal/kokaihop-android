@@ -72,9 +72,9 @@
     <string name="log_out">Log Out</string>
     <string name="title_activity_feed">FeedActivity</string>
     <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Feed Fragment Titles -->
     <string name="main_course_of_the_day">Main Course of the Day</string>
     <string name="appetizer_of_the_day">Appetizer of the Day</string>
     <string name="cookie_of_the_day">Cookie of the Day</string>
@@ -158,5 +158,12 @@
     <string name="select_file">Select File</string>
     <string name="sd_card_error">Please check SD card!!</string>
     <string name="fileprovider">.fileprovider</string>
+
+
+    <!-- comments -->
     <string name="recipe_detail_activity_title">RecipeDetailActivity</string>
+    <string name="view_all_comments">View All Comments</string>
+    <string name="write_a_comment">Write a comment...</string>
+    <string name="text_send">Send</string>
+    <string name="no_internet">No Internet Connected</string>
 </resources>
