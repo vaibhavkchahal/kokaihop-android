@@ -3,6 +3,7 @@ package com.kokaihop.userprofile;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
@@ -32,7 +33,7 @@ public class UserProfileViewModel extends BaseViewModel {
     private UserDataListener userDataListener;
     private Context context;
     private String userId, accessToken;
-    private String countryCode = "en";
+    private String countryCode = Constants.COUNTRY_CODE;
     private ProfileDataManager profileDataManager;
     FragmentUserProfileBinding binding;
 
@@ -83,12 +84,8 @@ public class UserProfileViewModel extends BaseViewModel {
         }
         profileDataManager.fetchUserData(userId);
         userDataListener.showUserProfile();
-
     }
 
-    public void changeProfilePic() {
-        Logger.e("Profile Pic", "Changed");
-    }
 
     public void uploadImageOnCloudinary(String imagePath) {
 
@@ -98,12 +95,15 @@ public class UserProfileViewModel extends BaseViewModel {
             @Override
             public void onComplete(Map<String, String> uploadResult) throws ParseException {
 
-                Logger.d("uploadResult", uploadResult.toString());
-                User user = User.getInstance();
-                user.setProfileImage(new CloudinaryImage());
-                user.getProfileImage().setCloudinaryId(uploadResult.get("public_id"));
-                user.getProfileImage().setUploaded(new Date().getTime());
-                updateProfilePic();
+                if(uploadResult!=null){
+                    User user = User.getInstance();
+                    user.setProfileImage(new CloudinaryImage());
+                    user.getProfileImage().setCloudinaryId(uploadResult.get("public_id"));
+                    user.getProfileImage().setUploaded(new Date().getTime());
+                    updateProfilePic();
+                }else {
+                    Toast.makeText(context, R.string.something_went_wrong,Toast.LENGTH_SHORT);
+                }
                 setProgressVisible(false);
             }
         });
@@ -125,10 +125,10 @@ public class UserProfileViewModel extends BaseViewModel {
         new SettingsApiHelper().changeProfilePicture(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
-                new ProfileApiHelper().getUserData(accessToken, Constants.LANGUGE_CODE, new IApiRequestComplete<UserRealmObject>() {
+                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
                     @Override
                     public void onSuccess(UserRealmObject response) {
-                        Toast.makeText(context, "Profile Picture uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.profile_pic_uploaded, Toast.LENGTH_SHORT).show();
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         profileDataManager.insertOrUpdateUserData(response);
                         profileDataManager.fetchUserData(userId);
@@ -152,13 +152,13 @@ public class UserProfileViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, "Error while updating profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(SettingsResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, "Error while updating profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             }
         });
     }

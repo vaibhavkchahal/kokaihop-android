@@ -34,6 +34,13 @@ public class CloudinaryUtils {
         return url;
     }
 
+    public static String getRoundedCornerImageUrl(String publicId, String width, String height) {
+        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_50" + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
+//        Logger.e("imageUrl", URL);
+        return url;
+    }
+
+
 
     public Map<String, String> uploadImageOnCloudinary(HashMap<String, String> config) {
         Cloudinary cloudinary = new Cloudinary(config);

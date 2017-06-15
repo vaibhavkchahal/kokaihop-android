@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipedetail.RecipeDetailActivity;
+import com.kokaihop.userprofile.HistoryDataManager;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -93,9 +94,9 @@ public class RecipeHandler {
     public void openRecipeDetail(View view, String recipeId, int position) {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        new HistoryDataManager().updateHistory(recipeId);
         intent.putExtra("recipeId", recipeId);
         intent.putExtra("recipePosition", position);
         view.getContext().startActivity(intent);
     }
-
 }

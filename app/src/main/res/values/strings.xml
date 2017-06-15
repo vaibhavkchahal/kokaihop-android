@@ -159,4 +159,6 @@
     <string name="sd_card_error">Please check SD card!!</string>
     <string name="fileprovider">.fileprovider</string>
     <string name="recipe_detail_activity_title">RecipeDetailActivity</string>
+    <string name="something_went_wrong">Something went wrong. Please try again!!!</string>
+    <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
 </resources>

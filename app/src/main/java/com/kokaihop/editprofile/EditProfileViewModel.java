@@ -142,7 +142,7 @@ public class EditProfileViewModel extends BaseViewModel {
         settingsApiHelper.changeProfilePicture(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
-                new ProfileApiHelper().getUserData(accessToken, Constants.LANGUGE_CODE, new IApiRequestComplete<UserRealmObject>() {
+                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
                     @Override
                     public void onSuccess(UserRealmObject response) {
                         Toast.makeText(context, "Profile Picture uploaded Successfully", Toast.LENGTH_SHORT).show();

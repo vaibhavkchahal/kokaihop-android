@@ -331,4 +331,5 @@
     <dimen name="changepass_confirm_margin_top">20dp</dimen>
     <dimen name="recipe_detail_header_profile_img_height_width">30dp</dimen>
     <dimen name="txtview_ingredient_subheader_textsize">17sp</dimen>
+    <dimen name="history_recipe_image_size">80dp</dimen>
 </resources>
