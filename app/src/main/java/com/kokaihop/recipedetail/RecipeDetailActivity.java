@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v8.renderscript.RenderScript;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +40,10 @@ import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.ShareContents;
 import com.kokaihop.utility.SharedPrefUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 
@@ -357,12 +362,28 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
                 if (recipeDetailPagerAdapter.getCount() > 0) {
-                    String imageUrl = recipeDetailPagerAdapter.getImageUrl(viewPager.getCurrentItem());
+
+                    // Save this bitmap to a file.
+                    File cache = getApplicationContext().getExternalCacheDir();
+                    File sharefile = new File(cache, "recipe.jpg");
+                    Log.d("share file type is", sharefile.getAbsolutePath());
+                    try {
+                        FileOutputStream out = new FileOutputStream(sharefile);
+                        View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
+                        ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
+                        Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out);
+                        out.flush();
+                        out.close();
+                    } catch (IOException e) {
+                        Log.e("ERROR", String.valueOf(e.getMessage()));
+
+                    }
                     ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
-                    shareContents.setRecipeLink(SERVER_BASE_URL + CloudinaryUtils.SEPARATOR + recipeDetailViewModel.getRecipeFriendlyUrl());
+                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
                     shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-                    shareContents.setEmailContent(String.format(getString(R.string.email_share_content), recipeDetailViewModel.getRecipeTitle(), recipeDetailViewModel.getRecipeTitle(), recipeDetailViewModel.getRecipeTitle()));
-                    shareContents.share("image url");
+                    shareContents.setImageFile(sharefile);
+                    shareContents.share();
 
 
 //                    CameraUtils.sharePicture(this, imageUrl);

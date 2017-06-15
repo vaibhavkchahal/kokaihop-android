@@ -4,10 +4,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.text.Html;
 import android.util.Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,11 @@ public class ShareContents {
     private Context context;
     private String recipeLink;
     private String recipeTitle;
+    private String emailSaticContent1 = "Jag vill tipsa dig om ett bra recept från kokaihop.se!";
+    private String emailSaticContent2 = "Läs receptet här :";
     private String oneLinkText = "Ladda ned från: http://onelink.to/f6n497";
+    private File imageFile;
 
-    private String emailContent;
 
     public ShareContents(Context context) {
         this.context = context;
@@ -35,7 +39,7 @@ public class ShareContents {
 
 
     //    to share the picture with external applications
-    public void share(String imageUrl) {
+    public void share() {
         List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -64,9 +68,19 @@ public class ShareContents {
                         intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop");
                         intent.putExtra(Intent.EXTRA_TEXT, "share on sms"/*resources.getString(R.string.share_sms)*/);
                     } else if (packageName.equals("com.google.android.gm")) {
-                        intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
+
+                        String emailContent = getEmailContent();
+                        /*intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
                         intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
-                        intent.setType("message/rfc822");
+                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                        intent.setType("image*//*");*/
+
+                        intent.putExtra(Intent.EXTRA_TEXT,  Html.fromHtml(emailContent));
+                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
+
+                        intent.setType("image/*");
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     }
 
                     intent.setPackage(packageName);
@@ -89,7 +103,15 @@ public class ShareContents {
         this.recipeTitle = recipeTitle;
     }
 
-    public void setEmailContent(String emailContent) {
-        this.emailContent = emailContent;
+
+    public String getEmailContent() {
+
+        String emailContent = "<html><body><b>" + emailSaticContent1 + "</b><br/>" + recipeTitle + "<br/>" + emailSaticContent2 + "<a href=\"" + recipeLink + "\">" + recipeLink + "</a>"
+                + "<br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497 </body></html>";
+        return emailContent;
+    }
+
+    public void setImageFile(File imageFile) {
+        this.imageFile = imageFile;
     }
 }
