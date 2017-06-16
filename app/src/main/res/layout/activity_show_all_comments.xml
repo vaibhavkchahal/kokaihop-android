@@ -16,7 +16,7 @@
             style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black_FF262F40"
+            android:background="@color/kokaihop_orange_color"
             android:minHeight="?attr/actionBarSize"
             android:paddingBottom="@dimen/padding_bottom_comment_toolbar"
             android:paddingLeft="@dimen/padding_left_comments_toolbar"

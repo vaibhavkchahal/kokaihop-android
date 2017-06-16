@@ -337,7 +337,7 @@
     <dimen name="padding_left_comments_toolbar">20dp</dimen>
     <dimen name="padding_right_comment_toolbar">25dp</dimen>
     <dimen name="padding_bottom_comment_toolbar">15dp</dimen>
-    <dimen name="padding_top_comment_toolbar">30dp</dimen>
+    <dimen name="padding_top_comment_toolbar">39dp</dimen>
     <dimen name="send_comment_view_height">48dp</dimen>
     <dimen name="relative_lyt_send_comment_padding_left">20dp</dimen>
     <dimen name="send_button_left_right_padding">18dp</dimen>

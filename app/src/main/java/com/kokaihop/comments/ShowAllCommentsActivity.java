@@ -45,7 +45,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
                     binding.swipeRefreshLayout.setEnabled(true);
                     int max = showCommentsViewModel.getMax();
                     int offset = showCommentsViewModel.getOffset() + showCommentsViewModel.getMax();
-                    showCommentsViewModel.fetchCommentFromServer(offset, max);
+                    showCommentsViewModel.fetchCommentFromServer(offset, max, false);
                     showCommentsViewModel.setOffset(offset);
                 } else {
                     binding.swipeRefreshLayout.setEnabled(false);
