@@ -75,11 +75,6 @@ public class ShareContents {
                     } else if (packageName.equals("com.google.android.gm")) {
 
                         String emailContent = getEmailContent();
-                        /*intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
-                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
-                        intent.setType("image*//*");*/
-
                         intent.putExtra(Intent.EXTRA_TEXT,  Html.fromHtml(emailContent));
                         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                         intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
