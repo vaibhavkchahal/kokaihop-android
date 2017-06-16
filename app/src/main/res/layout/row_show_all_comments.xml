@@ -6,22 +6,18 @@
     <data>
         <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
         <variable name="imageUrl" type="String"/>
-        <variable name="handler" type="com.kokaihop.comments.CommentsHandler"/>
     </data>
 
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe.id)}"
-                    android:paddingBottom="@dimen/comment_padding_bottom"
-                    android:paddingLeft="@dimen/comment_item_padding_left"
-                    android:paddingTop="@dimen/comment_item_padding_top">
+                    android:background="@color/white"
+                    android:paddingBottom="17dp"
+                    android:paddingLeft="@dimen/comment_item_padding_left">
 
 
         <ImageView
-            android:id="@+id/imageview_comment_user_image"
+            android:id="@+id/txtview_ingredent_quantity"
             android:layout_width="@dimen/imgview_comment_user_image_width"
             android:layout_height="@dimen/imgview_comment_user_image_height"
             app:error="@{@drawable/ic_avtar_sm}"
@@ -35,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/txtview_coment_username_margin_left"
-            android:layout_toRightOf="@+id/imageview_comment_user_image"
+            android:layout_toRightOf="@+id/txtview_ingredent_quantity"
             android:text="@{model.sourceUser.userName}"
             android:textColor="@color/tab_background"
             android:textSize="@dimen/txtview_comment_user_textsize"
@@ -50,8 +46,8 @@
             android:layout_below="@+id/txtview_comment_username"
             android:layout_marginLeft="@dimen/txtview_comment_margin_left"
             android:layout_marginRight="@dimen/txtview_comment_margin_right"
-            android:layout_marginTop="@dimen/txtview_comment_margin_top"
-            android:layout_toRightOf="@+id/imageview_comment_user_image"
+            android:layout_marginTop="6dp"
+            android:layout_toRightOf="@+id/txtview_ingredent_quantity"
             android:text="@{model.payload.comment.content}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/txtview_coment_textsize"
@@ -61,13 +57,13 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_below="@+id/txtview_comment"
+                  android:layout_toRightOf="@+id/txtview_ingredent_quantity"
                   android:layout_marginLeft="18dp"
-                  android:layout_marginTop="6dp"
-                  android:layout_toRightOf="@+id/imageview_comment_user_image"
-                  android:text="Reply"
-                  android:textColor="@color/grey_FF8D929C"
                   android:textSize="10dp"
-                  app:font="@{`SS-ProRegular`}"/>
+                  android:layout_marginTop="6dp"
+                  android:textColor="@color/grey_FF8D929C"
+                  app:font="@{`SS-ProRegular`}"
+                  android:text="Reply"/>
     </RelativeLayout>
 
 </layout>

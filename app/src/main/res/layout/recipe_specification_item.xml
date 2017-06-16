@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
+        <import type="android.view.View"/>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeSpecifications"/>
         <variable name="imageUrl" type="String"/>
         <import type="android.text.Html"/>
@@ -31,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/imageview_user_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/iv_recipe_creator_height_width"
+                android:layout_height="@dimen/iv_recipe_creator_height_width"
                 app:error="@{@drawable/ic_avtar_sm}"
                 app:imageUrl="@{imageUrl}"
                 app:isCircular="@{true}"
@@ -80,7 +81,6 @@
                     android:text="@{model.category1}"
                     android:textColor="@color/grey_FF8D929C"
                     android:textSize="@dimen/txtview_category_textsize"
-
                     app:font="@{`SS-ProRegular`}"/>
 
                 <TextView

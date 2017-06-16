@@ -1,5 +1,6 @@
 package com.kokaihop.feed;
 
+import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.CounterRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
@@ -202,13 +203,33 @@ public class RecipeDataManager {
                         e.printStackTrace();
                     }
                     recipeRealmObject.setSimilarRecipes(similarRecipes);
-
                 }
             }
         });
     }
 
+    public void updateRecipeCommentList(final String recipeID, final JSONArray jsonArray) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                        .equalTo(RECIPE_ID, recipeID).findFirst();
+                RealmList<CommentRealmObject> commentRealmObjects = new RealmList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject recipeJSONObject = (JSONObject) jsonArray.get(i);
+                        Logger.d("jsonArray", jsonArray.toString());
+                        CommentRealmObject commentRealmObject = realm.createOrUpdateObjectFromJson(CommentRealmObject.class, recipeJSONObject);
+                        commentRealmObjects.add(commentRealmObject);
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                recipeRealmObject.getComments().addAll(commentRealmObjects);
+            }
+        });
+    }
 }
 
 

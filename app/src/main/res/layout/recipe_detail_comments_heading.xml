@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.ListHeading"/>
+        <variable name="handler" type="com.kokaihop.comments.CommentsHandler"/>
     </data>
 
 
@@ -32,6 +33,9 @@
             android:text="@{`View all `+model.commentCount+` comments`}"
             android:textColor="@color/colorPrimary"
             android:textSize="13sp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:onClick="@{(v)->handler.openCommentsScreen(context,model.recipeId)}"
             app:font="@{`SS-ProSemiBold`}"
         />
 

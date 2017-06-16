@@ -5,24 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.ListHeading"/>
+        <variable name="handler" type="com.kokaihop.comments.CommentsHandler"/>
     </data>
 
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="30dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="@{(v)->handler.openCommentsScreen(context,model.recipeId)}"
                     android:paddingBottom="30dp"
                     android:paddingLeft="@dimen/recipe_detail_list_item_padding_left"
-                    android:background="@color/white">
+                    android:paddingTop="30dp">
 
         <TextView
             android:id="@+id/txtview_comment_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="@{model.title}"
             android:textColor="@color/colorPrimary"
             android:textSize="13sp"
-            android:layout_centerInParent="true"
             app:font="@{`SS-ProSemiBold`}"
         />
 

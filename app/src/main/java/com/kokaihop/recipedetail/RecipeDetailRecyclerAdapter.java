@@ -25,6 +25,7 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemMainHeaderBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeHeadingBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
+import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.feed.AdvtDetail;
@@ -146,12 +147,14 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 ViewHolderCommentsHeading holderCommentsHeading = (ViewHolderCommentsHeading) holder;
                 ListHeading commentHeading = (ListHeading) recipeDetailItemsList.get(position);
                 holderCommentsHeading.binder.setModel(commentHeading);
+                holderCommentsHeading.binder.setHandler(new CommentsHandler());
                 holderCommentsHeading.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADD_COMMENTS_HEADING:
                 ViewHolderAddCommentHeading holderAddCommentHeading = (ViewHolderAddCommentHeading) holder;
                 ListHeading addCommentHeading = (ListHeading) recipeDetailItemsList.get(position);
                 holderAddCommentHeading.binder.setModel(addCommentHeading);
+                holderAddCommentHeading.binder.setHandler(new CommentsHandler());
                 holderAddCommentHeading.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_SIMILAR_RECIPIES_HEADING:
@@ -198,12 +201,13 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             case TYPE_ITEM_COMMENT:
                 ViewHolderItemComment holderItemComment = (ViewHolderItemComment) holder;
                 CommentRealmObject commentRealmObject = (CommentRealmObject) recipeDetailItemsList.get(position);
-                int commentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_comment_height_width);
+                int commentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.imgview_comment_user_image_width);
                 if (commentRealmObject.getSourceUser().getProfileImage() != null) {
                     String commentUserImage = CloudinaryUtils.getRoundedImageUrl(commentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(commentUsetImageSize), String.valueOf(commentUsetImageSize));
                     holderItemComment.binder.setImageUrl(commentUserImage);
                 }
                 holderItemComment.binder.setModel(commentRealmObject);
+                holderItemComment.binder.setHandler(new CommentsHandler());
                 holderItemComment.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_SIMILAR_RECIPIES_ITEM:

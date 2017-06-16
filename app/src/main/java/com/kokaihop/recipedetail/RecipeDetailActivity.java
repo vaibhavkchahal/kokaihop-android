@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v8.renderscript.RenderScript;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,11 +35,17 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.BlurImageHelper;
-import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.ShareContents;
 import com.kokaihop.utility.SharedPrefUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
 
@@ -106,29 +113,29 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
                 if (viewCollapsed != null) {
-                ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
-                ImageView imageViewBlurred = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_blurred_pic);
-                switch (state) {
-                    case COLLAPSED:
-                        binding.viewpagerSwipeLeft.setVisibility(View.GONE);
-                        binding.viewpagerSwipeRight.setVisibility(View.GONE);
-                        Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
-                        Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
-                                RenderScript.create(RecipeDetailActivity.this),
-                                bitmap);
-                        imageViewBlurred.setImageBitmap(bluredBitmap);
-                        imageViewBlurred.setVisibility(View.VISIBLE);
-                        break;
-                    case EXPANDED:
-                        toggleLeftRightVisibility(viewPager.getCurrentItem());
-                        imageViewBlurred.setVisibility(View.INVISIBLE);
+                    ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
+                    ImageView imageViewBlurred = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_blurred_pic);
+                    switch (state) {
+                        case COLLAPSED:
+                            binding.viewpagerSwipeLeft.setVisibility(View.GONE);
+                            binding.viewpagerSwipeRight.setVisibility(View.GONE);
+                            Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                            Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
+                                    RenderScript.create(RecipeDetailActivity.this),
+                                    bitmap);
+                            imageViewBlurred.setImageBitmap(bluredBitmap);
+                            imageViewBlurred.setVisibility(View.VISIBLE);
+                            break;
+                        case EXPANDED:
+                            toggleLeftRightVisibility(viewPager.getCurrentItem());
+                            imageViewBlurred.setVisibility(View.INVISIBLE);
 
-                        break;
-                    case SCROLL_DOWN:
-                        imageViewBlurred.setVisibility(View.INVISIBLE);
-                        break;
+                            break;
+                        case SCROLL_DOWN:
+                            imageViewBlurred.setVisibility(View.INVISIBLE);
+                            break;
+                    }
                 }
-            }
             }
         });
     }
@@ -184,7 +191,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             }
         });
         portionDialog.show();
-
 
     }
 
@@ -355,8 +361,31 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
                 if (recipeDetailPagerAdapter.getCount() > 0) {
-                    String imageUrl = recipeDetailPagerAdapter.getImageUrl(viewPager.getCurrentItem());
-                    CameraUtils.sharePicture(this, imageUrl);
+
+                    // Save this bitmap to a file.
+                    File cache = getApplicationContext().getExternalCacheDir();
+                    File sharefile = new File(cache, "recipe.jpg");
+                    Log.d("share file type is", sharefile.getAbsolutePath());
+                    try {
+                        FileOutputStream out = new FileOutputStream(sharefile);
+                        View viewCollapsed = binding.viewpagerRecipeDetail.getChildAt(binding.viewpagerRecipeDetail.getCurrentItem());
+                        ImageView imageViewRecipe = (ImageView) viewCollapsed.findViewById(R.id.imageview_recipe_pic);
+                        Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out);
+                        out.flush();
+                        out.close();
+                    } catch (IOException e) {
+                        Log.e("ERROR", String.valueOf(e.getMessage()));
+
+                    }
+                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
+                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
+                    shareContents.setImageFile(sharefile);
+                    shareContents.share();
+
+
+//                    CameraUtils.sharePicture(this, imageUrl);
                 }
                 return true;
             case R.id.icon_camera:
@@ -390,6 +419,5 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             binding.txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
 
         }
-
     }
 }

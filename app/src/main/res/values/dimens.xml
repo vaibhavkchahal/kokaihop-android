@@ -136,7 +136,7 @@
     <dimen name="tv_comment_count_margin_left">5dp</dimen>
     <dimen name="tv_comment_count_textsize">11sp</dimen>
     <dimen name="iv_comment_height_width">15dp</dimen>
-    <dimen name="iv_recipe_creator_height_width">15dp</dimen>
+    <dimen name="iv_recipe_creator_height_width">30dp</dimen>
     <dimen name="tv_likes_padding_left">10dp</dimen>
     <dimen name="recipe_separator_margin_top">14.5dp</dimen>
     <dimen name="rating_bar_margin_top">9.4dp</dimen>
@@ -245,8 +245,8 @@
     <dimen name="recipe_creator_top_bottom_divider_height">1dp</dimen>
     <dimen name="comment_item_padding_left">13dp</dimen>
     <dimen name="comment_item_padding_top">27dp</dimen>
-    <dimen name="imgview_ingrdnt_quantity_width">40dp</dimen>
-    <dimen name="imgview_ingrdnt_quantity_height">38.1dp</dimen>
+    <dimen name="imgview_comment_user_image_width">40dp</dimen>
+    <dimen name="imgview_comment_user_image_height">38.1dp</dimen>
     <dimen name="txtview_coment_username_margin_left">9dp</dimen>
     <dimen name="txtview_comment_user_textsize">15sp</dimen>
     <dimen name="txtview_coment_textsize">15sp</dimen>
@@ -331,6 +331,21 @@
     <dimen name="changepass_confirm_margin_top">20dp</dimen>
     <dimen name="recipe_detail_header_profile_img_height_width">30dp</dimen>
     <dimen name="txtview_ingredient_subheader_textsize">17sp</dimen>
+
+
+    <!-- show all comments-->
+    <dimen name="padding_left_comments_toolbar">20dp</dimen>
+    <dimen name="padding_right_comment_toolbar">25dp</dimen>
+    <dimen name="padding_bottom_comment_toolbar">15dp</dimen>
+    <dimen name="padding_top_comment_toolbar">30dp</dimen>
+    <dimen name="send_comment_view_height">48dp</dimen>
+    <dimen name="relative_lyt_send_comment_padding_left">20dp</dimen>
+    <dimen name="send_button_left_right_padding">18dp</dimen>
+    <dimen name="textsize_send_text">15sp</dimen>
+    <dimen name="send_section_separator_width">1dp</dimen>
+    <dimen name="textsize_edit_comment">15sp</dimen>
+    <dimen name="comment_send_section_elevation">10dp</dimen>
+    <dimen name="recyclerview_comments_padding_left_right">14dp</dimen>
     <dimen name="history_recipe_image_size">80dp</dimen>
     <dimen name="history_recipe_image_margin">20dp</dimen>
     <dimen name="divider_margin">10dp</dimen>
