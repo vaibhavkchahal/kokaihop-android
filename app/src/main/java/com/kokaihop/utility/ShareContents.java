@@ -51,7 +51,7 @@ public class ShareContents {
             for (ResolveInfo resInfo : resInfos) {
                 String packageName = resInfo.activityInfo.packageName;
                 Log.i("Package Name", packageName);
-                if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.google.android.gm")) {
+                if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") ||packageName.equals("com.android.messaging")|| packageName.equals("com.google.android.gm")) {
                     Intent intent = new Intent();
                     intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                     intent.setAction(Intent.ACTION_SEND);
@@ -64,17 +64,17 @@ public class ShareContents {
                         // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
                         // will show the <meta content ="..."> text from that page with our link in Facebook.
                         intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
-                    } else if (packageName.equals("com.android.mms")) {
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop");
-                        intent.putExtra(Intent.EXTRA_TEXT, "share on sms"/*resources.getString(R.string.share_sms)*/);
+                    } else if (packageName.equals("com.android.mms") || packageName.equals("com.android.messaging")) {
+                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
+                        intent.setType("image/*");
+                        String message=getMessageContent();
+//                        intent.putExtra(Intent.EXTRA_TEXT,  message);
+                        intent.putExtra("sms_body",  message);
+
                     } else if (packageName.equals("com.google.android.gm")) {
 
                         String emailContent = getEmailContent();
-                        /*intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
-                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
-                        intent.setType("image*//*");*/
-
                         intent.putExtra(Intent.EXTRA_TEXT,  Html.fromHtml(emailContent));
                         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                         intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
@@ -97,6 +97,11 @@ public class ShareContents {
                 System.out.println("Do not Have Intent");
             }
         }
+    }
+
+    private String getMessageContent() {
+        String sms=recipeTitle+"\n"+recipeLink+"\n"+oneLinkText;
+        return sms;
     }
 
     public void setRecipeTitle(String recipeTitle) {
