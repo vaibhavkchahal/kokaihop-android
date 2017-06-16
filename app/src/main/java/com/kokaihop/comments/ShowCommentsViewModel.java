@@ -63,11 +63,11 @@ public class ShowCommentsViewModel extends BaseViewModel {
         recipeDataManager = new RecipeDataManager();
         this.commentListener = dataSetListener;
         fetchCommentsFromDB();
-        fetchCommentFromServer(getOffset(), getMax());
+        fetchCommentFromServer(getOffset(), getMax(), true);
     }
 
-    public void fetchCommentFromServer(int offset, int max) {
-        setProgressVisible(true);
+    public void fetchCommentFromServer(int offset, int max, boolean progressVisibility) {
+        setProgressVisible(progressVisibility);
         CommentRequestParams requestParams = new CommentRequestParams(offset, max, recipeID, typeFilter);
         new CommentsApiHelper().fetchCommentsList(requestParams, new IApiRequestComplete() {
             @Override

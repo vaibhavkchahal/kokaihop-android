@@ -14,9 +14,6 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
-    <style name="CommentsScreenTheme" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/black_FF262F40</item>
-    </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
