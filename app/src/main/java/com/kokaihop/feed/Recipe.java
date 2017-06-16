@@ -28,6 +28,7 @@ public class Recipe extends BaseObservable {
     private String badgeType;
     private long lastUpdated;
     private  String coverImage;
+    private String mainImageUrl;
 
 
     public String get_id() {
@@ -154,5 +155,13 @@ public class Recipe extends BaseObservable {
 
     public void setCoverImage(String coverImage) {
         this.coverImage = coverImage;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
     }
 }

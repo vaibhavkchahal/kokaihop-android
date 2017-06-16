@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class    CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> implements Filterable{
+public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> implements Filterable {
 
     private ArrayList<CityDetails> cityList;
     private ArrayList<CityDetails> OriginalcityList;
@@ -56,12 +56,12 @@ public class    CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder>
                 FilterResults filterResults = new FilterResults();
                 ArrayList<CityDetails> filteredCityList = new ArrayList<>();
 
-                if(OriginalcityList== null){
+                if (OriginalcityList == null) {
                     OriginalcityList = cityList;
                 }
-                if(constraint!=null && OriginalcityList != null && OriginalcityList.size()>0){
-                    for(final CityDetails city : OriginalcityList){
-                        if(city.getName().toLowerCase().contains(constraint)){
+                if (constraint != null && OriginalcityList != null && OriginalcityList.size() > 0) {
+                    for (final CityDetails city : OriginalcityList) {
+                        if (city.getName().toLowerCase().contains(constraint)) {
                             filteredCityList.add(city);
                         }
                     }

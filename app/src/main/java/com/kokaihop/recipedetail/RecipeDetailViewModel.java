@@ -7,6 +7,7 @@ import android.widget.CheckBox;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RatingRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
@@ -139,6 +140,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
         String description = "";
         if (recipeRealmObject.getDescription() != null) {
             description = recipeRealmObject.getDescription().getLongDescription();
+        }
+        if (recipeRealmObject.getRating() == null) {
+            recipeRealmObject.setRating(new RatingRealmObject());
         }
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailItemsList.add(recipeDetailHeader);

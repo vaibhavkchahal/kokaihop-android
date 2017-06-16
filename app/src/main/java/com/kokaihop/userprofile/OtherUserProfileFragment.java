@@ -53,7 +53,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
 
         userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
-        userViewModel = new UserProfileViewModel(getContext(), this);
+//        userViewModel = new UserProfileViewModel(getContext(), this, userProfileBinding);
         userViewModel.getUserData();
         return userProfileBinding.getRoot();
     }

@@ -69,9 +69,12 @@
             app:layout_constraintTop_toBottomOf="@+id/settings_toolbar"/>
 
         <View android:id="@+id/settings_divider_email"
-              android:layout_width="0dp"
+              android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
+              android:layout_marginLeft="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/settings_edit_profile"/>
 
         <TextView
@@ -88,9 +91,12 @@
             app:layout_constraintTop_toBottomOf="@+id/settings_edit_profile"/>
 
         <View android:id="@+id/settings_divider_notification"
-              android:layout_width="0dp"
+              android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
+              android:layout_marginLeft="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/settings_email_preferences"/>
 
         <TextView
@@ -107,9 +113,12 @@
             app:layout_constraintTop_toBottomOf="@+id/settings_email_preferences"/>
 
         <View android:id="@+id/settings_divider_change_password"
-              android:layout_width="0dp"
+              android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
+              android:layout_marginLeft="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/settings_change_password"/>
 
         <TextView
@@ -125,11 +134,14 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_change_password"/>
 
-        <!--<View android:id="@+id/settings_divider_logout"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="@dimen/user_settings_divider_height"-->
-        <!--android:background="@color/user_settings_divider_color"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/settings_logout"/>-->
+        <View android:id="@+id/settings_divider_logout"
+              android:layout_width="@dimen/constraint_match_parent"
+              android:layout_height="@dimen/user_settings_divider_height"
+              android:layout_marginLeft="@dimen/divider_margin"
+              android:background="@color/grey_FFD4D4D4"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/settings_logout"/>
 
     </android.support.constraint.ConstraintLayout>
 

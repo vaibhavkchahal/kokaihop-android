@@ -15,14 +15,16 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityActivity;
-import com.kokaihop.city.CityDetails;
 import com.kokaihop.database.UserRealmObject;
+import com.kokaihop.editprofile.model.CityLiving;
+import com.kokaihop.editprofile.model.CityLocation;
+import com.kokaihop.editprofile.model.CityUpdateRequest;
+import com.kokaihop.editprofile.model.ProfileImageUpdateRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
-import com.kokaihop.utility.CloudinaryDetail;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -46,7 +48,7 @@ public class EditProfileViewModel extends BaseViewModel {
     private Context context;
     private ActivityEditProfileBinding editProfileBinding;
     private String email, profileImageUrl, cityName, accessToken, userId;
-    private CityDetails city;
+    private CityLocation city;
     private SettingsApiHelper settingsApiHelper;
     private User user;
 
@@ -56,7 +58,10 @@ public class EditProfileViewModel extends BaseViewModel {
         user = User.getInstance();
         setEmail(User.getInstance().getEmail());
         setCityName(user.getCityName());
+        Logger.d("City name",user.getCityName()+" City");
         setProfileImageUrl(User.getInstance().getProfileImageUrl());
+        city = new CityLocation();
+        city.setLiving(new CityLiving());
         settingsApiHelper = new SettingsApiHelper();
     }
 
@@ -110,11 +115,7 @@ public class EditProfileViewModel extends BaseViewModel {
 
     public void uploadImageOnCloudinary(String imagePath) {
 
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_KEY, CloudinaryDetail.API_KEY);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_SECRET, CloudinaryDetail.API_SECRET);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_CLOUD_NAME, CloudinaryDetail.CLOUD_NAME);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_IMAGE_PATH, imagePath);
+        HashMap<String, String> paramMap =  CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
             @Override
@@ -136,10 +137,12 @@ public class EditProfileViewModel extends BaseViewModel {
     public void updateProfilePic() {
         setProgressVisible(true);
         setupApiCall();
-        settingsApiHelper.changeProfilePicture(accessToken, userId, user.getProfileImage(), new IApiRequestComplete<SettingsResponse>() {
+        ProfileImageUpdateRequest request = new ProfileImageUpdateRequest();
+        request.setProfileImage(user.getProfileImage());
+        settingsApiHelper.changeProfilePicture(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
-                new ProfileApiHelper().getUserData(accessToken, Constants.LANGUGE_CODE, new IApiRequestComplete<UserRealmObject>() {
+                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
                     @Override
                     public void onSuccess(UserRealmObject response) {
                         Toast.makeText(context, "Profile Picture uploaded Successfully", Toast.LENGTH_SHORT).show();
@@ -178,11 +181,16 @@ public class EditProfileViewModel extends BaseViewModel {
 
     public void updateCity() {
         setProgressVisible(true);
-        settingsApiHelper.changeCity(accessToken, userId, city, new IApiRequestComplete<SettingsResponse>() {
+        setupApiCall();
+        CityUpdateRequest request = new CityUpdateRequest();
+        request.setLocation(city);
+        settingsApiHelper.changeCity(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
                 setProgressVisible(false);
+                user.setCityName(city.getLiving().getName());
                 Toast.makeText(context, "City updated successfully", Toast.LENGTH_SHORT).show();
+                ((Activity)context).finish();
             }
 
             @Override
@@ -210,13 +218,12 @@ public class EditProfileViewModel extends BaseViewModel {
         ((Activity) context).finish();
     }
 
-    public CityDetails getCity() {
+    public CityLocation getCity() {
         return city;
     }
 
-    public void setCity(CityDetails city) {
+    public void setCity(CityLocation city) {
         this.city = city;
-        setCityName(city.getName());
     }
 
     public void setProfileImage() {

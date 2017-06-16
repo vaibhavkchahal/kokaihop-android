@@ -6,6 +6,7 @@ import com.kokaihop.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,9 +33,9 @@ public interface UserProfileApi {
 
     @GET("v1/api/users/{userId}/following")
     Call<FollowingFollowersApiResponse> getFollowingUsers(@Header("Authorization") String authorization,
-                                                     @Path("userId") String userId,
-                                                     @Query("max") int max,
-                                                     @Query("offset") int offset);
+                                                          @Path("userId") String userId,
+                                                          @Query("max") int max,
+                                                          @Query("offset") int offset);
 
     @GET("v1/api/users/{userId}/followers")
     Call<FollowingFollowersApiResponse> getFollowers(@Header("Authorization") String authorization,
@@ -46,6 +47,10 @@ public interface UserProfileApi {
     Call<FollowingToggleResponse> toggleFollowing(@Header("Authorization") String authorization,
                                                   @Body ToggleFollowingRequest toggleFollowingRequest);
 
+    @GET("v1/api/recipes/getRecipesOfUser")
+    Call<ResponseBody> getRecipesOfUser(@Query("userId") String userId,
+                                        @Query("offset") int offset,
+                                        @Query("max") int max);
 
     @PUT("v1/api/users/updateLogoutDetails")
     Call<LogoutResponse> logoutUser(@Header("Authorization") String authorization);

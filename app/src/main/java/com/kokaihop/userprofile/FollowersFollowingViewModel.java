@@ -130,7 +130,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     public void fetchFollowingFromDB() {
         ArrayList<FollowingFollowerUser> followingList;
-
         followingList = profileDataManager.fetchFollowingList(userId);
         FollowersFollowingList.getFollowingList().getUsers().clear();
         FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);

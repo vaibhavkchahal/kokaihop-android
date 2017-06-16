@@ -95,13 +95,12 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Logger.e("height", layoutParamsRecipeDay.height + ", width " + layoutParamsRecipeDay.width);
                 Logger.e("Recipe Url", recipeRealmObjectOfDay.getMainImagePublicId() + "ID");
                 String publicId = "";
-               if (recipeRealmObjectOfDay.getCoverImage() != null) {
+                if (recipeRealmObjectOfDay.getCoverImage() != null) {
                     publicId = recipeRealmObjectOfDay.getCoverImage();
-                }
-               else if (recipeRealmObjectOfDay.getMainImagePublicId() != null) {
-                   publicId = recipeRealmObjectOfDay.getMainImagePublicId();
+                } else if (recipeRealmObjectOfDay.getMainImagePublicId() != null) {
+                    publicId = recipeRealmObjectOfDay.getMainImagePublicId();
 
-               }
+                }
 
                 holderRecipeOfDay.binder.setRecipeHandler(new RecipeHandler());
                 holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(publicId, String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));

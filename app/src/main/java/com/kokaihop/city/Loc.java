@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class Loc implements Parcelable{
         @SerializedName("coordinates")
-        float[] coordinates;
+        private float[] coordinates;
         @SerializedName("type")
         private String type;
 
