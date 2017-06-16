@@ -11,17 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_all_comments"
-            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/toolbar_height_with_status"
             android:background="@color/kokaihop_orange_color"
-            android:minHeight="?attr/actionBarSize"
-            android:paddingBottom="@dimen/padding_bottom_comment_toolbar"
-            android:paddingLeft="@dimen/padding_left_comments_toolbar"
-            android:paddingRight="@dimen/padding_right_comment_toolbar"
-            android:paddingTop="@dimen/padding_top_comment_toolbar">
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/status_bar_height">
+
+            <!--  <android.support.v7.widget.Toolbar
+                  android:id="@+id/toolbar_all_comments"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="@color/kokaihop_orange_color"
+                  android:minHeight="?attr/actionBarSize"
+                  android:paddingBottom="@dimen/padding_bottom_comment_toolbar"
+                  android:paddingLeft="@dimen/padding_left_comments_toolbar"
+                  android:paddingRight="@dimen/padding_right_comment_toolbar"
+                  android:paddingTop="@dimen/padding_top_comment_toolbar">-->
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -53,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/relative_layout_send_comment"
-            android:layout_below="@id/toolbar_all_comments">
+            android:layout_below="@id/toolbar">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_comments_list"

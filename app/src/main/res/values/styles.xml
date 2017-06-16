@@ -33,7 +33,6 @@
     </style>
 
 
-
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/grey_66000000</item>
     </style>
@@ -84,7 +83,7 @@
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
 
-    <style name="AppTheme.NumberPicker" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="AppTheme.NumberPicker" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>

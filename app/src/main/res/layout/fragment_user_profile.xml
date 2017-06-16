@@ -50,6 +50,7 @@
                         app:contentScrim="?attr/colorPrimary"
                         app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
                         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
                         <android.support.v7.widget.Toolbar
                             android:id="@+id/toolbar"
                             android:layout_width="match_parent"
@@ -57,9 +58,9 @@
                             android:layout_marginTop="@dimen/status_bar_height"
                             android:clickable="false"
                             android:gravity="center_horizontal"
-                            android:titleMarginTop="@dimen/status_bar_height"
                             app:layout_collapseMode="pin"
-                            app:titleMarginTop="@dimen/status_bar_height">
+                            >
+
                             <TextView android:layout_width="match_parent"
                                       android:layout_height="wrap_content"
                                       android:layout_marginRight="@dimen/profile_toolbar_horizontal_margin"
