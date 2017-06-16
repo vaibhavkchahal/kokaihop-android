@@ -133,18 +133,21 @@ public class ProfileDataManager {
     //Getting the  user
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
-        RealmList<UserRealmObject> userRealmObjects = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst().getFollowersList();
-        for (UserRealmObject follower : userRealmObjects) {
-            FollowingFollowerUser user = new FollowingFollowerUser();
-            user.set_id(follower.getId());
-            user.setName(new UserName());
-            user.getName().setFull(follower.getUserNameRealmObject().getFull());
-            if (follower.getProfileImage() != null) {
-                user.setProfileImage(new CloudinaryImage());
-                user.getProfileImage().setCloudinaryId(follower.getProfileImage().getCloudinaryId());
-            }
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        if(userRealmObject!=null){
+            RealmList<UserRealmObject> userRealmObjects = userRealmObject.getFollowersList();
+            for (UserRealmObject follower : userRealmObjects) {
+                FollowingFollowerUser user = new FollowingFollowerUser();
+                user.set_id(follower.getId());
+                user.setName(new UserName());
+                user.getName().setFull(follower.getUserNameRealmObject().getFull());
+                if (follower.getProfileImage() != null) {
+                    user.setProfileImage(new CloudinaryImage());
+                    user.getProfileImage().setCloudinaryId(follower.getProfileImage().getCloudinaryId());
+                }
 
-            followersList.add(user);
+                followersList.add(user);
+            }
         }
         return followersList;
     }
