@@ -1,10 +1,14 @@
-1.Edit Profile
-    -Daily email Preferences
-    -Change password
-    -Change profile pics Camera/Gallery option
-2.Recipe Details
-    -Recipe Detail Screen design
-    -Add to portion functionality
-    -Store detail in Database table.
+1. Edit Profile
+   - Upload Image in Cloudinary.
+2. Me Tab
+   - Recipe History.
+   - My Recipes.
+   - Linking to Recipe details from My Recipes.
+3. Recipe Details
+   - Share recipe details via email, twitter, facebook and message.
+   - Recipe detail favorite functionality.
+4. View All Comments:
+   - Comments listing and pull to Refersh
+   - Save comments in local Database to display these in offline access.
 
 
