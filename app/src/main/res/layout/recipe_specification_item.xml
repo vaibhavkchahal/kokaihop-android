@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
+        <import type="android.view.View"/>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeSpecifications"/>
         <variable name="imageUrl" type="String"/>
         <import type="android.text.Html"/>
@@ -80,7 +81,6 @@
                     android:text="@{model.category1}"
                     android:textColor="@color/grey_FF8D929C"
                     android:textSize="@dimen/txtview_category_textsize"
-
                     app:font="@{`SS-ProRegular`}"/>
 
                 <TextView

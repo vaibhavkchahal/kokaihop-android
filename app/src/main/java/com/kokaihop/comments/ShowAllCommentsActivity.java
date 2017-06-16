@@ -39,7 +39,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
             public void onRefresh() {
                 if (!NetworkUtils.isNetworkConnected(ShowAllCommentsActivity.this)) {
                     binding.swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(ShowAllCommentsActivity.this, R.string.no_internet, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShowAllCommentsActivity.this, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
                 }
                 if (showCommentsViewModel.getOffset() < showCommentsViewModel.getTotalCommentCount()) {
                     binding.swipeRefreshLayout.setEnabled(true);

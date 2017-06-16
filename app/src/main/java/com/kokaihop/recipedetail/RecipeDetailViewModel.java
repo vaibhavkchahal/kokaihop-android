@@ -146,10 +146,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         addIngredients(recipeRealmObject);
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
         recipeDetailItemsList.add(new AdvtDetail());
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
-        for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
-            recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps().get(i)));
-        }
+        addCookingDirections(recipeRealmObject);
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
         recipeDetailItemsList.add(recipeSpecifications);
         addComments(recipeRealmObject);
@@ -157,34 +154,47 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     }
 
+    private void addCookingDirections(RecipeRealmObject recipeRealmObject) {
+        if (!recipeRealmObject.getCookingSteps().isEmpty()) {
+            recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_directions)));
+            for (int i = 0; i < recipeRealmObject.getCookingSteps().size(); i++) {
+                recipeDetailItemsList.add(new RecipeCookingDirection(recipeRealmObject.getCookingSteps().get(i)));
+            }
+        }
+    }
+
     private void addIngredients(RecipeRealmObject recipeRealmObject) {
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_Ingredients)));
-        for (int i = 0; i < recipeRealmObject.getIngredients().size(); i++) {
-            IngredientsRealmObject ingredientsRealmObject = recipeRealmObject.getIngredients().get(i);
-            if (ingredientsRealmObject.getAmount() != 0)
-                recipeDetailItemsList.add(ingredientsRealmObject);
-            if (ingredientsRealmObject.isHeader()) {
-                recipeDetailItemsList.add(new IngredientSubHeader(ingredientsRealmObject.getName()));
+        if (!recipeRealmObject.getIngredients().isEmpty()) {
+            recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_Ingredients)));
+            for (int i = 0; i < recipeRealmObject.getIngredients().size(); i++) {
+                IngredientsRealmObject ingredientsRealmObject = recipeRealmObject.getIngredients().get(i);
+                if (ingredientsRealmObject.getAmount() != 0)
+                    recipeDetailItemsList.add(ingredientsRealmObject);
+                if (ingredientsRealmObject.isHeader()) {
+                    recipeDetailItemsList.add(new IngredientSubHeader(ingredientsRealmObject.getName()));
+                }
             }
         }
     }
 
     private void addSimilarRecipies(RecipeRealmObject recipeRealmObject) {
-        recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_SimilarRecipies)));
-        for (int i = 0; i < recipeRealmObject.getSimilarRecipes().size(); i++) {
-            RecipeRealmObject realmObject = recipeRealmObject.getSimilarRecipes().get(i);
-            String mainImageUrl = "0";
-            if (realmObject.getCoverImage() != null) {
-                mainImageUrl = realmObject.getCoverImage();
-            } else if (realmObject.getMainImage() != null) {
-                mainImageUrl = realmObject.getMainImage().getPublicId();
+        if (!recipeRealmObject.getSimilarRecipes().isEmpty()) {
+            recipeDetailItemsList.add(new ListHeading(context.getString(R.string.text_SimilarRecipies)));
+            for (int i = 0; i < recipeRealmObject.getSimilarRecipes().size(); i++) {
+                RecipeRealmObject realmObject = recipeRealmObject.getSimilarRecipes().get(i);
+                String mainImageUrl = "0";
+                if (realmObject.getCoverImage() != null) {
+                    mainImageUrl = realmObject.getCoverImage();
+                } else if (realmObject.getMainImage() != null) {
+                    mainImageUrl = realmObject.getMainImage().getPublicId();
+                }
+                String profileImageUrl = "0";
+                if (realmObject.getCreatedBy().getProfileImageId() != null) {
+                    profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
+                }
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
+                recipeDetailItemsList.add(similarRecipe);
             }
-            String profileImageUrl = "0";
-            if (realmObject.getCreatedBy().getProfileImageId() != null) {
-                profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
-            }
-            SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
-            recipeDetailItemsList.add(similarRecipe);
         }
     }
 
@@ -234,10 +244,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeRealmObject.getFriendlyUrl();
     }
 
-    public  String getRecipeTitle()
-    {
+    public String getRecipeTitle() {
         return recipeRealmObject.getTitle();
     }
+
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
         return recipeDataManager.getRecipe(recipeRealmObject);
     }

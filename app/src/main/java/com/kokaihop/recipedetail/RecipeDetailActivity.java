@@ -419,6 +419,5 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             binding.txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
 
         }
-
     }
 }

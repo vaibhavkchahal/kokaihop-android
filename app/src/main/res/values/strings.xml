@@ -3,7 +3,7 @@
 
     <!-- common msg -->
     <string name="something_went_wrong_msg">Something went wrong, try again!</string>
-    <string name="check_intenet_connection">Check Your Internet Connection!</string>
+    <string name="check_intenet_connection">No Internet Available!</string>
 
 
     <!-- Strings related to login -->
@@ -130,7 +130,7 @@
     <string name="text_directions">Direction</string>
     <string name="count"><![CDATA[
         <b>%1$s</b>
-        viewed,<b>%2$s</b> printed,<b>%3$s</b> addToCollections]]>
+        visad, <b>%2$s</b> utskriven, <b>%3$s</b> tillagd i saml]]>
     </string>
     <string name="add_portion">Add Portion</string>
 
@@ -165,7 +165,7 @@
     <string name="view_all_comments">View All Comments</string>
     <string name="write_a_comment">Write a comment...</string>
     <string name="text_send">Send</string>
-    <string name="no_internet">No Internet Connected</string>
-    <string name="email_share_content"><![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
+    <string name="email_share_content">
+        <![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
 
 </resources>
