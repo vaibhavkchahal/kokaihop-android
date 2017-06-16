@@ -88,4 +88,8 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:textSize">@dimen/text_size_large</item>
     </style>
+
+    <style name="Button" parent="AppTheme">
+        <item name="android:background">@drawable/on_click_selector</item>
+    </style>
 </resources>

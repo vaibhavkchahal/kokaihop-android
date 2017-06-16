@@ -20,7 +20,7 @@ public class CloudinaryUtils {
     public static final String FORMAT = ".jpg";
     public static final String SEPARATOR = "/";
     public static final String COMMA = ",";
-
+    public static final int CORNER_RADIUS = 25;
 
     public static String getImageUrl(String publicId, String width, String height) {
         String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
@@ -35,7 +35,7 @@ public class CloudinaryUtils {
     }
 
     public static String getRoundedCornerImageUrl(String publicId, String width, String height) {
-        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_50" + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
+        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_"+CORNER_RADIUS + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
 //        Logger.e("imageUrl", URL);
         return url;
     }

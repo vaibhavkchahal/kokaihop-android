@@ -31,6 +31,8 @@ public class UserRealmObject extends RealmObject {
 
     private RealmList<UserRealmObject> followingList;
 
+    private RealmList<RecipeRealmObject> recipeList;
+
     @SerializedName("dateCreated")
     private String dateCreated;
     @SerializedName("loginCount")
@@ -293,6 +295,14 @@ public class UserRealmObject extends RealmObject {
 
     public String getUserName() {
         return userName;
+    }
+
+    public RealmList<RecipeRealmObject> getRecipeList() {
+        return recipeList;
+    }
+
+    public void setRecipeList(RealmList<RecipeRealmObject> recipeList) {
+        this.recipeList = recipeList;
     }
 }
 

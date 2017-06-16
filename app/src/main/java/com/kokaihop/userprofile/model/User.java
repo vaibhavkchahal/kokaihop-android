@@ -4,6 +4,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.altaworks.kokaihop.ui.BR;
+import com.kokaihop.feed.Recipe;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class User extends BaseObservable{
     private String email;
     private ArrayList<String> followers = new ArrayList<>();
     private ArrayList<String> following = new ArrayList<>();
+    private ArrayList<Recipe> recipesList = new ArrayList<>();
     private int followersCount;
     private int followingCount;
     private Settings settings;
@@ -173,5 +175,13 @@ public class User extends BaseObservable{
     public static void removeInstance()
     {
         user = null;
+    }
+
+    public ArrayList<Recipe> getRecipesList() {
+        return recipesList;
+    }
+
+    public void setRecipesList(ArrayList<Recipe> recipesList) {
+        this.recipesList = recipesList;
     }
 }

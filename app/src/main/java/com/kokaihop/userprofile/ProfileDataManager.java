@@ -1,14 +1,21 @@
 package com.kokaihop.userprofile;
 
+import com.google.gson.Gson;
 import com.kokaihop.database.RealmString;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.UserRealmObject;
+import com.kokaihop.feed.Recipe;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.Settings;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.userprofile.model.UserName;
+import com.kokaihop.utility.JSONObjectUtility;
 import com.kokaihop.utility.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -22,6 +29,7 @@ import io.realm.RealmResults;
 
 public class ProfileDataManager {
     private Realm realm;
+    private Gson gson;
 
     //    Default Constructor
     public ProfileDataManager() {
@@ -92,7 +100,7 @@ public class ProfileDataManager {
             if (!following.getId().equals(userId)) {
                 realm.insertOrUpdate(following);
 
-                if (!alreadyExists(userRealmObject.getFollowingList(), following)) {
+                if (!userAlreadyExists(userRealmObject.getFollowingList(), following)) {
                     userRealmObject.getFollowingList().add(following);
                 }
             }
@@ -106,16 +114,19 @@ public class ProfileDataManager {
         final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
         realm.beginTransaction();
 
-        for (UserRealmObject follower : userRealmObjectList) {
+        if (userRealmObject != null) {
+            for (UserRealmObject follower : userRealmObjectList) {
 
-            if (!follower.getId().equals(userId)) {
-                realm.insertOrUpdate(follower);
+                if (!follower.getId().equals(userId)) {
+                    realm.insertOrUpdate(follower);
 
-                if (!alreadyExists(userRealmObject.getFollowersList(), follower)) {
-                    userRealmObject.getFollowersList().add(follower);
+                    if (!userAlreadyExists(userRealmObject.getFollowersList(), follower)) {
+                        userRealmObject.getFollowersList().add(follower);
+                    }
                 }
             }
         }
+
         realm.commitTransaction();
     }
 
@@ -169,7 +180,7 @@ public class ProfileDataManager {
     }
 
     //To check whether the user already exists in list or not
-    public boolean alreadyExists(RealmList<UserRealmObject> list, UserRealmObject user) {
+    public boolean userAlreadyExists(RealmList<UserRealmObject> list, UserRealmObject user) {
         for (UserRealmObject userInList : list) {
             if (user.getId().equals(userInList.getId()))
                 return true;
@@ -177,6 +188,13 @@ public class ProfileDataManager {
         return false;
     }
 
+    public boolean recipeAlreadyExists(RealmList<RecipeRealmObject> list, RecipeRealmObject recipeRealmObject) {
+        for (RecipeRealmObject userInList : list) {
+            if (recipeRealmObject.get_id().equals(userInList.get_id()))
+                return true;
+        }
+        return false;
+    }
 
     /*
     Clear the favorite preference of the user in recipes
@@ -195,5 +213,59 @@ public class ProfileDataManager {
                 }
             }
         });
+    }
+
+
+    //    inserts the recipe list into the database
+    public void insertOrUpdateRecipeObjects(final JSONArray recipes, String userId) {
+        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        if (userRealmObject != null) {
+            realm.beginTransaction();
+            gson = new Gson();
+            for (int i = 0; i < recipes.length(); i++) {
+                try {
+                    JSONObjectUtility jsonObjectUtility = new JSONObjectUtility();
+                    JSONObject jsonObject = recipes.getJSONObject(i);
+                    jsonObject = jsonObjectUtility.updateCookingStepsInRecipe(jsonObject);
+                    jsonObject = jsonObjectUtility.removeKeyFromJSON(jsonObject, "similarRecipes");
+                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
+                    RecipeRealmObject recipeRealmObject = gson.fromJson(jsonObject.toString(), RecipeRealmObject.class);
+                    if (!recipeAlreadyExists(userRealmObject.getRecipeList(), recipeRealmObject)) {
+                        userRealmObject.getRecipeList().add(recipeRealmObject);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            realm.commitTransaction();
+        }
+    }
+
+    //    returns the list of recipes created by the user(for whome the user ID is provided)
+    public ArrayList<Recipe> getRecipesOfUser(String userId) {
+        ArrayList<Recipe> recipeList = new ArrayList<>();
+        RealmList<RecipeRealmObject> recipeRealmObjects = new RealmList<>();
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        if (userRealmObject != null) {
+
+            recipeRealmObjects = userRealmObject.getRecipeList();
+        }
+
+        for (RecipeRealmObject realmObject : recipeRealmObjects) {
+            Recipe recipe = new Recipe();
+            recipe.set_id(realmObject.get_id());
+            recipe.setTitle(realmObject.getTitle());
+            if (realmObject.getCreatedBy() != null) {
+                recipe.setCreatedByName(realmObject.getCreatedBy().getName());
+            }
+            if (realmObject.getRating() != null) {
+                recipe.setRatingAverage(realmObject.getRating().getAverage());
+            }
+            if (realmObject.getMainImage() != null) {
+                recipe.setMainImagePublicId(realmObject.getMainImage().getPublicId());
+            }
+            recipeList.add(recipe);
+        }
+        return recipeList;
     }
 }

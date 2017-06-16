@@ -2,14 +2,12 @@ package com.kokaihop.recipedetail;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.CheckBox;
-import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RatingRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.AdvtDetail;
@@ -54,10 +52,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(Context context, String recipeID ,DataSetListener dataSetListener) {
+    public RecipeDetailViewModel(Context context, String recipeID, DataSetListener dataSetListener) {
         this.context = context;
         this.recipeID = recipeID;
-        this.dataSetListener=dataSetListener;
+        this.dataSetListener = dataSetListener;
         recipeDataManager = new RecipeDataManager();
         recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         pagerImages = recipeRealmObject.getImages();
@@ -142,6 +140,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
         String description = "";
         if (recipeRealmObject.getDescription() != null) {
             description = recipeRealmObject.getDescription().getLongDescription();
+        }
+        if (recipeRealmObject.getRating() == null) {
+            recipeRealmObject.setRating(new RatingRealmObject());
         }
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailItemsList.add(recipeDetailHeader);
@@ -243,7 +244,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public interface DataSetListener {
         void onPagerDataUpdate();
+
         void onRecipeDetailDataUpdate();
+
         void onCounterUpdate();
     }
 }

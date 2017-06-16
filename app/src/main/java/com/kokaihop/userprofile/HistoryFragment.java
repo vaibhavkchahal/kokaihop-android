@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentHistoryBinding;
-import com.kokaihop.database.RecipeHistoryRealmObject;
-import com.kokaihop.database.RecipeRealmObject;
+import com.altaworks.kokaihop.ui.databinding.FragmentHistoryRecipeBinding;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 
@@ -21,9 +19,8 @@ import java.util.ArrayList;
 public class HistoryFragment extends Fragment {
 
     private static HistoryFragment fragment;
-    private FragmentHistoryBinding binding;
-    private HistoryViewModel viewModel;
-    private HistoryAdapter adapter;
+    private FragmentHistoryRecipeBinding binding;
+    private RecipeHistoryAdapter adapter;
     private ArrayList<Recipe> recipes;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -49,25 +46,15 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
         recipes = new ArrayList<>();
-        viewModel = new HistoryViewModel();
-        adapter = new HistoryAdapter(recipes, viewModel);
+        adapter = new RecipeHistoryAdapter(this, recipes);
         recipeDataManager = new RecipeDataManager();
-        updateHistory();
+        adapter.displayHistoryChanges();
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return binding.getRoot();
-    }
-
-    private void updateHistory() {
-        ArrayList<RecipeHistoryRealmObject> historyList = new HistoryDataManager().getHistory();
-        for (RecipeHistoryRealmObject historyRealmObject : historyList) {
-            RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(historyRealmObject.getId());
-            recipes.add(recipeDataManager.getRecipe(recipeRealmObject));
-        }
-        adapter.notifyDataSetChanged();
     }
 }
