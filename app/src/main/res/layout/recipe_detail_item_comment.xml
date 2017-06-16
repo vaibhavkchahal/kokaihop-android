@@ -12,7 +12,8 @@
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
                     android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe.id)}"
                     android:paddingBottom="@dimen/comment_padding_bottom"
                     android:paddingLeft="@dimen/comment_item_padding_left"

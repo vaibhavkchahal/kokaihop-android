@@ -102,10 +102,10 @@ public class ShowCommentsViewModel extends BaseViewModel {
     private void fetchCommentsFromDB() {
         RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         commentsList.clear();
-        for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
-            commentsList.add(0, recipeRealmObject.getComments().get(i));
-        }
-//        commentsList.addAll(recipeRealmObject.getComments());
+//        for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
+//            commentsList.add(recipeRealmObject.getComments().get(i));
+//        }
+        commentsList.addAll(recipeRealmObject.getComments());
         totalCommentCount = recipeRealmObject.getCounter().getComments();
         commentListener.onUpdateCommentsList();
     }

@@ -56,7 +56,9 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
 
     private void initializeRecycleView() {
         RecyclerView recyclerView = binding.recyclerViewCommentsList;
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(showCommentsViewModel.getCommentsList());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerAdapter);
@@ -64,10 +66,11 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
 
     @Override
     public void onUpdateCommentsList() {
-        if (binding.recyclerViewCommentsList.getAdapter() != null) {
-            binding.recyclerViewCommentsList.getAdapter().notifyDataSetChanged();
+        RecyclerView recyclerView = binding.recyclerViewCommentsList;
+        if (recyclerView.getAdapter() != null) {
+            recyclerView.getAdapter().notifyDataSetChanged();
             binding.swipeRefreshLayout.setRefreshing(false);
-            binding.recyclerViewCommentsList.scrollToPosition(showCommentsViewModel.getCommentsList().size());
+            recyclerView.scrollToPosition(0);
         }
     }
 }

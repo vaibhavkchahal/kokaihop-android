@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
+import android.os.Environment;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.home.HomeActivity;
+
+import java.io.File;
 
 /**
  * Created by Rajendra Singh on 19/5/17.
@@ -76,5 +79,11 @@ public class AppUtility {
             }
         });
         dialog.show();
+    }
+
+    public static File getTempFile() {
+        File photo = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_NAME + "/" + "temp.jpg");
+        return photo;
+
     }
 }
