@@ -102,8 +102,8 @@
         </activity>
         <activity android:name="com.kokaihop.comments.ShowAllCommentsActivity"
                   android:screenOrientation="portrait"
-                  android:theme="@style/CommentsScreenTheme"
-                    android:windowSoftInputMode="adjustPan">
+                  android:theme="@style/AppTheme"
+                  android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
