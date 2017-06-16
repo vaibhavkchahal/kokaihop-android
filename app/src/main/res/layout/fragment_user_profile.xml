@@ -54,12 +54,20 @@
                             android:id="@+id/toolbar"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/toolbar_height"
-                            android:layout_marginTop="@dimen/toolbar_top_padding"
+                            android:layout_marginTop="@dimen/status_bar_height"
                             android:clickable="false"
                             android:gravity="center_horizontal"
                             android:titleMarginTop="@dimen/status_bar_height"
                             app:layout_collapseMode="pin"
-                            app:title="@{user.name.full}">
+                            app:titleMarginTop="@dimen/status_bar_height">
+                            <TextView android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"
+                                      android:layout_marginRight="@dimen/profile_toolbar_horizontal_margin"
+                                      android:gravity="center"
+                                      android:text="@{user.name.full}"
+                                      android:textColor="@color/white"
+                                      android:textSize="@dimen/tv_profile_user_name"
+                                      app:font="@{`SS-ProSemiBold`}"/>
 
                         </android.support.v7.widget.Toolbar>
 
@@ -105,7 +113,7 @@
                                     android:gravity="center_horizontal"
                                     android:text="@{user.name.full}"
                                     android:textColor="@color/white"
-                                    android:textSize="20sp"
+                                    android:textSize="@dimen/tv_profile_user_name"
                                     app:font="@{`SS-ProSemiBold`}"/>
 
                             </RelativeLayout>

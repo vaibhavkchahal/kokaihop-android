@@ -16,18 +16,25 @@ import io.realm.Sort;
 public class HistoryDataManager {
 
     private Realm realm;
+    private final int MAX_ITEMS = 99;
 
     public HistoryDataManager() {
         this.realm = Realm.getDefaultInstance();
     }
 
-    public void updateHistory(String recipeId){
+    public void updateHistory(String recipeId) {
         realm.beginTransaction();
         realm.insertOrUpdate(new RecipeHistoryRealmObject(recipeId, new Date().getTime()));
         realm.commitTransaction();
+        RealmResults<RecipeHistoryRealmObject> recipeHistoryRealmObjects = realm.where(RecipeHistoryRealmObject.class).findAll().sort("timeStamp");
+        if (recipeHistoryRealmObjects.size() > MAX_ITEMS) {
+            realm.beginTransaction();
+            recipeHistoryRealmObjects.deleteFirstFromRealm();
+            realm.commitTransaction();
+        }
     }
 
-    public ArrayList<RecipeHistoryRealmObject> getHistory(){
+    public ArrayList<RecipeHistoryRealmObject> getHistory() {
         RealmResults<RecipeHistoryRealmObject> realmResult = realm.where(RecipeHistoryRealmObject.class).findAll().sort("timeStamp", Sort.DESCENDING);
         ArrayList<RecipeHistoryRealmObject> historyRealmObjects = (ArrayList<RecipeHistoryRealmObject>) realm.copyFromRealm(realmResult);
         return historyRealmObjects;
