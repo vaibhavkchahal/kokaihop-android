@@ -10,6 +10,8 @@ public class Payload extends RealmObject{
 
     private RecipeComment comment;
 
+    private RecipeCommentInfo recipe;
+
     public RecipeComment getComment() {
         return comment;
     }
@@ -18,4 +20,11 @@ public class Payload extends RealmObject{
         this.comment = comment;
     }
 
+    public RecipeCommentInfo getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(RecipeCommentInfo recipe) {
+        this.recipe = recipe;
+    }
 }

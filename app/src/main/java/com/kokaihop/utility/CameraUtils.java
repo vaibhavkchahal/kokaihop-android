@@ -3,21 +3,25 @@ package com.kokaihop.utility;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
@@ -25,6 +29,8 @@ import com.kokaihop.editprofile.EditProfileViewModel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
@@ -175,52 +181,51 @@ public class CameraUtils {
 
     //    to share the picture with external applications
     public static void sharePicture(final Context context, String imageUrl) {
-
-        Intent shareIntent = new Intent();
+        List<Intent> targetShareIntents=new ArrayList<Intent>();
+        Intent shareIntent=new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_TEXT,"abc");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUrl);
-        context.startActivity(Intent.createChooser(shareIntent, "Share using"));
+        shareIntent.setType("text/plain");
 
-//        imageUrl = "https://res.cloudinary.com/hufennija/image/upload/w_100,h_100,c_fill/608066.jpg";
-////        try {
-//        Glide.with(context).load(imageUrl).asBitmap().listener(new RequestListener<String, Bitmap>() {
-//            @Override
-//            public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//
-//
-//                Intent shareIntent = new Intent();
-//
-//                shareIntent.setAction(Intent.ACTION_SEND);
-//                shareIntent.setType("image/*");
-//                shareIntent.putExtra(Intent.EXTRA_TEXT,"abc");
-//                shareIntent.putExtra(Intent.EXTRA_STREAM, resource);
-//                context.startActivity(Intent.createChooser(shareIntent, "Share using"));
-//
-////                Intent share = new Intent(Intent.ACTION_SEND);
-////                share.setType("image/jpeg");
-////                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-////                resource.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-////                File f = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_NAME + "/" + "temporary_file.jpg");
-////                try {
-////                    f.createNewFile();
-////                    FileOutputStream fo = new FileOutputStream(f);
-////                    fo.write(bytes.toByteArray());
-////                } catch (IOException e) {
-////                    e.printStackTrace();
-////                }
-////                share.putExtra(Intent.EXTRA_STREAM, Uri.parse(model));
-////                context.startActivity(Intent.createChooser(share, "Share Image"));
-//                return false;
-//            }
-//        }).into(-1, -1);
-//        }
+        List<ResolveInfo> resInfos=context.getPackageManager().queryIntentActivities(shareIntent, 0);
+        if(!resInfos.isEmpty()){
+            System.out.println("Have package");
+            for(ResolveInfo resInfo : resInfos){
+                String packageName=resInfo.activityInfo.packageName;
+                Log.i("Package Name", packageName);
+                if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.google.android.gm")) {
+                    Intent intent=new Intent();
+                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
 
-    }
+                    if (packageName.equals("com.twitter.android")) {
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on twitter"/*resources.getString(R.string.share_twitter)*/);
+                    } else if (packageName.equals("com.facebook.katana")) {
+                        // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
+                        // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
+                        // will show the <meta content ="..."> text from that page with our link in Facebook.
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on facebook"/*resources.getString(R.string.share_facebook)*/);
+                    } else if (packageName.equals("com.android.mms")) {
+                        intent.putExtra(Intent.EXTRA_SUBJECT,"kokaihop");
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on sms"/*resources.getString(R.string.share_sms)*/);
+                    } else if (packageName.equals("com.google.android.gm")) { // If Gmail shows up twice, try removing this else-if clause and the reference to "android.gm" above
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on gmail"/*Html.fromHtml(resources.getString(R.string.share_email_gmail))*/);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop share"/*resources.getString(R.string.share_email_subject)*/);
+                        intent.setType("message/rfc822");
+                    }
+
+                    intent.setPackage(packageName);
+                    targetShareIntents.add(intent);
+                }
+            }
+            if(!targetShareIntents.isEmpty()){
+                System.out.println("Have Intent");
+                Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+                context.startActivity(chooserIntent);
+            }else{
+                System.out.println("Do not Have Intent");
+            }
+        }
+}
 }

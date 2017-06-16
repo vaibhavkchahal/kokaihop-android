@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.altaworks.kokaihop.ui"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.altaworks.kokaihop.ui">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -25,7 +25,7 @@
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
-            tools:replace="android:authorities" >
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
@@ -99,6 +99,11 @@
         <activity android:name="com.kokaihop.recipedetail.CookBookActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/AppToolbarTheme">
+        </activity>
+        <activity android:name="com.kokaihop.comments.ShowAllCommentsActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/CommentsScreenTheme"
+                    android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 

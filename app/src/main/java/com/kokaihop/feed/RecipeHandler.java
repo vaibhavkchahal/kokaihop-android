@@ -33,6 +33,7 @@ public class RecipeHandler {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
             Context context = checkBox.getContext();
+            checkBox.setChecked(false);
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_like_message));
         } else {
             performOperationOncheck(checkBox, recipe);

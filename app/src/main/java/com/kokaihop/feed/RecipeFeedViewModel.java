@@ -72,10 +72,10 @@ public class RecipeFeedViewModel extends BaseViewModel {
         this.context = context;
         dataManager = new RecipeDataManager();
         fetchRecipeFromDb(badgeType);
-        getRecipes(getOffset(),getMax()+1, true, true, badgeType);
+        getRecipes(getOffset(), getMax() + 1, true, true, badgeType);
     }
 
-    public void getRecipes(int offset,int max, boolean showProgressDialog, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
+    public void getRecipes(int offset, int max, boolean showProgressDialog, boolean isDownloading, final ApiConstants.BadgeType badgeType) {
         setOffset(offset);
         setShowProgressDialog(showProgressDialog);
         setDownloading(isDownloading);
