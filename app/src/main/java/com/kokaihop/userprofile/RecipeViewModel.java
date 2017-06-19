@@ -8,9 +8,7 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.model.User;
-import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
-import com.kokaihop.utility.SharedPrefUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +30,6 @@ public class RecipeViewModel extends BaseViewModel {
     private String userId;
 
 
-    private String accessToken;
     private boolean isDownloading = true;
     private int max = 20;
     private int offset = 0;
@@ -44,14 +41,14 @@ public class RecipeViewModel extends BaseViewModel {
         this.context = context;
     }
 
-    public RecipeViewModel(Fragment fragment, Context context) {
+    public RecipeViewModel(Fragment fragment, Context context, String userId) {
         this.max = 20;
         this.offset = 0;
         this.fragment = fragment;
         this.context = context;
         profileDataManager = new ProfileDataManager();
         user = User.getInstance();
-        setUpApiCall();
+        this.userId = userId;
     }
 
     public boolean isDownloading() {
@@ -93,8 +90,6 @@ public class RecipeViewModel extends BaseViewModel {
 
         setOffset(offset);
         setDownloading(isDownloading);
-        setProgressVisible(true);
-        setUpApiCall();
         setProgressVisible(true);
         if (isDownloading) {
             new ProfileApiHelper().getRecipesOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {
@@ -145,12 +140,6 @@ public class RecipeViewModel extends BaseViewModel {
         user.getRecipesList().clear();
         user.getRecipesList().addAll(recipeList);
         ((RecipeFragment) fragment).showUserProfile();
-    }
-
-    //    setup the credentials for the api call
-    public void setUpApiCall() {
-        userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
-        accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
     }
 
     @Override

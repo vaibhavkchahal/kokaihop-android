@@ -5,6 +5,8 @@
 
     <data>
         <variable name="user" type="com.kokaihop.userprofile.model.User"/>
+        <variable name="imageCoverUrl" type="String"/>
+        <variable name="viewModel" type="com.kokaihop.userprofile.UserProfileViewModel"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -41,59 +43,84 @@
                     app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/profile_back_gradient"
-                        android:fitsSystemWindows="true"
-                        app:layout_collapseMode="none">
-
-                        <!-- TODO: Set user avatar here -->
-                        <ImageView
-                            android:id="@+id/user_avatar"
-                            android:layout_width="@dimen/user_profile_pic_size"
-                            android:layout_height="@dimen/user_profile_pic_size"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
-                            android:src="@drawable/ic_avtar_sm"/>
-
-                        <!-- TODO: Set user name here -->
-                        <TextView
-                            android:id="@+id/tv_user_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/user_avatar"
-                            android:gravity="center_horizontal"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            app:font="@{`SS-ProSemiBold`}"/>
-                        <Button
-                            android:id="@+id/btn_follow"
-                            android:layout_width="@dimen/profile_o_follow_button_width"
-                            android:layout_height="@dimen/profile_o_follow_button_height"
-                            android:layout_below="@id/tv_user_name"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/button_follow_round_corner"
-                            android:drawablePadding="@dimen/profile_o_follow_padding_drawable"
-                            android:paddingLeft="@dimen/profile_o_follow_padding_left"
-                            android:paddingRight="@dimen/profile_o_follow_padding_right"
-                            android:textSize="@dimen/profile_o_follow_text_size"
-                            app:font="@{`SS-ProSemiBold`}"/>
-
-                    </RelativeLayout>
-
                     <android.support.v7.widget.Toolbar
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginTop="@dimen/user_profile_toolbar_margin_top"
+                        android:layout_height="@dimen/toolbar_height"
                         android:gravity="center_horizontal"
                         android:paddingRight="@dimen/profile_toolbar_padding_right"
-                        app:layout_collapseMode="pin"
-                        app:title="User Name">
+                        app:layout_collapseMode="pin">
+
+                        <TextView android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:gravity="center"
+                                  android:text="@{user.name.full}"
+                                  android:textColor="@color/white"
+                                  android:textSize="@dimen/tv_profile_user_name"
+                                  app:font="@{`SS-ProSemiBold`}"/>
+
                     </android.support.v7.widget.Toolbar>
+
+
+                    <RelativeLayout android:id="@+id/rv_toolbar_container"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent">
+
+                        <ImageView android:id="@+id/iv_profile_cover"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:scaleType="fitXY"
+                                   app:error="@{@color/grey_FFD4D4D4}"
+                                   app:imageUrl="@{imageCoverUrl}"
+                                   app:placeholder="@{@color/grey_FFD4D4D4}"/>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/profile_back_gradient"
+                            android:fitsSystemWindows="true"
+                            app:layout_collapseMode="none">
+
+                            <!-- TODO: Set user avatar here -->
+                            <ImageView
+                                android:id="@+id/user_avatar"
+                                android:layout_width="@dimen/user_profile_pic_size"
+                                android:layout_height="@dimen/user_profile_pic_size"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
+                                app:error="@{@drawable/ic_avtar_sm}"
+                                app:imageUrl="@{user.profileImageUrl}"
+                                app:isCircular="@{true}"
+                                app:placeholder="@{@drawable/ic_avtar_sm}"/>
+
+                            <!-- TODO: Set user name here -->
+                            <TextView
+                                android:id="@+id/tv_user_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/user_avatar"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/white"
+                                android:text="@{user.name.full}"
+                                android:textSize="20sp"
+                                app:font="@{`SS-ProSemiBold`}"/>
+                            <Button
+                                android:id="@+id/btn_follow"
+                                android:layout_width="@dimen/profile_o_follow_button_width"
+                                android:layout_height="@dimen/profile_o_follow_button_height"
+                                android:layout_below="@id/tv_user_name"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/button_follow_round_corner"
+                                android:drawablePadding="@dimen/profile_o_follow_padding_drawable"
+                                android:paddingLeft="@dimen/profile_o_follow_padding_left"
+                                android:paddingRight="@dimen/profile_o_follow_padding_right"
+                                android:textSize="@dimen/profile_o_follow_text_size"
+                                app:font="@{`SS-ProSemiBold`}"/>
+                        </RelativeLayout>
+
+                    </RelativeLayout>
 
                     <android.support.design.widget.TabLayout
                         android:id="@+id/tab_profile"

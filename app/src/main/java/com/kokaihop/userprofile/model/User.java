@@ -12,9 +12,10 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 17/5/17.
  */
 
-public class User extends BaseObservable{
+public class User extends BaseObservable {
 
     private static User user;
+    private static User otherUser;
 
     private String _id;
     private String friendlyUrl;
@@ -162,18 +163,30 @@ public class User extends BaseObservable{
         notifyPropertyChanged(BR.followingCount);
     }
 
-    private User(){};
+    private User() {
+    }
 
-    public static User getInstance()
-    {
-        if(user == null){
+    ;
+
+    public static User getInstance() {
+        if (user == null) {
             user = new User();
         }
         return user;
     }
 
-    public static void removeInstance()
-    {
+    public static User getOtherUser() {
+        if (otherUser == null) {
+            otherUser = new User();
+        }
+        return otherUser;
+    }
+
+    public void removeOtherUser() {
+        otherUser = null;
+    }
+
+    public static void removeInstance() {
         user = null;
     }
 

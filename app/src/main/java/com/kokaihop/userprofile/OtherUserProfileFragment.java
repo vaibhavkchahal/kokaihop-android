@@ -2,42 +2,41 @@ package com.kokaihop.userprofile;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentOtherUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
-import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
+import com.kokaihop.customviews.AppBarStateChangeListener;
+import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
-import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
-
 public class OtherUserProfileFragment extends Fragment implements UserDataListener {
-    private static OtherUserProfileFragment fragment;
-    private FragmentUserProfileBinding userProfileBinding;
-    UserProfileViewModel userViewModel;
+
+    private FragmentOtherUserProfileBinding otherUserProfileBinding;
+    OtherUserProfileViewModel otherUserProfileViewModel;
     private ViewPager viewPager;
     private LayoutInflater inflater;
-    private ViewGroup container;
+    String userId, friendlyUrl;
+    Bundle bundle = new Bundle();
 
     public OtherUserProfileFragment() {
 
-    }
-
-    public static OtherUserProfileFragment getInstance() {
-
-        if (fragment == null) {
-            fragment = new OtherUserProfileFragment();
-        }
-        return fragment;
     }
 
     @Override
@@ -49,65 +48,76 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.inflater = inflater;
-        this.container = container;
-        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+        userId = this.getArguments().getString(Constants.USER_ID);
 
-        userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
-//        userViewModel = new UserProfileViewModel(getContext(), this, userProfileBinding);
-        userViewModel.getUserData();
-        return userProfileBinding.getRoot();
+        otherUserProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
+        otherUserProfileViewModel = new OtherUserProfileViewModel(getContext(), this);
+        friendlyUrl = otherUserProfileViewModel.getFriendlyUrlFromDB(userId);
+        otherUserProfileViewModel.getUserData(userId);
+        setAppBarListener();
+        return otherUserProfileBinding.getRoot();
     }
 
     @Override
     public void showUserProfile() {
         User user = User.getInstance();
-        final TabLayout tabLayout = userProfileBinding.tabProfile;
+        final TabLayout tabLayout = otherUserProfileBinding.tabProfile;
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
         int tabCount = 4;
         int i;
-
-        userProfileBinding.setUser(User.getInstance());
+        setCoverImage();
+        setProfileImage();
+        otherUserProfileBinding.setUser(User.getOtherUser());
 
         String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
                 getActivity().getString(R.string.tab_cookbooks),
                 getActivity().getString(R.string.tab_followers),
                 getActivity().getString(R.string.tab_following)};
+
 //        TODO: counts should be set here.
 
         int[] counts = {user.getRecipeCount(),
                 user.getFollowers().size(),
-                user.getFollowing().size()};
+                user.getFollowing().size(),
+                0};
 
-        viewPager = userProfileBinding.viewpagerProfile;
+        viewPager = otherUserProfileBinding.viewpagerProfile;
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
 
-//        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
         ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-        adapter.addFrag(new RecipeFragment(), "Recipes");
-        adapter.addFrag(new FollowersFragment(), "Followers");
-        adapter.addFrag(new FollowingFragment(), "Following");
-        adapter.addFrag(new HistoryFragment(), "History");
+        setUpFragmentArguments();
+        RecipeFragment recipeFragment = new RecipeFragment();
+        recipeFragment.setArguments(bundle);
+        adapter.addFrag(recipeFragment, "Recipes");
+
+        FollowersFragment followersFragment = new FollowersFragment();
+        followersFragment.setArguments(bundle);
+        adapter.addFrag(followersFragment, "Followers");
+
+        FollowingFragment followingFragment = new FollowingFragment();
+        followingFragment.setArguments(bundle);
+        adapter.addFrag(followingFragment, "Following");
+
+        HistoryFragment historyFragment = new HistoryFragment();
+        historyFragment.setArguments(bundle);
+        adapter.addFrag(historyFragment, "History");
+
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
         tabLayout.setupWithViewPager(viewPager);
 
 
-        for (i = 0; i < (tabCount - 1); i++) {
+        for (i = 0; i < (tabCount); i++) {
             TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText("" + counts[i]);
             tabBinding.text2.setText(tabTitles[i]);
         }
-        TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
-        View tabView = tabBinding.getRoot();
-        tabLayout.getTabAt(i).setCustomView(tabView);
-        tabBinding.text1.setText(tabTitles[i]);
-        tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_history, 0, 0);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -134,18 +144,72 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
                 }
             }
         });
-        userProfileBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(new Intent(getContext(), UserSettingsActivity.class));
-            }
-        });
-
         tabLayout.getTabAt(0).select();
+    }
+
+    public void setCoverImage() {
+        Point point = AppUtility.getDisplayPoint(getContext());
+        int width = point.x;
+        float ratio = (float) 195 / 320; // to get the image in aspect ratio
+        int height = AppUtility.getHeightInAspectRatio(width, ratio);
+        ImageView ivCover = otherUserProfileBinding.ivProfileCover;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivCover.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
+        CloudinaryImage coverImage = User.getInstance().getCoverImage();
+        if (coverImage != null) {
+            otherUserProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
+        }
+        otherUserProfileBinding.executePendingBindings();
+    }
+
+    //To set the user profile image from cloudinary image-URL
+    public void setProfileImage() {
+        int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
+        int height = width;
+        ImageView ivProfile = otherUserProfileBinding.userAvatar;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivProfile.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+        CloudinaryImage profileImage = User.getOtherUser().getProfileImage();
+        if (profileImage != null) {
+            String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
+            User.getInstance().setProfileImageUrl(imageUrl);
+        }
+        otherUserProfileBinding.executePendingBindings();
+    }
+
+    private void setUpFragmentArguments() {
+        bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.USER_ID));
+        bundle.putString(Constants.FRIENDLY_URL, friendlyUrl);
     }
 
     @Override
     public void followToggeled() {
 
+    }
+
+    private void setAppBarListener() {
+        AppBarLayout appBarLayout = otherUserProfileBinding.appbar;
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
+                switch (state) {
+                    case COLLAPSED:
+                        otherUserProfileBinding.rvToolbarContainer.setVisibility(View.INVISIBLE);
+                        break;
+                    case EXPANDED:
+                        otherUserProfileBinding.rvToolbarContainer.setVisibility(View.VISIBLE);
+                        break;
+                    case SCROLL_DOWN:
+                        otherUserProfileBinding.rvToolbarContainer.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
     }
 }

@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
@@ -29,7 +28,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     private UserDataListener userDataListener;
     private Context context;
-    private UserProfileApi userProfileApi;
     private String accessToken;
     private String userId;
     private boolean isDownloading = true;
@@ -43,13 +41,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.context = context;
     }
 
-    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context) {
+    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context,String userId) {
         this.max = 20;
         this.offset = 0;
         this.userDataListener = userDataListener;
         this.context = context;
-        userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         profileDataManager = new ProfileDataManager();
+        this.userId = userId;
     }
 
     public boolean isDownloading() {
@@ -180,13 +178,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     }
 
     public void fetchFollowersFromDB() {
-        ArrayList<FollowingFollowerUser> followingList;
 
         ArrayList<FollowingFollowerUser> followersList;
         followersList = profileDataManager.fetchFollowersList(userId);
         FollowersFollowingList.getFollowersList().getUsers().clear();
         FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
         userDataListener.showUserProfile();
+
     }
 
     //API call to follow or unfollow a user
@@ -222,12 +220,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     //Seting the access token for the api calls
 
     public void setUpApiCall() {
-        userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         String bearer = Constants.AUTHORIZATION_BEARER;
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         accessToken = bearer + token;
-        userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
-
         Logger.e("token : ", token);
 
 //        userId = "56387ade1a258f0300c3074e";

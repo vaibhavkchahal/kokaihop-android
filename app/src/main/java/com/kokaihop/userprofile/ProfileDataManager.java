@@ -37,14 +37,13 @@ public class ProfileDataManager {
     }
 
     //    Geting the user data from the database on the basis of userId
-    public User fetchUserData(String userId) {
+    public User fetchUserData(String userId, User user) {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
-        return getUserData(userRealmObject);
+        return getUserData(userRealmObject, user);
     }
 
     //    Setting user data obtained from database to a User Model object
-    private User getUserData(UserRealmObject userRealmObject) {
-        User user = User.getInstance();
+    private User getUserData(UserRealmObject userRealmObject, User user) {
         if (userRealmObject != null) {
             user.set_id(userRealmObject.getId());
             user.setName(new UserName());
@@ -54,12 +53,12 @@ public class ProfileDataManager {
             user.setEmail(userRealmObject.getEmail());
             user.getFollowing().clear();
             for (RealmString userid : userRealmObject.getFollowing()) {
-                user.getFollowing().add(userid.getString());
+                user.getFollowing().add(userid.getUserId());
             }
 
             user.getFollowers().clear();
             for (RealmString userid : userRealmObject.getFollowers()) {
-                user.getFollowers().add(userid.getString());
+                user.getFollowers().add(userid.getUserId());
             }
             if (userRealmObject.getProfileImage() != null) {
                 user.setProfileImage(new CloudinaryImage());
@@ -71,9 +70,12 @@ public class ProfileDataManager {
             }
             user.setRecipeCount(userRealmObject.getRecipeCount());
             user.setSettings(new Settings());
-            user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
-            user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
-            user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
+            if(userRealmObject.getSettingsRealmObject()!=null){
+                user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
+                user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
+                user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
+
+            }
             user.setCityName(userRealmObject.getCityName());
         }
 
@@ -87,24 +89,40 @@ public class ProfileDataManager {
         realm.commitTransaction();
     }
 
+    public void insertOrUpdateUserDataUsingJSON(JSONObject jsonObject) {
+        JSONObjectUtility jsonUtility = new JSONObjectUtility();
+        jsonObject = jsonUtility.changeKeyOfJSON(jsonObject, "_id", "id");
+        jsonObject = jsonUtility.convertStringArrayToRealmStringArray(jsonObject, "followers");
+        jsonObject.remove("followers");
+        jsonObject.remove("following");
+        jsonObject = jsonUtility.convertStringArrayToRealmStringArray(jsonObject, "following");
+        realm.beginTransaction();
+        UserRealmObject obj = realm.createOrUpdateObjectFromJson(UserRealmObject.class, jsonObject);
+        realm.commitTransaction();
+    }
+
+
+
     //    Inserting or updating the following users data into the database
     public void insertOrUpdateFollowing(final RealmList<UserRealmObject> userRealmObjectList, final String userId) {
 
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
 
-        realm.beginTransaction();
+        if (userRealmObject != null) {
+            realm.beginTransaction();
 
-        for (UserRealmObject following : userRealmObjectList) {
+            for (UserRealmObject following : userRealmObjectList) {
 
-            if (!following.getId().equals(userId)) {
-                realm.insertOrUpdate(following);
+                if (!following.getId().equals(userId)) {
+                    realm.insertOrUpdate(following);
 
-                if (!userAlreadyExists(userRealmObject.getFollowingList(), following)) {
-                    userRealmObject.getFollowingList().add(following);
+                    if (!userAlreadyExists(userRealmObject.getFollowingList(), following)) {
+                        userRealmObject.getFollowingList().add(following);
+                    }
                 }
             }
+            realm.commitTransaction();
         }
-        realm.commitTransaction();
 
     }
 
@@ -133,11 +151,12 @@ public class ProfileDataManager {
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
-        if(userRealmObject!=null){
+        if (userRealmObject != null) {
             RealmList<UserRealmObject> userRealmObjects = userRealmObject.getFollowersList();
             for (UserRealmObject follower : userRealmObjects) {
                 FollowingFollowerUser user = new FollowingFollowerUser();
                 user.set_id(follower.getId());
+                user.setFriendlyUrl(follower.getFriendlyUrl());
                 user.setName(new UserName());
                 user.getName().setFull(follower.getUserNameRealmObject().getFull());
                 if (follower.getProfileImage() != null) {
@@ -269,5 +288,14 @@ public class ProfileDataManager {
             recipeList.add(recipe);
         }
         return recipeList;
+    }
+
+    public String getFriendlyUrlOfUser(String userId) {
+        String friendlyUrl = "";
+        UserRealmObject userRealmObject = realm.where((UserRealmObject.class)).equalTo("id", userId).findFirst();
+        if (userRealmObject != null) {
+            friendlyUrl = userRealmObject.getFriendlyUrl();
+        }
+        return friendlyUrl;
     }
 }

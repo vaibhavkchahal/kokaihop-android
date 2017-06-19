@@ -15,29 +15,23 @@ import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
 
 public class FollowersFragment extends Fragment implements UserDataListener {
 
-    static FollowersFragment fragment;
-    FragmentFollowersFollowingBinding followersBinding;
-    FollowersFollowingViewModel followersViewModel;
-    FollowersFollowingAdapter followersAdapter;
-    ArrayList<FollowingFollowerUser> followers;
+    private FragmentFollowersFollowingBinding followersBinding;
+    private FollowersFollowingViewModel followersViewModel;
+    private FollowersFollowingAdapter followersAdapter;
+    private ArrayList<FollowingFollowerUser> followers;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private String userId;
 
     public FollowersFragment() {
         // Required empty public constructor
-    }
-
-    public static FollowersFragment getInstance() {
-        if (fragment == null) {
-            fragment = new FollowersFragment();
-        }
-        return fragment;
     }
 
     @Override
@@ -50,11 +44,12 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Bundle bundle = this.getArguments();
+        userId = bundle.getString(Constants.USER_ID);
         followersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
-
         followers = new ArrayList<>();
         FollowersFollowingList.getFollowersList().getUsers().clear();
-        followersViewModel = new FollowersFollowingViewModel(this, getContext());
+        followersViewModel = new FollowersFollowingViewModel(this, getContext(),userId);
         followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
         layoutManager = new LinearLayoutManager(this.getContext());
 

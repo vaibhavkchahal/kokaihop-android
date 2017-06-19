@@ -1,6 +1,7 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.support.constraint.ConstraintLayout;
@@ -99,18 +100,25 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
         public ViewHolder(RowProfileFollowerFollowingBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.tvUserName.setOnClickListener(this);
-            binding.userPic.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
         }
 
-        public void bind(FollowingFollowerUser followingFollowerUser) {
+        public void bind(final FollowingFollowerUser followingFollowerUser) {
             binding.setUser(followingFollowerUser);
             binding.setViewModel(followingViewModel);
             binding.executePendingBindings();
+            binding.clUserRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context,OtherUserProfileActivity.class);
+                    i.putExtra(Constants.USER_ID,followingFollowerUser.get_id());
+                    i.putExtra(Constants.FRIENDLY_URL,followingFollowerUser.getFriendlyUrl());
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }

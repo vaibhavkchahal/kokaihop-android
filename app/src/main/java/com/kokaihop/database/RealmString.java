@@ -8,22 +8,25 @@ import io.realm.RealmObject;
 
 public class RealmString extends RealmObject {
 
-    private String string;
+    private String element;
 
     public RealmString() {
     }
 
-    public RealmString(String string) {
-        this.string = string;
+    public RealmString(String element) {
+        this.element = element;
     }
 
-    public String getString() {
-        return string;
+    public String getUserId() {
+        return element;
     }
 
-    public void setString(String string) {
-        this.string = string;
+    public void setUserId(String string) {
+        this.element = string;
     }
 
-
+    @Override
+    public String toString() {
+        return element;
+    }
 }

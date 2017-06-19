@@ -13,6 +13,7 @@ public class Constants {
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String AUTHORIZATION_BEARER = "Bearer ";
     public static final String USER_ID = "userId ";
+    public static final String FRIENDLY_URL = "friendlyUrl ";
 
     //Tab Numbers
     public static final int TAB_RECIPES = 0;

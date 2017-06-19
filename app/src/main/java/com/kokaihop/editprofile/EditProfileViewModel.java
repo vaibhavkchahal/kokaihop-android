@@ -148,7 +148,7 @@ public class EditProfileViewModel extends BaseViewModel {
                         Toast.makeText(context, "Profile Picture uploaded Successfully", Toast.LENGTH_SHORT).show();
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         profileDataManager.insertOrUpdateUserData(response);
-                        profileDataManager.fetchUserData(userId);
+                        profileDataManager.fetchUserData(userId, user);
                         setProfileImage();
                         setProgressVisible(false);
                     }

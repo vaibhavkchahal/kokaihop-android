@@ -13,18 +13,13 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.userprofile.model.FollowersFollowingList;
-import com.kokaihop.userprofile.model.FollowingFollowerUser;
-import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.RecyclerViewScrollListener;
-
-import java.util.ArrayList;
 
 public class FollowingFragment extends Fragment implements UserDataListener {
 
-    private static FollowingFragment fragment;
     private FragmentFollowersFollowingBinding followingBinding;
     private FollowersFollowingAdapter followingAdapter;
-    private ArrayList<FollowingFollowerUser> followingUsers;
     private FollowersFollowingViewModel followingViewModel;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -33,17 +28,9 @@ public class FollowingFragment extends Fragment implements UserDataListener {
         // Required empty public constructor
     }
 
-    public static FollowingFragment getInstance() {
-        if (fragment == null) {
-            fragment = new FollowingFragment();
-        }
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        followingUsers = new ArrayList<>();
 
     }
 
@@ -51,7 +38,9 @@ public class FollowingFragment extends Fragment implements UserDataListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        followingViewModel = new FollowersFollowingViewModel(this, getContext());
+        Bundle bundle = this.getArguments();
+        String userId = bundle.getString(Constants.USER_ID);
+        followingViewModel = new FollowersFollowingViewModel(this, getContext(),userId);
         FollowersFollowingList.getFollowingList().getUsers().clear();
         followingAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowingList().getUsers(), followingViewModel);
         layoutManager = new LinearLayoutManager(this.getContext());
@@ -67,8 +56,6 @@ public class FollowingFragment extends Fragment implements UserDataListener {
 
     @Override
     public void showUserProfile() {
-        followingUsers = FollowersFollowingList.getFollowingList().getUsers();
-
         followingAdapter.notifyDataSetChanged();
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
