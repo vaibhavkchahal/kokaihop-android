@@ -39,8 +39,7 @@ public class ProfileDataManager {
     //    Geting the user data from the database on the basis of userId
     public User fetchUserData(String userId) {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
-        User user = getUserData(userRealmObject);
-        return user;
+        return getUserData(userRealmObject);
     }
 
     //    Setting user data obtained from database to a User Model object
