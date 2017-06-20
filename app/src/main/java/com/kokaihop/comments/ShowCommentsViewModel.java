@@ -14,7 +14,6 @@ import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
-import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import org.json.JSONArray;
@@ -134,26 +133,52 @@ public class ShowCommentsViewModel extends BaseViewModel {
                 requestParams.setReplyId(null);
                 setProgressVisible(true);
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
-                    @Override
-                    public void onSuccess(Object response) {
-                        CommentRealmObject commentRealmObject = (CommentRealmObject) response;
-                        setProgressVisible(false);
-//                        fetchCommentFromServer(0, getMax(), true);
-//                        recipeDataManager.insertCommentRealmObject(recipeID, commentRealmObject);
-//                        fetchCommentsFromDB();
-                        Logger.d("post comment response", response.toString());
-                    }
+                            @Override
+                            public void onSuccess(Object response) {
+                                ResponseBody responseBody = (ResponseBody) response;
+                                try {
+                                    JSONObject commentJsonObject = new JSONObject(responseBody.string());
+                                    recipeDataManager.insertCommentRealmObject(recipeID, commentJsonObject);
+                                    fetchCommentsFromDB();
+//                    Logger.i("comment count -->", "" + recipeRealmObject.getComments().size());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(String message) {
-                        setProgressVisible(false);
-                    }
+                            @Override
+                            public void onFailure(String message) {
+                            }
 
-                    @Override
-                    public void onError(Object response) {
-                        setProgressVisible(false);
-                    }
-                });
+                            @Override
+                            public void onError(Object response) {
+                            }
+                        });
+
+//                }
+//                new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
+//                    @Override
+//                    public void onSuccess(Object response) {
+//                        CommentRealmObject commentRealmObject = (CommentRealmObject) response;
+//                        setProgressVisible(false);
+////                        fetchCommentFromServer(0, getMax(), true);
+////                        recipeDataManager.insertCommentRealmObject(recipeID, commentRealmObject);
+////                        fetchCommentsFromDB();
+//                        Logger.d("post comment response", response.toString());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(String message) {
+//                        setProgressVisible(false);
+//                    }
+//
+//                    @Override
+//                    public void onError(Object response) {
+//                        setProgressVisible(false);
+//                    }
+//                });
             } else {
                 Toast.makeText(view.getContext(), R.string.empty_comment_msg, Toast.LENGTH_SHORT).show();
             }

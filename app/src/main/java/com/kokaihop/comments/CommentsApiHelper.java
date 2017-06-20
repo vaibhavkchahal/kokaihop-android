@@ -1,6 +1,5 @@
 package com.kokaihop.comments;
 
-import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
@@ -26,7 +25,7 @@ public class CommentsApiHelper {
     }
 
     public void postComment(String accessToken,PostCommentRequestParams requestParams, final IApiRequestComplete successInterface) {
-        Call<CommentRealmObject> postCommentResponseCall = commentsApi.postComment(accessToken,requestParams);
-        postCommentResponseCall.enqueue(new ResponseHandler<CommentRealmObject>(successInterface));
+        Call<ResponseBody> postCommentResponseCall = commentsApi.postComment(accessToken,requestParams);
+        postCommentResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 }

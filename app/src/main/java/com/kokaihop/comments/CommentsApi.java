@@ -1,7 +1,5 @@
 package com.kokaihop.comments;
 
-import com.kokaihop.database.CommentRealmObject;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,7 +19,7 @@ public interface CommentsApi {
                                        @Query("recipeId") String recipeId, @Query("typeFilter") String typeFilter);
 
     @POST("v1/api/comments")
-    Call<CommentRealmObject> postComment(@Header("Authorization") String authorization,
+    Call<ResponseBody> postComment(@Header("Authorization") String authorization,
                                          @Body PostCommentRequestParams request);
 
 

@@ -243,14 +243,14 @@ public class RecipeDataManager {
     }
 
 
-    public void insertCommentRealmObject(final String recipeID, final CommentRealmObject object) {
+    public void insertCommentRealmObject(final String recipeID, final JSONObject commentObject) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
-                CommentRealmObject commentRealmObject = realm.createObject(CommentRealmObject.class, object);
-                recipeRealmObject.getComments().add(0,commentRealmObject);
+                CommentRealmObject commentRealmObject = realm.createOrUpdateObjectFromJson(CommentRealmObject.class, commentObject);
+                recipeRealmObject.getComments().add(0, commentRealmObject);
             }
         });
     }
