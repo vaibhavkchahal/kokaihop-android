@@ -11,10 +11,12 @@ import io.realm.annotations.PrimaryKey;
 
 public class CookingMethod extends RealmObject {
 
-   @PrimaryKey @SerializedName("id")
+   @SerializedName("id")
     private String id="";
     @SerializedName("name")
     private String name="";
+    @PrimaryKey  @SerializedName("friendlyUrl")
+    private String friendlyUrl;
 
     public String getId() {
         return id;
@@ -30,5 +32,9 @@ public class CookingMethod extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFriendlyUrl() {
+        return friendlyUrl;
     }
 }
