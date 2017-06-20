@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.search.SearchViewModel"/>
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.kokaihop.search.SearchActivity"
+        tools:showIn="@layout/activity_search">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="54dp"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+        >
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/search_tag"
+                android:maxLines="1"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:gravity="center"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+                android:text="@string/label_course"
+                />
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/search_tag"
+                android:maxLines="1"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:gravity="center"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+                android:text="@string/label_cuisine"
+            />
+
+            <TextView
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:background="@drawable/search_tag"
+                android:maxLines="1"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:gravity="center"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+                android:text="@string/label_method"
+            />
+
+
+            <LinearLayout android:layout_width="43.5dp"
+                          android:layout_height="30dp"
+                          android:layout_marginLeft="6dp"
+                          android:padding="@dimen/txtview_category_padding_top"
+                          android:background="@drawable/search_tag"
+                          android:gravity="center"
+            >
+                <ImageView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_picture_unselected"
+                />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="43.5dp"
+                          android:layout_height="30dp"
+                          android:layout_marginLeft="6dp"
+                          android:padding="@dimen/txtview_category_padding_top"
+                          android:background="@drawable/search_tag"
+                          android:gravity="center"
+
+            >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_sortby_sm"
+
+                />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_recent_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+        >
+
+
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/img_new_recipes"
+                      android:gravity="center"
+                      android:orientation="vertical"
+        >
+            <TextView android:id="@+id/textview_newly_added"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="@string/newly_added_recipe"
+                      android:textColor="@color/black_FF262F40"
+                      android:textSize="17sp"
+                      app:font="@{`SS-ProSemiBold`}"
+            />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/explore_now"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                app:font="@{`SS-ProSemiBold`}"
+            />
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_main_course"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/progressBar_bottom"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/recycler_item_space"
+            android:layout_marginLeft="@dimen/card_left_right_margin"
+            android:layout_marginRight="@dimen/card_left_right_margin"
+            tools:context="com.kokaihop.feed.MainCourseFragment">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+</layout>

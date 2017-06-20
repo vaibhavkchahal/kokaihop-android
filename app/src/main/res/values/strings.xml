@@ -171,4 +171,12 @@
     <string name="something_went_wrong">Something went wrong. Please try again!!!</string>
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="newly_added_recipe"><b>Newely Added Recipe</b></string>
+    <string name="explore_now"><b>Explore Now</b></string>
+
+    <string name="label_course">Course</string>
+    <string name="label_cuisine">Cuisine</string>
+    <string name="label_method">Method</string>
+
 </resources>
