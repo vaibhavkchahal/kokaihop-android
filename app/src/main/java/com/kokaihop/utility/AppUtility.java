@@ -30,7 +30,6 @@ public class AppUtility {
         ((Activity) context).finish();
     }
 
-
     public static Point getDisplayPoint(Context context) {
         Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
         Point size = new Point();

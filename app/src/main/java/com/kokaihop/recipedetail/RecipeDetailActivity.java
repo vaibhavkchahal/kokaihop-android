@@ -129,7 +129,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         case EXPANDED:
                             toggleLeftRightVisibility(viewPager.getCurrentItem());
                             imageViewBlurred.setVisibility(View.INVISIBLE);
-
                             break;
                         case SCROLL_DOWN:
                             imageViewBlurred.setVisibility(View.INVISIBLE);
@@ -220,7 +219,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             @Override
             public void onPageSelected(int position) {
                 toggleLeftRightVisibility(position);
-
                 txtviewPagerProgress.setText(position + 1 + "/" + recipeDetailViewModel.getPagerImages().size());
 
             }
@@ -361,7 +359,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
                 if (recipeDetailPagerAdapter.getCount() > 0) {
-
                     // Save this bitmap to a file.
                     File cache = getApplicationContext().getExternalCacheDir();
                     File sharefile = new File(cache, "recipe.jpg");
@@ -383,8 +380,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                     shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
                     shareContents.setImageFile(sharefile);
                     shareContents.share();
-
-
 //                    CameraUtils.sharePicture(this, imageUrl);
                 }
                 return true;
@@ -408,7 +403,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     @Override
     public void onRecipeDetailDataUpdate() {
-
         binding.recyclerViewRecipeDetail.getAdapter().notifyDataSetChanged();
 
     }

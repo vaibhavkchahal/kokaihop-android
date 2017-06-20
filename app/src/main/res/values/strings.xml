@@ -115,6 +115,7 @@
     </string>
     <string name="members_area">Memebers area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite</string>
+    <string name="login_comment_message">You need to logged in to comment on recipe</string>
     <string name="welcome_text">Welcome to kokaihop</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
     <string name="write_a_comment_text">Write a comment...</string>
@@ -137,7 +138,6 @@
     <!--User Settings-->
     <string name="done">Done</string>
     <string name="add_comments">Add Comments</string>
-
     <string name="settings">Settings</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
@@ -171,4 +171,5 @@
     <string name="something_went_wrong">Something went wrong. Please try again!!!</string>
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
+    <string name="empty_comment_msg">comment cannot be empty</string>
 </resources>

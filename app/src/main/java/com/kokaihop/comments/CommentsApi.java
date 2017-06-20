@@ -1,8 +1,13 @@
 package com.kokaihop.comments;
 
+import com.kokaihop.database.CommentRealmObject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -14,5 +19,10 @@ public interface CommentsApi {
     @GET("v1/api/comments/app")
     Call<ResponseBody> getCommentsList(@Query("max") int max, @Query("offset") int offset,
                                        @Query("recipeId") String recipeId, @Query("typeFilter") String typeFilter);
+
+    @POST("v1/api/comments")
+    Call<CommentRealmObject> postComment(@Header("Authorization") String authorization,
+                                         @Body PostCommentRequestParams request);
+
 
 }

@@ -160,7 +160,6 @@ public class RecipeDataManager {
         });
     }
 
-
     public void insertOrUpdateRecipe(final JSONArray jsonObject) {
         final JSONObject recipeJSONObject;
         realm.executeTransaction(new Realm.Transaction() {
@@ -215,18 +214,43 @@ public class RecipeDataManager {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
                 RealmList<CommentRealmObject> commentRealmObjects = new RealmList<>();
+                RealmList<CommentRealmObject> commentRealmObjectsUpdated = new RealmList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
                         JSONObject recipeJSONObject = (JSONObject) jsonArray.get(i);
                         Logger.d("jsonArray", jsonArray.toString());
                         CommentRealmObject commentRealmObject = realm.createOrUpdateObjectFromJson(CommentRealmObject.class, recipeJSONObject);
                         commentRealmObjects.add(commentRealmObject);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                recipeRealmObject.getComments().addAll(commentRealmObjects);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    boolean isFound = false;
+                    for (int j = 0; j < recipeRealmObject.getComments().size(); j++) {
+                        if (commentRealmObjects.get(i).get_id().equals(recipeRealmObject.getComments().get(j).get_id())) {
+                            isFound = true;
+                            break;
+                        }
+                    }
+                    if (!isFound) {
+                        commentRealmObjectsUpdated.add(commentRealmObjects.get(i));
+                    }
+                }
+                recipeRealmObject.getComments().addAll(commentRealmObjectsUpdated);
+            }
+        });
+    }
+
+
+    public void insertCommentRealmObject(final String recipeID, final CommentRealmObject object) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                        .equalTo(RECIPE_ID, recipeID).findFirst();
+                CommentRealmObject commentRealmObject = realm.createObject(CommentRealmObject.class, object);
+                recipeRealmObject.getComments().add(0,commentRealmObject);
             }
         });
     }
