@@ -45,6 +45,7 @@
         <b>Login here</b>
     </string>
     <string name="close">X</string>
+    <string name="close_label">Close</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
     <string name="cities">Select Your City</string>
@@ -172,11 +173,19 @@
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
     <string name="title_activity_search">SearchActivity</string>
-    <string name="newly_added_recipe"><b>Newely Added Recipe</b></string>
-    <string name="explore_now"><b>Explore Now</b></string>
+    <string name="newly_added_recipe">
+        <b>Newely Added Recipe</b>
+    </string>
+    <string name="explore_now">
+        <b>Explore Now</b>
+    </string>
 
     <string name="label_course">Course</string>
     <string name="label_cuisine">Cuisine</string>
     <string name="label_method">Method</string>
+    <string name="all">All</string>
+    <string name="select_course">Select Course</string>
+    <string name="select_cuisine">Select Cuisine</string>
+    <string name="select_method">Select Method</string>
 
 </resources>

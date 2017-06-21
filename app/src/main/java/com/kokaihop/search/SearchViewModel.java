@@ -1,6 +1,11 @@
 package com.kokaihop.search;
 
+import android.widget.TextView;
+
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.CategoryRealmObject;
+import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
 
@@ -8,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 
@@ -16,10 +23,15 @@ import okhttp3.ResponseBody;
  */
 
 public class SearchViewModel extends BaseViewModel {
-    SearchDataManager searchDataManager;
+    private final DataSetListener dataSetListener;
+    private SearchDataManager searchDataManager;
+    private List<FilterData> categoriesList;
+    private List<FilterData> cuisineList;
+    private List<FilterData> cookingMethodList;
 
 
-    public SearchViewModel() {
+    public SearchViewModel(DataSetListener dataSetListener) {
+        this.dataSetListener = dataSetListener;
         fetchCategories();
         fetchCookingMethods();
         fetchCuisine();
@@ -117,9 +129,82 @@ public class SearchViewModel extends BaseViewModel {
         });
     }
 
+    public void displayCategoriesList(TextView textView) {
+
+        if (categoriesList == null) {
+            categoriesList = new ArrayList<>();
+            FilterData filterDataAll = new FilterData();
+            filterDataAll.setName(textView.getContext().getString(R.string.all));
+            categoriesList.add(filterDataAll);
+
+            if (searchDataManager.getCategories() != null) {
+                for (CategoryRealmObject categoryRealmObject : searchDataManager.getCategories()
+                        ) {
+                    FilterData filterData = new FilterData();
+                    filterData.setName(categoryRealmObject.getName());
+                    filterData.setFriendlyUrl(categoryRealmObject.getFriendlyUrl());
+                    categoriesList.add(filterData);
+                }
+            }
+        } else {
+            fetchCategories();
+        }
+        dataSetListener.showFilterDialog(categoriesList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_course));
+    }
+
+    public void displayCuisineList(TextView textView) {
+
+        if (cuisineList == null) {
+            cuisineList = new ArrayList<>();
+            FilterData filterDataAll = new FilterData();
+            filterDataAll.setName(textView.getContext().getString(R.string.all));
+            cuisineList.add(filterDataAll);
+            if (searchDataManager.getCuisine() != null) {
+                for (CuisineRealmObject categoryRealmObject : searchDataManager.getCuisine()
+                        ) {
+                    FilterData filterData = new FilterData();
+                    filterData.setName(categoryRealmObject.getName());
+                    filterData.setFriendlyUrl(categoryRealmObject.getFriendlyUrl());
+                    cuisineList.add(filterData);
+                }
+            }
+        } else {
+            fetchCategories();
+        }
+        dataSetListener.showFilterDialog(cuisineList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_cuisine));
+    }
+
+    public void displayCookingMethodList(TextView textView) {
+
+        if (cookingMethodList == null) {
+            cookingMethodList = new ArrayList<>();
+            FilterData filterDataAll = new FilterData();
+            filterDataAll.setName(textView.getContext().getString(R.string.all));
+            cookingMethodList.add(filterDataAll);
+
+            if (searchDataManager.getCategories() != null) {
+                for (CategoryRealmObject categoryRealmObject : searchDataManager.getCategories()
+                        ) {
+                    FilterData filterData = new FilterData();
+                    filterData.setName(categoryRealmObject.getName());
+                    filterData.setFriendlyUrl(categoryRealmObject.getFriendlyUrl());
+                    cookingMethodList.add(filterData);
+                }
+            }
+        } else {
+            fetchCategories();
+        }
+        dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method));
+    }
+
 
     @Override
     protected void destroy() {
 
+    }
+
+
+    public interface DataSetListener {
+        void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, TextView textView, String title);
     }
 }

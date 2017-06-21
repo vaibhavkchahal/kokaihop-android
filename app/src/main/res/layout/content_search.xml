@@ -22,41 +22,47 @@
         >
             <TextView
                 android:layout_width="75dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="6dp"
-                android:background="@drawable/search_tag"
+                android:background="@drawable/search_tag_white"
                 android:maxLines="1"
                 android:padding="@dimen/txtview_category_padding_top"
                 android:gravity="center"
                 android:textColor="@color/grey_FF8D929C"
+                android:id="@+id/textview_category"
                 android:textSize="@dimen/txtview_category_textsize"
+                android:onClick="@{(v)->viewModel.displayCategoriesList(textviewCategory)}"
                 app:font="@{`SS-ProRegular`}"
                 android:text="@string/label_course"
                 />
 
             <TextView
                 android:layout_width="75dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="6dp"
-                android:background="@drawable/search_tag"
+                android:background="@drawable/search_tag_white"
+                android:id="@+id/textview_cuisine"
                 android:maxLines="1"
                 android:padding="@dimen/txtview_category_padding_top"
                 android:gravity="center"
                 android:textColor="@color/grey_FF8D929C"
                 android:textSize="@dimen/txtview_category_textsize"
+                android:onClick="@{(v)->viewModel.displayCuisineList(textviewCuisine)}"
                 app:font="@{`SS-ProRegular`}"
                 android:text="@string/label_cuisine"
             />
 
             <TextView
                 android:layout_width="75dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="6dp"
-                android:background="@drawable/search_tag"
+                android:id="@+id/textview_cooking_method"
+                android:background="@drawable/search_tag_white"
                 android:maxLines="1"
                 android:padding="@dimen/txtview_category_padding_top"
                 android:gravity="center"
                 android:textColor="@color/grey_FF8D929C"
+                android:onClick="@{(v)->viewModel.displayCookingMethodList(textviewCookingMethod)}"
                 android:textSize="@dimen/txtview_category_textsize"
                 app:font="@{`SS-ProRegular`}"
                 android:text="@string/label_method"
@@ -67,7 +73,7 @@
                           android:layout_height="30dp"
                           android:layout_marginLeft="6dp"
                           android:padding="@dimen/txtview_category_padding_top"
-                          android:background="@drawable/search_tag"
+                          android:background="@drawable/search_tag_white"
                           android:gravity="center"
             >
                 <ImageView
@@ -82,7 +88,7 @@
                           android:layout_height="30dp"
                           android:layout_marginLeft="6dp"
                           android:padding="@dimen/txtview_category_padding_top"
-                          android:background="@drawable/search_tag"
+                          android:background="@drawable/search_tag_white"
                           android:gravity="center"
 
             >
