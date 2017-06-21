@@ -59,4 +59,9 @@ public class ProfileApiHelper {
         userResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 
+    public void getCookbooksOfUser(String userId, int offset, int max, final IApiRequestComplete successInterface) {
+        Call<ResponseBody> userResponseCall = userProfileApi.getCookbooksOfUser(userId, offset, max);
+        userResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
+
 }

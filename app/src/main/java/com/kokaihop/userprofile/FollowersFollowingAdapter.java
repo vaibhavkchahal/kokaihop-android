@@ -1,5 +1,6 @@
 package com.kokaihop.userprofile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -20,7 +21,6 @@ import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
-import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
@@ -32,10 +32,10 @@ import java.util.ArrayList;
 public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFollowingAdapter.ViewHolder> {
 
     private ArrayList<FollowingFollowerUser> usersList;
-    FollowersFollowingViewModel followingViewModel;
-    RowProfileFollowerFollowingBinding binding;
-    Context context;
-    Point point;
+    private FollowersFollowingViewModel followingViewModel;
+    private RowProfileFollowerFollowingBinding binding;
+    private Context context;
+    private Point point;
 
     public FollowersFollowingAdapter(ArrayList<FollowingFollowerUser> usersList, FollowersFollowingViewModel followingViewModel) {
         this.usersList = usersList;
@@ -76,13 +76,6 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
             binding.setProfilePic(null);
             Glide.clear(binding.userPic);
         }
-        binding.userPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.e("URL",user.getProfileImage().getCloudinaryId());
-            }
-        });
-
         holder.bind(user);
         binding.executePendingBindings();
 
@@ -107,16 +100,18 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
         }
 
         public void bind(final FollowingFollowerUser followingFollowerUser) {
+
             binding.setUser(followingFollowerUser);
             binding.setViewModel(followingViewModel);
             binding.executePendingBindings();
+            final int REQUEST_CODE = 111;
             binding.clUserRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context,OtherUserProfileActivity.class);
                     i.putExtra(Constants.USER_ID,followingFollowerUser.get_id());
                     i.putExtra(Constants.FRIENDLY_URL,followingFollowerUser.getFriendlyUrl());
-                    context.startActivity(i);
+                    ((Activity)context).startActivityForResult(i, REQUEST_CODE);
                 }
             });
         }

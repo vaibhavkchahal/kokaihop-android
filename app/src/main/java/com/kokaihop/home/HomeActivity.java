@@ -146,6 +146,9 @@ public class HomeActivity extends BaseActivity {
             userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
 
         }
+        if (requestCode == 111) {
+            userProfileFragment.userViewModel.getUserData();
+        }
     }
 
     @Override

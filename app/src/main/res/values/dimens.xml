@@ -191,7 +191,7 @@
     <dimen name="user_profile_pic_size">60dp</dimen>
     <dimen name="user_main_profile_pic_margin_top">30dp</dimen>
     <dimen name="profile_ctl_height">195dp</dimen>
-    <dimen name="profile_other_ctl_height">224dp</dimen>
+    <dimen name="profile_other_ctl_height">250dp</dimen>
     <dimen name="user_profile_toolbar_margin_top">20dp</dimen>
     <dimen name="profile_toolbar_padding_right">20dp</dimen>
 

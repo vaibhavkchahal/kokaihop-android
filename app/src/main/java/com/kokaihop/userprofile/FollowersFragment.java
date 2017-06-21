@@ -3,7 +3,6 @@ package com.kokaihop.userprofile;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,7 @@ import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     private FollowersFollowingViewModel followersViewModel;
     private FollowersFollowingAdapter followersAdapter;
     private ArrayList<FollowingFollowerUser> followers;
-    private LinearLayoutManager layoutManager;
+    private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private String userId;
 
@@ -36,7 +36,6 @@ public class FollowersFragment extends Fragment implements UserDataListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
     }
 
@@ -51,7 +50,7 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         FollowersFollowingList.getFollowersList().getUsers().clear();
         followersViewModel = new FollowersFollowingViewModel(this, getContext(),userId);
         followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
-        layoutManager = new LinearLayoutManager(this.getContext());
+        layoutManager = new CustomLinearLayoutManager(this.getContext());
 
         recyclerView = followersBinding.rvFollowerFollowingList;
         recyclerView.setLayoutManager(layoutManager);
@@ -85,6 +84,8 @@ public class FollowersFragment extends Fragment implements UserDataListener {
 
     @Override
     public void followToggeled() {
-        ((UserProfileFragment) getParentFragment()).setNotificationCount();
+        if(getParentFragment() instanceof UserProfileFragment){
+            ((UserProfileFragment) getParentFragment()).setNotificationCount();
+        }
     }
 }

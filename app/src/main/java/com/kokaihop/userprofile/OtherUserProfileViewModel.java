@@ -1,11 +1,15 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +29,6 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     private String accessToken, friendlyUrl;
     private String countryCode = Constants.COUNTRY_CODE;
     private ProfileDataManager profileDataManager;
-    User otherUser;
 
 
     public OtherUserProfileViewModel(Context context, UserDataListener userDataListener) {
@@ -41,7 +44,7 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     public void getUserData(final String userId) {
         setProgressVisible(true);
-        friendlyUrl =  getFriendlyUrlFromDB(userId);
+        friendlyUrl = getFriendlyUrlFromDB(userId);
         new ProfileApiHelper().getOtherUserData(accessToken, friendlyUrl, countryCode, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
@@ -50,9 +53,7 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                     JSONObject jsonObject = new JSONObject(responseBody.string());
                     jsonObject = jsonObject.getJSONObject("user");
                     new ProfileDataManager().insertOrUpdateUserDataUsingJSON(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
                 fetchUserDataFromDB(userId);
@@ -79,5 +80,53 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     public String getFriendlyUrlFromDB(String userId) {
         return profileDataManager.getFriendlyUrlOfUser(userId);
+    }
+
+    public void onToggleFollowing(User user) {
+
+        String userId = user.get_id();
+        user.setFollowByMe(!user.isFollowByMe());
+        if (user.isFollowByMe()) {
+            User.getInstance().getFollowing().add(user.get_id());
+        } else {
+            User.getInstance().getFollowing().remove(user.get_id());
+        }
+
+        toggleFollowing(userId, user);
+        userDataListener.followToggeled();
+
+    }
+
+    private void toggleFollowing(String friendId, final User user) {
+        final boolean followByMe = user.isFollowByMe();
+        setUpApiCall();
+        ToggleFollowingRequest request = new ToggleFollowingRequest();
+        request.setFriendId(friendId);
+        request.setFollowRequest(followByMe);
+        new ProfileApiHelper().toggleFollowing(accessToken, request, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                if (followByMe) {
+                    Toast.makeText(context, R.string.follow_success, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, R.string.unfollow_success, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                user.setFollowByMe(!followByMe);
+            }
+
+            @Override
+            public void onError(Object response) {
+                user.setFollowByMe(!followByMe);
+            }
+        });
+    }
+
+    private void setUpApiCall() {
+        String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        accessToken = Constants.AUTHORIZATION_BEARER + token;
     }
 }

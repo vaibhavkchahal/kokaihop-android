@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data></data>
+    <data>
+    </data>
 <android.support.constraint.ConstraintLayout
     android:id="@+id/cl_other_user_container"
     xmlns:android="http://schemas.android.com/apk/res/android"

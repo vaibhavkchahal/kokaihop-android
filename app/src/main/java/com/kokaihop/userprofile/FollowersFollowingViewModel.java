@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
@@ -41,7 +42,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.context = context;
     }
 
-    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context,String userId) {
+    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context, String userId) {
         this.max = 20;
         this.offset = 0;
         this.userDataListener = userDataListener;
@@ -197,9 +198,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (checkBox.isChecked()) {
-                    Toast.makeText(context, "Follow Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.follow_success, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Unfollow Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.unfollow_success, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -240,7 +241,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
         String userId = user.get_id();
 
-        if (((CheckBox) checkbox).isChecked()) {
+        if (checkbox.isChecked()) {
             User.getInstance().getFollowing().add(user.get_id());
         } else {
             User.getInstance().getFollowing().remove(user.get_id());
@@ -256,5 +257,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     public void setTotalFollowers(int totalFollowers) {
         this.totalFollowers = totalFollowers;
+    }
+
+    public UserDataListener getUserDataListener() {
+        return userDataListener;
+    }
+
+    public void setUserDataListener(UserDataListener userDataListener) {
+        this.userDataListener = userDataListener;
     }
 }

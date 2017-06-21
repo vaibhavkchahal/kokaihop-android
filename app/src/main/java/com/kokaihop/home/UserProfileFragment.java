@@ -55,8 +55,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     private ViewGroup container;
     private Point point;
     private TabLayout tabLayout;
-    private int selectedTabPosition = 0;
+    int selectedTabPosition = 0;
     private Bundle bundle = new Bundle();
+    ProfileAdapter adapter;
 
     ArrayList<NotificationCount> notificationCount;
 
@@ -155,7 +156,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
 //        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
-        ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+        adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         setUpFragmentArguments();
 
         RecipeFragment recipeFragment = new RecipeFragment();
@@ -298,5 +299,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 }
             }
         });
+    }
+
+    public TabLayout getTabLayout() {
+        return tabLayout;
     }
 }

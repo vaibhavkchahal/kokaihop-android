@@ -3,7 +3,6 @@ package com.kokaihop.userprofile;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +13,15 @@ import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
 import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
 public class FollowingFragment extends Fragment implements UserDataListener {
 
     private FragmentFollowersFollowingBinding followingBinding;
     private FollowersFollowingAdapter followingAdapter;
-    private FollowersFollowingViewModel followingViewModel;
-    private LinearLayoutManager layoutManager;
+    public FollowersFollowingViewModel followingViewModel;
+    private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
 
     public FollowingFragment() {
@@ -43,7 +43,7 @@ public class FollowingFragment extends Fragment implements UserDataListener {
         followingViewModel = new FollowersFollowingViewModel(this, getContext(),userId);
         FollowersFollowingList.getFollowingList().getUsers().clear();
         followingAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowingList().getUsers(), followingViewModel);
-        layoutManager = new LinearLayoutManager(this.getContext());
+        layoutManager = new CustomLinearLayoutManager(this.getContext());
 
         followingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
         recyclerView = followingBinding.rvFollowerFollowingList;
@@ -72,6 +72,11 @@ public class FollowingFragment extends Fragment implements UserDataListener {
 
     @Override
     public void followToggeled() {
-        ((UserProfileFragment) getParentFragment()).setNotificationCount();
+        if(getParentFragment() instanceof  UserProfileFragment){
+            ((UserProfileFragment) getParentFragment()).setNotificationCount();
+        }else{
+            ((OtherUserProfileFragment) getParentFragment()).setNotificationCount();
+
+        }
     }
 }

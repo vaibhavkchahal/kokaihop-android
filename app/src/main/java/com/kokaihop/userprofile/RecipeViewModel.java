@@ -89,7 +89,6 @@ public class RecipeViewModel extends BaseViewModel {
 //        final String userId = "56387aa81e443c0300c5a4b5";
 
         setOffset(offset);
-        setDownloading(isDownloading);
         setProgressVisible(true);
         if (isDownloading) {
             new ProfileApiHelper().getRecipesOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {

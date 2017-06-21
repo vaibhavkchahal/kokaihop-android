@@ -51,6 +51,11 @@ public interface UserProfileApi {
                                         @Query("offset") int offset,
                                         @Query("max") int max);
 
+    @GET("v1/api/recipeCollections/{userId}/getUserCollections")
+    Call<ResponseBody> getCookbooksOfUser(@Path("userId") String userId,
+                                        @Query("offset") int offset,
+                                        @Query("max") int max);
+
     @PUT("v1/api/users/updateLogoutDetails")
     Call<LogoutResponse> logoutUser(@Header("Authorization") String authorization);
 

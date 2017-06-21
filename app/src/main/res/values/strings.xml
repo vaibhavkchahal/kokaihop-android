@@ -171,4 +171,10 @@
     <string name="something_went_wrong">Something went wrong. Please try again!!!</string>
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
+    <string name="follow_success">Follow Successful</string>
+    <string name="unfollow_success">Unfollow Successful</string>
+
+
+    <string name="recipe">"Recipe(s) "</string>
+    <string name="by">"By "</string>
 </resources>
