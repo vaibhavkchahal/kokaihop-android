@@ -145,6 +145,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
             recipeRealmObject.setRating(new RatingRealmObject());
         }
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
+        recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         addIngredients(recipeRealmObject);
@@ -166,6 +167,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
             }
         }
     }
+
 
     private void addIngredients(RecipeRealmObject recipeRealmObject) {
         if (!recipeRealmObject.getIngredients().isEmpty()) {

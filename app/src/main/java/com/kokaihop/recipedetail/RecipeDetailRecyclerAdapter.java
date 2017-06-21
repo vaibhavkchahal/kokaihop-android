@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
@@ -118,7 +119,9 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             case TYPE_ITEM_RECIPE_MAIN_HEADER:
                 ViewHolderMainHeader holderMainHeader = (ViewHolderMainHeader) holder;
                 RecipeDetailHeader recipeDetailHeader = (RecipeDetailHeader) recipeDetailItemsList.get(position);
+                RatingBar ratingBar = holderMainHeader.binder.ratingBar;
                 holderMainHeader.binder.setModel(recipeDetailHeader);
+                holderMainHeader.binder.setRatingHandler(new RecipeRatingHandler(ratingBar, recipeDetailHeader));
                 holderMainHeader.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:

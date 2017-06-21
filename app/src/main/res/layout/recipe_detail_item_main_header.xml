@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeDetailHeader"/>
+        <variable name="ratingHandler" type="com.kokaihop.recipedetail.RecipeRatingHandler"/>
         <import type="android.text.TextUtils"/>
         <variable name="badgeType" type="com.kokaihop.utility.ApiConstants.BadgeType"/>
     </data>
@@ -13,8 +14,8 @@
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/recipe_detail_top_header_padding_bottom"
                     android:background="@color/white"
+                    android:paddingBottom="@dimen/recipe_detail_top_header_padding_bottom"
                     android:paddingLeft="@dimen/recipe_detail_top_header_pading_left">
 
 
@@ -23,12 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/recipe_detail_rating_bar_height"
             android:layout_marginTop="@dimen/recipe_detai_rating_bar_margin_top"
-            android:isIndicator="true"
+            android:isIndicator="false"
             android:numStars="5"
             android:progressDrawable="@drawable/recipe_rating_bar"
             android:rating="@{model.rating}"
-            android:saveEnabled="false"
-            android:stepSize="0.01"/>
+            android:stepSize="1"/>
 
 
         <TextView

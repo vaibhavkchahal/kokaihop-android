@@ -10,6 +10,7 @@ public class RecipeDetailHeader {
     private String title;
     private String badgeType;
     private String description;
+    private String recipeId;
 
     public RecipeDetailHeader(float rating, String title, String badgeType, String description) {
         this.rating = rating;
@@ -48,5 +49,13 @@ public class RecipeDetailHeader {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(String recipeId) {
+        this.recipeId = recipeId;
     }
 }
