@@ -11,9 +11,9 @@ public class RatingRequestParams {
     private String recipeId;
 
     @SerializedName("rating")
-    private float rating;
+    private int rating;
 
-    public RatingRequestParams(String recipeId, float rating) {
+    public RatingRequestParams(String recipeId, int rating) {
         this.recipeId = recipeId;
         this.rating = rating;
     }

@@ -41,11 +41,11 @@ public class RecipeRatingHandler {
 
     private void updateRecipeRating(final RatingBar ratingBar, final RecipeDetailHeader recipeDetailHeader) {
         String accessTokenBearer = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(ratingBar.getContext(), Constants.ACCESS_TOKEN);
-        new RecipeDetailApiHelper().rateRecipe(accessTokenBearer, new RatingRequestParams(recipeDetailHeader.getRecipeId(), ratingBar.getRating()), new IApiRequestComplete() {
+        new RecipeDetailApiHelper().rateRecipe(accessTokenBearer, new RatingRequestParams(recipeDetailHeader.getRecipeId(), (int) ratingBar.getRating()), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 Context context = ratingBar.getContext();
-                showRateSucessDialog(context, context.getString(R.string.rating_dialog_text) + ratingBar.getRating());
+                showRateSucessDialog(context, context.getString(R.string.rating_dialog_text) + " " + (int) ratingBar.getRating());
                 ratingBar.setRating(recipeDetailHeader.getRating());
             }
 

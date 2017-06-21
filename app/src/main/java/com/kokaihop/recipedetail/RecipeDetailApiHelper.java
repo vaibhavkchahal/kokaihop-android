@@ -24,9 +24,9 @@ public class RecipeDetailApiHelper {
 
     }
 
-    public void rateRecipe(String accessToken,RatingRequestParams requestParams, final IApiRequestComplete successCallback) {
+    public void rateRecipe(String accessToken, RatingRequestParams requestParams, final IApiRequestComplete successCallback) {
         RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
-        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.rateRecipe(accessToken,requestParams);
+        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.rateRecipe(accessToken, requestParams);
         recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
 
     }
