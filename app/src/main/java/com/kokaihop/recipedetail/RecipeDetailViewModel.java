@@ -95,9 +95,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             }
         });
-
     }
-
 
     private void fetchSimilarRecipe(String recipeFriendlyUrl, int limit, String title) {
         new RecipeDetailApiHelper().getSimilarRecipe(recipeFriendlyUrl, limit, title, new IApiRequestComplete() {
@@ -210,9 +208,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         commentsHeading.setRecipeId(recipeID);
         recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
-            if (!NetworkUtils.isNetworkConnected(context) && i == 3) {
+            if (!NetworkUtils.isNetworkConnected(context) || i == 3) {
                 break;
-
             }
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
@@ -264,6 +261,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public void openCookBookScreen() {
         context.startActivity(new Intent(context, CookBookActivity.class));
+    }
+
+    public void updateComments() {
+        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+        prepareRecipeDetailList(recipeRealmObject);
+        dataSetListener.onRecipeDetailDataUpdate();
     }
 
     @Override

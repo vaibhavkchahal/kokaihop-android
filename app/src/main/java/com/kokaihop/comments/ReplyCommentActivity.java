@@ -17,7 +17,7 @@ import com.kokaihop.utility.NetworkUtils;
  * Created by Vaibhav Chahal on 14/6/17.
  */
 
-public class ShowAllCommentsActivity extends BaseActivity implements ShowCommentsViewModel.CommentDatasetListener {
+public class ReplyCommentActivity extends BaseActivity implements ShowCommentsViewModel.CommentDatasetListener {
 
     private ShowCommentsViewModel showCommentsViewModel;
     private ActivityCommentsBinding binding;
@@ -26,8 +26,8 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_comments);
-        String recipeID = getIntent().getStringExtra("recipeId");
-        showCommentsViewModel = new ShowCommentsViewModel(recipeID, this);
+        String CommentId = getIntent().getStringExtra("CommentId");
+        showCommentsViewModel = new ShowCommentsViewModel(CommentId, this);
         binding.setViewModel(showCommentsViewModel);
         initializeRecycleView();
         initializePullToRefresh();
@@ -37,9 +37,9 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!NetworkUtils.isNetworkConnected(ShowAllCommentsActivity.this)) {
+                if (!NetworkUtils.isNetworkConnected(ReplyCommentActivity.this)) {
                     binding.swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(ShowAllCommentsActivity.this, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReplyCommentActivity.this, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
                 }
                 if (showCommentsViewModel.getOffset() < showCommentsViewModel.getTotalCommentCount()) {
                     binding.swipeRefreshLayout.setEnabled(true);

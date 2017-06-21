@@ -97,6 +97,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public void onStart() {
         super.onStart();
+        binding.getViewModel().updateComments();
         binding.getViewModel().addOnPropertyChangedCallback(propertyChangedCallback);
     }
 
@@ -414,4 +415,5 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
         }
     }
+
 }

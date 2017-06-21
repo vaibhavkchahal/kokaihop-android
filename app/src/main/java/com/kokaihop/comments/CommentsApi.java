@@ -6,6 +6,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -21,6 +22,9 @@ public interface CommentsApi {
     @POST("v1/api/comments")
     Call<ResponseBody> postComment(@Header("Authorization") String authorization,
                                          @Body PostCommentRequestParams request);
+
+    @GET("v1/api/comments/{commentId}")
+    Call<ResponseBody> getCommentInfo(@Path("{commentId}") String commentId);
 
 
 }

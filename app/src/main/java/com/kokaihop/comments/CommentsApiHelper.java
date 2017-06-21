@@ -28,4 +28,9 @@ public class CommentsApiHelper {
         Call<ResponseBody> postCommentResponseCall = commentsApi.postComment(accessToken,requestParams);
         postCommentResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
+
+    public void fetchSingleCommentInfo(String commentId, final IApiRequestComplete successInterface) {
+        Call<ResponseBody> commentResponseCall = commentsApi.getCommentInfo(commentId);
+        commentResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
 }

@@ -127,7 +127,6 @@ public class RecipeDataManager {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipe.get_id()).findFirst();
                 recipeRealmObject.getCounter().setLikes(likes);
-
             }
         });
     }
@@ -249,11 +248,14 @@ public class RecipeDataManager {
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                         .equalTo(RECIPE_ID, recipeID).findFirst();
+                long commentCount = recipeRealmObject.getCounter().getComments() + 1;
+                recipeRealmObject.getCounter().setComments(commentCount);
                 CommentRealmObject commentRealmObject = realm.createOrUpdateObjectFromJson(CommentRealmObject.class, commentObject);
                 recipeRealmObject.getComments().add(0, commentRealmObject);
             }
         });
     }
+
 }
 
 
