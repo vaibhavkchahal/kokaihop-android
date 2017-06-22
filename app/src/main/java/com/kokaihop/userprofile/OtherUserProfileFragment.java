@@ -127,19 +127,19 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             setUpFragmentArguments();
             RecipeFragment recipeFragment = new RecipeFragment();
             recipeFragment.setArguments(bundle);
-            adapter.addFrag(recipeFragment, "Recipes");
+            adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
 
             CookbooksFragment cookbooksFragment = new CookbooksFragment();
             cookbooksFragment.setArguments(bundle);
-            adapter.addFrag(cookbooksFragment, "History");
+            adapter.addFrag(cookbooksFragment, getActivity().getString(R.string.tab_cookbooks));
 
             FollowersFragment followersFragment = new FollowersFragment();
             followersFragment.setArguments(bundle);
-            adapter.addFrag(followersFragment, "Followers");
+            adapter.addFrag(followersFragment,getActivity().getString(R.string.tab_followers));
 
             FollowingFragment followingFragment = new FollowingFragment();
             followingFragment.setArguments(bundle);
-            adapter.addFrag(followingFragment, "Following");
+            adapter.addFrag(followingFragment, getActivity().getString(R.string.tab_following));
 
             viewPager.setAdapter(adapter);
             viewPager.setOffscreenPageLimit(tabCount);

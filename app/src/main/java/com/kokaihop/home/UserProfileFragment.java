@@ -161,19 +161,19 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
         RecipeFragment recipeFragment = new RecipeFragment();
         recipeFragment.setArguments(bundle);
-        adapter.addFrag(recipeFragment, "Recipes");
+        adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
 
         FollowersFragment followersFragment = new FollowersFragment();
         followersFragment.setArguments(bundle);
-        adapter.addFrag(followersFragment, "Followers");
+        adapter.addFrag(followersFragment, getActivity().getString(R.string.tab_followers));
 
         FollowingFragment followingFragment = new FollowingFragment();
         followingFragment.setArguments(bundle);
-        adapter.addFrag(followingFragment, "Following");
+        adapter.addFrag(followingFragment, getActivity().getString(R.string.tab_following));
 
         HistoryFragment historyFragment = new HistoryFragment();
         historyFragment.setArguments(bundle);
-        adapter.addFrag(historyFragment, "History");
+        adapter.addFrag(historyFragment, getActivity().getString(R.string.tab_history));
 
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
