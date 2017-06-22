@@ -19,62 +19,68 @@
                       android:layout_height="54dp"
                       android:gravity="center_vertical"
                       android:orientation="horizontal"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                      android:weightSum="4"
         >
             <TextView
-                android:layout_width="75dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="6dp"
-                android:background="@drawable/search_tag_white"
-                android:maxLines="1"
-                android:padding="@dimen/txtview_category_padding_top"
-                android:gravity="center"
-                android:textColor="@color/grey_FF8D929C"
                 android:id="@+id/textview_category"
-                android:textSize="@dimen/txtview_category_textsize"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_tag_white"
+                android:gravity="center"
+                android:maxLines="1"
                 android:onClick="@{(v)->viewModel.displayCategoriesList(textviewCategory)}"
-                app:font="@{`SS-ProRegular`}"
+                android:padding="@dimen/txtview_category_padding_top"
                 android:text="@string/label_course"
-                />
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
 
             <TextView
-                android:layout_width="75dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="6dp"
-                android:background="@drawable/search_tag_white"
                 android:id="@+id/textview_cuisine"
-                android:maxLines="1"
-                android:padding="@dimen/txtview_category_padding_top"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_tag_white"
                 android:gravity="center"
+                android:maxLines="1"
+                android:onClick="@{(v)->viewModel.displayCuisineList(textviewCuisine)}"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:text="@string/label_cuisine"
                 android:textColor="@color/grey_FF8D929C"
                 android:textSize="@dimen/txtview_category_textsize"
-                android:onClick="@{(v)->viewModel.displayCuisineList(textviewCuisine)}"
                 app:font="@{`SS-ProRegular`}"
-                android:text="@string/label_cuisine"
             />
 
             <TextView
-                android:layout_width="75dp"
+                android:id="@+id/textview_cooking_method"
+                android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="6dp"
-                android:id="@+id/textview_cooking_method"
+                android:layout_weight="1"
                 android:background="@drawable/search_tag_white"
-                android:maxLines="1"
-                android:padding="@dimen/txtview_category_padding_top"
                 android:gravity="center"
-                android:textColor="@color/grey_FF8D929C"
+                android:maxLines="1"
                 android:onClick="@{(v)->viewModel.displayCookingMethodList(textviewCookingMethod)}"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:text="@string/label_method"
+                android:textColor="@color/grey_FF8D929C"
                 android:textSize="@dimen/txtview_category_textsize"
                 app:font="@{`SS-ProRegular`}"
-                android:text="@string/label_method"
             />
 
 
-            <LinearLayout android:layout_width="43.5dp"
+            <LinearLayout android:layout_width="0dp"
                           android:layout_height="30dp"
                           android:layout_marginLeft="6dp"
-                          android:padding="@dimen/txtview_category_padding_top"
+                          android:layout_weight="0.5"
                           android:background="@drawable/search_tag_white"
                           android:gravity="center"
+                          android:padding="@dimen/txtview_category_padding_top"
             >
                 <ImageView
 
@@ -84,12 +90,13 @@
                 />
             </LinearLayout>
 
-            <LinearLayout android:layout_width="43.5dp"
+            <LinearLayout android:layout_width="0dp"
                           android:layout_height="30dp"
                           android:layout_marginLeft="6dp"
-                          android:padding="@dimen/txtview_category_padding_top"
+                          android:layout_weight="0.5"
                           android:background="@drawable/search_tag_white"
                           android:gravity="center"
+                          android:padding="@dimen/txtview_category_padding_top"
 
             >
                 <ImageView
@@ -107,6 +114,8 @@
             android:id="@+id/recyclerview_recent_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
         >
 
 
@@ -144,9 +153,8 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/progressBar_bottom"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/recycler_item_space"
-            android:layout_marginLeft="@dimen/card_left_right_margin"
-            android:layout_marginRight="@dimen/card_left_right_margin"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>
