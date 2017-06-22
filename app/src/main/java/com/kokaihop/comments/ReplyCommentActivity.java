@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.ActivityCommentsBinding;
+import com.altaworks.kokaihop.ui.databinding.ActivityReplyCommentBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.NetworkUtils;
 
@@ -17,20 +17,31 @@ import com.kokaihop.utility.NetworkUtils;
  * Created by Vaibhav Chahal on 14/6/17.
  */
 
-public class ReplyCommentActivity extends BaseActivity implements ShowCommentsViewModel.CommentDatasetListener {
+public class ReplyCommentActivity extends BaseActivity implements ReplyCommentViewModel.CommentDatasetListener {
 
-    private ShowCommentsViewModel showCommentsViewModel;
-    private ActivityCommentsBinding binding;
+    private ReplyCommentViewModel replyCommentViewModel;
+    private ActivityReplyCommentBinding binding;
+    private String comingFrom = "replySection";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_comments);
-        String CommentId = getIntent().getStringExtra("CommentId");
-        showCommentsViewModel = new ShowCommentsViewModel(CommentId, this);
-        binding.setViewModel(showCommentsViewModel);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_reply_comment);
+        String commentId = getIntent().getStringExtra("commentId");
+        String recipeId = getIntent().getStringExtra("recipeId");
+        replyCommentViewModel = new ReplyCommentViewModel(recipeId, commentId, this);
+        binding.setViewModel(replyCommentViewModel);
         initializeRecycleView();
         initializePullToRefresh();
+    }
+
+    private void initializeRecycleView() {
+        RecyclerView recyclerView = binding.recyclerViewCommentsList;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(comingFrom, replyCommentViewModel.getCommentsList());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     private void initializePullToRefresh() {
@@ -41,36 +52,19 @@ public class ReplyCommentActivity extends BaseActivity implements ShowCommentsVi
                     binding.swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(ReplyCommentActivity.this, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
                 }
-                if (showCommentsViewModel.getOffset() < showCommentsViewModel.getTotalCommentCount()) {
-                    binding.swipeRefreshLayout.setEnabled(true);
-                    int max = showCommentsViewModel.getMax();
-                    int offset = showCommentsViewModel.getOffset() + showCommentsViewModel.getMax();
-                    showCommentsViewModel.fetchCommentFromServer(offset, max, false);
-                    showCommentsViewModel.setOffset(offset);
-                } else {
-                    binding.swipeRefreshLayout.setEnabled(false);
-                }
+                binding.swipeRefreshLayout.setEnabled(true);
+                replyCommentViewModel.fetchCommentFromServer(false);
             }
         });
     }
 
-    private void initializeRecycleView() {
-        RecyclerView recyclerView = binding.recyclerViewCommentsList;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(showCommentsViewModel.getCommentsList());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(recyclerAdapter);
-    }
-
     @Override
-    public void onUpdateCommentsList() {
+    public void onUpdateComment() {
         RecyclerView recyclerView = binding.recyclerViewCommentsList;
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             binding.swipeRefreshLayout.setRefreshing(false);
-            recyclerView.scrollToPosition(0);
+            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount() - 1);
         }
     }
 }

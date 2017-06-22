@@ -2,6 +2,7 @@ package com.kokaihop.comments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,7 +16,6 @@ import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,34 +33,36 @@ public class ReplyCommentViewModel extends BaseViewModel {
 
     private final String TYPE_FILTER = "RECIPE_COMMENT";
     private RecipeDataManager recipeDataManager;
-    private String commentId;
+    private String commentID;
+    private String recipeID;
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private CommentDatasetListener commentListener;
+    public CommentRealmObject commentRealmObject;
 
     public List<CommentRealmObject> getCommentsList() {
         return commentsList;
     }
 
-    public ReplyCommentViewModel(String commentId, CommentDatasetListener dataSetListener) {
-        this.commentId = commentId;
+    public ReplyCommentViewModel(String recipeId, String commentId, CommentDatasetListener dataSetListener) {
+        this.recipeID = recipeId;
+        this.commentID = commentId;
         recipeDataManager = new RecipeDataManager();
         this.commentListener = dataSetListener;
-        fetchCommentsFromDB();
+        fetchCommentFromDB();
         fetchCommentFromServer(true);
     }
 
     public void fetchCommentFromServer(boolean progressVisibility) {
         setProgressVisible(progressVisibility);
-        new CommentsApiHelper().fetchSingleCommentInfo(commentId, new IApiRequestComplete() {
+        new CommentsApiHelper().fetchSingleCommentInfo(commentID, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 setProgressVisible(false);
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
-                    JSONObject json = new JSONObject(responseBody.string());
-                    JSONArray commentsJSONArray = json.getJSONArray("comments");
-//                    recipeDataManager.updateRecipeCommentList(recipeID, commentsJSONArray);
-//                    fetchCommentsFromDB();
+                    JSONObject commentsJSONObject = new JSONObject(responseBody.string());
+                    recipeDataManager.updateCommentRealmObject(commentsJSONObject);
+                    fetchCommentFromDB();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -80,25 +82,25 @@ public class ReplyCommentViewModel extends BaseViewModel {
         });
     }
 
-    private void fetchCommentsFromDB() {
-//        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+    private void fetchCommentFromDB() {
+        commentRealmObject = recipeDataManager.fetchCopyOfComment(commentID);
         commentsList.clear();
-//        commentsList.addAll(recipeRealmObject.getComments());
-//        totalCommentCount = recipeRealmObject.getCounter().getComments();
-        commentListener.onUpdateCommentsList();
+        commentsList.add(commentRealmObject);
+        commentsList.addAll(commentRealmObject.getPayload().getReplyEvents());
+        commentListener.onUpdateComment();
     }
 
 
     // post comment after checking user authentication.
-    public void postComment(View view, EditText editText) {
+    public void postReplyOnComment(View view, EditText editText) {
         Context context = view.getContext();
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
-            AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_comment_message));
+            AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_reply_on_comment_message));
         } else {
             if (!editText.getText().toString().isEmpty()) {
                 String bearerAccessToken = Constants.AUTHORIZATION_BEARER + accessToken;
-                PostCommentRequestParams requestParams = new PostCommentRequestParams();
+                PostCommentRequestParams requestParams = getPostCommentRequestParams(editText);
                 setProgressVisible(true);
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
                     @Override
@@ -107,8 +109,8 @@ public class ReplyCommentViewModel extends BaseViewModel {
                         ResponseBody responseBody = (ResponseBody) response;
                         try {
                             JSONObject commentJsonObject = new JSONObject(responseBody.string());
-                            recipeDataManager.insertCommentRealmObject(commentId, commentJsonObject);
-                            fetchCommentsFromDB();
+                            recipeDataManager.insertCommentReplyEvents(commentID, commentJsonObject);
+                            fetchCommentFromDB();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
@@ -132,13 +134,23 @@ public class ReplyCommentViewModel extends BaseViewModel {
         }
     }
 
+    @NonNull
+    private PostCommentRequestParams getPostCommentRequestParams(EditText editText) {
+        PostCommentRequestParams requestParams = new PostCommentRequestParams();
+        requestParams.setComment(editText.getText().toString());
+        editText.setText("");
+        requestParams.setType(TYPE_FILTER);
+        requestParams.setTargetId(recipeID);
+        requestParams.setReplyId(commentID);
+        return requestParams;
+    }
 
     @Override
     protected void destroy() {
     }
 
     public interface CommentDatasetListener {
-        void onUpdateCommentsList();
+        void onUpdateComment();
     }
 
     public void onBackPressed(View view) {

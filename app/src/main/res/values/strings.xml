@@ -116,6 +116,7 @@
     <string name="members_area">Memebers area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite</string>
     <string name="login_comment_message">You need to logged in to comment on recipe</string>
+    <string name="login_reply_on_comment_message">You need to logged in to reply on comment</string>
     <string name="login_rating_message">You need to logged in to rate a recipe</string>
     <string name="welcome_text">Welcome to kokaihop</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
@@ -165,6 +166,7 @@
     <string name="recipe_detail_activity_title">RecipeDetailActivity</string>
     <string name="view_all_comments">View All Comments</string>
     <string name="write_a_comment">Write a comment...</string>
+    <string name="hint_text_reply_comment">Reply to</string>
     <string name="text_send">Send</string>
     <string name="email_share_content">
         <![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
@@ -174,4 +176,5 @@
     <string name="recipe_image">Recipe Image</string>
     <string name="empty_comment_msg">comment cannot be empty</string>
     <string name="rating_dialog_text">Thanks for Rating recipe \n a</string>
+    <string name="text_reply">Reply</string>
 </resources>

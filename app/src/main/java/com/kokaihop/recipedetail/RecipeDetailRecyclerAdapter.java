@@ -17,7 +17,6 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailAddCommentsHeadingBindi
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailCommentsHeadingBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailDirectionHeadingBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailIngredientHeadingBinding;
-import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemDirectionBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemIngredentVariatorBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemIngredientBinding;
@@ -25,6 +24,7 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemIngredientSubheader
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailItemMainHeaderBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeHeadingBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBinding;
+import com.altaworks.kokaihop.ui.databinding.RecipeItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
 import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
@@ -59,9 +59,11 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private Context context;
     private PortionClickListener onPortionClickListener;
+    private String comingFrom;
 
-    public RecipeDetailRecyclerAdapter(List<Object> list) {
+    public RecipeDetailRecyclerAdapter(String comingFrom, List<Object> list) {
         recipeDetailItemsList = list;
+        this.comingFrom = comingFrom;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_specification_item, parent, false);
             return new ViewHolderItemRecipeCreator(v);
         } else if (viewType == TYPE_ITEM_COMMENT) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_item_comment, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_item_comment, parent, false);
             return new ViewHolderItemComment(v);
         } else if (viewType == TYPE_ITEM_SIMILAR_RECIPIES_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_detail_similar_recipe_item, parent, false);
@@ -204,11 +206,15 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             case TYPE_ITEM_COMMENT:
                 ViewHolderItemComment holderItemComment = (ViewHolderItemComment) holder;
                 CommentRealmObject commentRealmObject = (CommentRealmObject) recipeDetailItemsList.get(position);
-                int commentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.imgview_comment_user_image_width);
-                if (commentRealmObject.getSourceUser().getProfileImage() != null) {
-                    String commentUserImage = CloudinaryUtils.getRoundedImageUrl(commentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(commentUsetImageSize), String.valueOf(commentUsetImageSize));
-                    holderItemComment.binder.setImageUrl(commentUserImage);
+                setCommentUserImage(holderItemComment, commentRealmObject);
+                setCommentReplyInformation(holderItemComment, commentRealmObject);
+
+                if (comingFrom.contains("commentsSection") && !commentRealmObject.getPayload().getReplyEvents().isEmpty()) {
+                    holderItemComment.binder.relativeLayoutRepliedSection.setVisibility(View.VISIBLE);
+                } else {
+                    holderItemComment.binder.relativeLayoutRepliedSection.setVisibility(View.GONE);
                 }
+
                 holderItemComment.binder.setModel(commentRealmObject);
                 holderItemComment.binder.setHandler(new CommentsHandler());
                 holderItemComment.binder.executePendingBindings();
@@ -236,6 +242,27 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             default:
                 break;
 
+        }
+    }
+
+    private void setCommentUserImage(ViewHolderItemComment holderItemComment, CommentRealmObject commentRealmObject) {
+        int commentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.imgview_comment_user_image_width);
+        if (commentRealmObject.getSourceUser().getProfileImage() != null) {
+            String commentUserImage = CloudinaryUtils.getRoundedImageUrl(commentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(commentUsetImageSize), String.valueOf(commentUsetImageSize));
+            holderItemComment.binder.setImageUrl(commentUserImage);
+        }
+    }
+
+    private void setCommentReplyInformation(ViewHolderItemComment holderItemComment, CommentRealmObject commentRealmObject) {
+        if (commentRealmObject.getPayload().getReplyEvents().size() > 0) {
+            CommentRealmObject replyCommentRealmObject = commentRealmObject.getPayload().getReplyEvents().get(0);
+            int replyCommentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.reply_user_image_height_width);
+            if (commentRealmObject.getSourceUser().getProfileImage() != null) {
+                String replyCommentUserImage = CloudinaryUtils.getRoundedImageUrl(replyCommentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(replyCommentUsetImageSize), String.valueOf(replyCommentUsetImageSize));
+                holderItemComment.binder.setReplyUserImageUrl(replyCommentUserImage);
+            }
+            String replyUserName = replyCommentRealmObject.getSourceUser().getUserName();
+            holderItemComment.binder.setLatestCommentUsername(replyUserName);
         }
     }
 
@@ -394,7 +421,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     private class ViewHolderItemComment extends RecyclerView.ViewHolder {
-        public RecipeDetailItemCommentBinding binder;
+        public RecipeItemCommentBinding binder;
 
         ViewHolderItemComment(View view) {
             super(view);

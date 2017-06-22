@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.ActivityCommentsBinding;
+import com.altaworks.kokaihop.ui.databinding.ActivityShowAllCommentsBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.NetworkUtils;
 
@@ -20,12 +20,13 @@ import com.kokaihop.utility.NetworkUtils;
 public class ShowAllCommentsActivity extends BaseActivity implements ShowCommentsViewModel.CommentDatasetListener {
 
     private ShowCommentsViewModel showCommentsViewModel;
-    private ActivityCommentsBinding binding;
+    private ActivityShowAllCommentsBinding binding;
+    private String comingFrom = "commentsSection";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_comments);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_show_all_comments);
         String recipeID = getIntent().getStringExtra("recipeId");
         showCommentsViewModel = new ShowCommentsViewModel(recipeID, this);
         binding.setViewModel(showCommentsViewModel);
@@ -59,7 +60,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(showCommentsViewModel.getCommentsList());
+        ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(comingFrom,showCommentsViewModel.getCommentsList());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerAdapter);
     }

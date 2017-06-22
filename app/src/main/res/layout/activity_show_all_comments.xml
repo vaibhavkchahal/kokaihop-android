@@ -20,17 +20,6 @@
             android:gravity="center_horizontal"
             android:paddingTop="@dimen/status_bar_height">
 
-            <!--  <android.support.v7.widget.Toolbar
-                  android:id="@+id/toolbar_all_comments"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:background="@color/kokaihop_orange_color"
-                  android:minHeight="?attr/actionBarSize"
-                  android:paddingBottom="@dimen/padding_bottom_comment_toolbar"
-                  android:paddingLeft="@dimen/padding_left_comments_toolbar"
-                  android:paddingRight="@dimen/padding_right_comment_toolbar"
-                  android:paddingTop="@dimen/padding_top_comment_toolbar">-->
-
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                 <ImageView

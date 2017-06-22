@@ -15,9 +15,10 @@ public class CommentsHandler {
         context.startActivity(intent);
     }
 
-    public void openReplyScreen(Context context, String commentId) {
+    public void openReplyScreen(Context context, String commentId, String recipeId) {
         Intent intent = new Intent(context, ReplyCommentActivity.class);
         intent.putExtra("commentId", commentId);
+        intent.putExtra("recipeId", recipeId);
         context.startActivity(intent);
     }
 }

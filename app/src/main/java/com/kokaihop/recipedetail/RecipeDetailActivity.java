@@ -68,6 +68,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
     };
     private String recipeID;
+    private String comingFrom = "commentsSection";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +145,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerAdapter = new RecipeDetailRecyclerAdapter(recipeDetailViewModel.getRecipeDetailItemsList());
+        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList());
         recyclerViewRecipeDetail.setLayoutManager(layoutManager);
         recyclerAdapter.setPortionClickListener(new RecipeDetailRecyclerAdapter.PortionClickListener() {
             @Override

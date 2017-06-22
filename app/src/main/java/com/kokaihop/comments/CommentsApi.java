@@ -21,10 +21,10 @@ public interface CommentsApi {
 
     @POST("v1/api/comments")
     Call<ResponseBody> postComment(@Header("Authorization") String authorization,
-                                         @Body PostCommentRequestParams request);
+                                   @Body PostCommentRequestParams request);
 
     @GET("v1/api/comments/{commentId}")
-    Call<ResponseBody> getCommentInfo(@Path("{commentId}") String commentId);
+    Call<ResponseBody> getCommentInfo(@Path("commentId") String commentId);
 
 
 }

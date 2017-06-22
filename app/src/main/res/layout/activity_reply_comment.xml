@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.comments.ReplyCommentViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height_with_status"
+            android:background="@color/kokaihop_orange_color"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/status_bar_height">
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/toolbar_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:onClick="@{(v)-> viewModel.onBackPressed(v)}"
+                    android:src="@drawable/ic_back_arrow_white_md"
+                    android:textSize="@dimen/text_size_large"/>
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/text_comments"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_large"
+                    app:font="@{`SS-ProRegular`}"/>
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/relative_layout_reply_comment"
+            android:layout_below="@id/toolbar">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_comments_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:paddingBottom="@dimen/recyclerview_comments_padding_left_right"
+                android:paddingTop="@dimen/recyclerview_comments_padding_left_right">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_layout_reply_comment"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/send_comment_view_height"
+            android:layout_alignParentBottom="true"
+            android:elevation="@dimen/comment_send_section_elevation"
+        >
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="2dp"
+                  android:background="#80C0C0C0"/>
+            <TextView
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:onClick="@{(v) ->viewModel.postReplyOnComment(v,edittxtWriteComment)}"
+                android:paddingLeft="@dimen/send_button_left_right_padding"
+                android:paddingRight="@dimen/send_button_left_right_padding"
+                android:text="@string/text_send"
+                android:textColor="@color/orange_FFF75A15"
+                android:textSize="@dimen/textsize_send_text"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <View
+                android:id="@+id/view_separator"
+                android:layout_width="@dimen/send_section_separator_width"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/send_button"
+                android:background="#B3C0C0C0"/>
+
+            <EditText
+                android:id="@+id/edittxt_write_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/view_separator"
+                android:background="@android:color/transparent"
+                android:hint="@{@string/hint_text_reply_comment+ ` ` + viewModel.commentRealmObject.sourceUser.userName}"
+                android:textColorHint="@color/grey_FF8D929C"
+                android:textSize="@dimen/textsize_edit_comment"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </RelativeLayout>
+
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
+    </RelativeLayout>
+
+</layout>

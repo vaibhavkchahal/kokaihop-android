@@ -27,6 +27,7 @@ public class RecipeDataManager {
     private Realm realm;
 
     private static final String RECIPE_ID = "_id";
+    private static final String COMMENT_ID = "_id";
 
     public RecipeDataManager() {
         realm = Realm.getDefaultInstance();
@@ -254,6 +255,40 @@ public class RecipeDataManager {
                 recipeRealmObject.getComments().add(0, commentRealmObject);
             }
         });
+    }
+
+    public void insertCommentReplyEvents(final String commentId, final JSONObject commentObject) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                // parent comment object
+                CommentRealmObject commentRealmObject = realm.where(CommentRealmObject.class)
+                        .equalTo(COMMENT_ID, commentId).findFirst();
+                int replyCount = commentRealmObject.getPayload().getReplyCount() + 1;
+                commentRealmObject.getPayload().setReplyCount(replyCount);
+                // replied comment object
+                CommentRealmObject replyCommentRealmObject = realm.createOrUpdateObjectFromJson(CommentRealmObject.class, commentObject);
+                commentRealmObject.getPayload().getReplyEvents().add(replyCommentRealmObject);
+            }
+        });
+    }
+
+    public void updateCommentRealmObject(final JSONObject commentObject) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                CommentRealmObject commentRealmObject = realm.createOrUpdateObjectFromJson(CommentRealmObject.class, commentObject);
+                Logger.i("comment Name->", commentRealmObject.getName());
+            }
+        });
+    }
+
+
+    public CommentRealmObject fetchCopyOfComment(String commentId) {
+        //        //return the unmanaged object
+        CommentRealmObject commentRealmObject = realm.where(CommentRealmObject.class)
+                .equalTo(RECIPE_ID, commentId).findFirst();
+        return realm.copyFromRealm(commentRealmObject);
     }
 
 }
