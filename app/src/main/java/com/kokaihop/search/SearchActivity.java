@@ -19,8 +19,10 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySearchBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogSearchFilterBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.search.SearchViewModel.DataSetListener;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
+import com.kokaihop.utility.Logger;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -30,15 +32,16 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     private ActivitySearchBinding binding;
     private SearchViewModel searchViewModel;
+    private RecyclerView recyclerViewRecentSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+        initializeSearchView();
+        initialiseSuggestionView();
         searchViewModel = new SearchViewModel(this);
         binding.setViewModel(searchViewModel);
-        initializeSearchView();
         binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,6 +50,13 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         });
 
 
+    }
+
+    private void initialiseSuggestionView() {
+        recyclerViewRecentSearch = binding.included.recyclerviewRecentSearch;
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewRecentSearch.setLayoutManager(layoutManager);
+        recyclerViewRecentSearch.addItemDecoration(new HorizontalDividerItemDecoration(SearchActivity.this));
     }
 
     private void initializeSearchView() {
@@ -66,6 +76,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             mCursorDrawableRes.set(searchText, R.drawable.cursor_white); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
         } catch (Exception e) {
         }
+        binding.searchviewRecipe.setOnQueryTextListener(this);
 
     }
 
@@ -126,8 +137,32 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     @Override
+    public void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList) {
+
+        if (searchSuggestionList != null && searchSuggestionList.size() > 0) {
+            binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
+            SearchSuggestionAdapter searchSuggestionAdapter = new SearchSuggestionAdapter(searchSuggestionList,
+                    new SearchSuggestionAdapter.SuggestionDataItemClickListener() {
+                        @Override
+                        public void onItemClick(SearchSuggestionRealmObject searchSuggestionRealmObject) {
+                            Logger.e("keyword", searchSuggestionRealmObject.getKeyword());
+                        }
+                    });
+            recyclerViewRecentSearch.setAdapter(searchSuggestionAdapter);
+        } else {
+            binding.included.linearlytRecentSearch.setVisibility(View.GONE);
+
+        }
+
+
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
-        return false;
+        searchViewModel.addSearchSuggestion(query);
+        updateSearchSuggestions(searchViewModel.getSearchSuggestion());
+        binding.searchviewRecipe.clearFocus();
+        return true;
     }
 
     @Override

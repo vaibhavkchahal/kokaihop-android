@@ -72,6 +72,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <include layout="@layout/content_search"
+                 android:id="@+id/included"
                  bind:viewModel="@{viewModel}"/>
 
 

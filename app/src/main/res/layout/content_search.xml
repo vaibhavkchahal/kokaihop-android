@@ -109,17 +109,26 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout android:id="@+id/linearlyt_recent_search"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                      android:visibility="gone">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/latest_search"
+                      android:textColor="@color/grey_FFBFBFBF"
+                      android:textSize="11sp"
+            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_recent_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_recent_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-        >
-
-
-        </android.support.v7.widget.RecyclerView>
+            />
+        </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CuisineRealmObject;
+import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
 
@@ -32,10 +33,11 @@ public class SearchViewModel extends BaseViewModel {
 
     public SearchViewModel(DataSetListener dataSetListener) {
         this.dataSetListener = dataSetListener;
+        searchDataManager = new SearchDataManager();
         fetchCategories();
         fetchCookingMethods();
         fetchCuisine();
-        searchDataManager = new SearchDataManager();
+        dataSetListener.updateSearchSuggestions(getSearchSuggestion());
     }
 
 
@@ -197,6 +199,13 @@ public class SearchViewModel extends BaseViewModel {
         dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method));
     }
 
+    public void addSearchSuggestion(String keyword) {
+        searchDataManager.insertSuggestion(keyword);
+    }
+
+    public List<SearchSuggestionRealmObject> getSearchSuggestion() {
+        return searchDataManager.fetchSuggestionsKeyword();
+    }
 
     @Override
     protected void destroy() {
@@ -206,5 +215,7 @@ public class SearchViewModel extends BaseViewModel {
 
     public interface DataSetListener {
         void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, TextView textView, String title);
+
+        void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList);
     }
 }
