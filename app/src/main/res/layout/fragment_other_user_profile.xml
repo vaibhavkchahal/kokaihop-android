@@ -36,7 +36,6 @@
                     android:fitsSystemWindows="true"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-                    <!-- TODO: Set user name here -->
 
                     <android.support.design.widget.CollapsingToolbarLayout
                         android:id="@+id/collapsing_toolbar"
@@ -87,7 +86,6 @@
                                 android:fitsSystemWindows="true"
                                 app:layout_collapseMode="none">
 
-                                <!-- TODO: Set user avatar here -->
                                 <ImageView
                                     android:id="@+id/user_avatar"
                                     android:layout_width="@dimen/user_profile_pic_size"
@@ -99,7 +97,6 @@
                                     app:isCircular="@{true}"
                                     app:placeholder="@{@drawable/ic_avtar_sm}"/>
 
-                                <!-- TODO: Set user name here -->
                                 <TextView
                                     android:id="@+id/tv_user_name"
                                     android:layout_width="match_parent"
