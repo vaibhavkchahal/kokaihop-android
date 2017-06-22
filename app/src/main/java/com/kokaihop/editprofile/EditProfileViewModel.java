@@ -114,7 +114,6 @@ public class EditProfileViewModel extends BaseViewModel {
 
 
     public void uploadImageOnCloudinary(String imagePath) {
-
         HashMap<String, String> paramMap =  CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
@@ -145,7 +144,7 @@ public class EditProfileViewModel extends BaseViewModel {
                 new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
                     @Override
                     public void onSuccess(UserRealmObject response) {
-                        Toast.makeText(context, "Profile Picture uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.profile_pic_upload_success, Toast.LENGTH_SHORT).show();
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         profileDataManager.insertOrUpdateUserData(response);
                         profileDataManager.fetchUserData(userId, user);
@@ -168,13 +167,13 @@ public class EditProfileViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, "Error while updating profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.profile_pic_upload_failed, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(SettingsResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, "Error while updating profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.profile_pic_upload_failed, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -189,7 +188,7 @@ public class EditProfileViewModel extends BaseViewModel {
             public void onSuccess(SettingsResponse response) {
                 setProgressVisible(false);
                 user.setCityName(city.getLiving().getName());
-                Toast.makeText(context, "City updated successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.city_updated, Toast.LENGTH_SHORT).show();
                 ((Activity)context).finish();
             }
 
@@ -202,7 +201,7 @@ public class EditProfileViewModel extends BaseViewModel {
             @Override
             public void onError(SettingsResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, "Error while updating city", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.city_updation_failed, Toast.LENGTH_SHORT).show();
             }
         });
 

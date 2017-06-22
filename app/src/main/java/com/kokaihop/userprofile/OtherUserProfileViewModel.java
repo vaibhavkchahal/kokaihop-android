@@ -1,5 +1,6 @@
 package com.kokaihop.userprofile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -38,8 +39,8 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     }
 
     @Override
-    protected void destroy() {
-
+    public void destroy() {
+        ((Activity)context).finish();
     }
 
     public void getUserData(final String userId) {

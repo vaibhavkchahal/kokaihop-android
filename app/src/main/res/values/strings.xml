@@ -177,4 +177,8 @@
 
     <string name="recipe">"Recipe(s) "</string>
     <string name="by">"By "</string>
+    <string name="city_updated">City updated successfully</string>
+    <string name="city_updation_failed">Error while updating city</string>
+    <string name="profile_pic_upload_success">Profile Picture uploaded Successfully</string>
+    <string name="profile_pic_upload_failed">Error while updating profile picture</string>
 </resources>

@@ -202,7 +202,7 @@
     <dimen name="user_settings_divider_height">0.5dp</dimen>
     <dimen name="settings_save_margin_right">18dp</dimen>
 
-    <dimen name="profile_back_padding_top">42.9dp</dimen>
+    <dimen name="profile_back_padding_top">20dp</dimen>
     <dimen name="profile_back_padding_left">20dp</dimen>
     <dimen name="profile_back_padding_bottom">20dp</dimen>
     <dimen name="profile_back_padding_right">20dp</dimen>
