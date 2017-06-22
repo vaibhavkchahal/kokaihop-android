@@ -1,11 +1,13 @@
 package com.kokaihop.search;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +22,11 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.search.SearchViewModel.DataSetListener;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 
-public class SearchActivity extends BaseActivity implements DataSetListener {
+public class SearchActivity extends BaseActivity implements DataSetListener, SearchView.OnQueryTextListener {
 
     private ActivitySearchBinding binding;
     private SearchViewModel searchViewModel;
@@ -35,6 +38,35 @@ public class SearchActivity extends BaseActivity implements DataSetListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         searchViewModel = new SearchViewModel(this);
         binding.setViewModel(searchViewModel);
+        initializeSearchView();
+        binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
+    }
+
+    private void initializeSearchView() {
+
+        TextView searchText = (TextView)
+                binding.searchviewRecipe.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        binding.searchviewRecipe.onActionViewExpanded();
+        Typeface myCustomFont = Typeface.createFromAsset(getAssets(), "fonts/SourceSansPro-Regular.ttf");
+        searchText.setTypeface(myCustomFont);
+        searchText.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+        searchText.setHintTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+        binding.searchviewRecipe.setQueryHint(getString(R.string.search_recipes_ingredents));
+
+        try {
+            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+            mCursorDrawableRes.setAccessible(true);
+            mCursorDrawableRes.set(searchText, R.drawable.cursor_white); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
+        } catch (Exception e) {
+        }
+
     }
 
     private BottomSheetDialog setDialogConfigration(DialogSearchFilterBinding portionBinding) {
@@ -91,5 +123,15 @@ public class SearchActivity extends BaseActivity implements DataSetListener {
         });
         filterDialog.show();
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

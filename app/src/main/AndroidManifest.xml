@@ -55,7 +55,7 @@
         <activity
             android:name="com.kokaihop.city.CityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name="com.kokaihop.SplashActivity"
             android:screenOrientation="portrait">

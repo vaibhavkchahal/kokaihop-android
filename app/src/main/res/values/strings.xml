@@ -187,5 +187,6 @@
     <string name="select_course">Select Course</string>
     <string name="select_cuisine">Select Cuisine</string>
     <string name="select_method">Select Method</string>
+    <string name="search_recipes_ingredents">Search recipes or ingredients</string>
 
 </resources>
