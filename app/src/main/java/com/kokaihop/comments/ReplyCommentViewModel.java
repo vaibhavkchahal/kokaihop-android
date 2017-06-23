@@ -10,14 +10,12 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CommentRealmObject;
-import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,62 +29,40 @@ import okhttp3.ResponseBody;
  * Created by Vaibhav Chahal on 14/6/17.
  */
 
-public class ShowCommentsViewModel extends BaseViewModel {
+public class ReplyCommentViewModel extends BaseViewModel {
 
-    private int offset = 0;
-    private int max = 25;
     private final String TYPE_FILTER = "RECIPE_COMMENT";
     private RecipeDataManager recipeDataManager;
+    private String commentID;
     private String recipeID;
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private CommentDatasetListener commentListener;
-    private long totalCommentCount;
-
-    public long getTotalCommentCount() {
-        return totalCommentCount;
-    }
+    public CommentRealmObject commentRealmObject;
 
     public List<CommentRealmObject> getCommentsList() {
         return commentsList;
     }
 
-    public void setOffset(int offset) {
-        this.offset = offset;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public ShowCommentsViewModel(String recipeId, CommentDatasetListener dataSetListener) {
+    public ReplyCommentViewModel(String recipeId, String commentId, CommentDatasetListener dataSetListener) {
         this.recipeID = recipeId;
+        this.commentID = commentId;
         recipeDataManager = new RecipeDataManager();
         this.commentListener = dataSetListener;
-        fetchCommentsFromDB();
-        fetchCommentFromServer(getOffset(), getMax(), true);
+        fetchCommentFromDB();
+        fetchCommentFromServer(true);
     }
 
-    public void fetchCommentFromServer(int offset, int max, boolean progressVisibility) {
+    public void fetchCommentFromServer(boolean progressVisibility) {
         setProgressVisible(progressVisibility);
-        CommentRequestParams requestParams = new CommentRequestParams(offset, max, recipeID, TYPE_FILTER);
-        new CommentsApiHelper().fetchCommentsList(requestParams, new IApiRequestComplete() {
+        new CommentsApiHelper().fetchSingleCommentInfo(commentID, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 setProgressVisible(false);
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
-                    JSONObject json = new JSONObject(responseBody.string());
-                    JSONArray commentsJSONArray = json.getJSONArray("comments");
-                    recipeDataManager.updateRecipeCommentList(recipeID, commentsJSONArray);
-                    fetchCommentsFromDB();
+                    JSONObject commentsJSONObject = new JSONObject(responseBody.string());
+                    recipeDataManager.updateCommentRealmObject(commentsJSONObject);
+                    fetchCommentFromDB();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -106,21 +82,21 @@ public class ShowCommentsViewModel extends BaseViewModel {
         });
     }
 
-    private void fetchCommentsFromDB() {
-        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+    private void fetchCommentFromDB() {
+        commentRealmObject = recipeDataManager.fetchCopyOfComment(commentID);
         commentsList.clear();
-        commentsList.addAll(recipeRealmObject.getComments());
-        totalCommentCount = recipeRealmObject.getCounter().getComments();
-        commentListener.onUpdateCommentsList();
+        commentsList.add(commentRealmObject);
+        commentsList.addAll(commentRealmObject.getPayload().getReplyEvents());
+        commentListener.onUpdateComment();
     }
 
 
     // post comment after checking user authentication.
-    public void postComment(View view, EditText editText) {
+    public void postReplyOnComment(View view, EditText editText) {
         Context context = view.getContext();
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
-            AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_comment_message));
+            AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_reply_on_comment_message));
         } else {
             if (!editText.getText().toString().isEmpty()) {
                 String bearerAccessToken = Constants.AUTHORIZATION_BEARER + accessToken;
@@ -133,8 +109,8 @@ public class ShowCommentsViewModel extends BaseViewModel {
                         ResponseBody responseBody = (ResponseBody) response;
                         try {
                             JSONObject commentJsonObject = new JSONObject(responseBody.string());
-                            recipeDataManager.insertCommentRealmObject(recipeID, commentJsonObject);
-                            fetchCommentsFromDB();
+                            recipeDataManager.insertCommentReplyEvents(commentID, commentJsonObject);
+                            fetchCommentFromDB();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (IOException e) {
@@ -165,7 +141,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
         editText.setText("");
         requestParams.setType(TYPE_FILTER);
         requestParams.setTargetId(recipeID);
-        requestParams.setReplyId(null);
+        requestParams.setReplyId(commentID);
         return requestParams;
     }
 
@@ -174,7 +150,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
     }
 
     public interface CommentDatasetListener {
-        void onUpdateCommentsList();
+        void onUpdateComment();
     }
 
     public void onBackPressed(View view) {

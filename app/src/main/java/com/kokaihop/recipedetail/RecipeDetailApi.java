@@ -24,6 +24,10 @@ public interface RecipeDetailApi {
 
     @GET("v1/api/recipes/getSimilarRecipes")
     Call<ResponseBody> getSimilarRecipe(@Query("friendlyUrl") String recipeFriendlyUrl, @Query("limit") int limit, @Query("title") String title);
+//    https://staging-kokaihop.herokuapp.com/v1/api/recipes/setRating
+
+    @POST("v1/api/recipes/setRating")
+    Call<ResponseBody> rateRecipe(@Header("Authorization") String authorization, @Body RatingRequestParams params);
 
     @POST("v1/api/recipes/{recipeId}")
     Call<ResponseBody> updateRecipeDetail(@Header("Authorization") String authorization,

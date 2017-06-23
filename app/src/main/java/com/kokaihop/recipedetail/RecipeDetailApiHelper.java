@@ -25,10 +25,15 @@ public class RecipeDetailApiHelper {
 
     }
 
+    public void rateRecipe(String accessToken, RatingRequestParams requestParams, final IApiRequestComplete successCallback) {
+        RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
+        Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.rateRecipe(accessToken, requestParams);
+        recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
+
+    }
     public void updateRecipeDetail(String accessToken, String recipeId, RequestBody recipe, final IApiRequestComplete successCallback) {
         RecipeDetailApi recipeDetailApi = RetrofitClient.getInstance().create(RecipeDetailApi.class);
         Call<ResponseBody> recipeDetailResponseCall = recipeDetailApi.updateRecipeDetail(accessToken,recipeId, recipe);
         recipeDetailResponseCall.enqueue(new ResponseHandler<ResponseBody>(successCallback));
     }
-
 }

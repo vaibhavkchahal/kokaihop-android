@@ -59,4 +59,9 @@ public class BindingUtils {
         }
     }
 
+    /*@BindingAdapter("android:visibility")
+    public static void setVisibility(View view, Payload model) {
+
+        view.setVisibility(model.getReplyEvents().isEmpty() ? View.GONE: View.VISIBLE);
+    }*/
 }

@@ -12,7 +12,8 @@ import io.realm.annotations.PrimaryKey;
 
 public class CommentRealmObject extends RealmObject {
 
-    @PrimaryKey @SerializedName("_id")
+    @PrimaryKey
+    @SerializedName("_id")
     private String _id;
     @SerializedName("name")
     private String name;
@@ -62,6 +63,6 @@ public class CommentRealmObject extends RealmObject {
     }
 
     @SerializedName("dateCreated")
-    private  String dateCreated;
+    private String dateCreated;
 
 }

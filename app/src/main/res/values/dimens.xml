@@ -160,7 +160,6 @@
     <dimen name="feed_tab_indicator_height">2dp</dimen>
     <dimen name="feed_tab_padding_left">15dp</dimen>
     <dimen name="feed_tab_padding_right">15dp</dimen>
-    <dimen name="recycler_item_space">5dp</dimen>
     <dimen name="card_left_right_padding">15dp</dimen>
 
     <!-- profile page dimens-->
@@ -175,7 +174,8 @@
     <dimen name="settings_save_margin_bottom">15.5dp</dimen>
     <dimen name="settings_list_item_height">70dp</dimen>
     <dimen name="settings_list_item_padding_left">20dp</dimen>
-    <dimen name="card_left_right_margin">10dp</dimen>
+    <dimen name="card_left_right_margin">4dp</dimen>
+    <dimen name="recycler_item_space">4dp</dimen>
 
 
     <dimen name="user_profile_recycler_padding_horizontal">20dp</dimen>
@@ -249,6 +249,7 @@
     <dimen name="imgview_comment_user_image_height">38.1dp</dimen>
     <dimen name="txtview_coment_username_margin_left">9dp</dimen>
     <dimen name="txtview_comment_user_textsize">15sp</dimen>
+    <dimen name="txtview_reply_comment_user_textsize">12sp</dimen>
     <dimen name="txtview_coment_textsize">15sp</dimen>
     <dimen name="txtview_comment_margin_left">9dp</dimen>
     <dimen name="txtview_comment_margin_right">28dp</dimen>
@@ -364,4 +365,7 @@
     <dimen name="cookbook_login_msg1_margin_top">45dp</dimen>
     <dimen name="cookbook_avatar_margin_left">20dp</dimen>
     <dimen name="my_cookbook_row_height">100dp</dimen>
+    <dimen name="reply_user_image_height_width">25dp</dimen>
+    <dimen name="comment_reply_section_margin_left">20dp</dimen>
+
 </resources>
