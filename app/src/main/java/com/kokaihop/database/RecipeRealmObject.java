@@ -13,10 +13,11 @@ import io.realm.annotations.PrimaryKey;
 public class RecipeRealmObject extends RealmObject {
 
     @PrimaryKey
-    @SerializedName(value = "_id", alternate = {"id"})
-    private String _id;
     @SerializedName("friendlyUrl")
     private String friendlyUrl;
+
+    @SerializedName(value = "_id", alternate = {"id"})
+    private String _id;
     @SerializedName("dateCreated")
     private String dateCreated;
     @SerializedName("type")
@@ -50,6 +51,9 @@ public class RecipeRealmObject extends RealmObject {
 
     @SerializedName("coverImage")
     private String coverImage;
+
+    @SerializedName(("categoryImagePublicId"))
+    private String categoryImagePublicId;
 
     public RecipeDescription getDescription() {
         return description;
@@ -300,4 +304,11 @@ public class RecipeRealmObject extends RealmObject {
         this.cookingSteps = cookingSteps;
     }
 
+    public String getCategoryImagePublicId() {
+        return categoryImagePublicId;
+    }
+
+    public void setCategoryImagePublicId(String categoryImagePublicId) {
+        this.categoryImagePublicId = categoryImagePublicId;
+    }
 }

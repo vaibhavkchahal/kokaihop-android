@@ -4,7 +4,6 @@ import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
-import com.kokaihop.userprofile.model.User;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -27,7 +26,7 @@ public interface UserProfileApi {
                                       @Query("languageCode") String languageCode);
 
     @GET("v1/api/users/profile")
-    Call<User> getOtherUserData(@Header("Authorization") String authorization,
+    Call<ResponseBody> getOtherUserData(@Header("Authorization") String authorization,
                                 @Query("friendlyUrl") String friendlyUrl,
                                 @Query("languageCode") String languageCode);
 
@@ -49,6 +48,11 @@ public interface UserProfileApi {
 
     @GET("v1/api/recipes/getRecipesOfUser")
     Call<ResponseBody> getRecipesOfUser(@Query("userId") String userId,
+                                        @Query("offset") int offset,
+                                        @Query("max") int max);
+
+    @GET("v1/api/recipeCollections/{userId}/getUserCollections")
+    Call<ResponseBody> getCookbooksOfUser(@Path("userId") String userId,
                                         @Query("offset") int offset,
                                         @Query("max") int max);
 

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Database Bundle</string>
+    <userId name="app_name">Database Bundle</userId>
 
 </resources>

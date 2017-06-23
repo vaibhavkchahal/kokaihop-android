@@ -129,7 +129,7 @@ public class CameraUtils {
 
     //process image if the image is clicked by camera
     public static String onCaptureImageResult() {
-//        Uri imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getString(R.string.fileprovider), photo);
+//        Uri imageUri = FileProvider.getUriForFile(context, getApplicationContext().getPackageName() + context.getUserId(R.string.fileprovider), photo);
         return photo.getAbsolutePath();
     }
 
@@ -199,18 +199,18 @@ public class CameraUtils {
                     intent.setType("text/plain");
 
                     if (packageName.equals("com.twitter.android")) {
-                        intent.putExtra(Intent.EXTRA_TEXT, "share on twitter"/*resources.getString(R.string.share_twitter)*/);
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on twitter"/*resources.getUserId(R.string.share_twitter)*/);
                     } else if (packageName.equals("com.facebook.katana")) {
                         // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
                         // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
                         // will show the <meta content ="..."> text from that page with our link in Facebook.
-                        intent.putExtra(Intent.EXTRA_TEXT, "share on facebook"/*resources.getString(R.string.share_facebook)*/);
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on facebook"/*resources.getUserId(R.string.share_facebook)*/);
                     } else if (packageName.equals("com.android.mms")) {
                         intent.putExtra(Intent.EXTRA_SUBJECT,"kokaihop");
-                        intent.putExtra(Intent.EXTRA_TEXT, "share on sms"/*resources.getString(R.string.share_sms)*/);
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on sms"/*resources.getUserId(R.string.share_sms)*/);
                     } else if (packageName.equals("com.google.android.gm")) { // If Gmail shows up twice, try removing this else-if clause and the reference to "android.gm" above
-                        intent.putExtra(Intent.EXTRA_TEXT, "share on gmail"/*Html.fromHtml(resources.getString(R.string.share_email_gmail))*/);
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop share"/*resources.getString(R.string.share_email_subject)*/);
+                        intent.putExtra(Intent.EXTRA_TEXT, "share on gmail"/*Html.fromHtml(resources.getUserId(R.string.share_email_gmail))*/);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop share"/*resources.getUserId(R.string.share_email_subject)*/);
                         intent.setType("message/rfc822");
                     }
 

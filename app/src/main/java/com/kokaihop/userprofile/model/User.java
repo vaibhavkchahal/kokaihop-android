@@ -12,9 +12,10 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 17/5/17.
  */
 
-public class User extends BaseObservable{
+public class User extends BaseObservable {
 
     private static User user;
+    private static User otherUser;
 
     private String _id;
     private String friendlyUrl;
@@ -32,6 +33,8 @@ public class User extends BaseObservable{
     private CloudinaryImage coverImage;
     private int recipeCount;
     private String cityName;
+    private boolean followByMe;
+    private ArrayList<Cookbook> cookbooks = new ArrayList<>();
 
     public String get_id() {
         return _id;
@@ -57,20 +60,24 @@ public class User extends BaseObservable{
         this.email = email;
     }
 
+    @Bindable
     public ArrayList<String> getFollowers() {
         return followers;
     }
 
     public void setFollowers(ArrayList<String> followers) {
         this.followers = followers;
+        notifyPropertyChanged(BR.followers);
     }
 
+    @Bindable
     public ArrayList<String> getFollowing() {
         return following;
     }
 
     public void setFollowing(ArrayList<String> following) {
         this.following = following;
+        notifyPropertyChanged(BR.following);
     }
 
     public Settings getSettings() {
@@ -97,12 +104,14 @@ public class User extends BaseObservable{
         this.profileImage = profileImage;
     }
 
+    @Bindable
     public int getRecipesCollectionCount() {
         return recipesCollectionCount;
     }
 
     public void setRecipesCollectionCount(int recipesCollectionCount) {
         this.recipesCollectionCount = recipesCollectionCount;
+        notifyPropertyChanged(BR.recipesCollectionCount);
     }
 
     public CloudinaryImage getCoverImage() {
@@ -113,12 +122,14 @@ public class User extends BaseObservable{
         this.coverImage = coverImage;
     }
 
+    @Bindable
     public int getRecipeCount() {
         return recipeCount;
     }
 
     public void setRecipeCount(int recipeCount) {
         this.recipeCount = recipeCount;
+        notifyPropertyChanged(BR.recipeCount);
     }
 
     @Bindable
@@ -162,18 +173,30 @@ public class User extends BaseObservable{
         notifyPropertyChanged(BR.followingCount);
     }
 
-    private User(){};
+    private User() {
+    }
 
-    public static User getInstance()
-    {
-        if(user == null){
+    ;
+
+    public static User getInstance() {
+        if (user == null) {
             user = new User();
         }
         return user;
     }
 
-    public static void removeInstance()
-    {
+    public static User getOtherUser() {
+        if (otherUser == null) {
+            otherUser = new User();
+        }
+        return otherUser;
+    }
+
+    public void removeOtherUser() {
+        otherUser = null;
+    }
+
+    public static void removeInstance() {
         user = null;
     }
 
@@ -183,5 +206,23 @@ public class User extends BaseObservable{
 
     public void setRecipesList(ArrayList<Recipe> recipesList) {
         this.recipesList = recipesList;
+    }
+
+    @Bindable
+    public boolean isFollowByMe() {
+        return followByMe;
+    }
+
+    public void setFollowByMe(boolean followByMe) {
+        this.followByMe = followByMe;
+        notifyPropertyChanged(BR.followByMe);
+    }
+
+    public ArrayList<Cookbook> getCookbooks() {
+        return cookbooks;
+    }
+
+    public void setCookbooks(ArrayList<Cookbook> cookbooks) {
+        this.cookbooks = cookbooks;
     }
 }

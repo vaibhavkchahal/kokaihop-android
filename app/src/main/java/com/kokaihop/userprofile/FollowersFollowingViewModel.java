@@ -4,10 +4,10 @@ import android.content.Context;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.network.RetrofitClient;
 import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
@@ -29,7 +29,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     private UserDataListener userDataListener;
     private Context context;
-    private UserProfileApi userProfileApi;
     private String accessToken;
     private String userId;
     private boolean isDownloading = true;
@@ -43,13 +42,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.context = context;
     }
 
-    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context) {
+    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context, String userId) {
         this.max = 20;
         this.offset = 0;
         this.userDataListener = userDataListener;
         this.context = context;
-        userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         profileDataManager = new ProfileDataManager();
+        this.userId = userId;
     }
 
     public boolean isDownloading() {
@@ -180,13 +179,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     }
 
     public void fetchFollowersFromDB() {
-        ArrayList<FollowingFollowerUser> followingList;
 
         ArrayList<FollowingFollowerUser> followersList;
         followersList = profileDataManager.fetchFollowersList(userId);
         FollowersFollowingList.getFollowersList().getUsers().clear();
         FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
         userDataListener.showUserProfile();
+
     }
 
     //API call to follow or unfollow a user
@@ -199,9 +198,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (checkBox.isChecked()) {
-                    Toast.makeText(context, "Follow Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.follow_success, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(context, "Unfollow Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.unfollow_success, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -222,12 +221,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     //Seting the access token for the api calls
 
     public void setUpApiCall() {
-        userProfileApi = RetrofitClient.getInstance().create(UserProfileApi.class);
         String bearer = Constants.AUTHORIZATION_BEARER;
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         accessToken = bearer + token;
-        userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
-
         Logger.e("token : ", token);
 
 //        userId = "56387ade1a258f0300c3074e";
@@ -245,7 +241,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
         String userId = user.get_id();
 
-        if (((CheckBox) checkbox).isChecked()) {
+        if (checkbox.isChecked()) {
             User.getInstance().getFollowing().add(user.get_id());
         } else {
             User.getInstance().getFollowing().remove(user.get_id());
@@ -261,5 +257,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     public void setTotalFollowers(int totalFollowers) {
         this.totalFollowers = totalFollowers;
+    }
+
+    public UserDataListener getUserDataListener() {
+        return userDataListener;
+    }
+
+    public void setUserDataListener(UserDataListener userDataListener) {
+        this.userDataListener = userDataListener;
     }
 }

@@ -21,6 +21,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
 
     private ShowCommentsViewModel showCommentsViewModel;
     private ActivityShowAllCommentsBinding binding;
+    private String comingFrom = "commentsSection";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(showCommentsViewModel.getCommentsList());
+        ShowCommentRecyclerAdapter recyclerAdapter = new ShowCommentRecyclerAdapter(comingFrom, showCommentsViewModel.getCommentsList());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(recyclerAdapter);
     }

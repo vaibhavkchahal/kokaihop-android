@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/profile_signup_button_margin_top"
             android:background="@drawable/button_round_corner"
-            android:text="@string/sign_up_now"
+            android:text="@string/sign_up_or_login"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/profile_signup_text_medium"

@@ -1,8 +1,12 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
@@ -32,9 +36,12 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.BlurImageHelper;
+import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -46,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
+import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
 
@@ -68,6 +76,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
     };
     private String recipeID;
+    private String comingFrom = "commentsSection";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +86,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
         recipeID = getIntent().getStringExtra("recipeId");
         txtviewPagerProgress = binding.txtviewPagerProgress;
+        setupRecipeDetailScreen();
+    }
+
+    public void setupRecipeDetailScreen() {
         recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, this);
         binding.setViewModel(recipeDetailViewModel);
         setProfileImage();
@@ -86,7 +99,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         initializeRecycleView();
         setPagerData();
         setAppBarListener();
+
     }
+
+    ;
 
     private void setProfileImage() {
         int profileImageSize = getResources().getDimensionPixelOffset(R.dimen.recipe_detail_header_profile_img_height_width);
@@ -97,6 +113,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public void onStart() {
         super.onStart();
+        binding.getViewModel().updateComments();
         binding.getViewModel().addOnPropertyChangedCallback(propertyChangedCallback);
     }
 
@@ -129,7 +146,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         case EXPANDED:
                             toggleLeftRightVisibility(viewPager.getCurrentItem());
                             imageViewBlurred.setVisibility(View.INVISIBLE);
-
                             break;
                         case SCROLL_DOWN:
                             imageViewBlurred.setVisibility(View.INVISIBLE);
@@ -144,7 +160,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerAdapter = new RecipeDetailRecyclerAdapter(recipeDetailViewModel.getRecipeDetailItemsList());
+        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList());
         recyclerViewRecipeDetail.setLayoutManager(layoutManager);
         recyclerAdapter.setPortionClickListener(new RecipeDetailRecyclerAdapter.PortionClickListener() {
             @Override
@@ -220,7 +236,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             @Override
             public void onPageSelected(int position) {
                 toggleLeftRightVisibility(position);
-
                 txtviewPagerProgress.setText(position + 1 + "/" + recipeDetailViewModel.getPagerImages().size());
 
             }
@@ -361,7 +376,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
                 if (recipeDetailPagerAdapter.getCount() > 0) {
-
                     // Save this bitmap to a file.
                     File cache = getApplicationContext().getExternalCacheDir();
                     File sharefile = new File(cache, "recipe.jpg");
@@ -383,16 +397,18 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                     shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
                     shareContents.setImageFile(sharefile);
                     shareContents.share();
-
-
 //                    CameraUtils.sharePicture(this, imageUrl);
                 }
                 return true;
             case R.id.icon_camera:
-                Logger.e("Add Picture", "Menu");
+                String accessToken = SharedPrefUtils.getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                if (accessToken == null || accessToken.isEmpty()) {
+                    AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
+                } else {
+                    CameraUtils.selectImage(this);
+                }
                 return true;
             case R.id.icon_add_to_wishlist:
-                Logger.e("Add to wishlist", "Menu");
                 binding.getViewModel().openCookBookScreen();
                 return true;
             default:
@@ -408,7 +424,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     @Override
     public void onRecipeDetailDataUpdate() {
-
         binding.recyclerViewRecipeDetail.getAdapter().notifyDataSetChanged();
 
     }
@@ -420,4 +435,40 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (CameraUtils.userChoosenTask.equals(getString(R.string.take_photo)))
+                        CameraUtils.cameraIntent(this);
+                    else if (CameraUtils.userChoosenTask.equals(getString(R.string.choose_from_library)))
+                        CameraUtils.galleryIntent(this);
+                }
+                break;
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Uri imageUri;
+        String filePath;
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                    imageUri = data.getData();
+                    filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
+                } else {
+                    filePath = CameraUtils.onCaptureImageResult();
+
+                }
+                Logger.d("File Path", filePath);
+
+                //TODO : cloudinary image upload code goes here
+                recipeDetailViewModel.uploadImageOnCloudinary(filePath);
+            }
+        }
+    }
+
 }

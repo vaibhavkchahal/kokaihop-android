@@ -104,6 +104,14 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan">
         </activity>
+        <activity android:name="com.kokaihop.userprofile.OtherUserProfileActivity"
+        android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.kokaihop.comments.ReplyCommentActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/AppTheme"
+                  android:windowSoftInputMode="adjustPan">
+        </activity>
         <activity
             android:name="com.kokaihop.search.SearchActivity"
             android:label="@string/title_activity_search"

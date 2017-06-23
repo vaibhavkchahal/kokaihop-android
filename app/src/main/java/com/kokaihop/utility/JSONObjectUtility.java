@@ -1,5 +1,8 @@
 package com.kokaihop.utility;
 
+import com.google.gson.Gson;
+import com.kokaihop.database.RealmString;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +12,8 @@ import org.json.JSONObject;
  */
 
 public class JSONObjectUtility {
+
+    Gson gson = new Gson();
 
     //    update the cooking step object of the recipe.
     public JSONObject updateCookingStepsInRecipe(final JSONObject jsonObject) {
@@ -39,4 +44,33 @@ public class JSONObjectUtility {
         return jsonObject;
     }
 
+    //    remove a particular key from the JSON data
+    public JSONObject changeKeyOfJSON(final JSONObject jsonObject, String oldKey, String newKey) {
+        try {
+            jsonObject.put(newKey, jsonObject.get(oldKey));
+//            jsonObject.remove(oldKey);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public JSONObject convertStringArrayToRealmStringArray(JSONObject jsonObject, String key) {
+        JSONArray jsonArray;
+        JSONArray jsonFinalArray = new JSONArray();
+        try {
+            jsonArray = jsonObject.getJSONArray(key);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("element", new RealmString(jsonArray.getString(i)));
+                jsonFinalArray.put(jsonObj);
+            }
+            jsonObject.remove(key);
+            jsonObject.put(key, jsonFinalArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Logger.e("JSON Changed", jsonObject.toString());
+        return jsonObject;
+    }
 }

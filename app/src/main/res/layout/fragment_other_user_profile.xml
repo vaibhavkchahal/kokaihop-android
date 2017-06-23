@@ -1,127 +1,172 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
->
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
         <variable name="user" type="com.kokaihop.userprofile.model.User"/>
+        <variable name="imageCoverUrl" type="String"/>
+        <variable name="viewModel" type="com.kokaihop.userprofile.OtherUserProfileViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_profile_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/main_content"
-            android:layout_width="@dimen/constraint_match_parent"
-            android:layout_height="@dimen/constraint_match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_user_profile_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/main_content"
+                android:layout_width="@dimen/constraint_match_parent"
+                android:layout_height="@dimen/constraint_match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
 
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/appbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@mipmap/sign_up_background"
-                android:fitsSystemWindows="true"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-                <!-- TODO: Set user name here -->
-
-                <android.support.design.widget.CollapsingToolbarLayout
-                    android:id="@+id/collapsing_toolbar"
+                <android.support.design.widget.AppBarLayout
+                    android:id="@+id/appbar"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/profile_other_ctl_height"
+                    android:layout_height="wrap_content"
                     android:fitsSystemWindows="true"
-                    app:collapsedTitleGravity="center_horizontal|top"
-                    app:contentScrim="?attr/colorPrimary"
-                    app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
-                    <RelativeLayout
+                    <android.support.design.widget.CollapsingToolbarLayout
+                        android:id="@+id/collapsing_toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/profile_back_gradient"
+                        android:layout_height="@dimen/profile_other_ctl_height"
                         android:fitsSystemWindows="true"
-                        app:layout_collapseMode="none">
+                        app:collapsedTitleGravity="center_horizontal|top"
+                        app:contentScrim="?attr/colorPrimary"
+                        app:expandedTitleTextAppearance="@style/CollapsingToolbarLayoutExpandedTextStyle"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                        <!-- TODO: Set user avatar here -->
-                        <ImageView
-                            android:id="@+id/user_avatar"
-                            android:layout_width="@dimen/user_profile_pic_size"
-                            android:layout_height="@dimen/user_profile_pic_size"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
-                            android:src="@drawable/ic_avtar_sm"/>
+                        <android.support.v7.widget.Toolbar
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/toolbar_height"
+                            android:gravity="center_horizontal"
+                            android:paddingRight="@dimen/profile_toolbar_padding_right"
+                            app:layout_collapseMode="pin">
 
-                        <!-- TODO: Set user name here -->
-                        <TextView
-                            android:id="@+id/tv_user_name"
+                            <TextView android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"
+                                      android:gravity="center"
+                                      android:text="@{user.name.full}"
+                                      android:textColor="@color/white"
+                                      android:textSize="@dimen/tv_profile_user_name"
+                                      app:font="@{`SS-ProSemiBold`}"/>
+
+                        </android.support.v7.widget.Toolbar>
+
+
+                        <RelativeLayout android:id="@+id/rv_toolbar_container"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+                            <ImageView android:id="@+id/iv_profile_cover"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:scaleType="fitXY"
+                                       app:error="@{@color/grey_FFD4D4D4}"
+                                       app:imageUrl="@{imageCoverUrl}"
+                                       app:placeholder="@{@color/grey_FFD4D4D4}"/>
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/profile_back_gradient"
+                                android:fitsSystemWindows="true"
+                                app:layout_collapseMode="none">
+
+                                <ImageView
+                                    android:id="@+id/user_avatar"
+                                    android:layout_width="@dimen/user_profile_pic_size"
+                                    android:layout_height="@dimen/user_profile_pic_size"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
+                                    app:error="@{@drawable/ic_avtar_sm}"
+                                    app:imageUrl="@{user.profileImageUrl}"
+                                    app:isCircular="@{true}"
+                                    app:placeholder="@{@drawable/ic_avtar_sm}"/>
+
+                                <TextView
+                                    android:id="@+id/tv_user_name"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/user_avatar"
+                                    android:gravity="center_horizontal"
+                                    android:text="@{user.name.full}"
+                                    android:textColor="@color/white"
+                                    android:textSize="20sp"
+                                    app:font="@{`SS-ProSemiBold`}"/>
+                                <Button
+                                    android:id="@+id/btn_follow"
+                                    android:layout_width="@dimen/profile_o_follow_button_width"
+                                    android:layout_height="@dimen/profile_o_follow_button_height"
+                                    android:layout_below="@id/tv_user_name"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginTop="10dp"
+                                    android:background="@drawable/button_follow_round_corner"
+                                    android:drawableLeft="@{user.followByMe ? @drawable/ic_following_white_xs : @drawable/ic_follow_white_xs}"
+                                    android:drawablePadding="@dimen/profile_o_follow_padding_drawable"
+                                    android:onClick="@{()->viewModel.onToggleFollowing(user)}"
+                                    android:paddingLeft="@dimen/profile_o_follow_padding_left"
+                                    android:paddingRight="@dimen/profile_o_follow_padding_right"
+                                    android:text="@{user.followByMe ? @string/following : @string/follow}"
+                                    android:textSize="@dimen/profile_o_follow_text_size"
+                                    app:font="@{`SS-ProSemiBold`}"/>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                        <android.support.design.widget.TabLayout
+                            android:id="@+id/tab_profile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/user_avatar"
-                            android:gravity="center_horizontal"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"
-                            app:font="@{`SS-ProSemiBold`}"/>
-                        <Button
-                            android:id="@+id/btn_follow"
-                            android:layout_width="@dimen/profile_o_follow_button_width"
-                            android:layout_height="@dimen/profile_o_follow_button_height"
-                            android:layout_below="@id/tv_user_name"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="10dp"
-                            android:background="@drawable/button_follow_round_corner"
-                            android:drawablePadding="@dimen/profile_o_follow_padding_drawable"
-                            android:paddingLeft="@dimen/profile_o_follow_padding_left"
-                            android:paddingRight="@dimen/profile_o_follow_padding_right"
-                            android:textSize="@dimen/profile_o_follow_text_size"
-                            app:font="@{`SS-ProSemiBold`}"/>
+                            android:layout_gravity="bottom"
+                            app:layout_collapseMode="parallax"
+                            app:tabGravity="fill"
+                            app:tabIndicatorHeight="@dimen/none"
+                            app:tabTextAppearance="@style/ProfileTabLayoutText"/>
+                        <ImageView
+                            android:id="@+id/btn_settings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:paddingBottom="@dimen/profile_back_padding_bottom"
+                            android:paddingLeft="@dimen/profile_back_padding_left"
+                            android:paddingRight="@dimen/profile_back_padding_right"
+                            android:paddingTop="@dimen/profile_back_padding_top"
+                            android:onClick="@{()->viewModel.destroy()}"
+                            android:src="@drawable/ic_back_arrow_white_md"/>
+                    </android.support.design.widget.CollapsingToolbarLayout>
 
-                    </RelativeLayout>
-
-                    <android.support.v7.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:layout_marginTop="@dimen/user_profile_toolbar_margin_top"
-                        android:gravity="center_horizontal"
-                        android:paddingRight="@dimen/profile_toolbar_padding_right"
-                        app:layout_collapseMode="pin"
-                        app:title="User Name">
-                    </android.support.v7.widget.Toolbar>
-
-                    <android.support.design.widget.TabLayout
-                        android:id="@+id/tab_profile"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        app:layout_collapseMode="parallax"
-                        app:tabGravity="fill"
-                        app:tabIndicatorHeight="@dimen/none"
-                        app:tabTextAppearance="@style/ProfileTabLayoutText"/>
-                    <ImageView
-                        android:id="@+id/btn_settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:paddingBottom="@dimen/profile_back_padding_bottom"
-                        android:paddingLeft="@dimen/profile_back_padding_left"
-                        android:paddingRight="@dimen/profile_back_padding_right"
-                        android:paddingTop="@dimen/profile_back_padding_top"
-                        android:src="@drawable/ic_back_arrow_white_md"/>
-                </android.support.design.widget.CollapsingToolbarLayout>
-
-            </android.support.design.widget.AppBarLayout>
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager_profile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-        </android.support.design.widget.CoordinatorLayout>
-    </android.support.constraint.ConstraintLayout>
+                </android.support.design.widget.AppBarLayout>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            </android.support.design.widget.CoordinatorLayout>
+            <include
+                layout="@layout/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp" android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp" app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:viewModel="@{viewModel}"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

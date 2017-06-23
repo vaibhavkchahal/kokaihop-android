@@ -3,6 +3,7 @@ package com.kokaihop.recipedetail;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
@@ -14,18 +15,29 @@ import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.NetworkUtils;
+import com.kokaihop.utility.SharedPrefUtils;
+import com.kokaihop.utility.UploadImageAsync;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.RealmList;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 /**
@@ -42,6 +54,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private String recipeID;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
     private Context context;
+    private JSONObject copyJsonObject;
 
     public RealmList<RecipeDetailPagerImages> getPagerImages() {
         return pagerImages;
@@ -72,8 +85,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 try {
                     setProgressVisible(false);
                     ResponseBody responseBody = (ResponseBody) response;
-                    final JSONObject json = new JSONObject(responseBody.string());
-                    JSONObject recipeJSONObject = json.getJSONObject("recipe");
+                    final JSONObject recipeJSONObject = new JSONObject(responseBody.string()).getJSONObject("recipe");
+                    copyJsonObject = new JSONObject(recipeJSONObject.toString());
+
+                    recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeID).getTitle());
                 } catch (JSONException e) {
@@ -95,9 +110,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             }
         });
-
     }
-
 
     private void fetchSimilarRecipe(String recipeFriendlyUrl, int limit, String title) {
         new RecipeDetailApiHelper().getSimilarRecipe(recipeFriendlyUrl, limit, title, new IApiRequestComplete() {
@@ -145,6 +158,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
             recipeRealmObject.setRating(new RatingRealmObject());
         }
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
+        recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
         recipeDetailItemsList.add(new AdvtDetail());
         addIngredients(recipeRealmObject);
@@ -166,6 +180,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
             }
         }
     }
+
 
     private void addIngredients(RecipeRealmObject recipeRealmObject) {
         if (!recipeRealmObject.getIngredients().isEmpty()) {
@@ -208,9 +223,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         commentsHeading.setRecipeId(recipeID);
         recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
-            if (!NetworkUtils.isNetworkConnected(context) && i == 3) {
+            if (!NetworkUtils.isNetworkConnected(context) || i == 3) {
                 break;
-
             }
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
@@ -264,6 +278,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
         context.startActivity(new Intent(context, CookBookActivity.class));
     }
 
+    public void updateComments() {
+        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+        prepareRecipeDetailList(recipeRealmObject);
+        dataSetListener.onRecipeDetailDataUpdate();
+    }
+
     @Override
     protected void destroy() {
     }
@@ -275,5 +295,76 @@ public class RecipeDetailViewModel extends BaseViewModel {
         void onRecipeDetailDataUpdate();
 
         void onCounterUpdate();
+    }
+
+    public void uploadImageOnCloudinary(final String imagePath) {
+
+        HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
+        setProgressVisible(true);
+        UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
+            @Override
+            public void onComplete(Map<String, String> uploadResult) throws ParseException {
+                JSONArray images = new JSONArray();
+                try {
+                    if (copyJsonObject.has("recipe")) {
+                        copyJsonObject = copyJsonObject.getJSONObject("recipe");
+                    }
+                    if (copyJsonObject.has("images")) {
+                        images = copyJsonObject.getJSONArray("images");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                jsonObject.getJSONObject("")
+                JSONObject image = new JSONObject();
+                JSONObject uploader = new JSONObject();
+                try {
+                    User user = User.getInstance();
+                    uploader.put("id", SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
+                    uploader.put("friendlyUrl", user.getFriendlyUrl());
+                    if (user.getName() != null) {
+                        uploader.put("name", user.getName().getFull());
+                    }
+                    if (user.getProfileImage() != null) {
+                        uploader.put("profileImageId", user.getProfileImage().getCloudinaryId());
+                    }
+                    image.put("dateCreated", new Date().getTime());
+                    image.put("publicId", uploadResult.get("public_id"));
+                    image.put("uploader", uploader);
+                    image.put("new", true);
+                    images.put(image);
+                    copyJsonObject.put("images", images);
+                    Logger.d("imageUpload", copyJsonObject.toString());
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
+                    String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+                    new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeID, requestBody, new IApiRequestComplete() {
+                        @Override
+                        public void onSuccess(Object response) {
+                            Logger.e("image upload", "success " + response.toString());
+                            Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(String message) {
+                            Logger.e("image upload", message);
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onError(Object response) {
+                            Logger.e("image upload", "failure " + response.toString());
+                            Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ((RecipeDetailActivity)context).setupRecipeDetailScreen();
+                setProgressVisible(false);
+            }
+        });
+        uploadImageAsync.execute();
+
     }
 }

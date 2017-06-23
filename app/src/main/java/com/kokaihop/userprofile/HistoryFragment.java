@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentHistoryRecipeBinding;
 import com.kokaihop.feed.Recipe;
-import com.kokaihop.feed.RecipeDataManager;
 
 import java.util.ArrayList;
 
@@ -24,18 +23,10 @@ public class HistoryFragment extends Fragment {
     private ArrayList<Recipe> recipes;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
-    private RecipeDataManager recipeDataManager;
 
 
     public HistoryFragment() {
         // Required empty public constructor
-    }
-
-    public static HistoryFragment getInstance() {
-        if (fragment == null) {
-            fragment = new HistoryFragment();
-        }
-        return fragment;
     }
 
     @Override
@@ -49,7 +40,6 @@ public class HistoryFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
         recipes = new ArrayList<>();
         adapter = new RecipeHistoryAdapter(this, recipes);
-        recipeDataManager = new RecipeDataManager();
         adapter.displayHistoryChanges();
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;

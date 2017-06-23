@@ -9,9 +9,11 @@ import android.graphics.Point;
 import android.os.Environment;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -31,7 +33,6 @@ public class AppUtility {
         context.startActivity(intent);
         ((Activity) context).finish();
     }
-
 
     public static Point getDisplayPoint(Context context) {
         Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
@@ -99,4 +100,23 @@ public class AppUtility {
         }
         return result;
     }
+    public static int pxToDp(Context context, int px) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return dp;
+    }
+
+
+    public static void showKeyboard(View view) {
+        Activity activity = (Activity) view.getContext();
+        try {
+            InputMethodManager input = (InputMethodManager) activity
+                    .getSystemService(Activity.INPUT_METHOD_SERVICE);
+            input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
