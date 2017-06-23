@@ -132,6 +132,7 @@
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
+                      android:id="@+id/linearlyt_newly_added_recipe"
                       android:background="@drawable/img_new_recipes"
                       android:gravity="center"
                       android:orientation="vertical"
@@ -157,13 +158,13 @@
             />
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_main_course"
+            android:id="@+id/rv_recipes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/progressBar_bottom"
             android:layout_alignParentTop="true"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:layout_marginLeft="@dimen/card_left_right_margin"
+            android:layout_marginRight="@dimen/card_left_right_margin"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>

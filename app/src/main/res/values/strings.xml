@@ -189,5 +189,6 @@
     <string name="select_method">Select Method</string>
     <string name="search_recipes_ingredents">Search recipes or ingredients</string>
     <string name="latest_search">LATEST SEARCHES</string>
+    <string name="recipe_results">%1$s Recipe results</string>
 
 </resources>

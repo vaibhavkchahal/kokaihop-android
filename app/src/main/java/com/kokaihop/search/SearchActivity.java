@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -20,12 +21,16 @@ import com.altaworks.kokaihop.ui.databinding.ActivitySearchBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogSearchFilterBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.SearchSuggestionRealmObject;
+import com.kokaihop.feed.FeedRecyclerAdapter;
 import com.kokaihop.search.SearchViewModel.DataSetListener;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SpacingItemDecoration;
 
 import java.lang.reflect.Field;
 import java.util.List;
+
+import static com.kokaihop.KokaihopApplication.getContext;
 
 
 public class SearchActivity extends BaseActivity implements DataSetListener, SearchView.OnQueryTextListener {
@@ -40,6 +45,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         initializeSearchView();
         initialiseSuggestionView();
+        binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
+                binding.included.linearlytRecentSearch.setVisibility(View.GONE);
+                newlyAddedRecipe();
+            }
+        });
         searchViewModel = new SearchViewModel(this);
         binding.setViewModel(searchViewModel);
         binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +63,40 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         });
 
 
+    }
+
+    private void newlyAddedRecipe() {
+        RecyclerView rvMainCourse = binding.included.rvRecipes;
+        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(searchViewModel.fetchNewlyAddedRecipeWithAds());
+        recyclerAdapter.setFromSearchedView(true);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                                            @Override
+                                            public int getSpanSize(int position) {
+                                                switch (recyclerAdapter.getItemViewType(position)) {
+                                                    case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
+                                                        return 2;
+                                                    case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
+                                                        return 1;
+                                                    case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
+                                                        return 2;
+
+                                                    case FeedRecyclerAdapter.TYPE_ITEM_SEARCH_COUNT:
+                                                        return 2;
+                                                    default:
+                                                        return -1;
+                                                }
+                                            }
+                                        }
+        );
+        rvMainCourse.setLayoutManager(layoutManager);
+
+        rvMainCourse.setAdapter(recyclerAdapter);
+
+
+        int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+        rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+//        feedRecyclerListingOperation.prepareFeedRecyclerView();
     }
 
     private void initialiseSuggestionView() {

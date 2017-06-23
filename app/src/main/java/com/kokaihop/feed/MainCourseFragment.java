@@ -55,7 +55,8 @@ public class MainCourseFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(mainCourseViewModel, rvMainCourse, ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.getScrollListener();
         mainCourseBinding.rvMainCourse.addOnScrollListener(scrollListener);
     }
 

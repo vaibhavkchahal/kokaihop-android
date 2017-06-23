@@ -5,8 +5,12 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CategoryRealmObject;
+import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
+import com.kokaihop.feed.AdvtDetail;
+import com.kokaihop.feed.Recipe;
+import com.kokaihop.feed.SearchRecipeHeader;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
 
@@ -29,7 +33,6 @@ public class SearchViewModel extends BaseViewModel {
     private List<FilterData> categoriesList;
     private List<FilterData> cuisineList;
     private List<FilterData> cookingMethodList;
-
 
     public SearchViewModel(DataSetListener dataSetListener) {
         this.dataSetListener = dataSetListener;
@@ -184,12 +187,12 @@ public class SearchViewModel extends BaseViewModel {
             filterDataAll.setName(textView.getContext().getString(R.string.all));
             cookingMethodList.add(filterDataAll);
 
-            if (searchDataManager.getCategories() != null) {
-                for (CategoryRealmObject categoryRealmObject : searchDataManager.getCategories()
+            if (searchDataManager.getCookingMethods() != null) {
+                for (CookingMethod cookingMethod : searchDataManager.getCookingMethods()
                         ) {
                     FilterData filterData = new FilterData();
-                    filterData.setName(categoryRealmObject.getName());
-                    filterData.setFriendlyUrl(categoryRealmObject.getFriendlyUrl());
+                    filterData.setName(cookingMethod.getName());
+                    filterData.setFriendlyUrl(cookingMethod.getFriendlyUrl());
                     cookingMethodList.add(filterData);
                 }
             }
@@ -198,6 +201,26 @@ public class SearchViewModel extends BaseViewModel {
         }
         dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method));
     }
+
+    public List<Object> fetchNewlyAddedRecipeWithAds() {
+        List<Recipe> recipeList = searchDataManager.fetchNewlyAddedRecipe();
+        List<Object> recipeListwithAds = new ArrayList<>();
+        int count = recipeList.size();
+        SearchRecipeHeader searchRecipeHeader = new SearchRecipeHeader();
+        searchRecipeHeader.setCount(String.valueOf(count));
+        recipeListwithAds.add(searchRecipeHeader);
+        recipeListwithAds.addAll(recipeList);
+        int prevPos = 0;
+        for (int position = 0; position < recipeListwithAds.size(); position++) {
+            if (position == 3 || (prevPos + 7) == position) {
+                prevPos = position;
+                AdvtDetail advtDetail = new AdvtDetail();
+                recipeListwithAds.add(position, advtDetail);
+            }
+        }
+        return recipeListwithAds;
+    }
+
 
     public void addSearchSuggestion(String keyword) {
         searchDataManager.insertSuggestion(keyword);

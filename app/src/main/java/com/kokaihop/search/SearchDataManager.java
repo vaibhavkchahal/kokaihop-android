@@ -3,7 +3,9 @@ package com.kokaihop.search;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
+import com.kokaihop.feed.Recipe;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -106,6 +108,42 @@ public class SearchDataManager {
             searchSuggestions.deleteFirstFromRealm();
             realm.commitTransaction();
         }
+
+    }
+
+    public ArrayList<Recipe> fetchNewlyAddedRecipe() {
+        RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class)
+                .findAllSorted("dateCreated", Sort.DESCENDING);
+        ArrayList<Recipe> recipeList = new ArrayList<>(recipeRealmObjectList.size());
+        for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList) {
+            recipeList.add(getRecipe(recipeRealmObject));
+        }
+        return recipeList;
+    }
+
+    public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
+        Recipe recipe = new Recipe();
+        recipe.set_id(recipeRealmObject.get_id());
+        recipe.setTitle(recipeRealmObject.getTitle());
+        recipe.setType(recipeRealmObject.getType());
+        recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
+        recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
+        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        recipe.setCoverImage(recipeRealmObject.getCoverImage());
+        if (recipeRealmObject.getMainImage() != null) {
+            recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
+        }
+        recipe.setFavorite(recipeRealmObject.isFavorite());
+        recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
+        if (recipeRealmObject.getRating() != null) {
+            recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
+
+        }
+        recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
+        recipe.setComments(recipeRealmObject.getCounter().getComments());
+        recipe.setBadgeType(recipeRealmObject.getBadgeType());
+        recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
+        return recipe;
 
     }
 

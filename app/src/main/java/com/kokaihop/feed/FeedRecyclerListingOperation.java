@@ -27,7 +27,7 @@ public class FeedRecyclerListingOperation {
         this.badgeType = badgeType;
     }
 
-    public FeedRecyclerScrollListener prepareFeedRecyclerView() {
+    public void prepareFeedRecyclerView() {
 //        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
 //        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         layoutManager = new GridLayoutManager(getContext(), 2);
@@ -50,6 +50,11 @@ public class FeedRecyclerListingOperation {
         );
         recyclerViewFeed.setLayoutManager(layoutManager);
         recyclerViewFeed.setAdapter(recyclerAdapter);
+
+    }
+
+    public  FeedRecyclerScrollListener getScrollListener()
+    {
         FeedRecyclerScrollListener scrollListener = new FeedRecyclerScrollListener(layoutManager) {
 
             @Override
