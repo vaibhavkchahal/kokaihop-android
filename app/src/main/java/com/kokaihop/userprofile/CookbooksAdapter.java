@@ -73,7 +73,10 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
 
         ConstraintLayout.LayoutParams layoutParams;
         if (myCookbook){
+            float ratio = 3.2f;
             layoutParams = (ConstraintLayout.LayoutParams) myCookbookBinding.ivRecipeBackground.getLayoutParams();
+            layoutParams.width = (int) (layoutParams.height * ratio);
+
             if (cookbook.getMainImageUrl() != null) {
                 cookbook.setMainImageUrl(CloudinaryUtils.getImageUrl(cookbook.getMainImageUrl(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
             } else {

@@ -22,7 +22,7 @@
             android:background="@drawable/round_corner_layout"
             android:clickable="false"
             android:contentDescription="@string/recipe_image"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:error="@{@drawable/ic_recipeplaceholder_sm}"
             app:imageUrl="@{cookbook.mainImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
