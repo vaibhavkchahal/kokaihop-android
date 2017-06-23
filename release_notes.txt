@@ -1,14 +1,16 @@
-1. Edit Profile
-   - Upload Image in Cloudinary.
-2. Me Tab
-   - Recipe History.
-   - My Recipes.
-   - Linking to Recipe details from My Recipes.
+1. Other user Profile
+   - Other user profile screen design and API.
+   - Followers, following, recipe and cookbooks listing.
+2. Cookbook Tab
+   - Cookbooks Listing.
 3. Recipe Details
-   - Share recipe details via email, twitter, facebook and message.
-   - Recipe detail favorite functionality.
-4. View All Comments:
-   - Comments listing and pull to Refersh
-   - Save comments in local Database to display these in offline access.
+   - Rating API implementation.
+   - Upload recipe images functionality through camera/gallery.
+4. Comments:
+   - Add a new Comments.
+   - Reply on Comments.
+   - Pull to refresh on reply comments screen.
+   - Database syncing on reply comments screen.
+
 
 
