@@ -4,6 +4,7 @@
     <!-- common msg -->
     <string name="something_went_wrong_msg">Something went wrong, try again!</string>
     <string name="check_intenet_connection">No Internet Available!</string>
+    <string name="space_character">\u0020</string>
 
 
     <!-- Strings related to login -->
@@ -177,4 +178,6 @@
     <string name="empty_comment_msg">comment cannot be empty</string>
     <string name="rating_dialog_text">Thanks for Rating recipe \n a</string>
     <string name="text_reply">Reply</string>
+    <string name="replied_text">" replied"</string>
+    <string name="text_and">" and "</string>
 </resources>

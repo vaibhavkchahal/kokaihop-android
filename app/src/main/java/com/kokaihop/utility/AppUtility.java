@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -85,4 +86,18 @@ public class AppUtility {
         return photo;
 
     }
+
+
+    public static void showKeyboard(View view) {
+        Activity activity = (Activity) view.getContext();
+        try {
+            InputMethodManager input = (InputMethodManager) activity
+                    .getSystemService(Activity.INPUT_METHOD_SERVICE);
+            input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

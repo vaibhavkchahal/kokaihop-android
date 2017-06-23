@@ -102,7 +102,7 @@
                 android:layout_marginLeft="@dimen/txtview_coment_username_margin_left"
                 android:layout_toRightOf="@+id/imageview_reply_user_image"
                 android:gravity="center_vertical"
-                android:text="@{latestCommentUsername+` and `+(model.payload.replyCount-1) + ` replied`}"
+                android:text="@{handler.checkOnReplyEventText(context,latestCommentUsername,model.payload.replyCount)}"
                 android:textColor="@color/tab_background"
                 android:textSize="@dimen/txtview_comment_user_textsize"
                 app:font="@{`SS-ProRegular`}"
