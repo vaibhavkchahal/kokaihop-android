@@ -205,18 +205,15 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 break;
             case TYPE_ITEM_COMMENT:
                 ViewHolderItemComment holderItemComment = (ViewHolderItemComment) holder;
-                CommentRealmObject commentRealmObject = (CommentRealmObject) recipeDetailItemsList.get(position);
+                final CommentRealmObject commentRealmObject = (CommentRealmObject) recipeDetailItemsList.get(position);
                 setCommentUserImage(holderItemComment, commentRealmObject);
                 setCommentReplyInformation(holderItemComment, commentRealmObject);
-
-                if (comingFrom.contains("commentsSection") && !commentRealmObject.getPayload().getReplyEvents().isEmpty()) {
-                    holderItemComment.binder.relativeLayoutRepliedSection.setVisibility(View.VISIBLE);
-                } else {
-                    holderItemComment.binder.relativeLayoutRepliedSection.setVisibility(View.GONE);
-                }
-
+                checkReplyEventsVisibility(holderItemComment, commentRealmObject);
+                final CommentsHandler commentsHandler = new CommentsHandler();
+                actionOnCommentClick(holderItemComment, commentRealmObject, commentsHandler);
+                actionOnReplyClick(holderItemComment, commentRealmObject, commentsHandler);
                 holderItemComment.binder.setModel(commentRealmObject);
-                holderItemComment.binder.setHandler(new CommentsHandler());
+                holderItemComment.binder.setHandler(commentsHandler);
                 holderItemComment.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_SIMILAR_RECIPIES_ITEM:
@@ -242,6 +239,32 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             default:
                 break;
 
+        }
+    }
+
+    private void actionOnReplyClick(ViewHolderItemComment holderItemComment, final CommentRealmObject commentRealmObject, final CommentsHandler commentsHandler) {
+        holderItemComment.binder.replyTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentsHandler.openReplyScreen(context, commentRealmObject.get_id(), commentRealmObject.getPayload().getRecipe().getId());
+            }
+        });
+    }
+
+    private void actionOnCommentClick(ViewHolderItemComment holderItemComment, final CommentRealmObject commentRealmObject, final CommentsHandler commentsHandler) {
+        holderItemComment.binder.relativeLayoutComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentsHandler.openCommentsScreen(context, commentRealmObject.getPayload().getRecipe().getId());
+            }
+        });
+    }
+
+    private void checkReplyEventsVisibility(ViewHolderItemComment holderItemComment, CommentRealmObject commentRealmObject) {
+        if (comingFrom.contains("commentsSection") && !commentRealmObject.getPayload().getReplyEvents().isEmpty()) {
+            holderItemComment.binder.relativeLayoutRepliedSection.setVisibility(View.VISIBLE);
+        } else {
+            holderItemComment.binder.relativeLayoutRepliedSection.setVisibility(View.GONE);
         }
     }
 

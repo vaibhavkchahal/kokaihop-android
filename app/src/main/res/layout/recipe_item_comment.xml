@@ -17,13 +17,11 @@
     <RelativeLayout
         android:id="@+id/relative_layout_comment"
         android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe.id)}"
-                    android:paddingBottom="@dimen/comment_padding_bottom"
-                    android:paddingLeft="@dimen/comment_item_padding_left"
-                    android:paddingTop="@dimen/comment_item_padding_top">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:paddingBottom="@dimen/comment_padding_bottom"
+        android:paddingLeft="@dimen/comment_item_padding_left"
+        android:paddingTop="@dimen/comment_item_padding_top">
 
 
         <ImageView
@@ -72,7 +70,6 @@
             android:layout_marginLeft="18dp"
             android:layout_marginTop="6dp"
             android:layout_toRightOf="@+id/imageview_comment_user_image"
-            android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe.id)}"
             android:text="@string/text_reply"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="10dp"
@@ -82,12 +79,11 @@
         <RelativeLayout
             android:id="@+id/relative_layout_replied_section"
             android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/reply_textview"
-                        android:layout_marginLeft="@dimen/comment_reply_section_margin_left"
-                        android:layout_marginTop="20dp"
-                        android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe.id)}"
-                        >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/reply_textview"
+            android:layout_marginLeft="@dimen/comment_reply_section_margin_left"
+            android:layout_marginTop="20dp"
+            android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe.id)}">
 
             <ImageView
                 android:id="@+id/imageview_reply_user_image"

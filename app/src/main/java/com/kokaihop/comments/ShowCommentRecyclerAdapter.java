@@ -39,20 +39,18 @@ public class ShowCommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ViewHolderShowComments holderShowComments = (ViewHolderShowComments) holder;
-        CommentRealmObject commentRealmObject = commentsList.get(position);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final ViewHolderShowComments holderShowComments = (ViewHolderShowComments) holder;
+        final CommentRealmObject commentRealmObject = commentsList.get(position);
         int commentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.imgview_comment_user_image_width);
         if (commentRealmObject.getSourceUser().getProfileImage() != null) {
             String commentUserImage = CloudinaryUtils.getRoundedImageUrl(commentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(commentUsetImageSize), String.valueOf(commentUsetImageSize));
             holderShowComments.binder.setImageUrl(commentUserImage);
         }
         setReplyEvents(holderShowComments, commentRealmObject);
-        if (comingFrom.contains("commentsSection") && !commentRealmObject.getPayload().getReplyEvents().isEmpty()) {
-            holderShowComments.binder.relativeLayoutRepliedSection.setVisibility(View.VISIBLE);
-        } else {
-            holderShowComments.binder.relativeLayoutRepliedSection.setVisibility(View.GONE);
-        }
+        checkReplyEventsVisibility(holderShowComments, commentRealmObject);
+        final CommentsHandler commentsHandler = new CommentsHandler();
+        checkReplyActionEnability(holderShowComments, commentRealmObject, commentsHandler);
         holderShowComments.binder.relativeLayoutComment.setClickable(false);
         holderShowComments.binder.setModel(commentRealmObject);
         holderShowComments.binder.setHandler(new CommentsHandler());
@@ -73,6 +71,27 @@ public class ShowCommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
+    private void checkReplyActionEnability(ViewHolderShowComments holderShowComments, final CommentRealmObject commentRealmObject, final CommentsHandler commentsHandler) {
+        if (comingFrom.contains("commentsSection")) {
+            holderShowComments.binder.replyTextview.setClickable(true);
+            holderShowComments.binder.replyTextview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commentsHandler.openReplyScreen(context, commentRealmObject.get_id(), commentRealmObject.getPayload().getRecipe().getId());
+                }
+            });
+        } else {
+            holderShowComments.binder.replyTextview.setClickable(false);
+        }
+    }
+
+    private void checkReplyEventsVisibility(ViewHolderShowComments holderShowComments, CommentRealmObject commentRealmObject) {
+        if (comingFrom.contains("commentsSection") && !commentRealmObject.getPayload().getReplyEvents().isEmpty()) {
+            holderShowComments.binder.relativeLayoutRepliedSection.setVisibility(View.VISIBLE);
+        } else {
+            holderShowComments.binder.relativeLayoutRepliedSection.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public int getItemCount() {
