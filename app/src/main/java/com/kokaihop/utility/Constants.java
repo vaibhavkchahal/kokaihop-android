@@ -36,6 +36,7 @@ public class Constants {
 
 
     public static final String COUNTRY_CODE = "en";
+    public static final String MY_COOKBOOK = "myCookbook";
 
 
 }

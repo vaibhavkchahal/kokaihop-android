@@ -1,13 +1,57 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.kokaihop.home.CookbooksFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+<layout>
+    <data></data>
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        tools:context="com.kokaihop.userprofile.HistoryFragment">
 
-</FrameLayout>
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/toolbar_height_with_status"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingTop="@dimen/status_bar_height"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:gravity="center"
+                android:text="My Cookbooks"
+                android:textColor="@color/white"
+                android:textSize="@dimen/cookbooks_title_text_size"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <TextView
+                android:id="@+id/tv_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/tv_title"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/profile_toolbar_horizontal_margin"
+                android:text="@string/create"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_large"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_history_list"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/constraint_match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

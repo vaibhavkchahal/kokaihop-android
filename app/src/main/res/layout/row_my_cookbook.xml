@@ -12,25 +12,25 @@
         android:id="@+id/history_row"
         style="@style/Button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/my_cookbook_row_height"
         android:clickable="true"
         android:orientation="vertical">
         <ImageView
-            android:id="@+id/iv_recipe_image"
-            android:layout_width="@dimen/recipe_icon_size"
-            android:layout_height="@dimen/recipe_icon_size"
+            android:id="@+id/iv_recipe_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@drawable/round_corner_layout"
             android:clickable="false"
             android:contentDescription="@string/recipe_image"
-            android:scaleType="fitXY"
-            android:layout_marginLeft="@dimen/cookbook_avatar_margin_left"
-            app:error="@{@drawable/ic_recipeplaceholder_md}"
+            android:scaleType="centerCrop"
+            app:error="@{@drawable/ic_recipeplaceholder_sm}"
             app:imageUrl="@{cookbook.mainImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:placeholder="@{@drawable/ic_recipeplaceholder_md}"
-            tools:src="@drawable/ic_recipeplaceholder_md"/>
+            app:placeholder="@{@drawable/ic_recipeplaceholder_lg}"
+            tools:src="@drawable/ic_recipeplaceholder_lg"/>
         <TextView
             android:id="@+id/tv_recipe_name"
             android:layout_width="0dp"
@@ -38,38 +38,29 @@
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
             android:text="@{cookbook.name}"
-            android:textColor="@color/grey_FF8D929C"
+            android:textColor="@color/white"
             android:textSize="@dimen/row_follower_following_text_size"
             app:font="@{`SS-ProRegular`}"
-            tools:text="Cookbook"
-            app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
-            app:layout_constraintVertical_chainStyle="packed"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Cookbook"/>
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
-            android:text="@{ @string/recipe + cookbook.total}"
-            android:textColor="@color/grey_FF8D929C"
-            android:textSize="@dimen/text_size_medium"
+            android:text="@{cookbook.total +  @string/recipe_count}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small"
             app:font="@{`SS-ProRegular`}"
-            app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
-            tools:text="Recipe Count"
-            app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
-            android:layout_marginLeft="20dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"/>
-
-        <View android:id="@+id/cookbook_divider"
-              android:layout_width="0dp"
-              android:layout_height="1dp"
-              android:layout_marginTop="@dimen/user_profile_recycler_padding_vertical"
-              android:background="@color/grey_FFD4D4D4"
-              app:layout_constraintLeft_toLeftOf="parent"
-              app:layout_constraintRight_toRightOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/iv_recipe_image"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
+            tools:text="Recipe Count"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

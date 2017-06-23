@@ -39,6 +39,7 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.BlurImageHelper;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.CloudinaryUtils;
@@ -85,9 +86,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         recipeID = getIntent().getStringExtra("recipeId");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
-        }
+    }
 
-    public void setupRecipeDetailScreen(){
+    public void setupRecipeDetailScreen() {
         recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, this);
         binding.setViewModel(recipeDetailViewModel);
         setProfileImage();
@@ -98,7 +99,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         setPagerData();
         setAppBarListener();
 
-    };
+    }
+
+    ;
 
     private void setProfileImage() {
         int profileImageSize = getResources().getDimensionPixelOffset(R.dimen.recipe_detail_header_profile_img_height_width);
@@ -401,11 +404,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_camera:
-                CameraUtils.selectImage(this);
-                Logger.e("Add Picture", "Menu");
+                String accessToken = SharedPrefUtils.getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                if (accessToken == null || accessToken.isEmpty()) {
+                    AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
+                } else {
+                    CameraUtils.selectImage(this);
+                }
                 return true;
             case R.id.icon_add_to_wishlist:
-                Logger.e("Add to wishlist", "Menu");
                 binding.getViewModel().openCookBookScreen();
                 return true;
             default:

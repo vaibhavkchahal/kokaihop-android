@@ -130,12 +130,13 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
 
             CookbooksFragment cookbooksFragment = new CookbooksFragment();
+            bundle.putBoolean(Constants.MY_COOKBOOK, false);
             cookbooksFragment.setArguments(bundle);
             adapter.addFrag(cookbooksFragment, getActivity().getString(R.string.tab_cookbooks));
 
             FollowersFragment followersFragment = new FollowersFragment();
             followersFragment.setArguments(bundle);
-            adapter.addFrag(followersFragment,getActivity().getString(R.string.tab_followers));
+            adapter.addFrag(followersFragment, getActivity().getString(R.string.tab_followers));
 
             FollowingFragment followingFragment = new FollowingFragment();
             followingFragment.setArguments(bundle);

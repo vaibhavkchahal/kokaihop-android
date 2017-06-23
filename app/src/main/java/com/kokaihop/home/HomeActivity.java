@@ -17,8 +17,11 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
+import com.kokaihop.userprofile.CookbooksFragment;
 import com.kokaihop.utility.CameraUtils;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
@@ -69,9 +72,15 @@ public class HomeActivity extends BaseActivity {
         final PagerTabAdapter adapter = new PagerTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
 
         userProfileFragment = new UserProfileFragment();
-
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this,Constants.USER_ID));
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
-        adapter.addFrag(new CookbooksFragment(), getString(R.string.tab_cookbooks));
+
+        CookbooksFragment cookbooksFragment = new CookbooksFragment();
+        bundle.putBoolean(Constants.MY_COOKBOOK,true);
+        cookbooksFragment.setArguments(bundle);
+        adapter.addFrag(cookbooksFragment, getString(R.string.tab_cookbooks));
+
         adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(userProfileFragment, getString(R.string.tab_me));

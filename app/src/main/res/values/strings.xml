@@ -63,7 +63,8 @@
     <string name="signup_message">This is where you’ll connect with other chefs, Get to see your
         search history, and change your settings
     </string>
-    <string name="sign_up_now">Login or become member for free!</string>
+    <string name="sign_up_or_login">Login or become member for free!</string>
+    <string name="sign_up_now">Sign Up Now</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save">Save</string>
     <string name="push_notifications">Push Notifications</string>
@@ -113,8 +114,9 @@
     <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your
         search history, and change your settings
     </string>
-    <string name="members_area">Memebers area</string>
-    <string name="login_like_message">You need to logged in to make a recipe favourite</string>
+    <string name="members_area">Members area</string>
+    <string name="login_like_message">You need to logged in to make a recipe favourite!!!</string>
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!</string>
     <string name="welcome_text">Welcome to kokaihop</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
     <string name="write_a_comment_text">Write a comment...</string>
@@ -181,4 +183,11 @@
     <string name="city_updation_failed">Error while updating city</string>
     <string name="profile_pic_upload_success">Profile Picture uploaded Successfully</string>
     <string name="profile_pic_upload_failed">Error while updating profile picture</string>
+    <string name="cookbooks_login_msg1">Save your favourites recipes in cookbooks</string>
+    <string name="cookbooks_login_msg2">You can classify recipes in your own way and refer them
+        later
+    </string>
+    <string name="my_cookbooks">My Cookbooks</string>
+    <string name="create">Create</string>
+    <string name="recipe_count">" Recipes"</string>
 </resources>

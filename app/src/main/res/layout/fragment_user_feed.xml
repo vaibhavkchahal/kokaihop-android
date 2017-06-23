@@ -13,7 +13,7 @@
         <RelativeLayout
             android:id="@+id/rl_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/toolbar_height_with_status"
             android:layout_alignParentTop="true"
             android:background="@color/colorPrimary"
             android:paddingBottom="@dimen/home_header_margin_bottom"

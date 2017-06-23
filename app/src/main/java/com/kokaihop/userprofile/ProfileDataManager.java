@@ -356,19 +356,21 @@ public class ProfileDataManager {
         ArrayList<Cookbook> cookbooks = new ArrayList<>();
         RealmList<CookbookRealmObject> cookbookRealmList = new RealmList<>();
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
-        if (cookbooks != null) {
-            cookbookRealmList = userRealmObject.getRecipeCollections();
-        }
-        for (CookbookRealmObject realmObject : cookbookRealmList) {
-            Cookbook cookbook = new Cookbook();
-            cookbook.set_id(realmObject.get_id());
-            cookbook.setFriendlyUrl(realmObject.getFriendlyUrl());
-            cookbook.setName(realmObject.getName());
-            cookbook.setTotal(realmObject.getTotalCount());
-            if (realmObject.getRecipes().size() > 0) {
-                cookbook.setMainImageUrl(realmObject.getRecipes().get(0).getCategoryImagePublicId());
+        if(userRealmObject!=null){
+            if (cookbooks != null) {
+                cookbookRealmList = userRealmObject.getRecipeCollections();
             }
-            cookbooks.add(cookbook);
+            for (CookbookRealmObject realmObject : cookbookRealmList) {
+                Cookbook cookbook = new Cookbook();
+                cookbook.set_id(realmObject.get_id());
+                cookbook.setFriendlyUrl(realmObject.getFriendlyUrl());
+                cookbook.setName(realmObject.getName());
+                cookbook.setTotal(realmObject.getTotalCount());
+                if (realmObject.getRecipes().size() > 0) {
+                    cookbook.setMainImageUrl(realmObject.getRecipes().get(0).getCoverImage());
+                }
+                cookbooks.add(cookbook);
+            }
         }
         return cookbooks;
     }

@@ -1,7 +1,9 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.model.Cookbook;
@@ -137,5 +139,9 @@ public class CookbooksViewModel extends BaseViewModel {
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
+    }
+
+    public void showSignUpScreen(){
+        context.startActivity(new Intent(context, SignUpActivity.class));
     }
 }
