@@ -188,10 +188,15 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     @Override
-    public void showWithImageDialog(View view, View parentView, String text, boolean selected) {
+    public void showWithImageDialog(View childView, View view, boolean selected, String msg) {
         if (selected) {
+            view.setBackgroundResource(R.drawable.search_tag_orange);
+            childView.setBackgroundResource(R.drawable.ic_picture);
 
         } else {
+            view.setBackgroundResource(R.drawable.search_tag_white);
+            childView.setBackgroundResource(R.drawable.ic_picture_unselected);
+
 
         }
 

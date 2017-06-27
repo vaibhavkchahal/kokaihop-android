@@ -1,5 +1,6 @@
 package com.kokaihop.search;
 
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -203,25 +204,19 @@ public class SearchViewModel extends BaseViewModel {
     }
 
 
-    public void showWithImages(View view, View ParentView) {
-        String previousSelected = "";
-        if (sortByList == null) {
-            sortByList = new ArrayList<>();
-            String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
+    public void showWithImages(View view, View parentView) {
+        boolean isSelected;
+        String msg;
 
-            for (String sortBy : sortByArray
-                    ) {
-                FilterData filterDataAll = new FilterData();
-                filterDataAll.setName(sortBy);
-                sortByList.add(filterDataAll);
-            }
-
-            previousSelected = sortByList.get(0).getName();
+        if (view.getBackground().getConstantState()
+                == ResourcesCompat.getDrawable(view.getContext().getResources(), R.drawable.ic_picture, null).getConstantState()) {
+            isSelected = false;
+            msg = view.getContext().getResources().getString(R.string.show_all_recipes);
+        } else {
+            isSelected = true;
+            msg = view.getContext().getResources().getString(R.string.show_recipe_with_images);
         }
-        if (view.getTag() != null) {
-            previousSelected = view.getTag().toString();
-        }
-        dataSetListener.showFilterDialog(sortByList, previousSelected, view, view.getContext().getResources().getString(R.string.sort_by));
+        dataSetListener.showWithImageDialog(view, parentView, isSelected, msg);
     }
 
 
@@ -284,7 +279,9 @@ public class SearchViewModel extends BaseViewModel {
 
     public interface DataSetListener {
         void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title);
-        void showWithImageDialog(View view,View ParentView, String text, boolean selected);
+
+        void showWithImageDialog(View childView, View view, boolean selected, String msg);
+
         void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList);
     }
 }

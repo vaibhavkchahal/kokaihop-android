@@ -121,7 +121,8 @@
     <string name="login_rating_message">You need to logged in to rate a recipe</string>
     <string name="members_area">Members area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite!!!</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!</string>
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!
+    </string>
 
     <string name="welcome_text">Welcome to kokaihop</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
@@ -225,7 +226,7 @@
     <string name="popular">popular</string>
     <string name="relevance">relevance</string>
     <string name="most_recent">most recent</string>
-    <string name="most_commented"> most commented</string>
+    <string name="most_commented">most commented</string>
     <string name="most_rated">most rated</string>
     <string name="title_a_z">title a-z</string>
     <string name="title_z_a">title z-a</string>
@@ -240,5 +241,9 @@
         <item>@string/title_a_z</item>
         <item>@string/title_z_a</item>
     </string-array>
+
+    <string name="show_all_recipes">Showing all recipes</string>
+    <string name="show_recipe_with_images">Showing only recipes with images</string>
+
 
 </resources>
