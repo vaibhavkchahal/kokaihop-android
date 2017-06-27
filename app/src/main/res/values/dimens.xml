@@ -191,7 +191,7 @@
     <dimen name="user_profile_pic_size">60dp</dimen>
     <dimen name="user_main_profile_pic_margin_top">30dp</dimen>
     <dimen name="profile_ctl_height">195dp</dimen>
-    <dimen name="profile_other_ctl_height">224dp</dimen>
+    <dimen name="profile_other_ctl_height">250dp</dimen>
     <dimen name="user_profile_toolbar_margin_top">20dp</dimen>
     <dimen name="profile_toolbar_padding_right">20dp</dimen>
 
@@ -202,7 +202,7 @@
     <dimen name="user_settings_divider_height">0.5dp</dimen>
     <dimen name="settings_save_margin_right">18dp</dimen>
 
-    <dimen name="profile_back_padding_top">42.9dp</dimen>
+    <dimen name="profile_back_padding_top">20dp</dimen>
     <dimen name="profile_back_padding_left">20dp</dimen>
     <dimen name="profile_back_padding_bottom">20dp</dimen>
     <dimen name="profile_back_padding_right">20dp</dimen>
@@ -353,6 +353,19 @@
     <dimen name="recipe_icon_size">80dp</dimen>
     <dimen name="profile_toolbar_horizontal_margin">15dp</dimen>
     <dimen name="tv_profile_user_name">20sp</dimen>
+    <dimen name="cookbook_signup_login_horizontal_margin">45dp</dimen>
+    <dimen name="cookbook_loginn_msg_margin">10dp</dimen>
+    <dimen name="cookbook_login_button_margin_top">50dp</dimen>
+    <dimen name="cookbook_login_btn_margin_horizontal">20dp</dimen>
+    <dimen name="cookbook_login_msg1_text_size">22dp</dimen>
+    <dimen name="cookbook_login_icon_margin_top">80dp</dimen>
+    <dimen name="cookbook_login_icon_height">70dp</dimen>
+    <dimen name="cookbook_login_icon_width">81dp</dimen>
+    <dimen name="cookbooks_title_text_size">25sp</dimen>
+    <dimen name="cookbook_login_msg1_margin_top">45dp</dimen>
+    <dimen name="cookbook_avatar_margin_left">20dp</dimen>
+    <dimen name="my_cookbook_row_height">100dp</dimen>
     <dimen name="reply_user_image_height_width">25dp</dimen>
     <dimen name="comment_reply_section_margin_left">20dp</dimen>
+
 </resources>

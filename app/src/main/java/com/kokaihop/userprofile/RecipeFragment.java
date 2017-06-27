@@ -11,16 +11,12 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentHistoryRecipeBinding;
-import com.kokaihop.feed.Recipe;
-import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.RecyclerViewScrollListener;
-
-import java.util.ArrayList;
 
 public class RecipeFragment extends Fragment {
 
-    private static RecipeFragment fragment;
     private FragmentHistoryRecipeBinding binding;
     private RecipeViewModel viewModel;
     private RecipeHistoryAdapter adapter;
@@ -29,13 +25,6 @@ public class RecipeFragment extends Fragment {
 
     public RecipeFragment() {
         // Required empty public constructor
-    }
-
-    public static RecipeFragment getInstance() {
-        if (fragment == null) {
-            fragment = new RecipeFragment();
-        }
-        return fragment;
     }
 
     @Override
@@ -47,8 +36,10 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Bundle bundle = this.getArguments();
+        String userId = bundle.getString(Constants.USER_ID);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
-        viewModel = new RecipeViewModel(this, getContext());
+        viewModel = new RecipeViewModel(this, getContext(), userId);
         adapter = new RecipeHistoryAdapter(this, User.getInstance().getRecipesList());
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;
@@ -65,7 +56,7 @@ public class RecipeFragment extends Fragment {
         return binding.getRoot();
     }
 
-//    notify the adapter about the chage in data.
+    //    notify the adapter about the chage in data.
     public void showUserProfile() {
         adapter.notifyDataSetChanged();
     }

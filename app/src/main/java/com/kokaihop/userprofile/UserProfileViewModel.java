@@ -82,7 +82,7 @@ public class UserProfileViewModel extends BaseViewModel {
         if (userId == null) {
             userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
         }
-        profileDataManager.fetchUserData(userId);
+        profileDataManager.fetchUserData(userId, User.getInstance());
         userDataListener.showUserProfile();
     }
 
@@ -95,14 +95,14 @@ public class UserProfileViewModel extends BaseViewModel {
             @Override
             public void onComplete(Map<String, String> uploadResult) throws ParseException {
 
-                if(uploadResult!=null){
+                if (uploadResult != null) {
                     User user = User.getInstance();
                     user.setProfileImage(new CloudinaryImage());
                     user.getProfileImage().setCloudinaryId(uploadResult.get("public_id"));
                     user.getProfileImage().setUploaded(new Date().getTime());
                     updateProfilePic();
-                }else {
-                    Toast.makeText(context, R.string.something_went_wrong,Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_SHORT);
                 }
                 setProgressVisible(false);
             }
@@ -118,7 +118,7 @@ public class UserProfileViewModel extends BaseViewModel {
 
     public void updateProfilePic() {
         setProgressVisible(true);
-        User user = User.getInstance();
+        final User user = User.getInstance();
         setupApiCall();
         ProfileImageUpdateRequest request = new ProfileImageUpdateRequest();
         request.setProfileImage(user.getProfileImage());
@@ -131,7 +131,7 @@ public class UserProfileViewModel extends BaseViewModel {
                         Toast.makeText(context, R.string.profile_pic_uploaded, Toast.LENGTH_SHORT).show();
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         profileDataManager.insertOrUpdateUserData(response);
-                        profileDataManager.fetchUserData(userId);
+                        profileDataManager.fetchUserData(userId, user);
 //                        setProfileImage();
                         getUserData();
                         setProgressVisible(false);
@@ -162,23 +162,4 @@ public class UserProfileViewModel extends BaseViewModel {
             }
         });
     }
-
-//    public void setProfileImage() {
-//        int width = context.getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
-//        int height = width;
-//        ImageView ivProfile = binding.userAvatar;
-//        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ivProfile.getLayoutParams();
-//        layoutParams.height = height;
-//        layoutParams.width = width;
-//        ivProfile.setLayoutParams(layoutParams);
-//        LinearLayout.LayoutParams ivProfileLayoutParams = (LinearLayout.LayoutParams) ivProfile.getLayoutParams();
-//        CloudinaryImage profileImage = User.getInstance().getProfileImage();
-//        if (profileImage != null) {
-//            String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(ivProfileLayoutParams.width), String.valueOf(ivProfileLayoutParams.height));
-//            User.getInstance().setProfileImageUrl(imageUrl);
-//            setProfileImageUrl(imageUrl);
-//        }
-//        editProfileBinding.executePendingBindings();
-//    }
-
 }

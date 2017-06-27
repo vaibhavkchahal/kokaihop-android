@@ -48,9 +48,19 @@ public class ProfileApiHelper {
         userResponseCall.enqueue(new ResponseHandler<UserRealmObject>(successInterface));
     }
 
-//    get the recipes of the user from the api.
+    //    get the recipes of the user from the api.
     public void getRecipesOfUser(String userId, int offset, int max, final IApiRequestComplete successInterface) {
         Call<ResponseBody> userResponseCall = userProfileApi.getRecipesOfUser(userId, offset, max);
+        userResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
+
+    public void getOtherUserData(String accessToken, String friendlyUrl, String languageCode, final IApiRequestComplete successInterface) {
+        Call<ResponseBody> userResponseCall = userProfileApi.getOtherUserData(accessToken,friendlyUrl,languageCode);
+        userResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
+
+    public void getCookbooksOfUser(String userId, int offset, int max, final IApiRequestComplete successInterface) {
+        Call<ResponseBody> userResponseCall = userProfileApi.getCookbooksOfUser(userId, offset, max);
         userResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 

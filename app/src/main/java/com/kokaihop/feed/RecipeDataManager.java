@@ -5,6 +5,7 @@ import com.kokaihop.database.CounterRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.JSONObjectUtility;
 import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
@@ -49,9 +50,11 @@ public class RecipeDataManager {
         recipe.set_id(recipeRealmObject.get_id());
         recipe.setTitle(recipeRealmObject.getTitle());
         recipe.setType(recipeRealmObject.getType());
-        recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
-        recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
-        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        if (recipeRealmObject.getCreatedBy() != null) {
+            recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
+            recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
+            recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        }
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
         if (recipeRealmObject.getMainImage() != null) {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
@@ -160,14 +163,21 @@ public class RecipeDataManager {
         });
     }
 
-    public void insertOrUpdateRecipe(final JSONArray jsonObject) {
-        final JSONObject recipeJSONObject;
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.createOrUpdateAllFromJson(RecipeRealmObject.class, jsonObject);
+
+    public void insertOrUpdateRecipe(JSONArray jsonArray) {
+        JSONObjectUtility jsonUtility = new JSONObjectUtility();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = jsonArray.getJSONObject(i);
+                jsonObject = jsonUtility.changeKeyOfJSON(jsonObject, "name", "title");
+                realm.beginTransaction();
+                realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
+                realm.commitTransaction();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 
     public RecipeRealmObject fetchRecipe(String recipeID) {

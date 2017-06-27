@@ -2,42 +2,48 @@ package com.kokaihop.userprofile;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentOtherUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
-import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
+import com.kokaihop.customviews.AppBarStateChangeListener;
+import com.kokaihop.userprofile.model.CloudinaryImage;
+import com.kokaihop.userprofile.model.NotificationCount;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
-import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
+import java.util.ArrayList;
 
 public class OtherUserProfileFragment extends Fragment implements UserDataListener {
-    private static OtherUserProfileFragment fragment;
-    private FragmentUserProfileBinding userProfileBinding;
-    UserProfileViewModel userViewModel;
+
+    private FragmentOtherUserProfileBinding otherUserProfileBinding;
+    private OtherUserProfileViewModel otherUserProfileViewModel;
     private ViewPager viewPager;
     private LayoutInflater inflater;
-    private ViewGroup container;
+    private String userId, friendlyUrl;
+    private Bundle bundle = new Bundle();
+    private TabLayout tabLayout;
+    private int selectedTabPosition = 0;
+    ArrayList<NotificationCount> notificationCount;
 
     public OtherUserProfileFragment() {
 
-    }
-
-    public static OtherUserProfileFragment getInstance() {
-
-        if (fragment == null) {
-            fragment = new OtherUserProfileFragment();
-        }
-        return fragment;
     }
 
     @Override
@@ -49,103 +55,212 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         this.inflater = inflater;
-        this.container = container;
-        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+        userId = this.getArguments().getString(Constants.USER_ID);
 
-        userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
-//        userViewModel = new UserProfileViewModel(getContext(), this, userProfileBinding);
-        userViewModel.getUserData();
-        return userProfileBinding.getRoot();
+        otherUserProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
+        otherUserProfileViewModel = new OtherUserProfileViewModel(getContext(), this);
+        friendlyUrl = otherUserProfileViewModel.getFriendlyUrlFromDB(userId);
+        otherUserProfileViewModel.getUserData(userId);
+        setAppBarListener();
+        notificationCount = new ArrayList<>();
+        otherUserProfileBinding.setViewModel(otherUserProfileViewModel);
+        tabLayout = otherUserProfileBinding.tabProfile;
+        otherUserProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                selectedTabPosition = tabLayout.getSelectedTabPosition();
+                otherUserProfileViewModel.getUserData(userId);
+                otherUserProfileBinding.srlProfileRefresh.setRefreshing(false);
+            }
+        });
+        otherUserProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                otherUserProfileBinding.srlProfileRefresh.setEnabled(verticalOffset == 0);
+            }
+        });
+
+        if (userId.equals(SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.USER_ID))) {
+            otherUserProfileBinding.btnFollow.setVisibility(View.INVISIBLE);
+        }
+        return otherUserProfileBinding.getRoot();
     }
 
     @Override
     public void showUserProfile() {
-        User user = User.getInstance();
-        final TabLayout tabLayout = userProfileBinding.tabProfile;
-        final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
-        final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
-        int tabCount = 4;
-        int i;
+        if (this.isVisible()) {
 
-        userProfileBinding.setUser(User.getInstance());
+            User user = User.getOtherUser();
+            final TabLayout tabLayout = otherUserProfileBinding.tabProfile;
+            final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
+            final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
+            int tabCount = 4;
+            int i;
+            setCoverImage();
+            setProfileImage();
+            otherUserProfileBinding.setUser(User.getOtherUser());
 
-        String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
-                getActivity().getString(R.string.tab_cookbooks),
-                getActivity().getString(R.string.tab_followers),
-                getActivity().getString(R.string.tab_following)};
+            String[] tabTitles = {getActivity().getString(R.string.tab_recipes),
+                    getActivity().getString(R.string.tab_cookbooks),
+                    getActivity().getString(R.string.tab_followers),
+                    getActivity().getString(R.string.tab_following)};
+
 //        TODO: counts should be set here.
 
-        int[] counts = {user.getRecipeCount(),
-                user.getFollowers().size(),
-                user.getFollowing().size()};
+            int[] counts = {user.getRecipeCount(),
+                    user.getRecipesCollectionCount(),
+                    user.getFollowers().size(),
+                    user.getFollowing().size()};
 
-        viewPager = userProfileBinding.viewpagerProfile;
-        tabLayout.addTab(tabLayout.newTab());
-        tabLayout.addTab(tabLayout.newTab());
-        tabLayout.addTab(tabLayout.newTab());
-        tabLayout.addTab(tabLayout.newTab());
+            viewPager = otherUserProfileBinding.viewpagerProfile;
+            tabLayout.addTab(tabLayout.newTab());
+            tabLayout.addTab(tabLayout.newTab());
+            tabLayout.addTab(tabLayout.newTab());
+            tabLayout.addTab(tabLayout.newTab());
+            notificationCount.add(new NotificationCount());
+            notificationCount.add(new NotificationCount());
+            notificationCount.add(new NotificationCount());
+            notificationCount.add(new NotificationCount());
+            setNotificationCount();
 
-//        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
-        ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-        adapter.addFrag(new RecipeFragment(), "Recipes");
-        adapter.addFrag(new FollowersFragment(), "Followers");
-        adapter.addFrag(new FollowingFragment(), "Following");
-        adapter.addFrag(new HistoryFragment(), "History");
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(tabCount);
-        tabLayout.setupWithViewPager(viewPager);
+            ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+            setUpFragmentArguments();
+            RecipeFragment recipeFragment = new RecipeFragment();
+            recipeFragment.setArguments(bundle);
+            adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
+
+            CookbooksFragment cookbooksFragment = new CookbooksFragment();
+            bundle.putBoolean(Constants.MY_COOKBOOK, false);
+            cookbooksFragment.setArguments(bundle);
+            adapter.addFrag(cookbooksFragment, getActivity().getString(R.string.tab_cookbooks));
+
+            FollowersFragment followersFragment = new FollowersFragment();
+            followersFragment.setArguments(bundle);
+            adapter.addFrag(followersFragment, getActivity().getString(R.string.tab_followers));
+
+            FollowingFragment followingFragment = new FollowingFragment();
+            followingFragment.setArguments(bundle);
+            adapter.addFrag(followingFragment, getActivity().getString(R.string.tab_following));
+
+            viewPager.setAdapter(adapter);
+            viewPager.setOffscreenPageLimit(tabCount);
+            tabLayout.setupWithViewPager(viewPager);
 
 
-        for (i = 0; i < (tabCount - 1); i++) {
-            TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
-            View tabView = tabBinding.getRoot();
-            tabLayout.getTabAt(i).setCustomView(tabView);
-            tabBinding.text1.setText("" + counts[i]);
-            tabBinding.text2.setText(tabTitles[i]);
+            for (i = 0; i < (tabCount); i++) {
+                TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
+                View tabView = tabBinding.getRoot();
+                tabLayout.getTabAt(i).setCustomView(tabView);
+                tabBinding.setNotification(notificationCount.get(i));
+                tabBinding.text2.setText(tabTitles[i]);
+            }
+
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    if (tab.getCustomView() != null) {
+                        ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
+                        if (tab.getCustomView().findViewById(R.id.text2) != null) {
+                            ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                        }
+                    }
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                    if (tab.getCustomView() != null) {
+                        ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(inactiveColor);
+                        if (tab.getCustomView().findViewById(R.id.text2) != null) {
+                            ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(inactiveColor);
+                        }
+                    }
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    if (tab.getCustomView() != null) {
+                        ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
+                        if (tab.getCustomView().findViewById(R.id.text2) != null) {
+                            ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                        }
+                    }
+                }
+            });
+            tabLayout.getTabAt(selectedTabPosition).select();
         }
-        TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
-        View tabView = tabBinding.getRoot();
-        tabLayout.getTabAt(i).setCustomView(tabView);
-        tabBinding.text1.setText(tabTitles[i]);
-        tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_history, 0, 0);
+    }
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
-                if (tab.getCustomView().findViewById(R.id.text2) != null) {
-                    ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
-                }
-            }
+    public void setCoverImage() {
+        Point point = AppUtility.getDisplayPoint(getContext());
+        int width = point.x;
+        float ratio = (float) 195 / 320; // to get the image in aspect ratio
+        int height = AppUtility.getHeightInAspectRatio(width, ratio);
+        ImageView ivCover = otherUserProfileBinding.ivProfileCover;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivCover.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivCover.getLayoutParams();
+        CloudinaryImage coverImage = User.getInstance().getCoverImage();
+        if (coverImage != null) {
+            otherUserProfileBinding.setImageCoverUrl(CloudinaryUtils.getImageUrl(coverImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height)));
+        }
+        otherUserProfileBinding.executePendingBindings();
+    }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(inactiveColor);
-                if (tab.getCustomView().findViewById(R.id.text2) != null) {
-                    ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(inactiveColor);
-                }
-            }
+    //To set the user profile image from cloudinary image-URL
+    public void setProfileImage() {
+        int width = getContext().getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
+        int height = width;
+        ImageView ivProfile = otherUserProfileBinding.userAvatar;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        ivProfile.setLayoutParams(layoutParams);
+        RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
+        CloudinaryImage profileImage = User.getOtherUser().getProfileImage();
+        if (profileImage != null) {
+            String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
+            User.getOtherUser().setProfileImageUrl(imageUrl);
+        }
+        otherUserProfileBinding.executePendingBindings();
+    }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
-                if (tab.getCustomView().findViewById(R.id.text2) != null) {
-                    ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
-                }
-            }
-        });
-        userProfileBinding.btnSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startActivity(new Intent(getContext(), UserSettingsActivity.class));
-            }
-        });
-
-        tabLayout.getTabAt(0).select();
+    private void setUpFragmentArguments() {
+        bundle.putString(Constants.USER_ID, userId);
+        bundle.putString(Constants.FRIENDLY_URL, friendlyUrl);
     }
 
     @Override
     public void followToggeled() {
 
+    }
+
+    private void setAppBarListener() {
+        AppBarLayout appBarLayout = otherUserProfileBinding.appbar;
+        appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
+                switch (state) {
+                    case COLLAPSED:
+                        otherUserProfileBinding.rvToolbarContainer.setVisibility(View.INVISIBLE);
+                        break;
+                    case EXPANDED:
+                        otherUserProfileBinding.rvToolbarContainer.setVisibility(View.VISIBLE);
+                        break;
+                    case SCROLL_DOWN:
+                        otherUserProfileBinding.rvToolbarContainer.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+    }
+
+    public void setNotificationCount() {
+        User user = User.getOtherUser();
+        notificationCount.get(Constants.TAB_OTHER_RECIPES).setCount(user.getRecipeCount());
+        notificationCount.get(Constants.TAB_OTHER_COOKBOOKS).setCount(user.getRecipesCollectionCount());
+        notificationCount.get(Constants.TAB_OTHER_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
+        notificationCount.get(Constants.TAB_OTHER_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
     }
 }

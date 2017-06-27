@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -48,27 +47,21 @@ import java.util.ArrayList;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
-    private static UserProfileFragment fragment;
     private FragmentUserProfileBinding userProfileBinding;
-    FragmentUserProfileSignUpBinding userProfileSignUpBinding;
+    private FragmentUserProfileSignUpBinding userProfileSignUpBinding;
     UserProfileViewModel userViewModel;
     private ViewPager viewPager;
     private LayoutInflater inflater;
     private ViewGroup container;
     private Point point;
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
     int selectedTabPosition = 0;
+    private Bundle bundle = new Bundle();
+    ProfileAdapter adapter;
 
     ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
-    }
-
-    public static UserProfileFragment getInstance() {
-        if (fragment == null) {
-            fragment = new UserProfileFragment();
-        }
-        return fragment;
     }
 
     @Override
@@ -131,21 +124,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         userProfileBinding.userAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.e("User profile", "Image Clicked");
-                Logger.e("User profile", userProfileBinding.userAvatar.getWidth() + "");
                 CameraUtils.selectImage(getContext());
-            }
-        });
-
-//            TODO: Resolve the user profile pic click issue
-        userProfileBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        userProfileBinding.rvToolbarContainer.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null));
-                    }
-                }
             }
         });
     }
@@ -177,11 +156,25 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
 //        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
-        ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-        adapter.addFrag(new RecipeFragment(), "Recipes");
-        adapter.addFrag(new FollowersFragment(), "Followers");
-        adapter.addFrag(new FollowingFragment(), "Following");
-        adapter.addFrag(new HistoryFragment(), "History");
+        adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+        setUpFragmentArguments();
+
+        RecipeFragment recipeFragment = new RecipeFragment();
+        recipeFragment.setArguments(bundle);
+        adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
+
+        FollowersFragment followersFragment = new FollowersFragment();
+        followersFragment.setArguments(bundle);
+        adapter.addFrag(followersFragment, getActivity().getString(R.string.tab_followers));
+
+        FollowingFragment followingFragment = new FollowingFragment();
+        followingFragment.setArguments(bundle);
+        adapter.addFrag(followingFragment, getActivity().getString(R.string.tab_following));
+
+        HistoryFragment historyFragment = new HistoryFragment();
+        historyFragment.setArguments(bundle);
+        adapter.addFrag(historyFragment, getActivity().getString(R.string.tab_history));
+
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
         tabLayout.setupWithViewPager(viewPager);
@@ -234,6 +227,11 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         });
         tabLayout.getTabAt(selectedTabPosition).select();
     }
+
+    private void setUpFragmentArguments() {
+        bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.USER_ID));
+    }
+
 
     @Override
     public void followToggeled() {
@@ -301,5 +299,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 }
             }
         });
+    }
+
+    public TabLayout getTabLayout() {
+        return tabLayout;
     }
 }

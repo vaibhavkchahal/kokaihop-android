@@ -1,5 +1,6 @@
 package com.kokaihop.recipedetail;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,5 +28,10 @@ public interface RecipeDetailApi {
 
     @POST("v1/api/recipes/setRating")
     Call<ResponseBody> rateRecipe(@Header("Authorization") String authorization, @Body RatingRequestParams params);
+
+    @POST("v1/api/recipes/{recipeId}")
+    Call<ResponseBody> updateRecipeDetail(@Header("Authorization") String authorization,
+                                          @Path("recipeId") String recipeId,
+                                          @Body RequestBody recipe);
 
 }

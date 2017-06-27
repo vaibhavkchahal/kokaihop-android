@@ -13,11 +13,17 @@ public class Constants {
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String AUTHORIZATION_BEARER = "Bearer ";
     public static final String USER_ID = "userId ";
+    public static final String FRIENDLY_URL = "friendlyUrl ";
 
     //Tab Numbers
     public static final int TAB_RECIPES = 0;
     public static final int TAB_FOLLOWERS = 1;
     public static final int TAB_FOLLOWINGS = 2;
+
+    public static final int TAB_OTHER_RECIPES = 0;
+    public static final int TAB_OTHER_COOKBOOKS = 1;
+    public static final int TAB_OTHER_FOLLOWERS = 2;
+    public static final int TAB_OTHER_FOLLOWINGS = 3;
     public static final String EXTRA_FROM = "extraFrom";
 
     // for cloudinary request
@@ -30,6 +36,7 @@ public class Constants {
 
 
     public static final String COUNTRY_CODE = "en";
+    public static final String MY_COOKBOOK = "myCookbook";
 
 
 }
