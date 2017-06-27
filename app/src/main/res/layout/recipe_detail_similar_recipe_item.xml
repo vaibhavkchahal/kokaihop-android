@@ -7,11 +7,14 @@
         <variable name="model" type="com.kokaihop.recipedetail.SimilarRecipe"/>
         <variable name="profileImageUrl" type="String"/>
         <variable name="recipeImageUrl" type="String"/>
+        <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
+
     </data>
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:background="@color/grey_FFD4D4D4">
+                    android:background="@color/grey_FFD4D4D4"
+                    android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,model.recipeId,-1)}">
 
         <ImageView
             android:id="@+id/imgview_recipe_img"

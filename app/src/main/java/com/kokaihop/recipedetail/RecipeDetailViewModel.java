@@ -196,7 +196,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 if (realmObject.getCreatedBy().getProfileImageId() != null) {
                     profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
                 }
-                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
                 recipeDetailItemsList.add(similarRecipe);
             }
         }
