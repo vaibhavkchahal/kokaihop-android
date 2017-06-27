@@ -22,11 +22,11 @@
         <RatingBar
             android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/recipe_detail_rating_bar_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/recipe_detai_rating_bar_margin_top"
             android:isIndicator="false"
             android:numStars="5"
-            android:progressDrawable="@drawable/recipe_rating_bar"
+            android:progressDrawable="@drawable/recipe_detail_rate_comment_rating_bar"
             android:rating="@{model.rating}"
             android:stepSize="1"/>
 
