@@ -188,6 +188,16 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     @Override
+    public void showWithImageDialog(View view, View parentView, String text, boolean selected) {
+        if (selected) {
+
+        } else {
+
+        }
+
+    }
+
+    @Override
     public void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList) {
 
         if (searchSuggestionList != null && searchSuggestionList.size() > 0) {

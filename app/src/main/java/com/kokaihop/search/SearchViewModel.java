@@ -182,6 +182,7 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void displaySortByList(View view) {
+        String previousSelected = "";
         if (sortByList == null) {
             sortByList = new ArrayList<>();
             String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
@@ -192,11 +193,33 @@ public class SearchViewModel extends BaseViewModel {
                 filterDataAll.setName(sortBy);
                 sortByList.add(filterDataAll);
             }
+
+            previousSelected = sortByList.get(0).getName();
         }
-        String previousSelected="";
-        if(view.getTag()!=null)
-        {
-            previousSelected=view.getTag().toString();
+        if (view.getTag() != null) {
+            previousSelected = view.getTag().toString();
+        }
+        dataSetListener.showFilterDialog(sortByList, previousSelected, view, view.getContext().getResources().getString(R.string.sort_by));
+    }
+
+
+    public void showWithImages(View view, View ParentView) {
+        String previousSelected = "";
+        if (sortByList == null) {
+            sortByList = new ArrayList<>();
+            String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
+
+            for (String sortBy : sortByArray
+                    ) {
+                FilterData filterDataAll = new FilterData();
+                filterDataAll.setName(sortBy);
+                sortByList.add(filterDataAll);
+            }
+
+            previousSelected = sortByList.get(0).getName();
+        }
+        if (view.getTag() != null) {
+            previousSelected = view.getTag().toString();
         }
         dataSetListener.showFilterDialog(sortByList, previousSelected, view, view.getContext().getResources().getString(R.string.sort_by));
     }
@@ -261,7 +284,7 @@ public class SearchViewModel extends BaseViewModel {
 
     public interface DataSetListener {
         void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title);
-
+        void showWithImageDialog(View view,View ParentView, String text, boolean selected);
         void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList);
     }
 }
