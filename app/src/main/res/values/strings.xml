@@ -216,8 +216,29 @@
     <string name="select_course">Select Course</string>
     <string name="select_cuisine">Select Cuisine</string>
     <string name="select_method">Select Method</string>
+    <string name="sort_by">Sort By</string>
     <string name="search_recipes_ingredents">Search recipes or ingredients</string>
     <string name="latest_search">LATEST SEARCHES</string>
     <string name="recipe_results">%1$s Recipe results</string>
+
+
+    <string name="popular">popular</string>
+    <string name="relevance">relevance</string>
+    <string name="most_recent">most recent</string>
+    <string name="most_commented"> most commented</string>
+    <string name="most_rated">most rated</string>
+    <string name="title_a_z">title a-z</string>
+    <string name="title_z_a">title z-a</string>
+
+    <!--  Sort by array-->
+    <string-array name="sort_by">
+        <item>@string/popular</item>
+        <item>@string/relevance</item>
+        <item>@string/most_recent</item>
+        <item>@string/most_commented</item>
+        <item>@string/most_rated</item>
+        <item>@string/title_a_z</item>
+        <item>@string/title_z_a</item>
+    </string-array>
 
 </resources>

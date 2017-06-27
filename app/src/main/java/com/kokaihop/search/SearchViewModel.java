@@ -1,5 +1,6 @@
 package com.kokaihop.search;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
@@ -33,6 +34,7 @@ public class SearchViewModel extends BaseViewModel {
     private List<FilterData> categoriesList;
     private List<FilterData> cuisineList;
     private List<FilterData> cookingMethodList;
+    private List<FilterData> sortByList;
 
     public SearchViewModel(DataSetListener dataSetListener) {
         this.dataSetListener = dataSetListener;
@@ -179,6 +181,27 @@ public class SearchViewModel extends BaseViewModel {
         dataSetListener.showFilterDialog(cuisineList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_cuisine));
     }
 
+    public void displaySortByList(View view) {
+        if (sortByList == null) {
+            sortByList = new ArrayList<>();
+            String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
+
+            for (String sortBy : sortByArray
+                    ) {
+                FilterData filterDataAll = new FilterData();
+                filterDataAll.setName(sortBy);
+                sortByList.add(filterDataAll);
+            }
+        }
+        String previousSelected="";
+        if(view.getTag()!=null)
+        {
+            previousSelected=view.getTag().toString();
+        }
+        dataSetListener.showFilterDialog(sortByList, previousSelected, view, view.getContext().getResources().getString(R.string.sort_by));
+    }
+
+
     public void displayCookingMethodList(TextView textView) {
 
         if (cookingMethodList == null) {
@@ -237,7 +260,7 @@ public class SearchViewModel extends BaseViewModel {
 
 
     public interface DataSetListener {
-        void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, TextView textView, String title);
+        void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title);
 
         void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList);
     }

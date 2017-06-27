@@ -96,14 +96,14 @@
                           android:layout_weight="0.5"
                           android:background="@drawable/search_tag_white"
                           android:gravity="center"
-                          android:padding="@dimen/txtview_category_padding_top"
 
             >
                 <ImageView
+                    android:id="@+id/imageview_sortby"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/ic_sortby_sm"
-
+                    android:onClick="@{(v)->viewModel.displaySortByList(imageviewSortby)}"
                 />
 
             </LinearLayout>
@@ -130,9 +130,9 @@
             />
         </LinearLayout>
 
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout android:id="@+id/linearlyt_newly_added_recipe"
+                      android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:id="@+id/linearlyt_newly_added_recipe"
                       android:background="@drawable/img_new_recipes"
                       android:gravity="center"
                       android:orientation="vertical"

@@ -144,7 +144,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     @Override
-    public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final TextView textView, String title) {
+    public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final View view, String title) {
         DialogSearchFilterBinding binding = DataBindingUtil.
                 inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
         final BottomSheetDialog filterDialog = setDialogConfigration(binding);
@@ -158,17 +158,21 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 new SearchFilterAdapter.FilterDataItemClickListener() {
                     @Override
                     public void onItemClick(FilterData filterData) {
-                        if (filterData.getName().equals(getString(R.string.all))) {
-                            textView.setBackgroundResource(R.drawable.search_tag_white);
-                            textView.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.grey_FF8D929C));
+                        if (view instanceof TextView) { //Filter selected.
+                            TextView textView = (TextView) view;
+                            if (filterData.getName().equals(getString(R.string.all))) {
+                                textView.setBackgroundResource(R.drawable.search_tag_white);
+                                textView.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.grey_FF8D929C));
+                            } else {
+                                textView.setBackgroundResource(R.drawable.search_tag_orange);
+                                textView.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+                            }
+                            textView.setText(filterData.getName());
                         } else {
-                            textView.setBackgroundResource(R.drawable.search_tag_orange);
-                            textView.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
-
+                            //SortBy selected
+                            view.setTag(filterData.getName());
                         }
-                        textView.setText(filterData.getName());
                         filterDialog.dismiss();
-
                     }
                 });
 
