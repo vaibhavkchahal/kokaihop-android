@@ -45,7 +45,7 @@
                 android:layout_marginTop="@dimen/comment_rating_bar_margin_top"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:progressDrawable="@drawable/recipe_detail_rate_comment_rating_bar"
+                android:progressDrawable="@drawable/recipe_detail_rating_bar"
                 android:saveEnabled="false"
                 android:stepSize="0.01"/>
 
