@@ -20,6 +20,7 @@ public class PagerTabAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+
     public PagerTabAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
@@ -40,6 +41,7 @@ public class PagerTabAdapter extends FragmentStatePagerAdapter {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
+
     /**
      * On each Fragment instantiation we are saving the reference of that Fragment in a Map
      * It will help us to retrieve the Fragment by position

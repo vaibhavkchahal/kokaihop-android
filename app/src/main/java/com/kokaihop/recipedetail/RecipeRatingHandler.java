@@ -1,10 +1,7 @@
 package com.kokaihop.recipedetail;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
@@ -45,7 +42,7 @@ public class RecipeRatingHandler {
             @Override
             public void onSuccess(Object response) {
                 Context context = ratingBar.getContext();
-                showRateSucessDialog(context, context.getString(R.string.rating_dialog_text) + " " + (int) ratingBar.getRating());
+                AppUtility.showRateSucessDialog(context, context.getString(R.string.rating_dialog_text) + " " + (int) ratingBar.getRating());
                 ratingBar.setRating(recipeDetailHeader.getRating());
             }
 
@@ -58,27 +55,5 @@ public class RecipeRatingHandler {
             public void onError(Object response) {
             }
         });
-    }
-
-    public static void showRateSucessDialog(final Context context, final String message) {
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.custom_rating_success_view);
-        TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
-        textView.setText(message);
-        dialog.show();
-        hideDialogAfterTimeOut(dialog);
-    }
-
-    private static void hideDialogAfterTimeOut(final Dialog dialog) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-        };
-        Handler handler = new Handler();
-        handler.postDelayed(runnable, 2000);
     }
 }

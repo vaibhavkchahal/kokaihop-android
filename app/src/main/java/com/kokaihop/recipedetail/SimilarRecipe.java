@@ -6,16 +6,18 @@ package com.kokaihop.recipedetail;
 
 public class SimilarRecipe {
 
+    private String recipeId;
     private String recipeImageUrl;
     private String userImageUrl;
     private String userName;
     private String recipeName;
 
-    public SimilarRecipe(String recipeName,String recipeImageId, String userImageId, String userName) {
+    public SimilarRecipe(String recipeId, String recipeName, String recipeImageId, String userImageId, String userName) {
         this.recipeImageUrl = recipeImageId;
         this.userImageUrl = userImageId;
         this.userName = userName;
         this.recipeName = recipeName;
+        this.recipeId = recipeId;
     }
 
     public String getRecipeImageUrl() {
@@ -48,5 +50,13 @@ public class SimilarRecipe {
 
     public void setRecipeName(String recipeName) {
         this.recipeName = recipeName;
+    }
+
+    public String getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(String recipeId) {
+        this.recipeId = recipeId;
     }
 }

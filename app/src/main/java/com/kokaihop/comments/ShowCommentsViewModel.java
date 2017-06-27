@@ -169,6 +169,11 @@ public class ShowCommentsViewModel extends BaseViewModel {
         return requestParams;
     }
 
+
+    public void updateComments() {
+        fetchCommentsFromDB();
+    }
+
     @Override
     protected void destroy() {
     }

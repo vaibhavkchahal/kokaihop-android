@@ -2,11 +2,13 @@ package com.kokaihop.utility;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.DisplayMetrics;
@@ -14,6 +16,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -118,5 +121,26 @@ public class AppUtility {
         }
     }
 
+    public static void showRateSucessDialog(final Context context, final String message) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.custom_rating_success_view);
+        TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
+        textView.setText(message);
+        dialog.show();
+        hideDialogAfterTimeOut(dialog);
+    }
+
+    private static void hideDialogAfterTimeOut(final Dialog dialog) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        };
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, 2000);
+    }
 
 }

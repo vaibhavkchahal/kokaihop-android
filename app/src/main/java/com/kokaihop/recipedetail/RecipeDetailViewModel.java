@@ -87,7 +87,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     ResponseBody responseBody = (ResponseBody) response;
                     final JSONObject recipeJSONObject = new JSONObject(responseBody.string()).getJSONObject("recipe");
                     copyJsonObject = new JSONObject(recipeJSONObject.toString());
-
                     recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeID).getTitle());
@@ -211,7 +210,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 if (realmObject.getCreatedBy().getProfileImageId() != null) {
                     profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
                 }
-                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
                 recipeDetailItemsList.add(similarRecipe);
             }
         }
@@ -298,7 +297,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public void uploadImageOnCloudinary(final String imagePath) {
-
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
@@ -315,7 +313,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 //                jsonObject.getJSONObject("")
                 JSONObject image = new JSONObject();
                 JSONObject uploader = new JSONObject();
@@ -360,7 +357,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ((RecipeDetailActivity)context).setupRecipeDetailScreen();
+                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                 setProgressVisible(false);
             }
         });

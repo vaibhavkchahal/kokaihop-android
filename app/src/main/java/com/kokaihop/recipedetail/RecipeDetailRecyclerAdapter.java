@@ -30,6 +30,7 @@ import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.feed.AdvtDetail;
+import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 
@@ -234,6 +235,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 holderItemSimilarRecipe.binder.setRecipeImageUrl(recipeUrl);
                 holderItemSimilarRecipe.binder.setProfileImageUrl(profileImageUrl);
                 holderItemSimilarRecipe.binder.setModel(similarRecipe);
+                holderItemSimilarRecipe.binder.setRecipeHandler(new RecipeHandler());
                 holderItemSimilarRecipe.binder.executePendingBindings();
                 break;
             default:

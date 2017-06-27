@@ -102,8 +102,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     }
 
-    ;
-
     private void setProfileImage() {
         int profileImageSize = getResources().getDimensionPixelOffset(R.dimen.recipe_detail_header_profile_img_height_width);
         String profileImageUrl = CloudinaryUtils.getRoundedImageUrl(recipeDetailViewModel.getRecipeImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize));
@@ -464,7 +462,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
                 }
                 Logger.d("File Path", filePath);
-
                 //TODO : cloudinary image upload code goes here
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
             }
