@@ -25,7 +25,6 @@
 
     <color name="grey_FFD4D4D4">#FFD4D4D4</color>
     <color name="white_FFF7F7F7">#FFF7F7F7</color>
-
     <color name="grey_FF71767F">#FF71767F</color>
     <color name="black_FF262F40">#FF262F40</color>
     <color name="grey_FF8D929C">#FF8D929C</color>
@@ -42,6 +41,7 @@
     <color name="orange_FFFF9326">#FFFF9326</color>
     
     <color name="blue_FF1484FF">#FF1484FF</color>
+    <color name="grey_FFBFBFBF">#FFBFBFBF</color>
 
 
 </resources>

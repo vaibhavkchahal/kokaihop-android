@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.altaworks.kokaihop.ui.com.kokaihop.selectcity.SearchCityActivity">
 
@@ -15,13 +16,13 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_top"
-            style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:background="@color/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:paddingBottom="@dimen/select_city_toolbar_padding_top"
-            android:paddingTop="@dimen/toolbar_top_padding">
+            android:paddingBottom="@dimen/home_header_margin_bottom"
+            android:paddingLeft="@dimen/home_header_horizontal_margin"
+            android:paddingTop="@dimen/home_header_margin_top">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -30,7 +31,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_back_arrow_white_md"
+                    android:paddingRight="10dp"
                     android:textSize="@dimen/text_size_large"/>
 
                 <TextView
@@ -38,6 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:gravity="center"
                     android:text="@string/cities"
                     android:textColor="@color/white"
@@ -47,28 +51,50 @@
 
         </android.support.v7.widget.Toolbar>
 
+
+        <RelativeLayout android:id="@+id/relative_layout_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_below="@id/toolbar_top"
+                        android:layout_marginLeft="@dimen/selectcity_sv_margin_left"
+                        android:layout_marginRight="@dimen/selectcity_sv_margin_right"
+                        android:layout_marginTop="@dimen/selectcity_sv_margin_top"
+                        android:background="@drawable/round_corner_layout"
+                        android:paddingLeft="5dp">
+            <ImageView android:id="@+id/imageview_search_icon"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentLeft="true"
+                       android:layout_centerVertical="true"
+                       android:layout_marginRight="5dp"
+                       android:background="@drawable/ic_search_grey"/>
             <android.support.v7.widget.SearchView
                 android:id="@+id/searchview_search_city"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar_top"
-                android:layout_marginLeft="@dimen/selectcity_sv_margin_left"
-                android:layout_marginRight="@dimen/selectcity_sv_margin_right"
-                android:layout_marginTop="@dimen/selectcity_sv_margin_top"
-                android:background="@drawable/round_corner_layout"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/imageview_search_icon"
+                android:paddingEnd="-11dp"
+                android:paddingStart="-16dp"
                 android:textAlignment="center"
-                app:defaultQueryHint="@string/search"/>
+                android:textColor="@color/white"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/text_size_small"
+                app:defaultQueryHint="@string/search"
+                bind:iconifiedByDefault="false"
+                bind:searchIcon="@null"
+            />
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view_city_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/searchview_search_city"
+            android:layout_below="@+id/relative_layout_search"
             android:layout_marginTop="@dimen/selectcity_rv_margin_top">
         </android.support.v7.widget.RecyclerView>
         <include
-            bind:viewModel="@{viewModel}"
-            layout="@layout/progress_bar"/>
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
     </RelativeLayout>
 
 </layout>

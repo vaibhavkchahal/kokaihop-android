@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.search.SearchViewModel"/>
+
+    </data>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.kokaihop.search.SearchActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/rl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@color/colorPrimary"
+                android:paddingBottom="@dimen/home_header_margin_bottom"
+                android:paddingLeft="@dimen/home_header_horizontal_margin"
+                android:paddingTop="@dimen/home_header_margin_top">
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/imageview_back"
+                        style="@style/backButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="15dp"
+                       />
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="32dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_toRightOf="@id/imageview_back"
+                                    android:background="@drawable/round_corner_home_search_layout"
+                                    android:paddingLeft="5dp">
+                        <ImageView android:id="@+id/imageview_search_icon"
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_alignParentLeft="true"
+                                   android:layout_centerVertical="true"
+                                   android:layout_marginRight="5dp"
+                                   android:background="@drawable/ic_search"/>
+                        <android.support.v7.widget.SearchView
+                            android:id="@+id/searchview_recipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@+id/imageview_search_icon"
+                            android:paddingEnd="-11dp"
+                            android:paddingStart="-16dp"
+                            android:textColor="@color/white"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/text_size_small"
+                            bind:iconifiedByDefault="false"
+                            bind:searchIcon="@null"
+                        />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <include layout="@layout/content_search"
+                 android:id="@+id/included"
+                 bind:viewModel="@{viewModel}"/>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

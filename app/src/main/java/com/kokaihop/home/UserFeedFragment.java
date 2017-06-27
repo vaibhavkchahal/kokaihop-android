@@ -1,5 +1,6 @@
 package com.kokaihop.home;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,6 +19,7 @@ import com.kokaihop.feed.DessertFragment;
 import com.kokaihop.feed.MainCourseFragment;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
+import com.kokaihop.search.SearchActivity;
 import com.kokaihop.utility.Logger;
 
 public class UserFeedFragment extends Fragment {
@@ -97,6 +99,17 @@ public class UserFeedFragment extends Fragment {
         }
 
         tabLayout.getTabAt(0).select();
+        userFeedBinding.rlHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchClick();
+            }
+        });
     }
 
+    public void searchClick() {
+        Intent intent = new Intent(getContext(), SearchActivity.class);
+        startActivity(intent);
+
+    }
 }

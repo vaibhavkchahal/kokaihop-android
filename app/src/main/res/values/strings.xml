@@ -46,6 +46,7 @@
         <b>Login here</b>
     </string>
     <string name="close">X</string>
+    <string name="close_label">Close</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
     <string name="cities">Select Your City</string>
@@ -200,4 +201,44 @@
     <string name="text_reply">Reply</string>
     <string name="replied_text">" replied"</string>
     <string name="text_and">" and "</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="newly_added_recipe">
+        <b>Newely Added Recipe</b>
+    </string>
+    <string name="explore_now">
+        <b>Explore Now</b>
+    </string>
+
+    <string name="label_course">Course</string>
+    <string name="label_cuisine">Cuisine</string>
+    <string name="label_method">Method</string>
+    <string name="all">All</string>
+    <string name="select_course">Select Course</string>
+    <string name="select_cuisine">Select Cuisine</string>
+    <string name="select_method">Select Method</string>
+    <string name="sort_by">Sort By</string>
+    <string name="search_recipes_ingredents">Search recipes or ingredients</string>
+    <string name="latest_search">LATEST SEARCHES</string>
+    <string name="recipe_results">%1$s Recipe results</string>
+
+
+    <string name="popular">popular</string>
+    <string name="relevance">relevance</string>
+    <string name="most_recent">most recent</string>
+    <string name="most_commented"> most commented</string>
+    <string name="most_rated">most rated</string>
+    <string name="title_a_z">title a-z</string>
+    <string name="title_z_a">title z-a</string>
+
+    <!--  Sort by array-->
+    <string-array name="sort_by">
+        <item>@string/popular</item>
+        <item>@string/relevance</item>
+        <item>@string/most_recent</item>
+        <item>@string/most_commented</item>
+        <item>@string/most_rated</item>
+        <item>@string/title_a_z</item>
+        <item>@string/title_z_a</item>
+    </string-array>
+
 </resources>
