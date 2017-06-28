@@ -23,6 +23,7 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 import com.kokaihop.search.SearchViewModel.DataSetListener;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
@@ -45,15 +46,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         initializeSearchView();
         initialiseSuggestionView();
+        intilizeRecyclerView();
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
-                binding.included.linearlytRecentSearch.setVisibility(View.GONE);
-                newlyAddedRecipe();
+                showRecipesList(searchViewModel.fetchNewlyAddedRecipeWithAds());
             }
         });
-        searchViewModel = new SearchViewModel(this);
+        searchViewModel = new SearchViewModel(this, this);
         binding.setViewModel(searchViewModel);
         binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,9 +65,19 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     }
 
-    private void newlyAddedRecipe() {
+    private void intilizeRecyclerView() {
         RecyclerView rvMainCourse = binding.included.rvRecipes;
-        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(searchViewModel.fetchNewlyAddedRecipeWithAds());
+        int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+        rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+    }
+
+    @Override
+    public void showRecipesList(List<Object> recipeList) {
+        binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
+        binding.included.linearlytRecentSearch.setVisibility(View.GONE);
+
+        RecyclerView rvMainCourse = binding.included.rvRecipes;
+        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(recipeList);
         recyclerAdapter.setFromSearchedView(true);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -90,13 +100,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                                         }
         );
         rvMainCourse.setLayoutManager(layoutManager);
-
         rvMainCourse.setAdapter(recyclerAdapter);
-
-
-        int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-        rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-//        feedRecyclerListingOperation.prepareFeedRecyclerView();
     }
 
     private void initialiseSuggestionView() {
@@ -144,7 +148,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     @Override
-    public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final View view, String title) {
+    public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final View view, String title, final SearchViewModel.FilterType filterType) {
         DialogSearchFilterBinding binding = DataBindingUtil.
                 inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
         final BottomSheetDialog filterDialog = setDialogConfigration(binding);
@@ -158,6 +162,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 new SearchFilterAdapter.FilterDataItemClickListener() {
                     @Override
                     public void onItemClick(FilterData filterData) {
+
+
                         if (view instanceof TextView) { //Filter selected.
                             TextView textView = (TextView) view;
                             if (filterData.getName().equals(getString(R.string.all))) {
@@ -172,6 +178,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                             //SortBy selected
                             view.setTag(filterData.getName());
                         }
+                        searchViewModel.setCurrentSelectedFilter(filterData, filterType);
+                        searchViewModel.search();
                         filterDialog.dismiss();
                     }
                 });
@@ -187,6 +195,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     }
 
+
     @Override
     public void showWithImageDialog(View childView, View view, boolean selected, String msg) {
         if (selected) {
@@ -196,9 +205,10 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         } else {
             view.setBackgroundResource(R.drawable.search_tag_white);
             childView.setBackgroundResource(R.drawable.ic_picture_unselected);
-
-
         }
+        searchViewModel.setWithImage(selected);
+        searchViewModel.search();
+        AppUtility.showAutoCancelMsgDialog(SearchActivity.this, msg);
 
     }
 
@@ -211,6 +221,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     new SearchSuggestionAdapter.SuggestionDataItemClickListener() {
                         @Override
                         public void onItemClick(SearchSuggestionRealmObject searchSuggestionRealmObject) {
+                            searchViewModel.setSearchKeyword(searchSuggestionRealmObject.getKeyword());
+                            searchViewModel.search();
                             Logger.e("keyword", searchSuggestionRealmObject.getKeyword());
                         }
                     });
@@ -227,12 +239,27 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     public boolean onQueryTextSubmit(String query) {
         searchViewModel.addSearchSuggestion(query);
         updateSearchSuggestions(searchViewModel.getSearchSuggestion());
+        searchViewModel.setSearchKeyword(query);
+        searchViewModel.search();
+        /*if(!query.isEmpty() && query.length()>3)
+        {
+
+
+        }*/
         binding.searchviewRecipe.clearFocus();
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        Logger.e("new text", newText);
+
+        /* if(!query.isEmpty() && query.length()>3)
+        {
+
+
+        }*/
+
         return false;
     }
 }

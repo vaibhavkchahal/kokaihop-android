@@ -1,5 +1,8 @@
 package com.kokaihop.search;
 
+import android.content.Context;
+
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
@@ -13,8 +16,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
+import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -24,12 +31,14 @@ import io.realm.Sort;
 
 public class SearchDataManager {
     private final int MAX_SUGGESTIONS = 4;
+    private Context context;
 
 
     private Realm realm;
 
-    public SearchDataManager() {
+    public SearchDataManager(Context context) {
         realm = Realm.getDefaultInstance();
+        this.context = context;
 
     }
 
@@ -111,15 +120,114 @@ public class SearchDataManager {
 
     }
 
-    public ArrayList<Recipe> fetchNewlyAddedRecipe() {
-        RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class)
-                .findAllSorted("dateCreated", Sort.DESCENDING);
+    public ArrayList<Recipe> fetchNewlyAddedRecipe(boolean withImage) {
+
+        RealmQuery<RecipeRealmObject> query = realm.where(RecipeRealmObject.class);
+
+        if (withImage) {
+            query.isNotNull("mainImage");
+//            query = query.notEqualTo("mainImage.publicId", "");
+        }
+        RealmResults<RecipeRealmObject> recipeRealmObjectList = query.findAllSortedAsync("dateCreated", Sort.DESCENDING);
+
+//        RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class).isNotNull("mainImage").findAllSortedAsync("dateCreated", Sort.DESCENDING);
         ArrayList<Recipe> recipeList = new ArrayList<>(recipeRealmObjectList.size());
         for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList) {
             recipeList.add(getRecipe(recipeRealmObject));
         }
+
         return recipeList;
     }
+
+
+    public List<Recipe> selectedFiltersSearchQuery(String course, String cuisine, String method, boolean withImage, String sortBy, String keyword) {
+        HashMap<String, String> filterMap = new HashMap<>();
+        if (course != null && !course.isEmpty()) {
+            filterMap.put("category.friendlyUrl", course);
+        }
+        if (cuisine != null && !cuisine.isEmpty()) {
+            filterMap.put("cuisine.friendlyUrl", cuisine);
+
+        }
+        if (method != null && !method.isEmpty()) {
+            filterMap.put("cookingMethod.friendlyUrl", method);
+
+        }
+
+        RealmQuery<RecipeRealmObject> query;
+        query = realm.where(RecipeRealmObject.class);
+
+        if (keyword != null && !keyword.isEmpty()) {
+            query = query.contains("title", keyword, Case.INSENSITIVE).or().contains("ingredients.name", keyword, Case.INSENSITIVE);
+//            recipeRealmObjectList = realm.where(RecipeRealmObject.class).like("title", keyword, Case.INSENSITIVE).or().like("ingredients.name", keyword, Case.INSENSITIVE).findAll();
+
+        }
+        if (withImage) {
+            query = query.isNotNull("mainImage");
+        }
+        if (filterMap.size() > 0) {
+            query.beginGroup();
+            List<String> keyList = new ArrayList<>(filterMap.keySet());
+            for (int i = 0; i < keyList.size(); i++) {
+                String key = keyList.get(i);
+                String value = filterMap.get(key);
+                query = query.equalTo(key, value);
+               /* if (i != keyList.size() - 1) {
+                    query = query.and();
+                }*/
+            }
+            query.endGroup();
+        }
+        RealmResults<RecipeRealmObject> recipeRealmResult = null;
+        if (!sortBy.isEmpty()) {
+            String sortField = "title";
+            Sort sort = Sort.ASCENDING;
+
+            if (sortBy.equals(context.getResources().getString(R.string.title_a_z))) {
+                sortField = "title";
+                sort = Sort.ASCENDING;
+            } else if (sortBy.equals(context.getResources().getString(R.string.title_z_a))) {
+                sortField = "title";
+                sort = Sort.DESCENDING;
+
+            } else if (sortBy.equals(context.getResources().getString(R.string.most_recent))) {
+                sortField = "dateCreated";
+                sort = Sort.DESCENDING;
+
+            } else if (sortBy.equals(context.getResources().getString(R.string.most_commented))) {
+
+                sortField = "comments";
+                sort = Sort.DESCENDING;
+
+            } else if (sortBy.equals(context.getResources().getString(R.string.most_rated))) {
+
+                sortField = "rating.raters";
+                sort = Sort.DESCENDING;
+
+            } else if (sortBy.equals(context.getResources().getString(R.string.popular))) {
+
+                sortField = "rating.average";
+                sort = Sort.DESCENDING;
+
+            } else if (sortBy.equals(context.getResources().getString(R.string.relevance))) {
+
+            }
+            recipeRealmResult = query.findAllSortedAsync(sortField, sort);
+
+
+        } else {
+            recipeRealmResult = query.findAllAsync();
+
+        }
+        List<Recipe> recipeList = new ArrayList<>();
+        for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
+            recipeList.add(getRecipe(recipeRealmObject));
+        }
+
+        return recipeList;
+
+    }
+
 
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
         Recipe recipe = new Recipe();

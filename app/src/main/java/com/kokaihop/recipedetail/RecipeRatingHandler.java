@@ -42,7 +42,7 @@ public class RecipeRatingHandler {
             @Override
             public void onSuccess(Object response) {
                 Context context = ratingBar.getContext();
-                AppUtility.showRateSucessDialog(context, context.getString(R.string.rating_dialog_text) + " " + (int) ratingBar.getRating());
+                AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.rating_dialog_text) + " " + (int) ratingBar.getRating());
                 ratingBar.setRating(recipeDetailHeader.getRating());
             }
 

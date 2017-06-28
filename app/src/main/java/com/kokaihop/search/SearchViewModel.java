@@ -1,5 +1,6 @@
 package com.kokaihop.search;
 
+import android.content.Context;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.TextView;
@@ -36,10 +37,46 @@ public class SearchViewModel extends BaseViewModel {
     private List<FilterData> cuisineList;
     private List<FilterData> cookingMethodList;
     private List<FilterData> sortByList;
+    private String courseFriendlyUrl = "", cuisineFriendlyUrl = "", methodFriendlyUrl = "", searchKeyword = "", sortBy = "";
+    //by default show all recipe with images
+    private boolean withImage = true;
 
-    public SearchViewModel(DataSetListener dataSetListener) {
+    public void setSearchKeyword(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
+    }
+
+
+    public static enum FilterType {
+        COURSE,
+        CUISINE,
+        METHOD,
+        SORT_BY
+
+    }
+
+    public void setCourseFriendlyUrl(String courseFriendlyUrl) {
+        this.courseFriendlyUrl = courseFriendlyUrl;
+    }
+
+    public void setCuisineFriendlyUrl(String cuisineFriendlyUrl) {
+        this.cuisineFriendlyUrl = cuisineFriendlyUrl;
+    }
+
+    public void setMethodFriendlyUrl(String methodFriendlyUrl) {
+        this.methodFriendlyUrl = methodFriendlyUrl;
+    }
+
+    public void setWithImage(boolean withImage) {
+        this.withImage = withImage;
+    }
+
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public SearchViewModel(DataSetListener dataSetListener, Context context) {
         this.dataSetListener = dataSetListener;
-        searchDataManager = new SearchDataManager();
+        searchDataManager = new SearchDataManager(context);
         fetchCategories();
         fetchCookingMethods();
         fetchCuisine();
@@ -157,7 +194,7 @@ public class SearchViewModel extends BaseViewModel {
         } else {
             fetchCategories();
         }
-        dataSetListener.showFilterDialog(categoriesList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_course));
+        dataSetListener.showFilterDialog(categoriesList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_course), FilterType.COURSE);
     }
 
     public void displayCuisineList(TextView textView) {
@@ -179,7 +216,7 @@ public class SearchViewModel extends BaseViewModel {
         } else {
             fetchCategories();
         }
-        dataSetListener.showFilterDialog(cuisineList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_cuisine));
+        dataSetListener.showFilterDialog(cuisineList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_cuisine), FilterType.CUISINE);
     }
 
     public void displaySortByList(View view) {
@@ -200,7 +237,7 @@ public class SearchViewModel extends BaseViewModel {
         if (view.getTag() != null) {
             previousSelected = view.getTag().toString();
         }
-        dataSetListener.showFilterDialog(sortByList, previousSelected, view, view.getContext().getResources().getString(R.string.sort_by));
+        dataSetListener.showFilterDialog(sortByList, previousSelected, view, view.getContext().getResources().getString(R.string.sort_by), FilterType.SORT_BY);
     }
 
 
@@ -240,11 +277,16 @@ public class SearchViewModel extends BaseViewModel {
         } else {
             fetchCategories();
         }
-        dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method));
+        dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method), FilterType.METHOD);
     }
 
     public List<Object> fetchNewlyAddedRecipeWithAds() {
-        List<Recipe> recipeList = searchDataManager.fetchNewlyAddedRecipe();
+        List<Recipe> recipeList = searchDataManager.fetchNewlyAddedRecipe(withImage);
+        List<Object> recipeListwithAds = insertAdsInList(recipeList);
+        return recipeListwithAds;
+    }
+
+    private List<Object> insertAdsInList(List<Recipe> recipeList) {
         List<Object> recipeListwithAds = new ArrayList<>();
         int count = recipeList.size();
         SearchRecipeHeader searchRecipeHeader = new SearchRecipeHeader();
@@ -276,12 +318,38 @@ public class SearchViewModel extends BaseViewModel {
 
     }
 
+    public void setCurrentSelectedFilter(FilterData filterData, SearchViewModel.FilterType filterType) {
+        switch (filterType) {
+            case COURSE:
+                setCourseFriendlyUrl(filterData.getFriendlyUrl());
+                break;
+            case CUISINE:
+                setCuisineFriendlyUrl(filterData.getFriendlyUrl());
+                break;
+            case METHOD:
+                setMethodFriendlyUrl(filterData.getFriendlyUrl());
+                break;
+            case SORT_BY:
+                setSortBy(filterData.getName());
+                break;
+        }
+
+
+    }
+
+    public void search() {
+        List<Recipe> recipeList = searchDataManager.selectedFiltersSearchQuery(courseFriendlyUrl, cuisineFriendlyUrl, methodFriendlyUrl, withImage, sortBy, searchKeyword);
+        List<Object> recipeListwithAds = insertAdsInList(recipeList);
+        dataSetListener.showRecipesList(recipeListwithAds);
+    }
 
     public interface DataSetListener {
-        void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title);
+        void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title, FilterType filterType);
 
         void showWithImageDialog(View childView, View view, boolean selected, String msg);
 
         void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList);
+
+        void showRecipesList(List<Object> recipeList);
     }
 }

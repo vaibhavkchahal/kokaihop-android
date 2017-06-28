@@ -6,8 +6,8 @@ package com.kokaihop.search;
 
 public class FilterData {
 
-    private String name;
-    private String friendlyUrl;
+    private String name="";
+    private String friendlyUrl="";
     private boolean isCurrentSelected;
 
     public String getName() {

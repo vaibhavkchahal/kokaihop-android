@@ -121,7 +121,7 @@ public class AppUtility {
         }
     }
 
-    public static void showRateSucessDialog(final Context context, final String message) {
+    public static void showAutoCancelMsgDialog(final Context context, final String message) {
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.custom_rating_success_view);
         TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);

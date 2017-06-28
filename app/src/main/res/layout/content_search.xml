@@ -79,7 +79,7 @@
                           android:layout_height="30dp"
                           android:layout_marginLeft="6dp"
                           android:layout_weight="0.5"
-                          android:background="@drawable/search_tag_white"
+                          android:background="@drawable/search_tag_orange"
                           android:gravity="center"
                           android:onClick="@{(v)->viewModel.showWithImages(imageviewWithImage, linearlytWithImages)}"
                           android:padding="@dimen/txtview_category_padding_top"
@@ -89,7 +89,7 @@
                     android:id="@+id/imageview_with_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ic_picture_unselected"
+                    android:background="@drawable/ic_picture"
                 />
             </LinearLayout>
 
