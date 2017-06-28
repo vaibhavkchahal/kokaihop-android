@@ -41,14 +41,11 @@ public class CookbooksFragment extends Fragment {
         boolean myCookbook = false;
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
         String userId = null;
-
         if (bundle != null) {
             userId = bundle.getString(Constants.USER_ID);
             myCookbook = bundle.getBoolean(Constants.MY_COOKBOOK);
         }
-
         viewModel = new CookbooksViewModel(this, getContext(), userId);
-
         if (myCookbook && (accessToken == null) || accessToken.isEmpty()) {
             FragmentCookbookLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);
             binding.setViewModel(viewModel);

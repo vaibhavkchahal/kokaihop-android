@@ -6,13 +6,26 @@ package com.kokaihop.comments;
 
 public class CommentRequestParams {
 
-    private int offset,max;
-    private String recipeId,typeFilter;
+    private int offset, max;
+    private String recipeId, typeFilter;
+    private boolean allReciepeDetailNeeded;
 
-    public CommentRequestParams(int offset, int max, String recipeId, String typeFilter) {
+    public CommentRequestParams() {
+    }
+
+    public void setOffset(int offset) {
         this.offset = offset;
+    }
+
+    public void setMax(int max) {
         this.max = max;
+    }
+
+    public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public void setTypeFilter(String typeFilter) {
         this.typeFilter = typeFilter;
     }
 
@@ -30,5 +43,13 @@ public class CommentRequestParams {
 
     public String getTypeFilter() {
         return typeFilter;
+    }
+
+    public boolean isAllReciepeDetailNeeded() {
+        return allReciepeDetailNeeded;
+    }
+
+    public void setAllReciepeDetailNeeded(boolean allReciepeDetailNeeded) {
+        this.allReciepeDetailNeeded = allReciepeDetailNeeded;
     }
 }

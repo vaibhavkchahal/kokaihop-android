@@ -252,6 +252,15 @@ public class RecipeDataManager {
         });
     }
 
+    public void updateRandomCommentsList(final JSONArray jsonArray) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.createOrUpdateAllFromJson(CommentRealmObject.class, jsonArray);
+            }
+        });
+    }
+
 
     public void insertCommentRealmObject(final String recipeID, final JSONObject commentObject) {
         realm.executeTransaction(new Realm.Transaction() {
