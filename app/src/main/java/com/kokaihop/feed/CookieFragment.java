@@ -86,6 +86,9 @@ public class CookieFragment extends Fragment {
             recipeObject.setLikes(recipe.getLikes());
             cookieBinding.rvCookie.getAdapter().notifyDataSetChanged();
         }
+
+        EventBus.getDefault().removeAllStickyEvents();
+
     }
 
 }

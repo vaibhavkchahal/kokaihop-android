@@ -8,9 +8,8 @@ public class RecipeSpecifications {
     private String name;
     private String ImageId;
     private long dateCreated;
-    private String category1;
-    private String category2;
-    private String category3;
+    private String category1, category2, category3;
+    private String userId, friendlyUrl;
 
     private long viewerCount, printed, addToCollections;
 
@@ -84,5 +83,21 @@ public class RecipeSpecifications {
 
     public void setPrinted(long printed) {
         this.printed = printed;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFriendlyUrl() {
+        return friendlyUrl;
+    }
+
+    public void setFriendlyUrl(String friendlyUrl) {
+        this.friendlyUrl = friendlyUrl;
     }
 }

@@ -43,9 +43,9 @@ public class OtherUserProfileViewModel extends BaseViewModel {
         ((Activity)context).finish();
     }
 
-    public void getUserData(final String userId) {
+    public void getUserData(final String userId,String friendlyUrl) {
         setProgressVisible(true);
-        friendlyUrl = getFriendlyUrlFromDB(userId);
+//        friendlyUrl = getFriendlyUrlFromDB(userId);
         new ProfileApiHelper().getOtherUserData(accessToken, friendlyUrl, countryCode, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {

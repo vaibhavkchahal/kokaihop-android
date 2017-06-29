@@ -84,6 +84,9 @@ public class AppetizerFragment extends Fragment {
             recipeObject.setLikes(recipe.getLikes());
             fragmentAppetizerBinding.rvAppetizer.getAdapter().notifyDataSetChanged();
         }
+
+        EventBus.getDefault().removeAllStickyEvents();
+
     }
 
 }

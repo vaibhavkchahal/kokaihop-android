@@ -20,8 +20,6 @@ public abstract class RecyclerViewScrollListener extends RecyclerView.OnScrollLi
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-
-
         mVisibleItemCount = recyclerView.getChildCount();
         mTotalItemCount = mLayoutManager.getItemCount();
         mFirstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
@@ -32,9 +30,4 @@ public abstract class RecyclerViewScrollListener extends RecyclerView.OnScrollLi
     }
 
     public abstract void onLoadMore(RecyclerView recyclerView);
-
-    {
-
-
-    }
 }

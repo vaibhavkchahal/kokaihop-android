@@ -54,6 +54,7 @@ public class RecipeDataManager {
             recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
             recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
             recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+            recipe.setCreatedByFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
         }
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
         if (recipeRealmObject.getMainImage() != null) {
@@ -248,6 +249,15 @@ public class RecipeDataManager {
                     }
                 }
                 recipeRealmObject.getComments().addAll(commentRealmObjectsUpdated);
+            }
+        });
+    }
+
+    public void updateRandomCommentsList(final JSONArray jsonArray) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.createOrUpdateAllFromJson(CommentRealmObject.class, jsonArray);
             }
         });
     }

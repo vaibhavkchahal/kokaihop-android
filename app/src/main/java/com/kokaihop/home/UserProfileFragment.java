@@ -67,7 +67,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -101,7 +100,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void setupUserProfileScreen() {
-
         userProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile, container, false);
         userViewModel = new UserProfileViewModel(getContext(), this, userProfileBinding);
         userViewModel.getUserData();
@@ -158,23 +156,18 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 //        ProfileAdapter adapter = new ProfileAdapter(getFragmentManager(), tabLayout.getTabCount());
         adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         setUpFragmentArguments();
-
         RecipeFragment recipeFragment = new RecipeFragment();
         recipeFragment.setArguments(bundle);
         adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
-
         FollowersFragment followersFragment = new FollowersFragment();
         followersFragment.setArguments(bundle);
         adapter.addFrag(followersFragment, getActivity().getString(R.string.tab_followers));
-
         FollowingFragment followingFragment = new FollowingFragment();
         followingFragment.setArguments(bundle);
         adapter.addFrag(followingFragment, getActivity().getString(R.string.tab_following));
-
         HistoryFragment historyFragment = new HistoryFragment();
         historyFragment.setArguments(bundle);
         adapter.addFrag(historyFragment, getActivity().getString(R.string.tab_history));
-
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(tabCount);
         tabLayout.setupWithViewPager(viewPager);
@@ -304,4 +297,30 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     public TabLayout getTabLayout() {
         return tabLayout;
     }
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(sticky = true)
+    public void onEvent(String update) {
+        if (update.equalsIgnoreCase("updateRequired")) {
+            String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+            if (accessToken != null && !accessToken.isEmpty()) {
+                setupUserProfileScreen();
+                setAppBarListener();
+            } else {
+                showSignUpScreen();
+            }
+        }
+    }
+*/
 }

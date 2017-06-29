@@ -2,6 +2,7 @@ package com.kokaihop.recipedetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.OtherUserProfileActivity;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
@@ -46,6 +48,7 @@ import okhttp3.ResponseBody;
 
 public class RecipeDetailViewModel extends BaseViewModel {
 
+    private static final int REQUEST_CODE = 100;
     private final int LIMIT_COMMENT = 3;
     private final int LIMIT_SIMILAR_RECIPE = 5;
     private final DataSetListener dataSetListener;
@@ -247,6 +250,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getCategory() != null) {
             specifications.setCategory3(recipeRealmObject.getCategory().getName());
         }
+        specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
+        specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
         specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
         specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
         specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
@@ -363,5 +368,13 @@ public class RecipeDetailViewModel extends BaseViewModel {
         });
         uploadImageAsync.execute();
 
+    }
+
+
+    public void openUserProfile(View view) {
+        Intent i = new Intent(context, OtherUserProfileActivity.class);
+        i.putExtra(Constants.USER_ID, recipeRealmObject.getCreatedBy().getId());
+        i.putExtra(Constants.FRIENDLY_URL, recipeRealmObject.getCreatedBy().getFriendlyUrl());
+        (context).startActivity(i);
     }
 }
