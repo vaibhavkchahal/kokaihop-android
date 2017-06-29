@@ -39,7 +39,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     private String userId, friendlyUrl;
     private Bundle bundle = new Bundle();
     private TabLayout tabLayout;
-    User user;
+    User user = new User();
 
     private int selectedTabPosition = 0;
     ArrayList<NotificationCount> notificationCount;
@@ -59,7 +59,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         userId = this.getArguments().getString(Constants.USER_ID);
         friendlyUrl = this.getArguments().getString(Constants.FRIENDLY_URL);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
-        otherUserProfileViewModel = new OtherUserProfileViewModel(getContext(), this);
+        otherUserProfileViewModel = new OtherUserProfileViewModel(getContext(), this, user);
         otherUserProfileViewModel.getUserData(userId, friendlyUrl);
         setAppBarListener();
         notificationCount = new ArrayList<>();
