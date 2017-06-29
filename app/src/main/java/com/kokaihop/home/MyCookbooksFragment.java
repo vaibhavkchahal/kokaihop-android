@@ -78,8 +78,8 @@ public class MyCookbooksFragment extends Fragment {
             binding.srlCookbooks.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    viewModel.getCookbooksOfUser(0);
                     viewModel.setDownloading(true);
+                    viewModel.getCookbooksOfUser(0);
                     binding.srlCookbooks.setRefreshing(false);
                 }
             });
