@@ -36,11 +36,16 @@ public class ProfileDataManager {
     //    Default Constructor
     public ProfileDataManager() {
         realm = Realm.getDefaultInstance();
+        gson = new Gson();
+    }
+
+    private UserRealmObject getUser(String key, String value) {
+        return realm.where(UserRealmObject.class).equalTo(key, value).findFirst();
     }
 
     //    Geting the user data from the database on the basis of userId
     public User fetchUserData(String userId, User user) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
         return getUserData(userRealmObject, user);
     }
 
@@ -48,6 +53,7 @@ public class ProfileDataManager {
     private User getUserData(UserRealmObject userRealmObject, User user) {
         if (userRealmObject != null) {
             user.set_id(userRealmObject.getId());
+            user.setFriendlyUrl(userRealmObject.getFriendlyUrl());
             user.setName(new UserName());
             if (userRealmObject.getUserNameRealmObject() != null) {
                 user.getName().setFirst(userRealmObject.getUserNameRealmObject().getFirst());
@@ -83,6 +89,14 @@ public class ProfileDataManager {
                 user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
 
             }
+            ArrayList<Cookbook> cookbooks = new ArrayList<>();
+            for (CookbookRealmObject cookbookRealmObject : userRealmObject.getRecipeCollections()) {
+                Cookbook cookbook = new Cookbook();
+                cookbook.set_id(cookbookRealmObject.get_id());
+                cookbook.setName(cookbookRealmObject.getName());
+                cookbook.setFriendlyUrl(cookbookRealmObject.getFriendlyUrl());
+            }
+            user.setCookbooks(cookbooks);
             user.setCityName(userRealmObject.getCityName());
         }
 
@@ -92,7 +106,8 @@ public class ProfileDataManager {
     //    Inserting or updating the user data into the database
     public void insertOrUpdateUserData(UserRealmObject userRealmObject) {
         realm.beginTransaction();
-        realm.insertOrUpdate(userRealmObject);
+        String json = gson.toJson(userRealmObject);
+        realm.createOrUpdateObjectFromJson(UserRealmObject.class, json);
         realm.commitTransaction();
     }
 
@@ -110,7 +125,7 @@ public class ProfileDataManager {
     }
 
     public void insertOrUpdateCookbooksUsingJSON(JSONArray cookbooks, String userId) {
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
         if (userRealmObject != null) {
             for (int i = 0; i < cookbooks.length(); i++) {
                 try {
@@ -159,7 +174,7 @@ public class ProfileDataManager {
     //    Inserting or updating the following users data into the database
     public void insertOrUpdateFollowing(final RealmList<UserRealmObject> userRealmObjectList, final String userId) {
 
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
 
         if (userRealmObject != null) {
             realm.beginTransaction();
@@ -181,7 +196,7 @@ public class ProfileDataManager {
 
     //    Inserting or updating the followers data into the database
     public void insertOrUpdateFollowers(RealmList<UserRealmObject> userRealmObjectList, String userId) {
-        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        final UserRealmObject userRealmObject = getUser("_id", userId);
         while (realm.isInTransaction()) ;
         realm.beginTransaction();
 
@@ -204,7 +219,7 @@ public class ProfileDataManager {
     //Getting the  user
     public ArrayList<FollowingFollowerUser> fetchFollowersList(String userId) {
         ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
         if (userRealmObject != null) {
             RealmList<UserRealmObject> userRealmObjects = userRealmObject.getFollowersList();
             for (UserRealmObject follower : userRealmObjects) {
@@ -227,7 +242,7 @@ public class ProfileDataManager {
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
 
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
         RealmList<UserRealmObject> userRealmObjects;
 
         if (userRealmObject != null) {
@@ -301,7 +316,7 @@ public class ProfileDataManager {
 
     //    inserts the recipe list into the database
     public void insertOrUpdateRecipeObjects(final JSONArray recipes, String userId) {
-        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        final UserRealmObject userRealmObject = getUser("_id", userId);
         if (userRealmObject != null) {
             realm.beginTransaction();
             gson = new Gson();
@@ -328,7 +343,7 @@ public class ProfileDataManager {
     public ArrayList<Recipe> getRecipesOfUser(String userId) {
         ArrayList<Recipe> recipeList = new ArrayList<>();
         RealmList<RecipeRealmObject> recipeRealmObjects = new RealmList<>();
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
         if (userRealmObject != null) {
 
             recipeRealmObjects = userRealmObject.getRecipeList();
@@ -354,12 +369,10 @@ public class ProfileDataManager {
 
     public ArrayList<Cookbook> getCookbooks(String userId) {
         ArrayList<Cookbook> cookbooks = new ArrayList<>();
-        RealmList<CookbookRealmObject> cookbookRealmList = new RealmList<>();
-        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("id", userId).findFirst();
-        if(userRealmObject!=null){
-            if (cookbooks != null) {
-                cookbookRealmList = userRealmObject.getRecipeCollections();
-            }
+        RealmList<CookbookRealmObject> cookbookRealmList;
+        UserRealmObject userRealmObject = getUser("_id", userId);
+        if (userRealmObject != null) {
+            cookbookRealmList = userRealmObject.getRecipeCollections();
             for (CookbookRealmObject realmObject : cookbookRealmList) {
                 Cookbook cookbook = new Cookbook();
                 cookbook.set_id(realmObject.get_id());
@@ -367,7 +380,12 @@ public class ProfileDataManager {
                 cookbook.setName(realmObject.getName());
                 cookbook.setTotal(realmObject.getTotalCount());
                 if (realmObject.getRecipes().size() > 0) {
-                    cookbook.setMainImageUrl(realmObject.getRecipes().get(0).getCoverImage());
+                    RecipeRealmObject recipe = realmObject.getRecipes().get(0);
+                    if (recipe.getMainImage() != null) {
+                        cookbook.setMainImageUrl(recipe.getMainImage().getPublicId());
+                    } else {
+                        cookbook.setMainImageUrl(recipe.getCoverImage());
+                    }
                 }
                 cookbooks.add(cookbook);
             }
@@ -377,7 +395,7 @@ public class ProfileDataManager {
 
     public String getFriendlyUrlOfUser(String userId) {
         String friendlyUrl = "";
-        UserRealmObject userRealmObject = realm.where((UserRealmObject.class)).equalTo("id", userId).findFirst();
+        UserRealmObject userRealmObject = getUser("_id", userId);
         if (userRealmObject != null) {
             friendlyUrl = userRealmObject.getFriendlyUrl();
         }

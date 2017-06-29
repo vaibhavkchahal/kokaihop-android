@@ -12,8 +12,10 @@ import io.realm.annotations.PrimaryKey;
 
 public class UserRealmObject extends RealmObject {
 
-   @PrimaryKey @SerializedName(value = "_id", alternate = {"id"})
-    private String id;
+   @SerializedName(value = "_id", alternate = {"id"})
+    private String _id;
+
+    @PrimaryKey
     @SerializedName("friendlyUrl")
     private String friendlyUrl;
     @SerializedName("oldId")
@@ -271,12 +273,12 @@ public class UserRealmObject extends RealmObject {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String _id) {
+        this._id = _id;
     }
 
     public String getCityName() {

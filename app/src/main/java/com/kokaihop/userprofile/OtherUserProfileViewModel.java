@@ -30,11 +30,13 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     private String accessToken, friendlyUrl;
     private String countryCode = Constants.COUNTRY_CODE;
     private ProfileDataManager profileDataManager;
+    private User user;
 
 
-    public OtherUserProfileViewModel(Context context, UserDataListener userDataListener) {
+    public OtherUserProfileViewModel(Context context, UserDataListener userDataListener, User user) {
         this.userDataListener = userDataListener;
         this.context = context;
+        this.user = user;
         profileDataManager = new ProfileDataManager();
     }
 
@@ -45,6 +47,7 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     public void getUserData(final String userId) {
         setProgressVisible(true);
+        fetchUserDataFromDB(userId);
         friendlyUrl = getFriendlyUrlFromDB(userId);
         new ProfileApiHelper().getOtherUserData(accessToken, friendlyUrl, countryCode, new IApiRequestComplete() {
             @Override
@@ -75,7 +78,7 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     }
 
     public void fetchUserDataFromDB(String userId) {
-        profileDataManager.fetchUserData(userId, User.getOtherUser());
+        user = profileDataManager.fetchUserData(userId, user);
         userDataListener.showUserProfile();
     }
 

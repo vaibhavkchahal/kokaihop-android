@@ -173,7 +173,7 @@ public class User extends BaseObservable {
         notifyPropertyChanged(BR.followingCount);
     }
 
-    private User() {
+    public User() {
     }
 
     ;

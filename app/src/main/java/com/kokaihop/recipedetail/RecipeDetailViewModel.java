@@ -329,34 +329,39 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     if (user.getProfileImage() != null) {
                         uploader.put("profileImageId", user.getProfileImage().getCloudinaryId());
                     }
-                    image.put("dateCreated", new Date().getTime());
-                    image.put("publicId", uploadResult.get("public_id"));
-                    image.put("uploader", uploader);
-                    image.put("new", true);
-                    images.put(image);
-                    copyJsonObject.put("images", images);
-                    Logger.d("imageUpload", copyJsonObject.toString());
-                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
-                    String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-                    new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeID, requestBody, new IApiRequestComplete() {
-                        @Override
-                        public void onSuccess(Object response) {
-                            Logger.e("image upload", "success " + response.toString());
-                            Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
-                        }
+                    if(uploadResult!=null){
+                        image.put("dateCreated", new Date().getTime());
+                        image.put("publicId", uploadResult.get("public_id"));
+                        image.put("uploader", uploader);
+                        image.put("new", true);
+                        images.put(image);
+                        copyJsonObject.put("images", images);
+                        Logger.d("imageUpload", copyJsonObject.toString());
+                        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
+                        String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+                        new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeID, requestBody, new IApiRequestComplete() {
+                            @Override
+                            public void onSuccess(Object response) {
+                                Logger.e("image upload", "success " + response.toString());
+                                Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onFailure(String message) {
-                            Logger.e("image upload", message);
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        }
+                            @Override
+                            public void onFailure(String message) {
+                                Logger.e("image upload", message);
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                            }
 
-                        @Override
-                        public void onError(Object response) {
-                            Logger.e("image upload", "failure " + response.toString());
-                            Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onError(Object response) {
+                                Logger.e("image upload", "failure " + response.toString());
+                                Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else{
+                        Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

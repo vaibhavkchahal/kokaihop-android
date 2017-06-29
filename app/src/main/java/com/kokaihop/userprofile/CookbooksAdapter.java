@@ -1,11 +1,13 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -13,9 +15,11 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowCookbookBinding;
 import com.altaworks.kokaihop.ui.databinding.RowMyCookbookBinding;
 import com.bumptech.glide.Glide;
+import com.kokaihop.cookbooks.CookbookDetailActivity;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
 
 import java.util.ArrayList;
 
@@ -72,7 +76,7 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
         final Cookbook cookbook = cookbooks.get(position);
 
         ConstraintLayout.LayoutParams layoutParams;
-        if (myCookbook){
+        if (myCookbook) {
             float ratio = 3.2f;
             layoutParams = (ConstraintLayout.LayoutParams) myCookbookBinding.ivRecipeBackground.getLayoutParams();
             layoutParams.width = (int) (layoutParams.height * ratio);
@@ -82,7 +86,7 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
             } else {
                 Glide.clear(myCookbookBinding.ivRecipeBackground);
             }
-        }else{
+        } else {
             layoutParams = (ConstraintLayout.LayoutParams) cookbookBinding.ivRecipeImage.getLayoutParams();
             if (cookbook.getMainImageUrl() != null) {
                 cookbook.setMainImageUrl(CloudinaryUtils.getRoundedCornerImageUrl(cookbook.getMainImageUrl(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
@@ -115,14 +119,36 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
 
         public void bind(final Cookbook cookbook) {
             if (myCookbook) {
+                final User user = User.getInstance();
                 myCookbookBinding.setCookbook(cookbook);
-                myCookbookBinding.setUser(User.getOtherUser());
+                myCookbookBinding.setUser(user);
                 myCookbookBinding.executePendingBindings();
+                myCookbookBinding.clMyCookbookRow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openCookbookDetail(v, user.getFriendlyUrl(), cookbook.getFriendlyUrl(), cookbook.getName());
+                    }
+                });
             } else {
+                final User user = User.getOtherUser();
                 cookbookBinding.setCookbook(cookbook);
-                cookbookBinding.setUser(User.getInstance());
+                cookbookBinding.setUser(user);
                 cookbookBinding.executePendingBindings();
+                cookbookBinding.clCookbookRow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openCookbookDetail(v, user.getFriendlyUrl(), cookbook.getFriendlyUrl(), cookbook.getName());
+                    }
+                });
             }
+        }
+
+        public void openCookbookDetail(View v, String userFriendlyUrl, String cookbookFriendlyUrl, String cookbookTitle) {
+            Intent i = new Intent(v.getContext(), CookbookDetailActivity.class);
+            i.putExtra(Constants.USER_FRIENDLY_URL, userFriendlyUrl);
+            i.putExtra(Constants.COOKBOOK_FRIENDLY_URL, cookbookFriendlyUrl);
+            i.putExtra(Constants.COOKBOOK_TITLE, cookbookTitle);
+            v.getContext().startActivity(i);
         }
     }
 }

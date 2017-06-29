@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data></data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_round_corner_layout"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/dialog_cookbook_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/create_new_cookbook"
+            android:textSize="@dimen/text_size_large"
+            android:textColor="@color/black"
+            app:font="@{`SS-ProRegular`}"/>
+        <EditText
+            android:id="@+id/cookbook_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/dialog_cookbook_title"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_corner_layout"
+            android:hint="@string/cookbook_name"
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textSize="@dimen/text_size_medium"
+            app:font="@{`SS-ProRegular`}"/>
+
+        <View android:layout_width="match_parent"
+              android:layout_height="@dimen/divider_height"
+              android:layout_below="@+id/cookbook_name"
+              android:layout_marginTop="20dp"
+              android:background="@color/colorPrimary"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/cookbook_name"
+            android:layout_marginTop="20dp"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/create_cookbbok"
+                android:layout_width="@dimen/none"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/create"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <View android:layout_width="@dimen/divider_height"
+                  android:layout_height="match_parent"
+                  android:background="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="@dimen/none"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

@@ -17,7 +17,6 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
-import com.kokaihop.userprofile.CookbooksFragment;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -73,13 +72,12 @@ public class HomeActivity extends BaseActivity {
 
         userProfileFragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this,Constants.USER_ID));
+        bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
 
-        CookbooksFragment cookbooksFragment = new CookbooksFragment();
-        bundle.putBoolean(Constants.MY_COOKBOOK,true);
-        cookbooksFragment.setArguments(bundle);
-        adapter.addFrag(cookbooksFragment, getString(R.string.tab_cookbooks));
+        MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();
+        myCookbooksFragment.setArguments(bundle);
+        adapter.addFrag(myCookbooksFragment, getString(R.string.tab_cookbooks));
 
         adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
@@ -156,7 +154,8 @@ public class HomeActivity extends BaseActivity {
 
         }
         if (requestCode == 111) {
-            userProfileFragment.userViewModel.getUserData();
+            if (userProfileFragment.userViewModel != null)
+                userProfileFragment.userViewModel.getUserData();
         }
     }
 

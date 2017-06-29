@@ -1,4 +1,4 @@
-package com.kokaihop.userprofile;
+package com.kokaihop.cookbooks;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,22 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentHistoryRecipeBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentCookbookDetailBinding;
+import com.kokaihop.userprofile.RecipeHistoryAdapter;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
-public class RecipeFragment extends Fragment {
+public class CookbookDetailFragment extends Fragment {
 
-    private FragmentHistoryRecipeBinding binding;
-    private RecipeViewModel viewModel;
+    private FragmentCookbookDetailBinding binding;
+    private CookbookDetailViewModel viewModel;
     private RecipeHistoryAdapter adapter;
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private Bundle bundle;
+    String userFriendlyUrl, cookbookFriendlyUrl, cookbookTitle;
 
-    public RecipeFragment() {
-        // Required empty public constructor
+    public CookbookDetailFragment() {
     }
 
     @Override
@@ -35,29 +37,35 @@ public class RecipeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        Bundle bundle = this.getArguments();
-        String userId = bundle.getString(Constants.USER_ID);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
-        viewModel = new RecipeViewModel(this, getContext(), userId);
+        bundle = getArguments();
+        if (bundle != null) {
+            userFriendlyUrl = bundle.getString(Constants.USER_FRIENDLY_URL);
+            cookbookFriendlyUrl = bundle.getString(Constants.COOKBOOK_FRIENDLY_URL);
+            cookbookTitle = bundle.getString(Constants.COOKBOOK_TITLE);
+        }
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_detail, container, false);
+        viewModel = new CookbookDetailViewModel(this, getContext(), User.getInstance());
+        binding.setCookbookTitle(cookbookTitle);
+        binding.setViewModel(viewModel);
         adapter = new RecipeHistoryAdapter(this, User.getInstance().getRecipesList());
         layoutManager = new CustomLinearLayoutManager(getContext());
-        recyclerView = binding.rvHistoryList;
+        recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        viewModel.getRecipesOfUsers(0);
+
+        viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, 0);
+
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
                 if (viewModel.getOffset() + viewModel.getMax() <= viewModel.getTotalRecipes())
-                    viewModel.getRecipesOfUsers(viewModel.getOffset() + viewModel.getMax());
+                    viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, viewModel.getOffset() + viewModel.getMax());
             }
         });
         return binding.getRoot();
     }
 
-    //    notify the adapter about the chage in data.
-    public void showUserProfile() {
+    public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
     }
 }

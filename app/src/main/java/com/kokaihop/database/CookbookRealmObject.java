@@ -12,13 +12,14 @@ import io.realm.annotations.PrimaryKey;
 
 public class CookbookRealmObject extends RealmObject {
 
+
+    @PrimaryKey
     @SerializedName("_id")
     private String _id;
 
     @SerializedName("name")
     private String name;
 
-    @PrimaryKey
     @SerializedName("friendlyUrl")
     private String friendlyUrl;
 
@@ -67,4 +68,5 @@ public class CookbookRealmObject extends RealmObject {
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
+
 }

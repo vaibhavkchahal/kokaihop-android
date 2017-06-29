@@ -9,7 +9,7 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/history_row"
+        android:id="@+id/cl_my_cookbook_row"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/my_cookbook_row_height"

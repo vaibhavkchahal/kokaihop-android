@@ -120,7 +120,8 @@
     <string name="login_rating_message">You need to logged in to rate a recipe</string>
     <string name="members_area">Members area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite!!!</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!</string>
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!
+    </string>
 
     <string name="welcome_text">Welcome to kokaihop</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
@@ -200,4 +201,8 @@
     <string name="text_reply">Reply</string>
     <string name="replied_text">" replied"</string>
     <string name="text_and">" and "</string>
+    <string name="create_new_cookbook">Create new cookbook</string>
+    <string name="cookbook_name">Cookbook Name</string>
+    <string name="something_wrong">Something went wrong!!!</string>
+    <string name="cookbook_created">Cookbook Created successfully</string>
 </resources>
