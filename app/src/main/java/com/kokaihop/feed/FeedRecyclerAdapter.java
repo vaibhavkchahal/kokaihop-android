@@ -15,6 +15,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
+import com.altaworks.kokaihop.ui.databinding.RowRecipeSearchedCountBinding;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Logger;
@@ -34,9 +35,11 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int TYPE_ITEM_DAY_RECIPE = 0;
     public static final int TYPE_ITEM_RECIPE = 1;
     public static final int TYPE_ITEM_ADVT = 2;
+    public static final int TYPE_ITEM_SEARCH_COUNT = 3;
     private Context context;
     private RelativeLayout.LayoutParams layoutParamsRecipeItem;
     private LinearLayout.LayoutParams layoutParamsRecipeDay;
+    private boolean fromSearchedView;
 
     public FeedRecyclerAdapter(List<Object> list) {
         recipeListWithAdds = list;
@@ -80,6 +83,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (viewType == TYPE_ITEM_ADVT) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_advt_item, parent, false);
             return new ViewHolderAdvt(v);
+        } else if (viewType == TYPE_ITEM_SEARCH_COUNT) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recipe_searched_count, parent, false);
+            return new ViewHolderRecipeCount(v);
+
         }
         throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
@@ -133,6 +140,12 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case TYPE_ITEM_ADVT:
                 // TODO add advt.
                 break;
+            case TYPE_ITEM_SEARCH_COUNT:
+                ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
+                SearchRecipeHeader searchRecipeHeader = (SearchRecipeHeader) recipeListWithAdds.get(position);
+                String result = String.format(context.getResources().getString(R.string.recipe_results), searchRecipeHeader.getCount());
+                viewHolderRecipeCount.binder.textviewRecipeCount.setText(result);
+
             default:
                 break;
 
@@ -143,11 +156,13 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemViewType(int position) {
         Object object = recipeListWithAdds.get(position);
         if (object instanceof Recipe) {
-            if (isPositionHeader(position))
+            if (isPositionHeader(position) && !isFromSearchedView())
                 return TYPE_ITEM_DAY_RECIPE;
             return TYPE_ITEM_RECIPE;
         } else if (object instanceof AdvtDetail) {
             return TYPE_ITEM_ADVT;
+        } else if (object instanceof SearchRecipeHeader) {
+            return TYPE_ITEM_SEARCH_COUNT;
         }
         return -1;
 
@@ -161,6 +176,14 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return recipeListWithAdds.size();
+    }
+
+    public boolean isFromSearchedView() {
+        return fromSearchedView;
+    }
+
+    public void setFromSearchedView(boolean fromSearchedView) {
+        this.fromSearchedView = fromSearchedView;
     }
 
 
@@ -188,6 +211,17 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         public ViewHolderAdvt(View view) {
+            super(view);
+            binder = DataBindingUtil.bind(view);
+
+        }
+    }
+
+    public class ViewHolderRecipeCount extends RecyclerView.ViewHolder {
+        public RowRecipeSearchedCountBinding binder;
+
+
+        public ViewHolderRecipeCount(View view) {
             super(view);
             binder = DataBindingUtil.bind(view);
 

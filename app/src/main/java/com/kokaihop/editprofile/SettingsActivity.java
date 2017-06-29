@@ -44,13 +44,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
         dialog.setTitle("Confirm Logout");
         dialog.setMessage("Do you really want to logout!!!");
-
         dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
                 ProfileDataManager profileDataManager = new ProfileDataManager();
                 profileDataManager.removeData();
                 profileDataManager.updateIsFavoriteForAllRecipe();
+                profileDataManager.updateLastUpdatedTimeForAllRecipe();
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 User.removeInstance();
@@ -71,23 +71,18 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             case R.id.settings_logout:
                 showDialog();
                 break;
-
             case R.id.settings_iv_back:
                 finish();
                 break;
-
             case R.id.settings_save:
                 finish();
                 break;
-
             case R.id.settings_change_password:
                 startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;
-
             case R.id.settings_email_preferences:
                 startActivity(new Intent(this, EmailPreferencesActivity.class));
                 break;
-
             case R.id.settings_edit_profile:
                 startActivity(new Intent(this, EditProfileActivity.class));
                 break;

@@ -22,6 +22,8 @@ import com.kokaihop.utility.FacebookAuthentication;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.kokaihop.utility.AppUtility.showHomeScreen;
 import static com.kokaihop.utility.Constants.EXTRA_FROM;
 
@@ -65,9 +67,9 @@ public class LoginViewModel extends BaseViewModel {
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
-//                boolean isComingFromLike = ((LoginActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
                 String from = ((LoginActivity) context).getIntent().getStringExtra(EXTRA_FROM);
                 if (from != null && from.equals("loginRequired")) {
+                    EventBus.getDefault().postSticky("updateRequired");
                     ((LoginActivity) context).finish();
                 } else {
                     showHomeScreen(context);
@@ -124,7 +126,9 @@ public class LoginViewModel extends BaseViewModel {
 //                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
                         String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
                         if (from != null && from.equals("loginRequired")) {
+                            EventBus.getDefault().postSticky("updateRequired");
                             ((LoginActivity) view.getContext()).finish();
+
                         } else {
                             AppUtility.showHomeScreen(view.getContext());
                         }

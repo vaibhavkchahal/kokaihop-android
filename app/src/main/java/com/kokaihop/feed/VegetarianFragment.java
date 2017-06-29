@@ -56,7 +56,8 @@ public class VegetarianFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(vegetarianViewModel, rvVegetarian, ApiConstants.BadgeType.VEGETARIAN_OF_THE_DAY);
         int spacingInPixels = rvVegetarian.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvVegetarian.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.getScrollListener();
         rvVegetarian.addOnScrollListener(scrollListener);
     }
 
@@ -84,5 +85,7 @@ public class VegetarianFragment extends Fragment {
             recipeObject.setLikes(recipe.getLikes());
             vegetarianBinding.rvVegetarian.getAdapter().notifyDataSetChanged();
         }
+        EventBus.getDefault().removeAllStickyEvents();
+
     }
 }

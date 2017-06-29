@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.search.SearchViewModel"/>
+
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.kokaihop.search.SearchActivity"
+        tools:showIn="@layout/activity_search">
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="54dp"
+                      android:gravity="center_vertical"
+                      android:orientation="horizontal"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                      android:weightSum="4"
+        >
+            <TextView
+                android:id="@+id/textview_category"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_tag_white"
+                android:gravity="center"
+                android:maxLines="1"
+                android:onClick="@{(v)->viewModel.displayCategoriesList(textviewCategory)}"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:text="@string/label_course"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
+
+            <TextView
+                android:id="@+id/textview_cuisine"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_tag_white"
+                android:gravity="center"
+                android:maxLines="1"
+                android:onClick="@{(v)->viewModel.displayCuisineList(textviewCuisine)}"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:text="@string/label_cuisine"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
+
+            <TextView
+                android:id="@+id/textview_cooking_method"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/search_tag_white"
+                android:gravity="center"
+                android:maxLines="1"
+                android:onClick="@{(v)->viewModel.displayCookingMethodList(textviewCookingMethod)}"
+                android:padding="@dimen/txtview_category_padding_top"
+                android:text="@string/label_method"
+                android:textColor="@color/grey_FF8D929C"
+                android:textSize="@dimen/txtview_category_textsize"
+                app:font="@{`SS-ProRegular`}"
+            />
+
+
+            <LinearLayout android:id="@+id/linearlyt_withImages"
+                          android:layout_width="0dp"
+                          android:layout_height="30dp"
+                          android:layout_marginLeft="6dp"
+                          android:layout_weight="0.5"
+                          android:background="@drawable/search_tag_orange"
+                          android:gravity="center"
+                          android:onClick="@{(v)->viewModel.showWithImages(imageviewWithImage, linearlytWithImages)}"
+                          android:padding="@dimen/txtview_category_padding_top"
+            >
+                <ImageView
+
+                    android:id="@+id/imageview_with_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_picture"
+                />
+            </LinearLayout>
+
+            <LinearLayout android:id="@+id/linearlyt_sortby"
+                          android:layout_width="0dp"
+                          android:layout_height="30dp"
+                          android:layout_marginLeft="6dp"
+                          android:layout_weight="0.5"
+                          android:background="@drawable/search_tag_white"
+                          android:gravity="center"
+                          android:onClick="@{(v)->viewModel.displaySortByList(linearlytSortby)}"
+            >
+                <ImageView
+                    android:id="@+id/imageview_sortby"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_sortby_sm"
+                />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/linearlyt_recent_search"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:paddingLeft="15dp"
+                      android:paddingRight="15dp"
+                      android:visibility="gone">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:text="@string/latest_search"
+                      android:textColor="@color/grey_FFBFBFBF"
+                      android:textSize="11sp"
+            />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_recent_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+            />
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/linearlyt_newly_added_recipe"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:background="@drawable/img_new_recipes"
+                      android:gravity="center"
+                      android:orientation="vertical"
+        >
+            <TextView android:id="@+id/textview_newly_added"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:gravity="center"
+                      android:text="@string/newly_added_recipe"
+                      android:textColor="@color/black_FF262F40"
+                      android:textSize="17sp"
+                      app:font="@{`SS-ProSemiBold`}"
+            />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/explore_now"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                app:font="@{`SS-ProSemiBold`}"
+            />
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_recipes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/progressBar_bottom"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/card_left_right_margin"
+            android:layout_marginRight="@dimen/card_left_right_margin"
+            tools:context="com.kokaihop.feed.MainCourseFragment">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+</layout>

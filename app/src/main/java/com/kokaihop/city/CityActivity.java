@@ -3,15 +3,20 @@ package com.kokaihop.city;
 import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySelectCityBinding;
 import com.kokaihop.base.BaseActivity;
+
+import java.lang.reflect.Field;
 
 public class CityActivity extends BaseActivity implements CityViewModel.CityInterface, android.support.v7.widget.SearchView.OnQueryTextListener, View.OnClickListener {
 
@@ -25,17 +30,35 @@ public class CityActivity extends BaseActivity implements CityViewModel.CityInte
         cityViewModel = new CityViewModel(this);
         selectCityBinding = DataBindingUtil.setContentView(this, R.layout.activity_select_city);
         selectCityBinding.setViewModel(cityViewModel);
-//        setSupportActionBar(selectCityBinding.toolbarTop);
-
-        selectCityBinding.searchviewSearchCity.setOnClickListener(new View.OnClickListener() {
+        initializeSearchView();
+        selectCityBinding.toolbarCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectCityBinding.searchviewSearchCity.setIconified(false);
+                onBackPressed();
             }
         });
 
+    }
+
+    private void initializeSearchView() {
+        TextView searchText = (TextView)
+                selectCityBinding.searchviewSearchCity.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        selectCityBinding.searchviewSearchCity.onActionViewExpanded();
+        Typeface myCustomFont = Typeface.createFromAsset(getAssets(), "fonts/SourceSansPro-Regular.ttf");
+        searchText.setTypeface(myCustomFont);
+        searchText.setTextColor(ContextCompat.getColor(CityActivity.this, R.color.grey_FF999999));
+        searchText.setHintTextColor(ContextCompat.getColor(CityActivity.this, R.color.grey_FF999999));
+        selectCityBinding.searchviewSearchCity.setQueryHint(getString(R.string.search));
+
+        try {
+            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+            mCursorDrawableRes.setAccessible(true);
+            mCursorDrawableRes.set(searchText, R.drawable.cursor_orange); //This sets the cursor resource ID to 0 or @null which will make it visible on white background
+        } catch (Exception e) {
+        }
+
         selectCityBinding.searchviewSearchCity.setOnQueryTextListener(this);
-        selectCityBinding.toolbarCancel.setOnClickListener(this);
+
     }
 
     @Override

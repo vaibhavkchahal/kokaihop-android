@@ -7,6 +7,8 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +23,9 @@ import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
@@ -69,7 +74,6 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         final PagerTabAdapter adapter = new PagerTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-
         userProfileFragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
@@ -83,10 +87,9 @@ public class HomeActivity extends BaseActivity {
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(userProfileFragment, getString(R.string.tab_me));
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(5);
         tabLayout.setupWithViewPager(viewPager);
         setTabTextIcons();
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -116,14 +119,12 @@ public class HomeActivity extends BaseActivity {
     }
 
     public void setTabTextIcons() {
-
         String[] tabsText = {getString(R.string.tab_feed),
                 getString(R.string.tab_cookbooks),
                 getString(R.string.tab_list),
                 getString(R.string.tab_comments),
                 getString(R.string.tab_me),
         };
-
         for (int i = 0; i < tabCount; i++) {
             TabHomeTabLayoutBinding tabBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.tab_home_tab_layout, tabLayout, false);
             View tabView = tabBinding.getRoot();
@@ -140,7 +141,6 @@ public class HomeActivity extends BaseActivity {
         Uri imageUri;
         String filePath;
         if (resultCode == Activity.RESULT_OK) {
-
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                 imageUri = data.getData();
                 filePath = CameraUtils.getRealPathFromURI(HomeActivity.this, imageUri);
@@ -149,7 +149,6 @@ public class HomeActivity extends BaseActivity {
 
             }
             Logger.d("File Path", filePath);
-
             userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
 
         }
@@ -171,6 +170,36 @@ public class HomeActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(sticky = true)
+    public void onEvent(String update) {
+        if (update.equalsIgnoreCase("updateRequired")) {
+            refreshFragment(4);
+            refreshFragment(1);
+        }
+        EventBus.getDefault().removeAllStickyEvents();
+    }
+
+    private void refreshFragment(int postionFragmentToRefresh) {
+        PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
+        Fragment fragment = pagerTabAdapter.getItem(postionFragmentToRefresh);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.detach(fragment);
+        ft.attach(fragment);
+        ft.commit();
     }
 
 }

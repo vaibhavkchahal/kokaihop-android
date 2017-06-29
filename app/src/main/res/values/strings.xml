@@ -46,6 +46,7 @@
         <b>Login here</b>
     </string>
     <string name="close">X</string>
+    <string name="close_label">Close</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
     <string name="cities">Select Your City</string>
@@ -128,8 +129,8 @@
     <string name="write_a_comment_text">Write a comment...</string>
     <string name="text_upload_image_to_recipe">upload image to recipe</string>
     <string name="portion_text">Portion</string>
-    <string name="text_created">Created</string>
-    <string name="text_by">by</string>
+    <string name="text_created">Skapat</string>
+    <string name="text_by">av</string>
     <string name="text_add_to_list">Add to list</string>
 
     <string name="text_Ingredients">Ingredients</string>
@@ -201,8 +202,51 @@
     <string name="text_reply">Reply</string>
     <string name="replied_text">" replied"</string>
     <string name="text_and">" and "</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="newly_added_recipe">
+        <b>Newely Added Recipe</b>
+    </string>
+    <string name="explore_now">
+        <b>Explore Now</b>
+    </string>
+
+    <string name="label_course">Course</string>
+    <string name="label_cuisine">Cuisine</string>
+    <string name="label_method">Method</string>
+    <string name="all">All</string>
+    <string name="select_course">Select Course</string>
+    <string name="select_cuisine">Select Cuisine</string>
+    <string name="select_method">Select Method</string>
+    <string name="sort_by">Sort by</string>
+    <string name="search_recipes_ingredents">Search recipes or ingredients</string>
+    <string name="latest_search">LATEST SEARCHES</string>
+    <string name="recipe_results">%1$s Recipe results</string>
+
+    <string name="best_rating">Best rating</string>
+    <string name="comments">Comments</string>
+    <string name="popular">Popular</string>
+    <string name="recommended">Recommended</string>
+    <string name="latest">latest</string>
+    <string name="title_a_z">title a-z</string>
+    <string name="title_z_a">title z-a</string>
+
+    <!--  Sort by array-->
+    <string-array name="sort_by">
+        <item>@string/best_rating</item>
+        <item>@string/comments</item>
+        <item>@string/popular</item>
+        <item>@string/recommended</item>
+        <item>@string/latest</item>
+        <item>@string/title_a_z</item>
+        <item>@string/title_z_a</item>
+    </string-array>
+
+    <string name="show_all_recipes">Showing all recipes</string>
+    <string name="show_recipe_with_images">Showing only recipes with images</string>
     <string name="create_new_cookbook">Create new cookbook</string>
     <string name="cookbook_name">Cookbook Name</string>
     <string name="something_wrong">Something went wrong!!!</string>
     <string name="cookbook_created">Cookbook Created successfully</string>
+
+
 </resources>

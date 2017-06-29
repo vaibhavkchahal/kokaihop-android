@@ -65,9 +65,7 @@ public class ProfileDataManager {
             for (RealmString userid : userRealmObject.getFollowing()) {
                 user.getFollowing().add(userid.getUserId());
             }
-
             user.setFollowByMe(User.getInstance().getFollowing().contains(user.get_id()));
-
             user.getFollowers().clear();
             for (RealmString userid : userRealmObject.getFollowers()) {
                 user.getFollowers().add(userid.getUserId());
@@ -99,7 +97,6 @@ public class ProfileDataManager {
             user.setCookbooks(cookbooks);
             user.setCityName(userRealmObject.getCityName());
         }
-
         return user;
     }
 
@@ -154,7 +151,6 @@ public class ProfileDataManager {
                     realm.beginTransaction();
                     cookbook.setRecipes(recipesList);
                     realm.createOrUpdateObjectFromJson(CookbookRealmObject.class, jsonObject);
-
                     if (!cookbookAlreadyExists(userRealmObject.getRecipeCollections(), cookbook)) {
                         userRealmObject.getRecipeCollections().add(cookbook);
                     }
@@ -178,12 +174,9 @@ public class ProfileDataManager {
 
         if (userRealmObject != null) {
             realm.beginTransaction();
-
             for (UserRealmObject following : userRealmObjectList) {
-
                 if (!following.getId().equals(userId)) {
                     realm.insertOrUpdate(following);
-
                     if (!userAlreadyExists(userRealmObject.getFollowingList(), following)) {
                         userRealmObject.getFollowingList().add(following);
                     }
@@ -199,20 +192,16 @@ public class ProfileDataManager {
         final UserRealmObject userRealmObject = getUser("_id", userId);
         while (realm.isInTransaction()) ;
         realm.beginTransaction();
-
         if (userRealmObject != null) {
             for (UserRealmObject follower : userRealmObjectList) {
-
                 if (!follower.getId().equals(userId)) {
                     realm.insertOrUpdate(follower);
-
                     if (!userAlreadyExists(userRealmObject.getFollowersList(), follower)) {
                         userRealmObject.getFollowersList().add(follower);
                     }
                 }
             }
         }
-
         realm.commitTransaction();
     }
 
@@ -232,7 +221,6 @@ public class ProfileDataManager {
                     user.setProfileImage(new CloudinaryImage());
                     user.getProfileImage().setCloudinaryId(follower.getProfileImage().getCloudinaryId());
                 }
-
                 followersList.add(user);
             }
         }
@@ -244,7 +232,6 @@ public class ProfileDataManager {
 
         UserRealmObject userRealmObject = getUser("_id", userId);
         RealmList<UserRealmObject> userRealmObjects;
-
         if (userRealmObject != null) {
             userRealmObjects = userRealmObject.getFollowingList();
             Logger.e("FollowingDB", userRealmObjects.size() + "");
@@ -303,10 +290,24 @@ public class ProfileDataManager {
             public void execute(Realm realm) {
                 RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class).equalTo("isFavorite", true)
                         .findAll();
-
                 for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList
                         ) {
                     recipeRealmObject.setFavorite(false);
+
+                }
+            }
+        });
+    }
+
+    public void updateLastUpdatedTimeForAllRecipe() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class).greaterThanOrEqualTo("lastUpdated", 1)
+                        .findAll();
+                for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList
+                        ) {
+                    recipeRealmObject.setLastUpdated(0);
 
                 }
             }
@@ -326,7 +327,7 @@ public class ProfileDataManager {
                     JSONObject jsonObject = recipes.getJSONObject(i);
                     jsonObject = jsonObjectUtility.updateCookingStepsInRecipe(jsonObject);
                     jsonObject = jsonObjectUtility.removeKeyFromJSON(jsonObject, "similarRecipes");
-                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
+//                    realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, jsonObject);
                     RecipeRealmObject recipeRealmObject = gson.fromJson(jsonObject.toString(), RecipeRealmObject.class);
                     if (!recipeAlreadyExists(userRealmObject.getRecipeList(), recipeRealmObject)) {
                         userRealmObject.getRecipeList().add(recipeRealmObject);
@@ -345,10 +346,8 @@ public class ProfileDataManager {
         RealmList<RecipeRealmObject> recipeRealmObjects = new RealmList<>();
         UserRealmObject userRealmObject = getUser("_id", userId);
         if (userRealmObject != null) {
-
             recipeRealmObjects = userRealmObject.getRecipeList();
         }
-
         for (RecipeRealmObject realmObject : recipeRealmObjects) {
             Recipe recipe = new Recipe();
             recipe.set_id(realmObject.get_id());

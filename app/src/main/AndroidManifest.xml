@@ -55,7 +55,7 @@
         <activity
             android:name="com.kokaihop.city.CityActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name="com.kokaihop.SplashActivity"
             android:screenOrientation="portrait">
@@ -115,6 +115,13 @@
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name="com.kokaihop.cookbooks.CookbookDetailActivity">
+        </activity>
+        <activity
+            android:name="com.kokaihop.search.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName="com.kokaihop.base.BaseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

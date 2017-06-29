@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 import okhttp3.ResponseBody;
 
@@ -76,8 +78,12 @@ public class ShowCommentsViewModel extends BaseViewModel {
 
     public void fetchCommentFromServer(int offset, int max, boolean progressVisibility) {
         setProgressVisible(progressVisibility);
-        CommentRequestParams requestParams = new CommentRequestParams(offset, max, recipeID, TYPE_FILTER);
-        new CommentsApiHelper().fetchCommentsList(requestParams, new IApiRequestComplete() {
+        Map<String, String> map = new WeakHashMap<>();
+        map.put("max", String.valueOf(max));
+        map.put("offset", String.valueOf(offset));
+        map.put("typeFilter", TYPE_FILTER);
+        map.put("recipeId", recipeID);
+        new CommentsApiHelper().fetchCommentsList(map, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 setProgressVisible(false);
@@ -167,6 +173,11 @@ public class ShowCommentsViewModel extends BaseViewModel {
         requestParams.setTargetId(recipeID);
         requestParams.setReplyId(null);
         return requestParams;
+    }
+
+
+    public void updateComments() {
+        fetchCommentsFromDB();
     }
 
     @Override

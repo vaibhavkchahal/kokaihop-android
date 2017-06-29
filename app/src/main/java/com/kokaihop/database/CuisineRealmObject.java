@@ -3,6 +3,7 @@ package com.kokaihop.database;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Rajendra Singh on 10/5/17.
@@ -16,6 +17,10 @@ public class CuisineRealmObject extends RealmObject {
     private String oldId;
     @SerializedName("name")
     private String name;
+
+    @SerializedName("friendlyUrl")
+    @PrimaryKey
+    private String friendlyUrl;
 
     public String getId() {
         return id;
@@ -42,4 +47,7 @@ public class CuisineRealmObject extends RealmObject {
     }
 
 
+    public String getFriendlyUrl() {
+        return friendlyUrl;
+    }
 }

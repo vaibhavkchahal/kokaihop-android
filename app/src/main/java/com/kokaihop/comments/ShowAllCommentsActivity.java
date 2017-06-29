@@ -34,6 +34,12 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
         initializePullToRefresh();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        binding.getViewModel().updateComments();
+    }
+
     private void initializePullToRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

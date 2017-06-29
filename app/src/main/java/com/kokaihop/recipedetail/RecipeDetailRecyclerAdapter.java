@@ -30,6 +30,7 @@ import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.feed.AdvtDetail;
+import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 
@@ -200,6 +201,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 int creatorImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_recipe_creator_height_width);
                 String recipeCreatorImage = CloudinaryUtils.getRoundedImageUrl(specifications.getImageId(), String.valueOf(creatorImageSize), String.valueOf(creatorImageSize));
                 holderRecipeCreator.binder.setImageUrl(recipeCreatorImage);
+                holderRecipeCreator.binder.setHandler(new RecipeSpecificationHandler());
                 holderRecipeCreator.binder.setModel(specifications);
                 holderRecipeCreator.binder.executePendingBindings();
                 break;
@@ -234,6 +236,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 holderItemSimilarRecipe.binder.setRecipeImageUrl(recipeUrl);
                 holderItemSimilarRecipe.binder.setProfileImageUrl(profileImageUrl);
                 holderItemSimilarRecipe.binder.setModel(similarRecipe);
+                holderItemSimilarRecipe.binder.setRecipeHandler(new RecipeHandler());
                 holderItemSimilarRecipe.binder.executePendingBindings();
                 break;
             default:

@@ -45,7 +45,6 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     ArrayList<NotificationCount> notificationCount;
 
     public OtherUserProfileFragment() {
-
     }
 
     @Override
@@ -58,11 +57,10 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
                              Bundle savedInstanceState) {
         this.inflater = inflater;
         userId = this.getArguments().getString(Constants.USER_ID);
-        user = new User();
+        friendlyUrl = this.getArguments().getString(Constants.FRIENDLY_URL);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_other_user_profile, container, false);
-        otherUserProfileViewModel = new OtherUserProfileViewModel(getContext(), this, user);
-        friendlyUrl = otherUserProfileViewModel.getFriendlyUrlFromDB(userId);
-        otherUserProfileViewModel.getUserData(userId);
+        otherUserProfileViewModel = new OtherUserProfileViewModel(getContext(), this);
+        otherUserProfileViewModel.getUserData(userId, friendlyUrl);
         setAppBarListener();
         notificationCount = new ArrayList<>();
         binding.setViewModel(otherUserProfileViewModel);
@@ -71,7 +69,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             @Override
             public void onRefresh() {
                 selectedTabPosition = tabLayout.getSelectedTabPosition();
-                otherUserProfileViewModel.getUserData(userId);
+                otherUserProfileViewModel.getUserData(userId, friendlyUrl);
                 binding.srlProfileRefresh.setRefreshing(false);
             }
         });
@@ -116,30 +114,23 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             notificationCount.add(new NotificationCount());
             notificationCount.add(new NotificationCount());
             setNotificationCount();
-
             ProfileAdapter adapter = new ProfileAdapter(getChildFragmentManager(), tabLayout.getTabCount());
             setUpFragmentArguments();
             RecipeFragment recipeFragment = new RecipeFragment();
             recipeFragment.setArguments(bundle);
             adapter.addFrag(recipeFragment, getActivity().getString(R.string.tab_recipes));
-
             CookbooksFragment cookbooksFragment = new CookbooksFragment();
             cookbooksFragment.setArguments(bundle);
             adapter.addFrag(cookbooksFragment, getActivity().getString(R.string.tab_cookbooks));
-
             FollowersFragment followersFragment = new FollowersFragment();
             followersFragment.setArguments(bundle);
             adapter.addFrag(followersFragment, getActivity().getString(R.string.tab_followers));
-
             FollowingFragment followingFragment = new FollowingFragment();
             followingFragment.setArguments(bundle);
             adapter.addFrag(followingFragment, getActivity().getString(R.string.tab_following));
-
             viewPager.setAdapter(adapter);
             viewPager.setOffscreenPageLimit(tabCount);
             tabLayout.setupWithViewPager(viewPager);
-
-
             for (i = 0; i < (tabCount); i++) {
                 TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
                 View tabView = tabBinding.getRoot();
@@ -147,7 +138,6 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
                 tabBinding.setNotification(notificationCount.get(i));
                 tabBinding.text2.setText(tabTitles[i]);
             }
-
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
@@ -226,7 +216,6 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
 
     @Override
     public void followToggeled() {
-
     }
 
     private void setAppBarListener() {

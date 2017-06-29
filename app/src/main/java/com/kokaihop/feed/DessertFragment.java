@@ -55,7 +55,8 @@ public class DessertFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(desertViewModel, rvDesert, ApiConstants.BadgeType.DESSERT_OF_THE_DAY);
         int spacingInPixels = rvDesert.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvDesert.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.getScrollListener();
         rvDesert.addOnScrollListener(scrollListener);
     }
 
@@ -83,6 +84,7 @@ public class DessertFragment extends Fragment {
             recipeObject.setLikes(recipe.getLikes());
             dessertBinding.rvDesert.getAdapter().notifyDataSetChanged();
         }
+        EventBus.getDefault().removeAllStickyEvents();
     }
 
 }

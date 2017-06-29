@@ -17,6 +17,7 @@ public class Recipe extends BaseObservable {
     private String type;
 
     private String createdById;
+    private String createdByFriendlyUrl;
     private String createdByName;
     private String createdByProfileImageId;
     private String mainImagePublicId;
@@ -27,7 +28,7 @@ public class Recipe extends BaseObservable {
     private long comments;
     private String badgeType;
     private long lastUpdated;
-    private  String coverImage;
+    private String coverImage;
     private String mainImageUrl;
 
 
@@ -163,5 +164,13 @@ public class Recipe extends BaseObservable {
 
     public void setMainImageUrl(String mainImageUrl) {
         this.mainImageUrl = mainImageUrl;
+    }
+
+    public String getCreatedByFriendlyUrl() {
+        return createdByFriendlyUrl;
+    }
+
+    public void setCreatedByFriendlyUrl(String createdByFriendlyUrl) {
+        this.createdByFriendlyUrl = createdByFriendlyUrl;
     }
 }

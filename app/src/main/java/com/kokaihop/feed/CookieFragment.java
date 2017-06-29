@@ -57,7 +57,8 @@ public class CookieFragment extends Fragment {
         FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(cookieViewModel, rvCookie, ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
         int spacingInPixels = rvCookie.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvCookie.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.prepareFeedRecyclerView();
+        feedRecyclerListingOperation.prepareFeedRecyclerView();
+        FeedRecyclerScrollListener scrollListener = feedRecyclerListingOperation.getScrollListener();
         rvCookie.addOnScrollListener(scrollListener);
     }
 
@@ -85,6 +86,9 @@ public class CookieFragment extends Fragment {
             recipeObject.setLikes(recipe.getLikes());
             cookieBinding.rvCookie.getAdapter().notifyDataSetChanged();
         }
+
+        EventBus.getDefault().removeAllStickyEvents();
+
     }
 
 }

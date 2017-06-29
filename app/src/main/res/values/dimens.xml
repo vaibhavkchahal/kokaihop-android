@@ -367,4 +367,31 @@
     <dimen name="reply_user_image_height_width">25dp</dimen>
     <dimen name="comment_reply_section_margin_left">20dp</dimen>
 
+
+    <!-- home commment tab dimens -->
+    <dimen name="textsize_comments_title">19sp</dimen>
+    <dimen name="comment_card_margin">10dp</dimen>
+    <dimen name="comment_card_pdding_bottom">18dp</dimen>
+    <dimen name="comment_card_logo_width">80dp</dimen>
+    <dimen name="comment_card_logo_height">60dp</dimen>
+    <dimen name="comment_logo_margin_left">15dp</dimen>
+    <dimen name="comment_logo_margin_top">12dp</dimen>
+    <dimen name="comment_logo_corner_radius">8dp</dimen>
+    <dimen name="relative_layout_margin_left">10dp</dimen>
+    <dimen name="textsize_recipe_title">15sp</dimen>
+
+    <dimen name="home_coment_rating_bar_margin_top">7.4dp</dimen>
+    <dimen name="rating_text_margin_left">5dp</dimen>
+    <dimen name="rating_textsize">13sp</dimen>
+    <dimen name="creator_textsize">13sp</dimen>
+    <dimen name="tab_comment_divider_height">2dp</dimen>
+    <dimen name="comment_text_margin_left">15dp</dimen>
+    <dimen name="coment_text_margin_right">15dp</dimen>
+    <dimen name="coment_textsize">15sp</dimen>
+    <dimen name="comment_card_bottom_text_margin_left">15dp</dimen>
+    <dimen name="comment_card_bottom_text_margin_top">7dp</dimen>
+    <dimen name="coment_text_botom_tetsize">11sp</dimen>
+    <dimen name="rating_text_margin_top">5.6dp</dimen>
+    <dimen name="creator_text_margin_top">5.6dp</dimen>
+    <dimen name="coment_text_margin_top">12.5dp</dimen>
 </resources>

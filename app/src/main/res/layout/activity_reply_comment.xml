@@ -24,12 +24,11 @@
                             android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/toolbar_cancel"
+                    style="@style/backButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:onClick="@{(v)-> viewModel.onBackPressed(v)}"
-                    android:src="@drawable/ic_back_arrow_white_md"
-                    android:textSize="@dimen/text_size_large"/>
+                    android:onClick="@{(v)-> viewModel.onBackPressed(v)}"/>
 
                 <TextView
                     android:id="@+id/toolbar_title"

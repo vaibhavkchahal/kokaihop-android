@@ -2,6 +2,7 @@ package com.kokaihop.recipedetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.OtherUserProfileActivity;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
@@ -46,6 +48,7 @@ import okhttp3.ResponseBody;
 
 public class RecipeDetailViewModel extends BaseViewModel {
 
+    private static final int REQUEST_CODE = 100;
     private final int LIMIT_COMMENT = 3;
     private final int LIMIT_SIMILAR_RECIPE = 5;
     private final DataSetListener dataSetListener;
@@ -87,7 +90,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     ResponseBody responseBody = (ResponseBody) response;
                     final JSONObject recipeJSONObject = new JSONObject(responseBody.string()).getJSONObject("recipe");
                     copyJsonObject = new JSONObject(recipeJSONObject.toString());
-
                     recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeID).getTitle());
@@ -211,7 +213,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 if (realmObject.getCreatedBy().getProfileImageId() != null) {
                     profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
                 }
-                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
                 recipeDetailItemsList.add(similarRecipe);
             }
         }
@@ -248,6 +250,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getCategory() != null) {
             specifications.setCategory3(recipeRealmObject.getCategory().getName());
         }
+        specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
+        specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
         specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
         specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
         specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
@@ -298,7 +302,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public void uploadImageOnCloudinary(final String imagePath) {
-
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
@@ -315,7 +318,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 //                jsonObject.getJSONObject("")
                 JSONObject image = new JSONObject();
                 JSONObject uploader = new JSONObject();
@@ -365,11 +367,19 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ((RecipeDetailActivity)context).setupRecipeDetailScreen();
+                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                 setProgressVisible(false);
             }
         });
         uploadImageAsync.execute();
 
+    }
+
+
+    public void openUserProfile(View view) {
+        Intent i = new Intent(context, OtherUserProfileActivity.class);
+        i.putExtra(Constants.USER_ID, recipeRealmObject.getCreatedBy().getId());
+        i.putExtra(Constants.FRIENDLY_URL, recipeRealmObject.getCreatedBy().getFriendlyUrl());
+        (context).startActivity(i);
     }
 }
