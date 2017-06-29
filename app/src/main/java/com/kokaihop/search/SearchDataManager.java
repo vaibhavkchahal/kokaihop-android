@@ -9,6 +9,7 @@ import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.Recipe;
+import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,11 +127,16 @@ public class SearchDataManager {
         if (withImage) {
             query.isNotNull("mainImage");
         }
+        Logger.e("time before query", new Date().toString());
         RealmResults<RecipeRealmObject> recipeRealmResult = query.findAllSorted("dateCreated", Sort.DESCENDING);
+        Logger.e("time after query", new Date().toString());
+
         List<Recipe> recipeList = new ArrayList<>();
         for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
             recipeList.add(getRecipe(recipeRealmObject));
         }
+        Logger.e("time after recipe", new Date().toString());
+
         return recipeList;
 
 
@@ -165,6 +171,8 @@ public class SearchDataManager {
         for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
             recipeList.add(getRecipe(recipeRealmObject));
         }
+        Logger.e("time after recipe", new Date().toString());
+
         return recipeList;
     }
 
@@ -179,30 +187,25 @@ public class SearchDataManager {
                 sortField = "rating.average";
                 sort = Sort.DESCENDING;
 
-            }
-            else if (sortBy.equals(context.getResources().getString(R.string.comments))) {
+            } else if (sortBy.equals(context.getResources().getString(R.string.comments))) {
 
                 sortField = "counter.comments";
                 sort = Sort.DESCENDING;
 
-            }
-            else if (sortBy.equals(context.getResources().getString(R.string.popular))) {
+            } else if (sortBy.equals(context.getResources().getString(R.string.popular))) {
 
                 //TODO:
                 sortField = "rating.raters";
                 sort = Sort.DESCENDING;
 
-            }
-            else if (sortBy.equals(context.getResources().getString(R.string.recommended))) {
+            } else if (sortBy.equals(context.getResources().getString(R.string.recommended))) {
                 //TODO:
 
-            }
-            else if (sortBy.equals(context.getResources().getString(R.string.latest))) {
+            } else if (sortBy.equals(context.getResources().getString(R.string.latest))) {
                 sortField = "dateCreated";
                 sort = Sort.DESCENDING;
 
-            }
-            else if (sortBy.equals(context.getResources().getString(R.string.title_a_z))) {
+            } else if (sortBy.equals(context.getResources().getString(R.string.title_a_z))) {
                 sortField = "title";
                 sort = Sort.ASCENDING;
             } else if (sortBy.equals(context.getResources().getString(R.string.title_z_a))) {
@@ -210,11 +213,16 @@ public class SearchDataManager {
                 sort = Sort.DESCENDING;
 
             }
+            Logger.e("time before query", new Date().toString());
             recipeRealmResult = query.findAllSorted(sortField, sort);
+            Logger.e("time after query", new Date().toString());
 
 
         } else {
+            Logger.e("time before query", new Date().toString());
             recipeRealmResult = query.findAll();
+            Logger.e("time before query", new Date().toString());
+
 
         }
         return recipeRealmResult;
