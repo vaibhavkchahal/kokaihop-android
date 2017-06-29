@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -306,6 +307,8 @@ public class SearchViewModel extends BaseViewModel {
                 recipeListwithAds.add(position, advtDetail);
             }
         }
+        Logger.e("time after ads list", new Date().toString());
+
         return recipeListwithAds;
     }
 

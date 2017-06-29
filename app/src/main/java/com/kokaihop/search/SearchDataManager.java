@@ -131,7 +131,7 @@ public class SearchDataManager {
         RealmResults<RecipeRealmObject> recipeRealmResult = query.findAllSorted("dateCreated", Sort.DESCENDING);
         Logger.e("time after query", new Date().toString());
 
-        List<Recipe> recipeList = new ArrayList<>();
+        List<Recipe> recipeList = new ArrayList<>(recipeRealmResult.size());
         for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
             recipeList.add(getRecipe(recipeRealmObject));
         }
@@ -167,7 +167,7 @@ public class SearchDataManager {
             query.endGroup();
         }
         final RealmResults<RecipeRealmObject> recipeRealmResult = sortFilter(query, sortBy);
-        List<Recipe> recipeList = new ArrayList<>();
+        List<Recipe> recipeList = new ArrayList<>(recipeRealmResult.size());
         for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
             recipeList.add(getRecipe(recipeRealmObject));
         }
