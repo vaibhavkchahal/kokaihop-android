@@ -84,5 +84,8 @@ public class MainCourseFragment extends Fragment {
             recipeObject.setLikes(recipe.getLikes());
             mainCourseBinding.rvMainCourse.getAdapter().notifyDataSetChanged();
         }
+
+        EventBus.getDefault().removeAllStickyEvents();
+
     }
 }
