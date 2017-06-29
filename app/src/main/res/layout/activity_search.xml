@@ -75,6 +75,9 @@
                  android:id="@+id/included"
                  bind:viewModel="@{viewModel}"/>
 
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

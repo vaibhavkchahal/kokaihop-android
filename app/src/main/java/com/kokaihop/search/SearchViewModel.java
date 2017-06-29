@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -280,10 +281,14 @@ public class SearchViewModel extends BaseViewModel {
         dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method), FilterType.METHOD);
     }
 
-    public List<Object> fetchNewlyAddedRecipeWithAds() {
-        List<Recipe> recipeList = searchDataManager.fetchNewlyAddedRecipe(withImage);
-        List<Object> recipeListwithAds = insertAdsInList(recipeList);
-        return recipeListwithAds;
+    public void fetchNewlyAddedRecipeWithAds() {
+        setProgressVisible(true);
+        SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.NEWLY_ADDED_RECIPE,
+                withImage);
+        searchKeywordAsync.setOnCompleteListener(onSearchCompleteListener);
+        searchKeywordAsync.execute();
+
+
     }
 
     private List<Object> insertAdsInList(List<Recipe> recipeList) {
@@ -338,10 +343,34 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void search() {
-        List<Recipe> recipeList = searchDataManager.selectedFiltersSearchQuery(courseFriendlyUrl, cuisineFriendlyUrl, methodFriendlyUrl, withImage, sortBy, searchKeyword);
-        List<Object> recipeListwithAds = insertAdsInList(recipeList);
-        dataSetListener.showRecipesList(recipeListwithAds);
+        setProgressVisible(true);
+        HashMap<String, String> filterMap = new HashMap<>();
+        if (courseFriendlyUrl != null && !courseFriendlyUrl.isEmpty()) {
+            filterMap.put("category.friendlyUrl", courseFriendlyUrl);
+        }
+        if (cuisineFriendlyUrl != null && !cuisineFriendlyUrl.isEmpty()) {
+            filterMap.put("cuisine.friendlyUrl", cuisineFriendlyUrl);
+
+        }
+        if (methodFriendlyUrl != null && !methodFriendlyUrl.isEmpty()) {
+            filterMap.put("cookingMethod.friendlyUrl", methodFriendlyUrl);
+
+        }
+        SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.SEARCH,
+                filterMap, withImage, sortBy, searchKeyword);
+        searchKeywordAsync.setOnCompleteListener(onSearchCompleteListener);
+        searchKeywordAsync.execute();
     }
+
+
+    SearchKeywordAsync.OnCompleteListener onSearchCompleteListener = new SearchKeywordAsync.OnCompleteListener() {
+        @Override
+        public void onSearchComplete(List<Recipe> recipeList) {
+            setProgressVisible(false);
+            List<Object> recipeListwithAds = insertAdsInList(recipeList);
+            dataSetListener.showRecipesList(recipeListwithAds);
+        }
+    };
 
     public interface DataSetListener {
         void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title, FilterType filterType);

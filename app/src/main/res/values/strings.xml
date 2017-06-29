@@ -222,22 +222,21 @@
     <string name="latest_search">LATEST SEARCHES</string>
     <string name="recipe_results">%1$s Recipe results</string>
 
-
-    <string name="popular">popular</string>
-    <string name="relevance">relevance</string>
-    <string name="most_recent">most recent</string>
-    <string name="most_commented">most commented</string>
-    <string name="most_rated">most rated</string>
+    <string name="best_rating">Best rating</string>
+    <string name="comments">Comments</string>
+    <string name="popular">Popular</string>
+    <string name="recommended">Recommended</string>
+    <string name="latest">latest</string>
     <string name="title_a_z">title a-z</string>
     <string name="title_z_a">title z-a</string>
 
     <!--  Sort by array-->
     <string-array name="sort_by">
+        <item>@string/best_rating</item>
+        <item>@string/comments</item>
         <item>@string/popular</item>
-        <item>@string/relevance</item>
-        <item>@string/most_recent</item>
-        <item>@string/most_commented</item>
-        <item>@string/most_rated</item>
+        <item>@string/recommended</item>
+        <item>@string/latest</item>
         <item>@string/title_a_z</item>
         <item>@string/title_z_a</item>
     </string-array>

@@ -50,7 +50,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showRecipesList(searchViewModel.fetchNewlyAddedRecipeWithAds());
+                searchViewModel.fetchNewlyAddedRecipeWithAds();
             }
         });
         searchViewModel = new SearchViewModel(this, this);
@@ -120,6 +120,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         searchText.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
         searchText.setHintTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
         binding.searchviewRecipe.setQueryHint(getString(R.string.search_recipes_ingredents));
+        binding.searchviewRecipe.setFocusable(false);
 
         try {
             Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
@@ -237,6 +238,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        Logger.e("query text submit", query);
+
         searchViewModel.addSearchSuggestion(query);
         updateSearchSuggestions(searchViewModel.getSearchSuggestion());
         searchViewModel.setSearchKeyword(query);
