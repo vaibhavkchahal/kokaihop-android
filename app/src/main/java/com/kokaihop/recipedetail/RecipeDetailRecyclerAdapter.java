@@ -201,6 +201,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 int creatorImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_recipe_creator_height_width);
                 String recipeCreatorImage = CloudinaryUtils.getRoundedImageUrl(specifications.getImageId(), String.valueOf(creatorImageSize), String.valueOf(creatorImageSize));
                 holderRecipeCreator.binder.setImageUrl(recipeCreatorImage);
+                holderRecipeCreator.binder.setHandler(new RecipeSpecificationHandler());
                 holderRecipeCreator.binder.setModel(specifications);
                 holderRecipeCreator.binder.executePendingBindings();
                 break;

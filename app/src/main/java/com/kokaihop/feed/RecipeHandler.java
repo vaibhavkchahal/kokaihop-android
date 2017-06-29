@@ -7,9 +7,11 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.comments.ShowAllCommentsActivity;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipedetail.RecipeDetailActivity;
 import com.kokaihop.userprofile.HistoryDataManager;
+import com.kokaihop.userprofile.OtherUserProfileActivity;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -99,5 +101,18 @@ public class RecipeHandler {
         intent.putExtra("recipeId", recipeId);
         intent.putExtra("recipePosition", position);
         view.getContext().startActivity(intent);
+    }
+
+    public void openUserProfile(Context context, String userId, String friendlyUrl) {
+        Intent i = new Intent(context, OtherUserProfileActivity.class);
+        i.putExtra(Constants.USER_ID, userId);
+        i.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
+        (context).startActivity(i);
+    }
+
+    public void openCommentsScreen(Context context, String recipeId) {
+        Intent intent = new Intent(context, ShowAllCommentsActivity.class);
+        intent.putExtra("recipeId", recipeId);
+        context.startActivity(intent);
     }
 }

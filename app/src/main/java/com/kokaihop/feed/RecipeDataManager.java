@@ -54,6 +54,7 @@ public class RecipeDataManager {
             recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
             recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
             recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+            recipe.setCreatedByFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
         }
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
         if (recipeRealmObject.getMainImage() != null) {

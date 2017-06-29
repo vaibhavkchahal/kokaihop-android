@@ -128,8 +128,8 @@
     <string name="write_a_comment_text">Write a comment...</string>
     <string name="text_upload_image_to_recipe">upload image to recipe</string>
     <string name="portion_text">Portion</string>
-    <string name="text_created">Created</string>
-    <string name="text_by">by</string>
+    <string name="text_created">Skapat</string>
+    <string name="text_by">av</string>
     <string name="text_add_to_list">Add to list</string>
 
     <string name="text_Ingredients">Ingredients</string>
