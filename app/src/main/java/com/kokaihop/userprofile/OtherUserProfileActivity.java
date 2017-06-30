@@ -19,11 +19,11 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_other_user_profile);
         String userId = getIntent().getStringExtra(Constants.USER_ID);
-        String frendlyUrl = getIntent().getStringExtra(Constants.FRIENDLY_URL);
+        String friendlyUrl = getIntent().getStringExtra(Constants.FRIENDLY_URL);
 
         Bundle bundle = new Bundle();
         bundle.putString(Constants.USER_ID,userId);
-        bundle.putString(Constants.FRIENDLY_URL,frendlyUrl);
+        bundle.putString(Constants.FRIENDLY_URL,friendlyUrl);
 
         fragment = new OtherUserProfileFragment();
         fragment.setArguments(bundle);

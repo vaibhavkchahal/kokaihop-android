@@ -35,11 +35,15 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
     private Context context;
     private Fragment fragment;
     private boolean myCookbook;
+    private User user;
+    private String friendlyUrl;
 
-    public CookbooksAdapter(Fragment fragment, ArrayList<Cookbook> cookbooks, boolean myCookbook) {
+    public CookbooksAdapter(Fragment fragment, ArrayList<Cookbook> cookbooks, boolean myCookbook, User user, String friendlyUrl) {
         this.cookbooks = cookbooks;
         this.fragment = fragment;
         this.myCookbook = myCookbook;
+        this.user = user;
+        User.getOtherUser().setFriendlyUrl(friendlyUrl);
     }
 
     @Override
@@ -119,7 +123,6 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
 
         public void bind(final Cookbook cookbook) {
             if (myCookbook) {
-                final User user = User.getInstance();
                 myCookbookBinding.setCookbook(cookbook);
                 myCookbookBinding.setUser(user);
                 myCookbookBinding.executePendingBindings();
@@ -130,14 +133,13 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
                     }
                 });
             } else {
-                final User user = User.getOtherUser();
                 cookbookBinding.setCookbook(cookbook);
                 cookbookBinding.setUser(user);
                 cookbookBinding.executePendingBindings();
                 cookbookBinding.clCookbookRow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openCookbookDetail(v, user.getFriendlyUrl(), cookbook.getFriendlyUrl(), cookbook.getName());
+                        openCookbookDetail(v, User.getOtherUser().getFriendlyUrl(), cookbook.getFriendlyUrl(), cookbook.getName());
                     }
                 });
             }

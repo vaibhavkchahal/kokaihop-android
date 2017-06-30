@@ -11,9 +11,10 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentCookbookLoginBinding;
-import com.altaworks.kokaihop.ui.databinding.FragmentCookbooksBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentMyCookbooksBinding;
+import com.kokaihop.cookbooks.MyCookbooksViewModel;
+import com.kokaihop.cookbooks.model.CookbooksList;
 import com.kokaihop.userprofile.CookbooksAdapter;
-import com.kokaihop.userprofile.CookbooksViewModel;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.CustomLinearLayoutManager;
@@ -23,7 +24,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 public class MyCookbooksFragment extends Fragment {
 
     private CookbooksAdapter adapter;
-    private CookbooksViewModel viewModel;
+    private MyCookbooksViewModel viewModel;
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
 
@@ -43,25 +44,24 @@ public class MyCookbooksFragment extends Fragment {
         Bundle bundle = this.getArguments();
         boolean myCookbook = true;
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
-        String userId = null;
+        String userId = "";
+        String friendlyUrl = "";
 
         if (bundle != null) {
             userId = bundle.getString(Constants.USER_ID);
+            friendlyUrl = bundle.getString(Constants.FRIENDLY_URL);
         }
 
-        viewModel = new CookbooksViewModel(this, getContext(), userId);
+        viewModel = new MyCookbooksViewModel(this, getContext(), userId);
 
         if (myCookbook && (accessToken == null) || accessToken.isEmpty()) {
             FragmentCookbookLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);
             binding.setViewModel(viewModel);
             return binding.getRoot();
         } else {
-            final FragmentCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbooks, container, false);
+            final FragmentMyCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_cookbooks, container, false);
             binding.setViewModel(viewModel);
-            adapter = new CookbooksAdapter(this, User.getInstance().getCookbooks(), myCookbook);
-            if (!myCookbook) {
-                binding.toolbar.setVisibility(View.GONE);
-            }
+            adapter = new CookbooksAdapter(this, CookbooksList.getCookbooksList().getCookbooks(), myCookbook, User.getInstance(), friendlyUrl);
             layoutManager = new CustomLinearLayoutManager(getContext());
             recyclerView = binding.rvHistoryList;
             recyclerView.setLayoutManager(layoutManager);
@@ -90,5 +90,6 @@ public class MyCookbooksFragment extends Fragment {
     //    notify the adapter about the chage in data.
     public void showUserProfile() {
         adapter.notifyDataSetChanged();
+        adapter.getItemCount();
     }
 }

@@ -239,6 +239,7 @@ public class ProfileDataManager {
                 FollowingFollowerUser user = new FollowingFollowerUser();
                 user.set_id(following.getId());
                 user.setName(new UserName());
+                user.setFriendlyUrl(following.getFriendlyUrl());
                 user.getName().setFull(following.getUserNameRealmObject().getFull());
                 if (following.getProfileImage() != null) {
                     user.setProfileImage(new CloudinaryImage());

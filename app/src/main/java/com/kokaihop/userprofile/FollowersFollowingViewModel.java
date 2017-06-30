@@ -137,6 +137,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
     //Getting list of followers through api call
     public void getFollowers(final int offset) {
+        fetchFollowersFromDB();
         setOffset(offset);
         setDownloading(isDownloading);
         setProgressVisible(true);

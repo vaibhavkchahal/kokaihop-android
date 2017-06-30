@@ -48,7 +48,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
                 ProfileDataManager profileDataManager = new ProfileDataManager();
-                profileDataManager.removeData();
+//                profileDataManager.removeData();
                 profileDataManager.updateIsFavoriteForAllRecipe();
                 profileDataManager.updateLastUpdatedTimeForAllRecipe();
                 Intent intent = new Intent(getContext(), HomeActivity.class);
