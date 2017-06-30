@@ -48,7 +48,19 @@
             android:layout_below="@+id/cookbook_name"
             android:layout_marginTop="20dp"
             android:weightSum="2">
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="@dimen/none"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
 
+            <View android:layout_width="@dimen/divider_height"
+                  android:layout_height="match_parent"
+                  android:background="@color/colorPrimary"/>
             <TextView
                 android:id="@+id/create_cookbbok"
                 android:layout_width="@dimen/none"
@@ -59,19 +71,6 @@
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>
 
-            <View android:layout_width="@dimen/divider_height"
-                  android:layout_height="match_parent"
-                  android:background="@color/colorPrimary"/>
-
-            <TextView
-                android:id="@+id/cancel"
-                android:layout_width="@dimen/none"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/cancel"
-                android:textSize="@dimen/text_size_small"
-                app:font="@{`SS-ProRegular`}"/>
 
         </LinearLayout>
 
