@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +76,10 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     public void showRecipesList(List<Object> recipeList) {
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
         binding.included.linearlytRecentSearch.setVisibility(View.GONE);
+        binding.included.rvRecipes.setVisibility(View.VISIBLE);
 
-        RecyclerView rvMainCourse = binding.included.rvRecipes;
+
+        RecyclerView rvRecipes = binding.included.rvRecipes;
         final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(recipeList);
         recyclerAdapter.setFromSearchedView(true);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
@@ -99,8 +102,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                                             }
                                         }
         );
-        rvMainCourse.setLayoutManager(layoutManager);
-        rvMainCourse.setAdapter(recyclerAdapter);
+        rvRecipes.setLayoutManager(layoutManager);
+        rvRecipes.setAdapter(recyclerAdapter);
     }
 
     private void initialiseSuggestionView() {
@@ -256,12 +259,15 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     @Override
     public boolean onQueryTextChange(String newText) {
         Logger.e("new text", newText);
-
-        /* if(!query.isEmpty() && query.length()>3)
-        {
-
-
-        }*/
+        if (!TextUtils.isEmpty(newText) && newText.length() > 2) {
+            searchViewModel.addSearchSuggestion(newText);
+            searchViewModel.setSearchKeyword(newText);
+            searchViewModel.search();
+        } else {
+            binding.included.linearlytNewlyAddedRecipe.setVisibility(View.VISIBLE);
+            binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
+            binding.included.rvRecipes.setVisibility(View.GONE);
+        }
 
         return false;
     }
