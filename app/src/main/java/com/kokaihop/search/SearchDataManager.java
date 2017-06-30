@@ -234,9 +234,12 @@ public class SearchDataManager {
         recipe.set_id(recipeRealmObject.get_id());
         recipe.setTitle(recipeRealmObject.getTitle());
         recipe.setType(recipeRealmObject.getType());
-        recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
-        recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
-        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        if(recipeRealmObject.getCreatedBy()!=null)
+        {
+            recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
+            recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
+            recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        }
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
         if (recipeRealmObject.getMainImage() != null) {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
