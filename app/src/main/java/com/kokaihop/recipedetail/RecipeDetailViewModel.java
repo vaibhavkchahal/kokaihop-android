@@ -331,7 +331,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     if (user.getProfileImage() != null) {
                         uploader.put("profileImageId", user.getProfileImage().getCloudinaryId());
                     }
-                    if(uploadResult!=null){
+                    if (uploadResult != null) {
                         image.put("dateCreated", new Date().getTime());
                         image.put("publicId", uploadResult.get("public_id"));
                         image.put("uploader", uploader);
@@ -360,7 +360,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                                 Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }else{
+                    } else {
                         Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
                     }
 

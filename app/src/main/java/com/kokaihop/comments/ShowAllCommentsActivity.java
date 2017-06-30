@@ -48,10 +48,10 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
                     binding.swipeRefreshLayout.setRefreshing(false);
                     Toast.makeText(ShowAllCommentsActivity.this, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
                 }
-                if (showCommentsViewModel.getOffset() < showCommentsViewModel.getTotalCommentCount()) {
+                int max = showCommentsViewModel.getMax();
+                int offset = showCommentsViewModel.getOffset() + showCommentsViewModel.getMax();
+                if (offset < showCommentsViewModel.getTotalCommentCount()) {
                     binding.swipeRefreshLayout.setEnabled(true);
-                    int max = showCommentsViewModel.getMax();
-                    int offset = showCommentsViewModel.getOffset() + showCommentsViewModel.getMax();
                     showCommentsViewModel.fetchCommentFromServer(offset, max, false);
                     showCommentsViewModel.setOffset(offset);
                 } else {
