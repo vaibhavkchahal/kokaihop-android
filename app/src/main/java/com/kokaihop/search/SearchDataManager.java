@@ -245,13 +245,15 @@ public class SearchDataManager {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
-        recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
+        if(recipeRealmObject.getCounter()!=null)
+        {
+            recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
+        }
         if (recipeRealmObject.getRating() != null) {
             recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
-
+            recipe.setComments(recipeRealmObject.getCounter().getComments());
         }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
-        recipe.setComments(recipeRealmObject.getCounter().getComments());
         recipe.setBadgeType(recipeRealmObject.getBadgeType());
         recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
         return recipe;
