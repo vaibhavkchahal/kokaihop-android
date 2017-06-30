@@ -1,16 +1,18 @@
-1. Other user Profile
-   - Other user profile screen design and API.
-   - Followers, following, recipe and cookbooks listing.
+1. Search
+   - Search Design
+   - Course, cuisine method and sort by listing API implementation.
+   - Search by course, Cuisine and Method filter.
+   - Sort by title A-Z, Z-A, latest, Comments
+   - Newly added recipe
+   - Only with image or All image recipe filter.
+   - Search based on keyword.
 2. Cookbook Tab
-   - Cookbooks Listing.
+   - Recipes of Cookbooks.
+   - Create Cookbook
+   - Navigate to recipe detail screen
 3. Recipe Details
-   - Rating API implementation.
-   - Upload recipe images functionality through camera/gallery.
-4. Comments:
-   - Add a new Comments.
-   - Reply on Comments.
-   - Pull to refresh on reply comments screen.
-   - Database syncing on reply comments screen.
+   - Profile, Similar recipes Linking.
+   - Rating bar design changes.
 
 
 
