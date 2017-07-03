@@ -37,7 +37,6 @@ import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
-import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.BlurImageHelper;
@@ -324,15 +323,15 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         final RecipeHandler recipeHandler = new RecipeHandler();
-        RecipeRealmObject realmObject = binding.getViewModel().recipeRealmObject;
-        final Recipe recipe = binding.getViewModel().getRecipe(realmObject);
+        final RecipeRealmObject recipeRealmObject = binding.getViewModel().recipeRealmObject;
+//        final Recipe recipe = binding.getViewModel().getRecipe(realmObject);
         MenuItem menuItemLike = menu.findItem(R.id.icon_like);
-        setInitialRecipeLikeState(recipe, menuItemLike);
+        setInitialRecipeLikeState(recipeRealmObject, menuItemLike);
         menuItemLike.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.icon_like) {
-                    actionOnRecipeLike(item, recipe, recipeHandler);
+                    actionOnRecipeLike(item, recipeRealmObject, recipeHandler);
                 }
                 return false;
             }
@@ -340,7 +339,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         return true;
     }
 
-    private void setInitialRecipeLikeState(Recipe recipe, MenuItem menuItemLike) {
+    private void setInitialRecipeLikeState(RecipeRealmObject recipe, MenuItem menuItemLike) {
         if (recipe.isFavorite) {
             menuItemLike.setIcon(R.drawable.ic_like_sm);
             menuItemLike.setChecked(recipe.isFavorite);
@@ -350,7 +349,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
     }
 
-    private void actionOnRecipeLike(MenuItem item, Recipe recipe, RecipeHandler recipeHandler) {
+    private void actionOnRecipeLike(MenuItem item, RecipeRealmObject recipe, RecipeHandler recipeHandler) {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {

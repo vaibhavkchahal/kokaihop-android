@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.comments.ShowAllCommentsActivity;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipedetail.RecipeDetailActivity;
 import com.kokaihop.userprofile.HistoryDataManager;
@@ -31,7 +32,7 @@ public class RecipeHandler {
         recipePosition = position;
     }
 
-    public void onCheckChangeRecipe(CheckBox checkBox, Recipe recipe) {
+    public void onCheckChangeRecipe(CheckBox checkBox, RecipeRealmObject recipe) {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
             Context context = checkBox.getContext();
@@ -42,15 +43,15 @@ public class RecipeHandler {
         }
     }
 
-    private void performOperationOncheck(CheckBox checkBox, Recipe recipe) {
+    private void performOperationOncheck(CheckBox checkBox, RecipeRealmObject recipe) {
         updateSatusInDB(checkBox.isChecked(), recipe);
         updatelikeStatusOnServer(checkBox, recipe);
     }
 
-    private void updateSatusInDB(boolean checked, Recipe recipe) {
+    private void updateSatusInDB(boolean checked, RecipeRealmObject recipe) {
         RecipeDataManager recipeDataManager = new RecipeDataManager();
         long likes = 0;
-        likes = Long.valueOf(recipe.getLikes());
+        likes = Long.valueOf(recipe.getCounter().getLikes());
         if (checked) {
             likes = likes + 1;
         } else {
@@ -60,11 +61,12 @@ public class RecipeHandler {
         }
         recipeDataManager.updateIsFavoriteInDB(checked, recipe);
         recipeDataManager.updateLikesCount(recipe, likes);
-        recipe.setLikes(String.valueOf(likes));
+        recipe.getCounter().setLikes(likes);
+//        recipe.setLikes(String.valueOf(likes));
         recipe.setFavorite(checked);
     }
 
-    public void updatelikeStatusOnServer(final CheckBox checkBox, final Recipe recipe) {
+    public void updatelikeStatusOnServer(final CheckBox checkBox, final RecipeRealmObject recipe) {
         final Context context = checkBox.getContext();
         String accessToken = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(checkBox.getContext(), Constants.ACCESS_TOKEN);
         RecipeLikeRequest request = new RecipeLikeRequest(recipe.get_id(), checkBox.isChecked());
@@ -90,7 +92,7 @@ public class RecipeHandler {
         });
     }
 
-    private void revertLikeStatus(CheckBox checkBox, Recipe recipe) {
+    private void revertLikeStatus(CheckBox checkBox, RecipeRealmObject recipe) {
         updateSatusInDB(!checkBox.isChecked(), recipe);
     }
 

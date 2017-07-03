@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentVegetarianBinding;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.SpacingItemDecoration;
@@ -77,14 +78,16 @@ public class VegetarianFragment extends Fragment {
     @Subscribe(sticky = true)
     public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
         int recipePosition = recipeDetailPostEvent.getPosition();
-        Recipe recipe = recipeDetailPostEvent.getRecipe();
+        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
         Object object = vegetarianViewModel.getRecipeListWithAdds().get(recipePosition);
-        if (object instanceof Recipe) {
-            Recipe recipeObject = (Recipe) object;
+        if (object instanceof RecipeRealmObject) {
+            RecipeRealmObject recipeObject = (RecipeRealmObject) object;
             recipeObject.setFavorite(recipe.isFavorite());
-            recipeObject.setLikes(recipe.getLikes());
+            recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
+//            recipeObject.setLikes(recipe.getLikes());
             vegetarianBinding.rvVegetarian.getAdapter().notifyDataSetChanged();
         }
+
         EventBus.getDefault().removeAllStickyEvents();
 
     }

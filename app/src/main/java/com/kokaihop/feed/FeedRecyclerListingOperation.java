@@ -3,6 +3,7 @@ package com.kokaihop.feed;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
@@ -85,7 +86,7 @@ public class FeedRecyclerListingOperation {
                 if (object instanceof AdvtDetail) {
                     object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition - 1);
                 }
-                Recipe recipe = (Recipe) object;
+                RecipeRealmObject recipe = (RecipeRealmObject) object;
                 if (!feedViewModel.isDownloading() && DateTimeUtils.getOneHoursDiff(recipe.getLastUpdated()) >= 1) {
                     int max = feedViewModel.getMax();
                     if (lastVisibleItemPosition <= feedViewModel.getMax()) {

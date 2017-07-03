@@ -1,5 +1,7 @@
 package com.kokaihop.feed;
 
+import com.kokaihop.database.RecipeRealmObject;
+
 /**
  * Created by Vaibhav Chahal on 13/6/17.
  */
@@ -7,9 +9,9 @@ package com.kokaihop.feed;
 public class RecipeDetailPostEvent {
 
     private int position;
-    private Recipe recipe;
+    private RecipeRealmObject recipe;
 
-    public RecipeDetailPostEvent(Recipe recipe,int position) {
+    public RecipeDetailPostEvent(RecipeRealmObject recipe, int position) {
         this.position = position;
         this.recipe = recipe;
     }
@@ -18,7 +20,7 @@ public class RecipeDetailPostEvent {
         return position;
     }
 
-    public Recipe getRecipe() {
+    public RecipeRealmObject getRecipe() {
         return recipe;
     }
 }

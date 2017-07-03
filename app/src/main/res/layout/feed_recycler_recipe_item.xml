@@ -6,7 +6,7 @@
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
         <import type="android.view.View"/>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
         <variable name="feedImageUrl" type="String"/>
         <variable name="profileImageUrl" type="String"/>
         <variable name="position" type="int"/>
@@ -47,7 +47,7 @@
             android:onClick="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
             android:paddingLeft="@dimen/padding_left_recipe_like"
             android:paddingRight="@dimen/padding_right_recipe_right"
-            android:text="@={recipe.likes}"
+            android:text="@{String.valueOf(recipe.counter.likes)}"
             android:textColor="@color/white"
         />
 
@@ -79,7 +79,7 @@
             android:isIndicator="true"
             android:numStars="5"
             android:progressDrawable="@drawable/recipe_rating_bar"
-            android:rating="@{recipe.ratingAverage}"
+            android:rating="@{recipe.rating.average}"
             android:saveEnabled="false"
             android:stepSize="0.01"/>
 
@@ -117,7 +117,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/iv_profile_margin_left"
                 android:gravity="center_vertical"
-                android:onClick="@{(v)->recipeHandler.openUserProfile(context,recipe.createdById,recipe.createdByFriendlyUrl)}">
+                android:onClick="@{(v)->recipeHandler.openUserProfile(context,recipe.createdBy.id,recipe.createdBy.friendlyUrl)}">
 
                 <ImageView
                     android:id="@+id/iv_profile"
@@ -137,7 +137,7 @@
                     android:layout_marginLeft="@dimen/tv_user_name_margin_left"
                     android:ellipsize="end"
                     android:maxLength="7"
-                    android:text="@{recipe.createdByName}"
+                    android:text="@{recipe.createdBy.name}"
                     android:textColor="@color/grey_CC999999"
                     android:textSize="@dimen/textsize_tv_user_name"
                     app:font="@{`SS-ProRegular`}"/>
