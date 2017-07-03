@@ -302,6 +302,14 @@ public class UserRealmObject extends RealmObject {
         return userName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
     public RealmList<RecipeRealmObject> getRecipeList() {
         return recipeList;
     }

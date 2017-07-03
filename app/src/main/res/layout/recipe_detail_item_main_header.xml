@@ -8,6 +8,7 @@
         <variable name="model" type="com.kokaihop.recipedetail.RecipeDetailHeader"/>
         <variable name="ratingHandler" type="com.kokaihop.recipedetail.RecipeRatingHandler"/>
         <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
         <variable name="badgeType" type="com.kokaihop.utility.ApiConstants.BadgeType"/>
     </data>
 
@@ -46,6 +47,7 @@
             android:textAllCaps="true"
             android:textColor="@color/orange_FFFF9326"
             android:textSize="@dimen/txtsize_recipe_detail_badge_type"
+            android:visibility="@{model.badgeType.length() > 0 ? View.VISIBLE : View.INVISIBLE}"
             app:font="@{`SS-ProBold`}"/>
 
         <TextView

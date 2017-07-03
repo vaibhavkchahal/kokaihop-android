@@ -25,6 +25,10 @@ public interface CommentsApi {
     @GET("v1/api/comments/app")
     Call<ResponseBody> getCommentsList(@QueryMap Map<String, String> map);
 
+   /* // just for showing comments directly from api.
+    @GET("v1/api/comments/app")
+    Call<HomeCommentsApiResponse> getHomeCommentsList(@QueryMap Map<String, String> map);
+*/
     @POST("v1/api/comments")
     Call<ResponseBody> postComment(@Header("Authorization") String authorization,
                                    @Body PostCommentRequestParams request);

@@ -5,112 +5,141 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
+        <variable name="recipeImageUrl" type="String"/>
+        <variable name="handler" type="com.kokaihop.feed.RecipeHandler"/>
+
+    </data>
+
     <android.support.v7.widget.CardView android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_margin="@dimen/comment_card_margin"
+                                        android:layout_marginBottom="5dp"
+                                        android:layout_marginLeft="@dimen/comment_card_margin"
+                                        android:layout_marginRight="@dimen/comment_card_margin"
+                                        android:layout_marginTop="5dp"
                                         android:background="@color/white"
-                                        android:paddingBottom="@dimen/comment_card_pdding_bottom">
+    >
 
 
         <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:paddingBottom="@dimen/comment_card_pdding_bottom">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/cardview_logo"
-                android:layout_width="@dimen/comment_card_logo_width"
-                android:layout_height="@dimen/comment_card_logo_height"
-                android:layout_marginLeft="@dimen/comment_logo_margin_left"
-                android:layout_marginTop="@dimen/comment_logo_margin_top"
-                app:cardCornerRadius="8dp">
-                <ImageView
-                    android:id="@+id/imgview_logo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-
-            </android.support.v7.widget.CardView>
 
             <RelativeLayout
+                android:id="@+id/relative_layout_recipe_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/relative_layout_margin_left"
-                android:layout_toRightOf="@+id/cardview_logo"
-                android:orientation="vertical">
+                android:layout_marginLeft="@dimen/comment_logo_margin_left"
+                android:layout_marginTop="@dimen/comment_logo_margin_top"
+            >
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardview_logo"
+                    android:layout_width="@dimen/comment_card_logo_width"
+                    android:layout_height="@dimen/comment_card_logo_height"
+                    app:cardCornerRadius="8dp">
+                    <ImageView
+                        android:id="@+id/imgview_logo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        app:error="@{@drawable/ic_recipeplaceholder_sm}"
+                        app:imageUrl="@{recipeImageUrl}"
+                        app:placeholder="@{@drawable/ic_recipeplaceholder_sm}"
+                    />
 
-                <TextView
-                    android:id="@+id/txtview_title"
-                    android:layout_width="wrap_content"
+                </android.support.v7.widget.CardView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey_FF71767F"
-                    android:textSize="@dimen/textsize_recipe_title"
-                    bind:font="@{`SS-ProRegular`}"
-                    tools:text="Dumlekakor"/>
+                    android:layout_marginLeft="@dimen/relative_layout_margin_left"
+                    android:layout_toRightOf="@+id/cardview_logo"
+                    android:orientation="vertical">
 
-                <RatingBar
-                    android:id="@+id/rating_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/rating_bar_height"
-                    android:layout_below="@+id/txtview_title"
-                    android:layout_marginTop="@dimen/home_coment_rating_bar_margin_top"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:progressDrawable="@drawable/recipe_rating_bar"
-                    android:saveEnabled="false"
-                    android:stepSize="1"/>
+                    <TextView
+                        android:id="@+id/txtview_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{model.payload.recipe.title}"
+                        android:textColor="@color/grey_FF71767F"
+                        android:textSize="@dimen/textsize_recipe_title"
+                        bind:font="@{`SS-ProRegular`}"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtview_title"
-                    android:layout_marginLeft="@dimen/rating_text_margin_left"
-                    android:layout_marginTop="@dimen/rating_text_margin_top"
-                    android:layout_toRightOf="@+id/rating_bar"
-                    android:textColor="@color/grey_FF8E8E93"
-                    android:textSize="@dimen/rating_textsize"
-                    bind:font="@{`SS-ProRegular`}"
-                    tools:text="Dumlekakor"/>
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/rating_bar_height"
+                        android:layout_below="@+id/txtview_title"
+                        android:layout_marginTop="@dimen/home_coment_rating_bar_margin_top"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:progressDrawable="@drawable/recipe_rating_bar"
+                        android:rating="@{model.payload.recipe.recipeRating}"
+                        android:saveEnabled="false"
+                        android:stepSize="1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtview_title"
+                        android:layout_marginLeft="@dimen/rating_text_margin_left"
+                        android:layout_marginTop="@dimen/rating_text_margin_top"
+                        android:layout_toRightOf="@+id/rating_bar"
+                        android:text="@{String.valueOf(model.payload.recipe.ratersCount)}"
+                        android:textColor="@color/grey_FF8E8E93"
+                        android:textSize="@dimen/rating_textsize"
+                        bind:font="@{`SS-ProRegular`}"/>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/rating_bar"
-                    android:layout_marginTop="@dimen/creator_text_margin_top"
-                    android:textSize="@dimen/creator_textsize"
-                    bind:font="@{`SS-ProRegular`}"
-                    tools:text="Dumlekakor"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rating_bar"
+                        android:layout_marginTop="@dimen/creator_text_margin_top"
+                        android:text="@{`av `+model.payload.recipe.creatorName}"
+                        android:textColor="@color/kokaihop_orange_color"
+                        android:textSize="@dimen/creator_textsize"
+                        bind:font="@{`SS-ProRegular`}"/>
+
+                </RelativeLayout>
 
             </RelativeLayout>
-
             <View
                 android:id="@+id/view_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tab_comment_divider_height"
-                android:layout_below="@+id/cardview_logo"
+                android:layout_below="@+id/relative_layout_recipe_info"
+                android:layout_marginTop="16.5dp"
                 android:background="@color/grey_FFE9EBEB"/>
 
-            <TextView
-                android:id="@+id/txtview_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/view_divider"
-                android:layout_marginLeft="@dimen/comment_text_margin_left"
-                android:layout_marginRight="@dimen/coment_text_margin_right"
-                android:layout_marginTop="@dimen/coment_text_margin_top"
-                android:textColor="@color/grey_FF71767F"
-                android:textSize="@dimen/coment_textsize"
-                bind:font="@{`SS-ProRegular`}"/>
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/view_divider"
+                            android:layout_marginLeft="@dimen/comment_text_margin_left"
+                            android:layout_marginRight="@dimen/coment_text_margin_right"
+                            android:layout_marginTop="@dimen/coment_text_margin_top">
+                <TextView
+                    android:id="@+id/txtview_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{model.payload.comment.content}"
+                    android:textColor="@color/grey_FF71767F"
+                    android:textSize="@dimen/coment_textsize"
+                    bind:font="@{`SS-ProRegular`}"/>
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtview_comment"
-                android:layout_marginLeft="@dimen/comment_card_bottom_text_margin_left"
-                android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
-                android:textColor="@color/grey_FF8E8E93"
-                android:textSize="@dimen/coment_text_botom_tetsize"
-                bind:font="@{`SS-ProRegular`}"/>
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtview_comment"
+                    android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
+                    android:text="@{`kommentor av `}"
+                    android:textColor="@color/grey_FF8E8E93"
+                    android:textSize="@dimen/coment_text_botom_tetsize"
+                    bind:font="@{`SS-ProRegular`}"/>
+            </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </layout>

@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.RecipeItemCommentBinding;
-import com.kokaihop.comments.CommentsHandler;
+import com.altaworks.kokaihop.ui.databinding.ItemCommentHomeBinding;
 import com.kokaihop.database.CommentRealmObject;
+import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.ArrayList;
@@ -24,6 +24,7 @@ public class HomeCommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private Context context;
+
 
     public HomeCommentsRecyclerAdapter(List<CommentRealmObject> list) {
         commentsList = list;
@@ -41,13 +42,14 @@ public class HomeCommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final ViewHolderShowComments holderShowComments = (ViewHolderShowComments) holder;
         final CommentRealmObject commentRealmObject = commentsList.get(position);
-        int commentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.imgview_comment_user_image_width);
-        if (commentRealmObject.getSourceUser().getProfileImage() != null) {
-            String commentUserImage = CloudinaryUtils.getRoundedImageUrl(commentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(commentUsetImageSize), String.valueOf(commentUsetImageSize));
-            holderShowComments.binder.setImageUrl(commentUserImage);
+        int commentUsetImageWidth = context.getResources().getDimensionPixelOffset(R.dimen.comment_card_logo_width);
+        int commentUsetImageHeight = context.getResources().getDimensionPixelOffset(R.dimen.comment_card_logo_height);
+        if (commentRealmObject.getPayload().getRecipe().getMainImagePublicId() != null) {
+            String imageId = commentRealmObject.getPayload().getRecipe().getMainImagePublicId();
+            holderShowComments.binder.setRecipeImageUrl(CloudinaryUtils.getImageUrl(imageId, String.valueOf(commentUsetImageWidth), String.valueOf(commentUsetImageHeight)));
         }
         holderShowComments.binder.setModel(commentRealmObject);
-        holderShowComments.binder.setHandler(new CommentsHandler());
+        holderShowComments.binder.setHandler(new RecipeHandler());
         holderShowComments.binder.executePendingBindings();
     }
 
@@ -58,7 +60,7 @@ public class HomeCommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
     public class ViewHolderShowComments extends RecyclerView.ViewHolder {
-        public RecipeItemCommentBinding binder;
+        public ItemCommentHomeBinding binder;
 
         public ViewHolderShowComments(View view) {
             super(view);

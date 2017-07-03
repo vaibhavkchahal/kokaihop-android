@@ -1,6 +1,8 @@
 package com.kokaihop.recipedetail;
 
 import android.content.Context;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -18,12 +20,21 @@ import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeRatingHandler {
 
+    private int changedRating;
+
     public RecipeRatingHandler(final RatingBar ratingBar, final RecipeDetailHeader recipeDetailHeader) {
         final Context context = ratingBar.getContext();
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (fromUser) {
+                changedRating = (int) rating;
+            }
+        });
+
+        ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
                     if (accessToken == null || accessToken.isEmpty()) {
                         ratingBar.setRating(recipeDetailHeader.getRating());
@@ -32,13 +43,14 @@ public class RecipeRatingHandler {
                         updateRecipeRating(ratingBar, recipeDetailHeader);
                     }
                 }
+                return false;
             }
         });
     }
 
     private void updateRecipeRating(final RatingBar ratingBar, final RecipeDetailHeader recipeDetailHeader) {
         String accessTokenBearer = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(ratingBar.getContext(), Constants.ACCESS_TOKEN);
-        new RecipeDetailApiHelper().rateRecipe(accessTokenBearer, new RatingRequestParams(recipeDetailHeader.getRecipeId(), (int) ratingBar.getRating()), new IApiRequestComplete() {
+        new RecipeDetailApiHelper().rateRecipe(accessTokenBearer, new RatingRequestParams(recipeDetailHeader.getRecipeId(), changedRating), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 Context context = ratingBar.getContext();
