@@ -238,9 +238,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private RecipeSpecifications getRecipeSpecifications(RecipeRealmObject recipeRealmObject) {
         RecipeSpecifications specifications = new RecipeSpecifications();
-        specifications.setName(recipeRealmObject.getCreatedBy().getName());
-        specifications.setImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
-        specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
+        if(recipeRealmObject.getCreatedBy()!=null){
+            specifications.setName(recipeRealmObject.getCreatedBy().getName());
+            specifications.setImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+            specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
+        }
         if (recipeRealmObject.getCookingMethod() != null) {
             specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
         }

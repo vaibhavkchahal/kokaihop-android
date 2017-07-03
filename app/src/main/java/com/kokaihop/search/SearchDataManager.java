@@ -234,21 +234,26 @@ public class SearchDataManager {
         recipe.set_id(recipeRealmObject.get_id());
         recipe.setTitle(recipeRealmObject.getTitle());
         recipe.setType(recipeRealmObject.getType());
-        recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
-        recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
-        recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        if(recipeRealmObject.getCreatedBy()!=null)
+        {
+            recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
+            recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
+            recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+        }
         recipe.setCoverImage(recipeRealmObject.getCoverImage());
         if (recipeRealmObject.getMainImage() != null) {
             recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
         }
         recipe.setFavorite(recipeRealmObject.isFavorite());
-        recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
+        if(recipeRealmObject.getCounter()!=null)
+        {
+            recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
+        }
         if (recipeRealmObject.getRating() != null) {
             recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
-
+            recipe.setComments(recipeRealmObject.getCounter().getComments());
         }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
-        recipe.setComments(recipeRealmObject.getCounter().getComments());
         recipe.setBadgeType(recipeRealmObject.getBadgeType());
         recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
         return recipe;
