@@ -77,6 +77,7 @@ public class HomeActivity extends BaseActivity {
         userProfileFragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
+        bundle.putString(Constants.FRIENDLY_URL,SharedPrefUtils.getSharedPrefStringData(this,Constants.FRIENDLY_URL));
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
 
         MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();

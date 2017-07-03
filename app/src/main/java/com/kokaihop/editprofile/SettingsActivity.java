@@ -47,6 +47,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
+                SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.USER_ID, null);
+                SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.FRIENDLY_URL, null);
                 ProfileDataManager profileDataManager = new ProfileDataManager();
 //                profileDataManager.removeData();
                 profileDataManager.updateIsFavoriteForAllRecipe();

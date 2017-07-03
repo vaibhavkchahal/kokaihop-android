@@ -26,13 +26,13 @@ public class CookbooksViewModel extends BaseViewModel {
     private final Context context;
     private int offset, max, totalCount;
     private boolean isDownloading = true;
-    private String userId;
+    private String userId,friendlyUrl;
     private ProfileDataManager profileDataManager;
     private Fragment fragment;
     private User user;
-    ArrayList<Cookbook> cookbooks;
+    private ArrayList<Cookbook> cookbooks;
 
-    public CookbooksViewModel(Fragment fragment, Context context, String userId) {
+    public CookbooksViewModel(Fragment fragment, Context context, String userId, String friendlyUrl) {
         this.fragment = fragment;
         this.userId = userId;
         this.context = context;
@@ -40,7 +40,9 @@ public class CookbooksViewModel extends BaseViewModel {
         this.user = user;
         cookbooks = new ArrayList<>();
         max = 20;
+        this.friendlyUrl = friendlyUrl;
     }
+
 
     public void getCookbooksOfUser(final int offset) {
         fetchCookbooksFromDB();
@@ -57,7 +59,7 @@ public class CookbooksViewModel extends BaseViewModel {
                     try {
                         final JSONObject jsonObject = new JSONObject(responseBody.string());
                         JSONArray recipes = jsonObject.getJSONArray("recipeCollections");
-                        profileDataManager.insertOrUpdateCookbooksUsingJSON(recipes, getUserId());
+                        profileDataManager.insertOrUpdateCookbooksUsingJSON(recipes, getUserId(),friendlyUrl);
                         setTotalCount(jsonObject.getInt("total"));
                         fetchCookbooksFromDB();
                     } catch (JSONException e) {

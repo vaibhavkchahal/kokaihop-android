@@ -9,6 +9,7 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -87,18 +88,21 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     }
 
     public void onToggleFollowing(User user) {
+        accessToken = SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
 
-        String userId = user.get_id();
-        user.setFollowByMe(!user.isFollowByMe());
-        if (user.isFollowByMe()) {
-            User.getInstance().getFollowing().add(user.get_id());
-        } else {
-            User.getInstance().getFollowing().remove(user.get_id());
+        if(accessToken.isEmpty()|| accessToken==null) {
+            AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
+        }else {
+            String userId = user.get_id();
+            user.setFollowByMe(!user.isFollowByMe());
+            if (user.isFollowByMe()) {
+                User.getInstance().getFollowing().add(user.get_id());
+            } else {
+                User.getInstance().getFollowing().remove(user.get_id());
+            }
+            toggleFollowing(userId, user);
+            userDataListener.followToggeled();
         }
-
-        toggleFollowing(userId, user);
-        userDataListener.followToggeled();
-
     }
 
     private void toggleFollowing(String friendId, final User user) {

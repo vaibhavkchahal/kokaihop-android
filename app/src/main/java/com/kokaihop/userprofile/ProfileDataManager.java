@@ -121,49 +121,52 @@ public class ProfileDataManager {
         Logger.e("Value Inserted", "CollectionCount = " + obj.getRecipesCollectionCount());
     }
 
-    public void insertOrUpdateCookbooksUsingJSON(JSONArray cookbooks, String userId) {
+    public void insertOrUpdateCookbooksUsingJSON(JSONArray cookbooks, String userId, String friendlyUrl) {
         UserRealmObject userRealmObject = getUser("_id", userId);
-        if (userRealmObject != null) {
-            for (int i = 0; i < cookbooks.length(); i++) {
-                try {
-                    JSONObject jsonObject = cookbooks.getJSONObject(i);
-                    CookbookRealmObject cookbook = new CookbookRealmObject();
-                    cookbook.set_id(jsonObject.getString("_id"));
-                    cookbook.setName(jsonObject.getString("name"));
-                    cookbook.setTotalCount(jsonObject.getInt("totalCount"));
-                    cookbook.setFriendlyUrl(jsonObject.getString("friendlyUrl"));
-                    JSONArray recipes = jsonObject.getJSONArray("recipes");
-                    RealmList<RecipeRealmObject> recipesList = new RealmList<>();
-                    for (int j = 0; j < recipes.length(); j++) {
-                        RecipeRealmObject recipe = new RecipeRealmObject();
-                        JSONObject recipeJson = recipes.getJSONObject(j);
-                        try {
-                            recipe.setFriendlyUrl(recipeJson.getString("friendlyUrl"));
-                            recipe.set_id(recipeJson.getString("id"));
-                            recipe.setTitle(recipeJson.getString("name"));
-                            recipe.setCategoryImagePublicId(recipeJson.getString("categoryImagePublicId"));
-                            recipe.setCoverImage(recipeJson.getString("coverImage"));
-                            recipesList.add(recipe);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+        if (userRealmObject == null) {
+            userRealmObject = new UserRealmObject();
+            userRealmObject.setId(userId);
+            userRealmObject.setFriendlyUrl(friendlyUrl);
+            userRealmObject.setRecipeCollections(new RealmList<CookbookRealmObject>());
+            insertOrUpdateUserData(userRealmObject);
+            userRealmObject = getUser("_id",userId);
+        }
+        for (int i = 0; i < cookbooks.length(); i++) {
+            try {
+                JSONObject jsonObject = cookbooks.getJSONObject(i);
+                CookbookRealmObject cookbook = new CookbookRealmObject();
+                cookbook.set_id(jsonObject.getString("_id"));
+                cookbook.setName(jsonObject.getString("name"));
+                cookbook.setTotalCount(jsonObject.getInt("totalCount"));
+                cookbook.setFriendlyUrl(jsonObject.getString("friendlyUrl"));
+                JSONArray recipes = jsonObject.getJSONArray("recipes");
+                RealmList<RecipeRealmObject> recipesList = new RealmList<>();
+                for (int j = 0; j < recipes.length(); j++) {
+                    RecipeRealmObject recipe = new RecipeRealmObject();
+                    JSONObject recipeJson = recipes.getJSONObject(j);
+                    try {
+                        recipe.setFriendlyUrl(recipeJson.getString("friendlyUrl"));
+                        recipe.set_id(recipeJson.getString("id"));
+                        recipe.setTitle(recipeJson.getString("name"));
+                        recipe.setCategoryImagePublicId(recipeJson.getString("categoryImagePublicId"));
+                        recipe.setCoverImage(recipeJson.getString("coverImage"));
+                        recipesList.add(recipe);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    realm.beginTransaction();
-                    cookbook.setRecipes(recipesList);
-                    realm.createOrUpdateObjectFromJson(CookbookRealmObject.class, jsonObject);
-                    if (!cookbookAlreadyExists(userRealmObject.getRecipeCollections(), cookbook)) {
-                        userRealmObject.getRecipeCollections().add(cookbook);
-                    }
-                    realm.commitTransaction();
-//                    new RecipeDataManager().insertOrUpdateRecipe(recipes);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-
+                realm.beginTransaction();
+                cookbook.setRecipes(recipesList);
+                realm.createOrUpdateObjectFromJson(CookbookRealmObject.class, jsonObject);
+                if (!cookbookAlreadyExists(userRealmObject.getRecipeCollections(), cookbook)) {
+                    userRealmObject.getRecipeCollections().add(cookbook);
+                }
+                realm.commitTransaction();
+//                    new RecipeDataManager().insertOrUpdateRecipe(recipes);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
-
-
     }
 
 

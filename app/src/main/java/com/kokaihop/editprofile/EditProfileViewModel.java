@@ -15,7 +15,6 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityActivity;
-import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.editprofile.model.CityLiving;
 import com.kokaihop.editprofile.model.CityLocation;
 import com.kokaihop.editprofile.model.CityUpdateRequest;
@@ -31,10 +30,16 @@ import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.UploadImageAsync;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by Rajendra Singh on 7/6/17.
@@ -141,12 +146,21 @@ public class EditProfileViewModel extends BaseViewModel {
         settingsApiHelper.changeProfilePicture(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
-                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
+                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete() {
                     @Override
-                    public void onSuccess(UserRealmObject response) {
+                    public void onSuccess(Object response) {
                         Toast.makeText(context, R.string.profile_pic_upload_success, Toast.LENGTH_SHORT).show();
                         ProfileDataManager profileDataManager = new ProfileDataManager();
-                        profileDataManager.insertOrUpdateUserData(response);
+                        ResponseBody responseBody = (ResponseBody) response;
+                        JSONObject userJson = null;
+                        try {
+                            userJson = new JSONObject(responseBody.string());
+                            profileDataManager.insertOrUpdateUserDataUsingJSON(userJson);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         profileDataManager.fetchUserData(userId, user);
                         setProfileImage();
                         setProgressVisible(false);
@@ -158,7 +172,7 @@ public class EditProfileViewModel extends BaseViewModel {
                     }
 
                     @Override
-                    public void onError(UserRealmObject response) {
+                    public void onError(Object response) {
                         setProgressVisible(false);
                     }
                 });

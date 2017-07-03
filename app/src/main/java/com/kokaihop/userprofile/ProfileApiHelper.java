@@ -8,6 +8,7 @@ import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.FollowingToggleResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 
@@ -44,8 +45,8 @@ public class ProfileApiHelper {
 
     //    get the user data from the api
     public void getUserData(String accessToken, String languageCode, final IApiRequestComplete successInterface) {
-        Call<UserRealmObject> userResponseCall = userProfileApi.getUserData(accessToken, languageCode);
-        userResponseCall.enqueue(new ResponseHandler<UserRealmObject>(successInterface));
+        Call<ResponseBody> userResponseCall = userProfileApi.getUserData(accessToken, languageCode);
+        userResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 
     //    get the recipes of the user from the api.

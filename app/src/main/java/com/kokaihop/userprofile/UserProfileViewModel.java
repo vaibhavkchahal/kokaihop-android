@@ -19,10 +19,16 @@ import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.UploadImageAsync;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by Rajendra Singh on 22/5/17.
@@ -54,13 +60,20 @@ public class UserProfileViewModel extends BaseViewModel {
         setProgressVisible(true);
         String bearer = Constants.AUTHORIZATION_BEARER;
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
         String accessToken = bearer + token;
         Logger.e(bearer, token);
-        new ProfileApiHelper().getUserData(accessToken, countryCode, new IApiRequestComplete<UserRealmObject>() {
+        new ProfileApiHelper().getUserData(accessToken, countryCode, new IApiRequestComplete() {
             @Override
-            public void onSuccess(UserRealmObject response) {
-                userId = response.getId();
-                profileDataManager.insertOrUpdateUserData(response);
+            public void onSuccess(Object response) {
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+//                    jsonObject = jsonObject.getJSONObject("user");
+                    profileDataManager.insertOrUpdateUserDataUsingJSON(jsonObject);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
                 fetchUserDataFromDB();
                 setProgressVisible(false);
             }
@@ -71,7 +84,7 @@ public class UserProfileViewModel extends BaseViewModel {
             }
 
             @Override
-            public void onError(UserRealmObject response) {
+            public void onError(Object response) {
                 setProgressVisible(false);
 
             }

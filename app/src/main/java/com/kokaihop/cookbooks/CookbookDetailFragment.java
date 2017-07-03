@@ -15,6 +15,7 @@ import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
+import com.kokaihop.utility.SharedPrefUtils;
 
 public class CookbookDetailFragment extends Fragment {
 
@@ -53,6 +54,9 @@ public class CookbookDetailFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        if(!userFriendlyUrl.equals(SharedPrefUtils.getSharedPrefStringData(getActivity(),Constants.FRIENDLY_URL))){
+            binding.ivCookbookMenu.setVisibility(View.GONE);
+        }
         viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, 0);
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {

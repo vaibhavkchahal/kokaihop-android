@@ -85,10 +85,10 @@ public class RecipeViewModel extends BaseViewModel {
 //Getting list of following users through api call
 
     public void getRecipesOfUsers(final int offset) {
+        setProgressVisible(true);
         fetchRecipesFromDB();
 //        final String userId = "56387aa81e443c0300c5a4b5";
         setOffset(offset);
-        setProgressVisible(true);
         if (isDownloading) {
             new ProfileApiHelper().getRecipesOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
@@ -107,23 +107,23 @@ public class RecipeViewModel extends BaseViewModel {
                     if (getOffset() + getMax() >= getTotalRecipes()) {
                         setDownloading(false);
                     }
-                    setProgressVisible(false);
                     fetchRecipesFromDB();
+                    setProgressVisible(false);
                 }
 
                 @Override
                 public void onFailure(String message) {
                     Logger.e("Error", "Recipe not found");
                     setDownloading(false);
-                    setProgressVisible(false);
                     ((RecipeFragment) fragment).showUserProfile();
+                    setProgressVisible(false);
                 }
 
                 @Override
                 public void onError(Object response) {
                     setDownloading(false);
-                    setProgressVisible(false);
                     ((RecipeFragment) fragment).showUserProfile();
+                    setProgressVisible(false);
                 }
             });
         }

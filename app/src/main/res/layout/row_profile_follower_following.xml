@@ -11,6 +11,7 @@
         android:id="@+id/cl_user_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Button"
         android:orientation="vertical"
         android:paddingLeft="@dimen/user_profile_recycler_padding_horizontal"
         android:paddingRight="@dimen/user_profile_recycler_padding_horizontal">

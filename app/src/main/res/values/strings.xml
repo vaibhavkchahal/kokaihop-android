@@ -247,6 +247,7 @@
     <string name="cookbook_name">Cookbook Name</string>
     <string name="something_wrong">Something went wrong!!!</string>
     <string name="cookbook_created">Cookbook Created successfully</string>
-
+    <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
+    <string name="follow_login_msg">"You need to logged in to follow someone"</string>
 
 </resources>

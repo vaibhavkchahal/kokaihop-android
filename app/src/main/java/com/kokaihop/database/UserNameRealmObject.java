@@ -3,6 +3,7 @@ package com.kokaihop.database;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Rajendra Singh on 22/5/17.
@@ -16,6 +17,7 @@ public class UserNameRealmObject extends RealmObject{
     @SerializedName("last")
     private String last;
 
+    @PrimaryKey
     @SerializedName("full")
     private String full;
 

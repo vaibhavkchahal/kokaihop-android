@@ -13,6 +13,7 @@ import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -239,16 +240,20 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     // method to manage the data before follow or unfollow the user
 
     public void onToggleFollowing(CheckBox checkbox, FollowingFollowerUser user) {
-
-        String userId = user.get_id();
-
-        if (checkbox.isChecked()) {
-            User.getInstance().getFollowing().add(user.get_id());
-        } else {
-            User.getInstance().getFollowing().remove(user.get_id());
+        accessToken = SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
+        if(accessToken.isEmpty()|| accessToken==null){
+            checkbox.setChecked(!checkbox.isChecked());
+            AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
+        }else{
+            String userId = user.get_id();
+            if (checkbox.isChecked()) {
+                User.getInstance().getFollowing().add(user.get_id());
+            } else {
+                User.getInstance().getFollowing().remove(user.get_id());
+            }
+            toggleFollowing(userId, checkbox);
+            userDataListener.followToggeled();
         }
-        toggleFollowing(userId, checkbox);
-        userDataListener.followToggeled();
 
     }
 

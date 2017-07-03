@@ -44,15 +44,10 @@ public class MyCookbooksFragment extends Fragment {
         Bundle bundle = this.getArguments();
         boolean myCookbook = true;
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
-        String userId = "";
-        String friendlyUrl = "";
+        String userId = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.USER_ID);
+        String friendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL);
 
-        if (bundle != null) {
-            userId = bundle.getString(Constants.USER_ID);
-            friendlyUrl = bundle.getString(Constants.FRIENDLY_URL);
-        }
-
-        viewModel = new MyCookbooksViewModel(this, getContext(), userId);
+        viewModel = new MyCookbooksViewModel(this, getContext(), userId , friendlyUrl);
 
         if (myCookbook && (accessToken == null) || accessToken.isEmpty()) {
             FragmentCookbookLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);

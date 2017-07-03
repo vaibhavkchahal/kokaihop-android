@@ -118,6 +118,8 @@ public class SignUpViewModel extends BaseViewModel {
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                SharedPrefUtils.setSharedPrefStringData(context,Constants.USER_ID,response.getUserAuthenticationDetail().getId());
+                SharedPrefUtils.setSharedPrefStringData(context,Constants.FRIENDLY_URL,response.getUserAuthenticationDetail().getFriendlyUrl());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
 //                boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
                 String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);

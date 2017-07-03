@@ -80,7 +80,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             }
         });
 
-        if (userId.equals(SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.USER_ID))) {
+        if ((SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.USER_ID)).equals(userId)) {
             binding.btnFollow.setVisibility(View.INVISIBLE);
         }
         return binding.getRoot();
