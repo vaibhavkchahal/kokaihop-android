@@ -311,4 +311,6 @@ public class RecipeRealmObject extends RealmObject {
     public void setCategoryImagePublicId(String categoryImagePublicId) {
         this.categoryImagePublicId = categoryImagePublicId;
     }
+
+
 }

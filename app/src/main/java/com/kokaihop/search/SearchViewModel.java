@@ -10,9 +10,9 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.AdvtDetail;
-import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.SearchRecipeHeader;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.Logger;
@@ -284,19 +284,26 @@ public class SearchViewModel extends BaseViewModel {
 
     public void fetchNewlyAddedRecipeWithAds() {
         setProgressVisible(true);
-        SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.NEWLY_ADDED_RECIPE,
+        searchDataManager.fetchNewlyAddedRecipe(withImage, new SearchDataManager.OnCompleteListener() {
+            @Override
+            public void onSearchComplete(List<RecipeRealmObject> recipeList) {
+                setProgressVisible(false);
+                List<Object> recipeListwithAds = insertAdsInList(recipeList);
+                dataSetListener.showRecipesList(recipeListwithAds);
+            }
+        });
+       /* SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.NEWLY_ADDED_RECIPE,
                 withImage);
         searchKeywordAsync.setOnCompleteListener(onSearchCompleteListener);
-        searchKeywordAsync.execute();
+        searchKeywordAsync.execute();*/
 
 
     }
 
-    private List<Object> insertAdsInList(List<Recipe> recipeList) {
+    private List<Object> insertAdsInList(List<RecipeRealmObject> recipeList) {
         List<Object> recipeListwithAds = new ArrayList<>();
-        int count = recipeList.size();
         SearchRecipeHeader searchRecipeHeader = new SearchRecipeHeader();
-        searchRecipeHeader.setCount(String.valueOf(count));
+        searchRecipeHeader.setCount(String.valueOf(recipeList.size()));
         recipeListwithAds.add(searchRecipeHeader);
         recipeListwithAds.addAll(recipeList);
         int prevPos = 0;
@@ -359,21 +366,33 @@ public class SearchViewModel extends BaseViewModel {
             filterMap.put("cookingMethod.friendlyUrl", methodFriendlyUrl);
 
         }
-        SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.SEARCH,
+
+        searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword, new SearchDataManager.OnCompleteListener() {
+            @Override
+            public void onSearchComplete(List<RecipeRealmObject> recipeList) {
+                setProgressVisible(false);
+                List<Object> recipeListwithAds = insertAdsInList(recipeList);
+                dataSetListener.showRecipesList(recipeListwithAds);
+            }
+        });
+
+
+
+        /*SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.SEARCH,
                 filterMap, withImage, sortBy, searchKeyword);
         searchKeywordAsync.setOnCompleteListener(onSearchCompleteListener);
-        searchKeywordAsync.execute();
+        searchKeywordAsync.execute();*/
     }
 
 
-    SearchKeywordAsync.OnCompleteListener onSearchCompleteListener = new SearchKeywordAsync.OnCompleteListener() {
+   /* SearchDataManager.OnCompleteListener onSearchCompleteListener = searchDataManager.OnCompleteListener() {
         @Override
-        public void onSearchComplete(List<Recipe> recipeList) {
+        public void onSearchComplete(List<RecipeRealmObject> recipeList) {
             setProgressVisible(false);
             List<Object> recipeListwithAds = insertAdsInList(recipeList);
             dataSetListener.showRecipesList(recipeListwithAds);
         }
-    };
+    };*/
 
     public interface DataSetListener {
         void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title, FilterType filterType);
@@ -384,4 +403,6 @@ public class SearchViewModel extends BaseViewModel {
 
         void showRecipesList(List<Object> recipeList);
     }
+
+
 }

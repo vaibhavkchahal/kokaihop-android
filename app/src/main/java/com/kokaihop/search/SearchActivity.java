@@ -3,6 +3,7 @@ package com.kokaihop.search;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -74,6 +75,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showRecipesList(List<Object> recipeList) {
+        alreadyQuerying = false;
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
         binding.included.linearlytRecentSearch.setVisibility(View.GONE);
         binding.included.rvRecipes.setVisibility(View.VISIBLE);
@@ -247,6 +249,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         updateSearchSuggestions(searchViewModel.getSearchSuggestion());
         searchViewModel.setSearchKeyword(query);
         searchViewModel.search();
+        handler.removeCallbacks(input_finish_checker);
         /*if(!query.isEmpty() && query.length()>3)
         {
 
@@ -260,15 +263,37 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     public boolean onQueryTextChange(String newText) {
         Logger.e("new text", newText);
         if (!TextUtils.isEmpty(newText) && newText.length() > 2) {
-            searchViewModel.addSearchSuggestion(newText);
-            searchViewModel.setSearchKeyword(newText);
-            searchViewModel.search();
+            searchText = newText;
+            lastEditedText = System.currentTimeMillis();
+            searchViewModel.setSearchKeyword(searchText);
+            handler.postDelayed(input_finish_checker, delay);
+
         } else {
+            searchViewModel.setSearchKeyword("");
             binding.included.linearlytNewlyAddedRecipe.setVisibility(View.VISIBLE);
             binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
             binding.included.rvRecipes.setVisibility(View.GONE);
         }
 
-        return false;
+        return true;
     }
+
+    private long delay = 1000; // 1 seconds after user stops typing
+    private long lastEditedText = 0;
+    private Handler handler = new Handler();
+    private String searchText;
+    private boolean alreadyQuerying = false;
+
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (lastEditedText + delay - 500)) {
+                if (!alreadyQuerying) {
+                    alreadyQuerying = true;
+                    searchViewModel.search();
+                }
+
+
+            }
+        }
+    };
 }

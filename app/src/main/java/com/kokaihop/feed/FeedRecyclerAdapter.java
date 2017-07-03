@@ -122,11 +122,11 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 String publicIdRecipe = "";
                 if (recipeRealmObject.getCoverImage() != null) {
-                    publicId = recipeRealmObject.getCoverImage();
+                    publicIdRecipe = recipeRealmObject.getCoverImage();
                 } else if (recipeRealmObject.getMainImage() != null) {
                     Logger.e("Recipe Url", recipeRealmObject.getMainImage().getPublicId() + "ID");
 
-                    publicId = recipeRealmObject.getMainImage().getPublicId();
+                    publicIdRecipe = recipeRealmObject.getMainImage().getPublicId();
 
                 }
                 viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(publicIdRecipe, String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
