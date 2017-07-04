@@ -41,14 +41,18 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private ActivitySearchBinding binding;
     private SearchViewModel searchViewModel;
     private RecyclerView recyclerViewRecentSearch;
+    private DialogSearchFilterBinding bindingSearchBottomSheetDialog;
+    private BottomSheetDialog filterDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+
         initializeSearchView();
         initialiseSuggestionView();
         intilizeRecyclerView();
+        binding.coordinatorLyt.requestFocus();
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +159,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final View view, String title, final SearchViewModel.FilterType filterType) {
-        DialogSearchFilterBinding binding = DataBindingUtil.
-                inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
-        final BottomSheetDialog filterDialog = setDialogConfigration(binding);
-        binding.textviewTitle.setText(title);
-        RecyclerView recylRecyclerViewFilter = binding.recyclerViewFilter;
+        if (bindingSearchBottomSheetDialog == null) {
+            bindingSearchBottomSheetDialog = DataBindingUtil.
+                    inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
+            filterDialog = setDialogConfigration(bindingSearchBottomSheetDialog);
+        }
+
+        bindingSearchBottomSheetDialog.textviewTitle.setText(title);
+        RecyclerView recylRecyclerViewFilter = bindingSearchBottomSheetDialog.recyclerViewFilter;
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recylRecyclerViewFilter.setLayoutManager(layoutManager);
@@ -184,14 +191,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                             //SortBy selected
                             view.setTag(filterData.getName());
                         }
+                        filterDialog.dismiss();
                         searchViewModel.setCurrentSelectedFilter(filterData, filterType);
                         searchViewModel.search();
-                        filterDialog.dismiss();
                     }
                 });
 
         recylRecyclerViewFilter.setAdapter(searchFilterAdapter);
-        binding.textviewClose.setOnClickListener(new View.OnClickListener() {
+        bindingSearchBottomSheetDialog.textviewClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filterDialog.dismiss();
@@ -204,17 +211,21 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showWithImageDialog(View childView, View view, boolean selected, String msg) {
-        if (selected) {
-            view.setBackgroundResource(R.drawable.search_tag_orange);
-            childView.setBackgroundResource(R.drawable.ic_picture);
+        if (!alreadyQuerying) {
+            if (selected) {
+                view.setBackgroundResource(R.drawable.search_tag_orange);
+                childView.setBackgroundResource(R.drawable.ic_picture);
 
-        } else {
-            view.setBackgroundResource(R.drawable.search_tag_white);
-            childView.setBackgroundResource(R.drawable.ic_picture_unselected);
+            } else {
+                view.setBackgroundResource(R.drawable.search_tag_white);
+                childView.setBackgroundResource(R.drawable.ic_picture_unselected);
+            }
+            searchViewModel.setWithImage(selected);
+            searchViewModel.search();
+            AppUtility.showAutoCancelMsgDialog(SearchActivity.this, msg);
+            alreadyQuerying = true;
         }
-        searchViewModel.setWithImage(selected);
-        searchViewModel.search();
-        AppUtility.showAutoCancelMsgDialog(SearchActivity.this, msg);
+
 
     }
 

@@ -80,8 +80,6 @@ public class SearchViewModel extends BaseViewModel {
         this.dataSetListener = dataSetListener;
         searchDataManager = new SearchDataManager(context);
         fetchCategories();
-        fetchCookingMethods();
-        fetchCuisine();
         dataSetListener.updateSearchSuggestions(getSearchSuggestion());
     }
 
@@ -90,6 +88,7 @@ public class SearchViewModel extends BaseViewModel {
         new SearchFilterApiHelper().fetchCategories(new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                fetchCookingMethods();
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     final JSONObject json = new JSONObject(responseBody.string());
@@ -117,6 +116,7 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void fetchCuisine() {
+
         new SearchFilterApiHelper().fetchCuisines(new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
@@ -150,6 +150,7 @@ public class SearchViewModel extends BaseViewModel {
         new SearchFilterApiHelper().fetchCookingMethods(new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                fetchCuisine();
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     final JSONObject json = new JSONObject(responseBody.string());
