@@ -51,7 +51,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         context = parent.getContext();
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_history_recipe, parent, false);
-
         point = AppUtility.getDisplayPoint(context);
         int size = context.getResources().getDimensionPixelSize(R.dimen.history_recipe_image_size);
         ImageView ivCover = binding.ivRecipeImage;
@@ -66,7 +65,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Recipe recipe = recipeList.get(position);
-
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.ivRecipeImage.getLayoutParams();
         if (recipe.getMainImagePublicId() != null) {
             recipe.setMainImageUrl(CloudinaryUtils.getRoundedCornerImageUrl(recipe.getMainImagePublicId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));

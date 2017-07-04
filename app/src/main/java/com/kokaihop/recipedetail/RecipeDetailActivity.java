@@ -75,7 +75,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             RecipeDetailActivity.this.invalidateOptionsMenu();
         }
     };
-    private String recipeID;
+    private String friendlyUrl,recipeId;
     private String comingFrom = "commentsSection";
 
     @Override
@@ -84,13 +84,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
-        recipeID = getIntent().getStringExtra("recipeId");
+        friendlyUrl = getIntent().getStringExtra("friendlyUrl");
+        recipeId = getIntent().getStringExtra("recipeId");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
     }
 
     public void setupRecipeDetailScreen() {
-        recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, this);
+        recipeDetailViewModel = new RecipeDetailViewModel(this, recipeId,friendlyUrl, this);
         binding.setViewModel(recipeDetailViewModel);
         setProfileImage();
         setToolbar();

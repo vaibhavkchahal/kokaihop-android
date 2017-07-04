@@ -13,7 +13,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentCommentsBinding;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 
-public class CommentsFragment extends Fragment {
+public class CommentsFragment extends Fragment implements CommentsViewModel.CommentDatasetListener {
 
     private CommentsViewModel commentsViewModel;
     private FragmentCommentsBinding binding;
@@ -28,7 +28,7 @@ public class CommentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_comments, container, false);
-        commentsViewModel = new CommentsViewModel(binding.rvRecipeComments);
+        commentsViewModel = new CommentsViewModel(this);
         binding.setViewModel(commentsViewModel);
         initializerecyclerView();
         return binding.getRoot();
@@ -48,5 +48,15 @@ public class CommentsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onUpdateCommentsList() {
+        RecyclerView recyclerView = binding.rvRecipeComments;
+        if (recyclerView.getAdapter() != null) {
+            recyclerView.getAdapter().notifyDataSetChanged();
+//            binding.swipeRefreshLayout.setRefreshing(false);
+//            recyclerView.scrollToPosition(0);
+        }
     }
 }

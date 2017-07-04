@@ -18,8 +18,7 @@
                                         android:layout_marginLeft="@dimen/comment_card_margin"
                                         android:layout_marginRight="@dimen/comment_card_margin"
                                         android:layout_marginTop="5dp"
-                                        android:background="@color/white"
-    >
+                                        android:background="@color/white">
 
 
         <RelativeLayout android:layout_width="match_parent"
@@ -33,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/comment_logo_margin_left"
                 android:layout_marginTop="@dimen/comment_logo_margin_top"
-            >
+                android:onClick="@{(v)->handler.openRecipeDetailUsingFriendlyUrl(v,model.payload.recipe.friendlyUrl)}">
+
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardview_logo"
                     android:layout_width="@dimen/comment_card_logo_width"
@@ -76,7 +76,7 @@
                         android:isIndicator="true"
                         android:numStars="5"
                         android:progressDrawable="@drawable/recipe_rating_bar"
-                        android:rating="@{model.payload.recipe.recipeRating}"
+                        android:rating="@{model.payload.recipe.rating.average}"
                         android:saveEnabled="false"
                         android:stepSize="1"/>
 
@@ -87,7 +87,7 @@
                         android:layout_marginLeft="@dimen/rating_text_margin_left"
                         android:layout_marginTop="@dimen/rating_text_margin_top"
                         android:layout_toRightOf="@+id/rating_bar"
-                        android:text="@{String.valueOf(model.payload.recipe.ratersCount)}"
+                        android:text="@{String.valueOf(model.payload.recipe.rating.raters)}"
                         android:textColor="@color/grey_FF8E8E93"
                         android:textSize="@dimen/rating_textsize"
                         bind:font="@{`SS-ProRegular`}"/>
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rating_bar"
                         android:layout_marginTop="@dimen/creator_text_margin_top"
-                        android:text="@{`av `+model.payload.recipe.creatorName}"
+                        android:text="@{`av `+model.payload.recipe.createdBy.name}"
                         android:textColor="@color/kokaihop_orange_color"
                         android:textSize="@dimen/creator_textsize"
                         bind:font="@{`SS-ProRegular`}"/>
@@ -120,6 +120,7 @@
                             android:layout_marginLeft="@dimen/comment_text_margin_left"
                             android:layout_marginRight="@dimen/coment_text_margin_right"
                             android:layout_marginTop="@dimen/coment_text_margin_top">
+
                 <TextView
                     android:id="@+id/txtview_comment"
                     android:layout_width="wrap_content"

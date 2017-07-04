@@ -251,6 +251,7 @@ public class SearchDataManager {
         }
         if (recipeRealmObject.getRating() != null) {
             recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
+            if (recipeRealmObject.getCounter()!=null)
             recipe.setComments(recipeRealmObject.getCounter().getComments());
         }
         recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());

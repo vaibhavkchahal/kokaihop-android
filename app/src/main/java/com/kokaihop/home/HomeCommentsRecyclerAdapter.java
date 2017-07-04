@@ -11,7 +11,6 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ItemCommentHomeBinding;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.feed.RecipeHandler;
-import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +43,10 @@ public class HomeCommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         final CommentRealmObject commentRealmObject = commentsList.get(position);
         int commentUsetImageWidth = context.getResources().getDimensionPixelOffset(R.dimen.comment_card_logo_width);
         int commentUsetImageHeight = context.getResources().getDimensionPixelOffset(R.dimen.comment_card_logo_height);
-        if (commentRealmObject.getPayload().getRecipe().getMainImagePublicId() != null) {
-            String imageId = commentRealmObject.getPayload().getRecipe().getMainImagePublicId();
-            holderShowComments.binder.setRecipeImageUrl(CloudinaryUtils.getImageUrl(imageId, String.valueOf(commentUsetImageWidth), String.valueOf(commentUsetImageHeight)));
-        }
+//        if (commentRealmObject.getPayload().getRecipe().getMainImagePublicId() != null) {
+//            String imageId = commentRealmObject.getPayload().getRecipe().getMainImagePublicId();
+//            holderShowComments.binder.setRecipeImageUrl(CloudinaryUtils.getImageUrl(imageId, String.valueOf(commentUsetImageWidth), String.valueOf(commentUsetImageHeight)));
+//        }
         holderShowComments.binder.setModel(commentRealmObject);
         holderShowComments.binder.setHandler(new RecipeHandler());
         holderShowComments.binder.executePendingBindings();

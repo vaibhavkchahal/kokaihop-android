@@ -1,7 +1,6 @@
 package com.kokaihop.home;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.kokaihop.base.BaseViewModel;
@@ -9,7 +8,7 @@ import com.kokaihop.comments.CommentsApiHelper;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.Payload;
 import com.kokaihop.database.RecipeComment;
-import com.kokaihop.database.RecipeCommentInfo;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
@@ -64,12 +63,10 @@ public class CommentsViewModel extends BaseViewModel {
         return max;
     }
 
-    RecyclerView recyclerView;
-
-    public CommentsViewModel(RecyclerView recyclerView) {
-        this.recyclerView = recyclerView;
+    public CommentsViewModel(CommentDatasetListener dataSetListener) {
         recipeDataManager = new RecipeDataManager();
-//        fetchCommentsFromDB();
+        this.commentListener = dataSetListener;
+        fetchCommentsFromDB();
         fetchCommentFromServer(getOffset(), true);
     }
 
@@ -90,10 +87,10 @@ public class CommentsViewModel extends BaseViewModel {
                     JSONObject json = new JSONObject(responseBody.string());
                     totalCommentCount = json.getInt("totalItems");
                     JSONArray commentsJSONArray = json.getJSONArray("comments");
-                    prepareCommentsModel(commentsJSONArray);
-                    recyclerView.getAdapter().notifyDataSetChanged();
-//                    recipeDataManager.updateRandomCommentsList(commentsJSONArray);
-//                    fetchCommentsFromDB();
+//                    prepareCommentsModel(commentsJSONArray);
+//                    recyclerView.getAdapter().notifyDataSetChanged();
+                    recipeDataManager.updateRandomCommentsList(commentsJSONArray);
+                    fetchCommentsFromDB();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -126,36 +123,37 @@ public class CommentsViewModel extends BaseViewModel {
             JSONObject jsonObjectPayload = jsonObject.getJSONObject("payload");
             RecipeComment recipeComment = new RecipeComment();
             recipeComment.setContent(jsonObjectPayload.getJSONObject("comment").getString("content"));
-            RecipeCommentInfo recipeCommentInfo = new RecipeCommentInfo();
+            RecipeRealmObject recipeRealmObject = new RecipeRealmObject();
             JSONObject jsonObjectRecipe = jsonObjectPayload.getJSONObject("recipe");
-            recipeCommentInfo.setId(jsonObjectRecipe.getString("id"));
-            recipeCommentInfo.setTitle(jsonObjectRecipe.getString("title"));
-            if (jsonObjectRecipe.optJSONObject("createdBy") != null)
-                recipeCommentInfo.setCreatorName(jsonObjectRecipe.optJSONObject("createdBy").optString("name"));
-            if (jsonObjectRecipe.optJSONObject("mainImage") != null)
-                recipeCommentInfo.setMainImagePublicId(jsonObjectRecipe.getJSONObject("mainImage").getString("publicId"));
-            if (jsonObjectRecipe.optJSONObject("rating") != null) {
-                recipeCommentInfo.setRecipeRating(Float.valueOf(jsonObjectRecipe.getJSONObject("rating").getString("average")));
-                recipeCommentInfo.setRatersCount(jsonObjectRecipe.getJSONObject("rating").getInt("raters"));
-            }
+            recipeRealmObject.set_id(jsonObjectRecipe.getString("id"));
+            recipeRealmObject.setTitle(jsonObjectRecipe.getString("title"));
+//            if (jsonObjectRecipe.optJSONObject("createdBy") != null)
+//                recipeRealmObject.setcr(jsonObjectRecipe.optJSONObject("createdBy").optString("name"));
+//            if (jsonObjectRecipe.optJSONObject("mainImage") != null)
+//                recipeRealmObject.setMainImagePublicId(jsonObjectRecipe.getJSONObject("mainImage").getString("publicId"));
+//            if (jsonObjectRecipe.optJSONObject("rating") != null) {
+//                recipeRealmObject.setRecipeRating(Float.valueOf(jsonObjectRecipe.getJSONObject("rating").getString("average")));
+//                recipeRealmObject.setRatersCount(jsonObjectRecipe.getJSONObject("rating").getInt("raters"));
+//            }
             Payload payload = new Payload();
             payload.setComment(recipeComment);
-            payload.setRecipe(recipeCommentInfo);
+            payload.setRecipe(recipeRealmObject);
             object.setPayload(payload);
             commentsList.add(object);
         }
 
     }
-//    private void fetchCommentsFromDB() {
-//        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
-//        commentsList.clear();
-//        commentsList.addAll(recipeRealmObject.getComments());
-//        totalCommentCount = recipeRealmObject.getCounter().getComments();
-//        commentListener.onUpdateCommentsList();
-//    }
-//    public void updateComments() {
-//        fetchCommentsFromDB();
-//    }
+
+    private void fetchCommentsFromDB() {
+        commentsList.clear();
+        commentsList.addAll(recipeDataManager.fetchRandomCommentList());
+//        totalCommentCount = recipeDataManager.fetchRandomCommentList().size();
+        commentListener.onUpdateCommentsList();
+    }
+
+    public void updateComments() {
+        fetchCommentsFromDB();
+    }
 
     @Override
     protected void destroy() {

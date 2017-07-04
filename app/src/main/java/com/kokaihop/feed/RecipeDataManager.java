@@ -28,6 +28,7 @@ public class RecipeDataManager {
     private Realm realm;
 
     private static final String RECIPE_ID = "_id";
+    private static final String FRIENDLY_URL = "friendlyUrl";
     private static final String COMMENT_ID = "_id";
 
     public RecipeDataManager() {
@@ -43,6 +44,17 @@ public class RecipeDataManager {
             recipeList.add(getRecipe(recipeRealmObject));
         }
         return recipeList;
+    }
+
+
+    public List<CommentRealmObject> fetchRandomCommentList() {
+        RealmResults<CommentRealmObject> commentRealmObjectList = realm.where(CommentRealmObject.class)
+                .findAllSorted("dateCreated", Sort.DESCENDING);
+        List<CommentRealmObject> commentList = new ArrayList<>(commentRealmObjectList.size());
+        for (CommentRealmObject commentRealmObject : commentRealmObjectList) {
+            commentList.add(commentRealmObject);
+        }
+        return commentList;
     }
 
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
@@ -199,12 +211,19 @@ public class RecipeDataManager {
         return realm.copyFromRealm(recipeRealmObject);
     }
 
-    public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
+    public RecipeRealmObject fetchCopyOfRecipeByFriendlyUrl(String friendlyUrl) {
+        //        //return the unmanaged object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
+        return realm.copyFromRealm(recipeRealmObject);
+    }
+
+    public void updateSimilarRecipe(final String friendlyUrl, final JSONArray jsonArray) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo(RECIPE_ID, recipeID).findFirst();
+                        .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
                 RealmList<RecipeRealmObject> similarRecipes = new RealmList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
@@ -212,7 +231,6 @@ public class RecipeDataManager {
                         Logger.d("jsonArray", jsonArray.toString());
                         RecipeRealmObject similarRecipe = realm.createOrUpdateObjectFromJson(RecipeRealmObject.class, recipeJSONObject);
                         similarRecipes.add(similarRecipe);
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

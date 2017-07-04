@@ -77,7 +77,7 @@ public class ShowCommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerVie
             holderShowComments.binder.replyTextview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    commentsHandler.openReplyScreen(context, commentRealmObject.get_id(), commentRealmObject.getPayload().getRecipe().getId());
+                    commentsHandler.openReplyScreen(context, commentRealmObject.get_id(), commentRealmObject.getPayload().getRecipe().get_id());
                 }
             });
         } else {

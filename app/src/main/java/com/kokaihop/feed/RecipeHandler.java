@@ -103,6 +103,13 @@ public class RecipeHandler {
         view.getContext().startActivity(intent);
     }
 
+    public void openRecipeDetailUsingFriendlyUrl(View view, String friendlyUrl) {
+        Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("friendlyUrl", friendlyUrl);
+        view.getContext().startActivity(intent);
+    }
+
     public void openUserProfile(Context context, String userId, String friendlyUrl) {
         Intent i = new Intent(context, OtherUserProfileActivity.class);
         i.putExtra(Constants.USER_ID, userId);

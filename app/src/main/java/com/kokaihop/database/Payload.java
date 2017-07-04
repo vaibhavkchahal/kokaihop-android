@@ -11,7 +11,7 @@ public class Payload extends RealmObject {
 
     private RecipeComment comment;
 
-    private RecipeCommentInfo recipe;
+    private RecipeRealmObject recipe;
 
     private String replyId;
 
@@ -27,11 +27,11 @@ public class Payload extends RealmObject {
         this.comment = comment;
     }
 
-    public RecipeCommentInfo getRecipe() {
+    public RecipeRealmObject getRecipe() {
         return recipe;
     }
 
-    public void setRecipe(RecipeCommentInfo recipe) {
+    public void setRecipe(RecipeRealmObject recipe) {
         this.recipe = recipe;
     }
 
