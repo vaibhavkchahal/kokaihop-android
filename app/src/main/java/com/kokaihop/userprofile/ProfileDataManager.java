@@ -54,12 +54,7 @@ public class ProfileDataManager {
         if (userRealmObject != null) {
             user.set_id(userRealmObject.getId());
             user.setFriendlyUrl(userRealmObject.getFriendlyUrl());
-            user.setName(new UserName());
-            if (userRealmObject.getUserNameRealmObject() != null) {
-                user.getName().setFirst(userRealmObject.getUserNameRealmObject().getFirst());
-                user.getName().setLast(userRealmObject.getUserNameRealmObject().getLast());
-                user.getName().setFull(userRealmObject.getUserNameRealmObject().getFull());
-            }
+            user.setUserName(userRealmObject.getUserName());
             user.setEmail(userRealmObject.getEmail());
             user.getFollowing().clear();
             for (RealmString userid : userRealmObject.getFollowing()) {
@@ -110,7 +105,6 @@ public class ProfileDataManager {
 
     public void insertOrUpdateUserDataUsingJSON(JSONObject jsonObject) {
         JSONObjectUtility jsonUtility = new JSONObjectUtility();
-        jsonObject = jsonUtility.changeKeyOfJSON(jsonObject, "_id", "id");
         jsonObject = jsonUtility.convertStringArrayToRealmStringArray(jsonObject, "followers");
         jsonObject = jsonUtility.convertStringArrayToRealmStringArray(jsonObject, "following");
 //        jsonObject.remove("followers");

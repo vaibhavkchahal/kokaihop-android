@@ -20,6 +20,7 @@ public class User extends BaseObservable {
     private String _id;
     private String friendlyUrl;
     private String email;
+    private String userName;
     private ArrayList<String> followers = new ArrayList<>();
     private ArrayList<String> following = new ArrayList<>();
     private ArrayList<Recipe> recipesList = new ArrayList<>();
@@ -218,11 +219,23 @@ public class User extends BaseObservable {
         notifyPropertyChanged(BR.followByMe);
     }
 
+    @Bindable
     public ArrayList<Cookbook> getCookbooks() {
         return cookbooks;
     }
 
     public void setCookbooks(ArrayList<Cookbook> cookbooks) {
         this.cookbooks = cookbooks;
+        notifyPropertyChanged(BR.cookbooks);
+    }
+
+    @Bindable
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+        notifyPropertyChanged(BR.userName);
     }
 }

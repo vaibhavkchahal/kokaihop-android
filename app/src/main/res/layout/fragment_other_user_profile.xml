@@ -58,7 +58,7 @@
                             <TextView android:layout_width="match_parent"
                                       android:layout_height="wrap_content"
                                       android:gravity="center"
-                                      android:text="@{user.name.full}"
+                                      android:text="@{user.userName}"
                                       android:textColor="@color/white"
                                       android:textSize="@dimen/tv_profile_user_name"
                                       app:font="@{`SS-ProSemiBold`}"/>
@@ -103,7 +103,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@id/user_avatar"
                                     android:gravity="center_horizontal"
-                                    android:text="@{user.name.full}"
+                                    android:text="@{user.userName}"
                                     android:textColor="@color/white"
                                     android:textSize="20sp"
                                     app:font="@{`SS-ProSemiBold`}"/>

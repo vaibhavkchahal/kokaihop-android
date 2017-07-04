@@ -462,7 +462,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
                 }
                 Logger.d("File Path", filePath);
-                //TODO : cloudinary image upload code goes here
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
             }
         }

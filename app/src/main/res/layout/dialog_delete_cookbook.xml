@@ -10,42 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/dialog_cookbook_title"
+            android:id="@+id/dialog_cookbook_delete_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/dialog_new_cookbook_title_margin_top"
+            android:layout_marginTop="@dimen/dialog_delete_cookbook_title_margin_top"
             android:gravity="center"
-            android:text="@string/create_new_cookbook"
+            android:text="@string/are_you_sure_you_want_to_delete_this_cookbook"
+            android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_large"
-            android:textColor="@color/black"
             app:font="@{`SS-ProRegular`}"/>
-        <EditText
-            android:id="@+id/cookbook_name"
+        <TextView
+            android:id="@+id/cookbook_delete_msg"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_new_cookbook_name_height"
-            android:layout_below="@+id/dialog_cookbook_title"
-            android:layout_marginEnd="@dimen/dialog_new_cookbook_name_margin"
-            android:layout_marginStart="@dimen/dialog_new_cookbook_name_margin"
-            android:layout_marginTop="@dimen/dialog_new_cookbook_name_margin"
-            android:background="@drawable/round_corner_layout"
-            android:hint="@string/cookbook_name"
-            android:inputType="textPersonName"
-            android:padding="@dimen/dialog_new_cookbook_name_padding"
-            android:textSize="@dimen/text_size_medium"
+            android:layout_below="@+id/dialog_cookbook_delete_title"
+            android:gravity="center"
+            android:paddingEnd="@dimen/dialog_delete_cookbook_msg_hor_padding"
+            android:paddingStart="@dimen/dialog_delete_cookbook_msg_hor_padding"
+            android:text="@string/this_will_delete_the_cookbook_and_its_recipes"
+            android:textColor="@color/grey_FF8D929C"
+            android:textSize="@dimen/text_size_small"
             app:font="@{`SS-ProRegular`}"/>
 
-        <View android:layout_width="match_parent"
-              android:layout_height="@dimen/divider_height"
-              android:layout_below="@+id/cookbook_name"
-              android:layout_marginTop="@dimen/dialog_new_cookbook_name_margin"
-              android:background="@color/colorPrimary"/>
+        <View
+            android:id="@+id/dialog_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_below="@+id/cookbook_delete_msg"
+            android:layout_marginTop="@dimen/dialog_delete_cookbook_name_margin"
+            android:background="@color/colorPrimary"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_new_cookbook_button_height"
-            android:layout_below="@+id/cookbook_name"
-            android:layout_marginTop="@dimen/dialog_new_cookbook_button_margin_top"
+            android:layout_below="@+id/dialog_divider"
             android:weightSum="2">
             <TextView
                 android:id="@+id/cancel"
@@ -54,6 +53,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/cancel"
+                android:textColor="@color/blue_FF198CFF"
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>
 
@@ -61,12 +61,13 @@
                   android:layout_height="match_parent"
                   android:background="@color/colorPrimary"/>
             <TextView
-                android:id="@+id/create_cookbbok"
+                android:id="@+id/delete_cookbbok"
                 android:layout_width="@dimen/none"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/create"
+                android:text="@string/delete"
+                android:textColor="@color/red"
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>
 

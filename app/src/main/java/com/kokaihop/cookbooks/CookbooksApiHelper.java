@@ -29,4 +29,8 @@ public class CookbooksApiHelper {
         Call<ResponseBody> recipeOfCookbook = cookbooksApi.createCookbook(accessToken, cookbook);
         recipeOfCookbook.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
+    public void deleteCookbook(String accessToken, String cookbookId, IApiRequestComplete successInterface) {
+        Call<ResponseBody> deleteCookbook = cookbooksApi.deleteCookbook(accessToken, cookbookId);
+        deleteCookbook.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
 }

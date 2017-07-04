@@ -75,7 +75,7 @@ public class UserRealmObject extends RealmObject {
     private int totalFeeds;
     @SerializedName("recipeCollections")
     private RealmList<CookbookRealmObject> recipeCollections;
-
+    @SerializedName("userName")
     private String userName;
 
     public String getFriendlyUrl() {
@@ -316,6 +316,10 @@ public class UserRealmObject extends RealmObject {
 
     public void setRecipeCollections(RealmList<CookbookRealmObject> recipeCollections) {
         this.recipeCollections = recipeCollections;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
 

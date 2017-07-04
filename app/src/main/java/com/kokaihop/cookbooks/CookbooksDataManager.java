@@ -112,4 +112,18 @@ public class CookbooksDataManager {
         }
         return false;
     }
+
+    public String getIdOfCookbook(String cookbookFriendlyUrl) {
+        CookbookRealmObject cookbook = realm.where(CookbookRealmObject.class)
+                .equalTo("friendlyUrl", cookbookFriendlyUrl)
+                .findFirst();
+        return cookbook.get_id();
+    }
+
+    public void deleteCookbook(String cookbookFriendlyUrl){
+        realm.beginTransaction();
+        realm.where(CookbookRealmObject.class).equalTo("friendlyUrl",cookbookFriendlyUrl)
+                .findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
 }

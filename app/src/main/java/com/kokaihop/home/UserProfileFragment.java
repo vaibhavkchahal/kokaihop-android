@@ -129,7 +129,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     @Override
     public void showUserProfile() {
-        User user = User.getInstance();
         final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
         final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
         tabLayout = userProfileBinding.tabProfile;

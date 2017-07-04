@@ -6,6 +6,7 @@
     <color name="colorAccentLight">#FFFF720C</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="red">#FFFF0000</color>
     <color name="white_40">#66FFFFFF</color>
     <color name="kokaihop_orange_color">#FFF75A15</color>
     <color name="blue_FF3B5998">#FF3B5998</color>
@@ -41,6 +42,7 @@
     <color name="orange_FFFF9326">#FFFF9326</color>
     
     <color name="blue_FF1484FF">#FF1484FF</color>
+    <color name="blue_FF198CFF">#FF198CFF</color>
     <color name="grey_FFBFBFBF">#FFBFBFBF</color>
     <color name="grey_FFE9EBEB">#FFE9EBEB</color>
 

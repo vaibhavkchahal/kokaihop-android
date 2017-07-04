@@ -38,6 +38,7 @@ public class CookbookDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        User user ;
         bundle = getArguments();
         if (bundle != null) {
             userFriendlyUrl = bundle.getString(Constants.USER_FRIENDLY_URL);
@@ -45,18 +46,27 @@ public class CookbookDetailFragment extends Fragment {
             cookbookTitle = bundle.getString(Constants.COOKBOOK_TITLE);
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_detail, container, false);
-        viewModel = new CookbookDetailViewModel(this, getContext(), User.getInstance());
+
+        if (cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
+            binding.btnDeleteCookbook.setVisibility(View.GONE);
+        }
+        if (!userFriendlyUrl.equals(SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL))) {
+            binding.btnDeleteCookbook.setVisibility(View.GONE);
+            binding.ivCookbookMenu.setVisibility(View.GONE);
+            user = new User();
+        }else{
+            user = User.getInstance();
+        }
+
+        viewModel = new CookbookDetailViewModel(this, getContext(), user);
         binding.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
-        adapter = new RecipeHistoryAdapter(this, User.getInstance().getRecipesList());
+        adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
         layoutManager = new CustomLinearLayoutManager(getContext());
         recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        if(!userFriendlyUrl.equals(SharedPrefUtils.getSharedPrefStringData(getActivity(),Constants.FRIENDLY_URL))){
-            binding.ivCookbookMenu.setVisibility(View.GONE);
-        }
         viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, 0);
 
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {

@@ -249,5 +249,16 @@
     <string name="cookbook_created">Cookbook Created successfully</string>
     <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
     <string name="follow_login_msg">"You need to logged in to follow someone"</string>
+    <string name="are_you_sure_you_want_to_delete_this_cookbook">Are you sure you want to delete
+        this cookbook?
+    </string>
+    <string name="this_will_permanently_delete">"This will permanently delete "</string>
+    <string name="recipes_in_the_cookbook">" recipes in the cookbook."</string>
+    <string name="this_will_delete_the_cookbook_and_its_recipes">
+        This will permanently delete recipes in the cookbook.
+    </string>
+    <string name="delete">Delete</string>
+    <string name="cookbook_deleted">Cookbook Deleted Successfuly</string>
+    <string name="the_cookbook">the cookbook</string>
 
 </resources>
