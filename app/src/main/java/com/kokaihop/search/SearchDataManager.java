@@ -8,7 +8,6 @@ import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
-import com.kokaihop.feed.Recipe;
 import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
@@ -237,35 +236,6 @@ public class SearchDataManager {
         return recipeRealmResult;
     }
 
-
-    public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
-        Recipe recipe = new Recipe();
-        recipe.set_id(recipeRealmObject.get_id());
-        recipe.setTitle(recipeRealmObject.getTitle());
-        recipe.setType(recipeRealmObject.getType());
-        if (recipeRealmObject.getCreatedBy() != null) {
-            recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
-            recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
-            recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
-        }
-        recipe.setCoverImage(recipeRealmObject.getCoverImage());
-        if (recipeRealmObject.getMainImage() != null) {
-            recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
-        }
-        recipe.setFavorite(recipeRealmObject.isFavorite());
-        if (recipeRealmObject.getCounter() != null) {
-            recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
-        }
-        if (recipeRealmObject.getRating() != null) {
-            recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
-            recipe.setComments(recipeRealmObject.getCounter().getComments());
-        }
-        recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
-        recipe.setBadgeType(recipeRealmObject.getBadgeType());
-        recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
-        return recipe;
-
-    }
 
     public ArrayList<SearchSuggestionRealmObject> fetchSuggestionsKeyword() {
         RealmResults<SearchSuggestionRealmObject> realmResult = realm.where(SearchSuggestionRealmObject.class).findAll().sort("timeStamp", Sort.DESCENDING);

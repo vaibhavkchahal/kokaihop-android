@@ -293,12 +293,6 @@ public class SearchViewModel extends BaseViewModel {
                 dataSetListener.showRecipesList(recipeListwithAds);
             }
         });
-       /* SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.NEWLY_ADDED_RECIPE,
-                withImage);
-        searchKeywordAsync.setOnCompleteListener(onSearchCompleteListener);
-        searchKeywordAsync.execute();*/
-
-
     }
 
     private List<Object> insertAdsInList(List<RecipeRealmObject> recipeList) {
@@ -376,24 +370,7 @@ public class SearchViewModel extends BaseViewModel {
                 dataSetListener.showRecipesList(recipeListwithAds);
             }
         });
-
-
-
-        /*SearchKeywordAsync searchKeywordAsync = new SearchKeywordAsync(searchDataManager, SearchKeywordAsync.QUERY_TYPE.SEARCH,
-                filterMap, withImage, sortBy, searchKeyword);
-        searchKeywordAsync.setOnCompleteListener(onSearchCompleteListener);
-        searchKeywordAsync.execute();*/
     }
-
-
-   /* SearchDataManager.OnCompleteListener onSearchCompleteListener = searchDataManager.OnCompleteListener() {
-        @Override
-        public void onSearchComplete(List<RecipeRealmObject> recipeList) {
-            setProgressVisible(false);
-            List<Object> recipeListwithAds = insertAdsInList(recipeList);
-            dataSetListener.showRecipesList(recipeListwithAds);
-        }
-    };*/
 
     public interface DataSetListener {
         void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, View textView, String title, FilterType filterType);
