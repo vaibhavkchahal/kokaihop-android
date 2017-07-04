@@ -82,13 +82,12 @@ public class VegetarianFragment extends Fragment {
         Object object = vegetarianViewModel.getRecipeListWithAdds().get(recipePosition);
         if (object instanceof RecipeRealmObject) {
             RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            recipeObject.setFavorite(recipe.isFavorite());
-            recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-//            recipeObject.setLikes(recipe.getLikes());
-            vegetarianBinding.rvVegetarian.getAdapter().notifyDataSetChanged();
+            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())){
+                recipeObject.setFavorite(recipe.isFavorite());
+                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                vegetarianBinding.rvVegetarian.getAdapter().notifyDataSetChanged();
+            }
         }
-
-        EventBus.getDefault().removeAllStickyEvents();
 
     }
 }

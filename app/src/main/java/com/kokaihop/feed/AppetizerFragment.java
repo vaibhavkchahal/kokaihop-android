@@ -81,14 +81,12 @@ public class AppetizerFragment extends Fragment {
         Object object = apeetizerViewModel.getRecipeListWithAdds().get(recipePosition);
         if (object instanceof RecipeRealmObject) {
             RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            recipeObject.setFavorite(recipe.isFavorite());
-            recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-//            recipeObject.setLikes(recipe.getLikes());
-            fragmentAppetizerBinding.rvAppetizer.getAdapter().notifyDataSetChanged();
+            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())){
+                recipeObject.setFavorite(recipe.isFavorite());
+                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                fragmentAppetizerBinding.rvAppetizer.getAdapter().notifyDataSetChanged();
+            }
         }
-
-        EventBus.getDefault().removeAllStickyEvents();
-
     }
 
 }

@@ -83,13 +83,12 @@ public class CookieFragment extends Fragment {
         Object object = cookieViewModel.getRecipeListWithAdds().get(recipePosition);
         if (object instanceof RecipeRealmObject) {
             RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            recipeObject.setFavorite(recipe.isFavorite());
-            recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-//            recipeObject.setLikes(recipe.getLikes());
-            cookieBinding.rvCookie.getAdapter().notifyDataSetChanged();
+            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())){
+                recipeObject.setFavorite(recipe.isFavorite());
+                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                cookieBinding.rvCookie.getAdapter().notifyDataSetChanged();
+            }
         }
-
-        EventBus.getDefault().removeAllStickyEvents();
 
     }
 

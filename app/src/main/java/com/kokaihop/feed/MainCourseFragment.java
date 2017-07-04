@@ -81,13 +81,13 @@ public class MainCourseFragment extends Fragment {
         Object object = mainCourseViewModel.getRecipeListWithAdds().get(recipePosition);
         if (object instanceof RecipeRealmObject) {
             RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            recipeObject.setFavorite(recipe.isFavorite());
-            recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-//            recipeObject.setLikes(recipe.getLikes());
-            mainCourseBinding.rvMainCourse.getAdapter().notifyDataSetChanged();
+            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl()))
+            {
+                recipeObject.setFavorite(recipe.isFavorite());
+                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                mainCourseBinding.rvMainCourse.getAdapter().notifyDataSetChanged();
+            }
+
         }
-
-        EventBus.getDefault().removeAllStickyEvents();
-
     }
 }
