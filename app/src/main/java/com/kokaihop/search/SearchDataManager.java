@@ -129,15 +129,14 @@ public class SearchDataManager {
         Logger.e("time before query", new Date().toString());
 
         recipeRealmResult = query.findAllSortedAsync("dateCreated", Sort.DESCENDING);
-        if (recipeRealmResult != null) {
-            recipeRealmResult.removeAllChangeListeners();
-        }
         RealmChangeListener realmChangeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
+
                     onCompleteListener.onSearchComplete(recipeRealmResult);
+                    recipeRealmResult.removeAllChangeListeners();
 
                 }
             }
@@ -169,15 +168,13 @@ public class SearchDataManager {
             query.endGroup();
         }
         recipeRealmResult = sortFilter(query, sortBy);
-        if (recipeRealmResult != null) {
-            recipeRealmResult.removeAllChangeListeners();
-        }
         RealmChangeListener realmChangeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
                     onCompleteListener.onSearchComplete(recipeRealmResult);
+                    recipeRealmResult.removeAllChangeListeners();
                 }
             }
         };

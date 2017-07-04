@@ -47,9 +47,9 @@ public class RecipeHandler {
 
     private void performOperationOncheck(CheckBox checkBox, RecipeRealmObject recipe) {
         updateCheckboxImage(checkBox.isChecked(), checkBox);
-        updateSatusInDB(checkBox.isChecked(), recipe);
         updatelikeStatusOnServer(checkBox, recipe);
         updateLikeCountInView(checkBox, recipe);
+        updateSatusInDB(checkBox.isChecked(), recipe);
     }
 
     private void updateLikeCountInView(CheckBox checkBox, RecipeRealmObject recipe) {
@@ -70,9 +70,12 @@ public class RecipeHandler {
         }
         recipeDataManager.updateIsFavoriteInDB(checked, recipe);
         recipeDataManager.updateLikesCount(recipe, likes);
-        recipe.getCounter().setLikes(likes);
-//        recipe.setLikes(String.valueOf(likes));
-        recipe.setFavorite(checked);
+        if(!recipe.getCounter().isManaged())
+        {
+            recipe.getCounter().setLikes(likes);
+            recipe.setFavorite(checked);
+        }
+
 
     }
 

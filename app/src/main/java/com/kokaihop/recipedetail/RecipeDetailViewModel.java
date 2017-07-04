@@ -238,7 +238,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private RecipeSpecifications getRecipeSpecifications(RecipeRealmObject recipeRealmObject) {
         RecipeSpecifications specifications = new RecipeSpecifications();
-        if(recipeRealmObject.getCreatedBy()!=null){
+        if (recipeRealmObject.getCreatedBy() != null) {
             specifications.setName(recipeRealmObject.getCreatedBy().getName());
             specifications.setImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
             specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
@@ -252,11 +252,17 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getCategory() != null) {
             specifications.setCategory3(recipeRealmObject.getCategory().getName());
         }
-        specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
-        specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
-        specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
-        specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
-        specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
+        if (recipeRealmObject.getCreatedBy() != null) {
+            specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
+            specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
+        }
+
+        if (recipeRealmObject.getCounter() != null) {
+            specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
+            specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
+            specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
+        }
+
         return specifications;
     }
 
