@@ -117,6 +117,9 @@ public class CookbooksDataManager {
         CookbookRealmObject cookbook = realm.where(CookbookRealmObject.class)
                 .equalTo("friendlyUrl", cookbookFriendlyUrl)
                 .findFirst();
+        if(cookbook==null){
+            return null;
+        }
         return cookbook.get_id();
     }
 

@@ -1,7 +1,9 @@
 package com.kokaihop.userprofile.model;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.database.RecipeRealmObject;
 
 import java.util.ArrayList;
@@ -51,12 +53,14 @@ public class Cookbook extends BaseObservable{
         this.recipes = recipes;
     }
 
+    @Bindable
     public int getTotal() {
         return total;
     }
 
     public void setTotal(int total) {
         this.total = total;
+        notifyPropertyChanged(BR.total);
     }
 
     public String getMainImageUrl() {

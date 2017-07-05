@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentCookbooksBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentAddToCookbookBinding;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
@@ -42,17 +42,18 @@ public class AddToCookbookFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Bundle bundle = this.getArguments();
-        String friendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(),Constants.FRIENDLY_URL);
+        String friendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL);
         String collectionMapping = bundle.getString(Constants.COLLECTION_MAPPING);
         String recipeId = bundle.getString(Constants.RECIPE_ID);
         viewModel = new AddToCookbookViewModel(this, getContext());
-        final FragmentCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbooks, container, false);
-        adapter = new AddToCookbookAdapter(user.getCookbooks(),friendlyUrl, collectionMapping, recipeId);
+        final FragmentAddToCookbookBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_to_cookbook, container, false);
+        adapter = new AddToCookbookAdapter(getActivity(), viewModel, user.getCookbooks(), friendlyUrl, collectionMapping, recipeId);
         layoutManager = new CustomLinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         viewModel.getCookbooksOfUser(0);
+        binding.setViewModel(viewModel);
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
@@ -60,15 +61,15 @@ public class AddToCookbookFragment extends Fragment {
                     viewModel.getCookbooksOfUser(viewModel.getOffset() + viewModel.getMax());
             }
         });
-        binding.srlCookbooks.setEnabled(false);
 
         return binding.getRoot();
     }
 
-    //    notify the adapter about the chage in data.
+    //    notify the adapter about the change in cookbooks list.
     public void displayCookbooks(ArrayList<Cookbook> cookbooks) {
         user.getCookbooks().clear();
         user.getCookbooks().addAll(cookbooks);
         adapter.notifyDataSetChanged();
     }
+
 }

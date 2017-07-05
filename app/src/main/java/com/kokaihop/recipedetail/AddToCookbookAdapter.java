@@ -16,6 +16,7 @@ import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,13 +32,18 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
     private ArrayList<Cookbook> cookbooks;
     private RowAddToCookbookBinding binding;
     private User user;
+    Context context;
     private JSONObject collectionMapping;
-    private String recipeId;
+    private String recipeId, accessToken;
+    AddToCookbookViewModel viewModel;
 
-    public AddToCookbookAdapter(ArrayList<Cookbook> cookbooks, String friendlyUrl, String collectionMapping, String recipeId) {
+    public AddToCookbookAdapter(Context context, AddToCookbookViewModel viewModel, ArrayList<Cookbook> cookbooks, String friendlyUrl, String collectionMapping, String recipeId) {
+        this.context = context;
         this.cookbooks = cookbooks;
         user = User.getInstance();
         this.recipeId = recipeId;
+        this.viewModel = viewModel;
+        this.accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         user.setFriendlyUrl(friendlyUrl);
         try {
             this.collectionMapping = new JSONObject(collectionMapping);
@@ -90,7 +96,7 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
         public void bind(final Cookbook cookbook) {
             binding.setCookbook(cookbook);
             binding.setUser(user);
-            if(cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)){
+            if (cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                 binding.clCookbookRow.setMaxHeight(0);
             }
             try {
@@ -102,7 +108,13 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
             binding.clCookbookRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    binding.cbRecipeAdded.setChecked(!binding.cbRecipeAdded.isChecked());
+                    boolean added = binding.cbRecipeAdded.isChecked();
+                    binding.cbRecipeAdded.setChecked(!added);
+                    if (!added) {
+                        viewModel.addToCookbook(cookbook,recipeId);
+                    } else {
+                        viewModel.removeFromCookbook(cookbook,recipeId);
+                    }
                 }
             });
         }

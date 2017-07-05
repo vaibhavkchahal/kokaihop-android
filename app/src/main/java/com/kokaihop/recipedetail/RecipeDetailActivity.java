@@ -47,6 +47,9 @@ import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.ShareContents;
 import com.kokaihop.utility.SharedPrefUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -86,6 +89,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         recipeID = getIntent().getStringExtra("recipeId");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
+        EventBus.getDefault().register(this);
     }
 
     public void setupRecipeDetailScreen() {
@@ -464,6 +468,15 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
             }
         }
+
+    }
+
+    @Subscribe(sticky = true)
+    public void onEvent(String update) {
+        if (update.equalsIgnoreCase("refreshRecipeDetail")) {
+            setupRecipeDetailScreen();
+        }
+        EventBus.getDefault().removeAllStickyEvents();
     }
 
 }

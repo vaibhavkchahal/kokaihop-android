@@ -57,7 +57,8 @@
             android:textSize="@dimen/text_size_medium"
             app:font="@{`SS-ProRegular`}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image" app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
+            app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
+            app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
             tools:text="Recipe Count"/>
 
         <CheckBox
@@ -67,6 +68,7 @@
             android:layout_marginRight="@dimen/add_to_cookbook_cb_margin_right"
             android:button="@drawable/checkbox_email_pref_selector"
             android:layoutDirection="rtl"
+            android:clickable="false"
             android:paddingRight="@dimen/email_pref_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

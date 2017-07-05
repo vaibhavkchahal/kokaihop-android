@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.cookbooks.CookbooksApiHelper;
+import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
+import com.kokaihop.cookbooks.model.RemoveFromCookbookRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
@@ -42,7 +44,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
     private final Context context;
     private int offset, max, totalCount;
     private boolean isDownloading = true;
-    private String userId, friendlyUrl;
+    private String userId, friendlyUrl, accessToken;
     private ProfileDataManager profileDataManager;
     private Fragment fragment;
     private User user;
@@ -56,15 +58,16 @@ public class AddToCookbookViewModel extends BaseViewModel {
         max = 20;
         this.userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
         this.friendlyUrl = SharedPrefUtils.getSharedPrefStringData(context, Constants.FRIENDLY_URL);
+        accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
     }
 
 
     public void getCookbooksOfUser(final int offset) {
+        setProgressVisible(false);
         fetchCookbooksFromDB();
 //        final String userId = "56387aa81e443c0300c5a4b5";
 
         setOffset(offset);
-        setProgressVisible(true);
         if (isDownloading) {
             new ProfileApiHelper().getCookbooksOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
@@ -84,22 +87,22 @@ public class AddToCookbookViewModel extends BaseViewModel {
                     if (getOffset() + getMax() >= getTotalCount()) {
                         setDownloading(false);
                     }
-                    setProgressVisible(false);
                     fetchCookbooksFromDB();
+                    setProgressVisible(false);
                 }
 
                 @Override
                 public void onFailure(String message) {
                     setDownloading(false);
-                    setProgressVisible(false);
                     displayCookbooks();
+                    setProgressVisible(false);
                 }
 
                 @Override
                 public void onError(Object response) {
                     setDownloading(false);
-                    setProgressVisible(false);
                     displayCookbooks();
+                    setProgressVisible(false);
                 }
             });
         }
@@ -133,6 +136,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
     //    API call for the new cookbook created by user.
     public void createCookbook(String cookbookName) {
+        setProgressVisible(true);
         String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
@@ -141,16 +145,20 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 setDownloading(true);
                 EventBus.getDefault().postSticky("updateCookbook");
                 getCookbooksOfUser(0);
+                setProgressVisible(false);
             }
 
             @Override
             public void onFailure(String message) {
                 Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
+
             }
 
             @Override
             public void onError(Object response) {
                 Toast.makeText(context, "Error " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
             }
         });
     }
@@ -164,6 +172,58 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
     private void displayCookbooks() {
         ((AddToCookbookFragment) fragment).displayCookbooks(cookbooks);
+    }
+
+    public void addToCookbook(final Cookbook cookbook, String recipeId) {
+        setProgressVisible(true);
+        AddToCookbookRequest addToCookbookRequest = new AddToCookbookRequest(recipeId, cookbook.get_id());
+        new CookbooksApiHelper().addToCookbook(accessToken, addToCookbookRequest, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                Toast.makeText(context, R.string.recipe_added_to_cookbook, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().postSticky("refreshRecipeDetail");
+                cookbook.setTotal(cookbook.getTotal() + 1);
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onError(Object response) {
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
+            }
+        });
+    }
+
+    public void removeFromCookbook(final Cookbook cookbook, String recipeId) {
+        setProgressVisible(true);
+        RemoveFromCookbookRequest removeFromCookbookRequest = new RemoveFromCookbookRequest(cookbook.get_id(), new String[]{recipeId});
+        new CookbooksApiHelper().removeFromCookbook(accessToken, removeFromCookbookRequest, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                Toast.makeText(context, R.string.recipe_removed_from_cookbook, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().postSticky("refreshRecipeDetail");
+                cookbook.setTotal(cookbook.getTotal() - 1);
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onError(Object response) {
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
+            }
+        });
     }
 
     @Override

@@ -61,7 +61,6 @@
     <string name="search">Search</string>
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="signup_message">This is where you’ll connect with other chefs, Get to see your
         search history, and change your settings
     </string>
@@ -258,8 +257,11 @@
         This will permanently delete recipes in the cookbook.
     </string>
     <string name="delete">Delete</string>
-    <string name="cookbook_deleted">Cookbook Deleted Successfuly</string>
+    <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
     <string name="the_cookbook">the cookbook</string>
     <string name="pick_a_cookbook">Pick a Cookbook</string>
+    <string name="recipe_added_to_cookbook">Recipe added to cookbook successfully</string>
+    <string name="recipe_removed_from_cookbook">Recipe removed from the cookbook successfully
+    </string>
 
 </resources>

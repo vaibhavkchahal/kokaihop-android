@@ -83,8 +83,8 @@ public class CookbookDetailViewModel extends BaseViewModel {
                         if (getOffset() + getMax() >= getTotalRecipes()) {
                             setDownloading(false);
                         }
-                        setProgressVisible(false);
                         fetchRecipesOfCookbooksFromDB(userFriendlyUrl, cookbookFriendlyUrl);
+                        setProgressVisible(false);
                     }
                 }
 

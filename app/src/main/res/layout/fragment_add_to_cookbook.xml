@@ -4,14 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.kokaihop.userprofile.HistoryFragment">
     <data>
-        <variable name="viewModel" type="com.kokaihop.userprofile.CookbooksViewModel"/>
+        <variable name="viewModel" type="com.kokaihop.recipedetail.AddToCookbookViewModel"/>
     </data>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srl_cookbooks"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.constraint.ConstraintLayout
+          <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -36,6 +31,4 @@
                 app:layout_constraintTop_toTopOf="parent" bind:viewModel="@{viewModel}"/>
 
         </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
 </layout>
