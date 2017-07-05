@@ -46,7 +46,7 @@ public class AddToCookbookFragment extends Fragment {
         String collectionMapping = bundle.getString(Constants.COLLECTION_MAPPING);
         String recipeId = bundle.getString(Constants.RECIPE_ID);
         viewModel = new AddToCookbookViewModel(this, getContext());
-        FragmentCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbooks, container, false);
+        final FragmentCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbooks, container, false);
         adapter = new AddToCookbookAdapter(user.getCookbooks(),friendlyUrl, collectionMapping, recipeId);
         layoutManager = new CustomLinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;
@@ -60,6 +60,8 @@ public class AddToCookbookFragment extends Fragment {
                     viewModel.getCookbooksOfUser(viewModel.getOffset() + viewModel.getMax());
             }
         });
+        binding.srlCookbooks.setEnabled(false);
+
         return binding.getRoot();
     }
 

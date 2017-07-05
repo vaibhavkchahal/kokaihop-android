@@ -17,21 +17,23 @@ import com.kokaihop.utility.SharedPrefUtils;
 public class AddToCookBookActivity extends BaseActivity {
 
     Bundle bundle;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityCookbookBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_cookbook);
         setupArguments();
         AddToCookbookFragment addToCookbookFragment = new AddToCookbookFragment();
+        binding.setViewModel(new AddToCookbookViewModel(addToCookbookFragment, this));
         addToCookbookFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(binding.rlAddToCookbook.getId(),addToCookbookFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(binding.rlAddToCookbook.getId(), addToCookbookFragment).commit();
     }
 
     private void setupArguments() {
         bundle = new Bundle();
         bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
         bundle.putString(Constants.FRIENDLY_URL, SharedPrefUtils.getSharedPrefStringData(this, Constants.FRIENDLY_URL));
-        bundle.putString(Constants.COLLECTION_MAPPING,getIntent().getStringExtra(Constants.COLLECTION_MAPPING));
+        bundle.putString(Constants.COLLECTION_MAPPING, getIntent().getStringExtra(Constants.COLLECTION_MAPPING));
         bundle.putString(Constants.RECIPE_ID, getIntent().getStringExtra(Constants.RECIPE_ID));
     }
 }

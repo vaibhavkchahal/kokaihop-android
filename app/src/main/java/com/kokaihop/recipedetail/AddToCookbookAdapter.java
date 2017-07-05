@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -89,6 +90,9 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
         public void bind(final Cookbook cookbook) {
             binding.setCookbook(cookbook);
             binding.setUser(user);
+            if(cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)){
+                binding.clCookbookRow.setMaxHeight(0);
+            }
             try {
                 binding.cbRecipeAdded.setChecked(collectionMapping.getJSONArray(cookbook.get_id()).toString().contains(recipeId));
             } catch (JSONException e) {

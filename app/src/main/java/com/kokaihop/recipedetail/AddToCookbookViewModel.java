@@ -1,9 +1,20 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.cookbooks.CookbooksApiHelper;
+import com.kokaihop.cookbooks.model.CookbookName;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
@@ -12,6 +23,7 @@ import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,7 +42,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
     private final Context context;
     private int offset, max, totalCount;
     private boolean isDownloading = true;
-    private String userId,friendlyUrl;
+    private String userId, friendlyUrl;
     private ProfileDataManager profileDataManager;
     private Fragment fragment;
     private User user;
@@ -62,12 +74,10 @@ public class AddToCookbookViewModel extends BaseViewModel {
                     try {
                         final JSONObject jsonObject = new JSONObject(responseBody.string());
                         JSONArray recipes = jsonObject.getJSONArray("recipeCollections");
-                        profileDataManager.insertOrUpdateCookbooksUsingJSON(recipes, getUserId(),friendlyUrl);
+                        profileDataManager.insertOrUpdateCookbooksUsingJSON(recipes, getUserId(), friendlyUrl);
                         setTotalCount(jsonObject.getInt("total"));
                         fetchCookbooksFromDB();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 
@@ -96,6 +106,55 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
     }
 
+    public void createNewCookbook() {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_new_cookbook);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        dialog.findViewById(R.id.create_cookbbok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                String name = ((EditText) dialog.findViewById(R.id.cookbook_name)).getText().toString();
+                createCookbook(name);
+            }
+        });
+
+        dialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
+    //    API call for the new cookbook created by user.
+    public void createCookbook(String cookbookName) {
+        String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                Toast.makeText(context, R.string.cookbook_created, Toast.LENGTH_SHORT).show();
+                setDownloading(true);
+                EventBus.getDefault().postSticky("updateCookbook");
+                getCookbooksOfUser(0);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Object response) {
+                Toast.makeText(context, "Error " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void fetchCookbooksFromDB() {
         cookbooks = profileDataManager.getCookbooks(userId);
         User.getOtherUser().getCookbooks().clear();
@@ -108,8 +167,8 @@ public class AddToCookbookViewModel extends BaseViewModel {
     }
 
     @Override
-    protected void destroy() {
-
+    public void destroy() {
+        ((Activity) context).finish();
     }
 
     public int getOffset() {

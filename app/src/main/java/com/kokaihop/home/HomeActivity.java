@@ -190,6 +190,8 @@ public class HomeActivity extends BaseActivity {
         if (update.equalsIgnoreCase("updateRequired")) {
             refreshFragment(4);
             refreshFragment(1);
+        }else if(update.equalsIgnoreCase("updateCookbook")){
+            refreshFragment(1);
         }
         EventBus.getDefault().removeAllStickyEvents();
     }

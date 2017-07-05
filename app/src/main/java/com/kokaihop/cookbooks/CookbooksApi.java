@@ -1,5 +1,6 @@
 package com.kokaihop.cookbooks;
 
+import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
 
 import okhttp3.ResponseBody;
@@ -31,5 +32,9 @@ public interface CookbooksApi {
     @DELETE("v1/api/recipeCollections/{cookbookId}")
     Call<ResponseBody> deleteCookbook(@Header("Authorization") String accessToken,
                                       @Path("cookbookId") String cookbookId);
+
+    @POST("/v1/api/recipeCollections/addToCollection")
+    Call<ResponseBody> addToCookbook(@Header("Authorization") String accessToken,
+                                     @Body AddToCookbookRequest addToCookbookRequest);
 
 }

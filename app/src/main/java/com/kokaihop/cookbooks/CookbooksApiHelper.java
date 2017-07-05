@@ -1,5 +1,6 @@
 package com.kokaihop.cookbooks;
 
+import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
@@ -32,5 +33,10 @@ public class CookbooksApiHelper {
     public void deleteCookbook(String accessToken, String cookbookId, IApiRequestComplete successInterface) {
         Call<ResponseBody> deleteCookbook = cookbooksApi.deleteCookbook(accessToken, cookbookId);
         deleteCookbook.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
+
+    public void addToCookbook(String accessToken, AddToCookbookRequest addToCookbookRequest, IApiRequestComplete successInterface) {
+        Call<ResponseBody> addToCookbook = cookbooksApi.addToCookbook(accessToken, addToCookbookRequest);
+        addToCookbook.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 }
