@@ -80,6 +80,8 @@ public class SearchViewModel extends BaseViewModel {
         this.dataSetListener = dataSetListener;
         searchDataManager = new SearchDataManager(context);
         fetchCategories();
+        fetchCookingMethods();
+        fetchCuisine();
         dataSetListener.updateSearchSuggestions(getSearchSuggestion());
     }
 
@@ -88,7 +90,6 @@ public class SearchViewModel extends BaseViewModel {
         new SearchFilterApiHelper().fetchCategories(new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                fetchCookingMethods();
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     final JSONObject json = new JSONObject(responseBody.string());
@@ -150,7 +151,6 @@ public class SearchViewModel extends BaseViewModel {
         new SearchFilterApiHelper().fetchCookingMethods(new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                fetchCuisine();
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     final JSONObject json = new JSONObject(responseBody.string());
@@ -193,15 +193,14 @@ public class SearchViewModel extends BaseViewModel {
                     filterData.setFriendlyUrl(categoryRealmObject.getFriendlyUrl());
                     categoriesList.add(filterData);
                 }
+            } else {
+                fetchCategories();
             }
-        } else {
-            fetchCategories();
         }
         dataSetListener.showFilterDialog(categoriesList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_course), FilterType.COURSE);
     }
 
     public void displayCuisineList(TextView textView) {
-
         if (cuisineList == null) {
             cuisineList = new ArrayList<>();
             FilterData filterDataAll = new FilterData();
@@ -215,9 +214,9 @@ public class SearchViewModel extends BaseViewModel {
                     filterData.setFriendlyUrl(categoryRealmObject.getFriendlyUrl());
                     cuisineList.add(filterData);
                 }
+            } else {
+                fetchCategories();
             }
-        } else {
-            fetchCategories();
         }
         dataSetListener.showFilterDialog(cuisineList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_cuisine), FilterType.CUISINE);
     }
@@ -261,7 +260,6 @@ public class SearchViewModel extends BaseViewModel {
 
 
     public void displayCookingMethodList(TextView textView) {
-
         if (cookingMethodList == null) {
             cookingMethodList = new ArrayList<>();
             FilterData filterDataAll = new FilterData();
@@ -276,9 +274,9 @@ public class SearchViewModel extends BaseViewModel {
                     filterData.setFriendlyUrl(cookingMethod.getFriendlyUrl());
                     cookingMethodList.add(filterData);
                 }
+            } else {
+                fetchCategories();
             }
-        } else {
-            fetchCategories();
         }
         dataSetListener.showFilterDialog(cookingMethodList, textView.getText().toString(), textView, textView.getContext().getResources().getString(R.string.select_method), FilterType.METHOD);
     }

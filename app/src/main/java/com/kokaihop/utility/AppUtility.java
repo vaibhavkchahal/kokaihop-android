@@ -94,15 +94,16 @@ public class AppUtility {
     }
 
     @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html){
+    public static Spanned fromHtml(String html) {
         Spanned result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
         } else {
             result = Html.fromHtml(html);
         }
         return result;
     }
+
     public static int pxToDp(Context context, int px) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
@@ -118,6 +119,14 @@ public class AppUtility {
             input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void hideKeyboard(View view) {
+        // Check if no view has focus:
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

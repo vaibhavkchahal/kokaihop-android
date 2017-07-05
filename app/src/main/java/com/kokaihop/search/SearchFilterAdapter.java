@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowFilterDataBinding;
@@ -57,7 +56,6 @@ public class SearchFilterAdapter extends RecyclerView.Adapter<SearchFilterAdapte
         binding.relativeLayoutFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, filterData.getName(), Toast.LENGTH_SHORT).show();
                 updateFilterList();
 
                 filterData.setCurrentSelected(true);
