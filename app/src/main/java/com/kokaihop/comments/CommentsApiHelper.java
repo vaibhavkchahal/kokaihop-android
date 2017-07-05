@@ -26,12 +26,6 @@ public class CommentsApiHelper {
         commentsApiResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 
-   /* // home tab comments list.
-    public void fetchHomeTabCommentsList(Map<String, String> map, final IApiRequestComplete successInterface) {
-        Call<HomeCommentsApiResponse> commentsApiResponseCall = commentsApi.getHomeCommentsList(map);
-        commentsApiResponseCall.enqueue(new ResponseHandler<HomeCommentsApiResponse>(successInterface));
-    }*/
-
     public void postComment(String accessToken, PostCommentRequestParams requestParams, final IApiRequestComplete successInterface) {
         Call<ResponseBody> postCommentResponseCall = commentsApi.postComment(accessToken, requestParams);
         postCommentResponseCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));

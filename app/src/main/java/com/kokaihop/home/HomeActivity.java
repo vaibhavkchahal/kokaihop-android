@@ -78,11 +78,9 @@ public class HomeActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
-
         MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();
         myCookbooksFragment.setArguments(bundle);
         adapter.addFrag(myCookbooksFragment, getString(R.string.tab_cookbooks));
-
         adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(userProfileFragment, getString(R.string.tab_me));

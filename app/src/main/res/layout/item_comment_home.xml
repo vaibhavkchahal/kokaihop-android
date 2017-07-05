@@ -9,6 +9,8 @@
         <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
         <variable name="recipeImageUrl" type="String"/>
         <variable name="handler" type="com.kokaihop.feed.RecipeHandler"/>
+        <import type="android.text.Html"/>
+        <import type="com.kokaihop.utility.DateTimeUtils"/>
 
     </data>
 
@@ -92,14 +94,14 @@
                         android:textSize="@dimen/rating_textsize"
                         bind:font="@{`SS-ProRegular`}"/>
 
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rating_bar"
+                        android:layout_marginLeft="2dp"
                         android:layout_marginTop="@dimen/creator_text_margin_top"
-                        android:text="@{`av `+model.payload.recipe.createdBy.name}"
-                        android:textColor="@color/kokaihop_orange_color"
+                        android:onClick="@{(v)->handler.openUserProfile(context,model.payload.recipe.createdBy.id,model.payload.recipe.createdBy.friendlyUrl)}"
+                        android:text="@{Html.fromHtml(String.format(@string/commented_by,model.payload.recipe.createdBy.name))}"
                         android:textSize="@dimen/creator_textsize"
                         bind:font="@{`SS-ProRegular`}"/>
 
@@ -119,7 +121,8 @@
                             android:layout_below="@+id/view_divider"
                             android:layout_marginLeft="@dimen/comment_text_margin_left"
                             android:layout_marginRight="@dimen/coment_text_margin_right"
-                            android:layout_marginTop="@dimen/coment_text_margin_top">
+                            android:layout_marginTop="@dimen/coment_text_margin_top"
+                            android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe._id)}">
 
                 <TextView
                     android:id="@+id/txtview_comment"
@@ -132,11 +135,26 @@
 
 
                 <TextView
+                    android:id="@+id/txtview_creator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtview_comment"
                     android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
-                    android:text="@{`kommentor av `}"
+                    android:text="@{@string/kommentor_av_text+model.sourceUser.userName}"
+                    android:textColor="@color/grey_FF8E8E93"
+                    android:textSize="@dimen/coment_text_botom_tetsize"
+                    bind:font="@{`SS-ProRegular`}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtview_comment"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
+                    android:layout_toRightOf="@+id/txtview_creator"
+                    android:drawableLeft="@drawable/ic_separate_dot"
+                    android:drawablePadding="10dp"
+                    android:text="@{DateTimeUtils.getDate(Long.valueOf(model.dateCreated),`dd MMM yyyy`)}"
                     android:textColor="@color/grey_FF8E8E93"
                     android:textSize="@dimen/coment_text_botom_tetsize"
                     bind:font="@{`SS-ProRegular`}"/>

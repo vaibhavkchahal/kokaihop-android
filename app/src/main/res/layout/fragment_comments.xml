@@ -31,13 +31,19 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_recipe_comments"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/progressBar_bottom"
             android:layout_below="@+id/relative_layout_toolbar"
-            android:paddingTop="10dp"/>
+            android:paddingTop="10dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_recipe_comments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progressBar_bottom"
@@ -48,7 +54,6 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:indeterminateTint="@color/colorPrimary"
-            android:visibility="@{viewModel.isProgressVisible?View.VISIBLE:View.GONE}"
-        />
+            android:visibility="@{viewModel.isProgressVisible?View.VISIBLE:View.GONE}"/>
     </RelativeLayout>
 </layout>
