@@ -38,7 +38,7 @@ public class CookbookDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        User user ;
+        User user;
         bundle = getArguments();
         if (bundle != null) {
             userFriendlyUrl = bundle.getString(Constants.USER_FRIENDLY_URL);
@@ -47,14 +47,14 @@ public class CookbookDetailFragment extends Fragment {
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_detail, container, false);
 
-        if (cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
+        if (Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
         }
-        if (!userFriendlyUrl.equals(SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL))) {
+        if (!SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL).equals(userFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
             binding.ivCookbookMenu.setVisibility(View.GONE);
             user = new User();
-        }else{
+        } else {
             user = User.getInstance();
         }
 

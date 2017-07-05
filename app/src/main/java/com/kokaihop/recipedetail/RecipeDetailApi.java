@@ -20,7 +20,9 @@ public interface RecipeDetailApi {
 
     @FormUrlEncoded
     @POST("v1/api/recipes/{recipefriendlyUrl}/app")
-    Call<ResponseBody> getRecipeDetails(@Path("recipefriendlyUrl") String recipefriendlyUrl, @Field("limit") int commentCount);
+    Call<ResponseBody> getRecipeDetails(@Header("Authorization") String authorization,
+                                        @Path("recipefriendlyUrl") String recipefriendlyUrl,
+                                        @Field("limit") int commentCount);
 
     @GET("v1/api/recipes/getSimilarRecipes")
     Call<ResponseBody> getSimilarRecipe(@Query("friendlyUrl") String recipeFriendlyUrl, @Query("limit") int limit, @Query("title") String title);

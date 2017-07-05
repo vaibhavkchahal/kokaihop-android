@@ -45,9 +45,9 @@ public class MyCookbooksFragment extends Fragment {
         boolean myCookbook = true;
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
         String userId = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.USER_ID);
-        String friendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL);
+        String userFriendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL);
 
-        viewModel = new MyCookbooksViewModel(this, getContext(), userId , friendlyUrl);
+        viewModel = new MyCookbooksViewModel(this, getContext(), userId , userFriendlyUrl);
 
         if (myCookbook && (accessToken == null) || accessToken.isEmpty()) {
             FragmentCookbookLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);
@@ -56,7 +56,7 @@ public class MyCookbooksFragment extends Fragment {
         } else {
             final FragmentMyCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_cookbooks, container, false);
             binding.setViewModel(viewModel);
-            adapter = new CookbooksAdapter(this, CookbooksList.getCookbooksList().getCookbooks(), myCookbook, User.getInstance(), friendlyUrl);
+            adapter = new CookbooksAdapter(CookbooksList.getCookbooksList().getCookbooks(), myCookbook, User.getInstance(), userFriendlyUrl);
             layoutManager = new CustomLinearLayoutManager(getContext());
             recyclerView = binding.rvHistoryList;
             recyclerView.setLayoutManager(layoutManager);

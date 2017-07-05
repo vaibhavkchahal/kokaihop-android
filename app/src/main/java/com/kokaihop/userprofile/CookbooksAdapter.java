@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,23 +31,21 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
     private ArrayList<Cookbook> cookbooks;
     private RowCookbookBinding cookbookBinding;
     private RowMyCookbookBinding myCookbookBinding;
-    private Context context;
-    private Fragment fragment;
     private boolean myCookbook;
     private User user;
-    private String friendlyUrl;
+    private String userFriendlyUrl;
 
-    public CookbooksAdapter(Fragment fragment, ArrayList<Cookbook> cookbooks, boolean myCookbook, User user, String friendlyUrl) {
+    public CookbooksAdapter(ArrayList<Cookbook> cookbooks, boolean myCookbook, User user, String userFriendlyUrl) {
         this.cookbooks = cookbooks;
-        this.fragment = fragment;
         this.myCookbook = myCookbook;
         this.user = user;
-        User.getOtherUser().setFriendlyUrl(friendlyUrl);
+        this.userFriendlyUrl = userFriendlyUrl;
+        user.setFriendlyUrl(userFriendlyUrl);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        context = parent.getContext();
+        Context context = parent.getContext();
         ConstraintLayout.LayoutParams layoutParams;
         ImageView ivCover;
         int size;
@@ -66,8 +63,9 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
             cookbookBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_cookbook, parent, false);
             ivCover = cookbookBinding.ivRecipeImage;
             layoutParams = (ConstraintLayout.LayoutParams) ivCover.getLayoutParams();
-            layoutParams.height = context.getResources().getDimensionPixelSize(R.dimen.history_recipe_image_size);
-            layoutParams.width = layoutParams.height;
+            int imageSize = context.getResources().getDimensionPixelSize(R.dimen.history_recipe_image_size);
+            layoutParams.height = imageSize;
+            layoutParams.width = imageSize;
             ivCover.setLayoutParams(layoutParams);
             return new ViewHolder(cookbookBinding);
         }
@@ -129,7 +127,7 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
                 myCookbookBinding.clMyCookbookRow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openCookbookDetail(v, user.getFriendlyUrl(), cookbook.getFriendlyUrl(), cookbook.getName());
+                        openCookbookDetail(v, userFriendlyUrl, cookbook.getFriendlyUrl(), cookbook.getName());
                     }
                 });
             } else {
@@ -139,13 +137,13 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
                 cookbookBinding.clCookbookRow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openCookbookDetail(v, User.getOtherUser().getFriendlyUrl(), cookbook.getFriendlyUrl(), cookbook.getName());
+                        openCookbookDetail(v, userFriendlyUrl, cookbook.getFriendlyUrl(), cookbook.getName());
                     }
                 });
             }
         }
 
-        public void openCookbookDetail(View v, String userFriendlyUrl, String cookbookFriendlyUrl, String cookbookTitle) {
+        private void openCookbookDetail(View v, String userFriendlyUrl, String cookbookFriendlyUrl, String cookbookTitle) {
             Intent i = new Intent(v.getContext(), CookbookDetailActivity.class);
             i.putExtra(Constants.USER_FRIENDLY_URL, userFriendlyUrl);
             i.putExtra(Constants.COOKBOOK_FRIENDLY_URL, cookbookFriendlyUrl);

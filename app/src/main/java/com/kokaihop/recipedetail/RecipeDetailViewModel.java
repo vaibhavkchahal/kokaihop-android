@@ -54,10 +54,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private final DataSetListener dataSetListener;
     public RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
-    private String recipeID;
+    private String recipeId;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
     private Context context;
     private JSONObject copyJsonObject;
+    private JSONObject collectionMapping;
 
     public RealmList<RecipeDetailPagerImages> getPagerImages() {
         return pagerImages;
@@ -69,12 +70,12 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(Context context, String recipeID, DataSetListener dataSetListener) {
+    public RecipeDetailViewModel(Context context, String recipeId, DataSetListener dataSetListener) {
         this.context = context;
-        this.recipeID = recipeID;
+        this.recipeId = recipeId;
         this.dataSetListener = dataSetListener;
         recipeDataManager = new RecipeDataManager();
-        recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+        recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
         pagerImages = recipeRealmObject.getImages();
         prepareRecipeDetailList(recipeRealmObject);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
@@ -82,17 +83,20 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
         setProgressVisible(true);
-        new RecipeDetailApiHelper().getRecipeDetail(recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
+        String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        new RecipeDetailApiHelper().getRecipeDetail(accessToken, recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 try {
                     setProgressVisible(false);
                     ResponseBody responseBody = (ResponseBody) response;
-                    final JSONObject recipeJSONObject = new JSONObject(responseBody.string()).getJSONObject("recipe");
+                    JSONObject responseJSON = new JSONObject(responseBody.string());
+                    final JSONObject recipeJSONObject = responseJSON.getJSONObject("recipe");
+                    collectionMapping = responseJSON.getJSONObject(Constants.COLLECTION_MAPPING);
                     copyJsonObject = new JSONObject(recipeJSONObject.toString());
                     recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
-                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeID).getTitle());
+                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeId).getTitle());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -122,8 +126,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 try {
                     JSONObject json = new JSONObject(responseBody.string());
                     JSONArray recipeJSONArray = json.getJSONArray("similarRecipes");
-                    recipeDataManager.updateSimilarRecipe(recipeID, recipeJSONArray);
-                    recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+                    recipeDataManager.updateSimilarRecipe(recipeId, recipeJSONArray);
+                    recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
                     prepareRecipeDetailList(recipeRealmObject);
                     pagerImages = recipeRealmObject.getImages();
                     dataSetListener.onRecipeDetailDataUpdate();
@@ -222,7 +226,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private void addComments(RecipeRealmObject recipeRealmObject) {
         ListHeading commentsHeading = new ListHeading(context.getString(R.string.text_comments));
         commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
-        commentsHeading.setRecipeId(recipeID);
+        commentsHeading.setRecipeId(recipeId);
         recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
             if (!NetworkUtils.isNetworkConnected(context) || i == 3) {
@@ -231,7 +235,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
-        addCommentsHeading.setRecipeId(recipeID);
+        addCommentsHeading.setRecipeId(recipeId);
         recipeDetailItemsList.add(addCommentsHeading);
 
     }
@@ -256,18 +260,16 @@ public class RecipeDetailViewModel extends BaseViewModel {
             specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
             specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
         }
-
         if (recipeRealmObject.getCounter() != null) {
             specifications.setViewerCount(recipeRealmObject.getCounter().getViewed());
             specifications.setPrinted(recipeRealmObject.getCounter().getPrinted());
             specifications.setAddToCollections(recipeRealmObject.getCounter().getAddedToCollection());
         }
-
         return specifications;
     }
 
     public String getRecipeImageId() {
-        if(recipeRealmObject.getCreatedBy()!=null){
+        if (recipeRealmObject.getCreatedBy() != null) {
             return recipeRealmObject.getCreatedBy().getProfileImageId();
         }
         return null;
@@ -290,17 +292,26 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public void openCookBookScreen() {
-        context.startActivity(new Intent(context, CookBookActivity.class));
+        Intent i = new Intent(context, AddToCookBookActivity.class);
+        i.putExtra(Constants.RECIPE_ID, recipeId);
+        if(collectionMapping!=null){
+            i.putExtra(Constants.COLLECTION_MAPPING, collectionMapping.toString());
+        }
+        context.startActivity(i);
     }
 
     public void updateComments() {
-        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
+        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
         prepareRecipeDetailList(recipeRealmObject);
         dataSetListener.onRecipeDetailDataUpdate();
     }
 
     @Override
     protected void destroy() {
+    }
+
+    public JSONObject getCollectionMapping() {
+        return collectionMapping;
     }
 
 
@@ -352,7 +363,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                         Logger.d("imageUpload", copyJsonObject.toString());
                         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
                         String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-                        new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeID, requestBody, new IApiRequestComplete() {
+                        new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeId, requestBody, new IApiRequestComplete() {
                             @Override
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());

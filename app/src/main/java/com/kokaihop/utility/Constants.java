@@ -36,11 +36,12 @@ public class Constants {
 
 
     public static final String COUNTRY_CODE = "en";
-    public static final String MY_COOKBOOK = "myCookbook";
+    public static final String RECIPE_ID = "recipeId";
     public static final String COOKBOOK_FRIENDLY_URL = "cookbookFriendlyUrl";
     public static final String USER_FRIENDLY_URL = "userFriendlyUrl";
     public static final String COOKBOOK_TITLE = "cookbookTitle";
     public static final String FAVORITE_RECIPE_FRIENDLY_URL = "favoritrecept";
+    public static final String COLLECTION_MAPPING = "collectionMappings";
 
 
 }

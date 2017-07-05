@@ -1,4 +1,4 @@
-package com.kokaihop.userprofile;
+package com.kokaihop.recipedetail;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -15,19 +15,21 @@ import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
 
-public class CookbooksFragment extends Fragment {
+public class AddToCookbookFragment extends Fragment {
 
-    private CookbooksAdapter adapter;
-    private CookbooksViewModel viewModel;
+    private AddToCookbookAdapter adapter;
+    private AddToCookbookViewModel viewModel;
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     User user;
 
-    public CookbooksFragment() {
+    public AddToCookbookFragment() {
         // Required empty public constructor
+        user = User.getInstance();
     }
 
     @Override
@@ -40,17 +42,12 @@ public class CookbooksFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Bundle bundle = this.getArguments();
-        boolean myCookbook = false;
-        String userId = "";
-        String friendlyUrl = "";
-        if (bundle != null) {
-            userId = bundle.getString(Constants.USER_ID);
-            friendlyUrl = bundle.getString(Constants.FRIENDLY_URL);
-        }
-        user = new User();
-        viewModel = new CookbooksViewModel(this, getContext(), userId, friendlyUrl);
+        String friendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(),Constants.FRIENDLY_URL);
+        String collectionMapping = bundle.getString(Constants.COLLECTION_MAPPING);
+        String recipeId = bundle.getString(Constants.RECIPE_ID);
+        viewModel = new AddToCookbookViewModel(this, getContext());
         FragmentCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbooks, container, false);
-        adapter = new CookbooksAdapter(user.getCookbooks(), myCookbook, user, friendlyUrl);
+        adapter = new AddToCookbookAdapter(user.getCookbooks(),friendlyUrl, collectionMapping, recipeId);
         layoutManager = new CustomLinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;
         recyclerView.setLayoutManager(layoutManager);
@@ -67,9 +64,7 @@ public class CookbooksFragment extends Fragment {
     }
 
     //    notify the adapter about the chage in data.
-    public void showUserProfile(ArrayList<Cookbook> cookbooks) {
-//        adapter = new CookbooksAdapter(this, viewModel.getUser().getCookbooks(), false);
-//        recyclerView.setAdapter(adapter);
+    public void displayCookbooks(ArrayList<Cookbook> cookbooks) {
         user.getCookbooks().clear();
         user.getCookbooks().addAll(cookbooks);
         adapter.notifyDataSetChanged();
