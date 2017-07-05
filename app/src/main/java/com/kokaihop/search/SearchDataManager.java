@@ -191,6 +191,7 @@ public class SearchDataManager {
             Sort sort = Sort.ASCENDING;
             if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
 
+
 //                sortField = "rating.average";
 //                sort = Sort.DESCENDING;
 
@@ -200,13 +201,10 @@ public class SearchDataManager {
                 sort = Sort.DESCENDING;
 
             } else if (sortBy.equals(context.getResources().getString(R.string.popular))) {
-
-                //TODO:
                 sortField = "counter.viewed";
                 sort = Sort.DESCENDING;
 
             } else if (sortBy.equals(context.getResources().getString(R.string.recommended))) {
-                //TODO:
                 sortField = "counter.likes";
                 sort = Sort.DESCENDING;
 
