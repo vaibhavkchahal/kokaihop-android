@@ -168,6 +168,7 @@ public class SearchDataManager {
             query.endGroup();
         }
         recipeRealmResult = sortFilter(query, sortBy);
+
         RealmChangeListener realmChangeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
@@ -179,18 +180,19 @@ public class SearchDataManager {
             }
         };
         recipeRealmResult.addChangeListener(realmChangeListener);
+
     }
 
     private RealmResults<RecipeRealmObject> sortFilter(RealmQuery<RecipeRealmObject> query, String sortBy) {
-
         RealmResults<RecipeRealmObject> recipeRealmResult = null;
+
         if (!sortBy.isEmpty()) {
             String sortField = "title";
             Sort sort = Sort.ASCENDING;
             if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
 
-                sortField = "rating.average";
-                sort = Sort.DESCENDING;
+//                sortField = "rating.average";
+//                sort = Sort.DESCENDING;
 
             } else if (sortBy.equals(context.getResources().getString(R.string.comments))) {
 
@@ -200,11 +202,13 @@ public class SearchDataManager {
             } else if (sortBy.equals(context.getResources().getString(R.string.popular))) {
 
                 //TODO:
-                sortField = "rating.raters";
+                sortField = "counter.viewed";
                 sort = Sort.DESCENDING;
 
             } else if (sortBy.equals(context.getResources().getString(R.string.recommended))) {
                 //TODO:
+                sortField = "counter.likes";
+                sort = Sort.DESCENDING;
 
             } else if (sortBy.equals(context.getResources().getString(R.string.latest))) {
                 sortField = "dateCreated";
@@ -220,17 +224,14 @@ public class SearchDataManager {
             }
             Logger.e("time before query", new Date().toString());
             recipeRealmResult = query.findAllSortedAsync(sortField, sort);
-            Logger.e("time after query", new Date().toString());
 
 
         } else {
             Logger.e("time before query", new Date().toString());
             recipeRealmResult = query.findAllAsync();
-            Logger.e("time before query", new Date().toString());
-
-
         }
         return recipeRealmResult;
+
     }
 
 

@@ -159,6 +159,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final View view, String title, final SearchViewModel.FilterType filterType) {
+        AppUtility.hideKeyboard(binding.searchviewRecipe);
         if (bindingSearchBottomSheetDialog == null) {
             bindingSearchBottomSheetDialog = DataBindingUtil.
                     inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
@@ -205,7 +206,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             }
         });
         filterDialog.show();
-
     }
 
 
