@@ -3,6 +3,7 @@ package com.kokaihop.search;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -40,14 +41,18 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private ActivitySearchBinding binding;
     private SearchViewModel searchViewModel;
     private RecyclerView recyclerViewRecentSearch;
+    private DialogSearchFilterBinding bindingSearchBottomSheetDialog;
+    private BottomSheetDialog filterDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+
         initializeSearchView();
         initialiseSuggestionView();
         intilizeRecyclerView();
+        binding.coordinatorLyt.requestFocus();
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +79,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showRecipesList(List<Object> recipeList) {
+        alreadyQuerying = false;
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
         binding.included.linearlytRecentSearch.setVisibility(View.GONE);
         binding.included.rvRecipes.setVisibility(View.VISIBLE);
@@ -153,11 +159,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showFilterDialog(List<FilterData> filterDataList, String selectedFilter, final View view, String title, final SearchViewModel.FilterType filterType) {
-        DialogSearchFilterBinding binding = DataBindingUtil.
-                inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
-        final BottomSheetDialog filterDialog = setDialogConfigration(binding);
-        binding.textviewTitle.setText(title);
-        RecyclerView recylRecyclerViewFilter = binding.recyclerViewFilter;
+        if (bindingSearchBottomSheetDialog == null) {
+            bindingSearchBottomSheetDialog = DataBindingUtil.
+                    inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
+            filterDialog = setDialogConfigration(bindingSearchBottomSheetDialog);
+        }
+
+        bindingSearchBottomSheetDialog.textviewTitle.setText(title);
+        RecyclerView recylRecyclerViewFilter = bindingSearchBottomSheetDialog.recyclerViewFilter;
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recylRecyclerViewFilter.setLayoutManager(layoutManager);
@@ -182,14 +191,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                             //SortBy selected
                             view.setTag(filterData.getName());
                         }
+                        filterDialog.dismiss();
                         searchViewModel.setCurrentSelectedFilter(filterData, filterType);
                         searchViewModel.search();
-                        filterDialog.dismiss();
                     }
                 });
 
         recylRecyclerViewFilter.setAdapter(searchFilterAdapter);
-        binding.textviewClose.setOnClickListener(new View.OnClickListener() {
+        bindingSearchBottomSheetDialog.textviewClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filterDialog.dismiss();
@@ -202,17 +211,21 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showWithImageDialog(View childView, View view, boolean selected, String msg) {
-        if (selected) {
-            view.setBackgroundResource(R.drawable.search_tag_orange);
-            childView.setBackgroundResource(R.drawable.ic_picture);
+        if (!alreadyQuerying) {
+            if (selected) {
+                view.setBackgroundResource(R.drawable.search_tag_orange);
+                childView.setBackgroundResource(R.drawable.ic_picture);
 
-        } else {
-            view.setBackgroundResource(R.drawable.search_tag_white);
-            childView.setBackgroundResource(R.drawable.ic_picture_unselected);
+            } else {
+                view.setBackgroundResource(R.drawable.search_tag_white);
+                childView.setBackgroundResource(R.drawable.ic_picture_unselected);
+            }
+            searchViewModel.setWithImage(selected);
+            searchViewModel.search();
+            AppUtility.showAutoCancelMsgDialog(SearchActivity.this, msg);
+            alreadyQuerying = true;
         }
-        searchViewModel.setWithImage(selected);
-        searchViewModel.search();
-        AppUtility.showAutoCancelMsgDialog(SearchActivity.this, msg);
+
 
     }
 
@@ -247,6 +260,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         updateSearchSuggestions(searchViewModel.getSearchSuggestion());
         searchViewModel.setSearchKeyword(query);
         searchViewModel.search();
+        handler.removeCallbacks(input_finish_checker);
         /*if(!query.isEmpty() && query.length()>3)
         {
 
@@ -260,15 +274,37 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     public boolean onQueryTextChange(String newText) {
         Logger.e("new text", newText);
         if (!TextUtils.isEmpty(newText) && newText.length() > 2) {
-            searchViewModel.addSearchSuggestion(newText);
-            searchViewModel.setSearchKeyword(newText);
-            searchViewModel.search();
+            searchText = newText;
+            lastEditedText = System.currentTimeMillis();
+            searchViewModel.setSearchKeyword(searchText);
+            handler.postDelayed(input_finish_checker, delay);
+
         } else {
+            searchViewModel.setSearchKeyword("");
             binding.included.linearlytNewlyAddedRecipe.setVisibility(View.VISIBLE);
             binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
             binding.included.rvRecipes.setVisibility(View.GONE);
         }
 
-        return false;
+        return true;
     }
+
+    private long delay = 1000; // 1 seconds after user stops typing
+    private long lastEditedText = 0;
+    private Handler handler = new Handler();
+    private String searchText;
+    private boolean alreadyQuerying = false;
+
+    private Runnable input_finish_checker = new Runnable() {
+        public void run() {
+            if (System.currentTimeMillis() > (lastEditedText + delay - 500)) {
+                if (!alreadyQuerying) {
+                    alreadyQuerying = true;
+                    searchViewModel.search();
+                }
+
+
+            }
+        }
+    };
 }

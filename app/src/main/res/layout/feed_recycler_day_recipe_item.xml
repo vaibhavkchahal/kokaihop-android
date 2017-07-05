@@ -5,7 +5,7 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.text.TextUtils"/>
-        <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
+        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
         <variable name="feedImageUrl" type="String"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
         <variable name="badgeType" type="com.kokaihop.utility.ApiConstants.BadgeType"/>
@@ -44,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/padding_left_recipe_type"
                     android:paddingTop="@dimen/padding_top_recipe_type"
-                    android:text="@{recipe.badgeType}"
+                    android:text="@{(TextUtils.equals(recipe.badgeType, badgeType.MAIN_COURSE_OF_THE_DAY.value) ? @string/main_course_of_the_day : TextUtils.equals(recipe.badgeType, badgeType.APPETIZER_OF_THE_DAY.value) ? @string/appetizer_of_the_day : TextUtils.equals(recipe.badgeType, badgeType.COOKIE_OF_THE_DAY.value) ? @string/cookie_of_the_day : TextUtils.equals(recipe.badgeType, badgeType.DESSERT_OF_THE_DAY.value) ? @string/desert_of_the_day:TextUtils.equals(recipe.badgeType, badgeType.VEGETARIAN_OF_THE_DAY.value) ? @string/vegetarian_of_the_day:``)}"
+                    android:textAllCaps="true"
                     android:textColor="@color/grey_FF71767F"
                     android:textSize="@dimen/textsize_recipe_type"
                     bind:font="@{`SS-ProRegular`}"/>

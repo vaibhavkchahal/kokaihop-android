@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 
 import com.altaworks.kokaihop.ui.BR;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.Constants;
@@ -38,7 +39,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     private boolean isDownloading;
 
-    private List<Recipe> recipeList = new ArrayList<>();
+    private List<RecipeRealmObject> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
 
     public List<Object> getRecipeListWithAdds() {

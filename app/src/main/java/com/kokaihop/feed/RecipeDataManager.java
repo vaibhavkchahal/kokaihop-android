@@ -34,15 +34,17 @@ public class RecipeDataManager {
         realm = Realm.getDefaultInstance();
     }
 
-    public List<Recipe> fetchRecipe(ApiConstants.BadgeType badgeType) {
+    public List<RecipeRealmObject> fetchRecipe(ApiConstants.BadgeType badgeType) {
         RealmResults<RecipeRealmObject> recipeRealmObjectList = realm.where(RecipeRealmObject.class)
                 .equalTo("badgeType", badgeType.value)
                 .findAllSorted("badgeDateCreated", Sort.DESCENDING);
-        List<Recipe> recipeList = new ArrayList<>(recipeRealmObjectList.size());
+      /*  List<Recipe> recipeList = new ArrayList<>(recipeRealmObjectList.size());
         for (RecipeRealmObject recipeRealmObject : recipeRealmObjectList) {
             recipeList.add(getRecipe(recipeRealmObject));
         }
-        return recipeList;
+                return recipeRealmObjectList;
+        */
+        return realm.copyFromRealm(recipeRealmObjectList);
     }
 
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
@@ -117,7 +119,7 @@ public class RecipeDataManager {
         return counterRealmObject;
     }
 
-    public void updateIsFavoriteInDB(final boolean checked, final Recipe recipe) {
+    public void updateIsFavoriteInDB(final boolean checked, final RecipeRealmObject recipe) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -129,7 +131,7 @@ public class RecipeDataManager {
     }
 
 
-    public void updateLikesCount(final Recipe recipe, final long likes) {
+    public void updateLikesCount(final RecipeRealmObject recipe, final long likes) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

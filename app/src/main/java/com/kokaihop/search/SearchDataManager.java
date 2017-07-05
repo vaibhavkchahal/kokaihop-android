@@ -8,7 +8,6 @@ import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
-import com.kokaihop.feed.Recipe;
 import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
@@ -22,6 +21,7 @@ import java.util.Map;
 
 import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -33,7 +33,7 @@ import io.realm.Sort;
 public class SearchDataManager {
     private final int MAX_SUGGESTIONS = 4;
     private Context context;
-
+    private RealmResults<RecipeRealmObject> recipeRealmResult;
 
     private Realm realm;
 
@@ -121,32 +121,33 @@ public class SearchDataManager {
 
     }
 
-    public List<Recipe> fetchNewlyAddedRecipe(boolean withImage) {
-        Realm realm = Realm.getDefaultInstance();
+    public void fetchNewlyAddedRecipe(boolean withImage, final OnCompleteListener onCompleteListener) {
         RealmQuery<RecipeRealmObject> query = realm.where(RecipeRealmObject.class);
         if (withImage) {
             query.isNotNull("mainImage");
         }
         Logger.e("time before query", new Date().toString());
-        RealmResults<RecipeRealmObject> recipeRealmResult = query.findAllSorted("dateCreated", Sort.DESCENDING);
-        Logger.e("time after query", new Date().toString());
 
-        List<Recipe> recipeList = new ArrayList<>(recipeRealmResult.size());
-        for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
-            recipeList.add(getRecipe(recipeRealmObject));
-        }
-        Logger.e("time after recipe", new Date().toString());
+        recipeRealmResult = query.findAllSortedAsync("dateCreated", Sort.DESCENDING);
+        RealmChangeListener realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                if (recipeRealmResult != null) {
+                    Logger.e("time after query", new Date().toString());
 
-        return recipeList;
+                    onCompleteListener.onSearchComplete(recipeRealmResult);
+                    recipeRealmResult.removeAllChangeListeners();
 
-
+                }
+            }
+        };
+        recipeRealmResult.addChangeListener(realmChangeListener);
     }
 
-    public List<Recipe> selectedFiltersSearchQuery(Map<String, String> filterMap, boolean withImage, String sortBy, String keyword) {
+    public void selectedFiltersSearchQuery(Map<String, String> filterMap, boolean withImage,
+                                           String sortBy, String keyword, final OnCompleteListener onCompleteListener) {
         RealmQuery<RecipeRealmObject> query;
-        Realm realm = Realm.getDefaultInstance();
         query = realm.where(RecipeRealmObject.class);
-
         if (keyword != null && !keyword.isEmpty()) {
             query = query.contains("title", keyword, Case.INSENSITIVE).or().contains("ingredients.name", keyword, Case.INSENSITIVE);
         }
@@ -166,14 +167,18 @@ public class SearchDataManager {
             }
             query.endGroup();
         }
-        final RealmResults<RecipeRealmObject> recipeRealmResult = sortFilter(query, sortBy);
-        List<Recipe> recipeList = new ArrayList<>(recipeRealmResult.size());
-        for (RecipeRealmObject recipeRealmObject : recipeRealmResult) {
-            recipeList.add(getRecipe(recipeRealmObject));
-        }
-        Logger.e("time after recipe", new Date().toString());
-
-        return recipeList;
+        recipeRealmResult = sortFilter(query, sortBy);
+        RealmChangeListener realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                if (recipeRealmResult != null) {
+                    Logger.e("time after query", new Date().toString());
+                    onCompleteListener.onSearchComplete(recipeRealmResult);
+                    recipeRealmResult.removeAllChangeListeners();
+                }
+            }
+        };
+        recipeRealmResult.addChangeListener(realmChangeListener);
     }
 
     private RealmResults<RecipeRealmObject> sortFilter(RealmQuery<RecipeRealmObject> query, String sortBy) {
@@ -214,13 +219,13 @@ public class SearchDataManager {
 
             }
             Logger.e("time before query", new Date().toString());
-            recipeRealmResult = query.findAllSorted(sortField, sort);
+            recipeRealmResult = query.findAllSortedAsync(sortField, sort);
             Logger.e("time after query", new Date().toString());
 
 
         } else {
             Logger.e("time before query", new Date().toString());
-            recipeRealmResult = query.findAll();
+            recipeRealmResult = query.findAllAsync();
             Logger.e("time before query", new Date().toString());
 
 
@@ -229,37 +234,6 @@ public class SearchDataManager {
     }
 
 
-    public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
-        Recipe recipe = new Recipe();
-        recipe.set_id(recipeRealmObject.get_id());
-        recipe.setTitle(recipeRealmObject.getTitle());
-        recipe.setType(recipeRealmObject.getType());
-        if(recipeRealmObject.getCreatedBy()!=null)
-        {
-            recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
-            recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
-            recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
-        }
-        recipe.setCoverImage(recipeRealmObject.getCoverImage());
-        if (recipeRealmObject.getMainImage() != null) {
-            recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
-        }
-        recipe.setFavorite(recipeRealmObject.isFavorite());
-        if(recipeRealmObject.getCounter()!=null)
-        {
-            recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
-        }
-        if (recipeRealmObject.getRating() != null) {
-            recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
-            recipe.setComments(recipeRealmObject.getCounter().getComments());
-        }
-        recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
-        recipe.setBadgeType(recipeRealmObject.getBadgeType());
-        recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
-        return recipe;
-
-    }
-
     public ArrayList<SearchSuggestionRealmObject> fetchSuggestionsKeyword() {
         RealmResults<SearchSuggestionRealmObject> realmResult = realm.where(SearchSuggestionRealmObject.class).findAll().sort("timeStamp", Sort.DESCENDING);
         ArrayList<SearchSuggestionRealmObject> historyRealmObjects = (ArrayList<SearchSuggestionRealmObject>) realm.copyFromRealm(realmResult);
@@ -267,7 +241,7 @@ public class SearchDataManager {
     }
 
 
-    public interface SearchResult {
-        void onSearchComplete(List<Recipe> recipeList);
+    public interface OnCompleteListener {
+        void onSearchComplete(List<RecipeRealmObject> recipeList);
     }
 }

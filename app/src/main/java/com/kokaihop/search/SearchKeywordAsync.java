@@ -3,7 +3,7 @@ package com.kokaihop.search;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.kokaihop.feed.Recipe;
+import com.kokaihop.database.RecipeRealmObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Rajendra Singh on 9/6/17.
  */
 
-public class SearchKeywordAsync extends AsyncTask<Void, Void, List<Recipe>> {
+public class SearchKeywordAsync extends AsyncTask<Void, Void, List<RecipeRealmObject>> {
     private HashMap<String, String> filterMap;
     private Context context;
     private OnCompleteListener onCompleteListener;
@@ -54,14 +54,14 @@ public class SearchKeywordAsync extends AsyncTask<Void, Void, List<Recipe>> {
     }
 
     @Override
-    protected List<Recipe> doInBackground(Void... params) {
-        List<Recipe> recipeList = null;
+    protected List<RecipeRealmObject> doInBackground(Void... params) {
+        List<RecipeRealmObject> recipeList = null;
         switch (query_type) {
             case SEARCH:
-                recipeList = searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword);
+//                recipeList = searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword);
                 break;
             case NEWLY_ADDED_RECIPE:
-                recipeList = searchDataManager.fetchNewlyAddedRecipe(withImage);
+//                recipeList = searchDataManager.fetchNewlyAddedRecipe(withImage);
                 break;
         }
         return recipeList;
@@ -74,7 +74,7 @@ public class SearchKeywordAsync extends AsyncTask<Void, Void, List<Recipe>> {
     }
 
     @Override
-    protected void onPostExecute(List<Recipe> uploadResult) {
+    protected void onPostExecute(List<RecipeRealmObject> uploadResult) {
         onCompleteListener.onSearchComplete(uploadResult);
 
     }
@@ -84,6 +84,6 @@ public class SearchKeywordAsync extends AsyncTask<Void, Void, List<Recipe>> {
      * Inteface for the caller
      */
     public interface OnCompleteListener {
-        void onSearchComplete(List<Recipe> recipeList);
+        void onSearchComplete(List<RecipeRealmObject> recipeList);
     }
 }
