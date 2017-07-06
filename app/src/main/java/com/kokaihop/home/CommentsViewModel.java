@@ -62,7 +62,7 @@ public class CommentsViewModel extends BaseViewModel {
     public CommentsViewModel(CommentDatasetListener dataSetListener) {
         recipeDataManager = new RecipeDataManager();
         this.commentListener = dataSetListener;
-        fetchCommentsFromDB();
+        fetchCommentsFromDB(-1);
         fetchCommentFromServer(getOffset(), 0, true);
     }
 
@@ -84,11 +84,11 @@ public class CommentsViewModel extends BaseViewModel {
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     JSONObject json = new JSONObject(responseBody.string());
-//                    totalCommentCount = json.getInt("totalItems");
+                    int itemCount = json.getInt("totalItems");
                     JSONArray commentsJSONArray =
                             json.getJSONArray("comments");
                     recipeDataManager.updateRandomCommentsList(commentsJSONArray);
-                    fetchCommentsFromDB();
+                    fetchCommentsFromDB(commentsJSONArray.length());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -108,15 +108,11 @@ public class CommentsViewModel extends BaseViewModel {
         });
     }
 
-    private void fetchCommentsFromDB() {
+    private void fetchCommentsFromDB(int itemCount) {
         commentsList.clear();
         commentsList.addAll(recipeDataManager.fetchRandomCommentList());
         totalCommentCount = recipeDataManager.fetchRandomCommentList().size();
-        commentListener.onUpdateCommentsList();
-    }
-
-    public void updateComments() {
-        fetchCommentsFromDB();
+        commentListener.onUpdateCommentsList(itemCount);
     }
 
     @Override
@@ -124,7 +120,7 @@ public class CommentsViewModel extends BaseViewModel {
     }
 
     public interface CommentDatasetListener {
-        void onUpdateCommentsList();
+        void onUpdateCommentsList(int itemCount);
     }
 
     public void onBackPressed(View view) {

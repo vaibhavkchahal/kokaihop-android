@@ -45,6 +45,18 @@
                 android:layout_height="match_parent"/>
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <TextView
+            android:id="@+id/txtview_new_comment_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relative_layout_toolbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:background="@color/kokaihop_orange_color"
+            android:padding="10dp"
+            android:text="Nya Kommentater"
+            android:textColor="@color/white"/>
+
         <ProgressBar
             android:id="@+id/progressBar_bottom"
             style="?android:attr/progressBarStyle"

@@ -67,6 +67,10 @@ public class FollowingFragment extends Fragment implements UserDataListener {
                 followingAdapter.notifyDataSetChanged();
             }
 
+            @Override
+            public void getScrolledState(RecyclerView recyclerView) {
+            }
+
         });
     }
 

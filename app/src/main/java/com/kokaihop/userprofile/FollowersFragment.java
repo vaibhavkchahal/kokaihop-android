@@ -48,20 +48,22 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         followersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
         followers = new ArrayList<>();
         FollowersFollowingList.getFollowersList().getUsers().clear();
-        followersViewModel = new FollowersFollowingViewModel(this, getContext(),userId);
+        followersViewModel = new FollowersFollowingViewModel(this, getContext(), userId);
         followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
         layoutManager = new CustomLinearLayoutManager(this.getContext());
-
         recyclerView = followersBinding.rvFollowerFollowingList;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);
         followersViewModel.getFollowers(0);
-
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
                 if (followersViewModel.getOffset() + followersViewModel.getMax() <= followersViewModel.getTotalFollowers())
                     followersViewModel.getFollowers(followersViewModel.getOffset() + followersViewModel.getMax());
+            }
+
+            @Override
+            public void getScrolledState(RecyclerView recyclerView) {
             }
         });
         return followersBinding.getRoot();
@@ -73,7 +75,6 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     public void showUserProfile() {
         followersAdapter.notifyDataSetChanged();
         ArrayList<String> usersFollowing = User.getInstance().getFollowing();
-
         followers = FollowersFollowingList.getFollowersList().getUsers();
         for (FollowingFollowerUser user : followers) {
             if (!usersFollowing.contains(user.get_id())) {
@@ -84,7 +85,7 @@ public class FollowersFragment extends Fragment implements UserDataListener {
 
     @Override
     public void followToggeled() {
-        if(getParentFragment() instanceof UserProfileFragment){
+        if (getParentFragment() instanceof UserProfileFragment) {
             ((UserProfileFragment) getParentFragment()).setNotificationCount();
         }
     }

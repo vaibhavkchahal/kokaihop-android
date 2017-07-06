@@ -73,6 +73,10 @@ public class MyCookbooksFragment extends Fragment {
                     if (viewModel.getOffset() + viewModel.getMax() <= viewModel.getTotalCount())
                         viewModel.getCookbooksOfUser(viewModel.getOffset() + viewModel.getMax());
                 }
+
+                @Override
+                public void getScrolledState(RecyclerView recyclerView) {
+                }
             });
 
             binding.srlCookbooks.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

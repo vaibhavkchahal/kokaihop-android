@@ -61,6 +61,10 @@ public class CookbookDetailFragment extends Fragment {
                 if (viewModel.getOffset() + viewModel.getMax() <= viewModel.getTotalRecipes())
                     viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, viewModel.getOffset() + viewModel.getMax());
             }
+
+            @Override
+            public void getScrolledState(RecyclerView recyclerView) {
+            }
         });
         return binding.getRoot();
     }
