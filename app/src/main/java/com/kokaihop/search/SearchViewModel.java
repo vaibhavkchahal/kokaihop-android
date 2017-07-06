@@ -34,6 +34,7 @@ import okhttp3.ResponseBody;
 
 public class SearchViewModel extends BaseViewModel {
     private final DataSetListener dataSetListener;
+    private final Context context;
     private SearchDataManager searchDataManager;
     private List<FilterData> categoriesList;
     private List<FilterData> cuisineList;
@@ -78,6 +79,7 @@ public class SearchViewModel extends BaseViewModel {
 
     public SearchViewModel(DataSetListener dataSetListener, Context context) {
         this.dataSetListener = dataSetListener;
+        this.context = context;
         searchDataManager = new SearchDataManager(context);
         fetchCategories();
         fetchCookingMethods();
@@ -233,8 +235,11 @@ public class SearchViewModel extends BaseViewModel {
                 filterDataAll.setName(sortBy);
                 sortByList.add(filterDataAll);
             }
-
-            previousSelected = sortByList.get(0).getName();
+            if (sortBy.isEmpty()) {
+                previousSelected = sortByList.get(0).getName();
+            } else {
+                previousSelected = sortBy;
+            }
         }
         if (view.getTag() != null) {
             previousSelected = view.getTag().toString();
@@ -346,7 +351,6 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void search() {
-        setProgressVisible(true);
         HashMap<String, String> filterMap = new HashMap<>();
         if (courseFriendlyUrl != null && !courseFriendlyUrl.isEmpty()) {
             filterMap.put("category.friendlyUrl", courseFriendlyUrl);
@@ -360,14 +364,24 @@ public class SearchViewModel extends BaseViewModel {
 
         }
 
-        searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword, new SearchDataManager.OnCompleteListener() {
-            @Override
-            public void onSearchComplete(List<RecipeRealmObject> recipeList) {
-                setProgressVisible(false);
-                List<Object> recipeListwithAds = insertAdsInList(recipeList);
-                dataSetListener.showRecipesList(recipeListwithAds);
+        if (filterMap.isEmpty() && sortBy.isEmpty() && searchKeyword.isEmpty()) {
+            dataSetListener.showSuggestionView();
+
+        } else {
+            setProgressVisible(true);
+            if (sortBy.isEmpty()) {
+                sortBy = context.getResources().getString(R.string.best_rating);
             }
-        });
+            searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword,
+                    new SearchDataManager.OnCompleteListener() {
+                        @Override
+                        public void onSearchComplete(List<RecipeRealmObject> recipeList) {
+                            setProgressVisible(false);
+                            List<Object> recipeListwithAds = insertAdsInList(recipeList);
+                            dataSetListener.showRecipesList(recipeListwithAds);
+                        }
+                    });
+        }
     }
 
     public interface DataSetListener {
@@ -378,6 +392,8 @@ public class SearchViewModel extends BaseViewModel {
         void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList);
 
         void showRecipesList(List<Object> recipeList);
+
+        void showSuggestionView();
     }
 
 

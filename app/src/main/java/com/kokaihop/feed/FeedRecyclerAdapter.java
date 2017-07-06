@@ -135,7 +135,15 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if (recipeRealmObject.getCreatedBy() != null) {
                     viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipeRealmObject.getCreatedBy().getProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
                 }
+                if (isFromSearchedView()) {
+                    viewHolderRecipe.binder.tvRecipeDate.setVisibility(View.GONE);
+                }
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
+                if (recipeRealmObject.getRating() != null) {
+                    Logger.e("rating average", recipeRealmObject.getRating().getAverage() + "");
+                    Logger.e("rating average", recipeRealmObject.getRating().getRaters() + "");
+                }
+
                 viewHolderRecipe.binder.setPosition(position);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
