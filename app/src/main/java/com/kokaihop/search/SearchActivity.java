@@ -56,6 +56,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                searchViewModel.setSortBy(getString(R.string.latest));
                 searchViewModel.fetchNewlyAddedRecipeWithAds();
             }
         });
@@ -110,6 +111,13 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         );
         rvRecipes.setLayoutManager(layoutManager);
         rvRecipes.setAdapter(recyclerAdapter);
+    }
+
+    @Override
+    public void showSuggestionView() {
+        binding.included.linearlytNewlyAddedRecipe.setVisibility(View.VISIBLE);
+        binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
+        binding.included.rvRecipes.setVisibility(View.GONE);
     }
 
     private void initialiseSuggestionView() {
@@ -183,11 +191,26 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                             if (filterData.getName().equals(getString(R.string.all))) {
                                 textView.setBackgroundResource(R.drawable.search_tag_white);
                                 textView.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.grey_FF8D929C));
+                                String label = "";
+                                switch (filterType) {
+                                    case COURSE:
+                                        label = getString(R.string.label_course);
+                                        break;
+                                    case CUISINE:
+                                        label = getString(R.string.label_cuisine);
+
+                                        break;
+                                    case METHOD:
+                                        label = getString(R.string.label_method);
+                                        break;
+                                }
+                                textView.setText(label);
                             } else {
                                 textView.setBackgroundResource(R.drawable.search_tag_orange);
                                 textView.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+                                textView.setText(filterData.getName());
+
                             }
-                            textView.setText(filterData.getName());
                         } else {
                             //SortBy selected
                             view.setTag(filterData.getName());
@@ -221,9 +244,11 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 childView.setBackgroundResource(R.drawable.ic_picture_unselected);
             }
             searchViewModel.setWithImage(selected);
-            searchViewModel.search();
+            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE) {
+                searchViewModel.search();
+                alreadyQuerying = true;
+            }
             AppUtility.showAutoCancelMsgDialog(SearchActivity.this, msg);
-            alreadyQuerying = true;
         }
 
 
