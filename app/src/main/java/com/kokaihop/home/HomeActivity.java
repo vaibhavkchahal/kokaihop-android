@@ -98,6 +98,9 @@ public class HomeActivity extends BaseActivity {
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+                        if(tabLayout.getSelectedTabPosition()==1){
+                            refreshFragment(1);
+                        }
             }
 
             @Override
