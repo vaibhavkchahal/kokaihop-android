@@ -154,7 +154,7 @@
                     android:layout_toRightOf="@+id/txtview_creator"
                     android:drawableLeft="@drawable/ic_separate_dot"
                     android:drawablePadding="10dp"
-                    android:text="@{DateTimeUtils.getDate(Long.valueOf(model.dateCreated),`dd MMM yyyy`)}"
+                    android:text="@{DateTimeUtils.getRelativeTimeDisplayDate(context,Long.valueOf(model.dateCreated))}"
                     android:textColor="@color/grey_FF8E8E93"
                     android:textSize="@dimen/coment_text_botom_tetsize"
                     bind:font="@{`SS-ProRegular`}"/>
