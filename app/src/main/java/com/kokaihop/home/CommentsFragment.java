@@ -46,7 +46,7 @@ public class CommentsFragment extends Fragment implements CommentsViewModel.Comm
             binding.txtviewNewCommentView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    binding.rvRecipeComments.smoothScrollToPosition(0);
+                    binding.rvRecipeComments.scrollToPosition(0);
                     v.setVisibility(View.GONE);
                 }
             });
@@ -99,14 +99,13 @@ public class CommentsFragment extends Fragment implements CommentsViewModel.Comm
         commentsViewModel.fetchCommentFromServer(offset, Long.valueOf(afterDateCreated), false);
     }
 
-
     @Override
     public void onUpdateCommentsList(int itemCount) {
         RecyclerView recyclerView = binding.rvRecipeComments;
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            if (layoutManager.findFirstVisibleItemPosition() > 0 && binding.swipeRefreshLayout.isRefreshing() && itemCount > 0) {
+            if (layoutManager.findFirstVisibleItemPosition() > 0 && binding.swipeRefreshLayout.isRefreshing()) {
                 binding.txtviewNewCommentView.setVisibility(View.VISIBLE);
             } else {
                 binding.txtviewNewCommentView.setVisibility(View.GONE);
