@@ -1,13 +1,9 @@
 package com.kokaihop.cookbooks;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +20,7 @@ import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.InputDialog;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import org.json.JSONArray;
@@ -120,21 +117,23 @@ public class MyCookbooksViewModel extends BaseViewModel {
     }
 
     public void createNewCookbook() {
-        final Dialog dialog = new Dialog(fragment.getContext());
-        dialog.setContentView(R.layout.dialog_new_cookbook);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        dialog.findViewById(R.id.create_cookbbok).setOnClickListener(new View.OnClickListener() {
+        final InputDialog dialog = new InputDialog(fragment.getContext());
+        dialog.setupDialog(
+                context.getString(R.string.create_new_cookbook),
+                context.getString(R.string.cookbook_name),
+                context.getString(R.string.create),
+                context.getString(R.string.cancel));
+
+        dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                String name = ((EditText) dialog.findViewById(R.id.cookbook_name)).getText().toString();
+                String name = ((EditText) dialog.findViewById(R.id.dialog_text)).getText().toString();
                 createCookbook(name);
             }
         });
 
-        dialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+        dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -144,7 +143,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
 
     }
 
-//    API call for the new cookbook created by user.
+    //    API call for the new cookbook created by user.
     public void createCookbook(String cookbookName) {
         String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
@@ -172,7 +171,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
 
     }
 
-    public void showLoginDialog(){
+    public void showLoginDialog() {
         AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.cookbook_login_msg));
     }
 

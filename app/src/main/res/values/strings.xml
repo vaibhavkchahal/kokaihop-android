@@ -263,5 +263,11 @@
     <string name="recipe_added_to_cookbook">Recipe added to cookbook successfully</string>
     <string name="recipe_removed_from_cookbook">Recipe removed from the cookbook successfully
     </string>
+    <string name="edit">Edit</string>
+    <string name="rename">Rename</string>
+    <string name="delete_cookbook">Delete Cookbook</string>
+    <string name="ok">Ok</string>
+    <string name="confirm">Confirm</string>
+    <string name="kokaihop_dialog">Kokaihop Dialog</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.kokaihop.cookbooks;
 import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
 import com.kokaihop.cookbooks.model.RemoveFromCookbookRequest;
+import com.kokaihop.cookbooks.model.RenameCookbookRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
@@ -43,6 +44,11 @@ public class CookbooksApiHelper {
 
     public void removeFromCookbook(String accessToken, RemoveFromCookbookRequest removeFromCookbookRequest, IApiRequestComplete successInterface) {
         Call<ResponseBody> addToCookbook = cookbooksApi.removeFromCookbook(accessToken, removeFromCookbookRequest);
+        addToCookbook.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+    }
+
+    public void renameCookbook(String accessToken,String cookbookId, RenameCookbookRequest renameCookbookRequest, IApiRequestComplete successInterface) {
+        Call<ResponseBody> addToCookbook = cookbooksApi.renameCookbook(accessToken,cookbookId,renameCookbookRequest);
         addToCookbook.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 }

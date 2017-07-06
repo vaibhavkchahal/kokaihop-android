@@ -10,26 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/dialog_cookbook_title"
+            android:id="@+id/dialog_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/dialog_new_cookbook_title_margin_top"
             android:gravity="center"
-            android:text="@string/create_new_cookbook"
-            android:textSize="@dimen/text_size_large"
+            android:text="@string/kokaihop_dialog"
             android:textColor="@color/black"
+            android:textSize="@dimen/text_size_large"
             app:font="@{`SS-ProRegular`}"/>
         <EditText
-            android:id="@+id/cookbook_name"
+            android:id="@+id/dialog_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_new_cookbook_name_height"
-            android:layout_below="@+id/dialog_cookbook_title"
+            android:layout_below="@+id/dialog_title"
             android:layout_marginEnd="@dimen/dialog_new_cookbook_name_margin"
             android:layout_marginStart="@dimen/dialog_new_cookbook_name_margin"
             android:layout_marginTop="@dimen/dialog_new_cookbook_name_margin"
             android:background="@drawable/round_corner_layout"
-            android:hint="@string/cookbook_name"
             android:inputType="textPersonName"
             android:padding="@dimen/dialog_new_cookbook_name_padding"
             android:textSize="@dimen/text_size_medium"
@@ -37,18 +36,18 @@
 
         <View android:layout_width="match_parent"
               android:layout_height="@dimen/divider_height"
-              android:layout_below="@+id/cookbook_name"
+              android:layout_below="@+id/dialog_text"
               android:layout_marginTop="@dimen/dialog_new_cookbook_name_margin"
               android:background="@color/colorPrimary"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_new_cookbook_button_height"
-            android:layout_below="@+id/cookbook_name"
+            android:layout_below="@+id/dialog_text"
             android:layout_marginTop="@dimen/dialog_new_cookbook_button_margin_top"
             android:weightSum="2">
             <TextView
-                android:id="@+id/cancel"
+                android:id="@+id/negative"
                 android:layout_width="@dimen/none"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -60,17 +59,16 @@
             <View android:layout_width="@dimen/divider_height"
                   android:layout_height="match_parent"
                   android:background="@color/colorPrimary"/>
+
             <TextView
-                android:id="@+id/create_cookbbok"
+                android:id="@+id/positive"
                 android:layout_width="@dimen/none"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/create"
+                android:text="@string/confirm"
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>
-
-
         </LinearLayout>
 
     </RelativeLayout>

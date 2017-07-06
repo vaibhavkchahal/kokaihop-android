@@ -225,7 +225,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private void addComments(RecipeRealmObject recipeRealmObject) {
         ListHeading commentsHeading = new ListHeading(context.getString(R.string.text_comments));
-        commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
+        if(recipeRealmObject.getCounter()!=null){
+            commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
+        }
         commentsHeading.setRecipeId(recipeId);
         recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {

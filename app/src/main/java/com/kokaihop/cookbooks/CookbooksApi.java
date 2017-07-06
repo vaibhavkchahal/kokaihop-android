@@ -3,6 +3,7 @@ package com.kokaihop.cookbooks;
 import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
 import com.kokaihop.cookbooks.model.RemoveFromCookbookRequest;
+import com.kokaihop.cookbooks.model.RenameCookbookRequest;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -40,6 +41,11 @@ public interface CookbooksApi {
 
     @POST("/v1/api/recipeCollections/removeRecipesFromCollection")
     Call<ResponseBody> removeFromCookbook(@Header("Authorization") String accessToken,
-                                     @Body RemoveFromCookbookRequest addToCookbookRequest);
+                                          @Body RemoveFromCookbookRequest addToCookbookRequest);
+
+    @POST("/v1/api/recipeCollections/{cookbookId}")
+    Call<ResponseBody> renameCookbook(@Header("Authorization") String accessToken,
+                                      @Path("cookbookId") String cookbookId,
+                                      @Body RenameCookbookRequest renameCookbookRequest);
 
 }

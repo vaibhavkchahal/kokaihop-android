@@ -77,7 +77,7 @@ public class HomeActivity extends BaseActivity {
         userProfileFragment = new UserProfileFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
-        bundle.putString(Constants.FRIENDLY_URL,SharedPrefUtils.getSharedPrefStringData(this,Constants.FRIENDLY_URL));
+        bundle.putString(Constants.FRIENDLY_URL, SharedPrefUtils.getSharedPrefStringData(this, Constants.FRIENDLY_URL));
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
 
         MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();
@@ -176,7 +176,9 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -190,7 +192,7 @@ public class HomeActivity extends BaseActivity {
         if (update.equalsIgnoreCase("updateRequired")) {
             refreshFragment(4);
             refreshFragment(1);
-        }else if(update.equalsIgnoreCase("updateCookbook")){
+        } else if (update.equalsIgnoreCase("refreshRecipeDetail") || update.equals("refreshCookbook")) {
             refreshFragment(1);
         }
         EventBus.getDefault().removeAllStickyEvents();

@@ -58,10 +58,10 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     public void getRecipesOfCookbook(final String cookbookFriendlyUrl, final String userFriendlyUrl, int offset) {
 
+        setProgressVisible(true);
         this.cookbookFriendlyUrl = cookbookFriendlyUrl;
         fetchRecipesOfCookbooksFromDB(userFriendlyUrl, cookbookFriendlyUrl);
         setOffset(offset);
-        setProgressVisible(true);
         if (isDownloading) {
             new CookbooksApiHelper().getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
@@ -140,6 +140,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
     }
 
     private void deleteCookbookOfUser() {
+        setProgressVisible(true);
         cookbookId = dataManager.getIdOfCookbook(cookbookFriendlyUrl);
         new CookbooksApiHelper().deleteCookbook(accessToken, cookbookId, new IApiRequestComplete() {
             @Override
@@ -147,18 +148,21 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 Toast.makeText(context, R.string.cookbook_deleted, Toast.LENGTH_SHORT).show();
                 dataManager.deleteCookbook(cookbookFriendlyUrl);
                 user.setCookbooks(new ProfileDataManager().getCookbooks(SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID)));
-                EventBus.getDefault().postSticky("updateRequired");
+                EventBus.getDefault().postSticky("refreshCookbook");
                 ((Activity) context).finish();
-            }
-
-            @Override
-            public void onFailure(String message) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
             }
 
             @Override
             public void onError(Object response) {
                 Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                setProgressVisible(false);
             }
         });
     }
@@ -171,11 +175,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
         ((CookbookDetailFragment) fragment).showCookbookDetails();
     }
 
+    public void renameCookbook(){
+    }
+
     @Override
     public void destroy() {
         ((Activity) context).finish();
     }
-
 
     public int getOffset() {
         return offset;

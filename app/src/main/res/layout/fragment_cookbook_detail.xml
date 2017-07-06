@@ -1,6 +1,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
         tools:context="com.kokaihop.cookbooks.CookbookDetailFragment">
     <data>
         <variable name="cookbookTitle" type="String"/>
@@ -31,8 +32,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{()->viewModel.destroy()}"
-                    android:paddingRight="@dimen/settings_iv_back_margin_right"
+                    android:paddingStart="@dimen/none"
+                    android:paddingEnd="@dimen/settings_iv_back_margin_right"
                     android:src="@drawable/ic_back_arrow_white_md"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/tv_cookbook_rename"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rename"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    android:visibility="invisible"
+                    app:font="@{`SS-ProRegular`}"
+                    android:onClick="@{()->viewModel.renameCookbook()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -48,12 +63,16 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
-                <ImageView
-                    android:id="@+id/iv_cookbook_menu"
+                <TextView
+                    android:id="@+id/tv_cookbook_edit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/settings_save_margin_right"
-                    android:src="@drawable/ic_more_white"
+                    android:text="@string/edit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_medium"
+                    app:font="@{`SS-ProRegular`}"
+                    android:paddingStart="@dimen/none"
+                    android:paddingEnd="@dimen/edit_cookbook_tv_padding_right"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -78,7 +97,7 @@
             android:layout_marginRight="@dimen/delete_cookbook_btn_hor_margin"
             android:background="@drawable/round_corner_layout"
             android:onClick="@{()->viewModel.deleteCookbook()}"
-            android:text="Delete Cookbook"
+            android:text="@string/delete_cookbook"
             android:textAllCaps="false"
             android:textColor="@color/red"
             android:textSize="@dimen/text_size_small"
@@ -95,7 +114,8 @@
             android:layout_marginRight="8dp" android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </android.support.constraint.ConstraintLayout>
 
 

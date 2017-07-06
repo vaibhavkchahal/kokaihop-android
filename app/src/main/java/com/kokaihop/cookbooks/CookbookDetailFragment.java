@@ -52,7 +52,7 @@ public class CookbookDetailFragment extends Fragment {
         }
         if (!SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL).equals(userFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
-            binding.ivCookbookMenu.setVisibility(View.GONE);
+            binding.tvCookbookRename.setVisibility(View.GONE);
             user = new User();
         } else {
             user = User.getInstance();
@@ -74,6 +74,20 @@ public class CookbookDetailFragment extends Fragment {
             public void onLoadMore(RecyclerView recyclerView) {
                 if (viewModel.getOffset() + viewModel.getMax() <= viewModel.getTotalRecipes())
                     viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, viewModel.getOffset() + viewModel.getMax());
+            }
+        });
+        binding.tvCookbookEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.tvCookbookEdit.getText().toString().equals(getString(R.string.edit))) {
+                    binding.ivCookbookBack.setVisibility(View.GONE);
+                    binding.tvCookbookRename.setVisibility(View.VISIBLE);
+                    binding.tvCookbookEdit.setText(R.string.done);
+                } else {
+                    binding.ivCookbookBack.setVisibility(View.VISIBLE);
+                    binding.tvCookbookRename.setVisibility(View.GONE);
+                    binding.tvCookbookEdit.setText(R.string.edit);
+                }
             }
         });
         return binding.getRoot();

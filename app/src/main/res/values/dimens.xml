@@ -408,4 +408,5 @@
     <dimen name="dialog_delete_cookbook_msg_hor_padding">65dp</dimen>
     <dimen name="dialog_delete_cookbook_name_margin">25dp</dimen>
     <dimen name="add_to_cookbook_cb_margin_right">30dp</dimen>
+    <dimen name="edit_cookbook_tv_padding_right">20dp</dimen>
 </resources>
