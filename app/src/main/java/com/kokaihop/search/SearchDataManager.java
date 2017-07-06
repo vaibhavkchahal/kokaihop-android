@@ -190,10 +190,8 @@ public class SearchDataManager {
             String sortField = "title";
             Sort sort = Sort.ASCENDING;
             if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
-
-
-//                sortField = "rating.average";
-//                sort = Sort.DESCENDING;
+                sortField = "rating.average";
+                sort = Sort.DESCENDING;
 
             } else if (sortBy.equals(context.getResources().getString(R.string.comments))) {
 
