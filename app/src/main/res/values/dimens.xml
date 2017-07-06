@@ -412,4 +412,6 @@
     <dimen name="delete_cookbook_tv_height">100dp</dimen>
 
     <dimen name="delete_cookbookrow_swipe">-100dp</dimen>
+    <dimen name="recipe_history_row_image_size">80dp</dimen>
+    <dimen name="row_recipe_menu_item_padding">20dp</dimen>
 </resources>

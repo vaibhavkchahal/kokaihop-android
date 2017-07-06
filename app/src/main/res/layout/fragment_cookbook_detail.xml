@@ -32,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{()->viewModel.destroy()}"
+                    android:contentDescription="@string/cancel"
                     android:paddingStart="@dimen/none"
                     android:paddingEnd="@dimen/settings_iv_back_margin_right"
                     android:src="@drawable/ic_back_arrow_white_md"

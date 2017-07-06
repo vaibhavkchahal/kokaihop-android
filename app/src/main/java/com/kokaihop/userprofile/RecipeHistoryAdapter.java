@@ -160,12 +160,16 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             binding.tvDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recipeList.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    previousDelete = -1;
-                    viewModel.removeRecipeFromCookbook(recipe.get_id());
+                    viewModel.removeRecipeFromCookbook(recipe.get_id(),getAdapterPosition());
                 }
             });
         }
     }
+
+    public void removeRecipe(int position){
+        recipeList.remove(position);
+        notifyItemRemoved(position);
+        previousDelete = -1;
+    }
+
 }

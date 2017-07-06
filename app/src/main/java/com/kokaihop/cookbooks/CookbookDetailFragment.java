@@ -17,7 +17,7 @@ import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 import com.kokaihop.utility.SharedPrefUtils;
 
-public class CookbookDetailFragment extends Fragment {
+public class CookbookDetailFragment extends Fragment implements CookbookDataChangedListener{
 
     private FragmentCookbookDetailBinding binding;
     private CookbookDetailViewModel viewModel;
@@ -102,5 +102,10 @@ public class CookbookDetailFragment extends Fragment {
 
     public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateList(int position) {
+        adapter.removeRecipe(position);
     }
 }

@@ -113,7 +113,7 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
                     if (!added) {
                         viewModel.addToCookbook(cookbook,recipeId);
                     } else {
-                        viewModel.removeFromCookbook(cookbook,recipeId);
+                        viewModel.removeFromCookbook(cookbook,recipeId, getAdapterPosition());
                     }
                 }
             });

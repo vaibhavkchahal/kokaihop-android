@@ -21,9 +21,11 @@
         android:paddingLeft="@dimen/user_profile_recycler_padding_horizontal">
         <ImageView
             android:id="@+id/iv_delete"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:scaleType="centerInside"
+            android:paddingStart="@dimen/row_recipe_menu_item_padding"
+            android:paddingEnd="@dimen/row_recipe_menu_item_padding"
             android:src="@drawable/ic_delete"
             android:visibility="@{editCookbook.editMode ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,8 +33,8 @@
             app:layout_constraintTop_toTopOf="parent"/>
         <ImageView
             android:id="@+id/iv_recipe_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/recipe_history_row_image_size"
+            android:layout_height="@dimen/recipe_history_row_image_size"
             android:background="@drawable/round_corner_layout"
             android:clickable="false"
             android:contentDescription="@string/recipe_image"
@@ -72,6 +74,7 @@
             app:font="@{`SS-ProRegular`}"
             app:layout_constraintBottom_toTopOf="@+id/comment_rating_bar"
             app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
+            app:layout_constraintEnd_toStartOf="@+id/tv_delete"
             app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
             tools:text="UserName"/>
 
@@ -93,7 +96,7 @@
 
         <TextView
             android:id="@+id/tv_delete"
-            android:layout_width="@dimen/delete_cookbook_tv_height"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/constraint_match_parent"
             android:text="@string/delete"
             android:textColor="@color/white"
@@ -101,6 +104,8 @@
             app:font="@{`SS-ProRegular`}"
             android:background="@color/red"
             android:gravity="center"
+            android:paddingStart="@dimen/row_recipe_menu_item_padding"
+            android:paddingEnd="@dimen/row_recipe_menu_item_padding"
             android:visibility="@{recipe.recipeDelete ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"

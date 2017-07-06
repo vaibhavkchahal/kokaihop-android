@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -90,8 +89,8 @@ public class CookbookDetailViewModel extends BaseViewModel {
                             setDownloading(false);
                         }
                         fetchRecipesOfCookbooksFromDB(userFriendlyUrl, cookbookFriendlyUrl);
-                        setProgressVisible(false);
                     }
+                    setProgressVisible(false);
                 }
 
                 @Override
@@ -117,7 +116,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
         final Dialog dialog = new Dialog(fragment.getContext());
         dialog.setContentView(R.layout.dialog_delete_cookbook);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         String msg = context.getString(R.string.this_will_permanently_delete);
         if (totalRecipes > 0) {
             msg += totalRecipes
@@ -207,8 +205,8 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
-    public void renameCookbookApiCall(String name){
-        RenameCookbookRequest request = new RenameCookbookRequest(name,cookbookId);
+    public void renameCookbookApiCall(String name) {
+        RenameCookbookRequest request = new RenameCookbookRequest(name, cookbookId);
         new CookbooksApiHelper().renameCookbook(accessToken, cookbookId, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
@@ -228,12 +226,12 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
-    public void removeRecipeFromCookbook(String recipeId) {
+    public void removeRecipeFromCookbook(String recipeId, int position) {
         setProgressVisible(true);
         Cookbook cookbook = new Cookbook();
         cookbook.set_id(cookbookId);
         cookbook.setTotal(totalRecipes);
-        new AddToCookbookViewModel(fragment, context).removeFromCookbook(cookbook, recipeId);
+        new AddToCookbookViewModel(fragment, context).removeFromCookbook(cookbook, recipeId, position);
         setProgressVisible(false);
     }
 

@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.cookbooks.CookbookDataChangedListener;
 import com.kokaihop.cookbooks.CookbooksApiHelper;
 import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
@@ -41,7 +42,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
     private final Context context;
     private int offset, max, totalCount;
-    private boolean isDownloading = true;
+    private boolean isDownloading = true, removed = false;
     private String userId, friendlyUrl, accessToken;
     private ProfileDataManager profileDataManager;
     private Fragment fragment;
@@ -200,7 +201,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
         });
     }
 
-    public void removeFromCookbook(final Cookbook cookbook, String recipeId) {
+    public void removeFromCookbook(final Cookbook cookbook, String recipeId, final int position) {
         setProgressVisible(true);
         RemoveFromCookbookRequest removeFromCookbookRequest = new RemoveFromCookbookRequest(cookbook.get_id(), new String[]{recipeId});
         new CookbooksApiHelper().removeFromCookbook(accessToken, removeFromCookbookRequest, new IApiRequestComplete() {
@@ -210,6 +211,9 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 cookbook.setTotal(cookbook.getTotal() - 1);
                 EventBus.getDefault().postSticky("refreshRecipeDetail");
                 setProgressVisible(false);
+                if(fragment instanceof CookbookDataChangedListener){
+                    ((CookbookDataChangedListener)fragment).updateList(position);
+                }
             }
 
             @Override
