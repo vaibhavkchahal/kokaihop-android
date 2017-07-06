@@ -30,7 +30,7 @@ public class Recipe extends BaseObservable {
     private long lastUpdated;
     private String coverImage;
     private String mainImageUrl;
-
+    private boolean recipeDelete;
 
     public String get_id() {
         return _id;
@@ -172,5 +172,15 @@ public class Recipe extends BaseObservable {
 
     public void setCreatedByFriendlyUrl(String createdByFriendlyUrl) {
         this.createdByFriendlyUrl = createdByFriendlyUrl;
+    }
+
+    @Bindable
+    public boolean isRecipeDelete() {
+        return recipeDelete;
+    }
+
+    public void setRecipeDelete(boolean recipeDelete) {
+        this.recipeDelete = recipeDelete;
+        notifyPropertyChanged(BR.recipeDelete);
     }
 }

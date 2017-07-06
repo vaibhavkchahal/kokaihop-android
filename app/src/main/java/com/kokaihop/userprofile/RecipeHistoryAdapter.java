@@ -2,7 +2,6 @@ package com.kokaihop.userprofile;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Point;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -15,12 +14,13 @@ import android.widget.ImageView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowHistoryRecipeBinding;
 import com.bumptech.glide.Glide;
+import com.kokaihop.cookbooks.CookbookDetailViewModel;
+import com.kokaihop.cookbooks.model.EditCookbook;
 import com.kokaihop.database.RecipeHistoryRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.feed.RecipeHandler;
-import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.ArrayList;
@@ -32,18 +32,22 @@ import java.util.ArrayList;
 public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdapter.ViewHolder> {
 
     private ArrayList<Recipe> recipeList;
-    RowHistoryRecipeBinding binding;
-    Context context;
-    Point point;
-    RecipeHandler recipeHandler;
-    Fragment fragment;
-    RecipeDataManager recipeDataManager;
+    private RowHistoryRecipeBinding binding;
+    private Context context;
+    private CookbookDetailViewModel viewModel;
+    private RecipeHandler recipeHandler;
+    private Fragment fragment;
+    private RecipeDataManager recipeDataManager;
+    private EditCookbook editCookbook;
+    private ImageView imageView;
+    private int previousDelete = -1;
 
     public RecipeHistoryAdapter(Fragment fragment, ArrayList<Recipe> recipeList) {
         this.recipeList = recipeList;
         this.fragment = fragment;
         Log.e(recipeList.size() + "", "Size");
         recipeHandler = new RecipeHandler();
+        editCookbook = new EditCookbook();
         recipeDataManager = new RecipeDataManager();
     }
 
@@ -51,8 +55,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         context = parent.getContext();
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.row_history_recipe, parent, false);
-
-        point = AppUtility.getDisplayPoint(context);
         int size = context.getResources().getDimensionPixelSize(R.dimen.history_recipe_image_size);
         ImageView ivCover = binding.ivRecipeImage;
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.ivRecipeImage.getLayoutParams();
@@ -95,6 +97,23 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         notifyDataSetChanged();
     }
 
+    public void setEditCookbook(boolean isEditCookbook) {
+        editCookbook.setEditMode(isEditCookbook);
+    }
+
+    public void removeDeleteButton(){
+        for(Recipe recipe: recipeList){
+            recipe.setRecipeDelete(false);
+        }
+    }
+
+    public CookbookDetailViewModel getViewModel() {
+        return viewModel;
+    }
+
+    public void setViewModel(CookbookDetailViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RowHistoryRecipeBinding binding;
@@ -107,14 +126,44 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
 
         public void bind(final Recipe recipe) {
             binding.setRecipe(recipe);
+            binding.setEditCookbook(editCookbook);
             binding.executePendingBindings();
             binding.historyRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recipeHandler.openRecipeDetail(v, recipe.get_id(), getAdapterPosition());
-                    if (fragment instanceof HistoryFragment) {
-                        displayHistoryChanges();
+                    if (!editCookbook.isEditMode()) {
+                        recipeHandler.openRecipeDetail(v, recipe.get_id(), getAdapterPosition());
+                        if (fragment instanceof HistoryFragment) {
+                            displayHistoryChanges();
+                        }
+                    } else if (previousDelete >= 0) {
+                        recipeList.get(previousDelete).setRecipeDelete(false);
+                        imageView.setVisibility(View.VISIBLE);
+
                     }
+                }
+            });
+            binding.ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (previousDelete >= 0) {
+                        recipeList.get(previousDelete).setRecipeDelete(false);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+                    previousDelete = getAdapterPosition();
+                    imageView = binding.ivDelete;
+                    imageView.setVisibility(View.GONE);
+                    recipe.setRecipeDelete(true);
+                }
+            });
+
+            binding.tvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    recipeList.remove(getAdapterPosition());
+                    notifyItemRemoved(getAdapterPosition());
+                    previousDelete = -1;
+                    viewModel.removeRecipeFromCookbook(recipe.get_id());
                 }
             });
         }

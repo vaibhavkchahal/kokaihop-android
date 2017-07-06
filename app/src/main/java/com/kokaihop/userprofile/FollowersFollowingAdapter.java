@@ -104,14 +104,13 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
             binding.setUser(followingFollowerUser);
             binding.setViewModel(followingViewModel);
             binding.executePendingBindings();
-            final int REQUEST_CODE = 111;
             binding.clUserRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context,OtherUserProfileActivity.class);
                     i.putExtra(Constants.USER_ID,followingFollowerUser.get_id());
                     i.putExtra(Constants.FRIENDLY_URL,followingFollowerUser.getFriendlyUrl());
-                    ((Activity)context).startActivityForResult(i, REQUEST_CODE);
+                    ((Activity)context).startActivityForResult(i, Constants.USERPROFILE_REQUEST);
                 }
             });
         }

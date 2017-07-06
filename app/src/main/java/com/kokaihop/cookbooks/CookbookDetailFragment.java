@@ -53,6 +53,7 @@ public class CookbookDetailFragment extends Fragment {
         if (!SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL).equals(userFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
             binding.tvCookbookRename.setVisibility(View.GONE);
+            binding.tvCookbookEdit.setVisibility(View.GONE);
             user = new User();
         } else {
             user = User.getInstance();
@@ -62,6 +63,7 @@ public class CookbookDetailFragment extends Fragment {
         binding.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
         adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
+        adapter.setViewModel(viewModel);
         layoutManager = new CustomLinearLayoutManager(getContext());
         recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
@@ -80,13 +82,18 @@ public class CookbookDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (binding.tvCookbookEdit.getText().toString().equals(getString(R.string.edit))) {
-                    binding.ivCookbookBack.setVisibility(View.GONE);
-                    binding.tvCookbookRename.setVisibility(View.VISIBLE);
+                    if(!cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)){
+                        binding.ivCookbookBack.setVisibility(View.GONE);
+                        binding.tvCookbookRename.setVisibility(View.VISIBLE);
+                    }
                     binding.tvCookbookEdit.setText(R.string.done);
+                    adapter.setEditCookbook(true);
                 } else {
                     binding.ivCookbookBack.setVisibility(View.VISIBLE);
                     binding.tvCookbookRename.setVisibility(View.GONE);
                     binding.tvCookbookEdit.setText(R.string.edit);
+                    adapter.removeDeleteButton();
+                    adapter.setEditCookbook(false);
                 }
             }
         });

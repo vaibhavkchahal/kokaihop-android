@@ -243,9 +243,11 @@
     <string name="show_all_recipes">Showing all recipes</string>
     <string name="show_recipe_with_images">Showing only recipes with images</string>
     <string name="create_new_cookbook">Create new cookbook</string>
+    <string name="rename_cookbook">Rename Cookbook</string>
     <string name="cookbook_name">Cookbook Name</string>
     <string name="something_wrong">Something went wrong!!!</string>
     <string name="cookbook_created">Cookbook Created successfully</string>
+    <string name="cookbook_renamed">Cookbook Renamed successfully</string>
     <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
     <string name="follow_login_msg">"You need to logged in to follow someone"</string>
     <string name="are_you_sure_you_want_to_delete_this_cookbook">Are you sure you want to delete

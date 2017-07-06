@@ -1,5 +1,6 @@
 package com.kokaihop.userprofile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -148,7 +149,7 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
             i.putExtra(Constants.USER_FRIENDLY_URL, userFriendlyUrl);
             i.putExtra(Constants.COOKBOOK_FRIENDLY_URL, cookbookFriendlyUrl);
             i.putExtra(Constants.COOKBOOK_TITLE, cookbookTitle);
-            v.getContext().startActivity(i);
+            ((Activity)v.getContext()).startActivityForResult(i,Constants.COOKBOOK_REQUEST);
         }
     }
 }

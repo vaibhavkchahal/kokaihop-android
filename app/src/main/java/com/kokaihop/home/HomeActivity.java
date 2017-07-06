@@ -153,9 +153,10 @@ public class HomeActivity extends BaseActivity {
             userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
 
         }
-        if (requestCode == 111) {
-            if (userProfileFragment.userViewModel != null)
-                userProfileFragment.userViewModel.getUserData();
+        if (requestCode == Constants.USERPROFILE_REQUEST) {
+           refreshFragment(4);
+        }else if(requestCode == Constants.COOKBOOK_REQUEST){
+            refreshFragment(1);
         }
     }
 
@@ -176,9 +177,6 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
     }
 
     @Override

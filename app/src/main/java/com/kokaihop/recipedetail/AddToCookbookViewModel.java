@@ -18,6 +18,7 @@ import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.InputDialog;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -205,7 +206,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
         new CookbooksApiHelper().removeFromCookbook(accessToken, removeFromCookbookRequest, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                Toast.makeText(context, R.string.recipe_removed_from_cookbook, Toast.LENGTH_SHORT).show();
+                AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.recipe_removed_from_cookbook));
                 cookbook.setTotal(cookbook.getTotal() - 1);
                 EventBus.getDefault().postSticky("refreshRecipeDetail");
                 setProgressVisible(false);

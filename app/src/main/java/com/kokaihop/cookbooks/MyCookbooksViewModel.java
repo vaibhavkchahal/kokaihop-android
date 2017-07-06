@@ -149,7 +149,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                Toast.makeText(context, R.string.cookbook_created, Toast.LENGTH_SHORT).show();
+                AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_created));
                 setDownloading(true);
                 getCookbooksOfUser(0);
             }

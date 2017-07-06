@@ -8,16 +8,22 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.cookbooks.model.RenameCookbookRequest;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.recipedetail.AddToCookbookViewModel;
 import com.kokaihop.userprofile.ProfileDataManager;
+import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.InputDialog;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -57,7 +63,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
     }
 
     public void getRecipesOfCookbook(final String cookbookFriendlyUrl, final String userFriendlyUrl, int offset) {
-
+        cookbookId = dataManager.getIdOfCookbook(cookbookFriendlyUrl);
         setProgressVisible(true);
         this.cookbookFriendlyUrl = cookbookFriendlyUrl;
         fetchRecipesOfCookbooksFromDB(userFriendlyUrl, cookbookFriendlyUrl);
@@ -141,11 +147,10 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     private void deleteCookbookOfUser() {
         setProgressVisible(true);
-        cookbookId = dataManager.getIdOfCookbook(cookbookFriendlyUrl);
         new CookbooksApiHelper().deleteCookbook(accessToken, cookbookId, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                Toast.makeText(context, R.string.cookbook_deleted, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.cookbook_deleted), Toast.LENGTH_SHORT).show();
                 dataManager.deleteCookbook(cookbookFriendlyUrl);
                 user.setCookbooks(new ProfileDataManager().getCookbooks(SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID)));
                 EventBus.getDefault().postSticky("refreshCookbook");
@@ -175,7 +180,61 @@ public class CookbookDetailViewModel extends BaseViewModel {
         ((CookbookDetailFragment) fragment).showCookbookDetails();
     }
 
-    public void renameCookbook(){
+    public void renameCookbook() {
+        final InputDialog dialog = new InputDialog(fragment.getContext());
+        dialog.setupDialog(
+                context.getString(R.string.rename_cookbook),
+                context.getString(R.string.cookbook_name),
+                context.getString(R.string.rename),
+                context.getString(R.string.cancel));
+
+        dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                String name = ((EditText) dialog.findViewById(R.id.dialog_text)).getText().toString();
+                renameCookbookApiCall(name);
+            }
+        });
+
+        dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
+
+    public void renameCookbookApiCall(String name){
+        RenameCookbookRequest request = new RenameCookbookRequest(name,cookbookId);
+        new CookbooksApiHelper().renameCookbook(accessToken, cookbookId, request, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_renamed));
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Object response) {
+                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void removeRecipeFromCookbook(String recipeId) {
+        setProgressVisible(true);
+        Cookbook cookbook = new Cookbook();
+        cookbook.set_id(cookbookId);
+        cookbook.setTotal(totalRecipes);
+        new AddToCookbookViewModel(fragment, context).removeFromCookbook(cookbook, recipeId);
+        setProgressVisible(false);
     }
 
     @Override

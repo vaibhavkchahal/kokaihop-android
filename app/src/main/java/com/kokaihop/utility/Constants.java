@@ -43,5 +43,10 @@ public class Constants {
     public static final String FAVORITE_RECIPE_FRIENDLY_URL = "favoritrecept";
     public static final String COLLECTION_MAPPING = "collectionMappings";
 
+//    RequestCodes
+    public static final int USERPROFILE_REQUEST = 4;
+    public static final int COOKBOOK_REQUEST = 1;
+
+
 
 }

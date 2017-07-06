@@ -123,6 +123,7 @@ public class CookbooksDataManager {
         return cookbook.get_id();
     }
 
+
     public void deleteCookbook(String cookbookFriendlyUrl){
         realm.beginTransaction();
         realm.where(CookbookRealmObject.class).equalTo("friendlyUrl",cookbookFriendlyUrl)
