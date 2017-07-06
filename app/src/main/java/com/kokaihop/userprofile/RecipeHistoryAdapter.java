@@ -40,6 +40,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     private RecipeDataManager recipeDataManager;
     private EditCookbook editCookbook;
     private ImageView imageView;
+    private String recipeId;
     private int previousDelete = -1;
 
     public RecipeHistoryAdapter(Fragment fragment, ArrayList<Recipe> recipeList) {
@@ -101,8 +102,8 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         editCookbook.setEditMode(isEditCookbook);
     }
 
-    public void removeDeleteButton(){
-        for(Recipe recipe: recipeList){
+    public void removeDeleteButton() {
+        for (Recipe recipe : recipeList) {
             recipe.setRecipeDelete(false);
         }
     }
@@ -160,15 +161,20 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             binding.tvDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    viewModel.removeRecipeFromCookbook(recipe.get_id(),getAdapterPosition());
+                    recipeId = recipe.get_id();
+                    viewModel.removeRecipeFromCookbook(recipe.get_id(), getAdapterPosition());
                 }
             });
         }
     }
 
-    public void removeRecipe(int position){
-        recipeList.remove(position);
-        notifyItemRemoved(position);
+    public void removeRecipe(int position) {
+        if (recipeList.size() > position && position >= 0) {
+            if (recipeList.get(position).get_id().equals(recipeId)) {
+                recipeList.remove(position);
+                notifyItemRemoved(position);
+            }
+        }
         previousDelete = -1;
     }
 

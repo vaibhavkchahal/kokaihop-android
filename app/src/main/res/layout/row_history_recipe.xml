@@ -22,7 +22,7 @@
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/constraint_match_parent"
             android:scaleType="centerInside"
             android:paddingStart="@dimen/row_recipe_menu_item_padding"
             android:paddingEnd="@dimen/row_recipe_menu_item_padding"

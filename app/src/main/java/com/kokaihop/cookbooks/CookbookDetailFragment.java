@@ -22,9 +22,6 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
     private FragmentCookbookDetailBinding binding;
     private CookbookDetailViewModel viewModel;
     private RecipeHistoryAdapter adapter;
-    private CustomLinearLayoutManager layoutManager;
-    private RecyclerView recyclerView;
-    private Bundle bundle;
     String userFriendlyUrl, cookbookFriendlyUrl, cookbookTitle;
 
     public CookbookDetailFragment() {
@@ -39,7 +36,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         User user;
-        bundle = getArguments();
+        Bundle bundle = getArguments();
         if (bundle != null) {
             userFriendlyUrl = bundle.getString(Constants.USER_FRIENDLY_URL);
             cookbookFriendlyUrl = bundle.getString(Constants.COOKBOOK_FRIENDLY_URL);
@@ -64,8 +61,8 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         binding.setViewModel(viewModel);
         adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
         adapter.setViewModel(viewModel);
-        layoutManager = new CustomLinearLayoutManager(getContext());
-        recyclerView = binding.rvRecipesOfCookbook;
+        CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
+        RecyclerView recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

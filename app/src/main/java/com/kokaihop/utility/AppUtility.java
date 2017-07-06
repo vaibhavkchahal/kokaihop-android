@@ -131,19 +131,21 @@ public class AppUtility {
     }
 
     public static void showAutoCancelMsgDialog(final Context context, final String message) {
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.custom_rating_success_view);
-        TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
-        textView.setText(message);
-        dialog.show();
-        hideDialogAfterTimeOut(dialog);
+        if (context != null) {
+            final Dialog dialog = new Dialog(context);
+            dialog.setContentView(R.layout.custom_rating_success_view);
+            TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
+            textView.setText(message);
+            dialog.show();
+            hideDialogAfterTimeOut(dialog);
+        }
     }
 
     private static void hideDialogAfterTimeOut(final Dialog dialog) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (dialog.isShowing()) {
+                if ((dialog != null) && (dialog.isShowing())) {
                     dialog.dismiss();
                 }
             }
