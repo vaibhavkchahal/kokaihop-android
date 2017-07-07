@@ -225,7 +225,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private void addComments(RecipeRealmObject recipeRealmObject) {
         ListHeading commentsHeading = new ListHeading(context.getString(R.string.text_comments));
-        if(recipeRealmObject.getCounter()!=null){
+        if (recipeRealmObject.getCounter() != null) {
             commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
         }
         commentsHeading.setRecipeId(recipeId);
@@ -247,7 +247,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getCreatedBy() != null) {
             specifications.setName(recipeRealmObject.getCreatedBy().getName());
             specifications.setImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
-            specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
+            if (recipeRealmObject.getDateCreated() != null) {
+                specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
+            }
         }
         if (recipeRealmObject.getCookingMethod() != null) {
             specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
@@ -296,7 +298,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     public void openCookBookScreen() {
         Intent i = new Intent(context, AddToCookBookActivity.class);
         i.putExtra(Constants.RECIPE_ID, recipeId);
-        if(collectionMapping!=null){
+        if (collectionMapping != null) {
             i.putExtra(Constants.COLLECTION_MAPPING, collectionMapping.toString());
         }
         context.startActivity(i);

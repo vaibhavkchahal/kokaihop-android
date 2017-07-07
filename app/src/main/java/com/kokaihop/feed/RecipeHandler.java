@@ -142,9 +142,17 @@ public class RecipeHandler {
         (context).startActivity(i);
     }
 
-    public void openCommentsScreen(Context context, String recipeId) {
+    public void openCommentsScreen(Context context, String recipeId, String friendlyUrl) {
         Intent intent = new Intent(context, ShowAllCommentsActivity.class);
-        intent.putExtra("recipeId", recipeId);
+        intent.putExtra(Constants.RECIPE_ID, recipeId);
+        intent.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
         context.startActivity(intent);
+    }
+
+    public void openRecipeDetailUsingFriendlyUrl(View view, String friendlyUrl) {
+        Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
+        view.getContext().startActivity(intent);
     }
 }

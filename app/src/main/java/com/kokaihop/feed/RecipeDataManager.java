@@ -317,6 +317,16 @@ public class RecipeDataManager {
         return realm.copyFromRealm(commentRealmObject);
     }
 
+
+    public List<CommentRealmObject> fetchRandomCommentList() {
+        RealmResults<CommentRealmObject> commentRealmObjectList = realm.where(CommentRealmObject.class)
+                .findAllSorted("dateCreated", Sort.DESCENDING);
+        List<CommentRealmObject> commentList = new ArrayList<>(commentRealmObjectList.size());
+        for (CommentRealmObject commentRealmObject : commentRealmObjectList) {
+            commentList.add(commentRealmObject);
+        }
+        return commentList;
+    }
 }
 
 

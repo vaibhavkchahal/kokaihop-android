@@ -52,6 +52,10 @@ public class RecipeFragment extends Fragment {
                 if (viewModel.getOffset() + viewModel.getMax() <= viewModel.getTotalRecipes())
                     viewModel.getRecipesOfUsers(viewModel.getOffset() + viewModel.getMax());
             }
+
+            @Override
+            public void getScrolledState(RecyclerView recyclerView) {
+            }
         });
         return binding.getRoot();
     }

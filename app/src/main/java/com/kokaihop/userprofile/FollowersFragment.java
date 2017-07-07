@@ -63,6 +63,10 @@ public class FollowersFragment extends Fragment implements UserDataListener {
                 if (followersViewModel.getOffset() + followersViewModel.getMax() <= followersViewModel.getTotalFollowers())
                     followersViewModel.getFollowers(followersViewModel.getOffset() + followersViewModel.getMax());
             }
+
+            @Override
+            public void getScrolledState(RecyclerView recyclerView) {
+            }
         });
         return followersBinding.getRoot();
     }

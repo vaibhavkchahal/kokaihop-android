@@ -249,7 +249,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         holderItemComment.binder.replyTextview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentsHandler.openReplyScreen(context, commentRealmObject.get_id(), commentRealmObject.getPayload().getRecipe().getId());
+                commentsHandler.openReplyScreen(context, commentRealmObject.get_id(), commentRealmObject.getPayload().getRecipe().get_id());
             }
         });
     }
@@ -258,7 +258,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         holderItemComment.binder.relativeLayoutComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                commentsHandler.openCommentsScreen(context, commentRealmObject.getPayload().getRecipe().getId());
+                commentsHandler.openCommentsScreen(context, commentRealmObject.getPayload().getRecipe().get_id());
             }
         });
     }
