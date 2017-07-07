@@ -28,14 +28,14 @@ import okhttp3.ResponseBody;
 public class CommentsViewModel extends BaseViewModel {
 
     private int offset = 0;
-    private int max = 25;
+    private int max = 20;
     private final String TYPE_FILTER = "RECIPE_COMMENT";
     private RecipeDataManager recipeDataManager;
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private CommentDatasetListener commentListener;
-    private long totalCommentCount;
+    private int totalCommentCount;
 
-    public long getTotalCommentCount() {
+    public int getTotalCommentCount() {
         return totalCommentCount;
     }
 
@@ -59,18 +59,23 @@ public class CommentsViewModel extends BaseViewModel {
         return max;
     }
 
-    public CommentsViewModel() {
+    public CommentsViewModel(CommentDatasetListener dataSetListener) {
         recipeDataManager = new RecipeDataManager();
-//        fetchCommentsFromDB();
-        fetchCommentFromServer(getOffset(), getMax(), true);
+        this.commentListener = dataSetListener;
+        fetchCommentsFromDB(-1);
+        fetchCommentFromServer(getOffset(), 0, true);
     }
 
-    public void fetchCommentFromServer(int offset, int max, boolean progressVisibility) {
+    public void fetchCommentFromServer(int offset, long afterDateCreated, boolean progressVisibility) {
         setProgressVisible(progressVisibility);
+        setOffset(offset);
         Map<String, String> map = new WeakHashMap<>();
-        map.put("max", String.valueOf(max));
+        map.put("max", String.valueOf(getMax()));
         map.put("offset", String.valueOf(offset));
         map.put("typeFilter", TYPE_FILTER);
+        if (afterDateCreated > 0) {
+            map.put("afterDateCreated", String.valueOf(afterDateCreated));
+        }
         map.put("allRecipeDetails", String.valueOf(true));
         new CommentsApiHelper().fetchCommentsList(map, new IApiRequestComplete() {
             @Override
@@ -79,9 +84,11 @@ public class CommentsViewModel extends BaseViewModel {
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     JSONObject json = new JSONObject(responseBody.string());
-                    JSONArray commentsJSONArray = json.getJSONArray("comments");
+                    int itemCount = json.getInt("totalItems");
+                    JSONArray commentsJSONArray =
+                            json.getJSONArray("comments");
                     recipeDataManager.updateRandomCommentsList(commentsJSONArray);
-//                    fetchCommentsFromDB();
+                    fetchCommentsFromDB(commentsJSONArray.length());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -100,23 +107,20 @@ public class CommentsViewModel extends BaseViewModel {
             }
         });
     }
-//    private void fetchCommentsFromDB() {
-//        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
-//        commentsList.clear();
-//        commentsList.addAll(recipeRealmObject.getComments());
-//        totalCommentCount = recipeRealmObject.getCounter().getComments();
-//        commentListener.onUpdateCommentsList();
-//    }
-//    public void updateComments() {
-//        fetchCommentsFromDB();
-//    }
+
+    private void fetchCommentsFromDB(int itemCount) {
+        commentsList.clear();
+        commentsList.addAll(recipeDataManager.fetchRandomCommentList());
+        totalCommentCount = recipeDataManager.fetchRandomCommentList().size();
+        commentListener.onUpdateCommentsList(itemCount);
+    }
 
     @Override
     protected void destroy() {
     }
 
     public interface CommentDatasetListener {
-        void onUpdateCommentsList();
+        void onUpdateCommentsList(int itemCount);
     }
 
     public void onBackPressed(View view) {
