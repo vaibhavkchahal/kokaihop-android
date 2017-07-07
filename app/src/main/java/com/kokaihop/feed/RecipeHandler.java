@@ -70,8 +70,7 @@ public class RecipeHandler {
         }
         recipeDataManager.updateIsFavoriteInDB(checked, recipe);
         recipeDataManager.updateLikesCount(recipe, likes);
-        if(!recipe.getCounter().isManaged())
-        {
+        if (!recipe.getCounter().isManaged()) {
             recipe.getCounter().setLikes(likes);
             recipe.setFavorite(checked);
         }
@@ -130,8 +129,8 @@ public class RecipeHandler {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         new HistoryDataManager().updateHistory(recipeId);
-        intent.putExtra("recipeId", recipeId);
-        intent.putExtra("recipePosition", position);
+        intent.putExtra(Constants.RECIPE_ID, recipeId);
+        intent.putExtra(Constants.RECIPE_POSITION, position);
         view.getContext().startActivity(intent);
     }
 
@@ -142,9 +141,20 @@ public class RecipeHandler {
         (context).startActivity(i);
     }
 
-    public void openCommentsScreen(Context context, String recipeId) {
-        Intent intent = new Intent(context, ShowAllCommentsActivity.class);
-        intent.putExtra("recipeId", recipeId);
-        context.startActivity(intent);
+    public void openCommentsScreen(Context context, String recipeId, String friendlyUrl) {
+        if (recipeId != null) {
+            Intent intent = new Intent(context, ShowAllCommentsActivity.class);
+            intent.putExtra(Constants.RECIPE_ID, recipeId);
+            context.startActivity(intent);
+        } else {
+            AppUtility.showToastMessage(context, context.getString(R.string.something_went_wrong));
+        }
+    }
+
+    public void openRecipeDetailUsingFriendlyUrl(View view, String friendlyUrl) {
+        Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
+        view.getContext().startActivity(intent);
     }
 }

@@ -25,9 +25,13 @@ public abstract class RecyclerViewScrollListener extends RecyclerView.OnScrollLi
         mFirstVisibleItem = mLayoutManager.findFirstVisibleItemPosition();
         if (mFirstVisibleItem + mVisibleItemCount + mVisibleThreshold >= mTotalItemCount - mVisibleThreshold && dy > 0) {
             onLoadMore(recyclerView);
+        } else {
+            getScrolledState(recyclerView);
         }
 
     }
 
     public abstract void onLoadMore(RecyclerView recyclerView);
+
+    public abstract void getScrolledState(RecyclerView recyclerView);
 }

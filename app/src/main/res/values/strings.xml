@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Kokaihop</string>
 
     <!-- common msg -->
@@ -271,6 +271,48 @@
     <string name="ok">Ok</string>
     <string name="confirm">Confirm</string>
     <string name="kokaihop_dialog">Kokaihop Dialog</string>
+
+
+    <!-- date strings -->
+    <string name="years_ago">
+        <xliff:g id="years">%d</xliff:g>
+        years ago
+    </string>
+    <string name="year_ago">1 year ago</string>
+    <string name="months_ago">
+        <xliff:g id="month">%d</xliff:g>
+        months ago
+    </string>
+    <string name="month_ago">1 month ago</string>
+    <string name="weeks_ago">
+        <xliff:g id="month">%d</xliff:g>
+        weeks ago
+    </string>
+    <string name="hours_ago">
+        <xliff:g id="hour">%d</xliff:g>
+        hours ago
+    </string>
+    <string name="hour_ago">
+        <xliff:g id="hour">%d</xliff:g>
+        hour ago
+    </string>
+    <string name="minutes_ago">
+        <xliff:g id="minute">%d</xliff:g>
+        minutes ago
+    </string>
+    <string name="week_ago">1 week ago</string>
+    <string name="days_ago">
+        <xliff:g id="month">%d</xliff:g>
+        days ago
+    </string>
+    <string name="day_ago">yesterday</string>
+    <string name="few_seconds_ago">few seconds ago</string>
+    <string name="comment_not_post">Your Message Failed, Please Retry!</string>
+
+    <string name="kommentor_av_text">"Kommentor av "</string>
+    <string name="commented_by">
+        <![CDATA[<font color=\'#71767f\'>av</font> <font color=\'#f75a15\'>%1$s</font> ]]>
+    </string>
     <string name="cookbook">Cookbook</string>
     <string name="are_you_sure_you_want_to_delete_this_recipe">Are you sure you want to delete
         this recipe?

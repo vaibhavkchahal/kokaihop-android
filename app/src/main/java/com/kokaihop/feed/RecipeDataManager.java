@@ -20,6 +20,8 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
+import static com.kokaihop.utility.Constants.FRIENDLY_URL;
+
 /**
  * Created by Rajendra Singh on 15/5/17.
  */
@@ -201,12 +203,12 @@ public class RecipeDataManager {
         return realm.copyFromRealm(recipeRealmObject);
     }
 
-    public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
+    public void updateSimilarRecipe(final String friendlyUrl, final JSONArray jsonArray) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo(RECIPE_ID, recipeID).findFirst();
+                        .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
                 RealmList<RecipeRealmObject> similarRecipes = new RealmList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
@@ -309,6 +311,12 @@ public class RecipeDataManager {
         });
     }
 
+    public RecipeRealmObject fetchCopyOfRecipeByFriendlyUrl(String friendlyUrl) {
+        //        //return the unmanaged object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
+        return realm.copyFromRealm(recipeRealmObject);
+    }
 
     public CommentRealmObject fetchCopyOfComment(String commentId) {
         //        //return the unmanaged object
@@ -317,6 +325,16 @@ public class RecipeDataManager {
         return realm.copyFromRealm(commentRealmObject);
     }
 
+
+    public List<CommentRealmObject> fetchRandomCommentList() {
+        RealmResults<CommentRealmObject> commentRealmObjectList = realm.where(CommentRealmObject.class)
+                .findAllSorted("dateCreated", Sort.DESCENDING);
+        List<CommentRealmObject> commentList = new ArrayList<>(commentRealmObjectList.size());
+        for (CommentRealmObject commentRealmObject : commentRealmObjectList) {
+            commentList.add(commentRealmObject);
+        }
+        return commentList;
+    }
 }
 
 

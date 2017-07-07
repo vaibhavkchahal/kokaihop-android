@@ -83,7 +83,7 @@
             android:layout_below="@+id/reply_textview"
             android:layout_marginLeft="@dimen/comment_reply_section_margin_left"
             android:layout_marginTop="20dp"
-            android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe.id)}">
+            android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe._id)}">
 
             <ImageView
                 android:id="@+id/imageview_reply_user_image"

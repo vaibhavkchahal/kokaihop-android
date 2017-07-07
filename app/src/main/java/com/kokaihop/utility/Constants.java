@@ -12,8 +12,9 @@ public class Constants {
     public static final String SHARED_PREFERENCES = "MyPrefs";
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String AUTHORIZATION_BEARER = "Bearer ";
-    public static final String USER_ID = "userId ";
-    public static final String FRIENDLY_URL = "friendlyUrl ";
+    public static final String USER_ID = "userId";
+    public static final String FRIENDLY_URL = "friendlyUrl";
+    public static final String RECIPE_POSITION = "recipePosition";
 
     //Tab Numbers
     public static final int TAB_RECIPES = 0;
@@ -43,10 +44,9 @@ public class Constants {
     public static final String FAVORITE_RECIPE_FRIENDLY_URL = "favoritrecept";
     public static final String COLLECTION_MAPPING = "collectionMappings";
 
-//    RequestCodes
+    //    RequestCodes
     public static final int USERPROFILE_REQUEST = 4;
     public static final int COOKBOOK_REQUEST = 1;
-
 
 
 }

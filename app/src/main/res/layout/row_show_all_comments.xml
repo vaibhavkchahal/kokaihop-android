@@ -61,7 +61,7 @@
                   android:layout_marginLeft="18dp"
                   android:layout_marginTop="6dp"
                   android:layout_toRightOf="@+id/txtview_ingredent_quantity"
-                  android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe.id)}"
+                  android:onClick="@{(v)->handler.openReplyScreen(context,model._id,model.payload.recipe._id)}"
                   android:text="Reply"
                   android:textColor="@color/grey_FF8D929C"
                   android:textSize="10dp"

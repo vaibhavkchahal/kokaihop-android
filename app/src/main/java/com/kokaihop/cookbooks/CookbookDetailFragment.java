@@ -74,6 +74,10 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
                 if (viewModel.getOffset() + viewModel.getMax() <= viewModel.getTotalRecipes())
                     viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, viewModel.getOffset() + viewModel.getMax());
             }
+
+            @Override
+            public void getScrolledState(RecyclerView recyclerView) {
+            }
         });
         binding.tvCookbookEdit.setOnClickListener(new View.OnClickListener() {
             @Override
