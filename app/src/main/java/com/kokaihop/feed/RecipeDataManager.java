@@ -203,12 +203,12 @@ public class RecipeDataManager {
         return realm.copyFromRealm(recipeRealmObject);
     }
 
-    public void updateSimilarRecipe(final String recipeID, final JSONArray jsonArray) {
+    public void updateSimilarRecipe(final String friendlyUrl, final JSONArray jsonArray) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                        .equalTo(RECIPE_ID, recipeID).findFirst();
+                        .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
                 RealmList<RecipeRealmObject> similarRecipes = new RealmList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
