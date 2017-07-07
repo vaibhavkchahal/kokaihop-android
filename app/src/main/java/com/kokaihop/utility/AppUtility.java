@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -152,6 +153,10 @@ public class AppUtility {
         };
         Handler handler = new Handler();
         handler.postDelayed(runnable, 2000);
+    }
+
+    public static void showToastMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
 }

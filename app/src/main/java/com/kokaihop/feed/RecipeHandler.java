@@ -70,8 +70,7 @@ public class RecipeHandler {
         }
         recipeDataManager.updateIsFavoriteInDB(checked, recipe);
         recipeDataManager.updateLikesCount(recipe, likes);
-        if(!recipe.getCounter().isManaged())
-        {
+        if (!recipe.getCounter().isManaged()) {
             recipe.getCounter().setLikes(likes);
             recipe.setFavorite(checked);
         }
@@ -143,10 +142,13 @@ public class RecipeHandler {
     }
 
     public void openCommentsScreen(Context context, String recipeId, String friendlyUrl) {
-        Intent intent = new Intent(context, ShowAllCommentsActivity.class);
-        intent.putExtra(Constants.RECIPE_ID, recipeId);
-        intent.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
-        context.startActivity(intent);
+        if (recipeId != null) {
+            Intent intent = new Intent(context, ShowAllCommentsActivity.class);
+            intent.putExtra(Constants.RECIPE_ID, recipeId);
+            context.startActivity(intent);
+        } else {
+            AppUtility.showToastMessage(context, context.getString(R.string.something_went_wrong));
+        }
     }
 
     public void openRecipeDetailUsingFriendlyUrl(View view, String friendlyUrl) {
