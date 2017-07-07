@@ -20,6 +20,8 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
+import static com.kokaihop.utility.Constants.FRIENDLY_URL;
+
 /**
  * Created by Rajendra Singh on 15/5/17.
  */
@@ -309,6 +311,12 @@ public class RecipeDataManager {
         });
     }
 
+    public RecipeRealmObject fetchCopyOfRecipeByFriendlyUrl(String friendlyUrl) {
+        //        //return the unmanaged object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
+        return realm.copyFromRealm(recipeRealmObject);
+    }
 
     public CommentRealmObject fetchCopyOfComment(String commentId) {
         //        //return the unmanaged object

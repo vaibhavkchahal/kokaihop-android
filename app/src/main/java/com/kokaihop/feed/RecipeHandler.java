@@ -130,8 +130,8 @@ public class RecipeHandler {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         new HistoryDataManager().updateHistory(recipeId);
-        intent.putExtra("recipeId", recipeId);
-        intent.putExtra("recipePosition", position);
+        intent.putExtra(Constants.RECIPE_ID, recipeId);
+        intent.putExtra(Constants.RECIPE_POSITION, position);
         view.getContext().startActivity(intent);
     }
 

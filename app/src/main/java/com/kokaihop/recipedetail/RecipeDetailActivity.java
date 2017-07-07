@@ -79,6 +79,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     };
     private String recipeID;
     private String comingFrom = "commentsSection";
+    private String friendlyUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,13 +88,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
         recipeID = getIntent().getStringExtra("recipeId");
+        friendlyUrl = getIntent().getStringExtra("friendlyUrl");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
         EventBus.getDefault().register(this);
     }
 
     public void setupRecipeDetailScreen() {
-        recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, this);
+        recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, friendlyUrl, this);
         binding.setViewModel(recipeDetailViewModel);
         setProfileImage();
         setToolbar();

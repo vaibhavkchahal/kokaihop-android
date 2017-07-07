@@ -54,7 +54,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private final DataSetListener dataSetListener;
     public RecipeRealmObject recipeRealmObject;
     private RecipeDataManager recipeDataManager;
-    private String recipeId;
+    private String friendlyUrl, recipeId;
     private List<Object> recipeDetailItemsList = new ArrayList<>();
     private Context context;
     private JSONObject copyJsonObject;
@@ -70,16 +70,23 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return recipeDetailItemsList;
     }
 
-    public RecipeDetailViewModel(Context context, String recipeId, DataSetListener dataSetListener) {
+    public RecipeDetailViewModel(Context context, String recipeId, String friendlyUrl, DataSetListener dataSetListener) {
         this.context = context;
+        this.friendlyUrl = friendlyUrl;
         this.recipeId = recipeId;
         this.dataSetListener = dataSetListener;
         recipeDataManager = new RecipeDataManager();
-        recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
+        if (friendlyUrl == null) {
+            recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
+            this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
+        } else {
+            recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
+        }
         pagerImages = recipeRealmObject.getImages();
         prepareRecipeDetailList(recipeRealmObject);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
+
 
     private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
         setProgressVisible(true);
@@ -107,13 +114,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-
             }
 
             @Override
             public void onError(Object response) {
                 setProgressVisible(false);
-
             }
         });
     }
@@ -126,8 +131,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 try {
                     JSONObject json = new JSONObject(responseBody.string());
                     JSONArray recipeJSONArray = json.getJSONArray("similarRecipes");
-                    recipeDataManager.updateSimilarRecipe(recipeId, recipeJSONArray);
-                    recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
+                    recipeDataManager.updateSimilarRecipe(friendlyUrl, recipeJSONArray);
+                    recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
                     prepareRecipeDetailList(recipeRealmObject);
                     pagerImages = recipeRealmObject.getImages();
                     dataSetListener.onRecipeDetailDataUpdate();
@@ -225,10 +230,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private void addComments(RecipeRealmObject recipeRealmObject) {
         ListHeading commentsHeading = new ListHeading(context.getString(R.string.text_comments));
-        if (recipeRealmObject.getCounter() != null) {
+        if (recipeRealmObject.getCounter() != null)
             commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
-        }
-        commentsHeading.setRecipeId(recipeId);
+        commentsHeading.setRecipeId(recipeRealmObject.get_id());
+        commentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
             if (!NetworkUtils.isNetworkConnected(context) || i == 3) {
@@ -237,7 +242,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
-        addCommentsHeading.setRecipeId(recipeId);
+        addCommentsHeading.setRecipeId(recipeRealmObject.get_id());
+        addCommentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(addCommentsHeading);
 
     }
@@ -273,10 +279,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public String getRecipeImageId() {
-        if (recipeRealmObject.getCreatedBy() != null) {
-            return recipeRealmObject.getCreatedBy().getProfileImageId();
-        }
-        return null;
+        return recipeRealmObject.getCreatedBy().getProfileImageId();
     }
 
     public String getRecipeFriendlyUrl() {
@@ -304,18 +307,18 @@ public class RecipeDetailViewModel extends BaseViewModel {
         context.startActivity(i);
     }
 
+    public JSONObject getCollectionMapping() {
+        return collectionMapping;
+    }
+
     public void updateComments() {
-        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
+        RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
         prepareRecipeDetailList(recipeRealmObject);
         dataSetListener.onRecipeDetailDataUpdate();
     }
 
     @Override
     protected void destroy() {
-    }
-
-    public JSONObject getCollectionMapping() {
-        return collectionMapping;
     }
 
 
@@ -367,7 +370,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                         Logger.d("imageUpload", copyJsonObject.toString());
                         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
                         String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-                        new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeId, requestBody, new IApiRequestComplete() {
+                        new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeRealmObject.get_id(), requestBody, new IApiRequestComplete() {
                             @Override
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
