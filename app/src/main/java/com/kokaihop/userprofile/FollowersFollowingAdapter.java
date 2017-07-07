@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
     public FollowersFollowingAdapter(ArrayList<FollowingFollowerUser> usersList, FollowersFollowingViewModel followingViewModel) {
         this.usersList = usersList;
         this.followingViewModel = followingViewModel;
-        Log.e(usersList.size() + "", "Size");
+        Logger.e(usersList.size() + "", "Size");
     }
 
     @Override

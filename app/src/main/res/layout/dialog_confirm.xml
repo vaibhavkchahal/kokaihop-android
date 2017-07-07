@@ -10,25 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/dialog_cookbook_delete_title"
+            android:id="@+id/dialog_confirm_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/dialog_delete_cookbook_title_margin_top"
             android:gravity="center"
-            android:text="@string/are_you_sure_you_want_to_delete_this_cookbook"
+            android:text="@string/confirm"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_large"
             app:font="@{`SS-ProRegular`}"/>
         <TextView
-            android:id="@+id/cookbook_delete_msg"
+            android:id="@+id/dialog_confirmation_msg"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_new_cookbook_name_height"
-            android:layout_below="@+id/dialog_cookbook_delete_title"
+            android:layout_below="@+id/dialog_confirm_title"
             android:gravity="center"
             android:paddingEnd="@dimen/dialog_delete_cookbook_msg_hor_padding"
             android:paddingStart="@dimen/dialog_delete_cookbook_msg_hor_padding"
-            android:text="@string/this_will_delete_the_cookbook_and_its_recipes"
+            android:text="@string/confirm"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/text_size_small"
             app:font="@{`SS-ProRegular`}"/>
@@ -37,7 +37,7 @@
             android:id="@+id/dialog_divider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height"
-            android:layout_below="@+id/cookbook_delete_msg"
+            android:layout_below="@+id/dialog_confirmation_msg"
             android:layout_marginTop="@dimen/dialog_delete_cookbook_name_margin"
             android:background="@color/colorPrimary"/>
 
@@ -47,7 +47,7 @@
             android:layout_below="@+id/dialog_divider"
             android:weightSum="2">
             <TextView
-                android:id="@+id/cancel"
+                android:id="@+id/confirm_negative"
                 android:layout_width="@dimen/none"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -61,16 +61,15 @@
                   android:layout_height="match_parent"
                   android:background="@color/colorPrimary"/>
             <TextView
-                android:id="@+id/delete_cookbbok"
+                android:id="@+id/confirm_positive"
                 android:layout_width="@dimen/none"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/delete"
-                android:textColor="@color/red"
+                android:text="@string/confirm"
+                android:textColor="@color/blue_FF198CFF"
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>
-
 
         </LinearLayout>
 

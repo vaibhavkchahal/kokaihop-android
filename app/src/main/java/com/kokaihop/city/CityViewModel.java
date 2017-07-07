@@ -1,9 +1,8 @@
 package com.kokaihop.city;
 
-import android.util.Log;
-
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.RetrofitClient;
+import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -48,11 +47,11 @@ public class CityViewModel extends BaseViewModel{
                 setProgressVisible(false);
                 if(response!=null){
                     if(response.code()==200){
-                        Log.e("Response",response.body().getCityDetailsList().get(0).getName());
+                        Logger.e("Response",response.body().getCityDetailsList().get(0).getName());
                         setCities(response.body().getCityDetailsList());
                     }
                 }else{
-                    Log.e("Response ", "Error");
+                    Logger.e("Response ", "Error");
                 }
             }
 

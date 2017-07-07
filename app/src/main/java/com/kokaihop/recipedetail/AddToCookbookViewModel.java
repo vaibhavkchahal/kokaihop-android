@@ -142,11 +142,11 @@ public class AddToCookbookViewModel extends BaseViewModel {
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                Toast.makeText(context, R.string.cookbook_created, Toast.LENGTH_SHORT).show();
                 setDownloading(true);
                 EventBus.getDefault().postSticky("refreshCookbook");
                 getCookbooksOfUser(0);
                 setProgressVisible(false);
+                AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.cookbook_created));
             }
 
             @Override
@@ -181,10 +181,10 @@ public class AddToCookbookViewModel extends BaseViewModel {
         new CookbooksApiHelper().addToCookbook(accessToken, addToCookbookRequest, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                Toast.makeText(context, R.string.recipe_added_to_cookbook, Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().postSticky("refreshRecipeDetail");
                 cookbook.setTotal(cookbook.getTotal() + 1);
                 setProgressVisible(false);
+                AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.recipe_added_to_cookbook));
             }
 
             @Override

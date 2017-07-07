@@ -57,7 +57,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         }
 
         viewModel = new CookbookDetailViewModel(this, getContext(), user);
-        binding.setCookbookTitle(cookbookTitle);
+        viewModel.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
         adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
         adapter.setViewModel(viewModel);

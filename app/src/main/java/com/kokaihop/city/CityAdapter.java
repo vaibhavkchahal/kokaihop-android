@@ -3,7 +3,6 @@ package com.kokaihop.city;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowCityBinding;
+import com.kokaihop.utility.Logger;
 
 import java.util.ArrayList;
 
@@ -91,7 +91,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.ViewHolder> im
         public void onClick(View v) {
             String city = (String) ((TextView) v).getText();
             cityInterface.citySelected(cityList.get(getAdapterPosition()));
-            Log.e("city", city);
+            Logger.d("city", city);
         }
 
         public void bind(CityDetails city) {

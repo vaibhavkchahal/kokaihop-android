@@ -4,7 +4,6 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto"
         tools:context="com.kokaihop.cookbooks.CookbookDetailFragment">
     <data>
-        <variable name="cookbookTitle" type="String"/>
         <variable name="viewModel" type="com.kokaihop.cookbooks.CookbookDetailViewModel"/>
     </data>
 
@@ -56,7 +55,7 @@
                     android:id="@+id/tv_cookbook_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{cookbookTitle}"
+                    android:text="@{viewModel.cookbookTitle}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_large"
                     app:font="@{`SS-ProRegular`}"

@@ -1,17 +1,15 @@
 package com.kokaihop.cookbooks;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.databinding.Bindable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.android.databinding.library.baseAdapters.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.cookbooks.model.RenameCookbookRequest;
 import com.kokaihop.feed.Recipe;
@@ -21,6 +19,7 @@ import com.kokaihop.userprofile.ProfileDataManager;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.ConfirmationDialog;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.InputDialog;
 import com.kokaihop.utility.Logger;
@@ -49,7 +48,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
     private boolean isDownloading;
     private CookbooksDataManager dataManager;
     private User user;
-    private String accessToken, cookbookId, cookbookFriendlyUrl;
+    private String accessToken, cookbookId, cookbookFriendlyUrl,cookbookTitle;
 
     public CookbookDetailViewModel(Fragment fragment, Context context, User user) {
         this.fragment = fragment;
@@ -113,9 +112,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
     }
 
     public void deleteCookbook() {
-        final Dialog dialog = new Dialog(fragment.getContext());
-        dialog.setContentView(R.layout.dialog_delete_cookbook);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         String msg = context.getString(R.string.this_will_permanently_delete);
         if (totalRecipes > 0) {
             msg += totalRecipes
@@ -123,9 +119,14 @@ public class CookbookDetailViewModel extends BaseViewModel {
         } else {
             msg += context.getString(R.string.the_cookbook);
         }
-        ((TextView) dialog.findViewById(R.id.cookbook_delete_msg)).setText(msg);
 
-        dialog.findViewById(R.id.delete_cookbbok).setOnClickListener(new View.OnClickListener() {
+        final ConfirmationDialog dialog = new ConfirmationDialog(fragment.getActivity(),
+                context.getString(R.string.are_you_sure_you_want_to_delete_this_cookbook),
+                msg,
+                context.getString(R.string.delete),
+                context.getString(R.string.cancel));
+
+        dialog.getConfirmPositive().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleteCookbookOfUser();
@@ -133,12 +134,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
             }
         });
 
-        dialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
         dialog.show();
 
     }
@@ -205,12 +200,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
-    public void renameCookbookApiCall(String name) {
+    public void renameCookbookApiCall(final String name) {
         RenameCookbookRequest request = new RenameCookbookRequest(name, cookbookId);
         new CookbooksApiHelper().renameCookbook(accessToken, cookbookId, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_renamed));
+                setCookbookTitle(name);
             }
 
             @Override
@@ -226,13 +222,26 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
-    public void removeRecipeFromCookbook(String recipeId, int position) {
-        setProgressVisible(true);
-        Cookbook cookbook = new Cookbook();
-        cookbook.set_id(cookbookId);
-        cookbook.setTotal(totalRecipes);
-        new AddToCookbookViewModel(fragment, context).removeFromCookbook(cookbook, recipeId, position);
-        setProgressVisible(false);
+    public void removeRecipeFromCookbook(final String recipeId, final int position) {
+        final ConfirmationDialog dialog = new ConfirmationDialog(context,
+                context.getString(R.string.cookbook),
+                context.getString(R.string.are_you_sure_you_want_to_delete_this_recipe),
+                context.getString(R.string.delete),
+                context.getString(R.string.cancel)
+        );
+        dialog.getConfirmPositive().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                setProgressVisible(true);
+                Cookbook cookbook = new Cookbook();
+                cookbook.set_id(cookbookId);
+                cookbook.setTotal(totalRecipes);
+                new AddToCookbookViewModel(fragment, context).removeFromCookbook(cookbook, recipeId, position);
+                setProgressVisible(false);
+            }
+        });
+        dialog.show();
     }
 
     @Override
@@ -270,5 +279,15 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     public void setDownloading(boolean downloading) {
         isDownloading = downloading;
+    }
+
+    @Bindable
+    public String getCookbookTitle() {
+        return cookbookTitle;
+    }
+
+    public void setCookbookTitle(String cookbookTitle) {
+        this.cookbookTitle = cookbookTitle;
+        notifyPropertyChanged(BR.cookbookTitle);
     }
 }

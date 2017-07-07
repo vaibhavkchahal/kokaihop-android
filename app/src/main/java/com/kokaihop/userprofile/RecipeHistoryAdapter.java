@@ -5,7 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     public RecipeHistoryAdapter(Fragment fragment, ArrayList<Recipe> recipeList) {
         this.recipeList = recipeList;
         this.fragment = fragment;
-        Log.e(recipeList.size() + "", "Size");
         recipeHandler = new RecipeHandler();
         editCookbook = new EditCookbook();
         recipeDataManager = new RecipeDataManager();
