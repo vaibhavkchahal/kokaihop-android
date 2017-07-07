@@ -81,11 +81,11 @@ public class MainCourseFragment extends Fragment {
         Object object = mainCourseViewModel.getRecipeListWithAdds().get(recipePosition);
         if (object instanceof RecipeRealmObject) {
             RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl()))
-            {
+            if (recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())) {
                 recipeObject.setFavorite(recipe.isFavorite());
                 recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
                 mainCourseBinding.rvMainCourse.getAdapter().notifyDataSetChanged();
+                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
             }
 
         }

@@ -85,6 +85,7 @@ public class DessertFragment extends Fragment {
                 recipeObject.setFavorite(recipe.isFavorite());
                 recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
                 dessertBinding.rvDesert.getAdapter().notifyDataSetChanged();
+                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
             }
         }
 

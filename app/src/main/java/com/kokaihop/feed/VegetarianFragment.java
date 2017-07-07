@@ -86,6 +86,7 @@ public class VegetarianFragment extends Fragment {
                 recipeObject.setFavorite(recipe.isFavorite());
                 recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
                 vegetarianBinding.rvVegetarian.getAdapter().notifyDataSetChanged();
+                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
             }
         }
 
