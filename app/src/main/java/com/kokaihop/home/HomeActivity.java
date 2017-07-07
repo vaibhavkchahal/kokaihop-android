@@ -79,11 +79,9 @@ public class HomeActivity extends BaseActivity {
         bundle.putString(Constants.USER_ID, SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_ID));
         bundle.putString(Constants.FRIENDLY_URL, SharedPrefUtils.getSharedPrefStringData(this, Constants.FRIENDLY_URL));
         adapter.addFrag(new UserFeedFragment(), getString(R.string.tab_feed));
-
         MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();
         myCookbooksFragment.setArguments(bundle);
         adapter.addFrag(myCookbooksFragment, getString(R.string.tab_cookbooks));
-
         adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(userProfileFragment, getString(R.string.tab_me));
@@ -98,9 +96,9 @@ public class HomeActivity extends BaseActivity {
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
-                        if(tabLayout.getSelectedTabPosition()==1){
-                            refreshFragment(1);
-                        }
+                if (tabLayout.getSelectedTabPosition() == 1) {
+                    refreshFragment(1);
+                }
             }
 
             @Override
@@ -157,8 +155,8 @@ public class HomeActivity extends BaseActivity {
 
         }
         if (requestCode == Constants.USERPROFILE_REQUEST) {
-           refreshFragment(4);
-        }else if(requestCode == Constants.COOKBOOK_REQUEST){
+            refreshFragment(4);
+        } else if (requestCode == Constants.COOKBOOK_REQUEST) {
             refreshFragment(1);
         }
     }
@@ -180,6 +178,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -196,7 +195,7 @@ public class HomeActivity extends BaseActivity {
         } else if (update.equalsIgnoreCase("refreshRecipeDetail") || update.equals("refreshCookbook")) {
             refreshFragment(1);
         }
-        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().removeStickyEvent(update);
     }
 
     private void refreshFragment(int postionFragmentToRefresh) {
