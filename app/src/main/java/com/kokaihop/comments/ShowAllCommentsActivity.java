@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityShowAllCommentsBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.NetworkUtils;
 
 /**
@@ -27,8 +28,9 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_show_all_comments);
-        String recipeID = getIntent().getStringExtra("recipeId");
-        showCommentsViewModel = new ShowCommentsViewModel(recipeID, this);
+        String recipeID = getIntent().getStringExtra(Constants.RECIPE_ID);
+        String friendlyUrl = getIntent().getStringExtra(Constants.FRIENDLY_URL);
+        showCommentsViewModel = new ShowCommentsViewModel(recipeID, friendlyUrl,this);
         binding.setViewModel(showCommentsViewModel);
         initializeRecycleView();
         initializePullToRefresh();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.utility.Constants;
 
 /**
  * Created by Vaibhav Chahal on 14/6/17.
@@ -11,9 +12,10 @@ import com.altaworks.kokaihop.ui.R;
 
 public class CommentsHandler {
 
-    public void openCommentsScreen(Context context, String recipeId) {
+    public void openCommentsScreen(Context context, String recipeId, String friendlyUrl) {
         Intent intent = new Intent(context, ShowAllCommentsActivity.class);
-        intent.putExtra("recipeId", recipeId);
+        intent.putExtra(Constants.RECIPE_ID, recipeId);
+        intent.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
         context.startActivity(intent);
     }
 

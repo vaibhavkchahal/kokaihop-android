@@ -105,7 +105,7 @@ public class CommentsFragment extends Fragment implements CommentsViewModel.Comm
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-            if (layoutManager.findFirstVisibleItemPosition() > 0 && binding.swipeRefreshLayout.isRefreshing()) {
+            if (layoutManager.findFirstVisibleItemPosition() > 0 && binding.swipeRefreshLayout.isRefreshing() && itemCount > 0) {
                 binding.txtviewNewCommentView.setVisibility(View.VISIBLE);
             } else {
                 binding.txtviewNewCommentView.setVisibility(View.GONE);

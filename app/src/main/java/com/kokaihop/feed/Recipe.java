@@ -13,6 +13,7 @@ import com.android.databinding.library.baseAdapters.BR;
 public class Recipe extends BaseObservable {
 
     private String _id;
+    private String recipeFriendlyUrl;
     private String title;
     private String type;
 
@@ -172,5 +173,13 @@ public class Recipe extends BaseObservable {
 
     public void setCreatedByFriendlyUrl(String createdByFriendlyUrl) {
         this.createdByFriendlyUrl = createdByFriendlyUrl;
+    }
+
+    public String getRecipeFriendlyUrl() {
+        return recipeFriendlyUrl;
+    }
+
+    public void setRecipeFriendlyUrl(String recipeFriendlyUrl) {
+        this.recipeFriendlyUrl = recipeFriendlyUrl;
     }
 }

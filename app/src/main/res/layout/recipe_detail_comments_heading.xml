@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
-            android:onClick="@{(v)->handler.openCommentsScreen(context,model.recipeId)}"
+            android:onClick="@{(v)->handler.openCommentsScreen(context,model.recipeId,model.friendlyUrl)}"
             android:text="@{`View all `+model.commentCount+` comments`}"
             android:textColor="@color/colorPrimary"
             android:textSize="13sp"

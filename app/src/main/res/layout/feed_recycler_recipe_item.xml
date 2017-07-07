@@ -150,7 +150,7 @@
                           android:layout_alignParentRight="true"
                           android:layout_marginRight="@dimen/iv_comment_margin_right"
                           android:gravity="center_vertical"
-                          android:onClick="@{(v)->recipeHandler.openCommentsScreen(context,recipe._id)}">
+                          android:onClick="@{(v)->recipeHandler.openCommentsScreen(context,recipe._id,recipe.recipeFriendlyUrl)}">
 
                 <TextView
                     android:id="@+id/tv_comment_count"

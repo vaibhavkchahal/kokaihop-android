@@ -230,6 +230,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getCounter() != null)
             commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
         commentsHeading.setRecipeId(recipeRealmObject.get_id());
+        commentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(commentsHeading);
         for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
             if (!NetworkUtils.isNetworkConnected(context) || i == 3) {
@@ -239,6 +240,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         }
         ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
         addCommentsHeading.setRecipeId(recipeRealmObject.get_id());
+        addCommentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(addCommentsHeading);
 
     }

@@ -40,6 +40,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
     private final String TYPE_FILTER = "RECIPE_COMMENT";
     private RecipeDataManager recipeDataManager;
     private String recipeID;
+    private String friendlyUrl;
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private CommentDatasetListener commentListener;
     private long totalCommentCount;
@@ -68,9 +69,14 @@ public class ShowCommentsViewModel extends BaseViewModel {
         return max;
     }
 
-    public ShowCommentsViewModel(String recipeId, CommentDatasetListener dataSetListener) {
-        this.recipeID = recipeId;
+    public ShowCommentsViewModel(String recipeId, String friendlyUrl, CommentDatasetListener dataSetListener) {
+        this.friendlyUrl = friendlyUrl;
         recipeDataManager = new RecipeDataManager();
+        this.recipeID = recipeId;
+        if (recipeID == null) {
+            RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
+            this.recipeID = recipeRealmObject.get_id();
+        }
         this.commentListener = dataSetListener;
         fetchCommentsFromDB();
         fetchCommentFromServer(getOffset(), getMax(), true);
@@ -119,7 +125,6 @@ public class ShowCommentsViewModel extends BaseViewModel {
         totalCommentCount = recipeRealmObject.getCounter().getComments();
         commentListener.onUpdateCommentsList();
     }
-
 
     // post comment after checking user authentication.
     public void postComment(View view, EditText editText) {

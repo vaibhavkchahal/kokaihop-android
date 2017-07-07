@@ -30,7 +30,6 @@ public class RecipeRatingHandler {
                 changedRating = (int) rating;
             }
         });
-
         ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -47,6 +46,7 @@ public class RecipeRatingHandler {
             }
         });
     }
+
 
     private void updateRecipeRating(final RatingBar ratingBar, final RecipeDetailHeader recipeDetailHeader) {
         String accessTokenBearer = Constants.AUTHORIZATION_BEARER + getSharedPrefStringData(ratingBar.getContext(), Constants.ACCESS_TOKEN);

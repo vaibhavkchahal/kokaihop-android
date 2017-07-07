@@ -7,7 +7,7 @@ package com.kokaihop.recipedetail;
 public class ListHeading {
     private String title;
     private long commentCount;
-    private String recipeId;
+    private String recipeId, friendlyUrl;
 
     public ListHeading(String title) {
         this.title = title;
@@ -37,4 +37,11 @@ public class ListHeading {
         return commentCount;
     }
 
+    public String getFriendlyUrl() {
+        return friendlyUrl;
+    }
+
+    public void setFriendlyUrl(String friendlyUrl) {
+        this.friendlyUrl = friendlyUrl;
+    }
 }

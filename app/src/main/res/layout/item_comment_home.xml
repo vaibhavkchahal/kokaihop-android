@@ -122,7 +122,7 @@
                             android:layout_marginLeft="@dimen/comment_text_margin_left"
                             android:layout_marginRight="@dimen/coment_text_margin_right"
                             android:layout_marginTop="@dimen/coment_text_margin_top"
-                            android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe._id)}">
+                            android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe._id,model.payload.recipe.friendlyUrl)}">
 
                 <TextView
                     android:id="@+id/txtview_comment"
