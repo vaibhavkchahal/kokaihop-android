@@ -1,18 +1,9 @@
 1. Search
-   - Search Design
-   - Course, cuisine method and sort by listing API implementation.
-   - Search by course, Cuisine and Method filter.
-   - Sort by title A-Z, Z-A, latest, Comments
-   - Newly added recipe
-   - Only with image or All image recipe filter.
-   - Search based on keyword.
+   - All filters implementation except "Best Rating"
 2. Cookbook Tab
-   - Recipes of Cookbooks.
-   - Create Cookbook
-   - Navigate to recipe detail screen
-3. Recipe Details
-   - Profile, Similar recipes Linking.
-   - Rating bar design changes.
+   - Completed Cookbook functionality.
+3. Comments Tab
+   - Completed comments functionality.
 
 
 
