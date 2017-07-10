@@ -191,12 +191,14 @@ public class AddToCookbookViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
 
             @Override
             public void onError(Object response) {
                 Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
         });
     }
@@ -218,14 +220,16 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
 
             @Override
             public void onError(Object response) {
                 Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
         });
     }

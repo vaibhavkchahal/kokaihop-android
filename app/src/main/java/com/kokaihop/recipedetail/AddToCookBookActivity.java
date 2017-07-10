@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityCookbookBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentCookbookLoginBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.cookbooks.MyCookbooksViewModel;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -21,12 +23,19 @@ public class AddToCookBookActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityCookbookBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_cookbook);
-        setupArguments();
-        AddToCookbookFragment addToCookbookFragment = new AddToCookbookFragment();
-        binding.setViewModel(new AddToCookbookViewModel(addToCookbookFragment, this));
-        addToCookbookFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(binding.rlAddToCookbook.getId(), addToCookbookFragment).commit();
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+        if ((accessToken == null) || accessToken.isEmpty()) {
+            FragmentCookbookLoginBinding binding = DataBindingUtil.setContentView(this, R.layout.fragment_cookbook_login);
+            MyCookbooksViewModel viewModel = new MyCookbooksViewModel(null, this, null, null);
+            binding.setViewModel(viewModel);
+        } else {
+            ActivityCookbookBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_cookbook);
+            setupArguments();
+            AddToCookbookFragment addToCookbookFragment = new AddToCookbookFragment();
+            binding.setViewModel(new AddToCookbookViewModel(addToCookbookFragment, this));
+            addToCookbookFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(binding.rlAddToCookbook.getId(), addToCookbookFragment).commit();
+        }
     }
 
     private void setupArguments() {

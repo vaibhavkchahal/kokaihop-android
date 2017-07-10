@@ -100,7 +100,7 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
                 binding.clCookbookRow.setMaxHeight(0);
             }
             try {
-                binding.cbRecipeAdded.setChecked(collectionMapping.getJSONArray(cookbook.get_id()).toString().contains(recipeId));
+                cookbook.setContains(collectionMapping.getJSONArray(cookbook.get_id()).toString().contains(recipeId));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

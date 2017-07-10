@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data></data>
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.editprofile.SettingsViewModel"/>
+    </data>
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_settings_container"
         android:layout_width="match_parent"
@@ -142,6 +145,9 @@
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/settings_logout"/>
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
 
     </android.support.constraint.ConstraintLayout>
 

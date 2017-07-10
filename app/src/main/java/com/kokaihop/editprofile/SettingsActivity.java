@@ -1,8 +1,6 @@
 package com.kokaihop.editprofile;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,16 +9,10 @@ import android.view.View;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySettingsBinding;
 import com.kokaihop.base.BaseActivity;
-import com.kokaihop.home.HomeActivity;
-import com.kokaihop.userprofile.ProfileDataManager;
-import com.kokaihop.userprofile.model.User;
-import com.kokaihop.utility.Constants;
-import com.kokaihop.utility.SharedPrefUtils;
-
-import static com.kokaihop.KokaihopApplication.getContext;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
 
+    SettingsViewModel viewModel;
 
     public SettingsActivity() {
     }
@@ -31,6 +23,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         // Inflate the layout for this fragment
         super.onCreate(savedInstanceState);
         ActivitySettingsBinding settingsBinding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
+        viewModel = new SettingsViewModel(this);
+        settingsBinding.setViewModel(viewModel);
         settingsBinding.settingsLogout.setOnClickListener(this);
         settingsBinding.settingsChangePassword.setOnClickListener(this);
         settingsBinding.settingsEmailPreferences.setOnClickListener(this);
@@ -39,39 +33,13 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         settingsBinding.settingsSave.setOnClickListener(this);
     }
 
-    //    Display dialogbox to confirm the user for logout process.
-    public void showDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-        dialog.setTitle("Confirm Logout");
-        dialog.setMessage("Do you really want to logout!!!");
-        dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
-                SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.USER_ID, null);
-                SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.FRIENDLY_URL, null);
-                ProfileDataManager profileDataManager = new ProfileDataManager();
-//                profileDataManager.removeData();
-                profileDataManager.updateIsFavoriteForAllRecipe();
-                profileDataManager.updateLastUpdatedTimeForAllRecipe();
-                Intent intent = new Intent(getContext(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                User.removeInstance();
-                startActivity(intent);
-            }
-        });
-        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.settings_logout:
-                showDialog();
+                viewModel.logout();
                 break;
             case R.id.settings_iv_back:
                 finish();
