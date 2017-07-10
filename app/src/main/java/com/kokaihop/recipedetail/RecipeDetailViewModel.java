@@ -48,7 +48,6 @@ import okhttp3.ResponseBody;
 
 public class RecipeDetailViewModel extends BaseViewModel {
 
-    private static final int REQUEST_CODE = 100;
     private final int LIMIT_COMMENT = 3;
     private final int LIMIT_SIMILAR_RECIPE = 5;
     private final DataSetListener dataSetListener;
@@ -86,7 +85,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         prepareRecipeDetailList(recipeRealmObject);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
-
 
     private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
         setProgressVisible(true);
@@ -379,6 +377,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
                                 Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
+                                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                             }
 
                             @Override
@@ -400,7 +399,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                 setProgressVisible(false);
             }
         });

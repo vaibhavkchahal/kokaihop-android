@@ -34,6 +34,7 @@ public class HomeActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ActivityHomeBinding activityHomeBinding;
     private int tabCount = 5;
+    HomeViewModel viewModel;
     private UserProfileFragment userProfileFragment;
     private int[] activeTabsIcon = {
             R.drawable.ic_feed_orange_sm,
@@ -54,6 +55,8 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        viewModel = new HomeViewModel(this);
+        viewModel.getLatestRecipes();
         setTabView();
     }
 

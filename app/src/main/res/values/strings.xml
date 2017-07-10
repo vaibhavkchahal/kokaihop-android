@@ -317,4 +317,5 @@
     <string name="are_you_sure_you_want_to_delete_this_recipe">Are you sure you want to delete
         this recipe?
     </string>
+    <string name="recipes_updated">Recipes Updated</string>
 </resources>

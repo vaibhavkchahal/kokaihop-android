@@ -1,5 +1,6 @@
 package com.kokaihop.recipe;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -10,8 +11,13 @@ import retrofit2.http.Query;
 
 public interface RecipeApi {
 
-    @GET("v1/api/recipes?")
+    @GET("v1/api/recipes")
     Call<SearchResponse> getRecipe(@Query("fetchFacets") int fetchFacets, @Query("max") int max,
                                    @Query("offset") int offset, @Query("sortParams") String sortParams,
                                    @Query("type") String type);
+
+    @GET("v1/api/recipes")
+    Call<ResponseBody> getLatestRecipes(@Query("fetchFacets") int fetchFacets, @Query("max") int max,
+                                        @Query("offset") int offset, @Query("sortParams") String sortParams,
+                                        @Query("type") String type, @Query("timestamp") String timestamp);
 }
