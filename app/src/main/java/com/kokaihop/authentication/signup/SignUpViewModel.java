@@ -18,6 +18,7 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.city.CityActivity;
 import com.kokaihop.city.CityLocation;
 import com.kokaihop.city.SignUpRequest;
+import com.kokaihop.home.AuthUpdateEvent;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
@@ -118,13 +119,13 @@ public class SignUpViewModel extends BaseViewModel {
             public void onSuccess(AuthenticationApiResponse response) {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
-                SharedPrefUtils.setSharedPrefStringData(context,Constants.USER_ID,response.getUserAuthenticationDetail().getId());
-                SharedPrefUtils.setSharedPrefStringData(context,Constants.FRIENDLY_URL,response.getUserAuthenticationDetail().getFriendlyUrl());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
                 Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
 //                boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
                 String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
                 if (from != null && from.equals("loginRequired")) {
-                    EventBus.getDefault().postSticky("updateRequired");
+                    EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
                     Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
                     ((SignUpActivity) context).setResult(Activity.RESULT_OK);
                     ((SignUpActivity) context).finish();
@@ -199,7 +200,7 @@ public class SignUpViewModel extends BaseViewModel {
 //                        boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
                         String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
                         if (from != null && from.equals("loginRequired")) {
-                            EventBus.getDefault().postSticky("updateRequired");
+                            EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
                             ((SignUpActivity) context).setResult(Activity.RESULT_OK);
                             ((SignUpActivity) context).finish();
                             Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();

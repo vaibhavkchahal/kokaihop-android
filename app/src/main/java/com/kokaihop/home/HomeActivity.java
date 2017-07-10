@@ -191,14 +191,15 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Subscribe(sticky = true)
-    public void onEvent(String update) {
-        if (update.equalsIgnoreCase("updateRequired")) {
+    public void onEventRecieve(AuthUpdateEvent authUpdateEvent) {
+        String eventText = authUpdateEvent.getEvent();
+        if (eventText.equalsIgnoreCase("updateRequired")) {
             refreshFragment(4);
             refreshFragment(1);
-        } else if (update.equalsIgnoreCase("refreshRecipeDetail") || update.equals("refreshCookbook")) {
+        } else if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
             refreshFragment(1);
         }
-        EventBus.getDefault().removeStickyEvent(update);
+        EventBus.getDefault().removeStickyEvent(authUpdateEvent);
     }
 
     private void refreshFragment(int postionFragmentToRefresh) {
