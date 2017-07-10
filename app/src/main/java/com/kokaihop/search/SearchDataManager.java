@@ -15,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +136,6 @@ public class SearchDataManager {
             public void onChange(Object element) {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
-
                     onCompleteListener.onSearchComplete(recipeRealmResult);
                     recipeRealmResult.removeAllChangeListeners();
 
@@ -145,7 +146,7 @@ public class SearchDataManager {
     }
 
     public void selectedFiltersSearchQuery(Map<String, String> filterMap, boolean withImage,
-                                           String sortBy, String keyword, final OnCompleteListener onCompleteListener) {
+                                           final String sortBy, String keyword, final OnCompleteListener onCompleteListener) {
         RealmQuery<RecipeRealmObject> query;
         query = realm.where(RecipeRealmObject.class);
         if (keyword != null && !keyword.isEmpty()) {
@@ -169,18 +170,57 @@ public class SearchDataManager {
         }
         recipeRealmResult = sortFilter(query, sortBy);
 
-        RealmChangeListener realmChangeListener = new RealmChangeListener() {
+
+        final RealmChangeListener realmChangeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
-                    onCompleteListener.onSearchComplete(recipeRealmResult);
+                    if (!sortBy.isEmpty() && sortBy.equals(context.getResources().getString(R.string.best_rating))) {
+                        {
+                            List<RecipeRealmObject> copyRealm = realm.copyFromRealm(recipeRealmResult, 2);
+                            sortByRating(copyRealm);
+                            onCompleteListener.onSearchComplete(copyRealm);
+
+                        }
+                    } else {
+                        onCompleteListener.onSearchComplete(recipeRealmResult);
+                    }
                     recipeRealmResult.removeAllChangeListeners();
                 }
             }
         };
         recipeRealmResult.addChangeListener(realmChangeListener);
 
+    }
+
+    private void sortByRating(List<RecipeRealmObject> copyRealm) {
+        Collections.sort(copyRealm, Collections.reverseOrder(new Comparator<RecipeRealmObject>() {
+            @Override
+            public int compare(RecipeRealmObject recipeRealmObject1, RecipeRealmObject recipeRealmObject2) {
+                if (recipeRealmObject1.getRating() != null && recipeRealmObject2.getRating() != null) {
+
+                    if ((recipeRealmObject1.getRating().getRaters() >= 5 && recipeRealmObject2.getRating().getRaters() >= 5)
+                            || (recipeRealmObject1.getRating().getRaters() < 5 && recipeRealmObject2.getRating().getRaters() < 5)) {
+                        return Float.compare(recipeRealmObject1.getRating().getAverage(), recipeRealmObject2.getRating().getAverage());
+                    } else if (recipeRealmObject1.getRating().getRaters() < 5 && recipeRealmObject2.getRating().getRaters() >= 5) {
+                        return Float.compare(0, recipeRealmObject2.getRating().getAverage());
+                    } else {
+                        return Float.compare(recipeRealmObject1.getRating().getAverage(), 0);
+                    }
+
+                } else {
+                    if (recipeRealmObject1.getRating() == null && recipeRealmObject2.getRating() == null) {
+                        return 0;
+                    } else if (recipeRealmObject1.getRating() == null) {
+                        return Float.compare(0, recipeRealmObject2.getRating().getAverage());
+                    } else {
+                        return Float.compare(recipeRealmObject1.getRating().getAverage(), 0);
+                    }
+                }
+            }
+
+        }));
     }
 
     private RealmResults<RecipeRealmObject> sortFilter(RealmQuery<RecipeRealmObject> query, String sortBy) {
