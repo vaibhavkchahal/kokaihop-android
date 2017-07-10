@@ -1,8 +1,94 @@
 package com.kokaihop.home;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.RecipeDataManager;
+import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.recipe.RecipeApiHelper;
+import com.kokaihop.recipe.RecipeRequestParams;
+import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import io.realm.Realm;
+import io.realm.Sort;
+import okhttp3.ResponseBody;
+
 /**
  * Created by Rajendra Singh on 12/5/17.
  */
 
 public class HomeViewModel {
+    Context context;
+
+    public HomeViewModel(Context context) {
+        this.context = context;
+    }
+
+    public void getLatestRecipes() {
+        final RecipeRequestParams recipeRequestParams = getRecipeRequestParams();
+        Realm realm = Realm.getDefaultInstance();
+        RecipeRealmObject realmObject = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING).first();
+        recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
+        Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
+
+        new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject json = new JSONObject(responseBody.string());
+                    JSONArray recipeJSONArray = json.getJSONArray("searchResults");
+                    if((recipeJSONArray!=null) && (recipeJSONArray.length()>0)){
+                        new RecipeDataManager().insertOrUpdateRecipe(recipeJSONArray);
+                        recipeRequestParams.setOffset(recipeRequestParams.getOffset() + recipeRequestParams.getMax());
+                        if(recipeJSONArray.length()>=recipeRequestParams.getMax()){
+                            getLatestRecipes();
+                        }
+                    }else{
+                        Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Object response) {
+                Toast.makeText(context, "Update Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+//    seeting the argumenets for the recipeListUpdate api call.
+//    max 100 for maximum 100 elements at a time.
+//    setWithImages 0 for all the recipes with or without images, 1 for recipes with images only
+    public RecipeRequestParams getRecipeRequestParams() {
+        RecipeRequestParams recipeRequestParams = new RecipeRequestParams();
+        recipeRequestParams.setSortParams(ApiConstants.MOST_RECENT);
+        recipeRequestParams.setMax(100);
+        recipeRequestParams.setFetchFacets(0);
+        recipeRequestParams.setOffset(0);
+        recipeRequestParams.setWithImages(0);
+        recipeRequestParams.setType(ApiConstants.RecipeType.Recipe.name());
+        return recipeRequestParams;
+    }
+
 }

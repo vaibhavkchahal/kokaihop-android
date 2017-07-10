@@ -48,7 +48,6 @@ import okhttp3.ResponseBody;
 
 public class RecipeDetailViewModel extends BaseViewModel {
 
-    private static final int REQUEST_CODE = 100;
     private final int LIMIT_COMMENT = 3;
     private final int LIMIT_SIMILAR_RECIPE = 5;
     private final DataSetListener dataSetListener;
@@ -225,7 +224,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     private void addComments(RecipeRealmObject recipeRealmObject) {
         ListHeading commentsHeading = new ListHeading(context.getString(R.string.text_comments));
-        if(recipeRealmObject.getCounter()!=null){
+        if (recipeRealmObject.getCounter() != null) {
             commentsHeading.setCommentCount(recipeRealmObject.getCounter().getComments());
         }
         commentsHeading.setRecipeId(recipeId);
@@ -296,7 +295,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     public void openCookBookScreen() {
         Intent i = new Intent(context, AddToCookBookActivity.class);
         i.putExtra(Constants.RECIPE_ID, recipeId);
-        if(collectionMapping!=null){
+        if (collectionMapping != null) {
             i.putExtra(Constants.COLLECTION_MAPPING, collectionMapping.toString());
         }
         context.startActivity(i);
@@ -370,6 +369,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
                                 Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
+                                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                             }
 
                             @Override
@@ -391,7 +391,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                 setProgressVisible(false);
             }
         });

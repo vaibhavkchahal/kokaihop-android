@@ -8,6 +8,7 @@ public class RecipeRequestParams {
 
 
     private int fetchFacets, max, offset, withImages;
+    private String timeStamp;
 
     public int getFetchFacets() {
         return fetchFacets;
@@ -60,4 +61,11 @@ public class RecipeRequestParams {
     private String sortParams, type;
 
 
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 }
