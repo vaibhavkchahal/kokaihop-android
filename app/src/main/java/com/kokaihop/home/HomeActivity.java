@@ -19,6 +19,7 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -157,8 +158,9 @@ public class HomeActivity extends BaseActivity {
             userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
 
         }
-        if (requestCode == Constants.USERPROFILE_REQUEST) {
+        if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {
             refreshFragment(4);
+            User.getInstance().setRefreshRequired(false);
         } else if (requestCode == Constants.COOKBOOK_REQUEST) {
             refreshFragment(1);
         }
@@ -197,6 +199,8 @@ public class HomeActivity extends BaseActivity {
             refreshFragment(1);
         } else if (update.equalsIgnoreCase("refreshRecipeDetail") || update.equals("refreshCookbook")) {
             refreshFragment(1);
+        }else if(update.equalsIgnoreCase("followToggled")){
+            refreshFragment(4);
         }
         EventBus.getDefault().removeStickyEvent(update);
     }

@@ -92,10 +92,10 @@
                                     android:layout_height="@dimen/user_profile_pic_size"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginTop="@dimen/user_main_profile_pic_margin_top"
-                                    app:error="@{@drawable/ic_avtar_sm}"
+                                    app:error="@{@drawable/ic_avtar_lg}"
                                     app:imageUrl="@{user.profileImageUrl}"
                                     app:isCircular="@{true}"
-                                    app:placeholder="@{@drawable/ic_avtar_sm}"/>
+                                    app:placeholder="@{@drawable/ic_avtar_lg}"/>
 
                                 <TextView
                                     android:id="@+id/tv_user_name"

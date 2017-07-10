@@ -94,7 +94,8 @@
         </android.support.v7.widget.RecyclerView>
         <include
             layout="@layout/progress_bar"
-            bind:viewModel="@{viewModel}"/>
+            bind:viewModel=
+                "@{viewModel}"/>
     </RelativeLayout>
 
 </layout>

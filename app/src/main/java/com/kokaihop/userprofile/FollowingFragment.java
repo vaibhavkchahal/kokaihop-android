@@ -46,6 +46,7 @@ public class FollowingFragment extends Fragment implements UserDataListener {
         layoutManager = new CustomLinearLayoutManager(this.getContext());
 
         followingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
+        followingBinding.setViewModel(followingViewModel);
         recyclerView = followingBinding.rvFollowerFollowingList;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followingAdapter);

@@ -52,6 +52,7 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
         layoutManager = new CustomLinearLayoutManager(this.getContext());
 
+        followersBinding.setViewModel(followersViewModel);
         recyclerView = followersBinding.rvFollowerFollowingList;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(followersAdapter);

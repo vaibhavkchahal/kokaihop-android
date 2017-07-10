@@ -2,7 +2,6 @@ package com.kokaihop.userprofile;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
@@ -115,10 +114,11 @@ public class OtherUserProfileViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (followByMe) {
-                    Toast.makeText(context, R.string.follow_success, Toast.LENGTH_SHORT).show();
+                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.follow_success));
                 } else {
-                    Toast.makeText(context, R.string.unfollow_success, Toast.LENGTH_SHORT).show();
+                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.unfollow_success));
                 }
+                User.getInstance().setRefreshRequired(true);
             }
 
             @Override

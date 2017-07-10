@@ -2,7 +2,6 @@ package com.kokaihop.userprofile;
 
 import android.content.Context;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
@@ -86,13 +85,11 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 //Getting list of following users through api call
 
     public void getFollowingUsers(final int offset) {
+        setProgressVisible(true);
         fetchFollowingFromDB();
-
         setOffset(offset);
         setDownloading(isDownloading);
-        setProgressVisible(true);
         setUpApiCall();
-        setProgressVisible(true);
         if (isDownloading) {
             new ProfileApiHelper().getFollowing(accessToken, userId, getMax(), getOffset(), new IApiRequestComplete<FollowingFollowersApiResponse>() {
                 @Override
@@ -200,10 +197,11 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (checkBox.isChecked()) {
-                    Toast.makeText(context, R.string.follow_success, Toast.LENGTH_SHORT).show();
+                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.follow_success));
                 } else {
-                    Toast.makeText(context, R.string.unfollow_success, Toast.LENGTH_SHORT).show();
+                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.unfollow_success));
                 }
+                User.getInstance().setRefreshRequired(true);
             }
 
             @Override
@@ -240,11 +238,11 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     // method to manage the data before follow or unfollow the user
 
     public void onToggleFollowing(CheckBox checkbox, FollowingFollowerUser user) {
-        accessToken = SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
-        if(accessToken.isEmpty()|| accessToken==null){
+        accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        if (accessToken.isEmpty() || accessToken == null) {
             checkbox.setChecked(!checkbox.isChecked());
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
-        }else{
+        } else {
             String userId = user.get_id();
             if (checkbox.isChecked()) {
                 User.getInstance().getFollowing().add(user.get_id());

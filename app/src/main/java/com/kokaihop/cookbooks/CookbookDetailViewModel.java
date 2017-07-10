@@ -80,16 +80,18 @@ public class CookbookDetailViewModel extends BaseViewModel {
                             setTotalRecipes(jsonObject.getInt("total"));
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            setProgressVisible(false);
                         } catch (IOException e) {
                             e.printStackTrace();
+                            setProgressVisible(false);
                         }
 
                         if (getOffset() + getMax() >= getTotalRecipes()) {
                             setDownloading(false);
                         }
+                        setProgressVisible(false);
                         fetchRecipesOfCookbooksFromDB(userFriendlyUrl, cookbookFriendlyUrl);
                     }
-                    setProgressVisible(false);
                 }
 
                 @Override
