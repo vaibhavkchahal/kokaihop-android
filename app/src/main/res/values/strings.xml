@@ -267,6 +267,7 @@
     </string>
     <string name="edit">Edit</string>
     <string name="rename">Rename</string>
+    <string name="remove">Remove</string>
     <string name="delete_cookbook">Delete Cookbook</string>
     <string name="ok">Ok</string>
     <string name="confirm">Confirm</string>
@@ -318,4 +319,5 @@
         this recipe?
     </string>
     <string name="recipes_updated">Recipes Updated</string>
+    <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed from your cookbooks.</string>
 </resources>

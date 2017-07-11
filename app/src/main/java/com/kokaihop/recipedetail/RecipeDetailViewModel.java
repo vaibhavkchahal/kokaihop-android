@@ -323,6 +323,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
     protected void destroy() {
     }
 
+    public void setCollectionMapping(JSONObject collectionMapping) {
+        this.collectionMapping = collectionMapping;
+    }
+
 
     public interface DataSetListener {
         void onPagerDataUpdate();
