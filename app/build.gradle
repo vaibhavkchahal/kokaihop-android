@@ -74,8 +74,8 @@ android {
         }
 
         databaseBundle {
-//            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
-            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
+            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
+//            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
             applicationIdSuffix ".databasebundle"
             signingConfig signingConfigs.production
         }

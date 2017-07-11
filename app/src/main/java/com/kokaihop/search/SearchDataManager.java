@@ -15,8 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -177,16 +175,20 @@ public class SearchDataManager {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
                     if (!sortBy.isEmpty() && sortBy.equals(context.getResources().getString(R.string.best_rating))) {
-                        {
-                            List<RecipeRealmObject> copyRealm = realm.copyFromRealm(recipeRealmResult, 2);
-                            sortByRating(copyRealm);
-                            onCompleteListener.onSearchComplete(copyRealm);
+                        List<RecipeRealmObject> ratingMoreThan5List = recipeRealmResult.where().greaterThanOrEqualTo("rating.raters", 5).findAllSorted("rating.average", Sort.DESCENDING);
+                        List<RecipeRealmObject> ratingLessThan5List = recipeRealmResult.where().lessThan("rating.raters", 5).findAllSorted("rating.average", Sort.DESCENDING);
+                        List<RecipeRealmObject> ratingNullList = recipeRealmResult.where().isNull("rating").findAll();
 
-                        }
+                        List<RecipeRealmObject> recipeList = new ArrayList<>();
+                        recipeList.addAll(ratingMoreThan5List);
+                        recipeList.addAll(ratingLessThan5List);
+                        recipeList.addAll(ratingNullList);
+                        onCompleteListener.onSearchComplete(recipeList);
                     } else {
                         onCompleteListener.onSearchComplete(recipeRealmResult);
                     }
                     recipeRealmResult.removeAllChangeListeners();
+
                 }
             }
         };
@@ -194,34 +196,6 @@ public class SearchDataManager {
 
     }
 
-    private void sortByRating(List<RecipeRealmObject> copyRealm) {
-        Collections.sort(copyRealm, Collections.reverseOrder(new Comparator<RecipeRealmObject>() {
-            @Override
-            public int compare(RecipeRealmObject recipeRealmObject1, RecipeRealmObject recipeRealmObject2) {
-                if (recipeRealmObject1.getRating() != null && recipeRealmObject2.getRating() != null) {
-
-                    if ((recipeRealmObject1.getRating().getRaters() >= 5 && recipeRealmObject2.getRating().getRaters() >= 5)
-                            || (recipeRealmObject1.getRating().getRaters() < 5 && recipeRealmObject2.getRating().getRaters() < 5)) {
-                        return Float.compare(recipeRealmObject1.getRating().getAverage(), recipeRealmObject2.getRating().getAverage());
-                    } else if (recipeRealmObject1.getRating().getRaters() < 5 && recipeRealmObject2.getRating().getRaters() >= 5) {
-                        return Float.compare(0, recipeRealmObject2.getRating().getAverage());
-                    } else {
-                        return Float.compare(recipeRealmObject1.getRating().getAverage(), 0);
-                    }
-
-                } else {
-                    if (recipeRealmObject1.getRating() == null && recipeRealmObject2.getRating() == null) {
-                        return 0;
-                    } else if (recipeRealmObject1.getRating() == null) {
-                        return Float.compare(0, recipeRealmObject2.getRating().getAverage());
-                    } else {
-                        return Float.compare(recipeRealmObject1.getRating().getAverage(), 0);
-                    }
-                }
-            }
-
-        }));
-    }
 
     private RealmResults<RecipeRealmObject> sortFilter(RealmQuery<RecipeRealmObject> query, String sortBy) {
         RealmResults<RecipeRealmObject> recipeRealmResult = null;
@@ -230,6 +204,8 @@ public class SearchDataManager {
             String sortField = "title";
             Sort sort = Sort.ASCENDING;
             if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
+
+
                 sortField = "rating.average";
                 sort = Sort.DESCENDING;
 
