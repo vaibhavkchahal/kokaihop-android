@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="model" type="com.kokaihop.database.IngredientsRealmObject"/>
+    </data>
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    android:background="@color/white"
+                    android:paddingBottom="@dimen/item_ingrdnt_padding_bottom"
+                    android:paddingLeft="@dimen/item_ingrdnt_padding_left"
+                    android:paddingRight="@dimen/item_ingrdnt_padding_right">
+
+        <TextView
+            android:id="@+id/txtview_ingredent_quantity"
+            android:layout_width="@dimen/txtview_ingrdnt_width"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/item_ingrdnt_padding_top"
+            android:text="@{decimalFormat.format(model.amount)+` `+model.unit.name}"
+            android:textColor="@color/grey_FF71767F"
+            android:textSize="@dimen/txtview_ingrdnt_quantity_textsize"
+            app:font="@{`SS-ProRegular`}"
+        />
+
+        <TextView
+            android:id="@+id/txtview_ingredent_name"
+            android:layout_width="@dimen/txtview_ingrdnt_name_width"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txtview_ingredent_quantity"
+            android:paddingTop="@dimen/item_ingrdnt_padding_top"
+            android:text="@{model.name}"
+            android:textColor="@color/grey_FF71767F"
+            android:textSize="@dimen/txtview_ingrdnt_name_textsize"
+            app:font="@{`SS-ProRegular`}"
+        />
+
+    </RelativeLayout>
+
+</layout>
