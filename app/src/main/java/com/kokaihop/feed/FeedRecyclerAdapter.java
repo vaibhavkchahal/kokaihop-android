@@ -141,9 +141,9 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
                 if (recipeRealmObject.getRating() != null) {
                     Logger.e("rating average", recipeRealmObject.getRating().getAverage() + "");
-                    Logger.e("raters", recipeRealmObject.getRating().getRaters() + "");
+                    Logger.e("rating raters", recipeRealmObject.getRating().getRaters() + "");
                 } else {
-                    Logger.e("no rating", "no rating" + "");
+                    Logger.e("rating ", "no rating" + "");
 
 
                 }
