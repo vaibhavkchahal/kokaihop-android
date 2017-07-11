@@ -38,7 +38,8 @@ public class IngredientsRealmObject extends RealmObject {
         this.unit = unit;
     }
 
-    @PrimaryKey @SerializedName("_id")
+    @PrimaryKey
+    @SerializedName("_id")
     private String _id;
     @SerializedName("dateCreated")
     private String dateCreated;

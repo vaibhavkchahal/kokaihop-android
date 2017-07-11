@@ -34,10 +34,8 @@ public class KokaihopApplication extends Application {
         super.onCreate();
         context = this;
         Fabric.with(getApplicationContext(), new Crashlytics());
-
         //Set true to overwrite database - Optional
         boolean overwriteDatabase = false;
-
         if (overwriteDatabase) {
             copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
         } else {
@@ -53,10 +51,8 @@ public class KokaihopApplication extends Application {
                 .name(DATABASE_NAME)
                 .deleteRealmIfMigrationNeeded()
                 .build();
-
         Realm.setDefaultConfiguration(realmConfiguration);
         customFontFamily = CustomFontFamily.getInstance();
-
         customFontFamily.addFont("RS-Bold", "RobotoSlab-Bold.ttf");
         customFontFamily.addFont("RS-Light", "RobotoSlab-Light.ttf");
         customFontFamily.addFont("RS-Regular", "RobotoSlab-Regular.ttf");

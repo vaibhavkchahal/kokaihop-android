@@ -39,22 +39,20 @@ public class HomeViewModel {
         RecipeRealmObject realmObject = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING).first();
         recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
         Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
-
         new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     JSONObject json = new JSONObject(responseBody.string());
                     JSONArray recipeJSONArray = json.getJSONArray("searchResults");
-                    if((recipeJSONArray!=null) && (recipeJSONArray.length()>0)){
+                    if ((recipeJSONArray != null) && (recipeJSONArray.length() > 0)) {
                         new RecipeDataManager().insertOrUpdateRecipe(recipeJSONArray);
                         recipeRequestParams.setOffset(recipeRequestParams.getOffset() + recipeRequestParams.getMax());
-                        if(recipeJSONArray.length()>=recipeRequestParams.getMax()){
+                        if (recipeJSONArray.length() >= recipeRequestParams.getMax()) {
                             getLatestRecipes();
                         }
-                    }else{
+                    } else {
                         Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -77,7 +75,7 @@ public class HomeViewModel {
     }
 
 
-//    seeting the argumenets for the recipeListUpdate api call.
+    //    seeting the argumenets for the recipeListUpdate api call.
 //    max 100 for maximum 100 elements at a time.
 //    setWithImages 0 for all the recipes with or without images, 1 for recipes with images only
     public RecipeRequestParams getRecipeRequestParams() {

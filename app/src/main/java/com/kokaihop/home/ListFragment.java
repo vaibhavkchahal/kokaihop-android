@@ -1,27 +1,20 @@
 package com.kokaihop.home;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
+import com.altaworks.kokaihop.ui.databinding.FragmentListBinding;
 
 public class ListFragment extends Fragment {
 
-    static ListFragment fragment;
-
-    public ListFragment() {
-        // Required empty public constructor
-    }
-
-    public static ListFragment getInstance() {
-        if(fragment==null){
-            fragment = new ListFragment();
-        }
-        return fragment;
-    }
+    private ShoppingListViewModel viewModel;
+    private FragmentListBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +25,16 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
+        viewModel = new ShoppingListViewModel(getContext());
+        binding.setViewModel(viewModel);
+        initializerecyclerView();
+        return binding.getRoot();
     }
 
-
+    private void initializerecyclerView() {
+        RecyclerView recyclerView = binding.rvRecipeIngredients;
+        ShoppingListRecyclerAdapter adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList());
+        recyclerView.setAdapter(adapter);
+    }
 }

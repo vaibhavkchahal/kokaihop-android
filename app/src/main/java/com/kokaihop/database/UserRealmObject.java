@@ -12,7 +12,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class UserRealmObject extends RealmObject {
 
-   @SerializedName(value = "_id", alternate = {"id"})
+    @SerializedName(value = "_id", alternate = {"id"})
     private String _id;
 
     @PrimaryKey
@@ -157,7 +157,6 @@ public class UserRealmObject extends RealmObject {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
 
 
     public CloudinaryImageRealmObject getProfileImage() {
