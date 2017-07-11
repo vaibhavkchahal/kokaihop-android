@@ -1,70 +1,73 @@
 package com.kokaihop.search;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.utility.Logger;
 
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+import static com.kokaihop.utility.RealmHelper.realm;
 
 /**
  * Created by Rajendra Singh on 9/6/17.
  */
 
 public class SearchKeywordAsync extends AsyncTask<Void, Void, List<RecipeRealmObject>> {
-    private HashMap<String, String> filterMap;
-    private Context context;
+
     private OnCompleteListener onCompleteListener;
-    private SearchDataManager searchDataManager;
-    private QUERY_TYPE query_type;
-    private boolean withImage;
-    private String sortBy, searchKeyword;
+    private RealmResults<RecipeRealmObject> recipeRealmResult;
 
     public void setOnCompleteListener(OnCompleteListener onCompleteListener) {
         this.onCompleteListener = onCompleteListener;
     }
 
-    public enum QUERY_TYPE {
-        SEARCH,
-        NEWLY_ADDED_RECIPE
-    }
-
-
-    //    filterMap, withImage, sortBy, searchKeyword,
-    public SearchKeywordAsync(SearchDataManager searchDataManager, QUERY_TYPE query_type,
-                              HashMap<String, String> filterMap, boolean withImage, String sortBy,
-                              String searchKeyword) {
-        this.searchDataManager = searchDataManager;
-        this.query_type = query_type;
-        this.filterMap = filterMap;
-        this.withImage = withImage;
-        this.sortBy = sortBy;
-        this.searchKeyword = searchKeyword;
-
-    }
-
-
-    public SearchKeywordAsync(SearchDataManager searchDataManager, QUERY_TYPE query_type,
-                              boolean withImage) {
-        this.searchDataManager = searchDataManager;
-        this.query_type = query_type;
-        this.withImage = withImage;
+    public SearchKeywordAsync(RealmResults<RecipeRealmObject> recipeRealmResult) {
+        this.recipeRealmResult = recipeRealmResult;
 
     }
 
     @Override
     protected List<RecipeRealmObject> doInBackground(Void... params) {
-        List<RecipeRealmObject> recipeList = null;
-        switch (query_type) {
-            case SEARCH:
-//                recipeList = searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword);
-                break;
-            case NEWLY_ADDED_RECIPE:
-//                recipeList = searchDataManager.fetchNewlyAddedRecipe(withImage);
-                break;
-        }
-        return recipeList;
+        realm = Realm.getDefaultInstance();
+        List<RecipeRealmObject> copyRealm = realm.copyFromRealm(recipeRealmResult, 1);
+        sortByRating(copyRealm);
+        return copyRealm;
+    }
+
+    private void sortByRating(List<RecipeRealmObject> copyRealm) {
+        Collections.sort(copyRealm, Collections.reverseOrder(new Comparator<RecipeRealmObject>() {
+            @Override
+            public int compare(RecipeRealmObject recipeRealmObject1, RecipeRealmObject recipeRealmObject2) {
+                if (recipeRealmObject1.getRating() != null && recipeRealmObject2.getRating() != null) {
+
+                    if ((recipeRealmObject1.getRating().getRaters() >= 5 && recipeRealmObject2.getRating().getRaters() >= 5)
+                            || (recipeRealmObject1.getRating().getRaters() < 5 && recipeRealmObject2.getRating().getRaters() < 5)) {
+                        return Float.compare(recipeRealmObject1.getRating().getAverage(), recipeRealmObject2.getRating().getAverage());
+                    } else if (recipeRealmObject1.getRating().getRaters() < 5 && recipeRealmObject2.getRating().getRaters() >= 5) {
+                        return Float.compare(0, recipeRealmObject2.getRating().getAverage());
+                    } else {
+                        return Float.compare(recipeRealmObject1.getRating().getAverage(), 0);
+                    }
+
+                } else {
+                    if (recipeRealmObject1.getRating() == null && recipeRealmObject2.getRating() == null) {
+                        return 0;
+                    } else if (recipeRealmObject1.getRating() == null) {
+                        return Float.compare(0, recipeRealmObject2.getRating().getAverage());
+                    } else {
+                        return Float.compare(recipeRealmObject1.getRating().getAverage(), 0);
+                    }
+                }
+            }
+
+        }));
     }
 
     @Override
@@ -75,6 +78,8 @@ public class SearchKeywordAsync extends AsyncTask<Void, Void, List<RecipeRealmOb
 
     @Override
     protected void onPostExecute(List<RecipeRealmObject> uploadResult) {
+        Logger.e("time after search async", new Date().toString());
+
         onCompleteListener.onSearchComplete(uploadResult);
 
     }

@@ -134,7 +134,6 @@ public class SearchDataManager {
             public void onChange(Object element) {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
-
                     onCompleteListener.onSearchComplete(recipeRealmResult);
                     recipeRealmResult.removeAllChangeListeners();
 
@@ -145,7 +144,7 @@ public class SearchDataManager {
     }
 
     public void selectedFiltersSearchQuery(Map<String, String> filterMap, boolean withImage,
-                                           String sortBy, String keyword, final OnCompleteListener onCompleteListener) {
+                                           final String sortBy, String keyword, final OnCompleteListener onCompleteListener) {
         RealmQuery<RecipeRealmObject> query;
         query = realm.where(RecipeRealmObject.class);
         if (keyword != null && !keyword.isEmpty()) {
@@ -169,19 +168,34 @@ public class SearchDataManager {
         }
         recipeRealmResult = sortFilter(query, sortBy);
 
-        RealmChangeListener realmChangeListener = new RealmChangeListener() {
+
+        final RealmChangeListener realmChangeListener = new RealmChangeListener() {
             @Override
             public void onChange(Object element) {
                 if (recipeRealmResult != null) {
                     Logger.e("time after query", new Date().toString());
-                    onCompleteListener.onSearchComplete(recipeRealmResult);
+                    if (!sortBy.isEmpty() && sortBy.equals(context.getResources().getString(R.string.best_rating))) {
+                        List<RecipeRealmObject> ratingMoreThan5List = recipeRealmResult.where().greaterThanOrEqualTo("rating.raters", 5).findAllSorted("rating.average", Sort.DESCENDING);
+                        List<RecipeRealmObject> ratingLessThan5List = recipeRealmResult.where().lessThan("rating.raters", 5).findAllSorted("rating.average", Sort.DESCENDING);
+                        List<RecipeRealmObject> ratingNullList = recipeRealmResult.where().isNull("rating").findAll();
+
+                        List<RecipeRealmObject> recipeList = new ArrayList<>();
+                        recipeList.addAll(ratingMoreThan5List);
+                        recipeList.addAll(ratingLessThan5List);
+                        recipeList.addAll(ratingNullList);
+                        onCompleteListener.onSearchComplete(recipeList);
+                    } else {
+                        onCompleteListener.onSearchComplete(recipeRealmResult);
+                    }
                     recipeRealmResult.removeAllChangeListeners();
+
                 }
             }
         };
         recipeRealmResult.addChangeListener(realmChangeListener);
 
     }
+
 
     private RealmResults<RecipeRealmObject> sortFilter(RealmQuery<RecipeRealmObject> query, String sortBy) {
         RealmResults<RecipeRealmObject> recipeRealmResult = null;
@@ -190,6 +204,8 @@ public class SearchDataManager {
             String sortField = "title";
             Sort sort = Sort.ASCENDING;
             if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
+
+
                 sortField = "rating.average";
                 sort = Sort.DESCENDING;
 
