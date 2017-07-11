@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
+import com.google.android.gms.ads.MobileAds;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
@@ -55,6 +56,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        MobileAds.initialize(this, Constants.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
         viewModel.getLatestRecipes();
         setTabView();

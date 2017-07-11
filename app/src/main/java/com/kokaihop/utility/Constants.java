@@ -49,4 +49,7 @@ public class Constants {
     public static final int COOKBOOK_REQUEST = 1;
 
 
+    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";  //Testing app id
+//    public static final String ADMOB_APP_ID = "ca-app-pub-9129816881800022~4990735999"; // Kokaihop app id
+
 }
