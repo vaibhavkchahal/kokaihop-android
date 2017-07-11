@@ -126,6 +126,7 @@ public class ProfileDataManager {
             userRealmObject = getUser("_id",userId);
         }
         for (int i = 0; i < cookbooks.length(); i++) {
+//            realm.createAllFromJson(CookbookRealmObject.class, cookbooks);
             try {
                 JSONObject jsonObject = cookbooks.getJSONObject(i);
                 CookbookRealmObject cookbook = new CookbookRealmObject();

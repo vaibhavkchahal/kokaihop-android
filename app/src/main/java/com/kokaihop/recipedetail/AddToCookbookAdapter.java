@@ -16,6 +16,7 @@ import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.RecipeUtils;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import org.json.JSONException;
@@ -46,7 +47,9 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
         this.accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         user.setFriendlyUrl(friendlyUrl);
         try {
-            this.collectionMapping = new JSONObject(collectionMapping);
+            if (collectionMapping != null) {
+                this.collectionMapping = new JSONObject(collectionMapping);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -99,11 +102,10 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
             if (cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                 binding.clCookbookRow.setMaxHeight(0);
             }
-            try {
-                cookbook.setContains(collectionMapping.getJSONArray(cookbook.get_id()).toString().contains(recipeId));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            if (collectionMapping != null) {
+//                    cookbook.setContains(collectionMapping.getJSONArray(cookbook.get_id()).toString().contains(recipeId));
+//            }
+            cookbook.setContains((RecipeUtils.getRecipeIndexInCookbook(user.getFriendlyUrl(), cookbook.getFriendlyUrl(), recipeId)) != -1);
             binding.executePendingBindings();
             binding.clCookbookRow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,9 +113,9 @@ public class AddToCookbookAdapter extends RecyclerView.Adapter<AddToCookbookAdap
                     boolean added = binding.cbRecipeAdded.isChecked();
                     binding.cbRecipeAdded.setChecked(!added);
                     if (!added) {
-                        viewModel.addToCookbook(cookbook,recipeId);
+                        viewModel.addToCookbook(cookbook, recipeId);
                     } else {
-                        viewModel.removeFromCookbook(cookbook,recipeId, getAdapterPosition());
+                        viewModel.removeFromCookbook(cookbook, recipeId, getAdapterPosition());
                     }
                 }
             });

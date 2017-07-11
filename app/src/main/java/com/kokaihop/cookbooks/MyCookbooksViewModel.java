@@ -156,12 +156,12 @@ public class MyCookbooksViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Object response) {
-                Toast.makeText(context, "Error " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
             }
         });
     }

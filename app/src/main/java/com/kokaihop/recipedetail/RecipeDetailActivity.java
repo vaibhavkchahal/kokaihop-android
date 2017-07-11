@@ -47,7 +47,9 @@ import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.ConfirmationDialog;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.RecipeUtils;
 import com.kokaihop.utility.ShareContents;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,7 +85,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             RecipeDetailActivity.this.invalidateOptionsMenu();
         }
     };
-    private String recipeID;
+    private String recipeID, userFriendlyUrl;
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
 
@@ -92,6 +94,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        userFriendlyUrl = SharedPrefUtils.getSharedPrefStringData(this, Constants.FRIENDLY_URL);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
         recipeID = getIntent().getStringExtra("recipeId");
         friendlyUrl = getIntent().getStringExtra("friendlyUrl");
@@ -296,7 +299,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 viewPager.setCurrentItem(tab);
             }
         });
-
     }
 
     private void setPagerData() {
@@ -398,18 +400,20 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     public void updateCheckbox(RecipeHandler recipeHandler, MenuItem item, RecipeRealmObject recipe) {
         JSONObject collectionMapping = recipeDetailViewModel.getCollectionMapping();
-        for (Cookbook cookbook : User.getInstance().getCookbooks()) {
-            try {
-                JSONArray cookbookJson = collectionMapping.getJSONArray(cookbook.get_id());
-                if (!item.isChecked()) {
-                    int index = indexOfRecipe(recipe.get_id(), cookbookJson);
-                    if (index >= 0) {
-                        cookbookJson.remove(index);
+        if (collectionMapping != null) {
+            for (Cookbook cookbook : User.getInstance().getCookbooks()) {
+                try {
+                    JSONArray cookbookJson = collectionMapping.getJSONArray(cookbook.get_id());
+                    if (!item.isChecked()) {
+                        int index = indexOfRecipe(recipe.get_id(), cookbookJson);
+                        if (index >= 0) {
+                            cookbookJson.remove(index);
+                        }
                     }
+                    collectionMapping.put(cookbook.get_id(), cookbookJson);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                collectionMapping.put(cookbook.get_id(), cookbookJson);
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
         recipeDetailViewModel.setCollectionMapping(collectionMapping);
@@ -422,22 +426,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     //    checks whether a recipe exists in any of the cookbook of user
     public boolean recipeExistsInAnyCookbook(String recipeId) {
         for (Cookbook cookbook : User.getInstance().getCookbooks()) {
-            if (recipeExistsInCookbook(recipeId, cookbook)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //    checks whether a recipe exists in a particular cookbook of user
-    public boolean recipeExistsInCookbook(String recipeId, Cookbook cookbook) {
-        if (!cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
-            try {
-                if (recipeDetailViewModel.getCollectionMapping().getJSONArray(cookbook.get_id()).toString().contains(recipeId)) {
+            if (cookbook.getFriendlyUrl() != Constants.FAVORITE_RECIPE_FRIENDLY_URL) {
+                if (RecipeUtils.getRecipeIndexInCookbook(userFriendlyUrl, cookbook.getFriendlyUrl(), recipeId) >= 0) {
                     return true;
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
         return false;

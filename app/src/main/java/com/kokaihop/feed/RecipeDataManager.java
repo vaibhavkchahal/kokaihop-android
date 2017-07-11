@@ -197,6 +197,12 @@ public class RecipeDataManager {
                 .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
     }
+    public RecipeRealmObject fetchRecipeUsingFriendlyUrl(String friendlyUrl) {
+        //return the managed object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(RECIPE_ID, friendlyUrl).findFirst();
+        return recipeRealmObject;
+    }
 
     public RecipeRealmObject fetchCopyOfRecipe(String recipeID) {
         //        //return the unmanaged object
