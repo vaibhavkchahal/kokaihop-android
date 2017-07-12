@@ -1,0 +1,130 @@
+<layout>
+    <data>
+        <variable name="viewModel" type="com.kokaihop.home.AddIngredientViewModel"/>
+        <import type="android.view.View"/>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/relative_layout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height_with_status"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingLeft="18.4dp"
+            android:paddingRight="19dp"
+            android:paddingTop="@dimen/status_bar_height">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:onClick="@{(v)-> viewModel.onBackPressed(context)}"
+                android:src="@drawable/ic_back_arrow_sm"/>
+
+            <TextView
+                android:id="@+id/txtview_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="false"
+                android:text="Add Ingredient"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_large"
+                app:font="@{`SS-ProRegular`}"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:onClick=""
+                android:text="@string/done"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/edittext_enter_ingredient"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:layout_below="@+id/relative_layout_toolbar"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/grey_stroke_border"
+            android:hint="Enter Ingredient Name"
+            android:paddingLeft="20dp"
+            android:paddingRight="40dp"
+            android:textColorHint="@color/grey_FFB3B3B3"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:layout_below="@+id/edittext_enter_ingredient"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/grey_stroke_border"
+            android:paddingLeft="20dp"
+            android:paddingRight="31dp">
+
+
+            <TextView
+                android:id="@+id/txtview_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Unit"
+                android:textColor="@color/grey_FFB3B3B3"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtview_unit"
+                android:layout_marginBottom="16dp"
+                android:text="Select"
+                android:textColor="@color/grey_FF2F0000"
+                android:textSize="@dimen/text_size_large"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/grey_FFD4D4D4"/>
+
+            <TextView
+                android:id="@+id/txtview_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/view_divider"
+                android:text="Quantity"
+                android:textColor="@color/grey_FFB3B3B3"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtview_quantity"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/view_divider"
+                android:text="Select"
+                android:textColor="@color/grey_FF2F0000"
+                android:textSize="@dimen/text_size_large"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

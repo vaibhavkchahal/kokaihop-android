@@ -41,7 +41,6 @@ public class SearchSuggestionAdapter extends RecyclerView.Adapter<SearchSuggesti
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final SearchSuggestionRealmObject filterData = this.suggestionsDataList.get(position);
-
         binding.relativeLayoutFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +51,6 @@ public class SearchSuggestionAdapter extends RecyclerView.Adapter<SearchSuggesti
         });
         holder.bind(filterData);
         binding.executePendingBindings();
-
 
     }
 

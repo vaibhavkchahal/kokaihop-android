@@ -20,7 +20,7 @@
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:gravity="center"
+                      android:layout_centerVertical="true"
                       android:text="@string/text_edit"
                       android:textColor="@color/white"
                       android:textSize="@dimen/text_size_small"
@@ -28,10 +28,10 @@
 
             <TextView
                 android:id="@+id/txtview_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:clickable="false"
-                android:gravity="center"
                 android:text="@string/text_shopping_list"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_large"
@@ -40,6 +40,7 @@
             <ImageView android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_alignParentRight="true"
+                       android:layout_centerVertical="true"
                        android:src="@drawable/ic_share_md"/>
 
         </RelativeLayout>
@@ -65,6 +66,7 @@
                       android:layout_alignParentRight="true"
                       android:drawableLeft="@drawable/ic_add_sm"
                       android:drawablePadding="@dimen/ingredient_drawable_padding"
+                      android:onClick="@{(v)->viewModel.openAddIngredientScreen(context)}"
                       android:text="@string/text_add_ingredient"
                       android:textColor="@color/kokaihop_orange_color"
                       android:textSize="@dimen/text_size_small"
@@ -83,7 +85,6 @@
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/progressBar_bottom"
             android:layout_below="@+id/below_shadow">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recipe_ingredients"
