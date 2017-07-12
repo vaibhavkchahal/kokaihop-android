@@ -224,7 +224,7 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void displaySortByList(View view) {
-        String previousSelected = "";
+        String previousSelected = sortBy;
         if (sortByList == null) {
             sortByList = new ArrayList<>();
             String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
@@ -237,8 +237,6 @@ public class SearchViewModel extends BaseViewModel {
             }
             if (sortBy.isEmpty()) {
                 previousSelected = sortByList.get(0).getName();
-            } else {
-                previousSelected = sortBy;
             }
         }
         if (view.getTag() != null) {
