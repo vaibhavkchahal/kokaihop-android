@@ -23,19 +23,19 @@ public class CloudinaryUtils {
     public static final int CORNER_RADIUS = 25;
 
     public static String getImageUrl(String publicId, String width, String height) {
-        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
+        String url = AppCredentials.URL + SEPARATOR + AppCredentials.CLOUD_NAME + SEPARATOR + AppCredentials.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
 //        Logger.e("imageUrl", URL);
         return url;
     }
 
     public static String getRoundedImageUrl(String publicId, String width, String height) {
-        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_max" + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
+        String url = AppCredentials.URL + SEPARATOR + AppCredentials.CLOUD_NAME + SEPARATOR + AppCredentials.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_max" + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
 //        Logger.e("imageUrl", URL);
         return url;
     }
 
     public static String getRoundedCornerImageUrl(String publicId, String width, String height) {
-        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_" + CORNER_RADIUS + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
+        String url = AppCredentials.URL + SEPARATOR + AppCredentials.CLOUD_NAME + SEPARATOR + AppCredentials.FOLDER + SEPARATOR + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + COMMA + "r_" + CORNER_RADIUS + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
 //        Logger.e("imageUrl", URL);
         return url;
     }
@@ -69,16 +69,16 @@ public class CloudinaryUtils {
 
 
     public static String getBlurrImageUrl(String publicId, String width, String height) {
-        String url = CloudinaryDetail.URL + SEPARATOR + CloudinaryDetail.CLOUD_NAME + SEPARATOR + CloudinaryDetail.FOLDER + SEPARATOR + "/e_blur:800/" + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
+        String url = AppCredentials.URL + SEPARATOR + AppCredentials.CLOUD_NAME + SEPARATOR + AppCredentials.FOLDER + SEPARATOR + "/e_blur:800/" + "w_" + width + COMMA + "h_" + height + COMMA + "c_fill" + SEPARATOR + publicId + FORMAT;
 //        Logger.e("imageUrl", url);
         return url;
     }
 
     public static HashMap<String, String> getCloudinaryParams(String imagePath) {
         HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_KEY, CloudinaryDetail.API_KEY);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_SECRET, CloudinaryDetail.API_SECRET);
-        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_CLOUD_NAME, CloudinaryDetail.CLOUD_NAME);
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_KEY, AppCredentials.API_KEY);
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_API_SECRET, AppCredentials.API_SECRET);
+        paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_CLOUD_NAME, AppCredentials.CLOUD_NAME);
         paramMap.put(Constants.REQUEST_KEY_CLOUDINARY_IMAGE_PATH, imagePath);
         return paramMap;
     }

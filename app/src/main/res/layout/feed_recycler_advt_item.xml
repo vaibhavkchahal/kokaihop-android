@@ -4,23 +4,12 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/linear_layout_ads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
     >
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ads:adSize="320x250"
-            ads:adUnitId="ca-app-pub-9129816881800022/3473316797"
-
-        >
-            <!--ca-app-pub-3940256099942544/6300978111 google testing unit id-->
-        </com.google.android.gms.ads.AdView>
-
     </LinearLayout>
 
 </layout>

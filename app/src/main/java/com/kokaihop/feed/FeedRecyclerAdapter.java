@@ -4,7 +4,6 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RowRecipeSearchedCountBinding;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
@@ -142,59 +141,25 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     viewHolderRecipe.binder.tvRecipeDate.setVisibility(View.GONE);
                 }
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
-                if (recipeRealmObject.getRating() != null) {
-                    Logger.e("rating average", recipeRealmObject.getRating().getAverage() + "");
-                    Logger.e("rating raters", recipeRealmObject.getRating().getRaters() + "");
-                } else {
-                    Logger.e("rating ", "no rating" + "");
-
-
-                }
-
                 viewHolderRecipe.binder.setPosition(position);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
-                ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
-//                AdRequest adRequest = new AdRequest.Builder().build();
-                AdRequest adRequest = new AdRequest.Builder().addTestDevice("B2392C13860FF69BF8F847F0914A2745").build();  // TODO: Remove before production release
-                viewHolderAdvt.binder.adView.loadAd(adRequest);
+                final ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
+                AdView adView = (AdView) recipeListWithAdds.get(position);
 
-                viewHolderAdvt.binder.adView.setAdListener(new AdListener() {
-                    @Override
-                    public void onAdLoaded() {
-                        // Code to be executed when an ad finishes loading.
-                        Log.i("Ads", "onAdLoaded");
-                    }
 
-                    @Override
-                    public void onAdFailedToLoad(int errorCode) {
-                        // Code to be executed when an ad request fails.
-                        Log.i("Ads", "onAdFailedToLoad, error code" + errorCode);
-                    }
-
-                    @Override
-                    public void onAdOpened() {
-                        // Code to be executed when an ad opens an overlay that
-                        // covers the screen.
-                        Log.i("Ads", "onAdOpened");
-                    }
-
-                    @Override
-                    public void onAdLeftApplication() {
-                        // Code to be executed when the user has left the app.
-                        Log.i("Ads", "onAdLeftApplication");
-                    }
-
-                    @Override
-                    public void onAdClosed() {
-                        // Code to be executed when when the user is about to return
-                        // to the app after tapping on an ad.
-                        Log.i("Ads", "onAdClosed");
-                    }
-                });
-
+                if (viewHolderAdvt.binder.linearLayoutAds.getChildCount() > 0) {
+                    viewHolderAdvt.binder.linearLayoutAds.removeAllViews();
+                }
+                if (adView.getParent() != null) {
+                    ((ViewGroup) adView.getParent()).removeView(adView);
+                }
+                // Add the ads.
+                viewHolderAdvt.binder.linearLayoutAds.addView(adView);
+                viewHolderAdvt.binder.linearLayoutAds.setTag(position);
+                setAdListener(adView, viewHolderAdvt.binder.linearLayoutAds);
                 break;
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
@@ -208,6 +173,57 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    private void setAdListener(final AdView adView, final LinearLayout linearLayoutAds) {
+
+        final RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) linearLayoutAds.getLayoutParams();
+        /*param.height = 0;
+        param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+        linearLayoutAds.setLayoutParams(param);*/
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                int position = (int) linearLayoutAds.getTag();
+                Logger.e("ad", i + "onAdFailedToLoad position " + position);
+
+                param.height = 0;
+                param.width = 0;
+                linearLayoutAds.setLayoutParams(param);
+                adView.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                Logger.e("ad", "onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Logger.e("ad", "onAdOpened");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Logger.e("ad", "ad loaded");
+                adView.setVisibility(View.VISIBLE);
+                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                linearLayoutAds.setLayoutParams(param);
+
+            }
+        });
+    }
+
     @Override
     public int getItemViewType(int position) {
         Object object = recipeListWithAdds.get(position);
@@ -215,7 +231,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (isPositionHeader(position) && !isFromSearchedView())
                 return TYPE_ITEM_DAY_RECIPE;
             return TYPE_ITEM_RECIPE;
-        } else if (object instanceof AdvtDetail) {
+        } else if (object instanceof AdView) {
             return TYPE_ITEM_ADVT;
         } else if (object instanceof SearchRecipeHeader) {
             return TYPE_ITEM_SEARCH_COUNT;
