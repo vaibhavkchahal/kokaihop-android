@@ -4,7 +4,6 @@ import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 /**
@@ -24,8 +23,13 @@ public class HomeApiHelper {
     }
 
     public void getIngredientUnits(String token, final IApiRequestComplete successInterface) {
-        Call<ResponseBody> responseBodyCall = homeApi.getIngredientUnits(token);
-        responseBodyCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
+        Call<ShoppingUnitResponse> responseBodyCall = homeApi.getIngredientUnits(token);
+        responseBodyCall.enqueue(new ResponseHandler<ShoppingUnitResponse>(successInterface));
+    }
+
+    public void sycIngredientOnServer(String token, SyncIngredientModel requestParam, final IApiRequestComplete successInterface) {
+        Call<SyncIngredientModel> responseBodyCall = homeApi.syncIngrdientOnServer(token, requestParam);
+        responseBodyCall.enqueue(new ResponseHandler<SyncIngredientModel>(successInterface));
     }
 
 }

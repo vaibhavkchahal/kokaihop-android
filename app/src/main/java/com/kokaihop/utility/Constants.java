@@ -53,4 +53,7 @@ public class Constants {
     public static final int COOKBOOK_REQUEST = 1;
 
 
+    // shopping list request codes
+    public static final int ADD_INGREDIENT_REQUEST_CODE = 300;
+
 }

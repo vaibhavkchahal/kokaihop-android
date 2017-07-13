@@ -13,5 +13,4 @@ public class CommentsApiResponse {
     @SerializedName("totalItems")
     private int totalItems;
 
-
 }

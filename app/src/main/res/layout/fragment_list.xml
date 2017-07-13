@@ -61,16 +61,17 @@
                       android:textSize="@dimen/text_size_small"
                       app:font="@{`SS-ProRegular`}"/>
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_alignParentRight="true"
-                      android:drawableLeft="@drawable/ic_add_sm"
-                      android:drawablePadding="@dimen/ingredient_drawable_padding"
-                      android:onClick="@{(v)->viewModel.openAddIngredientScreen(context)}"
-                      android:text="@string/text_add_ingredient"
-                      android:textColor="@color/kokaihop_orange_color"
-                      android:textSize="@dimen/text_size_small"
-                      app:font="@{`SS-ProRegular`}"/>
+            <TextView
+                android:id="@+id/txtview_add_ingredient"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:drawableLeft="@drawable/ic_add_sm"
+                android:drawablePadding="@dimen/ingredient_drawable_padding"
+                android:text="@string/text_add_ingredient"
+                android:textColor="@color/kokaihop_orange_color"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
 
         </RelativeLayout>
 

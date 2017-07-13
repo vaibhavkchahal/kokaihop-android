@@ -325,4 +325,5 @@
     <string name="text_edit">Edit</string>
     <string name="text_shopping_list">Shopping List</string>
     <string name="text_add_ingredient">Add Ingredient</string>
+    <string name="text_select">Select</string>
 </resources>

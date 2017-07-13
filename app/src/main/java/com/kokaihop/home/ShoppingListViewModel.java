@@ -1,7 +1,7 @@
 package com.kokaihop.home;
 
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.kokaihop.base.BaseViewModel;
@@ -69,6 +69,8 @@ public class ShoppingListViewModel extends BaseViewModel {
         new HomeApiHelper().getIngredientUnits(authorizationToken, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                ShoppingUnitResponse shoppingUnitResponse = (ShoppingUnitResponse) response;
+                shoppingDataManager.updateShoppingIngredientList(shoppingUnitResponse.getUnits());
             }
 
             @Override
@@ -82,7 +84,7 @@ public class ShoppingListViewModel extends BaseViewModel {
         });
     }
 
-    private void fetchIngredientFromDB() {
+    public void fetchIngredientFromDB() {
         ingredientsList.clear();
         ShoppingListRealmObject listRealmObject = shoppingDataManager.fetchShoppingRealmObject();
         if (listRealmObject != null) {
@@ -92,17 +94,45 @@ public class ShoppingListViewModel extends BaseViewModel {
         }
     }
 
+    public void updateIngredientOnServer() {
+        ShoppingListRealmObject listRealmObject = shoppingDataManager.fetchShoppingRealmObject();
+        List<IngredientsRealmObject> realmObjects = shoppingDataManager.fetchCopyIngredientRealmObjects(listRealmObject.getIngredients());
+        List<IngredientsRealmObject> sycNeededIngreidentList = new ArrayList<>();
+        for (IngredientsRealmObject object : realmObjects) {
+            if (object.isServerSyncNeeded()) {
+                sycNeededIngreidentList.add(object);
+            }
+        }
+        SyncIngredientModel model = new SyncIngredientModel();
+//        Gson gson = new Gson();
+////        Type type = new TypeToken<List<IngredientsRealmObject>>() {
+////        }.getType();
+//        String json = gson.toJson(sycNeededIngreidentList.get(0));
+//        System.out.println("json format->" + json);
+        model.setRealmObjects(sycNeededIngreidentList);
+        new HomeApiHelper().sycIngredientOnServer(authorizationToken, model, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                SyncIngredientModel ingredientModel = (SyncIngredientModel) response;
+                Log.d("updated items size", "" + ingredientModel.getRealmObjects().size());
+            }
+
+            @Override
+            public void onFailure(String message) {
+            }
+
+            @Override
+            public void onError(Object response) {
+            }
+        });
+    }
+
     public interface IngredientsDatasetListener {
         void onUpdateIngredientsList();
     }
 
     @Override
     protected void destroy() {
-    }
-
-
-    public void openAddIngredientScreen(Context context) {
-        context.startActivity(new Intent(context, AddIngredientActivity.class));
     }
 
 }

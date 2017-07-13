@@ -475,6 +475,5 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public interface PortionClickListener {
         void onPortionClick(int quantity);
-
     }
 }

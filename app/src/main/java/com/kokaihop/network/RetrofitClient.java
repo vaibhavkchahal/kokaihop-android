@@ -38,6 +38,7 @@ public class RetrofitClient {
                     public boolean shouldSkipField(FieldAttributes f) {
                         return f.getDeclaringClass().equals(RealmObject.class);
                     }
+
                     @Override
                     public boolean shouldSkipClass(Class<?> clazz) {
                         return false;
@@ -47,7 +48,6 @@ public class RetrofitClient {
                 .registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
                 }.getType(), new RealmStringDeserializer())
                 .create();
-
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()

@@ -270,7 +270,6 @@ public class RecipeDataManager {
         });
     }
 
-
     public void insertCommentRealmObject(final String recipeID, final JSONObject commentObject) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override

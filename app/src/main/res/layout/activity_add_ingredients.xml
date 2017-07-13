@@ -1,11 +1,10 @@
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="viewModel" type="com.kokaihop.home.AddIngredientViewModel"/>
         <import type="android.view.View"/>
     </data>
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
@@ -42,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:onClick=""
+                android:onClick="@{(v)-> viewModel.onDoneClick(edittextEnterIngredient,txtviewUnitValue,edittextQuantity)}"
                 android:text="@string/done"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_small"
@@ -73,26 +72,31 @@
             android:paddingRight="31dp">
 
 
-            <TextView
-                android:id="@+id/txtview_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Unit"
-                android:textColor="@color/grey_FFB3B3B3"
-                android:textSize="@dimen/text_size_small"
-                app:font="@{`SS-ProRegular`}"/>
+            <RelativeLayout android:layout_width="112dp"
+                            android:layout_height="match_parent"
+                            android:onClick="@{(v)->viewModel.showUnitListDialog(context)}">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtview_unit"
-                android:layout_marginBottom="16dp"
-                android:text="Select"
-                android:textColor="@color/grey_FF2F0000"
-                android:textSize="@dimen/text_size_large"
-                app:font="@{`SS-ProRegular`}"/>
+                <TextView
+                    android:id="@+id/txtview_unit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Unit"
+                    android:textColor="@color/grey_FFB3B3B3"
+                    android:textSize="@dimen/text_size_small"
+                    app:font="@{`SS-ProRegular`}"/>
 
+                <TextView
+                    android:id="@+id/txtview_unit_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/txtview_unit"
+                    android:text="@string/text_select"
+                    android:textColor="@color/grey_FF71767F"
+                    android:textSize="@dimen/text_size_large"
+                    app:font="@{`SS-ProRegular`}"/>
+
+            </RelativeLayout>
             <View
                 android:id="@+id/view_divider"
                 android:layout_width="1dp"
@@ -100,29 +104,38 @@
                 android:layout_centerInParent="true"
                 android:background="@color/grey_FFD4D4D4"/>
 
-            <TextView
-                android:id="@+id/txtview_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/view_divider"
-                android:text="Quantity"
-                android:textColor="@color/grey_FFB3B3B3"
-                android:textSize="@dimen/text_size_small"
-                app:font="@{`SS-ProRegular`}"/>
+            <RelativeLayout android:layout_width="112dp"
+                            android:layout_height="match_parent"
+                            android:layout_toRightOf="@+id/view_divider"
+                            android:onClick="@{(v)->viewModel.showUnitListDialog(context)}">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtview_quantity"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@+id/view_divider"
-                android:text="Select"
-                android:textColor="@color/grey_FF2F0000"
-                android:textSize="@dimen/text_size_large"
-                app:font="@{`SS-ProRegular`}"/>
+                <TextView
+                    android:id="@+id/txtview_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Quantity"
+                    android:textColor="@color/grey_FFB3B3B3"
+                    android:textSize="@dimen/text_size_small"
+                    app:font="@{`SS-ProRegular`}"/>
+
+                <EditText
+                    android:id="@+id/edittext_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtview_quantity"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@null"
+                    android:hint="Enter"
+                    android:inputType="number"
+                    android:textColor="@color/grey_FF71767F"
+                    android:textColorHint="@color/grey_FF71767F"
+                    android:textSize="@dimen/text_size_large"
+                    app:font="@{`SS-ProRegular`}"/>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

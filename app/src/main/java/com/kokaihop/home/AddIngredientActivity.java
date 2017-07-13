@@ -11,7 +11,7 @@ import com.kokaihop.base.BaseActivity;
  * Created by Vaibhav Chahal on 12/7/17.
  */
 
-public class AddIngredientActivity extends BaseActivity {
+public class AddIngredientActivity extends BaseActivity implements AddIngredientViewModel.UnitDataListener {
 
     private ActivityAddIngredientsBinding binding;
 
@@ -19,6 +19,11 @@ public class AddIngredientActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_ingredients);
-        binding.setViewModel(new AddIngredientViewModel());
+        binding.setViewModel(new AddIngredientViewModel(this, this));
+    }
+
+    @Override
+    public void onUnitPickerValueChange(String value) {
+        binding.txtviewUnitValue.setText(value);
     }
 }
