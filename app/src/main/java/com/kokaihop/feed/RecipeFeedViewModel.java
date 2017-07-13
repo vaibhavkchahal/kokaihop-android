@@ -8,6 +8,8 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppCredentials;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -22,7 +24,6 @@ import static com.kokaihop.utility.Constants.AUTHORIZATION_BEARER;
  */
 
 public class RecipeFeedViewModel extends BaseViewModel {
-
     private int offset = 0;
 
     public void setMax(int max) {
@@ -118,20 +119,9 @@ public class RecipeFeedViewModel extends BaseViewModel {
         recipeList = dataManager.fetchRecipe(badgeType);
         recipeListWithAdds.clear();
         recipeListWithAdds.addAll(recipeList);
-        addAdvtInRecipeList();
+        AppUtility utility = new AppUtility();
+        utility.addAdvtInRecipeList(recipeListWithAdds, AppCredentials.DAILY_ADS_UNIT_IDS, context);
     }
-
-    private void addAdvtInRecipeList() {
-        int prevPos = 0;
-        for (int position = 0; position < recipeListWithAdds.size(); position++) {
-            if (position == 3 || (prevPos + 7) == position) {
-                prevPos = position;
-                AdvtDetail advtDetail = new AdvtDetail();
-                recipeListWithAdds.add(position, advtDetail);
-            }
-        }
-    }
-
     @Override
     protected void destroy() {
     }

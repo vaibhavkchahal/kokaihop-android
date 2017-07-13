@@ -7,17 +7,19 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RatingRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
-import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.OtherUserProfileActivity;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -169,10 +171,19 @@ public class RecipeDetailViewModel extends BaseViewModel {
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
-        recipeDetailItemsList.add(new AdvtDetail());
+
+        AdView adViewBanner = new AdView(context);
+        adViewBanner.setAdSize(AdSize.LARGE_BANNER); //320x100 LARGE_BANNER
+        adViewBanner.setAdUnitId(AppCredentials.RECIPE_DETAILS_ADS_UNIT_IDS[0]);
+        recipeDetailItemsList.add(adViewBanner);
         addIngredients(recipeRealmObject);
         recipeDetailItemsList.add(new RecipeQuantityVariator(recipeRealmObject.getServings()));
-        recipeDetailItemsList.add(new AdvtDetail());
+        AdView adViewRectangle = new AdView(context);
+        adViewRectangle.setAdSize(AdSize.MEDIUM_RECTANGLE); //320x250 medium rectangle
+        adViewRectangle.setAdUnitId(AppCredentials.RECIPE_DETAILS_ADS_UNIT_IDS[1]);
+        recipeDetailItemsList.add(adViewRectangle);
+
+
         addCookingDirections(recipeRealmObject);
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
         recipeDetailItemsList.add(recipeSpecifications);

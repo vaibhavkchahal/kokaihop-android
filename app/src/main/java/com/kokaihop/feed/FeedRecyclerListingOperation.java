@@ -3,6 +3,7 @@ package com.kokaihop.feed;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.DateTimeUtils;
@@ -83,7 +84,7 @@ public class FeedRecyclerListingOperation {
             @Override
             public void onSyncDatabase(RecyclerView recyclerView, int lastVisibleItemPosition) {
                 Object object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition);
-                if (object instanceof AdvtDetail) {
+                if (object instanceof AdView) {
                     object = feedViewModel.getRecipeListWithAdds().get(lastVisibleItemPosition - 1);
                 }
                 RecipeRealmObject recipe = (RecipeRealmObject) object;
