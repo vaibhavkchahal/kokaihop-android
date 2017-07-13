@@ -16,7 +16,6 @@ import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RowRecipeSearchedCountBinding;
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.AppUtility;
@@ -159,7 +158,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // Add the ads.
                 viewHolderAdvt.binder.linearLayoutAds.addView(adView);
                 viewHolderAdvt.binder.linearLayoutAds.setTag(position);
-                setAdListener(adView, viewHolderAdvt.binder.linearLayoutAds);
                 break;
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
@@ -171,57 +169,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
         }
-    }
-
-    private void setAdListener(final AdView adView, final LinearLayout linearLayoutAds) {
-
-        final RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) linearLayoutAds.getLayoutParams();
-        /*param.height = 0;
-        param.width = LinearLayout.LayoutParams.MATCH_PARENT;
-        linearLayoutAds.setLayoutParams(param);*/
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                int position = (int) linearLayoutAds.getTag();
-                Logger.e("ad", i + "onAdFailedToLoad position " + position);
-
-                param.height = 0;
-                param.width = 0;
-                linearLayoutAds.setLayoutParams(param);
-                adView.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-                Logger.e("ad", "onAdLeftApplication");
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                Logger.e("ad", "onAdOpened");
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Logger.e("ad", "ad loaded");
-                adView.setVisibility(View.VISIBLE);
-                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                linearLayoutAds.setLayoutParams(param);
-
-            }
-        });
     }
 
     @Override

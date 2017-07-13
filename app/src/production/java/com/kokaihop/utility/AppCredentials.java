@@ -14,6 +14,8 @@ public class CloudinaryDetail {
 
 
     //Admob
+    //Kokaihop id
     public static final String ADMOB_APP_ID = "ca-app-pub-9129816881800022~4990735999"; // Kokaihop app id
-    public static final String UNIT_ID = "ca-app-pub-3940256099942544/6300978111"       //google testing unit id
+    public static final String[] DAILY_ADS_UNIT_IDS = {"ca-app-pub-9129816881800022/9519850395", "ca-app-pub-9129816881800022/3473316797", "ca-app-pub-9129816881800022/6426783190"};
+
 }
