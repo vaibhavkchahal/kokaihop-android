@@ -26,10 +26,12 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeHeadingBin
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
-import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
@@ -128,8 +130,33 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 holderMainHeader.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
-                ViewHolderAdvt holderAdvt = (ViewHolderAdvt) holder;
-                holderAdvt.binder.executePendingBindings();
+                final ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
+                final AdView adView = (AdView) recipeDetailItemsList.get(position);
+
+
+                if (viewHolderAdvt.binder.linearLayoutAds.getChildCount() > 0) {
+                    viewHolderAdvt.binder.linearLayoutAds.removeAllViews();
+                }
+                if (adView.getParent() != null) {
+                    ((ViewGroup) adView.getParent()).removeView(adView);
+                }
+                // Add the ads.
+                viewHolderAdvt.binder.linearLayoutAds.addView(adView);
+
+                adView.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        adView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        adView.setVisibility(View.GONE);
+                    }
+                });
+                // Load the ad.
+                adView.loadAd(new AdRequest.Builder().build());
                 break;
             case TYPE_ITEM_INGREDIENT_HEADING:
                 ViewHolderIngredientHeading holderIngredientHeading = (ViewHolderIngredientHeading) holder;
@@ -297,7 +324,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         Object object = recipeDetailItemsList.get(position);
         if (object instanceof RecipeDetailHeader) {
             return TYPE_ITEM_RECIPE_MAIN_HEADER;
-        } else if (object instanceof AdvtDetail) {
+        } else if (object instanceof AdView) {
             return TYPE_ITEM_ADVT;
         } else if (object instanceof ListHeading) {
             ListHeading heading = (ListHeading) object;
