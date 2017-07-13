@@ -2,26 +2,20 @@ package com.kokaihop.feed;
 
 import android.content.Context;
 import android.databinding.Bindable;
-import android.view.View;
 
 import com.altaworks.kokaihop.ui.BR;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
-import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kokaihop.utility.AppUtility.FIRST_AD_PLACE;
-import static com.kokaihop.utility.AppUtility.ITEMS_PER_AD;
 import static com.kokaihop.utility.Constants.AUTHORIZATION_BEARER;
 
 
@@ -126,49 +120,8 @@ public class RecipeFeedViewModel extends BaseViewModel {
         recipeListWithAdds.clear();
         recipeListWithAdds.addAll(recipeList);
         AppUtility utility = new AppUtility();
-        utility.addAdvtInRecipeList(recipeListWithAdds, context);
-        loadAd(FIRST_AD_PLACE);
+        utility.addAdvtInRecipeList(recipeListWithAdds, AppCredentials.DAILY_ADS_UNIT_IDS, context);
     }
-
-    public void loadAd(final int index) {
-        if (index >= getRecipeListWithAdds().size()) {
-            return;
-        }
-
-        Object item = getRecipeListWithAdds().get(index);
-        if (!(item instanceof AdView)) {
-            throw new ClassCastException("Expected item at index " + index + " to be a Native"
-                    + " Express ad.");
-        }
-        final AdView adView = (AdView) item;
-        // Set an AdListener on the AdView to wait for the previous  ad
-        // to finish loading before loading the next ad in the items list.
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                adView.setVisibility(View.VISIBLE);
-                // The previous  ad loaded successfully, call this method again to
-                // load the next ad in the items list.
-                loadAd(index + ITEMS_PER_AD);
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // The previous  ad failed to load. Call this method again to load
-                // the next ad in the items list.
-                Logger.e("Ad", "The previous  ad failed to load. Attempting to"
-                        + " load the next  ad in the items list.");
-                adView.setVisibility(View.GONE);
-                loadAd(index + ITEMS_PER_AD);
-            }
-        });
-
-        // Load the ad.
-        adView.loadAd(new AdRequest.Builder().addTestDevice("B2392C13860FF69BF8F847F0914A2745").build());  //TODO: Remove adTestDevice method for production
-
-    }
-
     @Override
     protected void destroy() {
     }

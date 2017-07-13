@@ -18,4 +18,11 @@ public class CloudinaryDetail {
     public static final String ADMOB_APP_ID = "ca-app-pub-9129816881800022~4990735999"; // Kokaihop app id
     public static final String[] DAILY_ADS_UNIT_IDS = {"ca-app-pub-9129816881800022/9519850395", "ca-app-pub-9129816881800022/3473316797", "ca-app-pub-9129816881800022/6426783190"};
 
+    public static final String[] SEARCH_ADS_UNIT_IDS = {"ca-app-pub-9129816881800022/1856982794", "ca-app-pub-9129816881800022/3333715998", "ca-app-pub-9129816881800022/5728779198"};
+
+
+
+    public static final String[] RECIPE_DETAILS_ADS_UNIT_IDS = {"ca-app-pub-9129816881800022/7903516394", "ca-app-pub-9129816881800022/9380249595"};
+    public static final String SHOPPING_INGRIDIENT_ADS_UNIT_IDS = "ca-app-pub-9129816881800022/5089650797";
+
 }

@@ -110,21 +110,19 @@ public class AppUtility {
     }
 
 
-    public void addAdvtInRecipeList(List<Object> recipeListWithAdds, Context context) {
+    public void addAdvtInRecipeList(List<Object> recipeListWithAdds, String[] adsUNitId, Context context) {
         int adUnitIdPostion = 0;
         for (int recipeCount = FIRST_AD_PLACE; recipeCount < recipeListWithAdds.size(); recipeCount += ITEMS_PER_AD) {
             if (adUnitIdPostion > 2) {
                 adUnitIdPostion = 0;
             }
-            Logger.e("ad postion ", recipeCount + " size " + recipeListWithAdds.size() + "adUnitIdPostion " + adUnitIdPostion);
-
             AdView adView = new AdView(context);
             if (adUnitIdPostion == 0) {
                 adView.setAdSize(AdSize.LARGE_BANNER); //320x100 LARGE_BANNER
             } else {
                 adView.setAdSize(AdSize.MEDIUM_RECTANGLE); //320x250 medium rectangle
             }
-            adView.setAdUnitId(AppCredentials.DAILY_ADS_UNIT_IDS[adUnitIdPostion]);
+            adView.setAdUnitId(adsUNitId[adUnitIdPostion]);
             recipeListWithAdds.add(recipeCount, adView);
             adUnitIdPostion++;
         }

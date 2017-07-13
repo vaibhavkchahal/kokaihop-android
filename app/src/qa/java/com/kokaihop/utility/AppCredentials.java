@@ -14,8 +14,12 @@ public class AppCredentials {
     public static final String API_SECRET = "Rn8BckvTVTKf7QFEw7zvnNMMgzA";
 
 
-    //Admob
-    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";  //Google testing app id
-    public static final String[] DAILY_ADS_UNIT_IDS = {"ca-app-pub-3940256099942544/6300978111wewr", "ca-app-pub-3940256099942544/6300978111", "ca-app-pub-3940256099942544/6300978111"};
+    //Admob Google testing app id
+    public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";
+    public static final String[] DAILY_ADS_UNIT_IDS = {"ca-app-pub-3940256099942544/6300978111", "ca-app-pub-3940256099942544/6300978111", "ca-app-pub-3940256099942544/6300978111"};
+    public static final String[] SEARCH_ADS_UNIT_IDS = {"ca-app-pub-3940256099942544/6300978111", "ca-app-pub-3940256099942544/6300978111", "ca-app-pub-3940256099942544/6300978111"};
 
+
+    public static final String[] RECIPE_DETAILS_ADS_UNIT_IDS = {"ca-app-pub-3940256099942544/6300978111", "ca-app-pub-3940256099942544/6300978111"};
+    public static final String SHOPPING_INGRIDIENT_ADS_UNIT_IDS = "ca-app-pub-3940256099942544/6300978111";
 }

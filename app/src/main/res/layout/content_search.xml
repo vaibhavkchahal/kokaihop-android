@@ -129,7 +129,6 @@
                 android:id="@+id/recyclerview_recent_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
             />
         </LinearLayout>
 
@@ -169,6 +168,7 @@
             android:layout_marginLeft="@dimen/card_left_right_margin"
             android:layout_marginRight="@dimen/card_left_right_margin"
             android:visibility="gone"
+            android:scrollbars="vertical"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>

@@ -16,6 +16,8 @@ import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RowRecipeSearchedCountBinding;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.AppUtility;
@@ -119,14 +121,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 RecipeRealmObject recipeRealmObject = (RecipeRealmObject) recipeListWithAdds.get(position);
-                Logger.e("height", layoutParamsRecipeItem.height + ", width " + layoutParamsRecipeItem.width);
-
                 String publicIdRecipe = "";
                 if (recipeRealmObject.getCoverImage() != null) {
                     publicIdRecipe = recipeRealmObject.getCoverImage();
                 } else if (recipeRealmObject.getMainImage() != null) {
-                    Logger.e("Recipe Url", recipeRealmObject.getMainImage().getPublicId() + "ID");
-
                     publicIdRecipe = recipeRealmObject.getMainImage().getPublicId();
 
                 }
@@ -146,7 +144,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case TYPE_ITEM_ADVT:
                 final ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
-                AdView adView = (AdView) recipeListWithAdds.get(position);
+                final AdView adView = (AdView) recipeListWithAdds.get(position);
 
 
                 if (viewHolderAdvt.binder.linearLayoutAds.getChildCount() > 0) {
@@ -157,7 +155,22 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 // Add the ads.
                 viewHolderAdvt.binder.linearLayoutAds.addView(adView);
-                viewHolderAdvt.binder.linearLayoutAds.setTag(position);
+
+                adView.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        adView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        adView.setVisibility(View.GONE);
+                    }
+                });
+                // Load the ad.
+                adView.loadAd(new AdRequest.Builder().build());
+//                adView.loadAd(new AdRequest.Builder().addTestDevice("B2392C13860FF69BF8F847F0914A2745").build());  //TODO: Remove adTestDevice method for production
                 break;
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
