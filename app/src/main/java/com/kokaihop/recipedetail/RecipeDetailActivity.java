@@ -33,6 +33,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
@@ -55,7 +56,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -399,24 +399,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     public void updateCheckbox(RecipeHandler recipeHandler, MenuItem item, RecipeRealmObject recipe) {
-        JSONObject collectionMapping = recipeDetailViewModel.getCollectionMapping();
-        if (collectionMapping != null) {
-            for (Cookbook cookbook : User.getInstance().getCookbooks()) {
-                try {
-                    JSONArray cookbookJson = collectionMapping.getJSONArray(cookbook.get_id());
-                    if (!item.isChecked()) {
-                        int index = indexOfRecipe(recipe.get_id(), cookbookJson);
-                        if (index >= 0) {
-                            cookbookJson.remove(index);
-                        }
-                    }
-                    collectionMapping.put(cookbook.get_id(), cookbookJson);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        recipeDetailViewModel.setCollectionMapping(collectionMapping);
+        new CookbooksDataManager().removeRecipeFromAllCookbooks(userFriendlyUrl,recipe);
         CheckBox checkBox = binding.getViewModel().getCheckBox();
         checkBox.setChecked(item.isChecked());
         recipeHandler.onCheckChangeRecipe(checkBox, recipe);
