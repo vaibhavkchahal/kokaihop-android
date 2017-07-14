@@ -110,7 +110,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         initializeViewPager();
         initializePagerLeftRightSlider();
         initializeRecycleView();
-        setPagerData();
+//        setPagerData();
         setAppBarListener();
 
     }
@@ -302,8 +302,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void setPagerData() {
-        recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
-        viewPager.setAdapter(recipeDetailPagerAdapter);
+
+        if (recipeDetailPagerAdapter == null) {
+            recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
+            viewPager.setAdapter(recipeDetailPagerAdapter);
+        } else {
+            recipeDetailPagerAdapter.notifyDataSetChanged();
+        }
+
         viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
             txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
@@ -399,7 +405,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     public void updateCheckbox(RecipeHandler recipeHandler, MenuItem item, RecipeRealmObject recipe) {
-        new CookbooksDataManager().removeRecipeFromAllCookbooks(userFriendlyUrl,recipe);
+        new CookbooksDataManager().removeRecipeFromAllCookbooks(userFriendlyUrl, recipe);
         CheckBox checkBox = binding.getViewModel().getCheckBox();
         checkBox.setChecked(item.isChecked());
         recipeHandler.onCheckChangeRecipe(checkBox, recipe);

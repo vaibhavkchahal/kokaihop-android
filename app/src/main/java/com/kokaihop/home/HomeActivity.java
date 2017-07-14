@@ -20,8 +20,8 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
-import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -203,7 +203,7 @@ public class HomeActivity extends BaseActivity {
             refreshFragment(1);
         } else if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
             refreshFragment(1);
-        }else if(eventText.equalsIgnoreCase("followToggled")){
+        } else if (eventText.equalsIgnoreCase("followToggled")) {
             refreshFragment(4);
         }
         EventBus.getDefault().removeStickyEvent(authUpdateEvent);
@@ -218,4 +218,21 @@ public class HomeActivity extends BaseActivity {
         ft.commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        showHomeTabOnBackPressed();
+    }
+
+    private void showHomeTabOnBackPressed() {
+
+        int selectedTab = tabLayout.getSelectedTabPosition();
+        if (selectedTab != 0) {
+            tabLayout.setScrollPosition(0, 0, true);
+            viewPager.setCurrentItem(0);
+
+        } else {
+            super.onBackPressed();
+
+        }
+    }
 }
