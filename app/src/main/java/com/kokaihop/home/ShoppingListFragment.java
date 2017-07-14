@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.FragmentListBinding;
+import com.altaworks.kokaihop.ui.databinding.FragmentShoppingListBinding;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -22,10 +22,10 @@ import com.kokaihop.utility.HorizontalDividerItemDecoration;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ListFragment extends Fragment implements ShoppingListViewModel.IngredientsDatasetListener {
+public class ShoppingListFragment extends Fragment implements ShoppingListViewModel.IngredientsDatasetListener {
 
     private ShoppingListViewModel viewModel;
-    private FragmentListBinding binding;
+    private FragmentShoppingListBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ListFragment extends Fragment implements ShoppingListViewModel.Ingr
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_list, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();

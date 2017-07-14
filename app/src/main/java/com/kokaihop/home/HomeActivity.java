@@ -88,7 +88,7 @@ public class HomeActivity extends BaseActivity {
         MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();
         myCookbooksFragment.setArguments(bundle);
         adapter.addFrag(myCookbooksFragment, getString(R.string.tab_cookbooks));
-        adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
+        adapter.addFrag(new ShoppingListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(userProfileFragment, getString(R.string.tab_me));
         viewPager.setAdapter(adapter);
