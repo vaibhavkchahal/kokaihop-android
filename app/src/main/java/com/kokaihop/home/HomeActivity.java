@@ -153,12 +153,14 @@ public class HomeActivity extends BaseActivity {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                 imageUri = data.getData();
                 filePath = CameraUtils.getRealPathFromURI(HomeActivity.this, imageUri);
-            } else {
+                Logger.d("File Path", filePath);
+                userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
                 filePath = CameraUtils.onCaptureImageResult();
-
+                Logger.d("File Path", filePath);
+                userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
             }
-            Logger.d("File Path", filePath);
-            userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+
 
         }
         if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {

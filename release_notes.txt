@@ -1,9 +1,14 @@
-1. Search
-   - All filters implementation except "Best Rating"
-2. Cookbook Tab
-   - Completed Cookbook functionality.
-3. Comments Tab
-   - Completed comments functionality.
+1. Admob Ads
+   - Home feed Days Recipe list.
+   - Search Recipes list.
+   - Recipe Details.
+   - Shopping List.
+2. Search
+   - Sort By Best Rating Filter.
+3. Shopping List
+   - Add new Ingredients local database implementation and Sync to Server.
+
+
 
 
 
