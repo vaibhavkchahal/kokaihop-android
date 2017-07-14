@@ -160,6 +160,8 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onAdLoaded() {
                         super.onAdLoaded();
+                        int spacingInPixels = adView.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+                        adView.setPadding(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels);
                         adView.setVisibility(View.VISIBLE);
                     }
 
