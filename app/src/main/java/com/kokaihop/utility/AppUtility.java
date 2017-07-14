@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Handler;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,7 +20,11 @@ import com.altaworks.kokaihop.ui.R;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
+import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.RecipeDetailPostEvent;
 import com.kokaihop.home.HomeActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -128,7 +134,28 @@ public class AppUtility {
         }
 
     }
+    public void updateRecipeItemView(RecipeDetailPostEvent recipeDetailPostEvent, GridLayoutManager gridLayoutManager, RecyclerView recyclerView, List<Object> recipeList) {
+        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
+        if (gridLayoutManager != null) {
+            int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+            int lastVisibleItemPosition = gridLayoutManager.findLastVisibleItemPosition();
 
+            for (int i = firstVisibleItemPosition; i < lastVisibleItemPosition; i++) {
+                Object object = recipeList.get(i);
+                if (object instanceof RecipeRealmObject) {
+                    RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
+                    if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
+                        recipeRealmObject.setFavorite(recipe.isFavorite());
+                        recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                        recyclerView.getAdapter().notifyItemChanged(i);
+                        EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
+                        break;
+                    }
+                }
+
+            }
+        }
+    }
 
 
 }
