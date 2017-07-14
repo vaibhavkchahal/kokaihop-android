@@ -36,6 +36,7 @@ public class User extends BaseObservable {
     private String cityName;
     private boolean followByMe;
     private ArrayList<Cookbook> cookbooks = new ArrayList<>();
+    private boolean refreshRequired;
 
     public String get_id() {
         return _id;
@@ -237,5 +238,13 @@ public class User extends BaseObservable {
     public void setUserName(String userName) {
         this.userName = userName;
         notifyPropertyChanged(BR.userName);
+    }
+
+    public boolean isRefreshRequired() {
+        return refreshRequired;
+    }
+
+    public void setRefreshRequired(boolean refreshRequired) {
+        this.refreshRequired = refreshRequired;
     }
 }

@@ -78,10 +78,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
         this.dataSetListener = dataSetListener;
         recipeDataManager = new RecipeDataManager();
         if (friendlyUrl == null) {
-            recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeId);
+            recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
             this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
         } else {
-            recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
+            recipeRealmObject = recipeDataManager.fetchRecipeUsingFriendlyUrl(friendlyUrl);
         }
         pagerImages = recipeRealmObject.getImages();
         prepareRecipeDetailList(recipeRealmObject);
@@ -332,6 +332,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
+    }
+
+    public void setCollectionMapping(JSONObject collectionMapping) {
+        this.collectionMapping = collectionMapping;
     }
 
 

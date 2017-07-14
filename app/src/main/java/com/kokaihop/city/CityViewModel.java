@@ -14,7 +14,7 @@ import retrofit2.Response;
  * Created by Rajendra Singh on 9/5/17.
  */
 
-public class CityViewModel extends BaseViewModel{
+public class CityViewModel extends BaseViewModel {
     private ArrayList<CityDetails> cityList = new ArrayList<>();
     private CityInterface cityInterface;
 
@@ -37,7 +37,7 @@ public class CityViewModel extends BaseViewModel{
         //Select City
     }
 
-    public void getCities(){
+    public void getCities() {
         setProgressVisible(true);
         CitiesApi citiesApi = RetrofitClient.getInstance().create(CitiesApi.class);
         Call<CitiesApiResponse> getCitiesResponseCall = citiesApi.getCities();
@@ -45,12 +45,12 @@ public class CityViewModel extends BaseViewModel{
             @Override
             public void onResponse(Call<CitiesApiResponse> call, Response<CitiesApiResponse> response) {
                 setProgressVisible(false);
-                if(response!=null){
-                    if(response.code()==200){
-                        Logger.e("Response",response.body().getCityDetailsList().get(0).getName());
+                if (response != null) {
+                    if (response.code() == 200) {
+                        Logger.e("Response", response.body().getCityDetailsList().get(0).getName());
                         setCities(response.body().getCityDetailsList());
                     }
-                }else{
+                } else {
                     Logger.e("Response ", "Error");
                 }
             }
@@ -69,6 +69,7 @@ public class CityViewModel extends BaseViewModel{
 
     public interface CityInterface {
         void citySelected(CityDetails selectedCity);
+
         void setCitiesOnRecyclerView();
     }
 

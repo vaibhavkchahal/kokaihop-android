@@ -63,6 +63,42 @@ public class CookbooksDataManager {
         }
     }
 
+    //    insert or delete a recipe into a cookbook
+//    addRemove true for add and false for remove
+    public boolean insertOrRemoveRecipeIntoCookbook(final RecipeRealmObject recipe, String userFriendlyUrl, String cookbookFriendlyUrl, boolean addRemove) {
+
+        boolean success = false;
+        final UserRealmObject userRealmObject = realm.where(UserRealmObject.class)
+                .equalTo("friendlyUrl", userFriendlyUrl)
+                .findFirst();
+
+
+        if (userRealmObject != null) {
+            String cookbookId = getCookbookIdOfUser(userRealmObject.getRecipeCollections(), cookbookFriendlyUrl);
+            if (cookbookId != null && !cookbookFriendlyUrl.isEmpty()) {
+                CookbookRealmObject cookbookRealmObject = realm.where(CookbookRealmObject.class).equalTo("_id", cookbookId).findFirst();
+                if (cookbookRealmObject != null) {
+                    realm.beginTransaction();
+                    if (addRemove) {
+                        if (!recipeAlreadyExists(cookbookRealmObject.getRecipes(), recipe)) {
+                            cookbookRealmObject.setTotalCount(cookbookRealmObject.getTotalCount() + 1);
+                            cookbookRealmObject.getRecipes().add(recipe);
+                            success = true;
+                        }
+                    } else {
+                        if (recipeAlreadyExists(cookbookRealmObject.getRecipes(), recipe)) {
+                            cookbookRealmObject.setTotalCount(cookbookRealmObject.getTotalCount() - 1);
+                            cookbookRealmObject.getRecipes().remove(recipe);
+                            success = true;
+                        }
+                    }
+                    realm.commitTransaction();
+                }
+            }
+        }
+        return success;
+    }
+
     public ArrayList<Recipe> getRecipesOfCookbook(String userFriendlyUrl, String cookbookFriendlyUrl) {
         ArrayList<Recipe> recipeList = new ArrayList<>();
 
@@ -117,17 +153,28 @@ public class CookbooksDataManager {
         CookbookRealmObject cookbook = realm.where(CookbookRealmObject.class)
                 .equalTo("friendlyUrl", cookbookFriendlyUrl)
                 .findFirst();
-        if(cookbook==null){
+        if (cookbook == null) {
             return null;
         }
         return cookbook.get_id();
     }
 
 
-    public void deleteCookbook(String cookbookFriendlyUrl){
+    public void deleteCookbook(String cookbookFriendlyUrl) {
         realm.beginTransaction();
-        realm.where(CookbookRealmObject.class).equalTo("friendlyUrl",cookbookFriendlyUrl)
+        realm.where(CookbookRealmObject.class).equalTo("friendlyUrl", cookbookFriendlyUrl)
                 .findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
+
+    public void removeRecipeFromAllCookbooks(String userFriendlyUrl, RecipeRealmObject recipe) {
+        RealmList<CookbookRealmObject> cookbooks =  realm.where(UserRealmObject.class).equalTo("friendlyUrl",userFriendlyUrl).findFirst().getRecipeCollections();
+        realm.beginTransaction();
+        if(cookbooks!=null){
+            for(CookbookRealmObject cookbook : cookbooks){
+                cookbook.getRecipes().remove(recipe);
+            }
+        }
         realm.commitTransaction();
     }
 }

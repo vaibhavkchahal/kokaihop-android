@@ -82,13 +82,15 @@ public class CityActivity extends BaseActivity implements CityViewModel.CityInte
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        cityAdapter.getFilter().filter(query);
+        if (cityAdapter != null)
+            cityAdapter.getFilter().filter(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        cityAdapter.getFilter().filter(newText);
+        if (cityAdapter != null)
+            cityAdapter.getFilter().filter(newText);
         return true;
     }
 

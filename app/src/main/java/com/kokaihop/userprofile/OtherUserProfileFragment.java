@@ -39,12 +39,13 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     private String userId, friendlyUrl;
     private Bundle bundle = new Bundle();
     private TabLayout tabLayout;
-    User user = new User();
+    User user;
 
     private int selectedTabPosition = 0;
     ArrayList<NotificationCount> notificationCount;
 
     public OtherUserProfileFragment() {
+        user = new User();
     }
 
     @Override

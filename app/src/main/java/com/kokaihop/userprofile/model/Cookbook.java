@@ -20,6 +20,7 @@ public class Cookbook extends BaseObservable{
     private ArrayList<RecipeRealmObject> recipes;
     private String mainImageUrl;
     private int total;
+    private boolean contains;
 
     public String get_id() {
         return _id;
@@ -69,5 +70,15 @@ public class Cookbook extends BaseObservable{
 
     public void setMainImageUrl(String mainImageUrl) {
         this.mainImageUrl = mainImageUrl;
+    }
+
+    @Bindable
+    public boolean isContains() {
+        return contains;
+    }
+
+    public void setContains(boolean contains) {
+        this.contains = contains;
+        notifyPropertyChanged(BR.contains);
     }
 }

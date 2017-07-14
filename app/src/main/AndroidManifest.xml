@@ -96,7 +96,7 @@
         <activity
             android:name="com.kokaihop.recipedetail.AddToCookBookActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme">
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.kokaihop.comments.ShowAllCommentsActivity"

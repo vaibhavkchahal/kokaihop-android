@@ -33,22 +33,29 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.userprofile.model.Cookbook;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.BlurImageHelper;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.ConfirmationDialog;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.RecipeUtils;
 import com.kokaihop.utility.ShareContents;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -56,6 +63,7 @@ import java.io.IOException;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
+import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
 
@@ -77,7 +85,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             RecipeDetailActivity.this.invalidateOptionsMenu();
         }
     };
-    private String recipeID;
+    private String recipeID, userFriendlyUrl;
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
 
@@ -86,12 +94,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        userFriendlyUrl = SharedPrefUtils.getSharedPrefStringData(this, Constants.FRIENDLY_URL);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
         recipeID = getIntent().getStringExtra("recipeId");
         friendlyUrl = getIntent().getStringExtra("friendlyUrl");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
-        EventBus.getDefault().register(this);
     }
 
     public void setupRecipeDetailScreen() {
@@ -117,6 +125,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
         binding.getViewModel().updateComments();
         binding.getViewModel().addOnPropertyChangedCallback(propertyChangedCallback);
     }
@@ -124,6 +133,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public void onStop() {
         super.onStop();
+        EventBus.getDefault().unregister(this);
         binding.getViewModel().removeOnPropertyChangedCallback(propertyChangedCallback);
     }
 
@@ -289,7 +299,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 viewPager.setCurrentItem(tab);
             }
         });
-
     }
 
     private void setPagerData() {
@@ -356,22 +365,70 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
     }
 
-    private void actionOnRecipeLike(MenuItem item, RecipeRealmObject recipe, RecipeHandler recipeHandler) {
-        String accessToken = SharedPrefUtils.getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
+    private void actionOnRecipeLike(final MenuItem item, final RecipeRealmObject recipe, final RecipeHandler recipeHandler) {
+        String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {
-                item.setIcon(R.drawable.ic_unlike_sm);
-                item.setChecked(false);
-
+                if (recipeExistsInAnyCookbook(recipe.get_id())) {
+                    final ConfirmationDialog dialog = new ConfirmationDialog(this,
+                            getString(R.string.cookbook),
+                            getString(R.string.recipe_unlike_warning),
+                            getString(R.string.remove),
+                            getString(R.string.cancel));
+                    dialog.getConfirmPositive().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            item.setIcon(R.drawable.ic_unlike_sm);
+                            item.setChecked(false);
+                            updateCheckbox(recipeHandler, item, recipe);
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
+                } else {
+                    item.setIcon(R.drawable.ic_unlike_sm);
+                    item.setChecked(false);
+                    updateCheckbox(recipeHandler, item, recipe);
+                }
             } else {
                 item.setIcon(R.drawable.ic_like_sm);
                 item.setChecked(true);
+                updateCheckbox(recipeHandler, item, recipe);
             }
         }
+    }
+
+    public void updateCheckbox(RecipeHandler recipeHandler, MenuItem item, RecipeRealmObject recipe) {
+        new CookbooksDataManager().removeRecipeFromAllCookbooks(userFriendlyUrl,recipe);
         CheckBox checkBox = binding.getViewModel().getCheckBox();
         checkBox.setChecked(item.isChecked());
         recipeHandler.onCheckChangeRecipe(checkBox, recipe);
         recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
+    }
+
+    //    checks whether a recipe exists in any of the cookbook of user
+    public boolean recipeExistsInAnyCookbook(String recipeId) {
+        for (Cookbook cookbook : User.getInstance().getCookbooks()) {
+            if (cookbook.getFriendlyUrl() != Constants.FAVORITE_RECIPE_FRIENDLY_URL) {
+                if (RecipeUtils.getRecipeIndexInCookbook(userFriendlyUrl, cookbook.getFriendlyUrl(), recipeId) >= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //    returns the index of recipe in the cookbook
+    public int indexOfRecipe(String recipeId, JSONArray cookbook) {
+        for (int i = 0; i < cookbook.length(); i++) {
+            try {
+                if (cookbook.getString(i).equals(recipeId))
+                    return i;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -405,7 +462,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_camera:
-                String accessToken = SharedPrefUtils.getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
                 } else {
@@ -471,8 +528,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
             }
         }
-
     }
+
 
     @Subscribe(sticky = true)
     public void onEvent(String update) {
@@ -481,5 +538,4 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
         EventBus.getDefault().removeAllStickyEvents();
     }
-
 }

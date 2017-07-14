@@ -51,33 +51,35 @@ public class RecipeDataManager {
 
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
         Recipe recipe = new Recipe();
-        recipe.set_id(recipeRealmObject.get_id());
-        recipe.setTitle(recipeRealmObject.getTitle());
-        recipe.setType(recipeRealmObject.getType());
-        if (recipeRealmObject.getCreatedBy() != null) {
-            recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
-            recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
-            recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
-            recipe.setCreatedByFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
-        }
-        recipe.setCoverImage(recipeRealmObject.getCoverImage());
-        if (recipeRealmObject.getMainImage() != null) {
-            recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
-        }
-        recipe.setFavorite(recipeRealmObject.isFavorite());
-        if (recipeRealmObject.getCounter() != null) {
-            recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
-        }
-        if (recipeRealmObject.getRating() != null) {
-            recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
+        if(recipeRealmObject!=null){
+            recipe.set_id(recipeRealmObject.get_id());
+            recipe.setTitle(recipeRealmObject.getTitle());
+            recipe.setType(recipeRealmObject.getType());
+            if (recipeRealmObject.getCreatedBy() != null) {
+                recipe.setCreatedById(recipeRealmObject.getCreatedBy().getId());
+                recipe.setCreatedByName(recipeRealmObject.getCreatedBy().getName());
+                recipe.setCreatedByProfileImageId(recipeRealmObject.getCreatedBy().getProfileImageId());
+                recipe.setCreatedByFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
+            }
+            recipe.setCoverImage(recipeRealmObject.getCoverImage());
+            if (recipeRealmObject.getMainImage() != null) {
+                recipe.setMainImagePublicId(recipeRealmObject.getMainImage().getPublicId());
+            }
+            recipe.setFavorite(recipeRealmObject.isFavorite());
+            if (recipeRealmObject.getCounter() != null) {
+                recipe.setLikes(String.valueOf(recipeRealmObject.getCounter().getLikes()));
+            }
+            if (recipeRealmObject.getRating() != null) {
+                recipe.setRatingAverage(recipeRealmObject.getRating().getAverage());
 
+            }
+            recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
+            if (recipeRealmObject.getCounter() != null) {
+                recipe.setComments(recipeRealmObject.getCounter().getComments());
+            }
+            recipe.setBadgeType(recipeRealmObject.getBadgeType());
+            recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
         }
-        recipe.setBadgeDateCreated(recipeRealmObject.getBadgeDateCreated());
-        if (recipeRealmObject.getCounter() != null) {
-            recipe.setComments(recipeRealmObject.getCounter().getComments());
-        }
-        recipe.setBadgeType(recipeRealmObject.getBadgeType());
-        recipe.setLastUpdated(recipeRealmObject.getLastUpdated());
         return recipe;
 
     }
@@ -193,6 +195,12 @@ public class RecipeDataManager {
         //return the managed object
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                 .equalTo(RECIPE_ID, recipeID).findFirst();
+        return recipeRealmObject;
+    }
+    public RecipeRealmObject fetchRecipeUsingFriendlyUrl(String friendlyUrl) {
+        //return the managed object
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
+                .equalTo(RECIPE_ID, friendlyUrl).findFirst();
         return recipeRealmObject;
     }
 

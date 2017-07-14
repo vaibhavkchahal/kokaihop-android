@@ -35,7 +35,7 @@ public class HomeViewModel {
 
     public void getLatestRecipes() {
         final RecipeRequestParams recipeRequestParams = getRecipeRequestParams();
-        Realm realm = Realm.getDefaultInstance();
+        final Realm realm = Realm.getDefaultInstance();
         RecipeRealmObject realmObject = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING).first();
         recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
         Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
@@ -76,8 +76,8 @@ public class HomeViewModel {
 
 
     //    seeting the argumenets for the recipeListUpdate api call.
-//    max 100 for maximum 100 elements at a time.
-//    setWithImages 0 for all the recipes with or without images, 1 for recipes with images only
+    //    max 100 for maximum 100 elements at a time.
+    //    setWithImages 0 for all the recipes with or without images, 1 for recipes with images only
     public RecipeRequestParams getRecipeRequestParams() {
         RecipeRequestParams recipeRequestParams = new RecipeRequestParams();
         recipeRequestParams.setSortParams(ApiConstants.MOST_RECENT);

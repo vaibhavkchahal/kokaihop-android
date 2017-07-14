@@ -11,9 +11,12 @@ import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.cookbooks.CookbookDataChangedListener;
 import com.kokaihop.cookbooks.CookbooksApiHelper;
+import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.cookbooks.model.AddToCookbookRequest;
 import com.kokaihop.cookbooks.model.CookbookName;
 import com.kokaihop.cookbooks.model.RemoveFromCookbookRequest;
+import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.home.AuthUpdateEvent;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.ProfileApiHelper;
@@ -46,6 +49,8 @@ public class AddToCookbookViewModel extends BaseViewModel {
     private boolean isDownloading = true, removed = false;
     private String userId, friendlyUrl, accessToken;
     private ProfileDataManager profileDataManager;
+    private RecipeDataManager recipeDataManager;
+    private CookbooksDataManager cookbooksDataManager;
     private Fragment fragment;
     private User user;
     private ArrayList<Cookbook> cookbooks;
@@ -59,6 +64,8 @@ public class AddToCookbookViewModel extends BaseViewModel {
         this.userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
         this.friendlyUrl = SharedPrefUtils.getSharedPrefStringData(context, Constants.FRIENDLY_URL);
         accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        recipeDataManager = new RecipeDataManager();
+        cookbooksDataManager = new CookbooksDataManager();
     }
 
 
@@ -171,33 +178,40 @@ public class AddToCookbookViewModel extends BaseViewModel {
         ((AddToCookbookFragment) fragment).displayCookbooks(cookbooks);
     }
 
-    public void addToCookbook(final Cookbook cookbook, String recipeId) {
+    public void addToCookbook(final Cookbook cookbook, final String recipeId) {
         setProgressVisible(true);
         AddToCookbookRequest addToCookbookRequest = new AddToCookbookRequest(recipeId, cookbook.get_id());
         new CookbooksApiHelper().addToCookbook(accessToken, addToCookbookRequest, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshRecipeDetail"));
-                cookbook.setTotal(cookbook.getTotal() + 1);
+                if(cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), true)){
+                    cookbook.setTotal(cookbook.getTotal() + 1);
+                }
+                recipeDataManager.updateIsFavoriteInDB(true, recipeRealmObject);
                 setProgressVisible(false);
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.recipe_added_to_cookbook));
+
             }
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
 
             @Override
             public void onError(Object response) {
                 Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
         });
     }
 
-    public void removeFromCookbook(final Cookbook cookbook, String recipeId, final int position) {
+    public void removeFromCookbook(final Cookbook cookbook, final String recipeId, final int position) {
         setProgressVisible(true);
         RemoveFromCookbookRequest removeFromCookbookRequest = new RemoveFromCookbookRequest(cookbook.get_id(), new String[]{recipeId});
         new CookbooksApiHelper().removeFromCookbook(accessToken, removeFromCookbookRequest, new IApiRequestComplete() {
@@ -209,19 +223,24 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 if (fragment instanceof CookbookDataChangedListener) {
                     ((CookbookDataChangedListener) fragment).updateList(position);
+
                 }
+                RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
+                cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), false);
             }
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
 
             @Override
             public void onError(Object response) {
                 Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
+                cookbook.setContains(!cookbook.isContains());
             }
         });
     }

@@ -64,7 +64,8 @@ public class AppetizerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
 
@@ -81,7 +82,7 @@ public class AppetizerFragment extends Fragment {
         Object object = apeetizerViewModel.getRecipeListWithAdds().get(recipePosition);
         if (object instanceof RecipeRealmObject) {
             RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())){
+            if (recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())) {
                 recipeObject.setFavorite(recipe.isFavorite());
                 recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
                 fragmentAppetizerBinding.rvAppetizer.getAdapter().notifyDataSetChanged();
