@@ -10,6 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.kokaihop.search.SearchActivity"
@@ -167,8 +168,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/card_left_right_margin"
             android:layout_marginRight="@dimen/card_left_right_margin"
-            android:visibility="gone"
             android:scrollbars="vertical"
+            android:visibility="gone"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>
