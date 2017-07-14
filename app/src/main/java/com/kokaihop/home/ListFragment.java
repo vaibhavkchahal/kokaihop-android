@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentListBinding;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 
@@ -35,7 +40,37 @@ public class ListFragment extends Fragment implements ShoppingListViewModel.Ingr
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();
+        loadAdmobAd();
         return binding.getRoot();
+    }
+
+    private void loadAdmobAd() {
+        final AdView adViewBanner = new AdView(getActivity());
+        adViewBanner.setAdSize(AdSize.LARGE_BANNER); //320x100 LARGE_BANNER
+        adViewBanner.setAdUnitId(AppCredentials.SHOPPING_INGRIDIENT_ADS_UNIT_IDS);
+
+        if (binding.linearLytAd.getChildCount() > 0) {
+            binding.linearLytAd.removeAllViews();
+        }
+        if (adViewBanner.getParent() != null) {
+            ((ViewGroup) adViewBanner.getParent()).removeView(adViewBanner);
+        }
+        binding.linearLytAd.addView(adViewBanner);
+
+        adViewBanner.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                adViewBanner.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                adViewBanner.setVisibility(View.GONE);
+            }
+        });
+        // Load the ad.
+        adViewBanner.loadAd(new AdRequest.Builder().build());
     }
 
     private void initializerecyclerView() {
