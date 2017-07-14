@@ -17,6 +17,7 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.Unit;
 import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.Constants;
 
 import java.util.Calendar;
 import java.util.List;
@@ -63,22 +64,34 @@ public class AddIngredientViewModel extends BaseViewModel {
     }
 
     public void onDoneClick(EditText ingredient, TextView unit, EditText value) {
-        IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
-        ingredientsRealmObject.setName(ingredient.getText().toString());
-        ingredientsRealmObject.setAmount(Float.valueOf(value.getText().toString()));
-        Calendar calendar = Calendar.getInstance();
-        ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
-        ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()));
-        Unit unitObj = new Unit();
-        unitObj.setId(shoppingDataManager.getIngredientUnits().get(previousSelectedIndex - 1).getId());
-        unitObj.setName(unit.getText().toString());
-        ingredientsRealmObject.setUnit(unitObj);
-        ingredientsRealmObject.setServerSyncNeeded(true);
-        shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
-        ingredient.setText("");
-        unit.setText(context.getString(R.string.text_select));
-        value.setText("");
-        AppUtility.showAutoCancelMsgDialog(context, "");
+        String ingredientName = ingredient.getText().toString();
+        float amount = Float.valueOf(value.getText().toString());
+        String unitName = unit.getText().toString();
+        String unitId = shoppingDataManager.getIngredientUnits().get(previousSelectedIndex - 1).getId();
+        Activity activity = (Activity) context;
+        if (activity.getIntent().getExtras() == null) {
+            IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
+            ingredientsRealmObject.setName(ingredientName);
+            ingredientsRealmObject.setAmount(amount);
+            Calendar calendar = Calendar.getInstance();
+            ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
+            ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()));
+            Unit unitObj = new Unit();
+            unitObj.setId(unitId);
+            unitObj.setName(unitName);
+            ingredientsRealmObject.setUnit(unitObj);
+            ingredientsRealmObject.setServerSyncNeeded(true);
+            shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
+            ingredient.setText("");
+            unit.setText(context.getString(R.string.text_select));
+            value.setText("");
+            AppUtility.showAutoCancelMsgDialog(context, "");
+        } else {
+            String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
+            shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
+            activity.setResult(Activity.RESULT_OK);
+            activity.finish();
+        }
     }
 
     public void showUnitListDialog(final Context context) {

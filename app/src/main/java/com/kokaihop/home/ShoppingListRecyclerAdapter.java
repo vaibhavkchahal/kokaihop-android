@@ -22,10 +22,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private List<IngredientsRealmObject> ingredientsList = new ArrayList<>();
     private Context context;
+    private RecyclerOnItemClickListener clickListener;
 
-
-    public ShoppingListRecyclerAdapter(List<IngredientsRealmObject> list) {
+    public ShoppingListRecyclerAdapter(List<IngredientsRealmObject> list, RecyclerOnItemClickListener clickListener) {
         ingredientsList = list;
+        this.clickListener = clickListener;
     }
 
     @Override
@@ -37,10 +38,16 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final ViewHolderShowIngredients holderShowComments = (ViewHolderShowIngredients) holder;
         final IngredientsRealmObject ingredientsRealmObject = ingredientsList.get(position);
         holderShowComments.binder.setModel(ingredientsRealmObject);
+        holderShowComments.binder.imageviewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(position);
+            }
+        });
         holderShowComments.binder.setHandler(new ShoppingListHandler());
         holderShowComments.binder.executePendingBindings();
     }
@@ -60,5 +67,8 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
+    public interface RecyclerOnItemClickListener {
+        void onItemClick(int position);
+    }
 
 }

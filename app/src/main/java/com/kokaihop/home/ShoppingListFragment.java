@@ -16,13 +16,14 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 
 import static android.app.Activity.RESULT_OK;
 
-public class ShoppingListFragment extends Fragment implements ShoppingListViewModel.IngredientsDatasetListener {
+public class ShoppingListFragment extends Fragment implements ShoppingListViewModel.IngredientsDatasetListener, ShoppingListRecyclerAdapter.RecyclerOnItemClickListener {
 
     private ShoppingListViewModel viewModel;
     private FragmentShoppingListBinding binding;
@@ -78,7 +79,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(getContext()));
-        ShoppingListRecyclerAdapter adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList());
+        ShoppingListRecyclerAdapter adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList(), this);
         recyclerView.setAdapter(adapter);
         binding.txtviewAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +106,16 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             viewModel.fetchIngredientFromDB();
             viewModel.updateIngredientOnServer();
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        IngredientsRealmObject object = viewModel.getIngredientsList().get(position);
+        Intent intent = new Intent(getContext(), AddIngredientActivity.class);
+        intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
+        intent.putExtra(Constants.INGREDIENT_AMOUNT, object.getAmount());
+        intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
+        intent.putExtra(Constants.INGREDIENT_ID, object.get_id());
+        startActivityForResult(intent, Constants.ADD_INGREDIENT_REQUEST_CODE);
     }
 }
