@@ -39,11 +39,9 @@ public class HomeViewModel {
         RecipeRealmObject realmObject = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING).first();
         recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
         Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
-
         new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     JSONObject json = new JSONObject(responseBody.string());

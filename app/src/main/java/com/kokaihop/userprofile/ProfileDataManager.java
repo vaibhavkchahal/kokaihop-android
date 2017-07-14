@@ -123,7 +123,7 @@ public class ProfileDataManager {
             userRealmObject.setFriendlyUrl(friendlyUrl);
             userRealmObject.setRecipeCollections(new RealmList<CookbookRealmObject>());
             insertOrUpdateUserData(userRealmObject);
-            userRealmObject = getUser("_id",userId);
+            userRealmObject = getUser("_id", userId);
         }
         for (int i = 0; i < cookbooks.length(); i++) {
 //            realm.createAllFromJson(CookbookRealmObject.class, cookbooks);
@@ -167,9 +167,7 @@ public class ProfileDataManager {
 
     //    Inserting or updating the following users data into the database
     public void insertOrUpdateFollowing(final RealmList<UserRealmObject> userRealmObjectList, final String userId) {
-
         UserRealmObject userRealmObject = getUser("_id", userId);
-
         if (userRealmObject != null) {
             realm.beginTransaction();
             for (UserRealmObject following : userRealmObjectList) {
@@ -227,7 +225,6 @@ public class ProfileDataManager {
 
     public ArrayList<FollowingFollowerUser> fetchFollowingList(String userId) {
         ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
-
         UserRealmObject userRealmObject = getUser("_id", userId);
         RealmList<UserRealmObject> userRealmObjects;
         if (userRealmObject != null) {

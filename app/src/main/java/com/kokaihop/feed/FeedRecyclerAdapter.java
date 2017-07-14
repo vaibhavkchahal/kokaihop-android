@@ -16,6 +16,9 @@ import com.altaworks.kokaihop.ui.databinding.FeedRecyclerAdvtItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RowRecipeSearchedCountBinding;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
@@ -118,14 +121,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case TYPE_ITEM_RECIPE:
                 ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
                 RecipeRealmObject recipeRealmObject = (RecipeRealmObject) recipeListWithAdds.get(position);
-                Logger.e("height", layoutParamsRecipeItem.height + ", width " + layoutParamsRecipeItem.width);
-
                 String publicIdRecipe = "";
                 if (recipeRealmObject.getCoverImage() != null) {
                     publicIdRecipe = recipeRealmObject.getCoverImage();
                 } else if (recipeRealmObject.getMainImage() != null) {
-                    Logger.e("Recipe Url", recipeRealmObject.getMainImage().getPublicId() + "ID");
-
                     publicIdRecipe = recipeRealmObject.getMainImage().getPublicId();
 
                 }
@@ -139,21 +138,42 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     viewHolderRecipe.binder.tvRecipeDate.setVisibility(View.GONE);
                 }
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
-                if (recipeRealmObject.getRating() != null) {
-                    Logger.e("rating average", recipeRealmObject.getRating().getAverage() + "");
-                    Logger.e("raters", recipeRealmObject.getRating().getRaters() + "");
-                } else {
-                    Logger.e("no rating", "no rating" + "");
-
-
-                }
-
                 viewHolderRecipe.binder.setPosition(position);
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
-                // TODO add advt.
+                final ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
+                final AdView adView = (AdView) recipeListWithAdds.get(position);
+
+
+                if (viewHolderAdvt.binder.linearLayoutAds.getChildCount() > 0) {
+                    viewHolderAdvt.binder.linearLayoutAds.removeAllViews();
+                }
+                if (adView.getParent() != null) {
+                    ((ViewGroup) adView.getParent()).removeView(adView);
+                }
+                // Add the ads.
+                viewHolderAdvt.binder.linearLayoutAds.addView(adView);
+
+                adView.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdLoaded() {
+                        super.onAdLoaded();
+                        int spacingInPixels = adView.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+                        adView.setPadding(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels);
+                        adView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(int errorCode) {
+                        adView.setVisibility(View.GONE);
+                    }
+                });
+                // Load the ad.
+                adView.loadAd(new AdRequest.Builder().build());
+//                adView.loadAd(new AdRequest.Builder().addTestDevice("B2392C13860FF69BF8F847F0914A2745").build());  //TODO: Remove adTestDevice method for production
+
                 break;
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
@@ -174,7 +194,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (isPositionHeader(position) && !isFromSearchedView())
                 return TYPE_ITEM_DAY_RECIPE;
             return TYPE_ITEM_RECIPE;
-        } else if (object instanceof AdvtDetail) {
+        } else if (object instanceof AdView) {
             return TYPE_ITEM_ADVT;
         } else if (object instanceof SearchRecipeHeader) {
             return TYPE_ITEM_SEARCH_COUNT;

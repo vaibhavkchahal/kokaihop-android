@@ -24,6 +24,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
+        multiDexEnabled true //important
     }
 
     signingConfigs {
@@ -120,4 +121,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     debugCompile 'com.facebook.stetho:stetho:1.4.2'
     debugCompile 'com.uphyca:stetho_realm:2.0.1'
+    compile 'com.google.android.gms:play-services-ads:10.2.4'
 }

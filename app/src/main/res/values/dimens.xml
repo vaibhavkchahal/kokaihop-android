@@ -414,4 +414,17 @@
     <dimen name="delete_cookbookrow_swipe">-100dp</dimen>
     <dimen name="recipe_history_row_image_size">80dp</dimen>
     <dimen name="row_recipe_menu_item_padding">20dp</dimen>
+
+
+    <!-- shopping list dimens -->
+    <dimen name="shopping_toolbar_pading_left_right">20dp</dimen>
+    <dimen name="add_ingredient_view_height">40dp</dimen>
+    <dimen name="shadow_height">2dp</dimen>
+    <dimen name="ingredient_drawable_padding">8.8dp</dimen>
+    <dimen name="shopping_list_item_margin_right">25dp</dimen>
+    <dimen name="margin_left_list_item_divider">5dp</dimen>
+    <dimen name="vertical_divider_height">15dp</dimen>
+    <dimen name="vertical_divider_width">2dp</dimen>
+    <dimen name="shopping_item_name_quantity_width">231dp</dimen>
+    <dimen name="shopping_list_item_height">62dp</dimen>
 </resources>

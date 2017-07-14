@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
+import com.google.android.gms.ads.MobileAds;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Constants;
@@ -56,6 +58,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        MobileAds.initialize(this, AppCredentials.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
         viewModel.getLatestRecipes();
         setTabView();
@@ -86,7 +89,7 @@ public class HomeActivity extends BaseActivity {
         MyCookbooksFragment myCookbooksFragment = new MyCookbooksFragment();
         myCookbooksFragment.setArguments(bundle);
         adapter.addFrag(myCookbooksFragment, getString(R.string.tab_cookbooks));
-        adapter.addFrag(new ListFragment(), getString(R.string.tab_list));
+        adapter.addFrag(new ShoppingListFragment(), getString(R.string.tab_list));
         adapter.addFrag(new CommentsFragment(), getString(R.string.tab_comments));
         adapter.addFrag(userProfileFragment, getString(R.string.tab_me));
         viewPager.setAdapter(adapter);
@@ -193,16 +196,17 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Subscribe(sticky = true)
-    public void onEvent(String update) {
-        if (update.equalsIgnoreCase("updateRequired")) {
+    public void onEventRecieve(AuthUpdateEvent authUpdateEvent) {
+        String eventText = authUpdateEvent.getEvent();
+        if (eventText.equalsIgnoreCase("updateRequired")) {
             refreshFragment(4);
             refreshFragment(1);
-        } else if (update.equalsIgnoreCase("refreshRecipeDetail") || update.equals("refreshCookbook")) {
+        } else if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
             refreshFragment(1);
-        }else if(update.equalsIgnoreCase("followToggled")){
+        }else if(eventText.equalsIgnoreCase("followToggled")){
             refreshFragment(4);
         }
-        EventBus.getDefault().removeStickyEvent(update);
+        EventBus.getDefault().removeStickyEvent(authUpdateEvent);
     }
 
     private void refreshFragment(int postionFragmentToRefresh) {

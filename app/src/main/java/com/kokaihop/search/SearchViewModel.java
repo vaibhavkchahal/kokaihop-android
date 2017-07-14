@@ -12,9 +12,10 @@ import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
-import com.kokaihop.feed.AdvtDetail;
 import com.kokaihop.feed.SearchRecipeHeader;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.utility.AppCredentials;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Logger;
 
 import org.json.JSONException;
@@ -22,7 +23,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -224,7 +224,7 @@ public class SearchViewModel extends BaseViewModel {
     }
 
     public void displaySortByList(View view) {
-        String previousSelected = "";
+        String previousSelected = sortBy;
         if (sortByList == null) {
             sortByList = new ArrayList<>();
             String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
@@ -237,8 +237,6 @@ public class SearchViewModel extends BaseViewModel {
             }
             if (sortBy.isEmpty()) {
                 previousSelected = sortByList.get(0).getName();
-            } else {
-                previousSelected = sortBy;
             }
         }
         if (view.getTag() != null) {
@@ -304,19 +302,10 @@ public class SearchViewModel extends BaseViewModel {
         searchRecipeHeader.setCount(String.valueOf(recipeList.size()));
         recipeListwithAds.add(searchRecipeHeader);
         recipeListwithAds.addAll(recipeList);
-        int prevPos = 0;
-        for (int position = 0; position < recipeListwithAds.size(); position++) {
-            if (position == 3 || (prevPos + 7) == position) {
-                prevPos = position;
-                AdvtDetail advtDetail = new AdvtDetail();
-                recipeListwithAds.add(position, advtDetail);
-            }
-        }
-        Logger.e("time after ads list", new Date().toString());
-
+        AppUtility utility = new AppUtility();
+        utility.addAdvtInRecipeList(recipeListwithAds, AppCredentials.SEARCH_ADS_UNIT_IDS, context);
         return recipeListwithAds;
     }
-
 
     public void addSearchSuggestion(String keyword) {
         searchDataManager.insertSuggestion(keyword);

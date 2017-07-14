@@ -40,11 +40,15 @@
     <color name="grey_FFE6E2DA">#FFE6E2DA</color>
     <color name="white_FFFAFAFA">#FFFAFAFA</color>
     <color name="orange_FFFF9326">#FFFF9326</color>
-    
+
     <color name="blue_FF1484FF">#FF1484FF</color>
     <color name="blue_FF198CFF">#FF198CFF</color>
     <color name="grey_FFBFBFBF">#FFBFBFBF</color>
     <color name="grey_FFE9EBEB">#FFE9EBEB</color>
+
+    <color name="grey_80ECE8E8">#80ECE8E8</color>
+    <color name="grey_FFB3B3B3">#FFB3B3B3</color>
+    <color name="grey_FF2F0000">#FF2F0000</color>
 
 
 </resources>

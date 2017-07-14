@@ -13,6 +13,7 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.cookbooks.model.RenameCookbookRequest;
 import com.kokaihop.feed.Recipe;
+import com.kokaihop.home.AuthUpdateEvent;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipedetail.AddToCookbookViewModel;
 import com.kokaihop.userprofile.ProfileDataManager;
@@ -148,7 +149,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 Toast.makeText(context, context.getString(R.string.cookbook_deleted), Toast.LENGTH_SHORT).show();
                 dataManager.deleteCookbook(cookbookFriendlyUrl);
                 user.setCookbooks(new ProfileDataManager().getCookbooks(SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID)));
-                EventBus.getDefault().postSticky("refreshCookbook");
+                EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshCookbook"));
                 ((Activity) context).finish();
                 setProgressVisible(false);
             }

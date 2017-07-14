@@ -15,6 +15,7 @@ import com.kokaihop.authentication.FacebookAuthRequest;
 import com.kokaihop.authentication.forgotpassword.ForgotPasswordActivity;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.home.AuthUpdateEvent;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
@@ -66,12 +67,11 @@ public class LoginViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
-                SharedPrefUtils.setSharedPrefStringData(context,Constants.FRIENDLY_URL,response.getUserAuthenticationDetail().getFriendlyUrl());
-
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
                 Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
                 String from = ((LoginActivity) context).getIntent().getStringExtra(EXTRA_FROM);
                 if (from != null && from.equals("loginRequired")) {
-                    EventBus.getDefault().postSticky("updateRequired");
+                    EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
                     ((LoginActivity) context).finish();
                 } else {
                     showHomeScreen(context);
@@ -128,7 +128,7 @@ public class LoginViewModel extends BaseViewModel {
 //                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
                         String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
                         if (from != null && from.equals("loginRequired")) {
-                            EventBus.getDefault().postSticky("updateRequired");
+                            EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
                             ((LoginActivity) view.getContext()).finish();
 
                         } else {

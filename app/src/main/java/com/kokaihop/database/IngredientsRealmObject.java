@@ -18,8 +18,12 @@ public class IngredientsRealmObject extends RealmObject {
     @SerializedName("isHeader")
     private boolean isHeader;
 
+    private boolean isServerSyncNeeded;
+
+    @SerializedName("amount")
     private float amount;
 
+    @SerializedName("unit")
     private Unit unit;
 
     public float getAmount() {
@@ -38,7 +42,8 @@ public class IngredientsRealmObject extends RealmObject {
         this.unit = unit;
     }
 
-    @PrimaryKey @SerializedName("_id")
+    @PrimaryKey
+    @SerializedName("_id")
     private String _id;
     @SerializedName("dateCreated")
     private String dateCreated;
@@ -81,5 +86,13 @@ public class IngredientsRealmObject extends RealmObject {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public boolean isServerSyncNeeded() {
+        return isServerSyncNeeded;
+    }
+
+    public void setServerSyncNeeded(boolean serverSyncNeeded) {
+        isServerSyncNeeded = serverSyncNeeded;
     }
 }

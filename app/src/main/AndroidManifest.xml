@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.altaworks.kokaihop.ui"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.altaworks.kokaihop.ui">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -120,6 +120,12 @@
             android:name="com.kokaihop.search.SearchActivity"
             android:label="@string/title_activity_search"
             android:parentActivityName="com.kokaihop.base.BaseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name="com.kokaihop.home.AddIngredientActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>

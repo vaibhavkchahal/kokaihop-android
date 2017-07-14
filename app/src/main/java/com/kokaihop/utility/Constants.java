@@ -16,6 +16,10 @@ public class Constants {
     public static final String FRIENDLY_URL = "friendlyUrl";
     public static final String RECIPE_POSITION = "recipePosition";
 
+    public static final String SHOPPING_LIST_NAME_KEY = "name";
+
+    public static final String SHOPPING_LIST_NAME_VALUE = "Min inkopslista";
+
     //Tab Numbers
     public static final int TAB_RECIPES = 0;
     public static final int TAB_FOLLOWERS = 1;
@@ -48,5 +52,8 @@ public class Constants {
     public static final int USERPROFILE_REQUEST = 4;
     public static final int COOKBOOK_REQUEST = 1;
 
+
+    // shopping list request codes
+    public static final int ADD_INGREDIENT_REQUEST_CODE = 300;
 
 }

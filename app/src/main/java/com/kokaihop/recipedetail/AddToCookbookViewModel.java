@@ -17,6 +17,7 @@ import com.kokaihop.cookbooks.model.CookbookName;
 import com.kokaihop.cookbooks.model.RemoveFromCookbookRequest;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
+import com.kokaihop.home.AuthUpdateEvent;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
@@ -72,13 +73,11 @@ public class AddToCookbookViewModel extends BaseViewModel {
         setProgressVisible(false);
         fetchCookbooksFromDB();
 //        final String userId = "56387aa81e443c0300c5a4b5";
-
         setOffset(offset);
         if (isDownloading) {
             new ProfileApiHelper().getCookbooksOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
                 public void onSuccess(Object response) {
-
                     ResponseBody responseBody = (ResponseBody) response;
                     try {
                         final JSONObject jsonObject = new JSONObject(responseBody.string());
@@ -89,7 +88,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
-
                     if (getOffset() + getMax() >= getTotalCount()) {
                         setDownloading(false);
                     }
@@ -122,7 +120,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 context.getString(R.string.cookbook_name),
                 context.getString(R.string.create),
                 context.getString(R.string.cancel));
-
         dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +128,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 createCookbook(name);
             }
         });
-
         dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +146,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 setDownloading(true);
-                EventBus.getDefault().postSticky("refreshCookbook");
+                EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshCookbook"));
                 getCookbooksOfUser(0);
                 setProgressVisible(false);
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_created));
@@ -189,7 +185,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
-                EventBus.getDefault().postSticky("refreshRecipeDetail");
+                EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshRecipeDetail"));
                 if(cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), true)){
                     cookbook.setTotal(cookbook.getTotal() + 1);
                 }
@@ -223,7 +219,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
             public void onSuccess(Object response) {
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.recipe_removed_from_cookbook));
                 cookbook.setTotal(cookbook.getTotal() - 1);
-                EventBus.getDefault().postSticky("refreshRecipeDetail");
+                EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshRecipeDetail"));
                 setProgressVisible(false);
                 if (fragment instanceof CookbookDataChangedListener) {
                     ((CookbookDataChangedListener) fragment).updateList(position);

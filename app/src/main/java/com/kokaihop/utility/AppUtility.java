@@ -7,29 +7,31 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
-import android.os.Environment;
 import android.os.Handler;
-import android.text.Html;
-import android.text.Spanned;
-import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.home.HomeActivity;
 
-import java.io.File;
+import java.util.List;
+
 
 /**
  * Created by Rajendra Singh on 19/5/17.
  */
 
 public class AppUtility {
+    // An ad is placed in every nth position in the RecyclerView.
+    public static final int ITEMS_PER_AD = 7;
+    // First ad to be dispaly at 3rd position
+    public static final int FIRST_AD_PLACE = 3;
 
     public static void showHomeScreen(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
@@ -49,24 +51,6 @@ public class AppUtility {
         float height = (width * ratio);
         return (int) height;
     }
-
-    public static int getHeightIn4Into3Ratio(int width) {
-        int height = (width * 4) / 3;
-        return height;
-    }
-
-    public static View getImageUrlWithAspectRatio(int height, int width, View view) {
-        Point point = getDisplayPoint(view.getContext());
-        int aspectWidth = point.x;
-        float ratio = (float) height / width;
-        int aspectHeight = getHeightInAspectRatio(aspectWidth, ratio);
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = aspectHeight;
-        layoutParams.width = aspectWidth;
-        view.setLayoutParams(layoutParams);
-        return view;
-    }
-
 
     public static void showLoginDialog(final Context context, String title, String message) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
@@ -88,40 +72,6 @@ public class AppUtility {
         dialog.show();
     }
 
-    public static File getTempFile() {
-        File photo = new File(Environment.getExternalStorageDirectory() + "/" + Constants.APP_NAME + "/" + "temp.jpg");
-        return photo;
-
-    }
-
-    @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html) {
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            result = Html.fromHtml(html);
-        }
-        return result;
-    }
-
-    public static int pxToDp(Context context, int px) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        return dp;
-    }
-
-
-    public static void showKeyboard(View view) {
-        Activity activity = (Activity) view.getContext();
-        try {
-            InputMethodManager input = (InputMethodManager) activity
-                    .getSystemService(Activity.INPUT_METHOD_SERVICE);
-            input.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void hideKeyboard(View view) {
         // Check if no view has focus:
@@ -158,5 +108,27 @@ public class AppUtility {
     public static void showToastMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
+
+    public void addAdvtInRecipeList(List<Object> recipeListWithAdds, String[] adsUNitId, Context context) {
+        int adUnitIdPostion = 0;
+        for (int recipeCount = FIRST_AD_PLACE; recipeCount < recipeListWithAdds.size(); recipeCount += ITEMS_PER_AD) {
+            if (adUnitIdPostion > 2) {
+                adUnitIdPostion = 0;
+            }
+            AdView adView = new AdView(context);
+            if (adUnitIdPostion == 0) {
+                adView.setAdSize(AdSize.LARGE_BANNER); //320x100 LARGE_BANNER
+            } else {
+                adView.setAdSize(AdSize.MEDIUM_RECTANGLE); //320x250 medium rectangle
+            }
+            adView.setAdUnitId(adsUNitId[adUnitIdPostion]);
+            recipeListWithAdds.add(recipeCount, adView);
+            adUnitIdPostion++;
+        }
+
+    }
+
+
 
 }
