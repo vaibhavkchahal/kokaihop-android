@@ -94,7 +94,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
-            binding.swipeRefreshLayout.setRefreshing(false);
+            binding.swipeRefreshLayout.setEnabled(false);
         }
     }
 

@@ -59,4 +59,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             binder = DataBindingUtil.bind(view);
         }
     }
+
+
 }
