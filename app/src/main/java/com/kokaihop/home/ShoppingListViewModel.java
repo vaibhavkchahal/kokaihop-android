@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
@@ -96,20 +98,18 @@ public class ShoppingListViewModel extends BaseViewModel {
 
     public void updateIngredientOnServer() {
         ShoppingListRealmObject listRealmObject = shoppingDataManager.fetchShoppingRealmObject();
-        List<IngredientsRealmObject> realmObjects = shoppingDataManager.fetchCopyIngredientRealmObjects(listRealmObject.getIngredients());
+        final List<IngredientsRealmObject> realmObjects = shoppingDataManager.fetchCopyIngredientRealmObjects(listRealmObject.getIngredients());
         List<IngredientsRealmObject> sycNeededIngreidentList = new ArrayList<>();
-        for (IngredientsRealmObject object : realmObjects) {
-            if (object.isServerSyncNeeded()) {
-                sycNeededIngreidentList.add(object);
-            }
-        }
+        ignoreIdFieldFromIngredientObject(realmObjects, sycNeededIngreidentList);
         SyncIngredientModel model = new SyncIngredientModel();
-        model.setRealmObjects(sycNeededIngreidentList);
+        model.setList(sycNeededIngreidentList);
         new HomeApiHelper().sycIngredientOnServer(authorizationToken, model, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 SyncIngredientModel ingredientModel = (SyncIngredientModel) response;
                 Log.d("updated items size", "" + ingredientModel.getRealmObjects().size());
+                shoppingDataManager.removeIngredientFromRealmDatabase(realmObjects);
+                fetchShoppingListFromServer();
             }
 
             @Override
@@ -120,6 +120,19 @@ public class ShoppingListViewModel extends BaseViewModel {
             public void onError(Object response) {
             }
         });
+    }
+
+    private void ignoreIdFieldFromIngredientObject(List<IngredientsRealmObject> realmObjects, List<IngredientsRealmObject> sycNeededIngreidentList) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(IngredientsRealmObject.class, new IngredientSerializer())
+                .create();
+        for (IngredientsRealmObject object : realmObjects) {
+            if (object.isServerSyncNeeded()) {
+                String result = gson.toJson(object);
+                IngredientsRealmObject realmObject = gson.fromJson(result, IngredientsRealmObject.class);
+                sycNeededIngreidentList.add(realmObject);
+            }
+        }
     }
 
     public interface IngredientsDatasetListener {

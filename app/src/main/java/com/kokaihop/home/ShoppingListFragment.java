@@ -48,7 +48,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         final AdView adViewBanner = new AdView(getActivity());
         adViewBanner.setAdSize(AdSize.LARGE_BANNER); //320x100 LARGE_BANNER
         adViewBanner.setAdUnitId(AppCredentials.SHOPPING_INGRIDIENT_ADS_UNIT_IDS);
-
         if (binding.linearLytAd.getChildCount() > 0) {
             binding.linearLytAd.removeAllViews();
         }
@@ -56,7 +55,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             ((ViewGroup) adViewBanner.getParent()).removeView(adViewBanner);
         }
         binding.linearLytAd.addView(adViewBanner);
-
         adViewBanner.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
@@ -76,6 +74,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     private void initializerecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         RecyclerView recyclerView = binding.rvRecipeIngredients;
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(getContext()));
         ShoppingListRecyclerAdapter adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList());
@@ -93,6 +93,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         RecyclerView recyclerView = binding.rvRecipeIngredients;
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
+            recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
+            binding.swipeRefreshLayout.setRefreshing(false);
         }
     }
 

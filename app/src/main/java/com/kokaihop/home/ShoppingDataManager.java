@@ -18,6 +18,9 @@ import io.realm.RealmResults;
 public class ShoppingDataManager {
     private Realm realm;
 
+    private static final String INGREDIENT_ID = "_id";
+
+
     public ShoppingDataManager() {
         realm = Realm.getDefaultInstance();
     }
@@ -64,9 +67,26 @@ public class ShoppingDataManager {
                 realm.insertOrUpdate(ingredientsRealmObject);
                 ShoppingListRealmObject realmObject = realm.where(ShoppingListRealmObject.class)
                         .equalTo(Constants.SHOPPING_LIST_NAME_KEY, Constants.SHOPPING_LIST_NAME_VALUE).findFirst();
-                realmObject.getIngredients().add(0, ingredientsRealmObject);
+                realmObject.getIngredients().add(ingredientsRealmObject);
             }
         });
+    }
+
+    public void removeIngredientFromRealmDatabase(final List<IngredientsRealmObject> realmObjects) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (IngredientsRealmObject object : realmObjects) {
+                    if (object.isServerSyncNeeded()) {
+                        IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
+                                .equalTo(INGREDIENT_ID, object.get_id()).findFirst();
+                        ingredientsRealmObject.deleteFromRealm();
+                    }
+                }
+            }
+        });
+
+
     }
 }
 

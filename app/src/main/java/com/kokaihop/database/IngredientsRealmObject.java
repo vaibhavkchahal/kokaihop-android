@@ -45,6 +45,7 @@ public class IngredientsRealmObject extends RealmObject {
     @PrimaryKey
     @SerializedName("_id")
     private String _id;
+
     @SerializedName("dateCreated")
     private String dateCreated;
 

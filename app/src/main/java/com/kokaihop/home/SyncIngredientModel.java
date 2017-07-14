@@ -12,13 +12,13 @@ import java.util.List;
 public class SyncIngredientModel {
 
     @SerializedName("items")
-    private List<IngredientsRealmObject> realmObjects;
+    private List<IngredientsRealmObject> objects;
 
     public List<IngredientsRealmObject> getRealmObjects() {
-        return realmObjects;
+        return objects;
     }
 
-    public void setRealmObjects(List<IngredientsRealmObject> realmObjects) {
-        this.realmObjects = realmObjects;
+    public void setList(List<IngredientsRealmObject> realmObjects) {
+        this.objects = realmObjects;
     }
 }
