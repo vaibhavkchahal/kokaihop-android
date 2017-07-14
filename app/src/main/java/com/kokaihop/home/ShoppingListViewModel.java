@@ -104,11 +104,6 @@ public class ShoppingListViewModel extends BaseViewModel {
             }
         }
         SyncIngredientModel model = new SyncIngredientModel();
-//        Gson gson = new Gson();
-////        Type type = new TypeToken<List<IngredientsRealmObject>>() {
-////        }.getType();
-//        String json = gson.toJson(sycNeededIngreidentList.get(0));
-//        System.out.println("json format->" + json);
         model.setRealmObjects(sycNeededIngreidentList);
         new HomeApiHelper().sycIngredientOnServer(authorizationToken, model, new IApiRequestComplete() {
             @Override

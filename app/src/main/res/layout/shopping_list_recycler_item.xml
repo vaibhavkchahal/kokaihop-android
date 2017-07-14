@@ -56,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:onClick="@{(v)->handler.onListItemClick(v,txtviewIngredentName,viewVerticalDivider,imageviewEdit)}"
             android:src="@drawable/ic_edit_md"/>
 
     </RelativeLayout>
