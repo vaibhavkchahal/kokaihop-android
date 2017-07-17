@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentAppetizerBinding;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
@@ -82,27 +83,21 @@ public class AppetizerFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     @Subscribe(sticky = true)
-    public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
-        /*int recipePosition = recipeDetailPostEvent.getPosition();
-        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
-        Object object = apeetizerViewModel.getRecipeListWithAdds().get(recipePosition);
-        if (object instanceof RecipeRealmObject) {
-            RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            if (recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())) {
-                recipeObject.setFavorite(recipe.isFavorite());
-                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                fragmentAppetizerBinding.rvAppetizer.getAdapter().notifyDataSetChanged();
-                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
-            }
-        }*/
-        if (fragment != null && fragment.isVisible()) {
+    public void onEvent(RecipeRealmObject recipe) {
+
+        if (getUserVisibleHint()) {
             Logger.e("Event bus Appetizer", "Event bus Appetizer");
 
             GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
             List<Object> recipeListWithAds = apeetizerViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
-            appUtility.updateRecipeItemView(recipeDetailPostEvent, gridLayoutManager, rvAppetizer, recipeListWithAds);
+            appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvAppetizer, recipeListWithAds);
         }
     }
 

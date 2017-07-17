@@ -2,6 +2,7 @@ package com.kokaihop.feed;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,15 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentVegetarianBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import static android.databinding.DataBindingUtil.inflate;
 
@@ -24,6 +29,8 @@ public class VegetarianFragment extends Fragment {
 
     FragmentVegetarianBinding vegetarianBinding;
     private RecipeFeedViewModel vegetarianViewModel;
+    private RecyclerView rvVegetarian;
+    private FeedRecyclerListingOperation feedRecyclerListingOperation;
 
     public VegetarianFragment() {
         // Required empty public constructor
@@ -53,8 +60,8 @@ public class VegetarianFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-        RecyclerView rvVegetarian = vegetarianBinding.rvVegetarian;
-        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(vegetarianViewModel, rvVegetarian, ApiConstants.BadgeType.VEGETARIAN_OF_THE_DAY);
+        rvVegetarian = vegetarianBinding.rvVegetarian;
+        feedRecyclerListingOperation = new FeedRecyclerListingOperation(vegetarianViewModel, rvVegetarian, ApiConstants.BadgeType.VEGETARIAN_OF_THE_DAY);
         int spacingInPixels = rvVegetarian.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvVegetarian.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         feedRecyclerListingOperation.prepareFeedRecyclerView();
@@ -75,19 +82,20 @@ public class VegetarianFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     @Subscribe(sticky = true)
-    public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
-        int recipePosition = recipeDetailPostEvent.getPosition();
-        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
-        Object object = vegetarianViewModel.getRecipeListWithAdds().get(recipePosition);
-        if (object instanceof RecipeRealmObject) {
-            RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            if(recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())){
-                recipeObject.setFavorite(recipe.isFavorite());
-                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                vegetarianBinding.rvVegetarian.getAdapter().notifyDataSetChanged();
-                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
-            }
+    public void onEvent(RecipeRealmObject recipe) {
+        if (getUserVisibleHint()) {
+            Logger.e("Event bus Appetizer", "Event bus Appetizer");
+
+            GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
+            List<Object> recipeListWithAds = vegetarianViewModel.getRecipeListWithAdds();
+            AppUtility appUtility = new AppUtility();
+            appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvVegetarian, recipeListWithAds);
         }
 
     }

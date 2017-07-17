@@ -11,7 +11,6 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
-import com.kokaihop.database.RatingRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.Recipe;
@@ -165,10 +164,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getDescription() != null) {
             description = recipeRealmObject.getDescription().getLongDescription();
         }
-        if (recipeRealmObject.getRating() == null) {
-            recipeRealmObject.setRating(new RatingRealmObject());
+        float rating = 0;
+        if (recipeRealmObject.getRating() != null) {
+            rating = recipeRealmObject.getRating().getAverage();
         }
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(recipeRealmObject.getRating().getAverage(), recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
 

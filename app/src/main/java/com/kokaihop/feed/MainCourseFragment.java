@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
@@ -31,6 +32,7 @@ public class MainCourseFragment extends Fragment {
     private RecipeFeedViewModel mainCourseViewModel;
     private FeedRecyclerListingOperation feedRecyclerListingOperation;
     private RecyclerView rvMainCourse;
+
 
     public MainCourseFragment() {
         // Required empty public constructor
@@ -82,27 +84,20 @@ public class MainCourseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(sticky = true)
-    public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
-       /* int recipePosition = recipeDetailPostEvent.getPosition();
-        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
-        Object object = mainCourseViewModel.getRecipeListWithAdds().get(recipePosition);
-        if (object instanceof RecipeRealmObject) {
-            RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            if (recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())) {
-                recipeObject.setFavorite(recipe.isFavorite());
-                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                mainCourseBinding.rvMainCourse.getAdapter().notifyDataSetChanged();
-                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
-            }
 
-        }*/
-        if (fragment != null && fragment.isVisible()) {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Subscribe(sticky = true)
+    public void onEvent(RecipeRealmObject recipe) {
+        if (getUserVisibleHint()) {
             Logger.e("Event bus mainCourse", "Event bus mainCourse");
             GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
             List<Object> recipeListWithAds = mainCourseViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
-            appUtility.updateRecipeItemView(recipeDetailPostEvent, gridLayoutManager, rvMainCourse, recipeListWithAds);
+            appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvMainCourse, recipeListWithAds);
         }
 
 

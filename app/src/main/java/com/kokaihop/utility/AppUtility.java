@@ -21,7 +21,6 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.database.RecipeRealmObject;
-import com.kokaihop.feed.RecipeDetailPostEvent;
 import com.kokaihop.home.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -134,13 +133,13 @@ public class AppUtility {
         }
 
     }
-    public void updateRecipeItemView(RecipeDetailPostEvent recipeDetailPostEvent, GridLayoutManager gridLayoutManager, RecyclerView recyclerView, List<Object> recipeList) {
-        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
+
+    public void updateRecipeItemView(RecipeRealmObject recipe, GridLayoutManager gridLayoutManager, RecyclerView recyclerView, List<Object> recipeList) {
         if (gridLayoutManager != null) {
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
             int lastVisibleItemPosition = gridLayoutManager.findLastVisibleItemPosition();
 
-            for (int i = firstVisibleItemPosition; i < lastVisibleItemPosition; i++) {
+            for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
                 Object object = recipeList.get(i);
                 if (object instanceof RecipeRealmObject) {
                     RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
@@ -148,7 +147,7 @@ public class AppUtility {
                         recipeRealmObject.setFavorite(recipe.isFavorite());
                         recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
                         recyclerView.getAdapter().notifyItemChanged(i);
-                        EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
+                        EventBus.getDefault().removeStickyEvent(recipe);
                         break;
                     }
                 }
