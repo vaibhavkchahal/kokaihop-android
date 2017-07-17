@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ShoppingListRecyclerItemBinding;
@@ -30,7 +31,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private ImageView imageView;
     private ShoppingListViewModel viewModel;
     private String ingredientId;
-    private ImageView imageViewDelete;
+    private TextView textViewDelete;
 
     public ShoppingListRecyclerAdapter(List<IngredientsRealmObject> list, RecyclerOnItemClickListener clickListener) {
         ingredientsList = list;
@@ -58,20 +59,20 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 clickListener.onItemClick(position, v);
             }
         });
-        imageViewDelete = holderShowIngredients.binder.ivDelete;
         holderShowIngredients.binder.setHandler(new ShoppingListHandler());
         holderShowIngredients.binder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (previousDelete >= 0) {
-                    holderShowIngredients.binder.tvDelete.setVisibility(View.GONE);
+                    textViewDelete.setVisibility(View.GONE);
                     viewModel.getShoppingDataManager().updateIngredientDeleteFlag(ingredientsList.get(previousDelete), false);
                     imageView.setVisibility(View.VISIBLE);
                 }
                 previousDelete = holderShowIngredients.getAdapterPosition();
                 imageView = holderShowIngredients.binder.ivDelete;
+                textViewDelete = holderShowIngredients.binder.tvDelete;
                 imageView.setVisibility(View.GONE);
-                holderShowIngredients.binder.tvDelete.setVisibility(View.VISIBLE);
+                textViewDelete.setVisibility(View.VISIBLE);
                 viewModel.getShoppingDataManager().updateIngredientDeleteFlag(ingredientsRealmObject, true);
             }
         });
@@ -79,7 +80,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             @Override
             public void onClick(View v) {
                 ingredientId = ingredientsRealmObject.get_id();
-//                viewModel.removeRecipeFromCookbook(recipe.get_id(), getAdapterPosition());
+                List<String> ids = new ArrayList<String>();
+                ids.add(ingredientId);
+                viewModel.getShoppingDataManager().deleteIngredientObjectFromDB(ids);
+                viewModel.fetchIngredientFromDB();
+                viewModel.deleteIngredientOnServer(ids);
             }
         });
         holderShowIngredients.binder.executePendingBindings();
@@ -111,13 +116,6 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     public void setIndgredientEditor(boolean isEditIngredient) {
         itemEditor.setEditMode(isEditIngredient);
     }
-
-   /* public void removeDeleteButton() {
-        for (IngredientsRealmObject object : ingredientsList) {
-            imageViewDelete.setVisibility(View.GONE);
-            viewModel.getShoppingDataManager().updateIngredientDeleteFlag(object, false);
-        }
-    }*/
 
     public interface RecyclerOnItemClickListener {
         void onItemClick(int position, View view);

@@ -147,6 +147,25 @@ public class ShoppingListViewModel extends BaseViewModel {
         }
     }
 
+    public void deleteIngredientOnServer(List<String> ids) {
+        SyncIngredientDeletionModel requestParams = new SyncIngredientDeletionModel();
+        requestParams.getIds().addAll(ids);
+        new HomeApiHelper().sycIngredientDeletionOnServer(authorizationToken, requestParams, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                
+            }
+
+            @Override
+            public void onFailure(String message) {
+            }
+
+            @Override
+            public void onError(Object response) {
+            }
+        });
+    }
+
     public interface IngredientsDatasetListener {
         void onUpdateIngredientsList();
     }

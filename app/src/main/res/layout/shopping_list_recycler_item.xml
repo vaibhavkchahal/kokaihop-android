@@ -17,10 +17,8 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:background="@color/white"
-        android:gravity="center"
         android:onClick="@{(v)->handler.onListItemClick(v,txtviewIngredentName,viewVerticalDivider,imageviewEdit)}"
         android:paddingBottom="10dp"
-        android:paddingLeft="@dimen/item_ingrdnt_padding_left"
         android:paddingTop="10dp">
 
         <ImageView
@@ -28,8 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
             android:paddingTop="@dimen/item_ingrdnt_padding_top"
-            android:scaleType="centerInside"
             android:src="@drawable/ic_delete"
             android:visibility="@{itemEditor.editMode ? View.VISIBLE : View.GONE}"/>
 
@@ -38,6 +36,7 @@
             android:layout_width="@dimen/shopping_item_name_quantity_width"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/iv_delete"
             android:paddingTop="@dimen/item_ingrdnt_padding_top"
             android:text="@{model.name}"
             android:textColor="@color/grey_FF71767F"
@@ -50,43 +49,51 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtview_ingredent_name"
             android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/iv_delete"
             android:text="@{model.amount+@string/space_character+model.unit.name}"
             android:textColor="@color/grey_FFB3B3B3"
             android:textSize="@dimen/text_size_small"
             app:font="@{`SS-ProRegular`}"/>
 
-        <View
-            android:id="@+id/view_vertical_divider"
-            android:layout_width="@dimen/vertical_divider_width"
-            android:layout_height="@dimen/vertical_divider_height"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="21dp"
-            android:layout_toRightOf="@+id/txtview_ingredent_name"
-            android:background="@color/grey_FFE3E4E6"/>
-
-        <ImageView
-            android:id="@+id/imageview_edit"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/view_vertical_divider"
-            android:src="@drawable/ic_edit_md"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
 
-        <TextView
-            android:id="@+id/tv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imageview_edit"
-            android:background="@color/red"
-            android:gravity="center"
-            android:padding="20dp"
-            android:text="@string/delete"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small"
-            android:visibility="@{model.ingredientDelete ? View.VISIBLE : View.GONE}"
-            app:font="@{`SS-ProRegular`}"/>
+            <View
+                android:id="@+id/view_vertical_divider"
+                android:layout_width="@dimen/vertical_divider_width"
+                android:layout_height="@dimen/vertical_divider_height"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="21dp"
+                android:background="@color/grey_FFE3E4E6"/>
+
+            <ImageView
+                android:id="@+id/imageview_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/view_vertical_divider"
+                android:src="@drawable/ic_edit_md"/>
+
+            <TextView
+                android:id="@+id/tv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageview_edit"
+                android:background="@color/red"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="@string/delete"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                android:visibility="@{model.ingredientDelete ? View.VISIBLE : View.GONE}"
+                app:font="@{`SS-ProRegular`}"/>
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

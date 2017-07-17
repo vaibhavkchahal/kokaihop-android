@@ -21,4 +21,7 @@ public interface HomeApi {
 
     @POST("v1/api/shoppingLists/updateListItems")
     Call<SyncIngredientModel> syncIngrdientOnServer(@Header("Authorization") String authorization, @Body SyncIngredientModel requestParam);
+
+    @POST("v1/api/shoppingLists/deleteItems")
+    Call<SyncIngredientModel> syncIngrdientDeletionOnServer(@Header("Authorization") String authorization, @Body SyncIngredientDeletionModel requestParam);
 }

@@ -74,6 +74,20 @@ public class ShoppingDataManager {
         });
     }
 
+    public void deleteIngredientObjectFromDB(final List<String> ids) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for (String id : ids) {
+                    IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
+                            .equalTo(INGREDIENT_ID, id).findFirst();
+                    ingredientsRealmObject.setDeletionNeeded(true);
+                    ingredientsRealmObject.setServerSyncNeeded(true);
+                }
+            }
+        });
+    }
+
     public List<Unit> getIngredientUnits() {
         RealmResults<Unit> unitRealmResults = realm.where(Unit.class).findAll();
         return realm.copyFromRealm(unitRealmResults);
@@ -116,6 +130,8 @@ public class ShoppingDataManager {
             }
         });
     }
+
+
 }
 
 
