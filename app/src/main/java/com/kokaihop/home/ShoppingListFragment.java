@@ -1,5 +1,7 @@
 package com.kokaihop.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentShoppingListBinding;
@@ -27,6 +30,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
 
     private ShoppingListViewModel viewModel;
     private FragmentShoppingListBinding binding;
+    private ShoppingListRecyclerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         binding.setViewModel(viewModel);
         initializerecyclerView();
         loadAdmobAd();
+        editIngredient();
         return binding.getRoot();
     }
 
@@ -79,12 +84,46 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(getContext()));
-        ShoppingListRecyclerAdapter adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList(), this);
+        adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList(), this);
         recyclerView.setAdapter(adapter);
         binding.txtviewAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getContext(), AddIngredientActivity.class), Constants.ADD_INGREDIENT_REQUEST_CODE);
+            }
+        });
+    }
+
+    private void editIngredient() {
+        binding.txtviewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.txtviewEdit.getText().toString().equals(getString(R.string.edit))) {
+                    binding.txtviewEdit.setText(R.string.delete_all);
+                    binding.txtviewTitle.setText("Edit List");
+                    binding.txtviewDone.setText("Done");
+                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    binding.relativeLayoutAddIngredient.setVisibility(View.GONE);
+                    adapter.setIndgredientEditor(true);
+
+                } else {
+                    showDeleteAllIngrdientDialog();
+                    adapter.setIndgredientEditor(false);
+                }
+            }
+        });
+        binding.txtviewDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.txtviewDone.getText().length() > 0) {
+                    binding.txtviewDone.setText("");
+                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_md, 0, 0, 0);
+                    binding.txtviewEdit.setText(R.string.edit);
+                    binding.relativeLayoutAddIngredient.setVisibility(View.VISIBLE);
+                    binding.txtviewTitle.setText("Shopping List");
+                } else {
+                    // share
+                }
             }
         });
     }
@@ -109,13 +148,33 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     }
 
     @Override
-    public void onItemClick(int position) {
-        IngredientsRealmObject object = viewModel.getIngredientsList().get(position);
-        Intent intent = new Intent(getContext(), AddIngredientActivity.class);
-        intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
-        intent.putExtra(Constants.INGREDIENT_AMOUNT, object.getAmount());
-        intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
-        intent.putExtra(Constants.INGREDIENT_ID, object.get_id());
-        startActivityForResult(intent, Constants.ADD_INGREDIENT_REQUEST_CODE);
+    public void onItemClick(int position, View view) {
+        ImageView imageView = (ImageView) view;
+        if ((int) imageView.getTag() == R.drawable.ic_edit_md) {
+            IngredientsRealmObject object = viewModel.getIngredientsList().get(position);
+            Intent intent = new Intent(getContext(), AddIngredientActivity.class);
+            intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
+            intent.putExtra(Constants.INGREDIENT_AMOUNT, object.getAmount());
+            intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
+            intent.putExtra(Constants.INGREDIENT_ID, object.get_id());
+            startActivityForResult(intent, Constants.ADD_INGREDIENT_REQUEST_CODE);
+        }
+    }
+
+
+    private void showDeleteAllIngrdientDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setMessage(R.string.delete_all_ingredient_msg);
+        dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+//                viewModel.getShoppingDataManager()
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

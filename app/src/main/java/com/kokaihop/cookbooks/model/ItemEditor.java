@@ -9,7 +9,7 @@ import com.altaworks.kokaihop.ui.BR;
  * Created by Rajendra Singh on 6/7/17.
  */
 
-public class EditCookbook extends BaseObservable {
+public class ItemEditor extends BaseObservable {
 
     private boolean editMode;
 

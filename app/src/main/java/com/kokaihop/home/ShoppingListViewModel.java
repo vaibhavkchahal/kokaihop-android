@@ -50,6 +50,10 @@ public class ShoppingListViewModel extends BaseViewModel {
         fetchShoppingListFromServer();
     }
 
+    public ShoppingDataManager getShoppingDataManager() {
+        return shoppingDataManager;
+    }
+
     private void fetchShoppingListFromServer() {
         String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
         if (!userId.isEmpty()) {
@@ -145,6 +149,9 @@ public class ShoppingListViewModel extends BaseViewModel {
 
     public interface IngredientsDatasetListener {
         void onUpdateIngredientsList();
+    }
+
+    public void openEditScreen() {
     }
 
     @Override

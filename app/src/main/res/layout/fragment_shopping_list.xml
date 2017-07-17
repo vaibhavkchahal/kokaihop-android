@@ -18,13 +18,15 @@
             android:paddingRight="@dimen/shopping_toolbar_pading_left_right"
             android:paddingTop="@dimen/status_bar_height">
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_centerVertical="true"
-                      android:text="@string/text_edit"
-                      android:textColor="@color/white"
-                      android:textSize="@dimen/text_size_small"
-                      app:font="@{`SS-ProRegular`}"/>
+            <TextView
+                android:id="@+id/txtview_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/text_edit"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
 
             <TextView
                 android:id="@+id/txtview_title"
@@ -37,12 +39,24 @@
                 android:textSize="@dimen/text_size_large"
                 app:font="@{`SS-ProRegular`}"/>
 
-            <ImageView android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_alignParentRight="true"
-                       android:layout_centerVertical="true"
-                       android:src="@drawable/ic_share_md"/>
+            <!--<ImageView
+                android:id="@+id/imageview_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_share_md"/>-->
 
+            <TextView
+                android:id="@+id/txtview_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_share_md"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_large"
+                app:font="@{`SS-ProRegular`}"/>
         </RelativeLayout>
 
         <RelativeLayout

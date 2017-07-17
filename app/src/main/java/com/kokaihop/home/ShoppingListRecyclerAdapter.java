@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ShoppingListRecyclerItemBinding;
+import com.kokaihop.cookbooks.model.ItemEditor;
 import com.kokaihop.database.IngredientsRealmObject;
 
 import java.util.ArrayList;
@@ -23,10 +24,12 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private List<IngredientsRealmObject> ingredientsList = new ArrayList<>();
     private Context context;
     private RecyclerOnItemClickListener clickListener;
+    private ItemEditor itemEditor;
 
     public ShoppingListRecyclerAdapter(List<IngredientsRealmObject> list, RecyclerOnItemClickListener clickListener) {
         ingredientsList = list;
         this.clickListener = clickListener;
+        itemEditor = new ItemEditor();
     }
 
     @Override
@@ -45,7 +48,7 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         holderShowComments.binder.imageviewEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickListener.onItemClick(position);
+                clickListener.onItemClick(position, v);
             }
         });
         holderShowComments.binder.setHandler(new ShoppingListHandler());
@@ -67,8 +70,12 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
+    public void setIndgredientEditor(boolean isEditCookbook) {
+        itemEditor.setEditMode(isEditCookbook);
+    }
+
     public interface RecyclerOnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position, View view);
     }
 
 }

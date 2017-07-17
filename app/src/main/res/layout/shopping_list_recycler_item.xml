@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="model" type="com.kokaihop.database.IngredientsRealmObject"/>
         <variable name="handler" type="com.kokaihop.home.ShoppingListHandler"/>
+        <variable name="itemEditor" type="com.kokaihop.cookbooks.model.ItemEditor"/>
+        <import type="android.view.View"/>
     </data>
 
 
@@ -20,10 +23,23 @@
         android:paddingRight="25dp"
         android:paddingTop="10dp">
 
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingTop="@dimen/item_ingrdnt_padding_top"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_delete"
+            android:visibility="visible"
+        />
+
         <TextView
             android:id="@+id/txtview_ingredent_name"
             android:layout_width="@dimen/shopping_item_name_quantity_width"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/iv_delete"
             android:paddingTop="@dimen/item_ingrdnt_padding_top"
             android:text="@{model.name}"
             android:textColor="@color/grey_FF71767F"
@@ -33,9 +49,11 @@
 
         <TextView
             android:id="@+id/txtview_ingredent_quantity"
-            android:layout_width="@dimen/shopping_item_name_quantity_width"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtview_ingredent_name"
+            android:layout_toLeftOf="@+id/imageview_edit"
+            android:layout_toRightOf="@+id/iv_delete"
             android:text="@{model.amount+@string/space_character+model.unit.name}"
             android:textColor="@color/grey_FFB3B3B3"
             android:textSize="@dimen/text_size_small"
@@ -54,10 +72,26 @@
             android:id="@+id/imageview_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_delete"
             android:src="@drawable/ic_edit_md"/>
 
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small"
+            android:visibility="visible"
+            app:font="@{`SS-ProRegular`}"/>
     </RelativeLayout>
 
 </layout>

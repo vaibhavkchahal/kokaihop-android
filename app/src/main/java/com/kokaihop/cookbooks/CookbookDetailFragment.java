@@ -17,7 +17,7 @@ import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 import com.kokaihop.utility.SharedPrefUtils;
 
-public class CookbookDetailFragment extends Fragment implements CookbookDataChangedListener{
+public class CookbookDetailFragment extends Fragment implements CookbookDataChangedListener {
 
     private FragmentCookbookDetailBinding binding;
     private CookbookDetailViewModel viewModel;
@@ -43,7 +43,6 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
             cookbookTitle = bundle.getString(Constants.COOKBOOK_TITLE);
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_detail, container, false);
-
         if (Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
         }
@@ -55,7 +54,6 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         } else {
             user = User.getInstance();
         }
-
         viewModel = new CookbookDetailViewModel(this, getContext(), user);
         viewModel.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
@@ -65,9 +63,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         RecyclerView recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
         viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, 0);
-
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
@@ -83,7 +79,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
             @Override
             public void onClick(View v) {
                 if (binding.tvCookbookEdit.getText().toString().equals(getString(R.string.edit))) {
-                    if(!cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)){
+                    if (!cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                         binding.ivCookbookBack.setVisibility(View.GONE);
                         binding.tvCookbookRename.setVisibility(View.VISIBLE);
                     }

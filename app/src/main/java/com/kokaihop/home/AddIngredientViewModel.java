@@ -88,9 +88,11 @@ public class AddIngredientViewModel extends BaseViewModel {
             AppUtility.showAutoCancelMsgDialog(context, "");
         } else {
             String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
-            shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
-            activity.setResult(Activity.RESULT_OK);
-            activity.finish();
+            if (shoppingDataManager != null) {
+                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            }
         }
     }
 

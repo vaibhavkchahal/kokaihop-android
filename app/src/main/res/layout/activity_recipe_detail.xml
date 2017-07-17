@@ -112,8 +112,8 @@
                                   android:layout_alignParentRight="true"
                                   android:layout_marginBottom="15dp"
                                   android:layout_marginRight="10dp"
-                                  android:onClick="@{(v)->viewModel.openUserProfile(v)}"
-                                  android:gravity="center_vertical">
+                                  android:gravity="center_vertical"
+                                  android:onClick="@{(v)->viewModel.openUserProfile(v)}">
                         <TextView
                             android:id="@+id/txtview_userprofile"
                             android:layout_width="wrap_content"
