@@ -166,7 +166,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         }
         float rating = 0;
         if (recipeRealmObject.getRating() != null) {
-            rating = recipeRealmObject.getRating().getAverage();
+            recipeRealmObject.getRating().getAverage();
         }
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());

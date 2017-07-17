@@ -73,7 +73,7 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
         if (user.getProfileImage() != null){
             user.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(user.getProfileImage().getCloudinaryId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
         }else{
-            binding.setProfilePic(null);
+//            binding.setProfilePic(null);
             Glide.clear(binding.userPic);
         }
         holder.bind(user);

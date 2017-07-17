@@ -3,7 +3,6 @@ package com.kokaihop.feed;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +12,11 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentCookieBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
-import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
-import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.List;
 
 import static android.databinding.DataBindingUtil.inflate;
 
@@ -30,8 +25,6 @@ public class CookieFragment extends Fragment {
 
     private FragmentCookieBinding cookieBinding;
     private RecipeFeedViewModel cookieViewModel;
-    private FeedRecyclerListingOperation feedRecyclerListingOperation;
-    private RecyclerView rvCookie;
 
     public CookieFragment() {
         // Required empty public constructor
@@ -61,8 +54,8 @@ public class CookieFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-         rvCookie = cookieBinding.rvCookie;
-         feedRecyclerListingOperation = new FeedRecyclerListingOperation(cookieViewModel, rvCookie, ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
+        RecyclerView rvCookie = cookieBinding.rvCookie;
+        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(cookieViewModel, rvCookie, ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
         int spacingInPixels = rvCookie.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvCookie.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         feedRecyclerListingOperation.prepareFeedRecyclerView();
@@ -73,7 +66,9 @@ public class CookieFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
     }
 
 
@@ -82,21 +77,20 @@ public class CookieFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-    }
 
     @Subscribe(sticky = true)
-    public void onEvent(RecipeRealmObject recipe) {
-
-        if (getUserVisibleHint()) {
-            Logger.e("Event bus Appetizer", "Event bus Appetizer");
-
-            GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
-            List<Object> recipeListWithAds = cookieViewModel.getRecipeListWithAdds();
-            AppUtility appUtility = new AppUtility();
-            appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvCookie, recipeListWithAds);
+    public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
+        int recipePosition = recipeDetailPostEvent.getPosition();
+        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
+        Object object = cookieViewModel.getRecipeListWithAdds().get(recipePosition);
+        if (object instanceof RecipeRealmObject) {
+            RecipeRealmObject recipeObject = (RecipeRealmObject) object;
+            if (recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())) {
+                recipeObject.setFavorite(recipe.isFavorite());
+                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                cookieBinding.rvCookie.getAdapter().notifyDataSetChanged();
+                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
+            }
         }
 
     }
