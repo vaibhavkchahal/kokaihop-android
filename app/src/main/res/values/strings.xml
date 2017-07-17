@@ -168,7 +168,6 @@
 
 
     <!-- comments -->
-    <string name="recipe_detail_activity_title">RecipeDetailActivity</string>
     <string name="view_all_comments">View All Comments</string>
     <string name="write_a_comment">Write a comment...</string>
     <string name="hint_text_reply_comment">Reply to</string>

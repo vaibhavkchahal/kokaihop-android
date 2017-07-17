@@ -29,6 +29,10 @@ public class FeedRecyclerListingOperation {
         this.badgeType = badgeType;
     }
 
+    public GridLayoutManager getLayoutManager() {
+        return layoutManager;
+    }
+
     public void prepareFeedRecyclerView() {
 //        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
 //        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
@@ -115,5 +119,4 @@ public class FeedRecyclerListingOperation {
         };
         return scrollListener;
     }
-
 }

@@ -13,6 +13,7 @@ import com.kokaihop.comments.ShowAllCommentsActivity;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipedetail.RecipeDetailActivity;
+import com.kokaihop.search.SearchActivity;
 import com.kokaihop.userprofile.HistoryDataManager;
 import com.kokaihop.userprofile.OtherUserProfileActivity;
 import com.kokaihop.utility.AppUtility;
@@ -86,8 +87,9 @@ public class RecipeHandler {
             @Override
             public void onSuccess(Object response) {
                 updateLikeCountInView(checkBox, recipe);
-                if (context.getClass().getSimpleName().equals(context.getString(R.string.recipe_detail_activity_title))) {
-                    EventBus.getDefault().postSticky(new RecipeDetailPostEvent(recipe, recipePosition));
+                String contextName = context.getClass().getSimpleName();
+                if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName())) {
+                    EventBus.getDefault().postSticky(recipe);
                 }
             }
 

@@ -3,6 +3,7 @@ package com.kokaihop.feed;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,15 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentAppetizerBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import static android.databinding.DataBindingUtil.inflate;
 
@@ -25,12 +30,15 @@ public class AppetizerFragment extends Fragment {
 
     private FragmentAppetizerBinding fragmentAppetizerBinding;
     private RecipeFeedViewModel apeetizerViewModel;
+    private FeedRecyclerListingOperation feedRecyclerListingOperation;
+    private RecyclerView rvAppetizer;
+    private static AppetizerFragment fragment;
 
     public AppetizerFragment() {
     }
 
     public static AppetizerFragment newInstance() {
-        AppetizerFragment fragment = new AppetizerFragment();
+        fragment = new AppetizerFragment();
         return fragment;
     }
 
@@ -52,8 +60,8 @@ public class AppetizerFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-        RecyclerView rvAppetizer = fragmentAppetizerBinding.rvAppetizer;
-        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(apeetizerViewModel, rvAppetizer, ApiConstants.BadgeType.APPETIZER_OF_THE_DAY);
+        rvAppetizer = fragmentAppetizerBinding.rvAppetizer;
+        feedRecyclerListingOperation = new FeedRecyclerListingOperation(apeetizerViewModel, rvAppetizer, ApiConstants.BadgeType.APPETIZER_OF_THE_DAY);
         int spacingInPixels = rvAppetizer.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvAppetizer.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         feedRecyclerListingOperation.prepareFeedRecyclerView();
@@ -75,19 +83,21 @@ public class AppetizerFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     @Subscribe(sticky = true)
-    public void onEvent(RecipeDetailPostEvent recipeDetailPostEvent) {
-        int recipePosition = recipeDetailPostEvent.getPosition();
-        RecipeRealmObject recipe = recipeDetailPostEvent.getRecipe();
-        Object object = apeetizerViewModel.getRecipeListWithAdds().get(recipePosition);
-        if (object instanceof RecipeRealmObject) {
-            RecipeRealmObject recipeObject = (RecipeRealmObject) object;
-            if (recipe.getFriendlyUrl().equals(recipeObject.getFriendlyUrl())) {
-                recipeObject.setFavorite(recipe.isFavorite());
-                recipeObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                fragmentAppetizerBinding.rvAppetizer.getAdapter().notifyDataSetChanged();
-                EventBus.getDefault().removeStickyEvent(recipeDetailPostEvent);
-            }
+    public void onEvent(RecipeRealmObject recipe) {
+
+        if (getUserVisibleHint()) {
+            Logger.e("Event bus Appetizer", "Event bus Appetizer");
+
+            GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
+            List<Object> recipeListWithAds = apeetizerViewModel.getRecipeListWithAdds();
+            AppUtility appUtility = new AppUtility();
+            appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvAppetizer, recipeListWithAds);
         }
     }
 
