@@ -19,6 +19,7 @@ public class IngredientsRealmObject extends RealmObject {
     private boolean isHeader;
 
     private boolean isServerSyncNeeded;
+    private boolean ingredientDelete;
 
     @SerializedName("amount")
     private float amount;
@@ -95,5 +96,13 @@ public class IngredientsRealmObject extends RealmObject {
 
     public void setServerSyncNeeded(boolean serverSyncNeeded) {
         isServerSyncNeeded = serverSyncNeeded;
+    }
+
+    public boolean isIngredientDelete() {
+        return ingredientDelete;
+    }
+
+    public void setIngredientDelete(boolean ingredientDelete) {
+        this.ingredientDelete = ingredientDelete;
     }
 }

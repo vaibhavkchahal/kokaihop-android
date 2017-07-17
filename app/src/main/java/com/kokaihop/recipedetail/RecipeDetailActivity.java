@@ -302,14 +302,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void setPagerData() {
-
         if (recipeDetailPagerAdapter == null) {
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
             viewPager.setAdapter(recipeDetailPagerAdapter);
         } else {
             recipeDetailPagerAdapter.notifyDataSetChanged();
         }
-
         viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
             txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());

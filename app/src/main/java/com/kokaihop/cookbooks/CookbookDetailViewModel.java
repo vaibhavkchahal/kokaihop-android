@@ -49,7 +49,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
     private boolean isDownloading;
     private CookbooksDataManager dataManager;
     private User user;
-    private String accessToken, cookbookId, cookbookFriendlyUrl,cookbookTitle;
+    private String accessToken, cookbookId, cookbookFriendlyUrl, cookbookTitle;
 
     public CookbookDetailViewModel(Fragment fragment, Context context, User user) {
         this.fragment = fragment;
@@ -71,7 +71,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
             new CookbooksApiHelper().getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
                 public void onSuccess(Object response) {
-
                     ResponseBody responseBody = (ResponseBody) response;
                     if (responseBody != null) {
                         try {
@@ -86,7 +85,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                             e.printStackTrace();
                             setProgressVisible(false);
                         }
-
                         if (getOffset() + getMax() >= getTotalRecipes()) {
                             setDownloading(false);
                         }
@@ -122,13 +120,11 @@ public class CookbookDetailViewModel extends BaseViewModel {
         } else {
             msg += context.getString(R.string.the_cookbook);
         }
-
         final ConfirmationDialog dialog = new ConfirmationDialog(fragment.getActivity(),
                 context.getString(R.string.are_you_sure_you_want_to_delete_this_cookbook),
                 msg,
                 context.getString(R.string.delete),
                 context.getString(R.string.cancel));
-
         dialog.getConfirmPositive().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +132,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 dialog.dismiss();
             }
         });
-
         dialog.show();
 
     }
@@ -183,7 +178,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 context.getString(R.string.cookbook_name),
                 context.getString(R.string.rename),
                 context.getString(R.string.cancel));
-
         dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,7 +186,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 renameCookbookApiCall(name);
             }
         });
-
         dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

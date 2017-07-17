@@ -5,6 +5,7 @@ import android.databinding.Bindable;
 
 import com.altaworks.kokaihop.ui.BR;
 
+
 /**
  * Created by Rajendra Singh on 6/7/17.
  */

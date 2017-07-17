@@ -85,6 +85,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(getContext()));
         adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList(), this);
+        adapter.setViewModel(viewModel);
         recyclerView.setAdapter(adapter);
         binding.txtviewAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +109,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
 
                 } else {
                     showDeleteAllIngrdientDialog();
-                    adapter.setIndgredientEditor(false);
                 }
             }
         });
@@ -121,6 +121,12 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                     binding.txtviewEdit.setText(R.string.edit);
                     binding.relativeLayoutAddIngredient.setVisibility(View.VISIBLE);
                     binding.txtviewTitle.setText("Shopping List");
+                    for (int i = 0; i < binding.rvRecipeIngredients.getChildCount(); i++) {
+                        View view = binding.rvRecipeIngredients.getChildAt(i);
+                        view.findViewById(R.id.tv_delete).setVisibility(View.GONE);
+//                        viewModel.getShoppingDataManager().updateIngredientDeleteFlag(object, false);
+                    }
+                    adapter.setIndgredientEditor(false);
                 } else {
                     // share
                 }

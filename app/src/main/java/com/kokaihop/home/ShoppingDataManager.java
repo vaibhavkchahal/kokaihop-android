@@ -105,6 +105,17 @@ public class ShoppingDataManager {
             }
         });
     }
+
+    public void updateIngredientDeleteFlag(final IngredientsRealmObject realmObject, final boolean isDelete) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
+                        .equalTo(INGREDIENT_ID, realmObject.get_id()).findFirst();
+                ingredientsRealmObject.setIngredientDelete(isDelete);
+            }
+        });
+    }
 }
 
 

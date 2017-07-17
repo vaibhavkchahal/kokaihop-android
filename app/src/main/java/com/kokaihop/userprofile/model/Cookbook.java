@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by Rajendra Singh on 20/6/17.
  */
 
-public class Cookbook extends BaseObservable{
+public class Cookbook extends BaseObservable {
 
     private String _id;
     private String name;

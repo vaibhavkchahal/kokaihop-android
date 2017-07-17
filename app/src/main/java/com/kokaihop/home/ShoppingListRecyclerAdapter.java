@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ShoppingListRecyclerItemBinding;
@@ -25,6 +26,11 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private Context context;
     private RecyclerOnItemClickListener clickListener;
     private ItemEditor itemEditor;
+    private int previousDelete = -1;
+    private ImageView imageView;
+    private ShoppingListViewModel viewModel;
+    private String ingredientId;
+    private ImageView imageViewDelete;
 
     public ShoppingListRecyclerAdapter(List<IngredientsRealmObject> list, RecyclerOnItemClickListener clickListener) {
         ingredientsList = list;
@@ -42,17 +48,41 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        final ViewHolderShowIngredients holderShowComments = (ViewHolderShowIngredients) holder;
+        final ViewHolderShowIngredients holderShowIngredients = (ViewHolderShowIngredients) holder;
         final IngredientsRealmObject ingredientsRealmObject = ingredientsList.get(position);
-        holderShowComments.binder.setModel(ingredientsRealmObject);
-        holderShowComments.binder.imageviewEdit.setOnClickListener(new View.OnClickListener() {
+        holderShowIngredients.binder.setModel(ingredientsRealmObject);
+        holderShowIngredients.binder.setItemEditor(itemEditor);
+        holderShowIngredients.binder.imageviewEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickListener.onItemClick(position, v);
             }
         });
-        holderShowComments.binder.setHandler(new ShoppingListHandler());
-        holderShowComments.binder.executePendingBindings();
+        imageViewDelete = holderShowIngredients.binder.ivDelete;
+        holderShowIngredients.binder.setHandler(new ShoppingListHandler());
+        holderShowIngredients.binder.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (previousDelete >= 0) {
+                    holderShowIngredients.binder.tvDelete.setVisibility(View.GONE);
+                    viewModel.getShoppingDataManager().updateIngredientDeleteFlag(ingredientsList.get(previousDelete), false);
+                    imageView.setVisibility(View.VISIBLE);
+                }
+                previousDelete = holderShowIngredients.getAdapterPosition();
+                imageView = holderShowIngredients.binder.ivDelete;
+                imageView.setVisibility(View.GONE);
+                holderShowIngredients.binder.tvDelete.setVisibility(View.VISIBLE);
+                viewModel.getShoppingDataManager().updateIngredientDeleteFlag(ingredientsRealmObject, true);
+            }
+        });
+        holderShowIngredients.binder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ingredientId = ingredientsRealmObject.get_id();
+//                viewModel.removeRecipeFromCookbook(recipe.get_id(), getAdapterPosition());
+            }
+        });
+        holderShowIngredients.binder.executePendingBindings();
     }
 
     @Override
@@ -70,9 +100,24 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public void setIndgredientEditor(boolean isEditCookbook) {
-        itemEditor.setEditMode(isEditCookbook);
+    public ShoppingListViewModel getViewModel() {
+        return viewModel;
     }
+
+    public void setViewModel(ShoppingListViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void setIndgredientEditor(boolean isEditIngredient) {
+        itemEditor.setEditMode(isEditIngredient);
+    }
+
+   /* public void removeDeleteButton() {
+        for (IngredientsRealmObject object : ingredientsList) {
+            imageViewDelete.setVisibility(View.GONE);
+            viewModel.getShoppingDataManager().updateIngredientDeleteFlag(object, false);
+        }
+    }*/
 
     public interface RecyclerOnItemClickListener {
         void onItemClick(int position, View view);
