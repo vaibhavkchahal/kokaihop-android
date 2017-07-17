@@ -103,9 +103,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeId).getTitle());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -138,9 +136,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     dataSetListener.onPagerDataUpdate();
                     dataSetListener.onCounterUpdate();
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -391,7 +387,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             @Override
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
-                                Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
                                 ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                             }
 
@@ -404,11 +400,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             @Override
                             public void onError(Object response) {
                                 Logger.e("image upload", "failure " + response.toString());
-                                Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
-                        Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

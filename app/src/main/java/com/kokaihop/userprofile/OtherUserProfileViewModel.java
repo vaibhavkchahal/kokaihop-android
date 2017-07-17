@@ -42,10 +42,10 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     @Override
     public void destroy() {
-        ((Activity)context).finish();
+        ((Activity) context).finish();
     }
 
-    public void getUserData(final String userId,String friendlyUrl) {
+    public void getUserData(final String userId, String friendlyUrl) {
         setProgressVisible(true);
         fetchUserDataFromDB(userId);
 //        friendlyUrl = getFriendlyUrlFromDB(userId);
@@ -87,17 +87,19 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     }
 
     public void onToggleFollowing(User user) {
-        accessToken = SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
+        accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
 
-        if(accessToken.isEmpty()|| accessToken==null) {
+        if (accessToken.isEmpty() || accessToken == null) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
-        }else {
+        } else {
             String userId = user.get_id();
             user.setFollowByMe(!user.isFollowByMe());
             if (user.isFollowByMe()) {
                 User.getInstance().getFollowing().add(user.get_id());
+                user.getFollowers().add(User.getInstance().get_id());
             } else {
                 User.getInstance().getFollowing().remove(user.get_id());
+                user.getFollowers().remove(User.getInstance().get_id());
             }
             toggleFollowing(userId, user);
             userDataListener.followToggeled();
@@ -114,9 +116,9 @@ public class OtherUserProfileViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (followByMe) {
-                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.follow_success));
+                    AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.follow_success));
                 } else {
-                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.unfollow_success));
+                    AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.unfollow_success));
                 }
                 User.getInstance().setRefreshRequired(true);
             }
@@ -124,11 +126,23 @@ public class OtherUserProfileViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 user.setFollowByMe(!followByMe);
+                if(followByMe){
+                    user.getFollowers().remove(User.getInstance().get_id());
+                }else{
+                    user.getFollowers().add(User.getInstance().get_id());
+                }
+                userDataListener.followToggeled();
             }
 
             @Override
             public void onError(Object response) {
                 user.setFollowByMe(!followByMe);
+                if(followByMe){
+                    user.getFollowers().remove(User.getInstance().get_id());
+                }else{
+                    user.getFollowers().add(User.getInstance().get_id());
+                }
+                userDataListener.followToggeled();
             }
         });
     }

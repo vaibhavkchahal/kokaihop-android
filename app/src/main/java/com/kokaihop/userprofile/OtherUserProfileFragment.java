@@ -217,6 +217,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
 
     @Override
     public void followToggeled() {
+        setNotificationCount();
     }
 
     private void setAppBarListener() {

@@ -327,4 +327,6 @@
     <string name="text_add_ingredient">Add Ingredient</string>
     <string name="text_select">Select</string>
     <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed from your cookbooks.</string>
+    <string name="recipe_image_upload_failed">Recipe image upload failed!!!</string>
+    <string name="recipe_image_upload_success">Recipe image uploaded successfully!!!</string>
 </resources>
