@@ -55,5 +55,9 @@ public class Constants {
 
     // shopping list request codes
     public static final int ADD_INGREDIENT_REQUEST_CODE = 300;
+    public static final String INGREDIENT_NAME = "ingredientName";
+    public static final String INGREDIENT_AMOUNT = "amount";
+    public static final String INGREDIENT_UNIT = "unit";
+    public static final String INGREDIENT_ID = "id";
 
 }

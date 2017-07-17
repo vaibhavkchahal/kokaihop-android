@@ -1,9 +1,7 @@
 package com.kokaihop.home;
 
 import android.content.Context;
-import android.widget.Toast;
 
-import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
@@ -53,7 +51,7 @@ public class HomeViewModel {
                             getLatestRecipes();
                         }
                     } else {
-                        Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -64,12 +62,12 @@ public class HomeViewModel {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Object response) {
-                Toast.makeText(context, "Update Error", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Update Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -19,6 +19,7 @@ public class ShoppingDataManager {
     private Realm realm;
 
     private static final String INGREDIENT_ID = "_id";
+    private static final String UNIT_ID = "id";
 
 
     public ShoppingDataManager() {
@@ -55,6 +56,24 @@ public class ShoppingDataManager {
         });
     }
 
+    public void updateIngredientObject(final String id, final String name, final float amount, final String unitName, final String unitId) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
+                        .equalTo(INGREDIENT_ID, id).findFirst();
+                ingredientsRealmObject.setName(name);
+                ingredientsRealmObject.setAmount(amount);
+                Unit unitRealmObject = realm.where(Unit.class)
+                        .equalTo(UNIT_ID, unitId).findFirst();
+                unitRealmObject.setName(unitName);
+//                realm.insertOrUpdate(unitRealmObject);
+                ingredientsRealmObject.setUnit(unitRealmObject);
+                ingredientsRealmObject.setServerSyncNeeded(true);
+            }
+        });
+    }
+
     public List<Unit> getIngredientUnits() {
         RealmResults<Unit> unitRealmResults = realm.where(Unit.class).findAll();
         return realm.copyFromRealm(unitRealmResults);
@@ -85,8 +104,6 @@ public class ShoppingDataManager {
                 }
             }
         });
-
-
     }
 }
 

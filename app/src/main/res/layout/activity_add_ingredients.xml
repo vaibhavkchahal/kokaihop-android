@@ -106,8 +106,7 @@
 
             <RelativeLayout android:layout_width="112dp"
                             android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/view_divider"
-                            android:onClick="@{(v)->viewModel.showUnitListDialog(context)}">
+                            android:layout_toRightOf="@+id/view_divider">
 
                 <TextView
                     android:id="@+id/txtview_quantity"

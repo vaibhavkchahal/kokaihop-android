@@ -86,7 +86,7 @@
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/linear_layout_ads"
+            android:layout_above="@+id/linear_lyt_ad"
             android:layout_below="@+id/below_shadow">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_recipe_ingredients"

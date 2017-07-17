@@ -1,6 +1,7 @@
 package com.kokaihop.home;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import static com.kokaihop.utility.Constants.AUTHORIZATION_BEARER;
  */
 public class ShoppingListViewModel extends BaseViewModel {
 
+    private String accessToken;
     private ShoppingDataManager shoppingDataManager;
     private List<IngredientsRealmObject> ingredientsList = new ArrayList<>();
     private Context context;
@@ -38,9 +40,13 @@ public class ShoppingListViewModel extends BaseViewModel {
         this.context = context;
         shoppingDataManager = new ShoppingDataManager();
         this.datasetListener = dataSetListener;
-        authorizationToken = AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        authorizationToken = AUTHORIZATION_BEARER + accessToken;
         fetchIngredientFromDB();
-        fetchIngredientUnits();
+        if (!TextUtils.isEmpty(accessToken)) {
+            fetchIngredientUnits();
+
+        }
         fetchShoppingListFromServer();
     }
 
@@ -98,28 +104,30 @@ public class ShoppingListViewModel extends BaseViewModel {
 
     public void updateIngredientOnServer() {
         ShoppingListRealmObject listRealmObject = shoppingDataManager.fetchShoppingRealmObject();
-        final List<IngredientsRealmObject> realmObjects = shoppingDataManager.fetchCopyIngredientRealmObjects(listRealmObject.getIngredients());
-        List<IngredientsRealmObject> sycNeededIngreidentList = new ArrayList<>();
-        ignoreIdFieldFromIngredientObject(realmObjects, sycNeededIngreidentList);
-        SyncIngredientModel model = new SyncIngredientModel();
-        model.setList(sycNeededIngreidentList);
-        new HomeApiHelper().sycIngredientOnServer(authorizationToken, model, new IApiRequestComplete() {
-            @Override
-            public void onSuccess(Object response) {
-                SyncIngredientModel ingredientModel = (SyncIngredientModel) response;
-                Log.d("updated items size", "" + ingredientModel.getRealmObjects().size());
-                shoppingDataManager.removeIngredientFromRealmDatabase(realmObjects);
-                fetchShoppingListFromServer();
-            }
+        if (listRealmObject != null) {
+            final List<IngredientsRealmObject> realmObjects = shoppingDataManager.fetchCopyIngredientRealmObjects(listRealmObject.getIngredients());
+            List<IngredientsRealmObject> sycNeededIngreidentList = new ArrayList<>();
+            ignoreIdFieldFromIngredientObject(realmObjects, sycNeededIngreidentList);
+            SyncIngredientModel model = new SyncIngredientModel();
+            model.setList(sycNeededIngreidentList);
+            new HomeApiHelper().sycIngredientOnServer(authorizationToken, model, new IApiRequestComplete() {
+                @Override
+                public void onSuccess(Object response) {
+                    SyncIngredientModel ingredientModel = (SyncIngredientModel) response;
+                    Log.d("updated items size", "" + ingredientModel.getRealmObjects().size());
+                    shoppingDataManager.removeIngredientFromRealmDatabase(realmObjects);
+                    fetchShoppingListFromServer();
+                }
 
-            @Override
-            public void onFailure(String message) {
-            }
+                @Override
+                public void onFailure(String message) {
+                }
 
-            @Override
-            public void onError(Object response) {
-            }
-        });
+                @Override
+                public void onError(Object response) {
+                }
+            });
+        }
     }
 
     private void ignoreIdFieldFromIngredientObject(List<IngredientsRealmObject> realmObjects, List<IngredientsRealmObject> sycNeededIngreidentList) {
