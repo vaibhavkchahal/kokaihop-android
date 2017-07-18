@@ -70,6 +70,7 @@
 
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:onClick="@{(v)->viewModel.onClickClearMarked(v)}"
                       android:text="Clear marked"
                       android:textColor="@color/kokaihop_orange_color"
                       android:textSize="@dimen/text_size_small"

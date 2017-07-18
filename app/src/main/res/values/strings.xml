@@ -330,5 +330,7 @@
 
     <string name="delete_all">DeleteAll</string>
     <string name="delete_all_ingredient_msg">Are you sure you want to delete all items ?</string>
+    <string name="mark_message">You must first mark an item to clear</string>
+    <string name="obs_text">OBS!</string>
 
 </resources>

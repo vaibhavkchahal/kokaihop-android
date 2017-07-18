@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,9 +21,13 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -45,10 +50,23 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();
+        initializePullToRefresh();
         loadAdmobAd();
         editIngredient();
         return binding.getRoot();
     }
+
+    private void initializePullToRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.fetchIngredientFromDB();
+                viewModel.deleteIngredientOnServer();
+                viewModel.updateIngredientOnServer();
+            }
+        });
+    }
+
 
     private void loadAdmobAd() {
         final AdView adViewBanner = new AdView(getActivity());
@@ -140,7 +158,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
-            binding.swipeRefreshLayout.setEnabled(false);
+            binding.swipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -156,7 +174,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     @Override
     public void onItemClick(int position, View view) {
         ImageView imageView = (ImageView) view;
-        if ((int) imageView.getTag() == R.drawable.ic_edit_md) {
+        if (imageView.getTag().equals(Constants.EDIT_INGGREDIENT_TAG)) {
             IngredientsRealmObject object = viewModel.getIngredientsList().get(position);
             Intent intent = new Intent(getContext(), AddIngredientActivity.class);
             intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
@@ -167,13 +185,19 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         }
     }
 
-
     private void showDeleteAllIngrdientDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
         dialog.setMessage(R.string.delete_all_ingredient_msg);
         dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-//                viewModel.getShoppingDataManager()
+                ShoppingListRealmObject shoppingListRealmObject = viewModel.getShoppingDataManager().fetchShoppingRealmObject();
+                List<String> ids = new ArrayList<String>();
+                for (IngredientsRealmObject object : shoppingListRealmObject.getIngredients()) {
+                    ids.add(object.get_id());
+                }
+                viewModel.getShoppingDataManager().deleteIngredientObjectFromDB(ids);
+                viewModel.fetchIngredientFromDB();
+                viewModel.deleteIngredientOnServer();
             }
         });
         dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

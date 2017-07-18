@@ -3,14 +3,17 @@ package com.kokaihop.home;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
@@ -31,9 +34,22 @@ public class ShoppingListViewModel extends BaseViewModel {
     private int totalItemCount;
     private ShoppingListViewModel.IngredientsDatasetListener datasetListener;
     private String authorizationToken;
+    private List<String> markedIds = new ArrayList<>();
 
     public List<IngredientsRealmObject> getIngredientsList() {
         return ingredientsList;
+    }
+
+    public void setIngredientsList(List<IngredientsRealmObject> ingredientsList) {
+        this.ingredientsList = ingredientsList;
+    }
+
+    public List<String> getMarkedIds() {
+        return markedIds;
+    }
+
+    public void setMarkedIds(List<String> markedIds) {
+        this.markedIds = markedIds;
     }
 
     public ShoppingListViewModel(Context context, IngredientsDatasetListener dataSetListener) {
@@ -43,11 +59,13 @@ public class ShoppingListViewModel extends BaseViewModel {
         accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         authorizationToken = AUTHORIZATION_BEARER + accessToken;
         fetchIngredientFromDB();
+        deleteIngredientOnServer();
         if (!TextUtils.isEmpty(accessToken)) {
             fetchIngredientUnits();
 
         }
-        fetchShoppingListFromServer();
+        updateIngredientOnServer();
+//        fetchShoppingListFromServer();
     }
 
     public ShoppingDataManager getShoppingDataManager() {
@@ -82,7 +100,8 @@ public class ShoppingListViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 ShoppingUnitResponse shoppingUnitResponse = (ShoppingUnitResponse) response;
-                shoppingDataManager.updateShoppingIngredientList(shoppingUnitResponse.getUnits());
+                shoppingDataManager.updateShoppingIngredientUnitList(shoppingUnitResponse.getUnits());
+                shoppingDataManager.updateShoppingIngredientUnitList(shoppingUnitResponse.getUnits());
             }
 
             @Override
@@ -100,7 +119,18 @@ public class ShoppingListViewModel extends BaseViewModel {
         ingredientsList.clear();
         ShoppingListRealmObject listRealmObject = shoppingDataManager.fetchShoppingRealmObject();
         if (listRealmObject != null) {
-            ingredientsList.addAll(listRealmObject.getIngredients());
+            for (int i = 0; i < listRealmObject.getIngredients().size(); i++) {
+                IngredientsRealmObject object = listRealmObject.getIngredients().get(i);
+                if (!object.isDeletionNeeded()) {
+                    for (int markPosition = 0; markPosition < markedIds.size(); markPosition++) {
+                        if (object.get_id().equals(markedIds.get(markPosition))) {
+                            shoppingDataManager.markIngredientObjectInDB(object.get_id());
+                            break;
+                        }
+                    }
+                    ingredientsList.add(object);
+                }
+            }
             totalItemCount = listRealmObject.getIngredients().size();
             datasetListener.onUpdateIngredientsList();
         }
@@ -147,13 +177,21 @@ public class ShoppingListViewModel extends BaseViewModel {
         }
     }
 
-    public void deleteIngredientOnServer(List<String> ids) {
+    public void deleteIngredientOnServer() {
+        List<String> idsToDelete = new ArrayList<>();
+        for (IngredientsRealmObject ingredientsRealmObject : shoppingDataManager.fetchShoppingRealmObject().getIngredients()) {
+            if (ingredientsRealmObject.isDeletionNeeded()) {
+                idsToDelete.add(ingredientsRealmObject.get_id());
+            }
+        }
         SyncIngredientDeletionModel requestParams = new SyncIngredientDeletionModel();
-        requestParams.getIds().addAll(ids);
+        requestParams.setIds(idsToDelete);
         new HomeApiHelper().sycIngredientDeletionOnServer(authorizationToken, requestParams, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                
+                SyncIngredientModel model = (SyncIngredientModel) response;
+                shoppingDataManager.updateShoppingIngredientList(model.getRealmObjects());
+                fetchIngredientFromDB();
             }
 
             @Override
@@ -164,6 +202,17 @@ public class ShoppingListViewModel extends BaseViewModel {
             public void onError(Object response) {
             }
         });
+    }
+
+    public void onClickClearMarked(View view) {
+        if (shoppingDataManager.isAnyMarkedObject()) {
+            shoppingDataManager.deleteMarkedIngredientObjectFromDB();
+            fetchIngredientFromDB();
+            deleteIngredientOnServer();
+            markedIds.clear();
+        } else {
+            AppUtility.showOkDialog(view.getContext(), context.getString(R.string.obs_text), context.getString(R.string.mark_message));
+        }
     }
 
     public interface IngredientsDatasetListener {

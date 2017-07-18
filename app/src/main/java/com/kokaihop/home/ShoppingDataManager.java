@@ -11,9 +11,6 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-/**
- * Created by Rajendra Singh on 15/5/17.
- */
 
 public class ShoppingDataManager {
     private Realm realm;
@@ -47,7 +44,7 @@ public class ShoppingDataManager {
         });
     }
 
-    public void updateShoppingIngredientList(final List<Unit> unitList) {
+    public void updateShoppingIngredientUnitList(final List<Unit> unitList) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -74,6 +71,32 @@ public class ShoppingDataManager {
         });
     }
 
+    public void deleteMarkedIngredientObjectFromDB() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ShoppingListRealmObject shoppingListRealmObject = fetchShoppingRealmObject();
+                for (IngredientsRealmObject ingredientsRealmObject : shoppingListRealmObject.getIngredients()) {
+                    if (ingredientsRealmObject.isIngredientMarked()) {
+                        ingredientsRealmObject.setDeletionNeeded(true);
+                    }
+                }
+            }
+        });
+    }
+
+    public boolean isAnyMarkedObject() {
+        ShoppingListRealmObject shoppingListRealmObject = fetchShoppingRealmObject();
+        boolean marked = false;
+        for (IngredientsRealmObject ingredientsRealmObject : shoppingListRealmObject.getIngredients()) {
+            if (ingredientsRealmObject.isIngredientMarked()) {
+                marked = true;
+                break;
+            }
+        }
+        return marked;
+    }
+
     public void deleteIngredientObjectFromDB(final List<String> ids) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -82,8 +105,29 @@ public class ShoppingDataManager {
                     IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
                             .equalTo(INGREDIENT_ID, id).findFirst();
                     ingredientsRealmObject.setDeletionNeeded(true);
-                    ingredientsRealmObject.setServerSyncNeeded(true);
                 }
+            }
+        });
+    }
+
+    public void markIngredientObjectInDB(final String id) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
+                        .equalTo(INGREDIENT_ID, id).findFirst();
+                ingredientsRealmObject.setIngredientMarked(true);
+            }
+        });
+    }
+
+    public void UnMarkIngredientObjectInDB(final String id) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
+                        .equalTo(INGREDIENT_ID, id).findFirst();
+                ingredientsRealmObject.setIngredientMarked(false);
             }
         });
     }
@@ -120,18 +164,18 @@ public class ShoppingDataManager {
         });
     }
 
-    public void updateIngredientDeleteFlag(final IngredientsRealmObject realmObject, final boolean isDelete) {
+
+    public void updateShoppingIngredientList(final List<IngredientsRealmObject> list) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
-                        .equalTo(INGREDIENT_ID, realmObject.get_id()).findFirst();
-                ingredientsRealmObject.setIngredientDelete(isDelete);
+                ShoppingListRealmObject shoppingListRealmObject = realm.where(ShoppingListRealmObject.class)
+                        .equalTo(Constants.SHOPPING_LIST_NAME_KEY, Constants.SHOPPING_LIST_NAME_VALUE).findFirst();
+                shoppingListRealmObject.getIngredients().clear();
+                shoppingListRealmObject.getIngredients().addAll(list);
             }
         });
     }
-
-
 }
 
 

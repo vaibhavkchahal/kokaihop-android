@@ -22,6 +22,7 @@ public class IngredientsRealmObject extends RealmObject {
     private boolean ingredientDelete;
 
     private boolean isDeletionNeeded;
+    private boolean isIngredientMarked;
 
     @SerializedName("amount")
     private float amount;
@@ -114,5 +115,13 @@ public class IngredientsRealmObject extends RealmObject {
 
     public void setDeletionNeeded(boolean deletionNeeded) {
         isDeletionNeeded = deletionNeeded;
+    }
+
+    public boolean isIngredientMarked() {
+        return isIngredientMarked;
+    }
+
+    public void setIngredientMarked(boolean ingredientMarked) {
+        isIngredientMarked = ingredientMarked;
     }
 }

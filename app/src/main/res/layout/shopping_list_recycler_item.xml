@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:background="@color/white"
-        android:onClick="@{(v)->handler.onListItemClick(v,txtviewIngredentName,viewVerticalDivider,imageviewEdit)}"
+        android:background="@{model.ingredientMarked?@color/white_FFF7F7F7:@color/white}"
         android:paddingBottom="10dp"
         android:paddingTop="10dp">
 
@@ -67,7 +66,8 @@
                 android:layout_height="@dimen/vertical_divider_height"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="21dp"
-                android:background="@color/grey_FFE3E4E6"/>
+                android:background="@color/grey_FFE3E4E6"
+                android:visibility="@{model.ingredientMarked?View.GONE:View.VISIBLE}"/>
 
             <ImageView
                 android:id="@+id/imageview_edit"
@@ -76,7 +76,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/view_vertical_divider"
-                android:src="@drawable/ic_edit_md"/>
+                android:src="@{model.ingredientMarked ? @drawable/ic_tick_sm : @drawable/ic_edit_md}"
+                android:tag="100"/>
 
             <TextView
                 android:id="@+id/tv_delete"
