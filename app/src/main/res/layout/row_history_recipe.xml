@@ -49,10 +49,12 @@
             tools:src="@drawable/ic_recipeplaceholder_md"/>
         <TextView
             android:id="@+id/tv_recipe_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{recipe.title}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/row_follower_following_text_size"
@@ -65,10 +67,12 @@
             tools:text="Recipe Name"/>
         <TextView
             android:id="@+id/tv_user_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{@string/by + recipe.createdByName}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/text_size_medium"

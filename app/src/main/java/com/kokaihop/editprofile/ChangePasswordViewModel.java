@@ -36,21 +36,21 @@ public class ChangePasswordViewModel {
                     @Override
                     public void onSuccess(SettingsResponse response) {
                         if (response.isSuccess()) {
-                            Toast.makeText(context, R.string.password_updated, Toast.LENGTH_SHORT).show();
-                            ((Activity)context).finish();
+                            Toast.makeText(context, context.getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
+                            ((Activity) context).finish();
                         } else {
-                            Toast.makeText(context, R.string.password_not_updated, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(String message) {
-                        Toast.makeText(context, R.string.password_not_updated, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(SettingsResponse response) {
-                        Toast.makeText(context, R.string.password_not_updated, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -62,7 +62,7 @@ public class ChangePasswordViewModel {
     }
 
     public void backToSettings() {
-        ((Activity)context).finish();
+        ((Activity) context).finish();
     }
 
     public boolean validatePassword(String password) {
