@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.altaworks.kokaihop.ui.R;
+import com.batch.android.Batch;
+import com.batch.android.Config;
 import com.crashlytics.android.Crashlytics;
 import com.kokaihop.utility.CustomFontFamily;
 
@@ -19,6 +21,8 @@ import io.realm.internal.IOException;
 
 import static com.kokaihop.database.DBConstants.DATABASE_NAME;
 import static com.kokaihop.database.DBConstants.SCHEMA_VERSION;
+import static com.kokaihop.utility.AppCredentials.BATCH_API_KEY;
+import static com.kokaihop.utility.AppCredentials.GCM_SENDER_ID;
 
 /**
  * Created by Rajendra Singh on 4/5/17.
@@ -35,6 +39,11 @@ public class KokaihopApplication extends Application {
         context = this;
         Fabric.with(getApplicationContext(), new Crashlytics());
         //Set true to overwrite database - Optional
+        Batch.Push.setGCMSenderId(GCM_SENDER_ID);
+        Batch.Push.setManualDisplay(true);
+        // TODO : switch to live Batch Api Key before shipping
+        Batch.setConfig(new Config(BATCH_API_KEY)); // devlopement
+
         boolean overwriteDatabase = false;
         if (overwriteDatabase) {
             copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
