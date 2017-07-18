@@ -414,6 +414,7 @@
     <dimen name="delete_cookbookrow_swipe">-100dp</dimen>
     <dimen name="recipe_history_row_image_size">80dp</dimen>
     <dimen name="row_recipe_menu_item_padding">20dp</dimen>
+    <dimen name="row_recipe_delete_tv_width">100dp</dimen>
 
 
     <!-- shopping list dimens -->
@@ -427,4 +428,5 @@
     <dimen name="vertical_divider_width">2dp</dimen>
     <dimen name="shopping_item_name_quantity_width">231dp</dimen>
     <dimen name="shopping_list_item_height">62dp</dimen>
+    <dimen name="no_data_text_margin_top">40dp</dimen>
 </resources>

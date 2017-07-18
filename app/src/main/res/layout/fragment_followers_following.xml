@@ -4,19 +4,20 @@
         <import type="android.view.View"/>
     </data>
     <RelativeLayout
+        android:id="@+id/follower_followig_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--<android.support.v4.widget.SwipeRefreshLayout-->
-            <!--android:id="@+id/refresh_list"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent">-->
+        <!--android:id="@+id/refresh_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_follower_following_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/user_followers_list_margin_top">
-            </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_follower_following_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/user_followers_list_margin_top">
+        </android.support.v7.widget.RecyclerView>
         <!--</android.support.v4.widget.SwipeRefreshLayout>-->
         <ProgressBar
             android:id="@+id/progressBar_bottom"

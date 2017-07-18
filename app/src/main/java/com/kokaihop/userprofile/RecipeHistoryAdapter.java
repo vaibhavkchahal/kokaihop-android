@@ -96,7 +96,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(historyRealmObject.getId());
             recipeList.add(recipeDataManager.getRecipe(recipeRealmObject));
         }
-        notifyDataSetChanged();
+        ((HistoryFragment)fragment).updateHistory();
     }
 
     public void setEditCookbook(boolean isEditCookbook) {

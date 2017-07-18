@@ -71,7 +71,8 @@ public class DessertFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
     }
 
 
@@ -80,6 +81,7 @@ public class DessertFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
