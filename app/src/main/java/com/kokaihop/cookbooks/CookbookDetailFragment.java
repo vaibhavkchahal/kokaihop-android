@@ -88,6 +88,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
                         binding.tvCookbookRename.setVisibility(View.VISIBLE);
                     }
                     binding.tvCookbookEdit.setText(R.string.done);
+                    adapter.enterRecipeEditMode();
                     adapter.setEditCookbook(true);
                 } else {
                     binding.ivCookbookBack.setVisibility(View.VISIBLE);
@@ -103,7 +104,6 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
 
     public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
-
     }
 
     @Override

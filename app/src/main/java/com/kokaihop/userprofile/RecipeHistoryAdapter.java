@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowHistoryRecipeBinding;
@@ -38,9 +39,9 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     private Fragment fragment;
     private RecipeDataManager recipeDataManager;
     private EditCookbook editCookbook;
-    private ImageView imageView;
+    private TextView tvPreviousDelete;
     private String recipeId;
-    private int previousDelete = -1;
+    private int previousDelete = -1, animationDuration = 300;
 
     public RecipeHistoryAdapter(Fragment fragment, ArrayList<Recipe> recipeList) {
         this.recipeList = recipeList;
@@ -69,10 +70,12 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         final Recipe recipe = recipeList.get(position);
 
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.ivRecipeImage.getLayoutParams();
-        if (recipe.getMainImagePublicId() != null) {
-            recipe.setMainImageUrl(CloudinaryUtils.getRoundedCornerImageUrl(recipe.getMainImagePublicId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
-        } else {
-            Glide.clear(binding.ivRecipeImage);
+        if (recipe.getMainImageUrl() == null || recipe.getMainImageUrl().isEmpty()) {
+            if (recipe.getMainImagePublicId() != null) {
+                recipe.setMainImageUrl(CloudinaryUtils.getRoundedCornerImageUrl(recipe.getMainImagePublicId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
+            } else {
+                Glide.clear(binding.ivRecipeImage);
+            }
         }
         holder.bind(recipe);
         binding.executePendingBindings();
@@ -103,6 +106,13 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     public void removeDeleteButton() {
         for (Recipe recipe : recipeList) {
             recipe.setRecipeDelete(false);
+            recipe.setRecipeEdit(false);
+        }
+    }
+
+    public void enterRecipeEditMode() {
+        for (Recipe recipe : recipeList) {
+            recipe.setRecipeEdit(true);
         }
     }
 
@@ -116,10 +126,12 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RowHistoryRecipeBinding binding;
+        int size;
 
         public ViewHolder(RowHistoryRecipeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            size = binding.tvDelete.getMaxWidth();
         }
 
 
@@ -127,7 +139,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             binding.setRecipe(recipe);
             binding.setEditCookbook(editCookbook);
             binding.executePendingBindings();
-            binding.historyRow.setOnClickListener(new View.OnClickListener() {
+            binding.recipeRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!editCookbook.isEditMode()) {
@@ -136,8 +148,8 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                             displayHistoryChanges();
                         }
                     } else if (previousDelete >= 0) {
-                        recipeList.get(previousDelete).setRecipeDelete(false);
-                        imageView.setVisibility(View.VISIBLE);
+                        tvPreviousDelete.animate().translationX(size).setDuration(animationDuration);
+                        completeAnimation(previousDelete);
 
                     }
                 }
@@ -145,14 +157,22 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             binding.ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (previousDelete >= 0) {
-                        recipeList.get(previousDelete).setRecipeDelete(false);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-                    previousDelete = getAdapterPosition();
-                    imageView = binding.ivDelete;
-                    imageView.setVisibility(View.GONE);
-                    recipe.setRecipeDelete(true);
+
+                    binding.tvDelete.animate().translationX(size).setDuration(0);
+                    binding.tvDelete.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (previousDelete >= 0 && previousDelete != getAdapterPosition()) {
+                                tvPreviousDelete.animate().translationX(size).setDuration(animationDuration);
+                                completeAnimation(previousDelete);
+                            }
+                            tvPreviousDelete = binding.tvDelete;
+                            previousDelete = getAdapterPosition();
+                            recipe.setRecipeEdit(false);
+                            recipe.setRecipeDelete(true);
+                            binding.tvDelete.animate().translationX(0).setDuration(animationDuration);
+                        }
+                    }, animationDuration);
                 }
             });
 
@@ -163,6 +183,16 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                     viewModel.removeRecipeFromCookbook(recipe.get_id(), getAdapterPosition());
                 }
             });
+        }
+
+        private void completeAnimation(final int previousDelete) {
+            tvPreviousDelete.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recipeList.get(previousDelete).setRecipeDelete(false);
+                    recipeList.get(previousDelete).setRecipeEdit(true);
+                }
+            }, animationDuration);
         }
     }
 
