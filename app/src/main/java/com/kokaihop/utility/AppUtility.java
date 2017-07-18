@@ -91,7 +91,11 @@ public class AppUtility {
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.custom_rating_success_view);
             TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
-            textView.setText(message);
+            if (message.isEmpty()) {
+                textView.setVisibility(View.GONE);
+            } else {
+                textView.setText(message);
+            }
             dialog.show();
             hideDialogAfterTimeOut(dialog);
         }

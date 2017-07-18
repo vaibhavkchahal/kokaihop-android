@@ -170,9 +170,14 @@ public class ShoppingListViewModel extends BaseViewModel {
                 .create();
         for (IngredientsRealmObject object : realmObjects) {
             if (object.isServerSyncNeeded()) {
-                String result = gson.toJson(object);
-                IngredientsRealmObject realmObject = gson.fromJson(result, IngredientsRealmObject.class);
-                sycNeededIngreidentList.add(realmObject);
+                if (object.get_id().contains(Constants.TEMP_INGREDIENT_ID_SIGNATURE)) {
+                    String result = gson.toJson(object);
+                    IngredientsRealmObject realmObject = gson.fromJson(result, IngredientsRealmObject.class);
+                    sycNeededIngreidentList.add(realmObject);
+                } else {
+                    sycNeededIngreidentList.add(object);
+                }
+
             }
         }
     }

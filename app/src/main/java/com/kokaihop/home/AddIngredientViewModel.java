@@ -75,7 +75,7 @@ public class AddIngredientViewModel extends BaseViewModel {
             ingredientsRealmObject.setAmount(amount);
             Calendar calendar = Calendar.getInstance();
             ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
-            ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()));
+            ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()) + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
             Unit unitObj = new Unit();
             unitObj.setId(unitId);
             unitObj.setName(unitName);
