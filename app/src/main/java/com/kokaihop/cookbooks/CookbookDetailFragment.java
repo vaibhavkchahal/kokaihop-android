@@ -110,8 +110,13 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
             if (noData.getParent() == null) {
                 binding.clCookbookContainer.addView(noData, 0);
             }
+
         } else {
             binding.clCookbookContainer.removeView(noData);
+            if(binding.tvCookbookEdit.getText().toString().equals(getString(R.string.done))){
+                adapter.enterRecipeEditMode();
+                adapter.editListUpdated();
+            }
         }
     }
 

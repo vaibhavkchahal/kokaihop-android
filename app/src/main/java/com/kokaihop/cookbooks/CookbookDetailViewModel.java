@@ -112,6 +112,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    confirm before deleting the cookbook of the user.
     public void deleteCookbook() {
         String msg = context.getString(R.string.this_will_permanently_delete);
         if (totalRecipes > 0) {
@@ -136,6 +137,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    delete cookbook of the user
     private void deleteCookbookOfUser() {
         setProgressVisible(true);
         new CookbooksApiHelper().deleteCookbook(accessToken, cookbookId, new IApiRequestComplete() {
@@ -171,6 +173,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
         ((CookbookDetailFragment) fragment).showCookbookDetails();
     }
 
+    //    prompt user for the new cookbook name
     public void renameCookbook() {
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
@@ -196,6 +199,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    rename cookbook of the user
     public void renameCookbookApiCall(final String name) {
         RenameCookbookRequest request = new RenameCookbookRequest(name, cookbookId);
         new CookbooksApiHelper().renameCookbook(accessToken, cookbookId, request, new IApiRequestComplete() {
@@ -218,6 +222,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    confirm before rmoving the recipe from the cookbook
     public void removeRecipeFromCookbook(final String recipeId, final int position) {
         final ConfirmationDialog dialog = new ConfirmationDialog(context,
                 context.getString(R.string.cookbook),

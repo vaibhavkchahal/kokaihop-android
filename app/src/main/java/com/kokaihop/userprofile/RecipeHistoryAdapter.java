@@ -39,7 +39,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     private Fragment fragment;
     private RecipeDataManager recipeDataManager;
     private ItemEditor editCookbook;
-    private ImageView imageView;
+    private TextView tvPreviousDelete;
     private String recipeId;
     private int previousDelete = -1, animationDuration = 300;
 
@@ -95,7 +95,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(historyRealmObject.getId());
             recipeList.add(recipeDataManager.getRecipe(recipeRealmObject));
         }
-        ((HistoryFragment)fragment).updateHistory();
+        ((HistoryFragment) fragment).updateHistory();
     }
 
     public void setEditCookbook(boolean isEditCookbook) {
@@ -115,6 +115,11 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         }
     }
 
+    public void editListUpdated() {
+        if (previousDelete >= 0)
+            recipeList.get(previousDelete).setRecipeDelete(true);
+    }
+
     public CookbookDetailViewModel getViewModel() {
         return viewModel;
     }
@@ -122,6 +127,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     public void setViewModel(CookbookDetailViewModel viewModel) {
         this.viewModel = viewModel;
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RowHistoryRecipeBinding binding;
@@ -203,5 +209,4 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         }
         previousDelete = -1;
     }
-
 }
