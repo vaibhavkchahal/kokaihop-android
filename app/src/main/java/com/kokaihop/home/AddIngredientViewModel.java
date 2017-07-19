@@ -65,31 +65,39 @@ public class AddIngredientViewModel extends BaseViewModel {
 
     public void onDoneClick(EditText ingredient, TextView unit, EditText value) {
         String ingredientName = ingredient.getText().toString();
-        float amount = Float.valueOf(value.getText().toString());
+        String amount = value.getText().toString();
         String unitName = unit.getText().toString();
         String unitId = shoppingDataManager.getIngredientUnits().get(previousSelectedIndex - 1).getId();
         Activity activity = (Activity) context;
+        // extras null means addding new ingredient.
         if (activity.getIntent().getExtras() == null) {
-            IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
-            ingredientsRealmObject.setName(ingredientName);
-            ingredientsRealmObject.setAmount(amount);
-            Calendar calendar = Calendar.getInstance();
-            ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
-            ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()) + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
-            Unit unitObj = new Unit();
-            unitObj.setId(unitId);
-            unitObj.setName(unitName);
-            ingredientsRealmObject.setUnit(unitObj);
-            ingredientsRealmObject.setServerSyncNeeded(true);
-            shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
-            ingredient.setText("");
-            unit.setText(context.getString(R.string.text_select));
-            value.setText("");
-            AppUtility.showAutoCancelMsgDialog(context, "");
+            if (ingredient.getText().length() == 0 && unit.getText().length() == 0 && value.getText().length() == 0) {
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            } else if (ingredient.getText().length() == 0) {
+                AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
+            } else {
+                IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
+                ingredientsRealmObject.setName(ingredientName);
+                ingredientsRealmObject.setAmount(Float.valueOf(amount));
+                Calendar calendar = Calendar.getInstance();
+                ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
+                ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()) + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
+                Unit unitObj = new Unit();
+                unitObj.setId(unitId);
+                unitObj.setName(unitName);
+                ingredientsRealmObject.setUnit(unitObj);
+                ingredientsRealmObject.setServerSyncNeeded(true);
+                shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
+                ingredient.setText("");
+                unit.setText(context.getString(R.string.text_select));
+                value.setText("");
+                AppUtility.showAutoCancelMsgDialog(context, "");
+            }
         } else {
             String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
             if (shoppingDataManager != null) {
-                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
+                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, Float.valueOf(amount), unitName, unitId);
                 activity.setResult(Activity.RESULT_OK);
                 activity.finish();
             }
