@@ -56,10 +56,13 @@ public class ShoppingListViewModel extends BaseViewModel {
         this.context = context;
         shoppingDataManager = new ShoppingDataManager();
         this.datasetListener = dataSetListener;
+        ShoppingListRealmObject shoppingListRealmObject = shoppingDataManager.fetchShoppingRealmObject();
         accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         authorizationToken = AUTHORIZATION_BEARER + accessToken;
         fetchIngredientFromDB();
-        deleteIngredientOnServer();
+        if (shoppingListRealmObject != null) {
+            deleteIngredientOnServer();
+        }
         if (!TextUtils.isEmpty(accessToken)) {
             fetchIngredientUnits();
 
