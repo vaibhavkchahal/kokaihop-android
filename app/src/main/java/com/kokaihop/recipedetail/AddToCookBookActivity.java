@@ -1,5 +1,7 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,5 +46,13 @@ public class AddToCookBookActivity extends BaseActivity {
         bundle.putString(Constants.FRIENDLY_URL, SharedPrefUtils.getSharedPrefStringData(this, Constants.FRIENDLY_URL));
         bundle.putString(Constants.COLLECTION_MAPPING, getIntent().getStringExtra(Constants.COLLECTION_MAPPING));
         bundle.putString(Constants.RECIPE_ID, getIntent().getStringExtra(Constants.RECIPE_ID));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && requestCode == Activity.RESULT_OK) {
+            this.recreate();
+        }
     }
 }

@@ -77,21 +77,17 @@
         </activity>
         <activity
             android:name="com.kokaihop.editprofile.SettingsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.kokaihop.editprofile.ChangePasswordActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.kokaihop.editprofile.EmailPreferencesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme">
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.kokaihop.editprofile.EditProfileActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppToolbarTheme">
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.kokaihop.recipedetail.AddToCookBookActivity"

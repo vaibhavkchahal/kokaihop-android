@@ -28,6 +28,8 @@ public class LoginActivity extends BaseActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == LoginViewModel.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Intent resultIntent = new Intent();
+            setResult(Activity.RESULT_OK, resultIntent);
             finish();
         }
         if (FacebookAuthentication.callbackManager != null) {
