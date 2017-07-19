@@ -164,6 +164,8 @@ public class ShoppingListViewModel extends BaseViewModel {
                 public void onError(Object response) {
                 }
             });
+        } else {
+            fetchShoppingListFromServer();
         }
     }
 

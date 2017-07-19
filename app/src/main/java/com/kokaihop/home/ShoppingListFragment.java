@@ -179,7 +179,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             Intent intent = new Intent(getContext(), AddIngredientActivity.class);
             intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
             intent.putExtra(Constants.INGREDIENT_AMOUNT, object.getAmount());
-            intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
+            if (object.getUnit() != null) {
+                intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
+            }
             intent.putExtra(Constants.INGREDIENT_ID, object.get_id());
             startActivityForResult(intent, Constants.ADD_INGREDIENT_REQUEST_CODE);
         }

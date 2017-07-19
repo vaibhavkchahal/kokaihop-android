@@ -63,9 +63,10 @@ public class ShoppingDataManager {
                 ingredientsRealmObject.setAmount(amount);
                 Unit unitRealmObject = realm.where(Unit.class)
                         .equalTo(UNIT_ID, unitId).findFirst();
-                unitRealmObject.setName(unitName);
-//                realm.insertOrUpdate(unitRealmObject);
-                ingredientsRealmObject.setUnit(unitRealmObject);
+                if (unitRealmObject != null) {
+                    unitRealmObject.setName(unitName);
+                    ingredientsRealmObject.setUnit(unitRealmObject);
+                }
                 ingredientsRealmObject.setServerSyncNeeded(true);
             }
         });

@@ -60,40 +60,69 @@ public class AddIngredientViewModel extends BaseViewModel {
         Activity activity = (Activity) context;
         activity.setResult(Activity.RESULT_OK);
         activity.finish();
-//        ((Activity) context).finish();
     }
 
     public void onDoneClick(EditText ingredient, TextView unit, EditText value) {
         String ingredientName = ingredient.getText().toString();
-        float amount = Float.valueOf(value.getText().toString());
+        String amount = value.getText().toString();
         String unitName = unit.getText().toString();
-        String unitId = shoppingDataManager.getIngredientUnits().get(previousSelectedIndex - 1).getId();
+        String unitId = null;
+        if (previousSelectedIndex > 0) {
+            unitId = shoppingDataManager.getIngredientUnits().get(previousSelectedIndex - 1).getId();
+        }
         Activity activity = (Activity) context;
         // extras null means addding new ingredient.
         if (activity.getIntent().getExtras() == null) {
+            ValidationsOnAddingNewIngredient(ingredient, unit, value, ingredientName, amount, unitName, unitId, activity);
+        } else {
+            validationOnEditIngredient(ingredientName, amount, unitName, unitId, activity);
+        }
+    }
+
+    private void validationOnEditIngredient(String ingredientName, String amount, String unitName, String unitId, Activity activity) {
+        String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
+        if (shoppingDataManager != null) {
+            if (ingredientName.length() > 0) {
+                float amountInFloat = 0;
+                if (!amount.isEmpty()) {
+                    amountInFloat = Float.valueOf(amount);
+                }
+                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amountInFloat, unitName, unitId);
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            } else {
+                AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
+            }
+        }
+    }
+
+    private void ValidationsOnAddingNewIngredient(EditText ingredient, TextView unit, EditText value, String ingredientName, String amount, String unitName, String unitId, Activity activity) {
+        if (ingredient.getText().length() == 0 && unitName.equals(context.getString(R.string.text_select)) && value.getText().length() == 0) {
+            activity.setResult(Activity.RESULT_OK);
+            activity.finish();
+        } else if (ingredient.getText().length() == 0) {
+            AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
+        } else {
             IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
             ingredientsRealmObject.setName(ingredientName);
-            ingredientsRealmObject.setAmount(amount);
+            if (!amount.isEmpty()) {
+                ingredientsRealmObject.setAmount(Float.valueOf(amount));
+            }
             Calendar calendar = Calendar.getInstance();
             ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
             ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()) + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
-            Unit unitObj = new Unit();
-            unitObj.setId(unitId);
-            unitObj.setName(unitName);
-            ingredientsRealmObject.setUnit(unitObj);
+            if (unitId != null) {
+                Unit unitObj = new Unit();
+                unitObj.setId(unitId);
+                unitObj.setName(unitName);
+                ingredientsRealmObject.setUnit(unitObj);
+            }
             ingredientsRealmObject.setServerSyncNeeded(true);
             shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
             ingredient.setText("");
             unit.setText(context.getString(R.string.text_select));
             value.setText("");
             AppUtility.showAutoCancelMsgDialog(context, "");
-        } else {
-            String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
-            if (shoppingDataManager != null) {
-                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
-                activity.setResult(Activity.RESULT_OK);
-                activity.finish();
-            }
         }
     }
 

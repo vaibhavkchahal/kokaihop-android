@@ -15,7 +15,7 @@ public class Unit extends RealmObject {
     private String name;
 
     @PrimaryKey
-    @SerializedName(value = "_id", alternate = {"id"})
+    @SerializedName(value = "id", alternate = {"_id"})
     private String id;
 
     public String getName() {

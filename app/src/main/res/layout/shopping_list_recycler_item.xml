@@ -49,7 +49,7 @@
             android:layout_below="@+id/txtview_ingredent_name"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/iv_delete"
-            android:text="@{model.amount+@string/space_character+model.unit.name}"
+            android:text="@{(model.amount==0?``:(model.amount+@string/space_character+(model.unit.name!=null?model.unit.name:``)))}"
             android:textColor="@color/grey_FFB3B3B3"
             android:textSize="@dimen/text_size_small"
             app:font="@{`SS-ProRegular`}"/>
