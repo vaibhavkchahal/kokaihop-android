@@ -167,7 +167,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
-
         AdView adViewBanner = new AdView(context);
         adViewBanner.setAdSize(AdSize.LARGE_BANNER); //320x100 LARGE_BANNER
         adViewBanner.setAdUnitId(AppCredentials.RECIPE_DETAILS_ADS_UNIT_IDS[0]);
@@ -178,8 +177,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         adViewRectangle.setAdSize(AdSize.MEDIUM_RECTANGLE); //320x250 medium rectangle
         adViewRectangle.setAdUnitId(AppCredentials.RECIPE_DETAILS_ADS_UNIT_IDS[1]);
         recipeDetailItemsList.add(adViewRectangle);
-
-
         addCookingDirections(recipeRealmObject);
         RecipeSpecifications recipeSpecifications = getRecipeSpecifications(recipeRealmObject);
         recipeDetailItemsList.add(recipeSpecifications);

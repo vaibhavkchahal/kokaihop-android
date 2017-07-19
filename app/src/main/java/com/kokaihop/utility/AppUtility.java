@@ -91,11 +91,16 @@ public class AppUtility {
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.custom_rating_success_view);
             TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
-            textView.setText(message);
+            if (message.isEmpty()) {
+                textView.setVisibility(View.GONE);
+            } else {
+                textView.setText(message);
+            }
             dialog.show();
             hideDialogAfterTimeOut(dialog);
         }
     }
+
 
     private static void hideDialogAfterTimeOut(final Dialog dialog) {
         Runnable runnable = new Runnable() {
@@ -134,11 +139,24 @@ public class AppUtility {
 
     }
 
+    public static void showOkDialog(Context context, String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setTitle(title)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     public void updateRecipeItemView(RecipeRealmObject recipe, GridLayoutManager gridLayoutManager, RecyclerView recyclerView, List<Object> recipeList) {
         if (gridLayoutManager != null) {
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
             int lastVisibleItemPosition = gridLayoutManager.findLastVisibleItemPosition();
-
             for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
                 Object object = recipeList.get(i);
                 if (object instanceof RecipeRealmObject) {
@@ -155,6 +173,5 @@ public class AppUtility {
             }
         }
     }
-
 
 }

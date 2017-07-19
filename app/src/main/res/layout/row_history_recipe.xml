@@ -5,7 +5,7 @@
     <data>
         <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
-        <variable name="editCookbook" type="com.kokaihop.cookbooks.model.EditCookbook"/>
+        <variable name="editCookbook" type="com.kokaihop.cookbooks.model.ItemEditor"/>
         <variable name="position" type="Integer"/>
         <import type="android.view.View"/>
     </data>

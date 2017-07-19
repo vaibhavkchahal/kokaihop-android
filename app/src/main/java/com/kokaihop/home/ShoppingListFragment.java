@@ -1,14 +1,18 @@
 package com.kokaihop.home;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentShoppingListBinding;
@@ -17,9 +21,13 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -27,6 +35,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
 
     private ShoppingListViewModel viewModel;
     private FragmentShoppingListBinding binding;
+    private ShoppingListRecyclerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,9 +50,23 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();
+        initializePullToRefresh();
         loadAdmobAd();
+        editIngredient();
         return binding.getRoot();
     }
+
+    private void initializePullToRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                viewModel.fetchIngredientFromDB();
+                viewModel.deleteIngredientOnServer();
+                viewModel.updateIngredientOnServer();
+            }
+        });
+    }
+
 
     private void loadAdmobAd() {
         final AdView adViewBanner = new AdView(getActivity());
@@ -79,12 +102,52 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(getContext()));
-        ShoppingListRecyclerAdapter adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList(), this);
+        adapter = new ShoppingListRecyclerAdapter(viewModel.getIngredientsList(), this);
+        adapter.setViewModel(viewModel);
         recyclerView.setAdapter(adapter);
         binding.txtviewAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getContext(), AddIngredientActivity.class), Constants.ADD_INGREDIENT_REQUEST_CODE);
+            }
+        });
+    }
+
+    private void editIngredient() {
+        binding.txtviewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.txtviewEdit.getText().toString().equals(getString(R.string.edit))) {
+                    binding.txtviewEdit.setText(R.string.delete_all);
+                    binding.txtviewTitle.setText("Edit List");
+                    binding.txtviewDone.setText("Done");
+                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    binding.relativeLayoutAddIngredient.setVisibility(View.GONE);
+                    adapter.setIndgredientEditor(true);
+
+                } else {
+                    showDeleteAllIngrdientDialog();
+                }
+            }
+        });
+        binding.txtviewDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.txtviewDone.getText().length() > 0) {
+                    binding.txtviewDone.setText("");
+                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_md, 0, 0, 0);
+                    binding.txtviewEdit.setText(R.string.edit);
+                    binding.relativeLayoutAddIngredient.setVisibility(View.VISIBLE);
+                    binding.txtviewTitle.setText("Shopping List");
+                    for (int i = 0; i < binding.rvRecipeIngredients.getChildCount(); i++) {
+                        View view = binding.rvRecipeIngredients.getChildAt(i);
+                        view.findViewById(R.id.tv_delete).setVisibility(View.GONE);
+//                        viewModel.getShoppingDataManager().updateIngredientDeleteFlag(object, false);
+                    }
+                    adapter.setIndgredientEditor(false);
+                } else {
+                    // share
+                }
             }
         });
     }
@@ -95,7 +158,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
-            binding.swipeRefreshLayout.setEnabled(false);
+            binding.swipeRefreshLayout.setRefreshing(false);
         }
     }
 
@@ -109,13 +172,39 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     }
 
     @Override
-    public void onItemClick(int position) {
-        IngredientsRealmObject object = viewModel.getIngredientsList().get(position);
-        Intent intent = new Intent(getContext(), AddIngredientActivity.class);
-        intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
-        intent.putExtra(Constants.INGREDIENT_AMOUNT, object.getAmount());
-        intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
-        intent.putExtra(Constants.INGREDIENT_ID, object.get_id());
-        startActivityForResult(intent, Constants.ADD_INGREDIENT_REQUEST_CODE);
+    public void onItemClick(int position, View view) {
+        ImageView imageView = (ImageView) view;
+        if (imageView.getTag().equals(Constants.EDIT_INGGREDIENT_TAG)) {
+            IngredientsRealmObject object = viewModel.getIngredientsList().get(position);
+            Intent intent = new Intent(getContext(), AddIngredientActivity.class);
+            intent.putExtra(Constants.INGREDIENT_NAME, object.getName());
+            intent.putExtra(Constants.INGREDIENT_AMOUNT, object.getAmount());
+            intent.putExtra(Constants.INGREDIENT_UNIT, object.getUnit().getName());
+            intent.putExtra(Constants.INGREDIENT_ID, object.get_id());
+            startActivityForResult(intent, Constants.ADD_INGREDIENT_REQUEST_CODE);
+        }
+    }
+
+    private void showDeleteAllIngrdientDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setMessage(R.string.delete_all_ingredient_msg);
+        dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                ShoppingListRealmObject shoppingListRealmObject = viewModel.getShoppingDataManager().fetchShoppingRealmObject();
+                List<String> ids = new ArrayList<String>();
+                for (IngredientsRealmObject object : shoppingListRealmObject.getIngredients()) {
+                    ids.add(object.get_id());
+                }
+                viewModel.getShoppingDataManager().deleteIngredientObjectFromDB(ids);
+                viewModel.fetchIngredientFromDB();
+                viewModel.deleteIngredientOnServer();
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

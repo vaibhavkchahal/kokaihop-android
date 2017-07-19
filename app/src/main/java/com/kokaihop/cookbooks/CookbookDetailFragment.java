@@ -57,7 +57,6 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         } else {
             user = User.getInstance();
         }
-
         viewModel = new CookbookDetailViewModel(this, getContext(), user);
         viewModel.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
@@ -67,9 +66,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         RecyclerView recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
         viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, 0);
-
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {

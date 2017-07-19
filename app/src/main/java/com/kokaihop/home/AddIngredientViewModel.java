@@ -69,13 +69,14 @@ public class AddIngredientViewModel extends BaseViewModel {
         String unitName = unit.getText().toString();
         String unitId = shoppingDataManager.getIngredientUnits().get(previousSelectedIndex - 1).getId();
         Activity activity = (Activity) context;
+        // extras null means addding new ingredient.
         if (activity.getIntent().getExtras() == null) {
             IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
             ingredientsRealmObject.setName(ingredientName);
             ingredientsRealmObject.setAmount(amount);
             Calendar calendar = Calendar.getInstance();
             ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
-            ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()));
+            ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()) + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
             Unit unitObj = new Unit();
             unitObj.setId(unitId);
             unitObj.setName(unitName);
@@ -88,9 +89,11 @@ public class AddIngredientViewModel extends BaseViewModel {
             AppUtility.showAutoCancelMsgDialog(context, "");
         } else {
             String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
-            shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
-            activity.setResult(Activity.RESULT_OK);
-            activity.finish();
+            if (shoppingDataManager != null) {
+                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amount, unitName, unitId);
+                activity.setResult(Activity.RESULT_OK);
+                activity.finish();
+            }
         }
     }
 

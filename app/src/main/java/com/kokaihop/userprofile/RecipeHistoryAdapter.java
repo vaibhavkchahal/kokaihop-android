@@ -15,7 +15,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RowHistoryRecipeBinding;
 import com.bumptech.glide.Glide;
 import com.kokaihop.cookbooks.CookbookDetailViewModel;
-import com.kokaihop.cookbooks.model.EditCookbook;
+import com.kokaihop.cookbooks.model.ItemEditor;
 import com.kokaihop.database.RecipeHistoryRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.Recipe;
@@ -38,8 +38,8 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     private RecipeHandler recipeHandler;
     private Fragment fragment;
     private RecipeDataManager recipeDataManager;
-    private EditCookbook editCookbook;
-    private TextView tvPreviousDelete;
+    private ItemEditor editCookbook;
+    private ImageView imageView;
     private String recipeId;
     private int previousDelete = -1, animationDuration = 300;
 
@@ -47,7 +47,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         this.recipeList = recipeList;
         this.fragment = fragment;
         recipeHandler = new RecipeHandler();
-        editCookbook = new EditCookbook();
+        editCookbook = new ItemEditor();
         recipeDataManager = new RecipeDataManager();
     }
 
@@ -68,7 +68,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Recipe recipe = recipeList.get(position);
-
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.ivRecipeImage.getLayoutParams();
         if (recipe.getMainImageUrl() == null || recipe.getMainImageUrl().isEmpty()) {
             if (recipe.getMainImagePublicId() != null) {
@@ -175,7 +174,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                     }, animationDuration);
                 }
             });
-
             binding.tvDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

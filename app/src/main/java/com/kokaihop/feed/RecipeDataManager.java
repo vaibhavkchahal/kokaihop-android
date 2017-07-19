@@ -51,7 +51,7 @@ public class RecipeDataManager {
 
     public Recipe getRecipe(RecipeRealmObject recipeRealmObject) {
         Recipe recipe = new Recipe();
-        if(recipeRealmObject!=null){
+        if (recipeRealmObject != null) {
             recipe.set_id(recipeRealmObject.get_id());
             recipe.setTitle(recipeRealmObject.getTitle());
             recipe.setType(recipeRealmObject.getType());
@@ -197,10 +197,11 @@ public class RecipeDataManager {
                 .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
     }
+
     public RecipeRealmObject fetchRecipeUsingFriendlyUrl(String friendlyUrl) {
         //return the managed object
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
-                .equalTo(RECIPE_ID, friendlyUrl).findFirst();
+                .equalTo(FRIENDLY_URL, friendlyUrl).findFirst();
         return recipeRealmObject;
     }
 

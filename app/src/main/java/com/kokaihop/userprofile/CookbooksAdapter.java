@@ -71,19 +71,16 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
             return new ViewHolder(cookbookBinding);
         }
 
-
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Cookbook cookbook = cookbooks.get(position);
-
         ConstraintLayout.LayoutParams layoutParams;
         if (myCookbook) {
             float ratio = 3.2f;
             layoutParams = (ConstraintLayout.LayoutParams) myCookbookBinding.ivRecipeBackground.getLayoutParams();
             layoutParams.width = (int) (layoutParams.height * ratio);
-
             if (cookbook.getMainImageUrl() != null) {
                 cookbook.setMainImageUrl(CloudinaryUtils.getImageUrl(cookbook.getMainImageUrl(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
             } else {
@@ -149,7 +146,7 @@ public class CookbooksAdapter extends RecyclerView.Adapter<CookbooksAdapter.View
             i.putExtra(Constants.USER_FRIENDLY_URL, userFriendlyUrl);
             i.putExtra(Constants.COOKBOOK_FRIENDLY_URL, cookbookFriendlyUrl);
             i.putExtra(Constants.COOKBOOK_TITLE, cookbookTitle);
-            ((Activity)v.getContext()).startActivityForResult(i,Constants.COOKBOOK_REQUEST);
+            ((Activity) v.getContext()).startActivityForResult(i, Constants.COOKBOOK_REQUEST);
         }
     }
 }
