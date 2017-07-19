@@ -17,6 +17,8 @@ import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +138,7 @@ public class ShoppingListViewModel extends BaseViewModel {
             }
             totalItemCount = listRealmObject.getIngredients().size();
             datasetListener.onUpdateIngredientsList();
+            EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
         }
     }
 

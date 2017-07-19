@@ -138,6 +138,9 @@ public class HomeActivity extends BaseActivity {
             TabHomeTabLayoutBinding tabBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.tab_home_tab_layout, tabLayout, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
+            if (i == 2) {
+                tabBinding.txtviewListCount.setVisibility(View.VISIBLE);
+            }
             tabBinding.text1.setText(tabsText[i]);
             tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, inactiveTabsIcon[i], 0, 0);
         }
@@ -211,6 +214,14 @@ public class HomeActivity extends BaseActivity {
         EventBus.getDefault().removeStickyEvent(authUpdateEvent);
     }
 
+
+    @Subscribe(sticky = true)
+    public void onUpdateListCounter(ShoppingListCounterEvent counterEvent) {
+        TextView listCount = (TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.txtview_list_count);
+        listCount.setText(String.valueOf(counterEvent.getCount()));
+        EventBus.getDefault().removeStickyEvent(counterEvent);
+    }
+
     private void refreshFragment(int postionFragmentToRefresh) {
         PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
         Fragment fragment = pagerTabAdapter.getItem(postionFragmentToRefresh);
@@ -226,7 +237,6 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void showHomeTabOnBackPressed() {
-
         int selectedTab = tabLayout.getSelectedTabPosition();
         if (selectedTab != 0) {
             tabLayout.setScrollPosition(0, 0, true);
