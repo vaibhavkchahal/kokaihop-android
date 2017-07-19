@@ -52,7 +52,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
     private String accessToken, cookbookId, cookbookFriendlyUrl, cookbookTitle;
     private ArrayList<Recipe> recipeList;
 
-    public CookbookDetailViewModel(Fragment fragment, Context context,User user) {
+    public CookbookDetailViewModel(Fragment fragment, Context context, User user) {
         this.fragment = fragment;
         this.context = context;
         this.user = user;
@@ -187,9 +187,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
         dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 String name = ((EditText) dialog.findViewById(R.id.dialog_text)).getText().toString();
-                renameCookbookApiCall(name);
+                if (AppUtility.isEmptyString(name)) {
+                    Toast.makeText(context, context.getString(R.string.empty_cookbook_msg), Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    renameCookbookApiCall(name.trim());
+                }
             }
         });
         dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
@@ -209,7 +213,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_renamed));
-                setCookbookTitle(name);
+                setCookbookTitle(name.trim());
             }
 
             @Override

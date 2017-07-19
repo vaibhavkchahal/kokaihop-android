@@ -123,9 +123,13 @@ public class AddToCookbookViewModel extends BaseViewModel {
         dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 String name = ((EditText) dialog.findViewById(R.id.dialog_text)).getText().toString();
-                createCookbook(name);
+                if (AppUtility.isEmptyString(name)) {
+                    Toast.makeText(context, context.getString(R.string.empty_cookbook_msg), Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    createCookbook(name.trim());
+                }
             }
         });
         dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
@@ -154,14 +158,14 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
 
             }
 
             @Override
             public void onError(Object response) {
-                Toast.makeText(context, "Error " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
             }
         });
@@ -186,7 +190,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
             public void onSuccess(Object response) {
                 RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshRecipeDetail"));
-                if(cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), true)){
+                if (cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), true)) {
                     cookbook.setTotal(cookbook.getTotal() + 1);
                 }
                 recipeDataManager.updateIsFavoriteInDB(true, recipeRealmObject);
