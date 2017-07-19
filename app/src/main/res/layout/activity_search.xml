@@ -8,9 +8,9 @@
 
     </data>
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_lyt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/coordinator_lyt"
         tools:context="com.kokaihop.search.SearchActivity">
 
         <android.support.design.widget.AppBarLayout
@@ -22,30 +22,27 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/rl_header"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/toolbar_height_with_status"
                 android:layout_alignParentTop="true"
                 android:background="@color/colorPrimary"
-                android:paddingBottom="@dimen/home_header_margin_bottom"
                 android:paddingLeft="@dimen/home_header_horizontal_margin"
-                android:paddingTop="@dimen/home_header_margin_top">
+                android:paddingTop="@dimen/status_bar_height">
                 <RelativeLayout android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/imageview_back"
                         style="@style/backButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/back_search_recipe_padding_right"
                         android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:paddingRight="15dp"
-                       />
+                        android:layout_centerVertical="true"/>
 
                     <RelativeLayout android:layout_width="match_parent"
-                                    android:layout_height="32dp"
+                                    android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
                                     android:layout_toRightOf="@id/imageview_back"
+                                    android:layout_margin="@dimen/search_recipe_view_container_margin"
                                     android:background="@drawable/round_corner_home_search_layout"
-                                    android:paddingLeft="5dp">
+                                    android:paddingLeft="@dimen/search_recipe_view_padding_left">
                         <ImageView android:id="@+id/imageview_search_icon"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
@@ -72,8 +69,8 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_search"
-                 android:id="@+id/included"
+        <include android:id="@+id/included"
+                 layout="@layout/content_search"
                  bind:viewModel="@{viewModel}"/>
 
         <include
