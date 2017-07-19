@@ -215,7 +215,6 @@
     <dimen name="profile_o_follow_button_width">150dp</dimen>
     <dimen name="profile_o_follow_button_height">35dp</dimen>
     <dimen name="profile_o_follow_text_size">13sp</dimen>
-    <dimen name="padding_5dp">5dp</dimen>
     <!--Followers/Following row dimens-->
     <dimen name="follow_row_image_size">40dp</dimen>
     <!--signup dialog dimens-->
@@ -416,7 +415,6 @@
     <dimen name="row_recipe_menu_item_padding">20dp</dimen>
     <dimen name="row_recipe_delete_tv_width">100dp</dimen>
 
-
     <!-- shopping list dimens -->
     <dimen name="shopping_toolbar_pading_left_right">20dp</dimen>
     <dimen name="add_ingredient_view_height">40dp</dimen>
@@ -429,4 +427,6 @@
     <dimen name="shopping_item_name_quantity_width">231dp</dimen>
     <dimen name="shopping_list_item_height">62dp</dimen>
     <dimen name="no_data_text_margin_top">40dp</dimen>
+    <!--back button-->
+    <dimen name="back_button_padding">50dp</dimen>
 </resources>

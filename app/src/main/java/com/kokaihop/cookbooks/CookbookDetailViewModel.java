@@ -61,6 +61,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
         accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
     }
 
+    //    get recipes of the cookbook of user from the server
     public void getRecipesOfCookbook(final String cookbookFriendlyUrl, final String userFriendlyUrl, int offset) {
         cookbookId = dataManager.getIdOfCookbook(cookbookFriendlyUrl);
         setProgressVisible(true);

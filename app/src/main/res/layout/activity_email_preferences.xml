@@ -26,11 +26,8 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/iv_email_pref_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/backButton"
                     android:onClick="@{()->viewModel.destroy()}"
-                    android:paddingRight="@dimen/settings_iv_back_margin_right"
-                    android:src="@drawable/ic_back_arrow_white_md"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>

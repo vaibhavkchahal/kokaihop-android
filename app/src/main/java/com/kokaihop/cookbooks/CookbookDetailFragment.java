@@ -22,9 +22,9 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
     private FragmentCookbookDetailBinding binding;
     private CookbookDetailViewModel viewModel;
     private RecipeHistoryAdapter adapter;
-    String userFriendlyUrl, cookbookFriendlyUrl, cookbookTitle;
+    private String userFriendlyUrl, cookbookFriendlyUrl, cookbookTitle;
     private LayoutInflater inflater;
-    View noData;
+    private View noData;
 
     public CookbookDetailFragment() {
     }

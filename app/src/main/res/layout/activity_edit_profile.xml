@@ -26,13 +26,10 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/iv_changePassword_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_editprofile_back"
+                    style="@style/backButton"
                     android:contentDescription="@string/change_profile_photo"
                     android:onClick="@{()->viewModel.destroy()}"
-                    android:paddingEnd="@dimen/settings_iv_back_margin_right"
-                    android:paddingStart="@dimen/none"
                     android:src="@drawable/ic_back_arrow_white_md"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
