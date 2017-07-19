@@ -60,7 +60,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         viewModel = new CookbookDetailViewModel(this, getContext(), user);
         viewModel.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
-        adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
+        adapter = new RecipeHistoryAdapter(this, viewModel.getRecipeList());
         adapter.setViewModel(viewModel);
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         RecyclerView recyclerView = binding.rvRecipesOfCookbook;

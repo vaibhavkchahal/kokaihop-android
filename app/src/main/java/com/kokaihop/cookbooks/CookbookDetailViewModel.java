@@ -50,11 +50,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
     private CookbooksDataManager dataManager;
     private User user;
     private String accessToken, cookbookId, cookbookFriendlyUrl, cookbookTitle;
+    private ArrayList<Recipe> recipeList;
 
-    public CookbookDetailViewModel(Fragment fragment, Context context, User user) {
+    public CookbookDetailViewModel(Fragment fragment, Context context,User user) {
         this.fragment = fragment;
         this.context = context;
         this.user = user;
+        this.recipeList = new ArrayList<>();
         isDownloading = true;
         dataManager = new CookbooksDataManager();
         max = 20;
@@ -168,9 +170,9 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     //    get the recipes list from the database.
     public void fetchRecipesOfCookbooksFromDB(String userFriendlyUrl, String cookbookFriendlyUrl) {
-        ArrayList<Recipe> recipeList = dataManager.getRecipesOfCookbook(userFriendlyUrl, cookbookFriendlyUrl);
-        user.getRecipesList().clear();
-        user.getRecipesList().addAll(recipeList);
+        ArrayList<Recipe> recipes = dataManager.getRecipesOfCookbook(userFriendlyUrl, cookbookFriendlyUrl);
+        recipeList.clear();
+        recipeList.addAll(recipes);
         ((CookbookDetailFragment) fragment).showCookbookDetails();
     }
 
@@ -291,5 +293,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
     public void setCookbookTitle(String cookbookTitle) {
         this.cookbookTitle = cookbookTitle;
         notifyPropertyChanged(BR.cookbookTitle);
+    }
+
+    public ArrayList<Recipe> getRecipeList() {
+        return recipeList;
+    }
+
+    public void setRecipeList(ArrayList<Recipe> recipeList) {
+        this.recipeList = recipeList;
     }
 }
