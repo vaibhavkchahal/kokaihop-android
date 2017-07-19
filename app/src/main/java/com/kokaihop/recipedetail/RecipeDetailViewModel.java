@@ -224,10 +224,13 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     mainImageUrl = realmObject.getMainImage().getPublicId();
                 }
                 String profileImageUrl = "0";
-                if (realmObject.getCreatedBy().getProfileImageId() != null) {
+                String createdByName = "";
+                if (realmObject.getCreatedBy() != null) {
                     profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
+                    createdByName = realmObject.getCreatedBy().getName();
+
                 }
-                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, createdByName);
                 recipeDetailItemsList.add(similarRecipe);
             }
         }
