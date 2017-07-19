@@ -80,9 +80,11 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         followersAdapter.notifyDataSetChanged();
+
         if (noData == null) {
             noData = inflater.inflate(R.layout.layout_no_data_available, followersBinding.followerFollowigContainer, false);
         }
+
         if (followersAdapter.getItemCount() <= 0) {
             if (noData.getParent() == null) {
                 followersBinding.followerFollowigContainer.addView(noData, 0);

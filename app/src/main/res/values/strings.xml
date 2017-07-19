@@ -51,9 +51,9 @@
     <string name="submit">Submit</string>
     <string name="cities">Select Your City</string>
     <string name="cancel">Cancel</string>
-    <string name="name_required">name required</string>
-    <string name="city_validation_msg">city required</string>
-    <string name="signup_success">signUp Success</string>
+    <string name="name_required">Name Required</string>
+    <string name="city_validation_msg">City Required</string>
+    <string name="signup_success">SignUp Success</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>

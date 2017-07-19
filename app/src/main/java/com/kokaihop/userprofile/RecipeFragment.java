@@ -63,7 +63,7 @@ public class RecipeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    //    notify the adapter about the chage in data.
+    //    notify the adapter about the change in data.
     public void showUserProfile() {
         adapter.notifyDataSetChanged();
         if (noData == null) {
@@ -71,7 +71,8 @@ public class RecipeFragment extends Fragment {
         }
         if (adapter.getItemCount() <= 0) {
             if (noData.getParent() == null) {
-                if (noData.getParent() == null) binding.recipeContainer.addView(noData, 0);
+                binding.recipeContainer.removeView(noData);
+                binding.recipeContainer.addView(noData, 0);
             }
         } else {
             binding.recipeContainer.removeView(noData);

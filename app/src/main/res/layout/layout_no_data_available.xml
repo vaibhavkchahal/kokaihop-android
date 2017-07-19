@@ -4,8 +4,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/img_profile">
+        android:layout_height="match_parent">
 
 
         <TextView
@@ -14,7 +13,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Nothing to display here !!!"
-            android:textColor="@color/white"
+            android:textColor="@color/colorPrimary"
             android:layout_marginTop="@dimen/no_data_text_margin_top"
             android:textSize="@dimen/cookbook_login_msg1_text_size"
             app:font="@{`SS-ProRegular`}"
