@@ -1,17 +1,23 @@
 package com.kokaihop.batch;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
 
 import com.altaworks.kokaihop.ui.R;
 import com.batch.android.Batch;
 import com.kokaihop.recipedetail.RecipeDetailActivity;
+import com.kokaihop.utility.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class PushService extends IntentService {
     public PushService() {
@@ -25,7 +31,6 @@ public class PushService extends IntentService {
             {
                 // Custom payload fields. Root keys are always of the string type, due to GCM limitations.
                 // Here we'll read the "article_id" key of the following custom payload : {"article_id": 2}
-                String message = intent.getStringExtra("message");
                 showNotification(intent);
 
 
@@ -41,59 +46,90 @@ public class PushService extends IntentService {
         // Build your own notification here...
 
         // Assuming you have a drawable named notification_icon, can otherwise be anything you want
-        builder.setSmallIcon(R.mipmap.ic_launcher_round)
+        builder.setSmallIcon(R.drawable.notification_icon)
                 .setAutoCancel(true)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(intent.getStringExtra("message"));
 
-        // Create intent
-        Intent launchIntent = bindLaunchIntent(intent);
-        Batch.Push.appendBatchData(intent, launchIntent); // Call this method to add tracking data to your intent to track opens
+        if (intent.hasExtra("customPayload")) {
+            Bundle bundle = new Bundle();
 
-        // Finish building the notification using the launchIntent
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
+            String type = null;
+            try {
+                JSONObject customPayLoadJSON = new JSONObject(intent.getStringExtra("customPayload"));
+                JSONObject dataJSON = customPayLoadJSON.getJSONObject("data");
+                type = dataJSON.getString("type");
+                String badgeType = dataJSON.getString("badgeType");
+                String friendlyUrl = dataJSON.getString("friendlyUrl");
+                String message = intent.getStringExtra("message");
+                bundle.putString("message", message);
+                bundle.putString("badgeType", badgeType);
+                bundle.putString("friendlyUrl", friendlyUrl);
 
-        // Display your notification
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
 
-        // "id" is supposed to be a unique id, in order to be able to update the notification if you want.
-        // If you don't care about updating it, you can simply make a random it, like below
-        int id = (int) (Math.random() * Integer.MAX_VALUE);
-        notificationManager.notify(id, builder.build());
+            if (isAppOnForeground(getApplicationContext())) {
+                Intent intentAction = new Intent(Constants.SHOW_DIALOG_ACTION);
+                intentAction.putExtras(bundle);
+                sendBroadcast(intentAction);
+
+
+            } else {
+                // Create intent
+                Intent launchIntent = bindLaunchIntent(type);
+                launchIntent.putExtras(bundle);
+                Batch.Push.appendBatchData(intent, launchIntent); // Call this method to add tracking data to your intent to track opens
+
+                // Finish building the notification using the launchIntent
+                PendingIntent contentIntent = PendingIntent.getActivity(this, 0, launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(contentIntent);
+
+                // Display your notification
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+
+                // "id" is supposed to be a unique id, in order to be able to update the notification if you want.
+                // If you don't care about updating it, you can simply make a random it, like below
+                int id = (int) (Math.random() * Integer.MAX_VALUE);
+                notificationManager.notify(id, builder.build());
+            }
+
+
+        }
 
         // Call Batch to keep track of that notification
         Batch.Push.onNotificationDisplayed(this, intent);
     }
 
-    private Intent bindLaunchIntent(Intent intent) {
-        Intent launchIntent = null;
-
-        try {
-            JSONObject customPayLoadJSON = new JSONObject(intent.getStringExtra("customPayload"));
-            JSONObject dataJSON = customPayLoadJSON.getJSONObject("data");
-            String type = dataJSON.getString("type");
-            String badgeType = dataJSON.getString("badgeType");
-            String friendlyUrl = dataJSON.getString("friendlyUrl");
-
-            switch (type) {
-                case "RECIPE":
-                    launchIntent = new Intent(this, RecipeDetailActivity.class);
-
-                    break;
-                default:
-                    break;
-            }
-            if (launchIntent != null) {
-                launchIntent.putExtra("badgeType", badgeType);
-                launchIntent.putExtra("friendlyUrl", friendlyUrl);
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private boolean isAppOnForeground(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) {
+            return false;
         }
+        final String packageName = context.getPackageName();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND && appProcess.processName.equals(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+
+    private Intent bindLaunchIntent(String type) {
+        Intent launchIntent = null;
+        switch (type) {
+            case "RECIPE":
+                launchIntent = new Intent(this, RecipeDetailActivity.class);
+
+                break;
+            default:
+                break;
+        }
         return launchIntent;
     }
 }

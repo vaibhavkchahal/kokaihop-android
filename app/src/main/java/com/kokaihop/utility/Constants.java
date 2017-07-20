@@ -59,5 +59,6 @@ public class Constants {
     public static final String INGREDIENT_AMOUNT = "amount";
     public static final String INGREDIENT_UNIT = "unit";
     public static final String INGREDIENT_ID = "id";
+    public static final String SHOW_DIALOG_ACTION = "showdialogAction";
 
 }

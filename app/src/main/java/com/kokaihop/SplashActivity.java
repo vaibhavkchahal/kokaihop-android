@@ -9,9 +9,10 @@ import com.kokaihop.base.BaseActivity;
 import com.kokaihop.home.HomeActivity;
 import com.kokaihop.utility.Constants;
 
-import io.fabric.sdk.android.Fabric;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.fabric.sdk.android.Fabric;
 
 public class SplashActivity extends BaseActivity {
 
