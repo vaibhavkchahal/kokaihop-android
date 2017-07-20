@@ -1,7 +1,10 @@
 package com.kokaihop.home;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -18,6 +21,7 @@ import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.google.android.gms.ads.MobileAds;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
+import com.kokaihop.customviews.NotificationDialogActivity;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.userprofile.model.User;
@@ -53,6 +57,7 @@ public class HomeActivity extends BaseActivity {
             R.drawable.ic_comments_white_sm,
             R.drawable.ic_user_white_sm
     };
+    private NotificationReceiver notificationReciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +67,27 @@ public class HomeActivity extends BaseActivity {
         viewModel = new HomeViewModel(this);
         viewModel.getLatestRecipes();
         setTabView();
+        notificationReciever = new NotificationReceiver();
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        IntentFilter intent = new IntentFilter(Constants.SHOW_DIALOG_ACTION);
+        registerReceiver(notificationReciever, intent);
 
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(notificationReciever);
 
     }
 
@@ -245,6 +265,35 @@ public class HomeActivity extends BaseActivity {
         } else {
             super.onBackPressed();
 
+        }
+    }
+
+
+    private class NotificationReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            final Bundle bundle = intent.getExtras();
+            Intent dialogIntent = new Intent(HomeActivity.this, NotificationDialogActivity.class);
+            dialogIntent.putExtras(bundle);
+            startActivity(dialogIntent);
+
+           /* AlertDialog.Builder dialog = new AlertDialog.Builder(HomeActivity.this);
+            dialog.setTitle(getString(R.string.app_name));
+            dialog.setMessage(bundle.getString("message"));
+            dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(HomeActivity.this, RecipeDetailActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+            dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();*/
         }
     }
 }

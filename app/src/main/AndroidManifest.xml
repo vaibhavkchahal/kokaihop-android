@@ -9,6 +9,18 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
+    <permission
+        android:name="${applicationId}.permission.C2D_MESSAGE"
+        android:protectionLevel="signature"/>
+
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:name="com.kokaihop.KokaihopApplication"
         android:allowBackup="true"
@@ -119,45 +131,47 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
-
         <activity
             android:name="com.kokaihop.home.AddIngredientActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
 
-        <permission android:name="${applicationId}.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
-        <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE"/>
+        <service android:name="com.batch.android.BatchPushService"/>
 
-        <uses-permission android:name="android.permission.WAKE_LOCK" />
-        <uses-permission android:name="android.permission.VIBRATE" />
-        <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
-
-       <!-- <service android:name="com.batch.android.BatchPushService" />
-        <receiver android:name="com.batch.android.BatchPushReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.batch.android.BatchPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="${applicationId}" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+
+                <category android:name="${applicationId}"/>
             </intent-filter>
-        </receiver>-->
+        </receiver>
 
-
-        <service android:name="com.batch.android.BatchPushInstanceIDService" android:exported="true">
+        <service
+            android:name="com.batch.android.BatchPushInstanceIDService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID"/>
             </intent-filter>
         </service>
+        <service android:name="com.kokaihop.batch.PushService"/>
 
-
-        <service android:name="com.kokaihop.batch.PushService" />
-
-        <receiver android:name="com.kokaihop.batch.PushReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.kokaihop.batch.PushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="${applicationId}" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+
+                <category android:name="${applicationId}"/>
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="com.kokaihop.customviews.NotificationDialogActivity"
+            android:theme="@style/Theme.AppCompat.Dialog">
+        </activity>
     </application>
 
 </manifest>

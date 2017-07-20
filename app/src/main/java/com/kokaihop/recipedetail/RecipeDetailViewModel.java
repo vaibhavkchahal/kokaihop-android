@@ -82,6 +82,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
         } else {
             recipeRealmObject = recipeDataManager.fetchRecipeUsingFriendlyUrl(friendlyUrl);
+            this.recipeId = recipeRealmObject.get_id();
+
         }
         pagerImages = recipeRealmObject.getImages();
         prepareRecipeDetailList(recipeRealmObject);
