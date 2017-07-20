@@ -15,7 +15,7 @@ public class EmailPreferencesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferencesBinding =  DataBindingUtil.setContentView(this,R.layout.activity_email_preferences);
-        preferencesViewModel = new EmailPreferencesViewModel(this,preferencesBinding);
+        preferencesViewModel = new EmailPreferencesViewModel(this);
         preferencesBinding.setViewModel(preferencesViewModel);
 
 

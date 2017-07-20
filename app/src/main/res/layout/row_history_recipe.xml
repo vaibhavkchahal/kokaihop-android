@@ -5,29 +5,30 @@
     <data>
         <variable name="recipe" type="com.kokaihop.feed.Recipe"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
-        <variable name="editCookbook" type="com.kokaihop.cookbooks.model.EditCookbook"/>
+        <variable name="editCookbook" type="com.kokaihop.cookbooks.model.ItemEditor"/>
         <variable name="position" type="Integer"/>
         <import type="android.view.View"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/history_row"
+        android:id="@+id/recipe_row"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
         android:clickable="true"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/user_profile_recycler_padding_horizontal">
+        android:paddingEnd="@dimen/none"
+        android:paddingStart="@dimen/user_profile_recycler_padding_horizontal">
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/constraint_match_parent"
-            android:scaleType="centerInside"
-            android:paddingStart="@dimen/row_recipe_menu_item_padding"
+            android:contentDescription="@string/delete"
             android:paddingEnd="@dimen/row_recipe_menu_item_padding"
+            android:paddingStart="@dimen/row_recipe_menu_item_padding"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_delete"
-            android:visibility="@{editCookbook.editMode ? View.VISIBLE : View.GONE}"
+            android:visibility="@{recipe.recipeEdit ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -48,33 +49,37 @@
             tools:src="@drawable/ic_recipeplaceholder_md"/>
         <TextView
             android:id="@+id/tv_recipe_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{recipe.title}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/row_follower_following_text_size"
             app:font="@{`SS-ProRegular`}"
             app:layout_constraintBottom_toTopOf="@+id/tv_user_name"
+            app:layout_constraintEnd_toStartOf="@+id/tv_delete"
             app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/tv_delete"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Recipe Name"/>
         <TextView
             android:id="@+id/tv_user_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{@string/by + recipe.createdByName}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/text_size_medium"
             app:font="@{`SS-ProRegular`}"
             app:layout_constraintBottom_toTopOf="@+id/comment_rating_bar"
-            app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
             app:layout_constraintEnd_toStartOf="@+id/tv_delete"
+            app:layout_constraintLeft_toRightOf="@+id/iv_recipe_image"
             app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
             tools:text="UserName"/>
 
@@ -98,23 +103,24 @@
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/constraint_match_parent"
+            android:background="@color/red"
+            android:gravity="center"
+            android:maxWidth="@dimen/row_recipe_delete_tv_width"
+            android:paddingEnd="@dimen/row_recipe_menu_item_padding"
+            android:paddingStart="@dimen/row_recipe_menu_item_padding"
             android:text="@string/delete"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small"
-            app:font="@{`SS-ProRegular`}"
-            android:background="@color/red"
-            android:gravity="center"
-            android:paddingStart="@dimen/row_recipe_menu_item_padding"
-            android:paddingEnd="@dimen/row_recipe_menu_item_padding"
             android:visibility="@{recipe.recipeDelete ? View.VISIBLE : View.GONE}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:font="@{`SS-ProRegular`}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="20dp"/>
 
         <View android:id="@+id/history_recipe_divider"
-              android:layout_width="0dp"
-              android:layout_height="1dp"
+              android:layout_width="@dimen/constraint_match_parent"
+              android:layout_height="@dimen/divider_height"
               android:layout_marginTop="@dimen/user_profile_recycler_padding_vertical"
               android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"

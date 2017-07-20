@@ -51,9 +51,9 @@
     <string name="submit">Submit</string>
     <string name="cities">Select Your City</string>
     <string name="cancel">Cancel</string>
-    <string name="name_required">name required</string>
-    <string name="city_validation_msg">city required</string>
-    <string name="signup_success">signUp Success</string>
+    <string name="name_required">Name Required</string>
+    <string name="city_validation_msg">City Required</string>
+    <string name="signup_success">SignUp Success</string>
 
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
@@ -257,9 +257,9 @@
     <string name="this_will_delete_the_cookbook_and_its_recipes">
         This will permanently delete recipes in the cookbook.
     </string>
+    <string name="the_cookbook">the cookbook</string>
     <string name="delete">Delete</string>
     <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
-    <string name="the_cookbook">the cookbook</string>
     <string name="pick_a_cookbook">Pick a Cookbook</string>
     <string name="recipe_added_to_cookbook">Recipe added to cookbook successfully</string>
     <string name="recipe_removed_from_cookbook">Recipe removed from the cookbook successfully
@@ -326,8 +326,25 @@
     <string name="text_shopping_list">Shopping List</string>
     <string name="text_add_ingredient">Add Ingredient</string>
     <string name="text_select">Select</string>
+    <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed from your cookbooks.</string>
+
+    <string name="delete_all">DeleteAll</string>
+    <string name="delete_all_ingredient_msg">Are you sure you want to delete all items ?</string>
+    <string name="mark_message">You must first mark an item to clear</string>
+    <string name="obs_text">OBS!</string>
+    <string name="please_enter_ingredient">Please enter ingredient</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="enter_ingredient_name">Enter Ingredient Name</string>
+    <string name="unit">Unit</string>
+    <string name="quantity">Quantity</string>
+    <string name="enter">Enter</string>
+
+    <string name="recipe_image_upload_failed">Recipe image upload failed!!!</string>
+    <string name="recipe_image_upload_success">Recipe image uploaded successfully!!!</string>
+    <string name="empty_cookbook_msg">Cookbook name cannot be empty!!!</string>
     <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed
         from your cookbooks.
     </string>
     <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
+
 </resources>

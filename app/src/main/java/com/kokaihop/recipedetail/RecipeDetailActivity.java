@@ -266,7 +266,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void toggleLeftRightVisibility(int position) {
         if (position == 0) {
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
-            binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
+            if (recipeDetailViewModel.getPagerImages().size() > 1) {
+                binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
+            }
 
         } else if (position == recipeDetailViewModel.getPagerImages().size() - 1) {
             binding.viewpagerSwipeLeft.setVisibility(View.VISIBLE);
@@ -304,14 +306,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void setPagerData() {
-
         if (recipeDetailPagerAdapter == null) {
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
             viewPager.setAdapter(recipeDetailPagerAdapter);
         } else {
             recipeDetailPagerAdapter.notifyDataSetChanged();
         }
-
         viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
             txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());

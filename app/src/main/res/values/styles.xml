@@ -96,10 +96,10 @@
     </style>
 
     <style name="backButton">
-        <item name="android:paddingTop">@dimen/padding_5dp</item>
-        <item name="android:paddingBottom">@dimen/padding_5dp</item>
-        <item name="android:paddingRight">@dimen/padding_5dp</item>
-        <item name="android:src">@drawable/ic_back_arrow_sm</item>
+        <item name="android:paddingRight">@dimen/back_button_padding</item>
+        <item name="android:src">@drawable/ic_back_arrow_white_md</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
     </style>
 
     <style name="myDialog" parent="Theme.AppCompat.Dialog">

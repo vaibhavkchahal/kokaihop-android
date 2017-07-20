@@ -61,4 +61,11 @@ public class Constants {
     public static final String INGREDIENT_ID = "id";
     public static final String SHOW_DIALOG_ACTION = "showdialogAction";
 
+
+    public static final String EDIT_INGGREDIENT_TAG = "100";
+    public static final String MARKED_INGREDIENT_TAG = "200";
+
+    public static final String TEMP_INGREDIENT_ID_SIGNATURE = "temp";
+
+
 }

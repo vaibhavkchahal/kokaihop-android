@@ -32,7 +32,6 @@ public class ShareContents {
 
     }
 
-
     public void setRecipeLink(String facebookContent) {
         this.recipeLink = facebookContent;
     }
@@ -44,19 +43,17 @@ public class ShareContents {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-
         List<ResolveInfo> resInfos = context.getPackageManager().queryIntentActivities(shareIntent, 0);
         if (!resInfos.isEmpty()) {
             System.out.println("Have package");
             for (ResolveInfo resInfo : resInfos) {
                 String packageName = resInfo.activityInfo.packageName;
                 Log.i("Package Name", packageName);
-                if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") ||packageName.equals("com.android.messaging")|| packageName.equals("com.google.android.gm")) {
+                if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm")) {
                     Intent intent = new Intent();
                     intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-
                     if (packageName.equals("com.twitter.android")) {
                         intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
                     } else if (packageName.equals("com.facebook.katana")) {
@@ -68,21 +65,18 @@ public class ShareContents {
                         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                         intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
                         intent.setType("image/*");
-                        String message=getMessageContent();
+                        String message = getMessageContent();
 //                        intent.putExtra(Intent.EXTRA_TEXT,  message);
-                        intent.putExtra("sms_body",  message);
+                        intent.putExtra("sms_body", message);
 
                     } else if (packageName.equals("com.google.android.gm")) {
-
                         String emailContent = getEmailContent();
-                        intent.putExtra(Intent.EXTRA_TEXT,  Html.fromHtml(emailContent));
+                        intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
                         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                         intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
-
                         intent.setType("image/*");
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     }
-
                     intent.setPackage(packageName);
                     targetShareIntents.add(intent);
                 }
@@ -93,14 +87,13 @@ public class ShareContents {
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                 context.startActivity(chooserIntent);
             } else {
-
                 System.out.println("Do not Have Intent");
             }
         }
     }
 
     private String getMessageContent() {
-        String sms=recipeTitle+"\n"+recipeLink+"\n"+oneLinkText;
+        String sms = recipeTitle + "\n" + recipeLink + "\n" + oneLinkText;
         return sms;
     }
 
@@ -110,7 +103,6 @@ public class ShareContents {
 
 
     public String getEmailContent() {
-
         String emailContent = "<html><body><b>" + emailSaticContent1 + "</b><br/>" + recipeTitle + "<br/>" + emailSaticContent2 + "<a href=\"" + recipeLink + "\">" + recipeLink + "</a>"
                 + "<br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497 </body></html>";
         return emailContent;

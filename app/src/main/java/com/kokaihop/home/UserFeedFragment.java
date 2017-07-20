@@ -99,7 +99,7 @@ public class UserFeedFragment extends Fragment {
         }
 
         tabLayout.getTabAt(0).select();
-        userFeedBinding.rlHeader.setOnClickListener(new View.OnClickListener() {
+        userFeedBinding.textviewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 searchClick();

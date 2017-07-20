@@ -90,14 +90,13 @@ public class AppetizerFragment extends Fragment {
 
     @Subscribe(sticky = true)
     public void onEvent(RecipeRealmObject recipe) {
-
         if (getUserVisibleHint()) {
             Logger.e("Event bus Appetizer", "Event bus Appetizer");
-
             GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
             List<Object> recipeListWithAds = apeetizerViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvAppetizer, recipeListWithAds);
+            EventBus.getDefault().removeStickyEvent(recipe);
         }
     }
 

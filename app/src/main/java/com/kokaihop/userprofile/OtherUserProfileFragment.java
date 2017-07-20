@@ -170,7 +170,8 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
                     }
                 }
             });
-            tabLayout.getTabAt(selectedTabPosition).select();
+            if (tabLayout.getTabAt(selectedTabPosition) != null)
+                tabLayout.getTabAt(selectedTabPosition).select();
         }
     }
 
@@ -217,6 +218,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
 
     @Override
     public void followToggeled() {
+        setNotificationCount();
     }
 
     private void setAppBarListener() {

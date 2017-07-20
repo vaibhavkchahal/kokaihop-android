@@ -54,14 +54,20 @@ public class RecipeHandler {
     }
 
     private void updateLikeCountInView(CheckBox checkBox, RecipeRealmObject recipe) {
-        checkBox.setText(String.valueOf(recipe.getCounter().getLikes()));
+        long count = 0;
+        if (recipe.getCounter() != null) {
+            count = recipe.getCounter().getLikes();
+        }
+        checkBox.setText(String.valueOf(count));
 
     }
 
     private void updateSatusInDB(boolean checked, RecipeRealmObject recipe) {
         RecipeDataManager recipeDataManager = new RecipeDataManager();
         long likes = 0;
-        likes = Long.valueOf(recipe.getCounter().getLikes());
+        if (recipe.getCounter() != null) {
+            likes = Long.valueOf(recipe.getCounter().getLikes());
+        }
         if (checked) {
             likes = likes + 1;
         } else {
@@ -71,9 +77,11 @@ public class RecipeHandler {
         }
         recipeDataManager.updateIsFavoriteInDB(checked, recipe);
         recipeDataManager.updateLikesCount(recipe, likes);
-        if (!recipe.getCounter().isManaged()) {
-            recipe.getCounter().setLikes(likes);
-            recipe.setFavorite(checked);
+        if (recipe.getCounter() != null) {
+            if (!recipe.getCounter().isManaged()) {
+                recipe.getCounter().setLikes(likes);
+                recipe.setFavorite(checked);
+            }
         }
 
 

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
@@ -18,13 +19,12 @@ import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 public class EditProfileActivity extends BaseActivity {
 
-    private ActivityEditProfileBinding editProfileBinding;
     private EditProfileViewModel editProfileViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        editProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
+        ActivityEditProfileBinding editProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
         editProfileViewModel = new EditProfileViewModel(this, editProfileBinding);
         editProfileBinding.setViewModel(editProfileViewModel);
     }
@@ -45,7 +45,6 @@ public class EditProfileActivity extends BaseActivity {
                 }
                 Logger.d("File Path", filePath);
 
-                //TODO : cloudinary image upload code goes here
                 editProfileViewModel.uploadImageOnCloudinary(filePath);
 
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
@@ -62,7 +61,7 @@ public class EditProfileActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

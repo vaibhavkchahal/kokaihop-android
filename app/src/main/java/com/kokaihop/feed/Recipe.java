@@ -31,6 +31,7 @@ public class Recipe extends BaseObservable {
     private String coverImage;
     private String mainImageUrl;
     private boolean recipeDelete;
+    private boolean recipeEdit;
 
     public String get_id() {
         return _id;
@@ -182,5 +183,15 @@ public class Recipe extends BaseObservable {
     public void setRecipeDelete(boolean recipeDelete) {
         this.recipeDelete = recipeDelete;
         notifyPropertyChanged(BR.recipeDelete);
+    }
+
+    @Bindable
+    public boolean isRecipeEdit() {
+        return recipeEdit;
+    }
+
+    public void setRecipeEdit(boolean recipeEdit) {
+        this.recipeEdit = recipeEdit;
+        notifyPropertyChanged(BR.recipeEdit);
     }
 }

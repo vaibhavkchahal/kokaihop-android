@@ -263,11 +263,4 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         this.totalFollowers = totalFollowers;
     }
 
-    public UserDataListener getUserDataListener() {
-        return userDataListener;
-    }
-
-    public void setUserDataListener(UserDataListener userDataListener) {
-        this.userDataListener = userDataListener;
-    }
 }

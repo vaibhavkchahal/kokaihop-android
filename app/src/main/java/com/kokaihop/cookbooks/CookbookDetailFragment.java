@@ -17,12 +17,14 @@ import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
 import com.kokaihop.utility.SharedPrefUtils;
 
-public class CookbookDetailFragment extends Fragment implements CookbookDataChangedListener{
+public class CookbookDetailFragment extends Fragment implements CookbookDataChangedListener {
 
     private FragmentCookbookDetailBinding binding;
     private CookbookDetailViewModel viewModel;
     private RecipeHistoryAdapter adapter;
-    String userFriendlyUrl, cookbookFriendlyUrl, cookbookTitle;
+    private String userFriendlyUrl, cookbookFriendlyUrl, cookbookTitle;
+    private LayoutInflater inflater;
+    private View noData;
 
     public CookbookDetailFragment() {
     }
@@ -43,7 +45,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
             cookbookTitle = bundle.getString(Constants.COOKBOOK_TITLE);
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_detail, container, false);
-
+        this.inflater = inflater;
         if (Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
         }
@@ -55,19 +57,16 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         } else {
             user = User.getInstance();
         }
-
         viewModel = new CookbookDetailViewModel(this, getContext(), user);
         viewModel.setCookbookTitle(cookbookTitle);
         binding.setViewModel(viewModel);
-        adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
+        adapter = new RecipeHistoryAdapter(this, viewModel.getRecipeList());
         adapter.setViewModel(viewModel);
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         RecyclerView recyclerView = binding.rvRecipesOfCookbook;
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
         viewModel.getRecipesOfCookbook(cookbookFriendlyUrl, userFriendlyUrl, 0);
-
         recyclerView.addOnScrollListener(new RecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(RecyclerView recyclerView) {
@@ -83,11 +82,12 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
             @Override
             public void onClick(View v) {
                 if (binding.tvCookbookEdit.getText().toString().equals(getString(R.string.edit))) {
-                    if(!cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)){
+                    if (!cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                         binding.ivCookbookBack.setVisibility(View.GONE);
                         binding.tvCookbookRename.setVisibility(View.VISIBLE);
                     }
                     binding.tvCookbookEdit.setText(R.string.done);
+                    adapter.enterRecipeEditMode();
                     adapter.setEditCookbook(true);
                 } else {
                     binding.ivCookbookBack.setVisibility(View.VISIBLE);
@@ -103,7 +103,21 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
 
     public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
+        if (noData == null) {
+            noData = inflater.inflate(R.layout.layout_no_data_available, binding.clCookbookContainer, false);
+        }
+        if (adapter.getItemCount() <= 0) {
+            if (noData.getParent() == null) {
+                binding.clCookbookContainer.addView(noData, 0);
+            }
 
+        } else {
+            binding.clCookbookContainer.removeView(noData);
+            if(binding.tvCookbookEdit.getText().toString().equals(getString(R.string.done))){
+                adapter.enterRecipeEditMode();
+                adapter.editListUpdated();
+            }
+        }
     }
 
     @Override

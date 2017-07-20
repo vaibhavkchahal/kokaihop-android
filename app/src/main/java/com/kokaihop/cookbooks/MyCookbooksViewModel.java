@@ -127,9 +127,13 @@ public class MyCookbooksViewModel extends BaseViewModel {
         dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 String name = ((EditText) dialog.findViewById(R.id.dialog_text)).getText().toString();
-                createCookbook(name);
+                if (AppUtility.isEmptyString(name)) {
+                    Toast.makeText(context, context.getString(R.string.empty_cookbook_msg), Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    createCookbook(name.trim());
+                }
             }
         });
 

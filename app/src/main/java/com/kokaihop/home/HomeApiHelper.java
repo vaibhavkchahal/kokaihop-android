@@ -32,4 +32,9 @@ public class HomeApiHelper {
         responseBodyCall.enqueue(new ResponseHandler<SyncIngredientModel>(successInterface));
     }
 
+    public void sycIngredientDeletionOnServer(String token, SyncIngredientDeletionModel requestParam, final IApiRequestComplete successInterface) {
+        Call<SyncIngredientModel> responseBodyCall = homeApi.syncIngrdientDeletionOnServer(token, requestParam);
+        responseBodyCall.enqueue(new ResponseHandler<SyncIngredientModel>(successInterface));
+    }
+
 }

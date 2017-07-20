@@ -2,10 +2,13 @@ package com.kokaihop.userprofile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.model.FollowersFollowingList;
+import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
@@ -16,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 
@@ -27,7 +31,7 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     private UserDataListener userDataListener;
     private Context context;
-    private String accessToken, friendlyUrl;
+    private String accessToken;
     private String countryCode = Constants.COUNTRY_CODE;
     private ProfileDataManager profileDataManager;
     private User user;
@@ -42,10 +46,10 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     @Override
     public void destroy() {
-        ((Activity)context).finish();
+        ((Activity) context).finish();
     }
 
-    public void getUserData(final String userId,String friendlyUrl) {
+    public void getUserData(final String userId, String friendlyUrl) {
         setProgressVisible(true);
         fetchUserDataFromDB(userId);
 //        friendlyUrl = getFriendlyUrlFromDB(userId);
@@ -67,12 +71,13 @@ public class OtherUserProfileViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Object response) {
                 setProgressVisible(false);
-
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -82,22 +87,37 @@ public class OtherUserProfileViewModel extends BaseViewModel {
         userDataListener.showUserProfile();
     }
 
-    public String getFriendlyUrlFromDB(String userId) {
-        return profileDataManager.getFriendlyUrlOfUser(userId);
-    }
+//    public String getFriendlyUrlFromDB(String userId) {
+//        return profileDataManager.getFriendlyUrlOfUser(userId);
+//    }
 
     public void onToggleFollowing(User user) {
-        accessToken = SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
+        accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
 
-        if(accessToken.isEmpty()|| accessToken==null) {
+        if (accessToken.isEmpty() || accessToken == null) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
-        }else {
+        } else if (user != null) {
             String userId = user.get_id();
             user.setFollowByMe(!user.isFollowByMe());
             if (user.isFollowByMe()) {
                 User.getInstance().getFollowing().add(user.get_id());
+                FollowingFollowerUser followingUser = new FollowingFollowerUser();
+                followingUser.setFriendlyUrl(user.getFriendlyUrl());
+                followingUser.setName(user.getName());
+                followingUser.setProfileImageUrl(user.getProfileImageUrl());
+                followingUser.set_id(user.get_id());
+                followingUser.setFollowingUser(user.isFollowByMe());
+                followingUser.setProfileImage(user.getProfileImage());
+                FollowersFollowingList.getFollowingList().getUsers().add(followingUser);
+                user.getFollowers().add(User.getInstance().get_id());
             } else {
                 User.getInstance().getFollowing().remove(user.get_id());
+                user.getFollowers().remove(User.getInstance().get_id());
+                int index = getIndexOfUser(userId, FollowersFollowingList.getFollowingList().getUsers());
+                if (index > -1) {
+                    FollowersFollowingList.getFollowingList().getUsers().remove(index);
+
+                }
             }
             toggleFollowing(userId, user);
             userDataListener.followToggeled();
@@ -114,21 +134,35 @@ public class OtherUserProfileViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (followByMe) {
-                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.follow_success));
+                    AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.follow_success));
                 } else {
-                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.unfollow_success));
+                    AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.unfollow_success));
                 }
                 User.getInstance().setRefreshRequired(true);
             }
 
             @Override
             public void onFailure(String message) {
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                 user.setFollowByMe(!followByMe);
+                if (followByMe) {
+                    user.getFollowers().remove(User.getInstance().get_id());
+                } else {
+                    user.getFollowers().add(User.getInstance().get_id());
+                }
+                userDataListener.followToggeled();
             }
 
             @Override
             public void onError(Object response) {
                 user.setFollowByMe(!followByMe);
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                if (followByMe) {
+                    user.getFollowers().remove(User.getInstance().get_id());
+                } else {
+                    user.getFollowers().add(User.getInstance().get_id());
+                }
+                userDataListener.followToggeled();
             }
         });
     }
@@ -136,5 +170,13 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     private void setUpApiCall() {
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         accessToken = Constants.AUTHORIZATION_BEARER + token;
+    }
+
+    private int getIndexOfUser(String userId, ArrayList<FollowingFollowerUser> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).get_id().equals(userId))
+                return i;
+        }
+        return -1;
     }
 }
