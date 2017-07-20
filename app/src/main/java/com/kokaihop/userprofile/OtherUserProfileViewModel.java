@@ -7,6 +7,8 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
+import com.kokaihop.userprofile.model.FollowersFollowingList;
+import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
@@ -17,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 
@@ -98,10 +101,23 @@ public class OtherUserProfileViewModel extends BaseViewModel {
             user.setFollowByMe(!user.isFollowByMe());
             if (user.isFollowByMe()) {
                 User.getInstance().getFollowing().add(user.get_id());
+                FollowingFollowerUser followingUser = new FollowingFollowerUser();
+                followingUser.setFriendlyUrl(user.getFriendlyUrl());
+                followingUser.setName(user.getName());
+                followingUser.setProfileImageUrl(user.getProfileImageUrl());
+                followingUser.set_id(user.get_id());
+                followingUser.setFollowingUser(user.isFollowByMe());
+                followingUser.setProfileImage(user.getProfileImage());
+                FollowersFollowingList.getFollowingList().getUsers().add(followingUser);
                 user.getFollowers().add(User.getInstance().get_id());
             } else {
                 User.getInstance().getFollowing().remove(user.get_id());
                 user.getFollowers().remove(User.getInstance().get_id());
+                int index = getIndexOfUser(userId, FollowersFollowingList.getFollowingList().getUsers());
+                if (index > -1) {
+                    FollowersFollowingList.getFollowingList().getUsers().remove(index);
+
+                }
             }
             toggleFollowing(userId, user);
             userDataListener.followToggeled();
@@ -154,5 +170,13 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     private void setUpApiCall() {
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         accessToken = Constants.AUTHORIZATION_BEARER + token;
+    }
+
+    private int getIndexOfUser(String userId, ArrayList<FollowingFollowerUser> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).get_id().equals(userId))
+                return i;
+        }
+        return -1;
     }
 }

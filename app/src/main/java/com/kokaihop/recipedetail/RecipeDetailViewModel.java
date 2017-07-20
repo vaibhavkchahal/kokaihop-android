@@ -102,7 +102,16 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     copyJsonObject = new JSONObject(recipeJSONObject.toString());
                     recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
-                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeId).getTitle());
+                    String title = "";
+                    RecipeRealmObject recipe = recipeDataManager.fetchRecipeUsingFriendlyUrl(recipeFriendlyUrl);
+                    if (recipe == null) {
+                        recipe = recipeDataManager.fetchRecipe(recipeId);
+                    }
+                    if(recipe!=null){
+                        title = recipe.getTitle();
+                    }
+
+                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, title);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
