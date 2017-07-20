@@ -86,9 +86,10 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         }
 
         if (followersAdapter.getItemCount() <= 0) {
-            if (noData.getParent() == null) {
-                followersBinding.followerFollowigContainer.addView(noData, 0);
+            if (noData.getParent()!=null) {
+                ((ViewGroup)noData.getParent()).removeView(noData);
             }
+            followersBinding.followerFollowigContainer.addView(noData, 0);
         } else {
             followersBinding.followerFollowigContainer.removeView(noData);
         }

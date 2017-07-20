@@ -55,9 +55,10 @@ public class HistoryFragment extends Fragment {
         adapter.notifyDataSetChanged();
         noData = inflater.inflate(R.layout.layout_no_data_available, binding.recipeContainer, false);
         if (adapter.getItemCount() <= 0) {
-            if (noData.getParent() == null) {
-                binding.recipeContainer.addView(noData, 0);
+            if (noData.getParent()!=null) {
+                ((ViewGroup)noData.getParent()).removeView(noData);
             }
+            binding.recipeContainer.addView(noData, 0);
         } else {
             binding.recipeContainer.removeView(noData);
         }

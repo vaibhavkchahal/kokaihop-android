@@ -78,7 +78,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         recipeDataManager = new RecipeDataManager();
         if (friendlyUrl == null) {
             recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
-            this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
+            if (recipeRealmObject != null)
+                this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
         } else {
             recipeRealmObject = recipeDataManager.fetchRecipeUsingFriendlyUrl(friendlyUrl);
         }
@@ -107,7 +108,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     if (recipe == null) {
                         recipe = recipeDataManager.fetchRecipe(recipeId);
                     }
-                    if(recipe!=null){
+                    if (recipe != null) {
                         title = recipe.getTitle();
                     }
 

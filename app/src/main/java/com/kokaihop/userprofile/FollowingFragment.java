@@ -77,9 +77,10 @@ public class FollowingFragment extends Fragment implements UserDataListener {
             noData = inflater.inflate(R.layout.layout_no_data_available, binding.followerFollowigContainer, false);
         }
         if (followingAdapter.getItemCount() <= 0) {
-            if (noData.getParent() == null) {
-                binding.followerFollowigContainer.addView(noData, 0);
+            if (noData.getParent()!=null) {
+                ((ViewGroup)noData.getParent()).removeView(noData);
             }
+            binding.followerFollowigContainer.addView(noData, 0);
         } else {
             binding.followerFollowigContainer.removeView(noData);
         }
