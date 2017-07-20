@@ -16,7 +16,7 @@
     <string name="or_login_text">Or Log In using Email</string>
     <string name="signup_now_text">Not yet a Kokaihop chef? Sign Up now</string>
     <string name="invalid_email">Valid Email Required</string>
-    <string name="password_validation_msg">Password must have atleast seven characters</string>
+    <string name="password_validation_msg">Password must have atleast seven characters!!!</string>
     <string name="sucess_login">Login Success!</string>
     <string name="failed_login">Login Failed!</string>
     <string name="failed">Failed!</string>
@@ -344,5 +344,8 @@
         from your cookbooks.
     </string>
     <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
+    <string name="passsword_warning_space_start_end">Password must not have spaces in the start or
+        end!!!
+    </string>
 
 </resources>
