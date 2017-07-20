@@ -13,6 +13,7 @@ import com.kokaihop.editprofile.model.ProfileImageUpdateRequest;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -60,7 +61,7 @@ public class UserProfileViewModel extends BaseViewModel {
         setProgressVisible(true);
         String bearer = Constants.AUTHORIZATION_BEARER;
         String token = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-        userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
+        userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
         String accessToken = bearer + token;
         Logger.e(bearer, token);
         new ProfileApiHelper().getUserData(accessToken, countryCode, new IApiRequestComplete() {
@@ -115,7 +116,7 @@ public class UserProfileViewModel extends BaseViewModel {
                     user.getProfileImage().setUploaded(new Date().getTime());
                     updateProfilePic();
                 } else {
-                    Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
                 }
                 setProgressVisible(false);
             }
@@ -141,7 +142,7 @@ public class UserProfileViewModel extends BaseViewModel {
                 new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
                     @Override
                     public void onSuccess(UserRealmObject response) {
-                        Toast.makeText(context, R.string.profile_pic_uploaded, Toast.LENGTH_SHORT).show();
+                        AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.profile_pic_upload_success));
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         profileDataManager.insertOrUpdateUserData(response);
                         profileDataManager.fetchUserData(userId, user);

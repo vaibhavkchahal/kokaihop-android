@@ -50,17 +50,20 @@ public class CookbookDetailViewModel extends BaseViewModel {
     private CookbooksDataManager dataManager;
     private User user;
     private String accessToken, cookbookId, cookbookFriendlyUrl, cookbookTitle;
+    private ArrayList<Recipe> recipeList;
 
     public CookbookDetailViewModel(Fragment fragment, Context context, User user) {
         this.fragment = fragment;
         this.context = context;
         this.user = user;
+        this.recipeList = new ArrayList<>();
         isDownloading = true;
         dataManager = new CookbooksDataManager();
         max = 20;
         accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
     }
 
+    //    get recipes of the cookbook of user from the server
     public void getRecipesOfCookbook(final String cookbookFriendlyUrl, final String userFriendlyUrl, int offset) {
         cookbookId = dataManager.getIdOfCookbook(cookbookFriendlyUrl);
         setProgressVisible(true);
@@ -112,6 +115,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    confirm before deleting the cookbook of the user.
     public void deleteCookbook() {
         String msg = context.getString(R.string.this_will_permanently_delete);
         if (totalRecipes > 0) {
@@ -136,6 +140,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    delete cookbook of the user
     private void deleteCookbookOfUser() {
         setProgressVisible(true);
         new CookbooksApiHelper().deleteCookbook(accessToken, cookbookId, new IApiRequestComplete() {
@@ -165,12 +170,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     //    get the recipes list from the database.
     public void fetchRecipesOfCookbooksFromDB(String userFriendlyUrl, String cookbookFriendlyUrl) {
-        ArrayList<Recipe> recipeList = dataManager.getRecipesOfCookbook(userFriendlyUrl, cookbookFriendlyUrl);
-        user.getRecipesList().clear();
-        user.getRecipesList().addAll(recipeList);
+        ArrayList<Recipe> recipes = dataManager.getRecipesOfCookbook(userFriendlyUrl, cookbookFriendlyUrl);
+        recipeList.clear();
+        recipeList.addAll(recipes);
         ((CookbookDetailFragment) fragment).showCookbookDetails();
     }
 
+    //    prompt user for the new cookbook name
     public void renameCookbook() {
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
@@ -181,9 +187,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
         dialog.findViewById(R.id.positive).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 String name = ((EditText) dialog.findViewById(R.id.dialog_text)).getText().toString();
-                renameCookbookApiCall(name);
+                if (AppUtility.isEmptyString(name)) {
+                    Toast.makeText(context, context.getString(R.string.empty_cookbook_msg), Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    renameCookbookApiCall(name.trim());
+                }
             }
         });
         dialog.findViewById(R.id.negative).setOnClickListener(new View.OnClickListener() {
@@ -196,13 +206,14 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    rename cookbook of the user
     public void renameCookbookApiCall(final String name) {
         RenameCookbookRequest request = new RenameCookbookRequest(name, cookbookId);
         new CookbooksApiHelper().renameCookbook(accessToken, cookbookId, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_renamed));
-                setCookbookTitle(name);
+                setCookbookTitle(name.trim());
             }
 
             @Override
@@ -218,6 +229,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     }
 
+    //    confirm before rmoving the recipe from the cookbook
     public void removeRecipeFromCookbook(final String recipeId, final int position) {
         final ConfirmationDialog dialog = new ConfirmationDialog(context,
                 context.getString(R.string.cookbook),
@@ -285,5 +297,13 @@ public class CookbookDetailViewModel extends BaseViewModel {
     public void setCookbookTitle(String cookbookTitle) {
         this.cookbookTitle = cookbookTitle;
         notifyPropertyChanged(BR.cookbookTitle);
+    }
+
+    public ArrayList<Recipe> getRecipeList() {
+        return recipeList;
+    }
+
+    public void setRecipeList(ArrayList<Recipe> recipeList) {
+        this.recipeList = recipeList;
     }
 }

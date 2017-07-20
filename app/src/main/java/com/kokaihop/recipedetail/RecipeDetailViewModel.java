@@ -78,7 +78,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         recipeDataManager = new RecipeDataManager();
         if (friendlyUrl == null) {
             recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
-            this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
+            if (recipeRealmObject != null)
+                this.friendlyUrl = recipeRealmObject.getFriendlyUrl();
         } else {
             recipeRealmObject = recipeDataManager.fetchRecipeUsingFriendlyUrl(friendlyUrl);
         }
@@ -102,10 +103,17 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     copyJsonObject = new JSONObject(recipeJSONObject.toString());
                     recipeJSONObject.put("friendlyUrl", recipeFriendlyUrl);
                     recipeDataManager.insertOrUpdateRecipeDetails(recipeJSONObject);
-                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, recipeDataManager.fetchRecipe(recipeId).getTitle());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                    String title = "";
+                    RecipeRealmObject recipe = recipeDataManager.fetchRecipeUsingFriendlyUrl(recipeFriendlyUrl);
+                    if (recipe == null) {
+                        recipe = recipeDataManager.fetchRecipe(recipeId);
+                    }
+                    if (recipe != null) {
+                        title = recipe.getTitle();
+                    }
+
+                    fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, title);
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -138,9 +146,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     dataSetListener.onPagerDataUpdate();
                     dataSetListener.onCounterUpdate();
                     Logger.i("badgeType", recipeRealmObject.getBadgeType());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -166,7 +172,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         }
         float rating = 0;
         if (recipeRealmObject.getRating() != null) {
-            rating = recipeRealmObject.getRating().getAverage();
+            recipeRealmObject.getRating().getAverage();
         }
         RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
@@ -225,10 +231,13 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     mainImageUrl = realmObject.getMainImage().getPublicId();
                 }
                 String profileImageUrl = "0";
-                if (realmObject.getCreatedBy().getProfileImageId() != null) {
+                String createdByName = "";
+                if (realmObject.getCreatedBy() != null) {
                     profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
+                    createdByName = realmObject.getCreatedBy().getName();
+
                 }
-                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, realmObject.getCreatedBy().getName());
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, createdByName);
                 recipeDetailItemsList.add(similarRecipe);
             }
         }
@@ -388,7 +397,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             @Override
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
-                                Toast.makeText(context, "Recipe image uploaded successfully!!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
                                 ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                             }
 
@@ -401,11 +410,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             @Override
                             public void onError(Object response) {
                                 Logger.e("image upload", "failure " + response.toString());
-                                Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
                             }
                         });
                     } else {
-                        Toast.makeText(context, "Recipe image upload failed!!!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (JSONException e) {

@@ -27,10 +27,7 @@
                 android:layout_height="match_parent">
                 <ImageView
                     android:id="@+id/iv_cookbook_back_"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingRight="@dimen/settings_iv_back_margin_right"
-                    android:paddingLeft="@dimen/settings_iv_back_margin_right"
+                    style="@style/backButton"
                     android:onClick="@{()->viewModel.destroy()}"
                     android:src="@drawable/ic_back_arrow_white_md"
                     app:layout_constraintBottom_toBottomOf="parent"

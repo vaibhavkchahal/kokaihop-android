@@ -22,6 +22,8 @@ public class RecipeFragment extends Fragment {
     private RecipeHistoryAdapter adapter;
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private View noData;
+    LayoutInflater inflater;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -38,6 +40,7 @@ public class RecipeFragment extends Fragment {
         // Inflate the layout for this fragment
         Bundle bundle = this.getArguments();
         String userId = bundle.getString(Constants.USER_ID);
+        this.inflater = inflater;
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
         viewModel = new RecipeViewModel(this, getContext(), userId);
         adapter = new RecipeHistoryAdapter(this, User.getInstance().getRecipesList());
@@ -60,8 +63,19 @@ public class RecipeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    //    notify the adapter about the chage in data.
+    //    notify the adapter about the change in data.
     public void showUserProfile() {
         adapter.notifyDataSetChanged();
+        if (noData == null) {
+            noData = inflater.inflate(R.layout.layout_no_data_available, binding.recipeContainer, false);
+        }
+        if (adapter.getItemCount() <= 0) {
+            if (noData.getParent()!=null) {
+                ((ViewGroup)noData.getParent()).removeView(noData);
+            }
+            binding.recipeContainer.addView(noData, 0);
+        } else {
+            binding.recipeContainer.removeView(noData);
+        }
     }
 }

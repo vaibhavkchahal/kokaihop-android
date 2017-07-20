@@ -24,6 +24,7 @@ import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -63,10 +64,10 @@ public class EditProfileViewModel extends BaseViewModel {
         user = User.getInstance();
         setEmail(User.getInstance().getEmail());
         setCityName(user.getCityName());
-        Logger.d("City name",user.getCityName()+" City");
         setProfileImageUrl(User.getInstance().getProfileImageUrl());
         city = new CityLocation();
         city.setLiving(new CityLiving());
+        city.getLiving().setName(user.getCityName());
         settingsApiHelper = new SettingsApiHelper();
     }
 
@@ -100,11 +101,6 @@ public class EditProfileViewModel extends BaseViewModel {
         notifyPropertyChanged(BR.profileImageUrl);
     }
 
-    //    method to save the user settings
-    public void updateProfile() {
-        ((Activity) context).finish();
-    }
-
     //  method to select/change city from the list of cities
     public void selectCity() {
         ((Activity) context).startActivityForResult(new Intent(context, CityActivity.class), REQUEST_CITY);
@@ -119,18 +115,21 @@ public class EditProfileViewModel extends BaseViewModel {
 
 
     public void uploadImageOnCloudinary(String imagePath) {
-        HashMap<String, String> paramMap =  CloudinaryUtils.getCloudinaryParams(imagePath);
+        HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
             @Override
             public void onComplete(Map<String, String> uploadResult) throws ParseException {
-
-                Logger.d("uploadResult", uploadResult.toString());
-                User user = User.getInstance();
-                user.setProfileImage(new CloudinaryImage());
-                user.getProfileImage().setCloudinaryId(uploadResult.get("public_id"));
-                user.getProfileImage().setUploaded(new Date().getTime());
-                updateProfilePic();
+                if (uploadResult != null) {
+                    Logger.d("uploadResult", uploadResult.toString());
+                    User user = User.getInstance();
+                    user.setProfileImage(new CloudinaryImage());
+                    user.getProfileImage().setCloudinaryId(uploadResult.get("public_id"));
+                    user.getProfileImage().setUploaded(new Date().getTime());
+                    updateProfilePic();
+                } else {
+                    Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
+                }
                 setProgressVisible(false);
             }
         });
@@ -149,16 +148,14 @@ public class EditProfileViewModel extends BaseViewModel {
                 new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
-                        Toast.makeText(context, R.string.profile_pic_upload_success, Toast.LENGTH_SHORT).show();
+                        AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.profile_pic_upload_success));
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         ResponseBody responseBody = (ResponseBody) response;
-                        JSONObject userJson = null;
+                        JSONObject userJson;
                         try {
                             userJson = new JSONObject(responseBody.string());
                             profileDataManager.insertOrUpdateUserDataUsingJSON(userJson);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
+                        } catch (JSONException | IOException e) {
                             e.printStackTrace();
                         }
                         profileDataManager.fetchUserData(userId, user);
@@ -181,13 +178,13 @@ public class EditProfileViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, R.string.profile_pic_upload_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(SettingsResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, R.string.profile_pic_upload_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -202,28 +199,30 @@ public class EditProfileViewModel extends BaseViewModel {
             public void onSuccess(SettingsResponse response) {
                 setProgressVisible(false);
                 user.setCityName(city.getLiving().getName());
-                Toast.makeText(context, R.string.city_updated, Toast.LENGTH_SHORT).show();
-                ((Activity)context).finish();
+                Toast.makeText(context,context.getString(R.string.city_updated),Toast.LENGTH_SHORT).show();
+                ((Activity) context).finish();
             }
 
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                ((Activity) context).finish();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(SettingsResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, R.string.city_updation_failed, Toast.LENGTH_SHORT).show();
+                ((Activity) context).finish();
+                Toast.makeText(context, context.getString(R.string.city_updation_failed), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     public void setupApiCall() {
-        accessToken = Constants.AUTHORIZATION_BEARER  + SharedPrefUtils.getSharedPrefStringData(context,Constants.ACCESS_TOKEN);
-        userId = SharedPrefUtils.getSharedPrefStringData(context,Constants.USER_ID);
+        accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+        userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
     }
 
     @Override
@@ -240,12 +239,11 @@ public class EditProfileViewModel extends BaseViewModel {
     }
 
     public void setProfileImage() {
-        int width = context.getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
-        int height = width;
+        int size = context.getResources().getDimensionPixelSize(R.dimen.user_profile_pic_size);
         ImageView ivProfile = editProfileBinding.ivUserProfilePic;
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ivProfile.getLayoutParams();
-        layoutParams.height = height;
-        layoutParams.width = width;
+        layoutParams.height = size;
+        layoutParams.width = size;
         ivProfile.setLayoutParams(layoutParams);
         LinearLayout.LayoutParams ivProfileLayoutParams = (LinearLayout.LayoutParams) ivProfile.getLayoutParams();
         CloudinaryImage profileImage = User.getInstance().getProfileImage();

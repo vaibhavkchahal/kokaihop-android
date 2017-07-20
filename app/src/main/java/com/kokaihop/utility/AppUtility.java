@@ -66,7 +66,7 @@ public class AppUtility {
                 Intent intent = new Intent(context, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constants.EXTRA_FROM, "loginRequired");
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent, 1);
             }
         });
         dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -172,6 +172,12 @@ public class AppUtility {
 
             }
         }
+    }
+
+    public static boolean isEmptyString(String string) {
+        if (string == null || string.trim().length() == 0)
+            return true;
+        return false;
     }
 
 }

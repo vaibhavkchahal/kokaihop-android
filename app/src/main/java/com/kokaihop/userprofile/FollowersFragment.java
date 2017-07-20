@@ -29,6 +29,8 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private String userId;
+    private View noData;
+    private LayoutInflater inflater;
 
     public FollowersFragment() {
         // Required empty public constructor
@@ -45,10 +47,11 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         // Inflate the layout for this fragment
         Bundle bundle = this.getArguments();
         userId = bundle.getString(Constants.USER_ID);
+        this.inflater = inflater;
         followersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
         followers = new ArrayList<>();
         FollowersFollowingList.getFollowersList().getUsers().clear();
-        followersViewModel = new FollowersFollowingViewModel(this, getContext(),userId);
+        followersViewModel = new FollowersFollowingViewModel(this, getContext(), userId);
         followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
         layoutManager = new CustomLinearLayoutManager(this.getContext());
 
@@ -77,6 +80,19 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         followersAdapter.notifyDataSetChanged();
+
+        if (noData == null) {
+            noData = inflater.inflate(R.layout.layout_no_data_available, followersBinding.followerFollowigContainer, false);
+        }
+
+        if (followersAdapter.getItemCount() <= 0) {
+            if (noData.getParent()!=null) {
+                ((ViewGroup)noData.getParent()).removeView(noData);
+            }
+            followersBinding.followerFollowigContainer.addView(noData, 0);
+        } else {
+            followersBinding.followerFollowigContainer.removeView(noData);
+        }
         ArrayList<String> usersFollowing = User.getInstance().getFollowing();
 
         followers = FollowersFollowingList.getFollowersList().getUsers();
@@ -89,7 +105,7 @@ public class FollowersFragment extends Fragment implements UserDataListener {
 
     @Override
     public void followToggeled() {
-        if(getParentFragment() instanceof UserProfileFragment){
+        if (getParentFragment() instanceof UserProfileFragment) {
             ((UserProfileFragment) getParentFragment()).setNotificationCount();
         }
     }

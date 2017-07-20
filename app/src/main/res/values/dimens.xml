@@ -215,7 +215,6 @@
     <dimen name="profile_o_follow_button_width">150dp</dimen>
     <dimen name="profile_o_follow_button_height">35dp</dimen>
     <dimen name="profile_o_follow_text_size">13sp</dimen>
-    <dimen name="padding_5dp">5dp</dimen>
     <!--Followers/Following row dimens-->
     <dimen name="follow_row_image_size">40dp</dimen>
     <!--signup dialog dimens-->
@@ -357,7 +356,7 @@
     <dimen name="cookbook_loginn_msg_margin">10dp</dimen>
     <dimen name="cookbook_login_button_margin_top">50dp</dimen>
     <dimen name="cookbook_login_btn_margin_horizontal">20dp</dimen>
-    <dimen name="cookbook_login_msg1_text_size">22dp</dimen>
+    <dimen name="cookbook_login_msg1_text_size">22sp</dimen>
     <dimen name="cookbook_login_icon_margin_top">80dp</dimen>
     <dimen name="cookbook_login_icon_height">70dp</dimen>
     <dimen name="cookbook_login_icon_width">81dp</dimen>
@@ -414,7 +413,7 @@
     <dimen name="delete_cookbookrow_swipe">-100dp</dimen>
     <dimen name="recipe_history_row_image_size">80dp</dimen>
     <dimen name="row_recipe_menu_item_padding">20dp</dimen>
-
+    <dimen name="row_recipe_delete_tv_width">100dp</dimen>
 
     <!-- shopping list dimens -->
     <dimen name="shopping_toolbar_pading_left_right">20dp</dimen>
@@ -427,4 +426,11 @@
     <dimen name="vertical_divider_width">2dp</dimen>
     <dimen name="shopping_item_name_quantity_width">231dp</dimen>
     <dimen name="shopping_list_item_height">62dp</dimen>
+    <dimen name="no_data_text_margin_top">40dp</dimen>
+    <!--back button-->
+    <dimen name="back_button_padding">50dp</dimen>
+    <dimen name="back_search_recipe_padding_right">25dp</dimen>
+    <dimen name="search_recipe_view_container_margin">10dp</dimen>
+    <dimen name="search_recipe_view_padding_left">5dp</dimen>
+    <dimen name="change_password_et_height">50dp</dimen>
 </resources>

@@ -107,6 +107,7 @@ public class ProfileDataManager {
         JSONObjectUtility jsonUtility = new JSONObjectUtility();
         jsonObject = jsonUtility.convertStringArrayToRealmStringArray(jsonObject, "followers");
         jsonObject = jsonUtility.convertStringArrayToRealmStringArray(jsonObject, "following");
+        jsonObject = setUserCity(jsonObject);
 //        jsonObject.remove("followers");
 //        jsonObject.remove("following");
         realm.beginTransaction();
@@ -395,5 +396,16 @@ public class ProfileDataManager {
             friendlyUrl = userRealmObject.getFriendlyUrl();
         }
         return friendlyUrl;
+    }
+
+    public JSONObject setUserCity(JSONObject user) {
+        try {
+            user.put("cityName", user.getJSONObject("location").getJSONObject("living").get("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

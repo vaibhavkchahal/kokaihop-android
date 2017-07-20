@@ -23,6 +23,8 @@ public class HistoryFragment extends Fragment {
     private ArrayList<Recipe> recipes;
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private View noData;
+    private LayoutInflater inflater;
 
 
     public HistoryFragment() {
@@ -38,6 +40,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
+        this.inflater = inflater;
         recipes = new ArrayList<>();
         adapter = new RecipeHistoryAdapter(this, recipes);
         adapter.displayHistoryChanges();
@@ -46,5 +49,18 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return binding.getRoot();
+    }
+
+    public void updateHistory() {
+        adapter.notifyDataSetChanged();
+        noData = inflater.inflate(R.layout.layout_no_data_available, binding.recipeContainer, false);
+        if (adapter.getItemCount() <= 0) {
+            if (noData.getParent()!=null) {
+                ((ViewGroup)noData.getParent()).removeView(noData);
+            }
+            binding.recipeContainer.addView(noData, 0);
+        } else {
+            binding.recipeContainer.removeView(noData);
+        }
     }
 }

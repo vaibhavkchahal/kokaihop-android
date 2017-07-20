@@ -1,14 +1,13 @@
 package com.kokaihop.city;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.network.RetrofitClient;
-import com.kokaihop.utility.Logger;
+import com.kokaihop.network.IApiRequestComplete;
 
 import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Rajendra Singh on 9/5/17.
@@ -17,10 +16,12 @@ import retrofit2.Response;
 public class CityViewModel extends BaseViewModel {
     private ArrayList<CityDetails> cityList = new ArrayList<>();
     private CityInterface cityInterface;
+    Context context;
 
     public CityViewModel(CityInterface cityInterface) {
         getCities();
         this.cityInterface = cityInterface;
+        this.context = (Context) cityInterface;
     }
 
     public ArrayList<CityDetails> getCityList() {
@@ -39,25 +40,25 @@ public class CityViewModel extends BaseViewModel {
 
     public void getCities() {
         setProgressVisible(true);
-        CitiesApi citiesApi = RetrofitClient.getInstance().create(CitiesApi.class);
-        Call<CitiesApiResponse> getCitiesResponseCall = citiesApi.getCities();
-        getCitiesResponseCall.enqueue(new Callback<CitiesApiResponse>() {
+        new CityApiHelper().getCities(new IApiRequestComplete<CitiesApiResponse>() {
             @Override
-            public void onResponse(Call<CitiesApiResponse> call, Response<CitiesApiResponse> response) {
+            public void onSuccess(CitiesApiResponse response) {
                 setProgressVisible(false);
                 if (response != null) {
-                    if (response.code() == 200) {
-                        Logger.e("Response", response.body().getCityDetailsList().get(0).getName());
-                        setCities(response.body().getCityDetailsList());
-                    }
-                } else {
-                    Logger.e("Response ", "Error");
+                    setCities(response.getCityDetailsList());
                 }
             }
 
             @Override
-            public void onFailure(Call<CitiesApiResponse> call, Throwable t) {
+            public void onFailure(String message) {
                 setProgressVisible(false);
+                Toast.makeText(context,context.getString(R.string.check_intenet_connection),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(CitiesApiResponse response) {
+                setProgressVisible(false);
+                Toast.makeText(context,context.getString(R.string.something_went_wrong),Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -264,7 +264,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void toggleLeftRightVisibility(int position) {
         if (position == 0) {
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
-            binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
+            if (recipeDetailViewModel.getPagerImages().size() > 1) {
+                binding.viewpagerSwipeRight.setVisibility(View.VISIBLE);
+            }
 
         } else if (position == recipeDetailViewModel.getPagerImages().size() - 1) {
             binding.viewpagerSwipeLeft.setVisibility(View.VISIBLE);
