@@ -123,8 +123,13 @@ public class LoginViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
                         setProgressVisible(false);
-                        Toast.makeText(view.getContext(), R.string.sucess_login, Toast.LENGTH_SHORT).show();
-                        SharedPrefUtils.setSharedPrefStringData(view.getContext(), Constants.ACCESS_TOKEN, response.getToken());
+                        Context context = view.getContext();
+                        Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                        SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                        if(response.getUserAuthenticationDetail()!=null){
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID,response.getUserAuthenticationDetail().getId());
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL,response.getUserAuthenticationDetail().getFriendlyUrl());
+                        }
 //                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
                         String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
                         if (from != null && from.equals("loginRequired")) {

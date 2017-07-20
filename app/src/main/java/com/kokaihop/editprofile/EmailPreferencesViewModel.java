@@ -7,7 +7,6 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
-import com.altaworks.kokaihop.ui.databinding.ActivityEmailPreferencesBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.model.User;
@@ -20,17 +19,17 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 public class EmailPreferencesViewModel extends BaseViewModel {
     private Context context;
-    private ActivityEmailPreferencesBinding preferencesBinding;
     private EmailPreferences emailPreferences;
     User user = User.getInstance();
 
-    public EmailPreferencesViewModel(Context context, ActivityEmailPreferencesBinding preferencesBinding) {
+    public EmailPreferencesViewModel(Context context) {
         this.context = context;
-        this.preferencesBinding = preferencesBinding;
         emailPreferences = new EmailPreferences();
-        emailPreferences.setTodayRecipe(user.getSettings().isSuggestionsOfTheDay());
-        emailPreferences.setDrinkingTips(user.getSettings().isNewsletters());
-        emailPreferences.setNoEmail(user.getSettings().isNoEmails());
+        if (user.getSettings() != null) {
+            emailPreferences.setTodayRecipe(user.getSettings().isSuggestionsOfTheDay());
+            emailPreferences.setDrinkingTips(user.getSettings().isNewsletters());
+            emailPreferences.setNoEmail(user.getSettings().isNoEmails());
+        }
     }
 
     @Override

@@ -174,7 +174,7 @@ public class SignUpViewModel extends BaseViewModel {
     }
 
     public void openLogin(View view) {
-        ((Activity) view.getContext()).startActivity(new Intent(view.getContext(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        view.getContext().startActivity(new Intent(view.getContext(), LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
     }
 
 
@@ -195,6 +195,10 @@ public class SignUpViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                        if(response.getUserAuthenticationDetail()!=null){
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                        }
                         setProgressVisible(false);
                         Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
 //                        boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
