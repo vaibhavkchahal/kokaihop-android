@@ -24,6 +24,7 @@ import com.kokaihop.userprofile.ProfileApiHelper;
 import com.kokaihop.userprofile.ProfileDataManager;
 import com.kokaihop.userprofile.model.CloudinaryImage;
 import com.kokaihop.userprofile.model.User;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
@@ -127,9 +128,9 @@ public class EditProfileViewModel extends BaseViewModel {
                     user.getProfileImage().setUploaded(new Date().getTime());
                     updateProfilePic();
                 } else {
-                    setProgressVisible(false);
                     Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
                 }
+                setProgressVisible(false);
             }
         });
         uploadImageAsync.execute();
@@ -147,7 +148,7 @@ public class EditProfileViewModel extends BaseViewModel {
                 new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
-                        Toast.makeText(context, R.string.profile_pic_upload_success, Toast.LENGTH_SHORT).show();
+                        AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.profile_pic_upload_success));
                         ProfileDataManager profileDataManager = new ProfileDataManager();
                         ResponseBody responseBody = (ResponseBody) response;
                         JSONObject userJson;
@@ -198,20 +199,22 @@ public class EditProfileViewModel extends BaseViewModel {
             public void onSuccess(SettingsResponse response) {
                 setProgressVisible(false);
                 user.setCityName(city.getLiving().getName());
-                Toast.makeText(context, R.string.city_updated, Toast.LENGTH_SHORT).show();
+                AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.city_updated));
                 ((Activity) context).finish();
             }
 
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                ((Activity) context).finish();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(SettingsResponse response) {
                 setProgressVisible(false);
-                Toast.makeText(context, R.string.city_updation_failed, Toast.LENGTH_SHORT).show();
+                ((Activity) context).finish();
+                Toast.makeText(context, context.getString(R.string.city_updation_failed), Toast.LENGTH_SHORT).show();
             }
         });
 
