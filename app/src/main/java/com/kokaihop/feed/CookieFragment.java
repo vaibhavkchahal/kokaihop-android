@@ -3,6 +3,7 @@ package com.kokaihop.feed;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,15 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentCookieBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import static android.databinding.DataBindingUtil.inflate;
 
@@ -25,6 +30,8 @@ public class CookieFragment extends Fragment {
 
     private FragmentCookieBinding cookieBinding;
     private RecipeFeedViewModel cookieViewModel;
+    private FeedRecyclerListingOperation feedRecyclerListingOperation;
+    private RecyclerView rvCookie;
 
     public CookieFragment() {
         // Required empty public constructor
@@ -54,8 +61,8 @@ public class CookieFragment extends Fragment {
     }
 
     private void initializeRecycleView() {
-        RecyclerView rvCookie = cookieBinding.rvCookie;
-        FeedRecyclerListingOperation feedRecyclerListingOperation = new FeedRecyclerListingOperation(cookieViewModel, rvCookie, ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
+        rvCookie = cookieBinding.rvCookie;
+        feedRecyclerListingOperation = new FeedRecyclerListingOperation(cookieViewModel, rvCookie, ApiConstants.BadgeType.COOKIE_OF_THE_DAY);
         int spacingInPixels = rvCookie.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvCookie.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
         feedRecyclerListingOperation.prepareFeedRecyclerView();
