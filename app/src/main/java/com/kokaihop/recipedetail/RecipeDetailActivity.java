@@ -88,6 +88,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String recipeID, userFriendlyUrl;
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
+    private String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_recipe_detail);
         recipeID = getIntent().getStringExtra("recipeId");
         friendlyUrl = getIntent().getStringExtra("friendlyUrl");
+        from = getIntent().getStringExtra("from");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
     }
@@ -543,5 +545,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             setupRecipeDetailScreen();
         }
         EventBus.getDefault().removeAllStickyEvents();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (from != null && from.equalsIgnoreCase("Notification")) {
+            AppUtility.showHomeScreen(RecipeDetailActivity.this);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

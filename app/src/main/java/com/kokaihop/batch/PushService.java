@@ -80,6 +80,7 @@ public class PushService extends IntentService {
             } else {
                 // Create intent
                 Intent launchIntent = bindLaunchIntent(type);
+                bundle.putString("from","Notification");
                 launchIntent.putExtras(bundle);
                 Batch.Push.appendBatchData(intent, launchIntent); // Call this method to add tracking data to your intent to track opens
 
