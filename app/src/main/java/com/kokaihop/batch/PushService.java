@@ -5,6 +5,8 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.NotificationCompat;
@@ -41,6 +43,7 @@ public class PushService extends IntentService {
     }
 
     private void showNotification(Intent intent) {
+        final Bitmap bitmapLargeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         // Build your own notification here...
@@ -49,6 +52,7 @@ public class PushService extends IntentService {
         builder.setSmallIcon(R.drawable.notification_icon)
                 .setAutoCancel(true)
                 .setContentTitle(getString(R.string.app_name))
+                .setLargeIcon(bitmapLargeIcon)
                 .setContentText(intent.getStringExtra("message"));
 
         if (intent.hasExtra("customPayload")) {
@@ -80,7 +84,7 @@ public class PushService extends IntentService {
             } else {
                 // Create intent
                 Intent launchIntent = bindLaunchIntent(type);
-                bundle.putString("from","Notification");
+                bundle.putString("from", "Notification");
                 launchIntent.putExtras(bundle);
                 Batch.Push.appendBatchData(intent, launchIntent); // Call this method to add tracking data to your intent to track opens
 
