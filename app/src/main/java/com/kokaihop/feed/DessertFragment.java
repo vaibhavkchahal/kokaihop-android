@@ -80,6 +80,7 @@ public class DessertFragment extends Fragment {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -87,14 +88,13 @@ public class DessertFragment extends Fragment {
 
     @Subscribe(sticky = true)
     public void onEvent(RecipeRealmObject recipe) {
-
         if (getUserVisibleHint()) {
             Logger.e("Event bus Appetizer", "Event bus Appetizer");
-
             GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
             List<Object> recipeListWithAds = desertViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvDesert, recipeListWithAds);
+            EventBus.getDefault().removeStickyEvent(recipe);
         }
 
     }

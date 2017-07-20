@@ -98,6 +98,7 @@ public class MainCourseFragment extends Fragment {
             List<Object> recipeListWithAds = mainCourseViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvMainCourse, recipeListWithAds);
+            EventBus.getDefault().removeStickyEvent(recipe);
         }
 
 

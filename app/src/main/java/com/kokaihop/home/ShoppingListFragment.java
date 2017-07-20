@@ -25,6 +25,7 @@ import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
+import com.kokaihop.utility.ShareContentShoppingIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +147,10 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                     }
                     adapter.setIndgredientEditor(false);
                 } else {
-                    // share
+                    // shar
+                    ShareContentShoppingIngredient shareContents = new ShareContentShoppingIngredient(getContext());
+                    shareContents.setShoppingIngredient(viewModel.getIngredientsList());
+                    shareContents.share();
                 }
             }
         });
