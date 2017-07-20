@@ -199,7 +199,7 @@ public class EditProfileViewModel extends BaseViewModel {
             public void onSuccess(SettingsResponse response) {
                 setProgressVisible(false);
                 user.setCityName(city.getLiving().getName());
-                AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.city_updated));
+                Toast.makeText(context,context.getString(R.string.city_updated),Toast.LENGTH_SHORT).show();
                 ((Activity) context).finish();
             }
 
