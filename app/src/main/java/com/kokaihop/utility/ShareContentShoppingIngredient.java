@@ -14,9 +14,6 @@ import com.kokaihop.database.IngredientsRealmObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rajendra Singh on 14/6/17.
- */
 
 public class ShareContentShoppingIngredient {
     private Context context;
