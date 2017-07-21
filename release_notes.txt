@@ -1,4 +1,5 @@
 1. Push Notification
+   - Batch SDK implementation.
    - Display notification in status bar if application is in background.
    - Display in app notification if application is in foreground.
 2. Shopping List
