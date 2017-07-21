@@ -146,7 +146,7 @@ public class ShoppingDataManager {
                 ShoppingListRealmObject realmObject = fetchShoppingRealmObject();
                 if (realmObject == null) {
                     ShoppingListRealmObject shoppingListRealmObject = new ShoppingListRealmObject();
-                    shoppingListRealmObject.setFriendlyUrl("min");
+                    shoppingListRealmObject.setFriendlyUrl(Constants.SHOPPING_LIST_DEFAULT_FRIENDLY_URL);
                     shoppingListRealmObject.setName(Constants.SHOPPING_LIST_NAME_VALUE);
                     realm.insertOrUpdate(shoppingListRealmObject);
                     realmObject = fetchShoppingRealmObject();
