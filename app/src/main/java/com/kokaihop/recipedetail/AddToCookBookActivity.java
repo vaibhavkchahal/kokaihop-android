@@ -36,5 +36,4 @@ public class AddToCookBookActivity extends BaseActivity {
         bundle.putString(Constants.COLLECTION_MAPPING, getIntent().getStringExtra(Constants.COLLECTION_MAPPING));
         bundle.putString(Constants.RECIPE_ID, getIntent().getStringExtra(Constants.RECIPE_ID));
     }
-
 }

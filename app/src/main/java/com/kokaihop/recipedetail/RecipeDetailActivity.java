@@ -90,6 +90,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
     private String from;
+    private  Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -339,6 +340,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_recipe_detail, menu);
         return super.onCreateOptionsMenu(menu);
@@ -546,6 +548,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 Logger.d("File Path", filePath);
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
+            } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
+                MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+                boolean isFavorite = data.getBooleanExtra("favorite", false);
+                menuItemLike.setChecked(isFavorite);
+                if (isFavorite) {
+                    menuItemLike.setIcon(R.drawable.ic_like_sm);
+                }
             }
         }
     }
