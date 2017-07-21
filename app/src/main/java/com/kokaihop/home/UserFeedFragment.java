@@ -20,7 +20,6 @@ import com.kokaihop.feed.MainCourseFragment;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
 import com.kokaihop.search.SearchActivity;
-import com.kokaihop.utility.Logger;
 
 public class UserFeedFragment extends Fragment {
     static UserFeedFragment fragment;
@@ -42,11 +41,13 @@ public class UserFeedFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.i("onCreate user feed fragment", "onCreate");
-        if (getArguments() != null) {
-        }
     }
 
     @Override

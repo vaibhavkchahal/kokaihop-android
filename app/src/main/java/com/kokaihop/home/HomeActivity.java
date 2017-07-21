@@ -19,6 +19,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityHomeBinding;
 import com.altaworks.kokaihop.ui.databinding.TabHomeTabLayoutBinding;
 import com.google.android.gms.ads.MobileAds;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.customviews.NotificationDialogActivity;
@@ -75,7 +76,7 @@ public class HomeActivity extends BaseActivity {
         super.onResume();
         IntentFilter intent = new IntentFilter(Constants.SHOW_DIALOG_ACTION);
         registerReceiver(notificationReciever, intent);
-
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.daily_screen));
 
     }
 

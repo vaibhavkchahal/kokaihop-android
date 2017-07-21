@@ -113,6 +113,7 @@ dependencies {
     compile 'com.batch.android:batch-sdk:1.9.+'
     compile 'com.google.android.gms:play-services-base:11.0.2'
     compile 'com.google.android.gms:play-services-gcm:11.0.2'
+    compile 'com.google.android.gms:play-services-analytics:11.0.2'
     testCompile 'junit:junit:4.12'
     debugCompile 'com.facebook.stetho:stetho:1.4.2'
     debugCompile 'com.uphyca:stetho_realm:2.0.1'
