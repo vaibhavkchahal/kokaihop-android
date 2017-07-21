@@ -48,6 +48,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();
@@ -170,7 +171,11 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     private void visibiltyCheckOnClearMarked() {
         if (viewModel != null && viewModel.getIngredientsList().size() > 0) {
             binding.txtviewClearMarked.setVisibility(View.VISIBLE);
+            binding.txtviewEdit.setEnabled(true);
+            binding.txtviewDone.setEnabled(true);
         } else {
+            binding.txtviewDone.setEnabled(false);
+            binding.txtviewEdit.setEnabled(false);
             binding.txtviewClearMarked.setVisibility(View.GONE);
         }
     }

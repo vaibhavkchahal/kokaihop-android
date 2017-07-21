@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/text_edit"
-                android:textColor="@color/white"
+                android:textColor="@drawable/textview_enablity_selector"
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/ic_share_md"
+                android:drawableLeft="@drawable/shopping_share_icon_selector"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_large"
                 app:font="@{`SS-ProRegular`}"/>
@@ -71,12 +71,12 @@
             <TextView
                 android:id="@+id/txtview_clear_marked"
                 android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:onClick="@{(v)->viewModel.onClickClearMarked(v)}"
-                      android:text="Clear marked"
-                      android:textColor="@color/kokaihop_orange_color"
-                      android:textSize="@dimen/text_size_small"
-                      app:font="@{`SS-ProRegular`}"/>
+                android:layout_height="wrap_content"
+                android:onClick="@{(v)->viewModel.onClickClearMarked(v)}"
+                android:text="Clear marked"
+                android:textColor="@color/kokaihop_orange_color"
+                android:textSize="@dimen/text_size_small"
+                app:font="@{`SS-ProRegular`}"/>
 
             <TextView
                 android:id="@+id/txtview_add_ingredient"
