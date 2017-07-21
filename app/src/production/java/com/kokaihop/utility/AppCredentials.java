@@ -24,4 +24,8 @@ public class AppCredentials {
     public static final String[] RECIPE_DETAILS_ADS_UNIT_IDS = {"ca-app-pub-9129816881800022/7903516394", "ca-app-pub-9129816881800022/9380249595"};
     public static final String SHOPPING_INGRIDIENT_ADS_UNIT_IDS = "ca-app-pub-9129816881800022/5089650797";
 
+
+    public static final String BATCH_API_KEY = "59709DAB0BB609E447376D7FF52DF3"; //development DEV59709DAB0BEACC35D12C8C569DD ,  Live: 59709DAB0BB609E447376D7FF52DF3 ;REST Key: d97a6d9d9243e91b1d0a918dc4ef0062
+    public static final String GCM_SENDER_ID = "536853569355"; //developement rajendra.singh@tothenew.com
+
 }

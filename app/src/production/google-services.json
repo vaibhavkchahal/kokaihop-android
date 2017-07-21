@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "536853569355",
+    "firebase_url": "https://api-project-536853569355.firebaseio.com",
+    "project_id": "api-project-536853569355",
+    "storage_bucket": "api-project-536853569355.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536853569355:android:e75875ebe2d8dc24",
+        "android_client_info": {
+          "package_name": "com.altaworks.kokaihop.ui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "536853569355-hhc6ui4qblsk2531dmmlgmuk4l262q9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.altaworks.kokaihop.ui",
+            "certificate_hash": "37e9fdb28d19774f7519da05912ef18f7b8ae03d"
+          }
+        },
+        {
+          "client_id": "536853569355-dnl24u0k665fupe5gg4ci04m777p8dk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKyY3EVBTTVEoQEEBU9eMrlL6QX_hkZio"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "536853569355-dnl24u0k665fupe5gg4ci04m777p8dk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
