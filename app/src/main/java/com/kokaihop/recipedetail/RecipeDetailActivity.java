@@ -478,7 +478,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_add_to_wishlist:
-                binding.getViewModel().openCookBookScreen();
+                accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                if (accessToken == null || accessToken.isEmpty()) {
+                    AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_add_to_cookbook_message));
+                } else {
+                    binding.getViewModel().openCookBookScreen();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
