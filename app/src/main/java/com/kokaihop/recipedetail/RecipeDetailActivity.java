@@ -1,6 +1,7 @@
 package com.kokaihop.recipedetail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -346,6 +347,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        final Context context = this;
         final RecipeHandler recipeHandler = new RecipeHandler();
         final RecipeRealmObject recipeRealmObject = binding.getViewModel().recipeRealmObject;
 //        final Recipe recipe = binding.getViewModel().getRecipe(realmObject);
@@ -355,7 +357,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.icon_like) {
-                    actionOnRecipeLike(item, recipeRealmObject, recipeHandler);
+                    String accessToken = getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+                    if (accessToken == null || accessToken.isEmpty()) {
+                        AppUtility.showLoginDialog(context, getString(R.string.members_area), getString(R.string.login_like_message));
+                    } else {
+                        actionOnRecipeLike(item, recipeRealmObject, recipeHandler);
+                    }
                 }
                 return false;
             }

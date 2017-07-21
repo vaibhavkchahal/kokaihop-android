@@ -168,13 +168,16 @@ public class CookbooksDataManager {
     }
 
     public void removeRecipeFromAllCookbooks(String userFriendlyUrl, RecipeRealmObject recipe) {
-        RealmList<CookbookRealmObject> cookbooks =  realm.where(UserRealmObject.class).equalTo("friendlyUrl",userFriendlyUrl).findFirst().getRecipeCollections();
-        realm.beginTransaction();
-        if(cookbooks!=null){
-            for(CookbookRealmObject cookbook : cookbooks){
-                cookbook.getRecipes().remove(recipe);
+        UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("friendlyUrl", userFriendlyUrl).findFirst();
+        if (userRealmObject != null){
+            RealmList<CookbookRealmObject> cookbooks = userRealmObject.getRecipeCollections();
+            realm.beginTransaction();
+            if (cookbooks != null) {
+                for (CookbookRealmObject cookbook : cookbooks) {
+                    cookbook.getRecipes().remove(recipe);
+                }
             }
+            realm.commitTransaction();
         }
-        realm.commitTransaction();
     }
 }
