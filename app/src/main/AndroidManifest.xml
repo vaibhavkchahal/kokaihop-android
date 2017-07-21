@@ -129,6 +129,7 @@
             android:label="@string/title_activity_search"
             android:parentActivityName="com.kokaihop.base.BaseActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/AppTheme">
         </activity>
         <activity
