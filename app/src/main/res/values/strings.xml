@@ -347,5 +347,7 @@
     <string name="passsword_warning_space_start_end">Password must not have spaces in the start or
         end!!!
     </string>
+    <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
+
 
 </resources>

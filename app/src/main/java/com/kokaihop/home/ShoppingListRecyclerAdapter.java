@@ -72,22 +72,27 @@ public class ShoppingListRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 View divider = holderShowIngredients.binder.viewVerticalDivider;
                 ImageView imgviewEdit = holderShowIngredients.binder.imageviewEdit;
                 TextView name = holderShowIngredients.binder.txtviewIngredentName;
-                if (divider.getVisibility() == View.VISIBLE) {
-                    view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white_FFF7F7F7));
-                    divider.setVisibility(View.GONE);
-                    imgviewEdit.setImageResource(R.drawable.ic_tick_sm);
-                    imgviewEdit.setTag(Constants.MARKED_INGREDIENT_TAG);
-                    viewModel.getShoppingDataManager().markIngredientObjectInDB(ingredientsRealmObject.get_id());
-                    viewModel.getMarkedIds().add(ingredientsRealmObject.get_id());
-                    name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                if (holderShowIngredients.binder.tvDelete.getVisibility() == View.VISIBLE) {
+                    holderShowIngredients.binder.tvDelete.setVisibility(View.GONE);
+                    holderShowIngredients.binder.ivDelete.setVisibility(View.VISIBLE);
                 } else {
-                    view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
-                    divider.setVisibility(View.VISIBLE);
-                    name.setPaintFlags(name.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                    imgviewEdit.setImageResource(R.drawable.ic_edit_md);
-                    imgviewEdit.setTag(Constants.EDIT_INGGREDIENT_TAG);
-                    viewModel.getMarkedIds().remove(ingredientsRealmObject.get_id());
-                    viewModel.getShoppingDataManager().UnMarkIngredientObjectInDB(ingredientsRealmObject.get_id());
+                    if (divider.getVisibility() == View.VISIBLE) {
+                        view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white_FFF7F7F7));
+                        divider.setVisibility(View.GONE);
+                        imgviewEdit.setImageResource(R.drawable.ic_tick_sm);
+                        imgviewEdit.setTag(Constants.MARKED_INGREDIENT_TAG);
+                        viewModel.getShoppingDataManager().markIngredientObjectInDB(ingredientsRealmObject.get_id());
+                        viewModel.getMarkedIds().add(ingredientsRealmObject.get_id());
+                        name.setPaintFlags(name.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    } else {
+                        view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.white));
+                        divider.setVisibility(View.VISIBLE);
+                        name.setPaintFlags(name.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                        imgviewEdit.setImageResource(R.drawable.ic_edit_md);
+                        imgviewEdit.setTag(Constants.EDIT_INGGREDIENT_TAG);
+                        viewModel.getMarkedIds().remove(ingredientsRealmObject.get_id());
+                        viewModel.getShoppingDataManager().UnMarkIngredientObjectInDB(ingredientsRealmObject.get_id());
+                    }
                 }
             }
         });

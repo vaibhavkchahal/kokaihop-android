@@ -147,7 +147,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                     }
                     adapter.setIndgredientEditor(false);
                 } else {
-                    // shar
+                    // share
                     ShareContentShoppingIngredient shareContents = new ShareContentShoppingIngredient(getContext());
                     shareContents.setShoppingIngredient(viewModel.getIngredientsList());
                     shareContents.share();
@@ -159,10 +159,19 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     @Override
     public void onUpdateIngredientsList() {
         RecyclerView recyclerView = binding.rvRecipeIngredients;
+        visibiltyCheckOnClearMarked();
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
             binding.swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    private void visibiltyCheckOnClearMarked() {
+        if (viewModel != null && viewModel.getIngredientsList().size() > 0) {
+            binding.txtviewClearMarked.setVisibility(View.VISIBLE);
+        } else {
+            binding.txtviewClearMarked.setVisibility(View.GONE);
         }
     }
 
@@ -213,4 +222,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         });
         dialog.show();
     }
+
+
 }
