@@ -115,7 +115,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     if (recipe != null) {
                         title = recipe.getTitle();
                     }
-
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, title);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();

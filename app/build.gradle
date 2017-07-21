@@ -35,12 +35,6 @@ android {
             keyAlias RELEASE_KEYSTORE_ALIAS
             keyPassword RELEASE_KEYSTORE_PASSWORD
         }
-        uat {
-            storeFile file(RELEASE_KEYSTORE_FILE)
-            storePassword RELEASE_KEYSTORE_PASSWORD
-            keyAlias RELEASE_KEYSTORE_ALIAS
-            keyPassword RELEASE_KEYSTORE_PASSWORD
-        }
         production {
             storeFile file(RELEASE_KEYSTORE_FILE)
             storePassword RELEASE_KEYSTORE_PASSWORD
@@ -64,19 +58,14 @@ android {
             versionNameSuffix "-qa"
             signingConfig signingConfigs.qa
         }
-        uat {
-            signingConfig signingConfigs.uat
-            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com/"'
-            applicationIdSuffix ".uat"
-            versionNameSuffix "-uat"
-        }
+
         production {
             buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
         }
 
         databaseBundle {
-            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
-//            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
+//            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
+            buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
             applicationIdSuffix ".databasebundle"
             signingConfig signingConfigs.production
         }

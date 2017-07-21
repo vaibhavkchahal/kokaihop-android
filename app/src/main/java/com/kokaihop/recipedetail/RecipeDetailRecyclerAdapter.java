@@ -132,8 +132,6 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             case TYPE_ITEM_ADVT:
                 final ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
                 final AdView adView = (AdView) recipeDetailItemsList.get(position);
-
-
                 if (viewHolderAdvt.binder.linearLayoutAds.getChildCount() > 0) {
                     viewHolderAdvt.binder.linearLayoutAds.removeAllViews();
                 }
@@ -142,7 +140,6 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 }
                 // Add the ads.
                 viewHolderAdvt.binder.linearLayoutAds.addView(adView);
-
                 adView.setAdListener(new AdListener() {
                     @Override
                     public void onAdLoaded() {

@@ -10,11 +10,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.DialogIntgredientUnitBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.database.Unit;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
@@ -40,6 +42,7 @@ public class AddIngredientViewModel extends BaseViewModel {
         this.context = context;
         this.unitDataListener = unitDataListener;
         shoppingDataManager = new ShoppingDataManager();
+        ShoppingListRealmObject shoppingListRealmObject = shoppingDataManager.fetchShoppingRealmObject();
         prepareArrayForPickerDialog(context);
     }
 
@@ -73,7 +76,7 @@ public class AddIngredientViewModel extends BaseViewModel {
         Activity activity = (Activity) context;
         // extras null means addding new ingredient.
         if (activity.getIntent().getExtras() == null) {
-            ValidationsOnAddingNewIngredient(ingredient, unit, value, ingredientName, amount, unitName, unitId, activity);
+            ValidationsOnAddingNewIngredient(ingredient, unit, value, amount, unitName, unitId, activity);
         } else {
             validationOnEditIngredient(ingredientName, amount, unitName, unitId, activity);
         }
@@ -82,7 +85,7 @@ public class AddIngredientViewModel extends BaseViewModel {
     private void validationOnEditIngredient(String ingredientName, String amount, String unitName, String unitId, Activity activity) {
         String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
         if (shoppingDataManager != null) {
-            if (ingredientName.length() > 0) {
+            if (ingredientName.trim().length() > 0) {
                 float amountInFloat = 0;
                 if (!amount.isEmpty()) {
                     amountInFloat = Float.valueOf(amount);
@@ -96,15 +99,18 @@ public class AddIngredientViewModel extends BaseViewModel {
         }
     }
 
-    private void ValidationsOnAddingNewIngredient(EditText ingredient, TextView unit, EditText value, String ingredientName, String amount, String unitName, String unitId, Activity activity) {
-        if (ingredient.getText().length() == 0 && unitName.equals(context.getString(R.string.text_select)) && value.getText().length() == 0) {
+    private void ValidationsOnAddingNewIngredient(EditText ingredient, TextView unit, EditText value, String amount, String unitName, String unitId, Activity activity) {
+        String nameOfIngredient = ingredient.getText().toString();
+        if (nameOfIngredient.length() == 0 && unitName.equals(context.getString(R.string.text_select)) && value.getText().length() == 0) {
             activity.setResult(Activity.RESULT_OK);
             activity.finish();
-        } else if (ingredient.getText().length() == 0) {
+        } else if (nameOfIngredient.length() == 0) {
             AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
+        } else if (nameOfIngredient.length() > 0 && nameOfIngredient.trim().length() == 0) {
+            Toast.makeText(context, R.string.text_invalid_ingredient, Toast.LENGTH_LONG).show();
         } else {
             IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
-            ingredientsRealmObject.setName(ingredientName);
+            ingredientsRealmObject.setName(nameOfIngredient);
             if (!amount.isEmpty()) {
                 ingredientsRealmObject.setAmount(Float.valueOf(amount));
             }
