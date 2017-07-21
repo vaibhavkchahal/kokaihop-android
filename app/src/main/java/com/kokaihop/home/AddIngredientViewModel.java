@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.DialogIntgredientUnitBinding;
@@ -98,11 +99,13 @@ public class AddIngredientViewModel extends BaseViewModel {
 
     private void ValidationsOnAddingNewIngredient(EditText ingredient, TextView unit, EditText value, String amount, String unitName, String unitId, Activity activity) {
         String nameOfIngredient = ingredient.getText().toString();
-        if (nameOfIngredient.trim().length() == 0 && unitName.equals(context.getString(R.string.text_select)) && value.getText().length() == 0) {
+        if (nameOfIngredient.length() == 0 && unitName.equals(context.getString(R.string.text_select)) && value.getText().length() == 0) {
             activity.setResult(Activity.RESULT_OK);
             activity.finish();
-        } else if (nameOfIngredient.trim().length() == 0) {
+        } else if (nameOfIngredient.length() == 0) {
             AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
+        } else if (nameOfIngredient.length() > 0 && nameOfIngredient.trim().length() == 0) {
+            Toast.makeText(context, R.string.text_invalid_ingredient, Toast.LENGTH_LONG).show();
         } else {
             IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
             ingredientsRealmObject.setName(nameOfIngredient);

@@ -344,5 +344,6 @@
         from your cookbooks.
     </string>
     <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
+    <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
 
 </resources>
