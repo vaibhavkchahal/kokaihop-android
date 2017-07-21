@@ -26,6 +26,7 @@ import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 import com.kokaihop.utility.ShareContentShoppingIngredient;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +63,14 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                viewModel.fetchIngredientFromDB();
-                viewModel.deleteIngredientOnServer();
-                viewModel.updateIngredientOnServer();
+                String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
+                if (!accessToken.isEmpty()) {
+                    viewModel.fetchIngredientFromDB();
+                    viewModel.deleteIngredientOnServer();
+                    viewModel.updateIngredientOnServer();
+                } else {
+                    binding.swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
