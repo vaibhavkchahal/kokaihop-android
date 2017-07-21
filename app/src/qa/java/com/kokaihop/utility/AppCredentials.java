@@ -7,11 +7,16 @@ package com.kokaihop.utility;
 public class AppCredentials {
 
     //Cloudinary
-    public static final String CLOUD_NAME = "hpdqvydpn";
     public static final String URL = "https://res.cloudinary.com";
     public static final String FOLDER = "image/upload";  //f_auto,q_50,fl_progressive,w_790,h_460,c_fill
-    public static final String API_KEY = "547221139796143";
-    public static final String API_SECRET = "Rn8BckvTVTKf7QFEw7zvnNMMgzA";
+
+    //    public static final String CLOUD_NAME = "hpdqvydpn";
+    //    public static final String API_KEY = "547221139796143";
+    //    public static final String API_SECRET = "Rn8BckvTVTKf7QFEw7zvnNMMgzA";
+
+    public static final String CLOUD_NAME = "dbu2dpqp8";
+    public static final String API_KEY = "382183666715475";
+    public static final String API_SECRET = "yUkEoygOC_c3D44Bq5A2V67_jZU";
 
 
     //Admob Google testing app id
