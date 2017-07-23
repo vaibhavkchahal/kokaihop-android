@@ -38,6 +38,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     private ShoppingListViewModel viewModel;
     private FragmentShoppingListBinding binding;
     private ShoppingListRecyclerAdapter adapter;
+    private ShoppingDataManager shoppingDataManager;
+    private String accessToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
+        accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
+        initializeShoppingList();
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();
@@ -59,11 +63,20 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         return binding.getRoot();
     }
 
+    private void initializeShoppingList() {
+        shoppingDataManager = new ShoppingDataManager();
+        if (shoppingDataManager.fetchShoppingRealmObject() == null) {
+            ShoppingListRealmObject shoppingListRealmObject = new ShoppingListRealmObject();
+            shoppingListRealmObject.setFriendlyUrl(Constants.SHOPPING_LIST_DEFAULT_FRIENDLY_URL);
+            shoppingListRealmObject.setName(Constants.SHOPPING_LIST_NAME_VALUE);
+            shoppingDataManager.insertOrUpdateData(shoppingListRealmObject);
+        }
+    }
+
     private void initializePullToRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
                 if (!accessToken.isEmpty()) {
                     viewModel.fetchIngredientFromDB();
                     viewModel.deleteIngredientOnServer();

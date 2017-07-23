@@ -19,6 +19,7 @@ public class Constants {
     public static final String SHOPPING_LIST_NAME_KEY = "name";
 
     public static final String SHOPPING_LIST_NAME_VALUE = "Min inkopslista";
+    public static final String SHOPPING_LIST_DEFAULT_FRIENDLY_URL = "Min inkopslista";
 
     //Tab Numbers
     public static final int TAB_RECIPES = 0;

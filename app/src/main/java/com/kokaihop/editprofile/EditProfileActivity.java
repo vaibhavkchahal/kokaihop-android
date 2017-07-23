@@ -12,6 +12,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Logger;
 
@@ -27,6 +28,7 @@ public class EditProfileActivity extends BaseActivity {
         ActivityEditProfileBinding editProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
         editProfileViewModel = new EditProfileViewModel(this, editProfileBinding);
         editProfileBinding.setViewModel(editProfileViewModel);
+        editProfileBinding.setUser(User.getInstance());
     }
 
     @Override

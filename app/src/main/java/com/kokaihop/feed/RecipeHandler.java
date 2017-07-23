@@ -22,6 +22,8 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import io.realm.Realm;
+
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 /**
@@ -30,7 +32,6 @@ import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeHandler {
     private int recipePosition = -1;
-
     public void setRecipePosition(int position) {
         recipePosition = position;
     }
@@ -48,15 +49,24 @@ public class RecipeHandler {
 
     private void performOperationOncheck(CheckBox checkBox, RecipeRealmObject recipe) {
         updateCheckboxImage(checkBox.isChecked(), checkBox);
-        updatelikeStatusOnServer(checkBox, recipe);
         updateLikeCountInView(checkBox, recipe);
-        updateSatusInDB(checkBox.isChecked(), recipe);
+//        updateSatusInDB(checkBox.isChecked(), recipe);
+        updatelikeStatusOnServer(checkBox, recipe);
     }
 
     private void updateLikeCountInView(CheckBox checkBox, RecipeRealmObject recipe) {
         long count = 0;
+        Realm realm = Realm.getDefaultInstance();
         if (recipe.getCounter() != null) {
             count = recipe.getCounter().getLikes();
+            if (checkBox.isChecked())
+                count++;
+            else if (count > 0) {
+                count--;
+            }
+            realm.beginTransaction();
+            recipe.getCounter().setLikes(count);
+            realm.commitTransaction();
         }
         checkBox.setText(String.valueOf(count));
 
@@ -68,13 +78,13 @@ public class RecipeHandler {
         if (recipe.getCounter() != null) {
             likes = Long.valueOf(recipe.getCounter().getLikes());
         }
-        if (checked) {
-            likes = likes + 1;
-        } else {
-            if (likes != 0) {
-                likes = likes - 1;
-            }
-        }
+//        if (checked) {
+//            likes = likes + 1;
+//        } else {
+//            if (likes != 0) {
+//                likes = likes - 1;
+//            }
+//        }
         recipeDataManager.updateIsFavoriteInDB(checked, recipe);
         recipeDataManager.updateLikesCount(recipe, likes);
         if (recipe.getCounter() != null) {
@@ -94,7 +104,8 @@ public class RecipeHandler {
         new FeedApiHelper().updateRecipeLike(accessToken, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                updateLikeCountInView(checkBox, recipe);
+//                updateLikeCountInView(checkBox, recipe);
+                updateSatusInDB(checkBox.isChecked(), recipe);
                 String contextName = context.getClass().getSimpleName();
                 if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName())) {
                     EventBus.getDefault().postSticky(recipe);
@@ -104,16 +115,18 @@ public class RecipeHandler {
             @Override
             public void onFailure(String message) {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                revertLikeStatusInDB(checkBox, recipe);
-                updateCheckboxImage(!checkBox.isChecked(), checkBox);
+//                revertLikeStatusInDB(checkBox, recipe);
+                checkBox.setChecked(!checkBox.isChecked());
+                updateCheckboxImage(checkBox.isChecked(), checkBox);
                 updateLikeCountInView(checkBox, recipe);
 
             }
 
             @Override
             public void onError(Object response) {
-                revertLikeStatusInDB(checkBox, recipe);
-                updateCheckboxImage(!checkBox.isChecked(), checkBox);
+//                revertLikeStatusInDB(checkBox, recipe);
+                checkBox.setChecked(!checkBox.isChecked());
+                updateCheckboxImage(checkBox.isChecked(), checkBox);
                 updateLikeCountInView(checkBox, recipe);
 
             }

@@ -18,7 +18,6 @@ public class ShoppingDataManager {
     private static final String INGREDIENT_ID = "_id";
     private static final String UNIT_ID = "id";
 
-
     public ShoppingDataManager() {
         realm = Realm.getDefaultInstance();
     }
@@ -40,6 +39,17 @@ public class ShoppingDataManager {
             @Override
             public void execute(Realm realm) {
                 realm.insertOrUpdate(object);
+            }
+        });
+    }
+
+
+    public void deletePreviousShoppingList() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<ShoppingListRealmObject> result = realm.where(ShoppingListRealmObject.class).equalTo(Constants.SHOPPING_LIST_NAME_KEY, Constants.SHOPPING_LIST_NAME_VALUE).findAll();
+                result.deleteAllFromRealm();
             }
         });
     }

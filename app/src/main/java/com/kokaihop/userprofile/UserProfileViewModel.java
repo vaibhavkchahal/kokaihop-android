@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.kokaihop.base.BaseViewModel;
-import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.editprofile.SettingsApiHelper;
 import com.kokaihop.editprofile.SettingsResponse;
 import com.kokaihop.editprofile.model.ProfileImageUpdateRequest;
@@ -139,15 +138,20 @@ public class UserProfileViewModel extends BaseViewModel {
         new SettingsApiHelper().changeProfilePicture(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
             @Override
             public void onSuccess(SettingsResponse response) {
-                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete<UserRealmObject>() {
+                new ProfileApiHelper().getUserData(accessToken, Constants.COUNTRY_CODE, new IApiRequestComplete() {
                     @Override
-                    public void onSuccess(UserRealmObject response) {
+                    public void onSuccess(Object response) {
                         AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.profile_pic_upload_success));
                         ProfileDataManager profileDataManager = new ProfileDataManager();
-                        profileDataManager.insertOrUpdateUserData(response);
-                        profileDataManager.fetchUserData(userId, user);
-//                        setProfileImage();
-                        getUserData();
+                        ResponseBody responseBody = (ResponseBody) response;
+                        JSONObject userJson;
+                        try {
+                            userJson = new JSONObject(responseBody.string());
+                            profileDataManager.insertOrUpdateUserDataUsingJSON(userJson);
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                        fetchUserDataFromDB();
                         setProgressVisible(false);
                     }
 
@@ -157,7 +161,7 @@ public class UserProfileViewModel extends BaseViewModel {
                     }
 
                     @Override
-                    public void onError(UserRealmObject response) {
+                    public void onError(Object response) {
                         setProgressVisible(false);
                     }
                 });

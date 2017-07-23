@@ -1,5 +1,6 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -59,6 +60,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private Context context;
     private JSONObject copyJsonObject;
     private JSONObject collectionMapping;
+    final static int ADD_TO_COOKBOOK_REQ_CODE = 10;
 
     public RealmList<RecipeDetailPagerImages> getPagerImages() {
         return pagerImages;
@@ -324,7 +326,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (collectionMapping != null) {
             i.putExtra(Constants.COLLECTION_MAPPING, collectionMapping.toString());
         }
-        context.startActivity(i);
+        ((Activity) context).startActivityForResult(i, ADD_TO_COOKBOOK_REQ_CODE);
     }
 
     public JSONObject getCollectionMapping() {
