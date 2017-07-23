@@ -57,13 +57,15 @@ public class ShoppingListViewModel extends BaseViewModel {
         this.context = context;
         shoppingDataManager = new ShoppingDataManager();
         this.datasetListener = dataSetListener;
-        ShoppingListRealmObject shoppingListRealmObject = shoppingDataManager.fetchShoppingRealmObject();
+        if (shoppingDataManager.fetchShoppingRealmObject() == null) {
+            ShoppingListRealmObject shoppingListRealmObject = new ShoppingListRealmObject();
+            shoppingListRealmObject.setName(Constants.SHOPPING_LIST_NAME_VALUE);
+//            shoppingDataManager.insertOrUpdateData(shoppingApiResponse.getShoppingListRealmObject());
+        }
         accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         authorizationToken = AUTHORIZATION_BEARER + accessToken;
         fetchIngredientFromDB();
-        if (shoppingListRealmObject != null) {
-            deleteIngredientOnServer();
-        }
+        deleteIngredientOnServer();
         if (!TextUtils.isEmpty(accessToken)) {
             fetchIngredientUnits();
 

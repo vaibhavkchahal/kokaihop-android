@@ -144,13 +144,6 @@ public class ShoppingDataManager {
             public void execute(Realm realm) {
                 realm.insertOrUpdate(ingredientsRealmObject);
                 ShoppingListRealmObject realmObject = fetchShoppingRealmObject();
-                if (realmObject == null) {
-                    ShoppingListRealmObject shoppingListRealmObject = new ShoppingListRealmObject();
-                    shoppingListRealmObject.setFriendlyUrl("min");
-                    shoppingListRealmObject.setName(Constants.SHOPPING_LIST_NAME_VALUE);
-                    realm.insertOrUpdate(shoppingListRealmObject);
-                    realmObject = fetchShoppingRealmObject();
-                }
                 realmObject.getIngredients().add(ingredientsRealmObject);
             }
         });
