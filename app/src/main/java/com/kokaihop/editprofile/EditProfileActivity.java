@@ -12,6 +12,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
+import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CameraUtils;
 import com.kokaihop.utility.Logger;
@@ -20,7 +21,10 @@ import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 
 public class EditProfileActivity extends BaseActivity {
 
+    private static int CONFIRM_REQUEST_CODE = 51;
     private EditProfileViewModel editProfileViewModel;
+    private Uri imageUri = null;
+    private String filePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +38,19 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri imageUri;
-        String filePath;
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
                 if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                     imageUri = data.getData();
                     filePath = CameraUtils.getRealPathFromURI(EditProfileActivity.this, imageUri);
+                    Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                    confirmIntent.setData(imageUri);
+                    startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
                 } else {
                     filePath = CameraUtils.onCaptureImageResult();
-
+                    editProfileViewModel.uploadImageOnCloudinary(filePath);
                 }
                 Logger.d("File Path", filePath);
-
-                editProfileViewModel.uploadImageOnCloudinary(filePath);
-
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
 
@@ -58,6 +60,8 @@ public class EditProfileActivity extends BaseActivity {
                 editProfileViewModel.getCity().getLiving().setLoc(citySelected.getLoc());
                 editProfileViewModel.getCity().getLiving().setName(citySelected.getName());
                 editProfileViewModel.setCityName(citySelected.getName());
+            } else if (requestCode == CONFIRM_REQUEST_CODE) {
+                editProfileViewModel.uploadImageOnCloudinary(filePath);
             }
         }
     }

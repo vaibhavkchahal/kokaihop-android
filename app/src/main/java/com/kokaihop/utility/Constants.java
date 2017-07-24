@@ -69,4 +69,6 @@ public class Constants {
     public static final String TEMP_INGREDIENT_ID_SIGNATURE = "temp";
 
 
+    public static String USER_Email_PASSWORD = "Email_Pwd";
+    public static int CONFIRM_REQUEST_CODE = 41;
 }

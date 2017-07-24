@@ -1,6 +1,5 @@
 package com.kokaihop.recipedetail;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,6 +39,7 @@ import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
@@ -62,6 +62,7 @@ import java.io.IOException;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
+import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
@@ -69,6 +70,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private int portionMinValue = 1;
     private int portionMaxValue = 79;
 
+    private Uri imageUri;
+    private String filePath;
     private ViewPager viewPager;
     private ActivityRecipeDetailBinding binding;
     private RecipeDetailViewModel recipeDetailViewModel;
@@ -520,20 +523,20 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri imageUri;
-        String filePath;
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
-                if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                    imageUri = data.getData();
-                    filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
-                } else {
-                    filePath = CameraUtils.onCaptureImageResult();
-
-                }
-                Logger.d("File Path", filePath);
+        if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                imageUri = data.getData();
+                filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
+                Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                confirmIntent.setData(imageUri);
+                startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+            } else {
+                filePath = CameraUtils.onCaptureImageResult();
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
-            } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
+            }
+            Logger.d("File Path", filePath);
+        } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
+            if (data != null) {
                 MenuItem menuItemLike = menu.findItem(R.id.icon_like);
                 boolean isFavorite = data.getBooleanExtra("favorite", false);
                 menuItemLike.setChecked(isFavorite);
@@ -541,6 +544,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                     menuItemLike.setIcon(R.drawable.ic_like_sm);
                 }
             }
+        } else if (requestCode == Constants.CONFIRM_REQUEST_CODE && resultCode == RESULT_OK) {
+            recipeDetailViewModel.uploadImageOnCloudinary(filePath);
         }
     }
 

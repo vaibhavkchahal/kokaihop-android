@@ -120,7 +120,8 @@
     <string name="login_rating_message">You need to logged in to rate a recipe</string>
     <string name="members_area">Members area</string>
     <string name="login_like_message">You need to logged in to make a recipe favourite!!!</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!</string>
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!
+    </string>
     <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to
         cookbook!!!
     </string>
@@ -350,6 +351,7 @@
         end!!!
     </string>
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
+    <string name="confirm_upload">Confirm Upload</string>
 
 
 </resources>

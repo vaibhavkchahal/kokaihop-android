@@ -1,5 +1,8 @@
-<layout>
-    <data></data>
+<layout
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.kokaihop.userprofile.RecipeViewModel"/>
+    </data>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/recipe_container"
                  xmlns:tools="http://schemas.android.com/tools"
@@ -13,6 +16,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/user_followers_list_margin_top">
         </android.support.v7.widget.RecyclerView>
-
+        <include
+            layout="@layout/progress_bar"
+            bind:viewModel="@{viewModel}"/>
     </FrameLayout>
 </layout>

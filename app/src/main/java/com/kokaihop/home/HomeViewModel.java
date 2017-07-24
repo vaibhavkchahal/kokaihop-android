@@ -1,15 +1,23 @@
 package com.kokaihop.home;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.authentication.AuthenticationApiHelper;
+import com.kokaihop.authentication.AuthenticationApiResponse;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +32,7 @@ import okhttp3.ResponseBody;
  * Created by Rajendra Singh on 12/5/17.
  */
 
-public class HomeViewModel {
+public class HomeViewModel extends BaseViewModel {
     Context context;
 
     public HomeViewModel(Context context) {
@@ -87,4 +95,33 @@ public class HomeViewModel {
         return recipeRequestParams;
     }
 
+    public void login(String userName, String password) {
+        new AuthenticationApiHelper(context).doLogin(userName, password, new IApiRequestComplete<AuthenticationApiResponse>() {
+            @Override
+            public void onSuccess(AuthenticationApiResponse response) {
+                setProgressVisible(false);
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_Email_PASSWORD, "");
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onError(AuthenticationApiResponse response) {
+                setProgressVisible(false);
+            }
+        });
+    }
+
+    @Override
+    protected void destroy() {
+
+    }
 }
