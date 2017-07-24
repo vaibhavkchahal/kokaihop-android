@@ -36,6 +36,8 @@ public class User extends BaseObservable {
     private String cityName;
     private boolean followByMe;
     private ArrayList<Cookbook> cookbooks = new ArrayList<>();
+    private ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
+    private ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
     private boolean refreshRequired;
 
     public String get_id() {
@@ -246,5 +248,21 @@ public class User extends BaseObservable {
 
     public void setRefreshRequired(boolean refreshRequired) {
         this.refreshRequired = refreshRequired;
+    }
+
+    public ArrayList<FollowingFollowerUser> getFollowersList() {
+        return followersList;
+    }
+
+    public void setFollowersList(ArrayList<FollowingFollowerUser> followersList) {
+        this.followersList = followersList;
+    }
+
+    public ArrayList<FollowingFollowerUser> getFollowingList() {
+        return followingList;
+    }
+
+    public void setFollowingList(ArrayList<FollowingFollowerUser> followingList) {
+        this.followingList = followingList;
     }
 }

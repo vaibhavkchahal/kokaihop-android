@@ -17,8 +17,8 @@
         android:orientation="vertical">
         <ImageView
             android:id="@+id/iv_recipe_background"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="@dimen/constraint_match_parent"
             android:background="@drawable/round_corner_layout"
             android:clickable="false"
             android:contentDescription="@string/recipe_image"
@@ -33,9 +33,12 @@
             tools:src="@drawable/ic_recipeplaceholder_lg"/>
         <TextView
             android:id="@+id/tv_recipe_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
+            android:layout_marginEnd="@dimen/history_recipe_image_margin"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:clickable="false"
             android:text="@{cookbook.name}"
             android:textColor="@color/white"
