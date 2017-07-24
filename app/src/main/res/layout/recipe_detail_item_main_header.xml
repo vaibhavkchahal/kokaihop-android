@@ -17,7 +17,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:paddingBottom="@dimen/recipe_detail_top_header_padding_bottom"
-                    android:paddingLeft="@dimen/recipe_detail_top_header_pading_left">
+                    android:paddingLeft="@dimen/recipe_detail_top_header_pading_left"
+                    android:paddingRight="@dimen/recipe_detail_top_header_pading_left">
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -36,7 +37,6 @@
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/recipe_detail_margin_right"
             android:layout_marginTop="@dimen/imgview_badgetype_margin_top"
             android:drawableLeft="@drawable/ic_left_flower"
             android:drawablePadding="0dp"

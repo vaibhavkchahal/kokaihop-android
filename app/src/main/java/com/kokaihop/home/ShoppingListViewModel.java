@@ -33,7 +33,6 @@ public class ShoppingListViewModel extends BaseViewModel {
     private ShoppingDataManager shoppingDataManager;
     private List<IngredientsRealmObject> ingredientsList = new ArrayList<>();
     private Context context;
-    private int totalItemCount;
     private ShoppingListViewModel.IngredientsDatasetListener datasetListener;
     private String authorizationToken;
     private List<String> markedIds = new ArrayList<>();
@@ -136,10 +135,9 @@ public class ShoppingListViewModel extends BaseViewModel {
                     ingredientsList.add(object);
                 }
             }
-            totalItemCount = listRealmObject.getIngredients().size();
-            datasetListener.onUpdateIngredientsList();
-            EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
         }
+        datasetListener.onUpdateIngredientsList();
+        EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
     }
 
     public void updateIngredientOnServer() {

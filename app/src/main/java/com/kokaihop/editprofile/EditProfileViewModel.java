@@ -53,7 +53,7 @@ public class EditProfileViewModel extends BaseViewModel {
     public static final int MY_PERMISSIONS = 4;
     private Context context;
     private ActivityEditProfileBinding editProfileBinding;
-    private String email, profileImageUrl, cityName, accessToken, userId;
+    private String email, cityName, accessToken, userId;
     private CityLocation city;
     private SettingsApiHelper settingsApiHelper;
     private User user;
@@ -64,7 +64,6 @@ public class EditProfileViewModel extends BaseViewModel {
         user = User.getInstance();
         setEmail(User.getInstance().getEmail());
         setCityName(user.getCityName());
-        setProfileImageUrl(User.getInstance().getProfileImageUrl());
         city = new CityLocation();
         city.setLiving(new CityLiving());
         city.getLiving().setName(user.getCityName());
@@ -89,16 +88,6 @@ public class EditProfileViewModel extends BaseViewModel {
     public void setCityName(String cityName) {
         this.cityName = cityName;
         notifyPropertyChanged(BR.cityName);
-    }
-
-    @Bindable
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-        notifyPropertyChanged(BR.profileImageUrl);
     }
 
     //  method to select/change city from the list of cities
@@ -250,7 +239,6 @@ public class EditProfileViewModel extends BaseViewModel {
         if (profileImage != null) {
             String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(ivProfileLayoutParams.width), String.valueOf(ivProfileLayoutParams.height));
             User.getInstance().setProfileImageUrl(imageUrl);
-            setProfileImageUrl(imageUrl);
         }
         editProfileBinding.executePendingBindings();
     }

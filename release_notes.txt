@@ -1,12 +1,12 @@
-1. Admob Ads
-   - Home feed Days Recipe list.
-   - Search Recipes list.
-   - Recipe Details.
-   - Shopping List.
-2. Search
-   - Sort By Best Rating Filter.
-3. Shopping List
-   - Add new Ingredients local database implementation and Sync to Server.
+1. Push Notification
+   - Batch SDK implementation.
+   - Display notification in status bar if application is in background.
+   - Display in app notification if application is in foreground.
+2. Shopping List
+   - Edit and Add items
+   - Delete items and Syncing of items to server.
+3. Bug Fixes
+
 
 
 

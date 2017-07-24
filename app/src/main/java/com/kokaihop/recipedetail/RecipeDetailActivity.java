@@ -1,6 +1,7 @@
 package com.kokaihop.recipedetail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -89,6 +90,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
     private String from;
+    private  Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -338,6 +340,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_recipe_detail, menu);
         return super.onCreateOptionsMenu(menu);
@@ -346,6 +349,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        final Context context = this;
         final RecipeHandler recipeHandler = new RecipeHandler();
         final RecipeRealmObject recipeRealmObject = binding.getViewModel().recipeRealmObject;
 //        final Recipe recipe = binding.getViewModel().getRecipe(realmObject);
@@ -355,7 +359,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.icon_like) {
-                    actionOnRecipeLike(item, recipeRealmObject, recipeHandler);
+                    String accessToken = getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+                    if (accessToken == null || accessToken.isEmpty()) {
+                        AppUtility.showLoginDialog(context, getString(R.string.members_area), getString(R.string.login_like_message));
+                    } else {
+                        actionOnRecipeLike(item, recipeRealmObject, recipeHandler);
+                    }
                 }
                 return false;
             }
@@ -478,7 +487,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_add_to_wishlist:
-                binding.getViewModel().openCookBookScreen();
+                accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                if (accessToken == null || accessToken.isEmpty()) {
+                    AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_add_to_cookbook_message));
+                } else {
+                    binding.getViewModel().openCookBookScreen();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -534,6 +548,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 Logger.d("File Path", filePath);
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
+            } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
+                MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+                boolean isFavorite = data.getBooleanExtra("favorite", false);
+                menuItemLike.setChecked(isFavorite);
+                if (isFavorite) {
+                    menuItemLike.setIcon(R.drawable.ic_like_sm);
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.DialogIntgredientUnitBinding;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.database.Unit;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
@@ -41,6 +42,7 @@ public class AddIngredientViewModel extends BaseViewModel {
         this.context = context;
         this.unitDataListener = unitDataListener;
         shoppingDataManager = new ShoppingDataManager();
+        ShoppingListRealmObject shoppingListRealmObject = shoppingDataManager.fetchShoppingRealmObject();
         prepareArrayForPickerDialog(context);
     }
 

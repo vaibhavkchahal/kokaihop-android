@@ -2,6 +2,7 @@ package com.kokaihop.recipedetail;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
@@ -194,6 +195,9 @@ public class AddToCookbookViewModel extends BaseViewModel {
                     cookbook.setTotal(cookbook.getTotal() + 1);
                 }
                 recipeDataManager.updateIsFavoriteInDB(true, recipeRealmObject);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("favorite", true);
+                ((Activity)context).setResult(Activity.RESULT_OK, resultIntent);
                 setProgressVisible(false);
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.recipe_added_to_cookbook));
 
