@@ -23,6 +23,8 @@ public class EditProfileActivity extends BaseActivity {
 
     private static int CONFIRM_REQUEST_CODE = 51;
     private EditProfileViewModel editProfileViewModel;
+    private Uri imageUri = null;
+    private String filePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,21 +38,19 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri imageUri;
-        String filePath = "";
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
                 if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
                     imageUri = data.getData();
                     filePath = CameraUtils.getRealPathFromURI(EditProfileActivity.this, imageUri);
+                    Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                    confirmIntent.setData(imageUri);
+                    startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
                 } else {
                     filePath = CameraUtils.onCaptureImageResult();
-
+                    editProfileViewModel.uploadImageOnCloudinary(filePath);
                 }
                 Logger.d("File Path", filePath);
-                Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
-                startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
-
             } else if (requestCode == EditProfileViewModel.REQUEST_CITY) {
                 CityDetails citySelected = data.getParcelableExtra("citySelected");
 

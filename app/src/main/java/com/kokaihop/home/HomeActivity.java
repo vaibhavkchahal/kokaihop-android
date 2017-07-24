@@ -24,6 +24,7 @@ import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.customviews.NotificationDialogActivity;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
+import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CameraUtils;
@@ -35,6 +36,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
+import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 
 public class HomeActivity extends BaseActivity {
     private NonSwipeableViewPager viewPager;
@@ -58,6 +60,9 @@ public class HomeActivity extends BaseActivity {
             R.drawable.ic_user_white_sm
     };
     private NotificationReceiver notificationReciever;
+
+    private Uri imageUri;
+    private String filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,21 +175,22 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri imageUri;
-        String filePath;
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                imageUri = data.getData();
-                filePath = CameraUtils.getRealPathFromURI(HomeActivity.this, imageUri);
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+                if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                    imageUri = data.getData();
+                    filePath = CameraUtils.getRealPathFromURI(HomeActivity.this, imageUri);
+                    Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                    confirmIntent.setData(imageUri);
+                    startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+                } else {
+                    filePath = CameraUtils.onCaptureImageResult();
+                    userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+                }
                 Logger.d("File Path", filePath);
-                userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
-            } else if (requestCode == EditProfileViewModel.REQUEST_CAMERA) {
-                filePath = CameraUtils.onCaptureImageResult();
-                Logger.d("File Path", filePath);
+            } else if (requestCode == Constants.CONFIRM_REQUEST_CODE) {
                 userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
             }
-
-
         }
         if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {
             refreshFragment(4);

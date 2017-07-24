@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data></data>
+    <data>
+    </data>
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,7 +10,7 @@
         android:layout_height="match_parent"
         tools:context="com.kokaihop.userprofile.ConfirmImageUploadActivity">
         <android.support.v7.widget.Toolbar
-            android:id="@+id/settings_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="@dimen/none"
             android:layout_height="@dimen/toolbar_height_with_status"
             android:background="@color/colorPrimary"
@@ -24,7 +25,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/iv_editprofile_back"
+                    android:id="@+id/iv_back"
                     style="@style/backButton"
                     android:contentDescription="@string/change_profile_photo"
                     android:src="@drawable/ic_back_arrow_white_md"
@@ -33,7 +34,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/tv_changePassword_title"
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/confirm_upload"
@@ -46,7 +47,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
-                    android:id="@+id/tv_changePassword_done"
+                    android:id="@+id/tv_done"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/settings_save_margin_right"
@@ -61,12 +62,15 @@
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.Toolbar>
         <ImageView
+            android:id="@+id/image_to_upload"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="@dimen/constraint_match_parent"
+            android:background="@color/black"
+            android:src="@drawable/img_signup"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_avtar_lg"/>
+            app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
