@@ -182,9 +182,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     }
 
     @Override
-    public void onUpdateIngredientsList() {
+    public void onUpdateIngredientsList(int listCount) {
         RecyclerView recyclerView = binding.rvRecipeIngredients;
-        visibiltyCheckOnClearMarked();
+        visibiltyCheckOnClearMarked(listCount);
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
@@ -192,8 +192,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         }
     }
 
-    private void visibiltyCheckOnClearMarked() {
-        if (viewModel != null && viewModel.getIngredientsList().size() > 0) {
+    private void visibiltyCheckOnClearMarked(int listCount) {
+        if (listCount > 0) {
             binding.txtviewClearMarked.setVisibility(View.VISIBLE);
             binding.txtviewEdit.setEnabled(true);
             binding.txtviewDone.setEnabled(true);

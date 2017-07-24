@@ -134,7 +134,7 @@ public class ShoppingListViewModel extends BaseViewModel {
                 }
             }
         }
-        datasetListener.onUpdateIngredientsList();
+        datasetListener.onUpdateIngredientsList(ingredientsList.size());
         EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
     }
 
@@ -225,7 +225,7 @@ public class ShoppingListViewModel extends BaseViewModel {
     }
 
     public interface IngredientsDatasetListener {
-        void onUpdateIngredientsList();
+        void onUpdateIngredientsList(int listCount);
     }
 
     public void openEditScreen() {
