@@ -51,7 +51,6 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
         accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
         initializeShoppingList();
         viewModel = new ShoppingListViewModel(getContext(), this);
@@ -156,7 +155,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             public void onClick(View v) {
                 if (binding.txtviewDone.getText().length() > 0) {
                     binding.txtviewDone.setText("");
-                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_md, 0, 0, 0);
+                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shopping_share_icon_selector, 0, 0, 0);
                     binding.txtviewEdit.setText(R.string.edit);
                     binding.relativeLayoutAddIngredient.setVisibility(View.VISIBLE);
                     binding.txtviewTitle.setText("Shopping List");
@@ -166,6 +165,12 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
 //                        viewModel.getShoppingDataManager().updateIngredientDeleteFlag(object, false);
                     }
                     adapter.setIndgredientEditor(false);
+                    if (viewModel.getIngredientsList().size() <= 0) {
+                        binding.txtviewDone.setEnabled(false);
+                    } else {
+                        binding.txtviewDone.setEnabled(true);
+                    }
+
                 } else {
                     // share
                     ShareContentShoppingIngredient shareContents = new ShareContentShoppingIngredient(getContext());
@@ -193,7 +198,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             binding.txtviewEdit.setEnabled(true);
             binding.txtviewDone.setEnabled(true);
         } else {
-            binding.txtviewDone.setEnabled(false);
+            if (binding.txtviewDone.getText().length() == 0) {
+                binding.txtviewDone.setEnabled(false);
+            }
             binding.txtviewEdit.setEnabled(false);
             binding.txtviewClearMarked.setVisibility(View.GONE);
         }

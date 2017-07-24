@@ -3,9 +3,11 @@ package com.kokaihop.home;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.database.Unit;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -167,7 +169,9 @@ public class ShoppingDataManager {
                     if (object.isServerSyncNeeded()) {
                         IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
                                 .equalTo(INGREDIENT_ID, object.get_id()).findFirst();
-                        ingredientsRealmObject.deleteFromRealm();
+                        if (ingredientsRealmObject != null) {
+                            ingredientsRealmObject.deleteFromRealm();
+                        }
                     }
                 }
             }
@@ -186,6 +190,34 @@ public class ShoppingDataManager {
             }
         });
     }
+
+
+    public void addRecipeIngredientToShoppingList(final Map<String, IngredientsRealmObject> ingredientsMap) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ShoppingListRealmObject shoppingListRealmObject = fetchShoppingRealmObject();
+                for (Map.Entry<String, IngredientsRealmObject> entry : ingredientsMap.entrySet()) {
+                    boolean isFound = false;
+                    for (IngredientsRealmObject shoppingListIngredient : shoppingListRealmObject.getIngredients()) {
+                        String existingIngredientObjectKey = AppUtility.checkIfUnitExist(shoppingListIngredient);
+                        if (existingIngredientObjectKey.equalsIgnoreCase(entry.getKey())) {
+                            shoppingListIngredient.setServerSyncNeeded(true);
+                            shoppingListIngredient.setAmount(entry.getValue().getAmount() + shoppingListIngredient.getAmount());
+                            isFound = true;
+                            break;
+                        }
+                    }
+                    if (!isFound) {
+                        entry.getValue().set_id(entry.getValue().get_id() + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
+                        entry.getValue().setServerSyncNeeded(true);
+                        shoppingListRealmObject.getIngredients().add(entry.getValue());
+                    }
+                }
+            }
+        });
+    }
+
 }
 
 
