@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityCookbookBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
@@ -27,6 +28,8 @@ public class AddToCookBookActivity extends BaseActivity {
         binding.setViewModel(new AddToCookbookViewModel(addToCookbookFragment, this));
         addToCookbookFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(binding.rlAddToCookbook.getId(), addToCookbookFragment).commit();
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.cookbook_picker_screen));
+
     }
 
     private void setupArguments() {

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityCookbookDetailBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.utility.Constants;
 
 public class CookbookDetailActivity extends AppCompatActivity {
@@ -27,5 +28,7 @@ public class CookbookDetailActivity extends AppCompatActivity {
         fragment = new CookbookDetailFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(binding.llCookbookDetail.getId(), fragment).commit();
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.cookbook_specific_screen));
+
     }
 }

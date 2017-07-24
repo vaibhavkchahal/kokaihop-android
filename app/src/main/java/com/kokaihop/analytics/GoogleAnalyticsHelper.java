@@ -25,4 +25,27 @@ public class GoogleAnalyticsHelper {
         tracker.setScreenName(screenName);
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
+
+
+    public static void trackEventAction(Activity activity, String category, String action) {
+        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
+        Tracker tracker = application.getDefaultTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(action)
+                .build());
+    }
+
+
+    public static void trackEventAction(Activity activity, String category, String action, String label) {
+        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
+        Tracker tracker = application.getDefaultTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(action)
+                .setLabel(label)
+                .build());
+    }
+
+
 }
