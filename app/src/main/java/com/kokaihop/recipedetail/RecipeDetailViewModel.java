@@ -401,7 +401,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
                                 Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
-                                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
+                                dataSetListener.onPagerDataUpdate();
+//                                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
                             }
 
                             @Override

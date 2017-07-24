@@ -55,8 +55,6 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -90,7 +88,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
     private String from;
-    private  Menu menu;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -426,26 +424,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     //    checks whether a recipe exists in any of the cookbook of user
     public boolean recipeExistsInAnyCookbook(String recipeId) {
         for (Cookbook cookbook : User.getInstance().getCookbooks()) {
-            if (cookbook.getFriendlyUrl() != Constants.FAVORITE_RECIPE_FRIENDLY_URL) {
+            if (!cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                 if (RecipeUtils.getRecipeIndexInCookbook(userFriendlyUrl, cookbook.getFriendlyUrl(), recipeId) >= 0) {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    //    returns the index of recipe in the cookbook
-    public int indexOfRecipe(String recipeId, JSONArray cookbook) {
-        for (int i = 0; i < cookbook.length(); i++) {
-            try {
-                if (cookbook.getString(i).equals(recipeId))
-                    return i;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return -1;
     }
 
     @Override
