@@ -103,21 +103,21 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
 
     public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
-        if (noData == null) {
-            noData = inflater.inflate(R.layout.layout_no_data_available, binding.clCookbookContainer, false);
-        }
-        if (adapter.getItemCount() <= 0) {
-            if (noData.getParent() == null) {
-                binding.clCookbookContainer.addView(noData, 0);
-            }
-
-        } else {
-            binding.clCookbookContainer.removeView(noData);
-            if(binding.tvCookbookEdit.getText().toString().equals(getString(R.string.done))){
-                adapter.enterRecipeEditMode();
-                adapter.editListUpdated();
-            }
-        }
+//        if (noData == null) {
+//            noData = inflater.inflate(R.layout.layout_no_data_available, binding.clCookbookContainer, false);
+//        }
+//        if (adapter.getItemCount() <= 0) {
+//            if (noData.getParent() == null) {
+//                binding.clCookbookContainer.addView(noData, 0);
+//            }
+//
+//        } else {
+//            binding.clCookbookContainer.removeView(noData);
+//            if(binding.tvCookbookEdit.getText().toString().equals(getString(R.string.done))){
+//                adapter.enterRecipeEditMode();
+//                adapter.editListUpdated();
+//            }
+//        }
     }
 
     @Override

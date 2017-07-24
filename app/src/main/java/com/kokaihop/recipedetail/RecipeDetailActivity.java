@@ -551,11 +551,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             }
             Logger.d("File Path", filePath);
         } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
-            MenuItem menuItemLike = menu.findItem(R.id.icon_like);
-            boolean isFavorite = data.getBooleanExtra("favorite", false);
-            menuItemLike.setChecked(isFavorite);
-            if (isFavorite) {
-                menuItemLike.setIcon(R.drawable.ic_like_sm);
+            if (data != null) {
+                MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+                boolean isFavorite = data.getBooleanExtra("favorite", false);
+                menuItemLike.setChecked(isFavorite);
+                if (isFavorite) {
+                    menuItemLike.setIcon(R.drawable.ic_like_sm);
+                }
             }
         } else if (requestCode == Constants.CONFIRM_REQUEST_CODE && resultCode == RESULT_OK) {
             recipeDetailViewModel.uploadImageOnCloudinary(filePath);
