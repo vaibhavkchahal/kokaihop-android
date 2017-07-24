@@ -436,4 +436,5 @@
     <dimen name="home_tab_height">50dp</dimen>
     <dimen name="home_tab_margin_end">5dp</dimen>
     <dimen name="home_tab_margin_top">3dp</dimen>
+    <dimen name="cookbook_heading_hor_padding">100dp</dimen>
 </resources>
