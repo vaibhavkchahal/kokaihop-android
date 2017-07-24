@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEditProfileBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
 import com.kokaihop.userprofile.model.User;
@@ -29,6 +30,8 @@ public class EditProfileActivity extends BaseActivity {
         editProfileViewModel = new EditProfileViewModel(this, editProfileBinding);
         editProfileBinding.setViewModel(editProfileViewModel);
         editProfileBinding.setUser(User.getInstance());
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.edit_profile_screen));
+
     }
 
     @Override

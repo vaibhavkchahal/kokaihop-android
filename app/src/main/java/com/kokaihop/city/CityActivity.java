@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySelectCityBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 
 import java.lang.reflect.Field;
@@ -37,6 +38,8 @@ public class CityActivity extends BaseActivity implements CityViewModel.CityInte
                 onBackPressed();
             }
         });
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.city_list_screen));
+
 
     }
 

@@ -76,7 +76,7 @@ public class HomeActivity extends BaseActivity {
         super.onResume();
         IntentFilter intent = new IntentFilter(Constants.SHOW_DIALOG_ACTION);
         registerReceiver(notificationReciever, intent);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.daily_screen));
+        GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.daily_screen));
 
     }
 
@@ -124,9 +124,13 @@ public class HomeActivity extends BaseActivity {
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+
+                sendScreenName(tabLayout.getSelectedTabPosition());
                 if (tabLayout.getSelectedTabPosition() == 1) {
                     refreshFragment(1);
                 }
+
+
             }
 
             @Override
@@ -146,6 +150,30 @@ public class HomeActivity extends BaseActivity {
             }
         });
         tabLayout.getTabAt(0).select();
+    }
+
+    private void sendScreenName(int selectedTabPosition) {
+        switch (selectedTabPosition) {
+            case 0:
+                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.daily_screen));
+                break;
+            case 1:
+                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.cookbook_screen));
+                break;
+            case 2:
+                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.buylist_screen));
+
+                break;
+
+            case 3:
+                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.user_personal_screen));
+
+                break;
+
+
+        }
+
+
     }
 
     public void setTabTextIcons() {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityForgotPasswordBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 
 public class ForgotPasswordActivity extends BaseActivity {
@@ -12,7 +13,9 @@ public class ForgotPasswordActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityForgotPasswordBinding  binding = DataBindingUtil.setContentView(this,R.layout.activity_forgot_password);
+        ActivityForgotPasswordBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
         binding.setViewModel(new ForgotPaswdViewModel());
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.forgot_password_screen));
+
     }
 }

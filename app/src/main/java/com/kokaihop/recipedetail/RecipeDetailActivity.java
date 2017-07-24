@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.customviews.AppBarStateChangeListener;
@@ -90,7 +91,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String comingFrom = "commentsSection";
     private String friendlyUrl;
     private String from;
-    private  Menu menu;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +105,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         from = getIntent().getStringExtra("from");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
+        GoogleAnalyticsHelper.trackScreenName(RecipeDetailActivity.this, getString(R.string.recipe_detail_screen));
+
     }
 
     public void setupRecipeDetailScreen() {
