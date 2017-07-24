@@ -67,6 +67,12 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String useremailPwd = SharedPrefUtils.getSharedPrefStringData(this, Constants.USER_Email_PASSWORD);
+        if (!useremailPwd.equals("")) {
+            String email = useremailPwd.substring(0, useremailPwd.indexOf("~"));
+            String password = useremailPwd.substring(useremailPwd.indexOf("~") + 1);
+            viewModel.login(email, password);
+        }
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         MobileAds.initialize(this, AppCredentials.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
