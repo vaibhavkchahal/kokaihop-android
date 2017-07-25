@@ -95,6 +95,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String friendlyUrl;
     private String from;
     private Menu menu;
+    private int currentPagerPosition = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +221,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         ShoppingDataManager shoppingDataManager = new ShoppingDataManager();
         shoppingDataManager.addRecipeIngredientToShoppingList(recipeIngredientsMap);
 
-        AppUtility.showAutoCancelMsgDialog(this,recipeIngredientsMap.size()+getString(R.string.item_added_text));
+        AppUtility.showAutoCancelMsgDialog(this, recipeIngredientsMap.size() + getString(R.string.item_added_text));
     }
 
 
@@ -350,7 +351,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
         viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
-            txtviewPagerProgress.setText(viewPager.getCurrentItem() + "/" + recipeDetailViewModel.getPagerImages().size());
+            txtviewPagerProgress.setText(currentPagerPosition + "/" + recipeDetailViewModel.getPagerImages().size());
         }
         if (recipeDetailViewModel.getPagerImages().size() > 1) {
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
@@ -504,6 +505,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
                 } else {
+                    currentPagerPosition = viewPager.getCurrentItem() + 1;
                     CameraUtils.selectImage(this);
                 }
                 return true;
@@ -535,7 +537,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public void onCounterUpdate() {
         if (viewPager.getAdapter().getCount() > 0) {
-            binding.txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
+            binding.txtviewPagerProgress.setText(currentPagerPosition + "/" + recipeDetailViewModel.getPagerImages().size());
 
         }
     }
