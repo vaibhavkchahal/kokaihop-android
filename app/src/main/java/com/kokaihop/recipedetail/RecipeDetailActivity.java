@@ -308,7 +308,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         });
     }
 
-    private void setPagerData() {
+    public void setPagerData() {
         if (recipeDetailPagerAdapter == null) {
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
             viewPager.setAdapter(recipeDetailPagerAdapter);
@@ -317,7 +317,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
         viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
-            txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
+            txtviewPagerProgress.setText(viewPager.getCurrentItem() + "/" + recipeDetailViewModel.getPagerImages().size());
         }
         if (recipeDetailViewModel.getPagerImages().size() > 1) {
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
