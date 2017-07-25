@@ -433,4 +433,20 @@
     <dimen name="search_recipe_view_container_margin">10dp</dimen>
     <dimen name="search_recipe_view_padding_left">5dp</dimen>
     <dimen name="change_password_et_height">50dp</dimen>
+    <dimen name="auto_cancel_dialog_corner_radius">10dp</dimen>
+    <dimen name="padding_left_add_ingredient_toolbar">8.4dp</dimen>
+    <dimen name="padding_right_add_ingredient_toolbar">19dp</dimen>
+    <dimen name="enter_ingredient_box_height">66dp</dimen>
+    <dimen name="enter_ingredient_box_margin_top">24dp</dimen>
+    <dimen name="enter_ingredient_padding_left">20dp</dimen>
+    <dimen name="enter_ingredient_padding_right">40dp</dimen>
+    <dimen name="unit_quantity_box_height">66dp</dimen>
+    <dimen name="unit_quantity_box_margin_top">20dp</dimen>
+    <dimen name="unit_quantity_box_padding_left">20dp</dimen>
+    <dimen name="txtview_unit_margin_top">10dp</dimen>
+    <dimen name="unit_quantity_divider_width">1dp</dimen>
+    <dimen name="txtview_quantity_margin_left">20dp</dimen>
+    <dimen name="txtview_quantity_margin_top">10dp</dimen>
+    <dimen name="edittext_quantity_margin_left">20dp</dimen>
+    <dimen name="editext_quantity_margin_top">3dp</dimen>
 </resources>

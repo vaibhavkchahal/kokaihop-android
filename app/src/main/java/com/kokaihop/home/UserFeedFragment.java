@@ -1,7 +1,9 @@
 package com.kokaihop.home;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.LinearLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserFeedBinding;
@@ -31,7 +35,6 @@ public class UserFeedFragment extends Fragment {
 
 
     public UserFeedFragment() {
-
     }
 
     public static UserFeedFragment getInstance() {
@@ -55,7 +58,26 @@ public class UserFeedFragment extends Fragment {
         this.inflater = inflater;
         this.container = container;
         showUserProfile();
+        showCoachMark();
         return userFeedBinding.getRoot();
+    }
+
+    private void showCoachMark() {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.search_coach_mark);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        //for dismissing anywhere you touch
+        View masterView = dialog.findViewById(R.id.parent);
+        masterView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void showUserProfile() {
@@ -73,9 +95,7 @@ public class UserFeedFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-
         final PagerTabAdapter adapter = new PagerTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
         adapter.addFrag(mainCourseFragment, tabTitles[0]);
         AppetizerFragment appetizerFragment = new AppetizerFragment().newInstance();
@@ -86,18 +106,15 @@ public class UserFeedFragment extends Fragment {
         adapter.addFrag(dessertFragment, tabTitles[3]);
         VegetarianFragment vegetarianFragment = new VegetarianFragment().newInstance();
         adapter.addFrag(vegetarianFragment, tabTitles[4]);
-
         viewPager.setAdapter(adapter);
 //        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
         tabLayout.setupWithViewPager(viewPager);
-
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabFeedTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_feed_tab_layout, container, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText(tabTitles[i]);
         }
-
         tabLayout.getTabAt(0).select();
         userFeedBinding.textviewHome.setOnClickListener(new View.OnClickListener() {
             @Override

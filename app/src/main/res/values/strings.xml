@@ -352,6 +352,15 @@
     </string>
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
     <string name="item_added_text">" item(s) added"</string>
+    <string name="recipe_detail_coach_mark">Här sparar och delar du receptet, glöm inte att ladda
+        upp en bild om du lagat det
+    </string>
+    <string name="search_screen_coach_mark">Välkommen till nya Kokaihop, här hittar du nu både sök
+        och senaste recept.
+    </string>
+    <string name="user_profile_coach_mark">Här hittar du recept du tittat på tidigare men kanske
+        inte sparat
+    </string>
 
 
 </resources>

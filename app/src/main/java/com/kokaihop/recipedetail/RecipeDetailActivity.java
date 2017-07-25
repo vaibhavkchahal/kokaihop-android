@@ -1,12 +1,14 @@
 package com.kokaihop.recipedetail;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -27,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -107,6 +110,25 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         from = getIntent().getStringExtra("from");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
+        showCoachMark();
+    }
+
+    private void showCoachMark() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.recipe_detail_coach_mark);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        //for dismissing anywhere you touch
+        View masterView = dialog.findViewById(R.id.parent);
+        masterView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void setupRecipeDetailScreen() {
@@ -218,8 +240,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         // club recipe ingredient with similar ingredient in shopping list.
         ShoppingDataManager shoppingDataManager = new ShoppingDataManager();
         shoppingDataManager.addRecipeIngredientToShoppingList(recipeIngredientsMap);
-
-        AppUtility.showAutoCancelMsgDialog(this,recipeIngredientsMap.size()+getString(R.string.item_added_text));
+        AppUtility.showAutoCancelMsgDialog(this, recipeIngredientsMap.size() + getString(R.string.item_added_text));
     }
 
 
@@ -609,4 +630,5 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             super.onBackPressed();
         }
     }
+
 }
