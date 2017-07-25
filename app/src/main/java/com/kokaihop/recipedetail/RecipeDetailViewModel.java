@@ -174,11 +174,15 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getDescription() != null) {
             description = recipeRealmObject.getDescription().getLongDescription();
         }
-        float rating = 0;
+        float rating = 0.0f;
         if (recipeRealmObject.getRating() != null) {
-            recipeRealmObject.getRating().getAverage();
+            rating = recipeRealmObject.getRating().getAverage();
         }
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
+        String creatorFriendlyUrl = "";
+        if (recipeRealmObject.getCreatedBy() != null) {
+            creatorFriendlyUrl = recipeRealmObject.getCreatedBy().getFriendlyUrl();
+        }
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description, creatorFriendlyUrl);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
         AdView adViewBanner = new AdView(context);
