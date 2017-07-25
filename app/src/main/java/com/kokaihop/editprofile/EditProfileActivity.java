@@ -33,6 +33,7 @@ public class EditProfileActivity extends BaseActivity {
         editProfileViewModel = new EditProfileViewModel(this, editProfileBinding);
         editProfileBinding.setViewModel(editProfileViewModel);
         editProfileBinding.setUser(User.getInstance());
+        editProfileBinding.executePendingBindings();
     }
 
     @Override
