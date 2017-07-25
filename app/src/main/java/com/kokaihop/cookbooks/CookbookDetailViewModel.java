@@ -101,14 +101,18 @@ public class CookbookDetailViewModel extends BaseViewModel {
                     Logger.e("Error", "Recipe not found");
                     setDownloading(false);
                     setProgressVisible(false);
-                    ((CookbookDetailFragment) fragment).showCookbookDetails();
+                    if (fragment.isVisible()) {
+                        ((CookbookDetailFragment) fragment).showCookbookDetails();
+                    }
                 }
 
                 @Override
                 public void onError(Object response) {
                     setDownloading(false);
                     setProgressVisible(false);
-                    ((CookbookDetailFragment) fragment).showCookbookDetails();
+                    if (fragment.isVisible()) {
+                        ((CookbookDetailFragment) fragment).showCookbookDetails();
+                    }
                 }
             });
         }
@@ -173,7 +177,9 @@ public class CookbookDetailViewModel extends BaseViewModel {
         ArrayList<Recipe> recipes = dataManager.getRecipesOfCookbook(userFriendlyUrl, cookbookFriendlyUrl);
         recipeList.clear();
         recipeList.addAll(recipes);
-        ((CookbookDetailFragment) fragment).showCookbookDetails();
+        if (fragment.isVisible()) {
+            ((CookbookDetailFragment) fragment).showCookbookDetails();
+        }
     }
 
     //    prompt user for the new cookbook name
