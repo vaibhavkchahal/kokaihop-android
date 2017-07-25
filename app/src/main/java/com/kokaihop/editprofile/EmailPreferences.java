@@ -1,9 +1,9 @@
 package com.kokaihop.editprofile;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
-import com.altaworks.kokaihop.ui.BR;
+import com.google.gson.annotations.SerializedName;
+import com.kokaihop.userprofile.model.Settings;
 
 /**
  * Created by Rajendra Singh on 7/6/17.
@@ -11,37 +11,16 @@ import com.altaworks.kokaihop.ui.BR;
 
 
 public class EmailPreferences extends BaseObservable {
-    private boolean todayRecipe;
-    private boolean drinkingTips;
-    private boolean noEmail;
+    @SerializedName("settings")
+    private Settings settings;
 
-    @Bindable
-    public boolean isTodayRecipe() {
-        return todayRecipe;
+    public Settings getSettings() {
+        if(settings==null)
+            settings = new Settings();
+        return settings;
     }
 
-    public void setTodayRecipe(boolean todayRecipe) {
-        this.todayRecipe = todayRecipe;
-        notifyPropertyChanged(BR.todayRecipe);
-    }
-
-    @Bindable
-    public boolean isDrinkingTips() {
-        return drinkingTips;
-    }
-
-    public void setDrinkingTips(boolean drinkingTips) {
-        this.drinkingTips = drinkingTips;
-        notifyPropertyChanged(BR.drinkingTips);
-    }
-
-    @Bindable
-    public boolean isNoEmail() {
-        return noEmail;
-    }
-
-    public void setNoEmail(boolean noEmail) {
-        this.noEmail = noEmail;
-        notifyPropertyChanged(BR.noEmail);
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 }

@@ -42,7 +42,7 @@ public class UserRealmObject extends RealmObject {
     @SerializedName("lastLoginDate")
     private long lastLoginDate;
     @SerializedName("settings")
-    private SettingsRealmObject settingsRealmObject;
+    private SettingsRealmObject settings;
     @SerializedName("lastViewedNewsOn")
     private long lastViewedNewsOn;
     @SerializedName("role")
@@ -126,12 +126,12 @@ public class UserRealmObject extends RealmObject {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public SettingsRealmObject getSettingsRealmObject() {
-        return settingsRealmObject;
+    public SettingsRealmObject getSettings() {
+        return settings;
     }
 
-    public void setSettingsRealmObject(SettingsRealmObject settingsRealmObject) {
-        this.settingsRealmObject = settingsRealmObject;
+    public void setSettings(SettingsRealmObject settings) {
+        this.settings = settings;
     }
 
     public long getLastViewedNewsOn() {

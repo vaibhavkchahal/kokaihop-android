@@ -1,10 +1,15 @@
 package com.kokaihop.userprofile.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.altaworks.kokaihop.ui.BR;
+
 /**
  * Created by Rajendra Singh on 19/5/17.
  */
 
-public class Settings {
+public class Settings extends BaseObservable{
 
     private SettingsData blogYouCommented;
 
@@ -94,20 +99,24 @@ public class Settings {
         this.newMessage = newMessage;
     }
 
+    @Bindable
     public boolean isNewsletters() {
         return newsletters;
     }
 
     public void setNewsletters(boolean newsletters) {
         this.newsletters = newsletters;
+        notifyPropertyChanged(BR.newsletters);
     }
 
+    @Bindable
     public boolean isSuggestionsOfTheDay() {
         return suggestionsOfTheDay;
     }
 
     public void setSuggestionsOfTheDay(boolean suggestionsOfTheDay) {
         this.suggestionsOfTheDay = suggestionsOfTheDay;
+        notifyPropertyChanged(BR.suggestionsOfTheDay);
     }
 
     public boolean isNotificationSoundEnabled() {
@@ -118,11 +127,13 @@ public class Settings {
         this.notificationSoundEnabled = notificationSoundEnabled;
     }
 
+    @Bindable
     public boolean isNoEmails() {
         return noEmails;
     }
 
     public void setNoEmails(boolean noEmails) {
         this.noEmails = noEmails;
+        notifyPropertyChanged(BR.noEmails);
     }
 }

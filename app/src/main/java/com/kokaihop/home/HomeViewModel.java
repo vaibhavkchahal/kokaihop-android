@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 import okhttp3.ResponseBody;
 
@@ -42,42 +43,45 @@ public class HomeViewModel extends BaseViewModel {
     public void getLatestRecipes() {
         final RecipeRequestParams recipeRequestParams = getRecipeRequestParams();
         final Realm realm = Realm.getDefaultInstance();
-        RecipeRealmObject realmObject = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING).first();
-        recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
-        Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
-        new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
-            @Override
-            public void onSuccess(Object response) {
-                ResponseBody responseBody = (ResponseBody) response;
-                try {
-                    JSONObject json = new JSONObject(responseBody.string());
-                    JSONArray recipeJSONArray = json.getJSONArray("searchResults");
-                    if ((recipeJSONArray != null) && (recipeJSONArray.length() > 0)) {
-                        new RecipeDataManager().insertOrUpdateRecipe(recipeJSONArray);
-                        recipeRequestParams.setOffset(recipeRequestParams.getOffset() + recipeRequestParams.getMax());
-                        if (recipeJSONArray.length() >= recipeRequestParams.getMax()) {
-                            getLatestRecipes();
-                        }
-                    } else {
+        RealmResults<RecipeRealmObject> recipeRealmObjects = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING);
+        if (recipeRealmObjects.size() > 0) {
+            RecipeRealmObject realmObject = recipeRealmObjects.first();
+            recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
+            Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
+            new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
+                @Override
+                public void onSuccess(Object response) {
+                    ResponseBody responseBody = (ResponseBody) response;
+                    try {
+                        JSONObject json = new JSONObject(responseBody.string());
+                        JSONArray recipeJSONArray = json.getJSONArray("searchResults");
+                        if ((recipeJSONArray != null) && (recipeJSONArray.length() > 0)) {
+                            new RecipeDataManager().insertOrUpdateRecipe(recipeJSONArray);
+                            recipeRequestParams.setOffset(recipeRequestParams.getOffset() + recipeRequestParams.getMax());
+                            if (recipeJSONArray.length() >= recipeRequestParams.getMax()) {
+                                getLatestRecipes();
+                            }
+                        } else {
 //                        Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailure(String message) {
+                @Override
+                public void onFailure(String message) {
 //                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
-            }
+                }
 
-            @Override
-            public void onError(Object response) {
+                @Override
+                public void onError(Object response) {
 //                Toast.makeText(context, "Update Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
+            });
+        }
     }
 
 

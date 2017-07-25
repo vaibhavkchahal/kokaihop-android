@@ -26,9 +26,9 @@ public class EmailPreferencesViewModel extends BaseViewModel {
         this.context = context;
         emailPreferences = new EmailPreferences();
         if (user.getSettings() != null) {
-            emailPreferences.setTodayRecipe(user.getSettings().isSuggestionsOfTheDay());
-            emailPreferences.setDrinkingTips(user.getSettings().isNewsletters());
-            emailPreferences.setNoEmail(user.getSettings().isNoEmails());
+            emailPreferences.getSettings().setSuggestionsOfTheDay(user.getSettings().isSuggestionsOfTheDay());
+            emailPreferences.getSettings().setNewsletters(user.getSettings().isNewsletters());
+            emailPreferences.getSettings().setNoEmails(user.getSettings().isNoEmails());
         }
     }
 
@@ -45,14 +45,14 @@ public class EmailPreferencesViewModel extends BaseViewModel {
         switch ((view.getId())) {
 
             case R.id.cb_email_pref_no_email:
-                emailPreferences.setTodayRecipe(!((CheckBox) view).isChecked());
-                emailPreferences.setDrinkingTips(!((CheckBox) view).isChecked());
+                emailPreferences.getSettings().setSuggestionsOfTheDay(!((CheckBox) view).isChecked());
+                emailPreferences.getSettings().setNewsletters(!((CheckBox) view).isChecked());
                 break;
             default:
-                if (emailPreferences.isTodayRecipe() || emailPreferences.isDrinkingTips()) {
-                    emailPreferences.setNoEmail(false);
+                if (emailPreferences.getSettings().isSuggestionsOfTheDay() || emailPreferences.getSettings().isNewsletters()) {
+                    emailPreferences.getSettings().setNoEmails(false);
                 } else {
-                    emailPreferences.setNoEmail(true);
+                    emailPreferences.getSettings().setNoEmails(true);
                 }
         }
     }
@@ -66,6 +66,9 @@ public class EmailPreferencesViewModel extends BaseViewModel {
             public void onSuccess(SettingsResponse response) {
                 if (response.isSuccess()) {
                     Toast.makeText(context, context.getString(R.string.settings_updated), Toast.LENGTH_SHORT).show();
+                    user.getSettings().setSuggestionsOfTheDay(emailPreferences.getSettings().isSuggestionsOfTheDay());
+                    user.getSettings().setNewsletters(emailPreferences.getSettings().isNewsletters());
+                    user.getSettings().setNoEmails(emailPreferences.getSettings().isNoEmails());
                     ((Activity) context).finish();
                 }
             }
