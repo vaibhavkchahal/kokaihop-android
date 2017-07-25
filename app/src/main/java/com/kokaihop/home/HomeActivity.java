@@ -25,6 +25,7 @@ import com.kokaihop.customviews.NotificationDialogActivity;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.userprofile.ConfirmImageUploadActivity;
+import com.kokaihop.recipedetail.AddToListEvent;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CameraUtils;
@@ -252,6 +253,12 @@ public class HomeActivity extends BaseActivity {
         TextView listCount = (TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.txtview_list_count);
         listCount.setText(String.valueOf(counterEvent.getCount()));
         EventBus.getDefault().removeStickyEvent(counterEvent);
+    }
+
+    @Subscribe(sticky = true)
+    public void onUpdateShoppingList(AddToListEvent addToListEvent) {
+        refreshFragment(2);
+        EventBus.getDefault().removeStickyEvent(addToListEvent);
     }
 
     private void refreshFragment(int postionFragmentToRefresh) {

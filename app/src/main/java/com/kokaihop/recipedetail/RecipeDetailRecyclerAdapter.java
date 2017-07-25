@@ -62,6 +62,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     private Context context;
     private PortionClickListener onPortionClickListener;
+    private AddToListClickListener onAddToListClickListener;
     private String comingFrom;
 
     public RecipeDetailRecyclerAdapter(String comingFrom, List<Object> list) {
@@ -205,10 +206,16 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 ViewHolderIngrdientVariator holderVariator = (ViewHolderIngrdientVariator) holder;
                 final RecipeQuantityVariator variator = (RecipeQuantityVariator) recipeDetailItemsList.get(position);
                 holderVariator.binder.setModel(variator);
-                holderVariator.binder.setClick(new PortionClickListener() {
+                holderVariator.binder.setPortionClick(new PortionClickListener() {
                     @Override
                     public void onPortionClick(int quantity) {
                         onPortionClickListener.onPortionClick(quantity);
+                    }
+                });
+                holderVariator.binder.setAddToListClick(new AddToListClickListener() {
+                    @Override
+                    public void onAddToListClick() {
+                        onAddToListClickListener.onAddToListClick();
                     }
                 });
                 holderVariator.binder.executePendingBindings();
@@ -366,6 +373,11 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     }
 
+    public void setAddToListClickListener(AddToListClickListener onAddToListClickListener) {
+        this.onAddToListClickListener = onAddToListClickListener;
+
+    }
+
 
     public class ViewHolderMainHeader extends RecyclerView.ViewHolder {
         public RecipeDetailItemMainHeaderBinding binder;
@@ -499,5 +511,9 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
 
     public interface PortionClickListener {
         void onPortionClick(int quantity);
+    }
+
+    public interface AddToListClickListener {
+        void onAddToListClick();
     }
 }

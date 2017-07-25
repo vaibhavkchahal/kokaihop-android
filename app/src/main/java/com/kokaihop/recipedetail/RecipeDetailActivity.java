@@ -39,6 +39,7 @@ import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.home.ShoppingDataManager;
 import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
@@ -59,6 +60,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
@@ -188,8 +191,38 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
             }
         });
+        recyclerAdapter.setAddToListClickListener(new RecipeDetailRecyclerAdapter.AddToListClickListener() {
+            @Override
+            public void onAddToListClick() {
+                addItemsToShoppingList();
+                EventBus.getDefault().postSticky(new AddToListEvent());
+            }
+        });
         recyclerViewRecipeDetail.setAdapter(recyclerAdapter);
     }
+
+    private void addItemsToShoppingList() {
+        // club similar recipe ingredient.
+        Map<String, IngredientsRealmObject> recipeIngredientsMap = new HashMap<>();
+        for (Object object : recipeDetailViewModel.getRecipeDetailItemsList()) {
+            if (object instanceof IngredientsRealmObject) {
+                IngredientsRealmObject ingredientsRealmObject = (IngredientsRealmObject) object;
+                String ingredientKey = AppUtility.checkIfUnitExist(ingredientsRealmObject);
+                if (recipeIngredientsMap.containsKey(ingredientKey)) {
+                    IngredientsRealmObject mapIngredientObject = recipeIngredientsMap.get(ingredientKey);
+                    mapIngredientObject.setAmount(ingredientsRealmObject.getAmount() + mapIngredientObject.getAmount());
+                } else {
+                    recipeIngredientsMap.put(ingredientKey, ingredientsRealmObject);
+                }
+            }
+        }
+        // club recipe ingredient with similar ingredient in shopping list.
+        ShoppingDataManager shoppingDataManager = new ShoppingDataManager();
+        shoppingDataManager.addRecipeIngredientToShoppingList(recipeIngredientsMap);
+
+        AppUtility.showAutoCancelMsgDialog(this,recipeIngredientsMap.size()+getString(R.string.item_added_text));
+    }
+
 
     private void showPortionDialog(final int quantity) {
         if (portionDialog == null) {
@@ -308,7 +341,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         });
     }
 
-    public void setPagerData() {
+    private void setPagerData() {
         if (recipeDetailPagerAdapter == null) {
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
             viewPager.setAdapter(recipeDetailPagerAdapter);

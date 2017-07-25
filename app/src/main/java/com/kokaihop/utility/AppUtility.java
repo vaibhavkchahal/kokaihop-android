@@ -6,7 +6,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
+import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.home.HomeActivity;
 
@@ -90,6 +93,7 @@ public class AppUtility {
         if (context != null) {
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.custom_rating_success_view);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             TextView textView = (TextView) dialog.findViewById(R.id.txtview_rating_sucess);
             if (message.isEmpty()) {
                 textView.setVisibility(View.GONE);
@@ -178,6 +182,16 @@ public class AppUtility {
         if (string == null || string.trim().length() == 0)
             return true;
         return false;
+    }
+
+    public static String checkIfUnitExist(IngredientsRealmObject object) {
+        String existingIngredientObjectKey;
+        if (object.getUnit() != null) {
+            existingIngredientObjectKey = object.getName() + object.getUnit().getName();
+        } else {
+            existingIngredientObjectKey = object.getName();
+        }
+        return existingIngredientObjectKey;
     }
 
 }

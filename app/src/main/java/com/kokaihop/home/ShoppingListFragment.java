@@ -38,6 +38,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     private ShoppingListViewModel viewModel;
     private FragmentShoppingListBinding binding;
     private ShoppingListRecyclerAdapter adapter;
+    private ShoppingDataManager shoppingDataManager;
+    private String accessToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_shopping_list, container, false);
+        accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
+        initializeShoppingList();
         viewModel = new ShoppingListViewModel(getContext(), this);
         binding.setViewModel(viewModel);
         initializerecyclerView();
@@ -59,11 +62,20 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         return binding.getRoot();
     }
 
+    private void initializeShoppingList() {
+        shoppingDataManager = new ShoppingDataManager();
+        if (shoppingDataManager.fetchShoppingRealmObject() == null) {
+            ShoppingListRealmObject shoppingListRealmObject = new ShoppingListRealmObject();
+            shoppingListRealmObject.setFriendlyUrl(Constants.SHOPPING_LIST_DEFAULT_FRIENDLY_URL);
+            shoppingListRealmObject.setName(Constants.SHOPPING_LIST_NAME_VALUE);
+            shoppingDataManager.insertOrUpdateData(shoppingListRealmObject);
+        }
+    }
+
     private void initializePullToRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
                 if (!accessToken.isEmpty()) {
                     viewModel.fetchIngredientFromDB();
                     viewModel.deleteIngredientOnServer();
@@ -143,7 +155,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             public void onClick(View v) {
                 if (binding.txtviewDone.getText().length() > 0) {
                     binding.txtviewDone.setText("");
-                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_md, 0, 0, 0);
+                    binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shopping_share_icon_selector, 0, 0, 0);
                     binding.txtviewEdit.setText(R.string.edit);
                     binding.relativeLayoutAddIngredient.setVisibility(View.VISIBLE);
                     binding.txtviewTitle.setText("Shopping List");
@@ -153,6 +165,12 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
 //                        viewModel.getShoppingDataManager().updateIngredientDeleteFlag(object, false);
                     }
                     adapter.setIndgredientEditor(false);
+                    if (viewModel.getIngredientsList().size() <= 0) {
+                        binding.txtviewDone.setEnabled(false);
+                    } else {
+                        binding.txtviewDone.setEnabled(true);
+                    }
+
                 } else {
                     // share
                     ShareContentShoppingIngredient shareContents = new ShareContentShoppingIngredient(getContext());
@@ -164,9 +182,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
     }
 
     @Override
-    public void onUpdateIngredientsList() {
+    public void onUpdateIngredientsList(int listCount) {
         RecyclerView recyclerView = binding.rvRecipeIngredients;
-        visibiltyCheckOnClearMarked();
+        visibiltyCheckOnClearMarked(listCount);
         if (recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
             recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount());
@@ -174,13 +192,15 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
         }
     }
 
-    private void visibiltyCheckOnClearMarked() {
-        if (viewModel != null && viewModel.getIngredientsList().size() > 0) {
+    private void visibiltyCheckOnClearMarked(int listCount) {
+        if (listCount > 0) {
             binding.txtviewClearMarked.setVisibility(View.VISIBLE);
             binding.txtviewEdit.setEnabled(true);
             binding.txtviewDone.setEnabled(true);
         } else {
-            binding.txtviewDone.setEnabled(false);
+            if (binding.txtviewDone.getText().length() == 0) {
+                binding.txtviewDone.setEnabled(false);
+            }
             binding.txtviewEdit.setEnabled(false);
             binding.txtviewClearMarked.setVisibility(View.GONE);
         }
