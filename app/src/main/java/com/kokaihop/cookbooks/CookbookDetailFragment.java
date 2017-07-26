@@ -85,8 +85,12 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
                     if (!cookbookFriendlyUrl.equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                         binding.ivCookbookBack.setVisibility(View.GONE);
                         binding.tvCookbookRename.setVisibility(View.VISIBLE);
+                        binding.tvCookbookEdit.setText(R.string.done);
+                    }else{
+                        if(viewModel.getRecipeList().size()>0){
+                            binding.tvCookbookEdit.setText(R.string.done);
+                        }
                     }
-                    binding.tvCookbookEdit.setText(R.string.done);
                     adapter.enterRecipeEditMode();
                     adapter.setEditCookbook(true);
                 } else {
