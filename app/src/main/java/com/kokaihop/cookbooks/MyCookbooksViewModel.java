@@ -113,7 +113,9 @@ public class MyCookbooksViewModel extends BaseViewModel {
     }
 
     private void showUserProfile() {
-        ((MyCookbooksFragment) fragment).showUserProfile();
+        if(fragment.isVisible()){
+            ((MyCookbooksFragment) fragment).showUserProfile();
+        }
     }
 
     public void createNewCookbook() {
