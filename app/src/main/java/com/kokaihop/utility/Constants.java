@@ -69,4 +69,10 @@ public class Constants {
     public static final String TEMP_INGREDIENT_ID_SIGNATURE = "temp";
 
 
+    // coach mark keys
+    public static final String SEARCH_COACHMARK_VISIBILITY = "searchCoachMark";
+    public static final String USERPROFILE_COACHMARK_VISIBILITY = "userprofileCoachMark";
+    public static final String RECIPE_DETAIL_COACHMARK_VISIBILITY = "recipeDetailCoachMark";
+
+
 }

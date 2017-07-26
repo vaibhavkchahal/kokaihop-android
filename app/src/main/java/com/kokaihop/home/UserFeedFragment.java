@@ -1,9 +1,7 @@
 package com.kokaihop.home;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,8 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.LinearLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserFeedBinding;
@@ -24,7 +20,12 @@ import com.kokaihop.feed.MainCourseFragment;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
 import com.kokaihop.search.SearchActivity;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
+
+import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
 public class UserFeedFragment extends Fragment {
     static UserFeedFragment fragment;
@@ -58,27 +59,20 @@ public class UserFeedFragment extends Fragment {
         this.inflater = inflater;
         this.container = container;
         showUserProfile();
-        showCoachMark();
+        enableCoachMark(inflater);
         return userFeedBinding.getRoot();
     }
 
-    private void showCoachMark() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.search_coach_mark);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        //for dismissing anywhere you touch
-        View masterView = dialog.findViewById(R.id.parent);
-        masterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+    private void enableCoachMark(LayoutInflater inflater) {
+        boolean searchCoachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY);
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+        if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
+            View coachMarkView = inflater.inflate(R.layout.search_coach_mark, null);
+            AppUtility.showCoachMark(coachMarkView);
+            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, true);
+        }
     }
+
 
     public void showUserProfile() {
         userFeedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_feed, container, false);

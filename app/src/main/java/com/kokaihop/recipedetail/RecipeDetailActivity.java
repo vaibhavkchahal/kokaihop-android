@@ -1,14 +1,12 @@
 package com.kokaihop.recipedetail;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -29,7 +27,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -69,7 +66,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
+import static com.kokaihop.KokaihopApplication.getContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
+import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
@@ -110,25 +109,18 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         from = getIntent().getStringExtra("from");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
-        showCoachMark();
+        enableCoachMark();
     }
 
-    private void showCoachMark() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.recipe_detail_coach_mark);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        //for dismissing anywhere you touch
-        View masterView = dialog.findViewById(R.id.parent);
-        masterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
+    private void enableCoachMark() {
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+        boolean coachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY);
+        if (accessToken != null && !accessToken.isEmpty() && !coachMarkVisibilty) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View coachMarkView = inflater.inflate(R.layout.recipe_detail_coach_mark, null);
+            AppUtility.showCoachMark(coachMarkView);
+            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY, true);
+        }
     }
 
     public void setupRecipeDetailScreen() {
@@ -413,7 +405,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.icon_like) {
-                    String accessToken = getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+                    String accessToken = getSharedPrefStringData(context, ACCESS_TOKEN);
                     if (accessToken == null || accessToken.isEmpty()) {
                         AppUtility.showLoginDialog(context, getString(R.string.members_area), getString(R.string.login_like_message));
                     } else {
@@ -437,7 +429,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void actionOnRecipeLike(final MenuItem item, final RecipeRealmObject recipe, final RecipeHandler recipeHandler) {
-        String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
+        String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {
                 if (recipeExistsInAnyCookbook(recipe.get_id())) {
@@ -533,7 +525,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_camera:
-                String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                String accessToken = getSharedPrefStringData(this, ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
                 } else {
@@ -541,7 +533,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_add_to_wishlist:
-                accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
+                accessToken = getSharedPrefStringData(this, ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_add_to_cookbook_message));
                 } else {

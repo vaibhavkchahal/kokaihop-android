@@ -1,11 +1,9 @@
 package com.kokaihop.home;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
@@ -16,9 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -83,7 +79,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         if (accessToken != null && !accessToken.isEmpty()) {
             setupUserProfileScreen();
             setAppBarListener();
-            showCoachMark();
             return userProfileBinding.getRoot();
         } else {
             showSignUpScreen();
@@ -91,22 +86,19 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         }
     }
 
-    private void showCoachMark() {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.userprofile_screen_coach_mark);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        //for dismissing anywhere you touch
-        View masterView = dialog.findViewById(R.id.parent);
-        masterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+            boolean searchCoachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY);
+            if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
+                AppUtility.showCoachMark(coachMarkView);
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
             }
-        });
-        dialog.show();
+        }
     }
 
     public void showSignUpScreen() {

@@ -45,6 +45,9 @@ public class SettingsViewModel extends BaseViewModel {
                 context.startActivity(intent);
                 User.removeInstance();
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN, null);
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY, false);
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, false);
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, false);
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.USER_ID, null);
                 SharedPrefUtils.setSharedPrefStringData(getContext(), Constants.FRIENDLY_URL, null);
                 dialog.dismiss();
