@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySearchBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogSearchFilterBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.FeedRecyclerAdapter;
@@ -68,6 +69,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 onBackPressed();
             }
         });
+
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.search_screen));
 
 
     }
@@ -173,6 +176,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
             filterDialog = setDialogConfigration(bindingSearchBottomSheetDialog);
         }
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.recipe_filter_screen));
+
 
         bindingSearchBottomSheetDialog.textviewTitle.setText(title);
         RecyclerView recylRecyclerViewFilter = bindingSearchBottomSheetDialog.recyclerViewFilter;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityAddIngredientsBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.Constants;
 
@@ -29,6 +30,11 @@ public class AddIngredientActivity extends BaseActivity implements AddIngredient
         Intent intent = getIntent();
         if (intent.getStringExtra(Constants.INGREDIENT_NAME) != null) {
             binding.edittextEnterIngredient.setText(intent.getStringExtra(Constants.INGREDIENT_NAME));
+            GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.ingredient_edit_screen));
+        }
+        else
+        {
+            GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.ingredient_add_screen));
         }
         if (intent.getFloatExtra(Constants.INGREDIENT_AMOUNT, 0) != 0) {
             binding.edittextQuantity.setText(String.valueOf(intent.getFloatExtra(Constants.INGREDIENT_AMOUNT, 0)));

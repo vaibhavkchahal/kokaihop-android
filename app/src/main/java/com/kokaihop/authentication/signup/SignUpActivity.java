@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
 import com.kokaihop.city.CityLocation;
@@ -21,6 +22,8 @@ public class SignUpActivity extends BaseActivity {
         com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding signUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
         signUpViewModel = new SignUpViewModel();
         signUpBinding.setViewModel(signUpViewModel);
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.register_screen));
+
     }
 
     @Override

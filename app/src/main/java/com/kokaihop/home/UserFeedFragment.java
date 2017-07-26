@@ -46,11 +46,13 @@ public class UserFeedFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.i("onCreate user feed fragment", "onCreate");
-        if (getArguments() != null) {
-        }
     }
 
     @Override

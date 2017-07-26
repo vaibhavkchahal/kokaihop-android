@@ -1,6 +1,5 @@
 package com.kokaihop.recipedetail;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +32,7 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.customviews.AppBarStateChangeListener;
@@ -41,6 +41,7 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.home.ShoppingDataManager;
+import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.Cookbook;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppUtility;
@@ -56,8 +57,6 @@ import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,6 +68,7 @@ import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.KokaihopApplication.getContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
+import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
@@ -76,6 +76,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private int portionMinValue = 1;
     private int portionMaxValue = 79;
 
+    private Uri imageUri;
+    private String filePath;
     private ViewPager viewPager;
     private ActivityRecipeDetailBinding binding;
     private RecipeDetailViewModel recipeDetailViewModel;
@@ -96,6 +98,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String friendlyUrl;
     private String from;
     private Menu menu;
+    private int currentPagerPosition = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         from = getIntent().getStringExtra("from");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
+        GoogleAnalyticsHelper.trackScreenName(RecipeDetailActivity.this, getString(R.string.recipe_detail_screen));
         enableCoachMark();
     }
 
@@ -362,7 +366,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         }
         viewPager.setOffscreenPageLimit(recipeDetailViewModel.getPagerImages().size());
         if (recipeDetailViewModel.getPagerImages().size() > 0) {
-            txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
+            txtviewPagerProgress.setText(currentPagerPosition + "/" + recipeDetailViewModel.getPagerImages().size());
         }
         if (recipeDetailViewModel.getPagerImages().size() > 1) {
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
@@ -405,7 +409,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.icon_like) {
-                    String accessToken = getSharedPrefStringData(context, ACCESS_TOKEN);
+                    String accessToken = getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
                     if (accessToken == null || accessToken.isEmpty()) {
                         AppUtility.showLoginDialog(context, getString(R.string.members_area), getString(R.string.login_like_message));
                     } else {
@@ -429,7 +433,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void actionOnRecipeLike(final MenuItem item, final RecipeRealmObject recipe, final RecipeHandler recipeHandler) {
-        String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, ACCESS_TOKEN);
+        String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {
                 if (recipeExistsInAnyCookbook(recipe.get_id())) {
@@ -472,26 +476,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     //    checks whether a recipe exists in any of the cookbook of user
     public boolean recipeExistsInAnyCookbook(String recipeId) {
         for (Cookbook cookbook : User.getInstance().getCookbooks()) {
-            if (cookbook.getFriendlyUrl() != Constants.FAVORITE_RECIPE_FRIENDLY_URL) {
+            if (!cookbook.getFriendlyUrl().equals(Constants.FAVORITE_RECIPE_FRIENDLY_URL)) {
                 if (RecipeUtils.getRecipeIndexInCookbook(userFriendlyUrl, cookbook.getFriendlyUrl(), recipeId) >= 0) {
                     return true;
                 }
             }
         }
         return false;
-    }
-
-    //    returns the index of recipe in the cookbook
-    public int indexOfRecipe(String recipeId, JSONArray cookbook) {
-        for (int i = 0; i < cookbook.length(); i++) {
-            try {
-                if (cookbook.getString(i).equals(recipeId))
-                    return i;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return -1;
     }
 
     @Override
@@ -525,15 +516,16 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 }
                 return true;
             case R.id.icon_camera:
-                String accessToken = getSharedPrefStringData(this, ACCESS_TOKEN);
+                String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
                 } else {
+                    currentPagerPosition = viewPager.getCurrentItem() + 1;
                     CameraUtils.selectImage(this);
                 }
                 return true;
             case R.id.icon_add_to_wishlist:
-                accessToken = getSharedPrefStringData(this, ACCESS_TOKEN);
+                accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_add_to_cookbook_message));
                 } else {
@@ -560,7 +552,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     @Override
     public void onCounterUpdate() {
         if (viewPager.getAdapter().getCount() > 0) {
-            binding.txtviewPagerProgress.setText("1/" + recipeDetailViewModel.getPagerImages().size());
+            binding.txtviewPagerProgress.setText(currentPagerPosition + "/" + recipeDetailViewModel.getPagerImages().size());
 
         }
     }
@@ -581,20 +573,20 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri imageUri;
-        String filePath;
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
-                if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                    imageUri = data.getData();
-                    filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
-                } else {
-                    filePath = CameraUtils.onCaptureImageResult();
-
-                }
-                Logger.d("File Path", filePath);
+        if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
+            if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
+                imageUri = data.getData();
+                filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
+                Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                confirmIntent.setData(imageUri);
+                startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+            } else {
+                filePath = CameraUtils.onCaptureImageResult();
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
-            } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
+            }
+            Logger.d("File Path", filePath);
+        } else if (requestCode == RecipeDetailViewModel.ADD_TO_COOKBOOK_REQ_CODE) {
+            if (data != null) {
                 MenuItem menuItemLike = menu.findItem(R.id.icon_like);
                 boolean isFavorite = data.getBooleanExtra("favorite", false);
                 menuItemLike.setChecked(isFavorite);
@@ -602,6 +594,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                     menuItemLike.setIcon(R.drawable.ic_like_sm);
                 }
             }
+        } else if (requestCode == Constants.CONFIRM_REQUEST_CODE && resultCode == RESULT_OK) {
+            recipeDetailViewModel.uploadImageOnCloudinary(filePath);
         }
     }
 
@@ -622,5 +616,4 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             super.onBackPressed();
         }
     }
-
 }

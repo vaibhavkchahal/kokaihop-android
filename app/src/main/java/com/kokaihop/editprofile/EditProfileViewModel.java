@@ -68,6 +68,7 @@ public class EditProfileViewModel extends BaseViewModel {
         city.setLiving(new CityLiving());
         city.getLiving().setName(user.getCityName());
         settingsApiHelper = new SettingsApiHelper();
+        setProfileImage();
     }
 
     @Bindable

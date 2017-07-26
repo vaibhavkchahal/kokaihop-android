@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityReplyCommentBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.NetworkUtils;
 
@@ -33,6 +34,8 @@ public class ReplyCommentActivity extends BaseActivity implements ReplyCommentVi
         binding.setViewModel(replyCommentViewModel);
         initializeRecycleView();
         initializePullToRefresh();
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.recipe_comment_screen));
+
     }
 
     private void initializeRecycleView() {

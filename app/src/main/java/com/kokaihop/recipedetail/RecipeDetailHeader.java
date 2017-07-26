@@ -11,12 +11,14 @@ public class RecipeDetailHeader {
     private String badgeType;
     private String description;
     private String recipeId;
+    private String creatorFriendlyUrl;
 
-    public RecipeDetailHeader(float rating, String title, String badgeType, String description) {
+    public RecipeDetailHeader(float rating, String title, String badgeType, String description, String creatorFriendlyUrl) {
         this.rating = rating;
         this.title = title;
         this.badgeType = badgeType;
         this.description = description;
+        this.creatorFriendlyUrl = creatorFriendlyUrl;
     }
 
     public float getRating() {
@@ -57,5 +59,13 @@ public class RecipeDetailHeader {
 
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public String getCreatorFriendlyUrl() {
+        return creatorFriendlyUrl;
+    }
+
+    public void setCreatorFriendlyUrl(String creatorFriendlyUrl) {
+        this.creatorFriendlyUrl = creatorFriendlyUrl;
     }
 }

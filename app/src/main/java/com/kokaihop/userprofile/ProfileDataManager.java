@@ -76,10 +76,10 @@ public class ProfileDataManager {
             user.setRecipeCount(userRealmObject.getRecipeCount());
             user.setRecipesCollectionCount(userRealmObject.getRecipesCollectionCount());
             user.setSettings(new Settings());
-            if (userRealmObject.getSettingsRealmObject() != null) {
-                user.getSettings().setNewsletters(userRealmObject.getSettingsRealmObject().isNewsletters());
-                user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettingsRealmObject().isSuggestionsOfTheDay());
-                user.getSettings().setNoEmails(userRealmObject.getSettingsRealmObject().isNoEmails());
+            if (userRealmObject.getSettings() != null) {
+                user.getSettings().setNewsletters(userRealmObject.getSettings().isNewsletters());
+                user.getSettings().setSuggestionsOfTheDay(userRealmObject.getSettings().isSuggestionsOfTheDay());
+                user.getSettings().setNoEmails(userRealmObject.getSettings().isNoEmails());
 
             }
             ArrayList<Cookbook> cookbooks = new ArrayList<>();

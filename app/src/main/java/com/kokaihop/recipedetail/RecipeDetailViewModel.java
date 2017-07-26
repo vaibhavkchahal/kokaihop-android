@@ -61,12 +61,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
     private JSONObject copyJsonObject;
     private JSONObject collectionMapping;
     final static int ADD_TO_COOKBOOK_REQ_CODE = 10;
+    private RealmList<RecipeDetailPagerImages> pagerImages = new RealmList<>();
 
     public RealmList<RecipeDetailPagerImages> getPagerImages() {
         return pagerImages;
     }
-
-    RealmList<RecipeDetailPagerImages> pagerImages = new RealmList<>();
 
     public List<Object> getRecipeDetailItemsList() {
         return recipeDetailItemsList;
@@ -87,7 +86,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
             this.recipeId = recipeRealmObject.get_id();
 
         }
-        pagerImages = recipeRealmObject.getImages();
+        pagerImages.clear();
+        pagerImages.addAll(recipeRealmObject.getImages());
         prepareRecipeDetailList(recipeRealmObject);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
@@ -144,7 +144,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
                     recipeDataManager.updateSimilarRecipe(friendlyUrl, recipeJSONArray);
                     recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
                     prepareRecipeDetailList(recipeRealmObject);
-                    pagerImages = recipeRealmObject.getImages();
+                    pagerImages.clear();
+                    pagerImages.addAll(recipeRealmObject.getImages());
                     dataSetListener.onRecipeDetailDataUpdate();
                     dataSetListener.onPagerDataUpdate();
                     dataSetListener.onCounterUpdate();
@@ -173,11 +174,15 @@ public class RecipeDetailViewModel extends BaseViewModel {
         if (recipeRealmObject.getDescription() != null) {
             description = recipeRealmObject.getDescription().getLongDescription();
         }
-        float rating = 0;
+        float rating = 0.0f;
         if (recipeRealmObject.getRating() != null) {
-            recipeRealmObject.getRating().getAverage();
+            rating = recipeRealmObject.getRating().getAverage();
         }
-        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description);
+        String creatorFriendlyUrl = "";
+        if (recipeRealmObject.getCreatedBy() != null) {
+            creatorFriendlyUrl = recipeRealmObject.getCreatedBy().getFriendlyUrl();
+        }
+        RecipeDetailHeader recipeDetailHeader = new RecipeDetailHeader(rating, recipeRealmObject.getTitle(), recipeRealmObject.getBadgeType(), description, creatorFriendlyUrl);
         recipeDetailHeader.setRecipeId(recipeRealmObject.get_id());
         recipeDetailItemsList.add(recipeDetailHeader);
         AdView adViewBanner = new AdView(context);
@@ -401,29 +406,34 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             public void onSuccess(Object response) {
                                 Logger.e("image upload", "success " + response.toString());
                                 Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
-                                ((RecipeDetailActivity) context).setupRecipeDetailScreen();
+//                                dataSetListener.onPagerDataUpdate();
+                                getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
                             }
 
                             @Override
                             public void onFailure(String message) {
                                 Logger.e("image upload", message);
                                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                setProgressVisible(false);
                             }
 
                             @Override
                             public void onError(Object response) {
                                 Logger.e("image upload", "failure " + response.toString());
                                 Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
+                                setProgressVisible(false);
                             }
                         });
                     } else {
                         Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
+                        setProgressVisible(false);
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    setProgressVisible(false);
                 }
-                setProgressVisible(false);
             }
         });
         uploadImageAsync.execute();

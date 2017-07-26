@@ -1,15 +1,23 @@
 package com.kokaihop.home;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.authentication.AuthenticationApiHelper;
+import com.kokaihop.authentication.AuthenticationApiResponse;
+import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.recipe.RecipeApiHelper;
 import com.kokaihop.recipe.RecipeRequestParams;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +25,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 import okhttp3.ResponseBody;
 
@@ -24,7 +33,7 @@ import okhttp3.ResponseBody;
  * Created by Rajendra Singh on 12/5/17.
  */
 
-public class HomeViewModel {
+public class HomeViewModel extends BaseViewModel {
     Context context;
 
     public HomeViewModel(Context context) {
@@ -34,42 +43,45 @@ public class HomeViewModel {
     public void getLatestRecipes() {
         final RecipeRequestParams recipeRequestParams = getRecipeRequestParams();
         final Realm realm = Realm.getDefaultInstance();
-        RecipeRealmObject realmObject = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING).first();
-        recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
-        Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
-        new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
-            @Override
-            public void onSuccess(Object response) {
-                ResponseBody responseBody = (ResponseBody) response;
-                try {
-                    JSONObject json = new JSONObject(responseBody.string());
-                    JSONArray recipeJSONArray = json.getJSONArray("searchResults");
-                    if ((recipeJSONArray != null) && (recipeJSONArray.length() > 0)) {
-                        new RecipeDataManager().insertOrUpdateRecipe(recipeJSONArray);
-                        recipeRequestParams.setOffset(recipeRequestParams.getOffset() + recipeRequestParams.getMax());
-                        if (recipeJSONArray.length() >= recipeRequestParams.getMax()) {
-                            getLatestRecipes();
-                        }
-                    } else {
+        RealmResults<RecipeRealmObject> recipeRealmObjects = realm.where(RecipeRealmObject.class).findAllSorted("dateCreated", Sort.DESCENDING);
+        if (recipeRealmObjects.size() > 0) {
+            RecipeRealmObject realmObject = recipeRealmObjects.first();
+            recipeRequestParams.setTimeStamp(realmObject.getDateCreated());
+            Logger.e("Latest Date", realmObject.getDateCreated() + "ms");
+            new RecipeApiHelper().getLatestRecipes(recipeRequestParams, new IApiRequestComplete() {
+                @Override
+                public void onSuccess(Object response) {
+                    ResponseBody responseBody = (ResponseBody) response;
+                    try {
+                        JSONObject json = new JSONObject(responseBody.string());
+                        JSONArray recipeJSONArray = json.getJSONArray("searchResults");
+                        if ((recipeJSONArray != null) && (recipeJSONArray.length() > 0)) {
+                            new RecipeDataManager().insertOrUpdateRecipe(recipeJSONArray);
+                            recipeRequestParams.setOffset(recipeRequestParams.getOffset() + recipeRequestParams.getMax());
+                            if (recipeJSONArray.length() >= recipeRequestParams.getMax()) {
+                                getLatestRecipes();
+                            }
+                        } else {
 //                        Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailure(String message) {
+                @Override
+                public void onFailure(String message) {
 //                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
-            }
+                }
 
-            @Override
-            public void onError(Object response) {
+                @Override
+                public void onError(Object response) {
 //                Toast.makeText(context, "Update Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
+            });
+        }
     }
 
 
@@ -87,4 +99,33 @@ public class HomeViewModel {
         return recipeRequestParams;
     }
 
+    public void login(String userName, String password) {
+        new AuthenticationApiHelper(context).doLogin(userName, password, new IApiRequestComplete<AuthenticationApiResponse>() {
+            @Override
+            public void onSuccess(AuthenticationApiResponse response) {
+                setProgressVisible(false);
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_Email_PASSWORD, "");
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onError(AuthenticationApiResponse response) {
+                setProgressVisible(false);
+            }
+        });
+    }
+
+    @Override
+    protected void destroy() {
+
+    }
 }

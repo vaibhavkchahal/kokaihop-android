@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityChangePasswordBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 
 /**
@@ -24,5 +25,7 @@ public class ChangePasswordActivity extends BaseActivity{
         passwordBinding = DataBindingUtil.setContentView(this, R.layout.activity_change_password);
         viewModel = new ChangePasswordViewModel(this,passwordBinding);
         passwordBinding.setViewModel(viewModel);
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.password_edit_screen));
+
     }
 }

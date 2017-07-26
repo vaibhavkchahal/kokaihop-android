@@ -14,6 +14,7 @@ import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
+import com.kokaihop.utility.SharedPrefUtils;
 
 public class RecipeFragment extends Fragment {
 
@@ -23,7 +24,8 @@ public class RecipeFragment extends Fragment {
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private View noData;
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
+    private User user;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -42,8 +44,14 @@ public class RecipeFragment extends Fragment {
         String userId = bundle.getString(Constants.USER_ID);
         this.inflater = inflater;
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history_recipe, container, false);
-        viewModel = new RecipeViewModel(this, getContext(), userId);
-        adapter = new RecipeHistoryAdapter(this, User.getInstance().getRecipesList());
+        if (userId.equals(SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.USER_ID))) {
+            user = User.getInstance();
+        } else {
+            user = new User();
+        }
+        viewModel = new RecipeViewModel(this, getContext(), userId, user);
+        binding.setViewModel(viewModel);
+        adapter = new RecipeHistoryAdapter(this, user.getRecipesList());
         layoutManager = new CustomLinearLayoutManager(getContext());
         recyclerView = binding.rvHistoryList;
         recyclerView.setLayoutManager(layoutManager);
@@ -66,16 +74,16 @@ public class RecipeFragment extends Fragment {
     //    notify the adapter about the change in data.
     public void showUserProfile() {
         adapter.notifyDataSetChanged();
-        if (noData == null) {
-            noData = inflater.inflate(R.layout.layout_no_data_available, binding.recipeContainer, false);
-        }
-        if (adapter.getItemCount() <= 0) {
-            if (noData.getParent()!=null) {
-                ((ViewGroup)noData.getParent()).removeView(noData);
-            }
-            binding.recipeContainer.addView(noData, 0);
-        } else {
-            binding.recipeContainer.removeView(noData);
-        }
+//        if (noData == null) {
+//            noData = inflater.inflate(R.layout.layout_no_data_available, binding.recipeContainer, false);
+//        }
+//        if (adapter.getItemCount() <= 0) {
+//            if (noData.getParent() != null) {
+//                ((ViewGroup) noData.getParent()).removeView(noData);
+//            }
+//            binding.recipeContainer.addView(noData, 0);
+//        } else {
+//            binding.recipeContainer.removeView(noData);
+//        }
     }
 }

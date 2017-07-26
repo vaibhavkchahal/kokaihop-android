@@ -53,6 +53,9 @@ public class Constants {
     public static final int USERPROFILE_REQUEST = 4;
     public static final int COOKBOOK_REQUEST = 1;
 
+    public static String USER_Email_PASSWORD = "Email_Pwd";
+    public static int CONFIRM_REQUEST_CODE = 41;
+
 
     // shopping list request codes
     public static final int ADD_INGREDIENT_REQUEST_CODE = 300;

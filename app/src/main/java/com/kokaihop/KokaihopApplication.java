@@ -7,6 +7,8 @@ import com.altaworks.kokaihop.ui.R;
 import com.batch.android.Batch;
 import com.batch.android.Config;
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.kokaihop.utility.CustomFontFamily;
 
 import java.io.File;
@@ -33,16 +35,20 @@ public class KokaihopApplication extends Application {
     private static Context context;
     CustomFontFamily customFontFamily;
 
+    private static GoogleAnalytics sAnalytics;
+    private static Tracker sTracker;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        sAnalytics = GoogleAnalytics.getInstance(this);
         context = this;
         Fabric.with(getApplicationContext(), new Crashlytics());
         //Set true to overwrite database - Optional
         Batch.Push.setGCMSenderId(GCM_SENDER_ID);
         Batch.Push.setManualDisplay(true);
         // TODO : switch to live Batch Api Key before shipping
-        Batch.setConfig(new Config(BATCH_API_KEY)); // devlopement
+        Batch.setConfig(new Config(BATCH_API_KEY));
 
         boolean overwriteDatabase = false;
         if (overwriteDatabase) {
@@ -116,5 +122,18 @@ public class KokaihopApplication extends Application {
                 }
             }
         return false;
+    }
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+        if (sTracker == null) {
+            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+        }
+
+        return sTracker;
     }
 }

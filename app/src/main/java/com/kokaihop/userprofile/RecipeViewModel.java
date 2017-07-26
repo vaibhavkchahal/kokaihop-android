@@ -28,8 +28,6 @@ public class RecipeViewModel extends BaseViewModel {
     private Fragment fragment;
     private Context context;
     private String userId;
-
-
     private boolean isDownloading = true;
     private int max = 20;
     private int offset = 0;
@@ -41,13 +39,13 @@ public class RecipeViewModel extends BaseViewModel {
         this.context = context;
     }
 
-    public RecipeViewModel(Fragment fragment, Context context, String userId) {
+    public RecipeViewModel(Fragment fragment, Context context, String userId, User user) {
         this.max = 20;
         this.offset = 0;
         this.fragment = fragment;
         this.context = context;
         profileDataManager = new ProfileDataManager();
-        user = User.getInstance();
+        this.user = user;
         this.userId = userId;
     }
 

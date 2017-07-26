@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityOtherUserProfileBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.utility.Constants;
 
 public class OtherUserProfileActivity extends AppCompatActivity {
@@ -28,5 +29,9 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         fragment = new OtherUserProfileFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(binding.clOtherUserContainer.getId(),fragment).commit();
+
+
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.user_public_screen));
+
     }
 }
