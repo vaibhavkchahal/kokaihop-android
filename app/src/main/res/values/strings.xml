@@ -353,6 +353,7 @@
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
     <string name="confirm_upload">Confirm Upload</string>
     <string name="item_added_text">" item(s) added"</string>
+    <string name="comments_not_refreshed">Cannot refresh comments!!!</string>
 
 
 </resources>

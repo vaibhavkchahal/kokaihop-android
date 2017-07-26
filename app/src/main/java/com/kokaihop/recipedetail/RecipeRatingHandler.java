@@ -55,12 +55,16 @@ public class RecipeRatingHandler {
                 @Override
                 public void onFailure(String message) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    ratingBar.setRating(recipeDetailHeader.getRating());
                 }
 
                 @Override
                 public void onError(Object response) {
+                    ratingBar.setRating(recipeDetailHeader.getRating());
                 }
             });
+        }else{
+            ratingBar.setRating(recipeDetailHeader.getRating());
         }
 
     }
