@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.FacebookAuthRequest;
@@ -64,6 +65,9 @@ public class LoginViewModel extends BaseViewModel {
         new AuthenticationApiHelper(view.getContext()).doLogin(userName, password, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
+                Activity activity=(Activity) context;
+                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),1);
+
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
@@ -83,6 +87,10 @@ public class LoginViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                Activity activity=(Activity) context;
+                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),0);
+
+
             }
 
             @Override
@@ -115,6 +123,7 @@ public class LoginViewModel extends BaseViewModel {
 
     public void facebookLogin(final View view) {
         FacebookAuthentication authentication = new FacebookAuthentication();
+        final Activity activity=(Activity) view.getContext();
         authentication.facebookLogin(view, new FacebookAuthentication.FacebookResponseCallback() {
             @Override
             public void onSuccess(FacebookAuthRequest facebookAuthRequest) {
@@ -122,6 +131,9 @@ public class LoginViewModel extends BaseViewModel {
                 new AuthenticationApiHelper(view.getContext()).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
+
+                        GoogleAnalyticsHelper.trackEventAction(activity, view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),1);
+
                         setProgressVisible(false);
                         Context context = view.getContext();
                         Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
@@ -146,6 +158,8 @@ public class LoginViewModel extends BaseViewModel {
                     public void onFailure(String message) {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
+                        GoogleAnalyticsHelper.trackEventAction(activity, view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),0);
+
                     }
 
                     @Override

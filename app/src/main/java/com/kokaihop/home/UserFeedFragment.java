@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserFeedBinding;
 import com.altaworks.kokaihop.ui.databinding.TabFeedTabLayoutBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.feed.AppetizerFragment;
 import com.kokaihop.feed.CookieFragment;
 import com.kokaihop.feed.DessertFragment;
@@ -106,6 +107,48 @@ public class UserFeedFragment extends Fragment {
                 searchClick();
             }
         });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                trackGAEvent(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void trackGAEvent(int position) {
+        String label = "";
+        switch (position) {
+
+            case 0:
+                label = getString(R.string.main_course_label);
+                break;
+            case 1:
+                label = getString(R.string.appetizer_label);
+                break;
+            case 2:
+                label = getString(R.string.cookie_label);
+                break;
+            case 3:
+                label = getString(R.string.dessert_label);
+                break;
+            case 4:
+                label = getString(R.string.vegetarian_label);
+                break;
+        }
+        GoogleAnalyticsHelper.trackEventAction(getActivity(), getString(R.string.daily_category), getString(R.string.daily_selected_action), label);
+
+
     }
 
     public void searchClick() {

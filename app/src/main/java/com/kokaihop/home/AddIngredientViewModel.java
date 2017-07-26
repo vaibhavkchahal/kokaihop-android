@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.DialogIntgredientUnitBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
@@ -77,6 +78,7 @@ public class AddIngredientViewModel extends BaseViewModel {
         // extras null means addding new ingredient.
         if (activity.getIntent().getExtras() == null) {
             ValidationsOnAddingNewIngredient(ingredient, unit, value, amount, unitName, unitId, activity);
+
         } else {
             validationOnEditIngredient(ingredientName, amount, unitName, unitId, activity);
         }
@@ -125,6 +127,8 @@ public class AddIngredientViewModel extends BaseViewModel {
             }
             ingredientsRealmObject.setServerSyncNeeded(true);
             shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
+            GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_added_action), context.getString(R.string.buy_list_Ingredient_label));
+
             ingredient.setText("");
             unit.setText(context.getString(R.string.text_select));
             value.setText("");

@@ -1,9 +1,11 @@
 package com.kokaihop.userprofile;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.CheckBox;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
@@ -244,9 +246,13 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
         } else {
             String userId = user.get_id();
+            Activity activity=(Activity) context;
             if (checkbox.isChecked()) {
+                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_follow_action));
+
                 User.getInstance().getFollowing().add(user.get_id());
             } else {
+                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_unfollow_action));
                 User.getInstance().getFollowing().remove(user.get_id());
             }
             toggleFollowing(userId, checkbox);

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.home.HomeActivity;
 import com.kokaihop.userprofile.ProfileDataManager;
@@ -39,6 +40,8 @@ public class SettingsViewModel extends BaseViewModel {
         dialog.setMessage("Do you really want to logout!!!");
         dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                Activity activity = (Activity) context;
+                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_logout_action));
                 setProgressVisible(true);
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
