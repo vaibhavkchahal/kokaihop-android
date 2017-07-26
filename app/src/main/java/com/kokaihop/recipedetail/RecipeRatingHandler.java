@@ -8,6 +8,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
@@ -28,7 +29,11 @@ public class RecipeRatingHandler {
                         ratingBar.setRating(recipeDetailHeader.getRating());
                         AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_rating_message));
                     } else {
-                        updateRecipeRating(ratingBar, recipeDetailHeader);
+                        if (!recipeDetailHeader.getCreatorFriendlyUrl().equals(SharedPrefUtils.getSharedPrefStringData(context, Constants.FRIENDLY_URL))){
+                            updateRecipeRating(ratingBar, recipeDetailHeader);
+                        }else{
+                            ratingBar.setRating(recipeDetailHeader.getRating());
+                        }
                     }
                 }
             }

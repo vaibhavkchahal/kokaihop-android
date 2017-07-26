@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentFollowersFollowingBinding;
 import com.kokaihop.home.UserProfileFragment;
-import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.CustomLinearLayoutManager;
 import com.kokaihop.utility.RecyclerViewScrollListener;
+import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
 
@@ -25,12 +25,12 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     private FragmentFollowersFollowingBinding followersBinding;
     private FollowersFollowingViewModel followersViewModel;
     private FollowersFollowingAdapter followersAdapter;
-    private ArrayList<FollowingFollowerUser> followers;
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
     private String userId;
     private View noData;
     private LayoutInflater inflater;
+    private User user;
 
     public FollowersFragment() {
         // Required empty public constructor
@@ -47,12 +47,15 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         // Inflate the layout for this fragment
         Bundle bundle = this.getArguments();
         userId = bundle.getString(Constants.USER_ID);
+        if (userId.equals(SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.USER_ID))) {
+            user = User.getInstance();
+        } else {
+            user = new User();
+        }
         this.inflater = inflater;
         followersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
-        followers = new ArrayList<>();
-        FollowersFollowingList.getFollowersList().getUsers().clear();
-        followersViewModel = new FollowersFollowingViewModel(this, getContext(), userId);
-        followersAdapter = new FollowersFollowingAdapter(FollowersFollowingList.getFollowersList().getUsers(), followersViewModel);
+        followersViewModel = new FollowersFollowingViewModel(this, getContext(), userId, user);
+        followersAdapter = new FollowersFollowingAdapter(user.getFollowersList(), followersViewModel);
         layoutManager = new CustomLinearLayoutManager(this.getContext());
 
         followersBinding.setViewModel(followersViewModel);
@@ -80,22 +83,25 @@ public class FollowersFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         followersAdapter.notifyDataSetChanged();
+//
+//        if (noData == null) {
+//            noData = inflater.inflate(R.layout.layout_no_data_available, followersBinding.followerFollowigContainer, false);
+//        }
+//
+//        if (followersAdapter.getItemCount() <= 0) {
+//            if (noData.getParent() != null) {
+//                ((ViewGroup) noData.getParent()).removeView(noData);
+//            }
+//            followersBinding.followerFollowigContainer.addView(noData, 0);
+//        } else {
+//            followersBinding.followerFollowigContainer.removeView(noData);
+//        }
+        setFollowingButton();
+    }
 
-        if (noData == null) {
-            noData = inflater.inflate(R.layout.layout_no_data_available, followersBinding.followerFollowigContainer, false);
-        }
-
-        if (followersAdapter.getItemCount() <= 0) {
-            if (noData.getParent()!=null) {
-                ((ViewGroup)noData.getParent()).removeView(noData);
-            }
-            followersBinding.followerFollowigContainer.addView(noData, 0);
-        } else {
-            followersBinding.followerFollowigContainer.removeView(noData);
-        }
+    private void setFollowingButton() {
         ArrayList<String> usersFollowing = User.getInstance().getFollowing();
-
-        followers = FollowersFollowingList.getFollowersList().getUsers();
+        ArrayList<FollowingFollowerUser> followers = user.getFollowersList();
         for (FollowingFollowerUser user : followers) {
             if (!usersFollowing.contains(user.get_id())) {
                 user.setFollowingUser(false);

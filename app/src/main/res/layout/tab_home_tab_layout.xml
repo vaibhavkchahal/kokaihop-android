@@ -24,9 +24,9 @@
             android:id="@+id/txtview_list_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="3dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/home_tab_margin_end"
+            android:layout_marginTop="@dimen/home_tab_margin_top"
             android:background="@drawable/circlular_background"
             android:gravity="center"
             android:paddingBottom="1dp"
@@ -35,7 +35,7 @@
             android:paddingTop="1dp"
             android:text="0"
             android:textColor="@color/white"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:visibility="gone"/>
 
 

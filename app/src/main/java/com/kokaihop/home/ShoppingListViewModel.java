@@ -57,13 +57,10 @@ public class ShoppingListViewModel extends BaseViewModel {
         this.context = context;
         shoppingDataManager = new ShoppingDataManager();
         this.datasetListener = dataSetListener;
-        ShoppingListRealmObject shoppingListRealmObject = shoppingDataManager.fetchShoppingRealmObject();
         accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         authorizationToken = AUTHORIZATION_BEARER + accessToken;
         fetchIngredientFromDB();
-        if (shoppingListRealmObject != null) {
-            deleteIngredientOnServer();
-        }
+        deleteIngredientOnServer();
         if (!TextUtils.isEmpty(accessToken)) {
             fetchIngredientUnits();
 
@@ -83,6 +80,7 @@ public class ShoppingListViewModel extends BaseViewModel {
                 @Override
                 public void onSuccess(Object response) {
                     ShoppingListResponse shoppingApiResponse = (ShoppingListResponse) response;
+                    shoppingDataManager.deletePreviousShoppingList();
                     shoppingDataManager.insertOrUpdateData(shoppingApiResponse.getShoppingListRealmObject());
                     fetchIngredientFromDB();
                 }
@@ -136,7 +134,7 @@ public class ShoppingListViewModel extends BaseViewModel {
                 }
             }
         }
-        datasetListener.onUpdateIngredientsList();
+        datasetListener.onUpdateIngredientsList(ingredientsList.size());
         EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
     }
 
@@ -227,7 +225,7 @@ public class ShoppingListViewModel extends BaseViewModel {
     }
 
     public interface IngredientsDatasetListener {
-        void onUpdateIngredientsList();
+        void onUpdateIngredientsList(int listCount);
     }
 
     public void openEditScreen() {

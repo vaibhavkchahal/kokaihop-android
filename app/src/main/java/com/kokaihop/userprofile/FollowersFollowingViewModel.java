@@ -7,7 +7,6 @@ import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.FollowingFollowersApiResponse;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
@@ -36,17 +35,19 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     private int offset = 0;
     private int totalFollowing;
     private int totalFollowers;
+    private User user;
     ProfileDataManager profileDataManager;
 
     public FollowersFollowingViewModel(Context context) {
         this.context = context;
     }
 
-    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context, String userId) {
+    public FollowersFollowingViewModel(UserDataListener userDataListener, Context context, String userId, User user) {
         this.max = 20;
         this.offset = 0;
         this.userDataListener = userDataListener;
         this.context = context;
+        this.user = user;
         profileDataManager = new ProfileDataManager();
         this.userId = userId;
     }
@@ -97,28 +98,28 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     RealmList<UserRealmObject> userList = response.getUsers();
                     profileDataManager.insertOrUpdateFollowing(userList, userId);
 
-                    FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
+                    user.setFollowingCount(response.getTotal());
                     setTotalFollowing(response.getTotal());
                     if (getOffset() + getMax() >= getTotalFollowing()) {
                         setDownloading(false);
                     }
-                    setProgressVisible(false);
                     fetchFollowingFromDB();
+                    setProgressVisible(false);
                 }
 
                 @Override
                 public void onFailure(String message) {
                     Logger.e("Error", message);
+                    userDataListener.showUserProfile();
                     setDownloading(false);
                     setProgressVisible(false);
-                    userDataListener.showUserProfile();
                 }
 
                 @Override
                 public void onError(FollowingFollowersApiResponse response) {
+                    userDataListener.showUserProfile();
                     setDownloading(false);
                     setProgressVisible(false);
-                    userDataListener.showUserProfile();
                 }
             });
         }
@@ -128,8 +129,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     public void fetchFollowingFromDB() {
         ArrayList<FollowingFollowerUser> followingList;
         followingList = profileDataManager.fetchFollowingList(userId);
-        FollowersFollowingList.getFollowingList().getUsers().clear();
-        FollowersFollowingList.getFollowingList().getUsers().addAll(followingList);
+        user.getFollowingList().clear();
+        user.getFollowingList().addAll(followingList);
         userDataListener.showUserProfile();
     }
 
@@ -148,7 +149,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     RealmList<UserRealmObject> userList = response.getUsers();
                     profileDataManager.insertOrUpdateFollowers(userList, userId);
 
-                    FollowersFollowingList.getFollowingList().setTotal(response.getTotal());
+                    user.setFollowersCount(response.getTotal());
 
                     setTotalFollowers(response.getTotal());
                     fetchFollowersFromDB();
@@ -178,11 +179,10 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     }
 
     public void fetchFollowersFromDB() {
-
         ArrayList<FollowingFollowerUser> followersList;
         followersList = profileDataManager.fetchFollowersList(userId);
-        FollowersFollowingList.getFollowersList().getUsers().clear();
-        FollowersFollowingList.getFollowersList().getUsers().addAll(followersList);
+        user.getFollowersList().clear();
+        user.getFollowersList().addAll(followersList);
         userDataListener.showUserProfile();
 
     }
@@ -197,9 +197,9 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 if (checkBox.isChecked()) {
-                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.follow_success));
+                    AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.follow_success));
                 } else {
-                    AppUtility.showAutoCancelMsgDialog(context,context.getString(R.string.unfollow_success));
+                    AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.unfollow_success));
                 }
                 User.getInstance().setRefreshRequired(true);
             }
@@ -262,5 +262,4 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     public void setTotalFollowers(int totalFollowers) {
         this.totalFollowers = totalFollowers;
     }
-
 }

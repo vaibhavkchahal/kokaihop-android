@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.network.IApiRequestComplete;
-import com.kokaihop.userprofile.model.FollowersFollowingList;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
 import com.kokaihop.userprofile.model.User;
@@ -108,15 +107,14 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 followingUser.set_id(user.get_id());
                 followingUser.setFollowingUser(user.isFollowByMe());
                 followingUser.setProfileImage(user.getProfileImage());
-                FollowersFollowingList.getFollowingList().getUsers().add(followingUser);
+                user.getFollowingList().add(followingUser);
                 user.getFollowers().add(User.getInstance().get_id());
             } else {
                 User.getInstance().getFollowing().remove(user.get_id());
                 user.getFollowers().remove(User.getInstance().get_id());
-                int index = getIndexOfUser(userId, FollowersFollowingList.getFollowingList().getUsers());
+                int index = getIndexOfUser(userId, User.getInstance().getFollowingList());
                 if (index > -1) {
-                    FollowersFollowingList.getFollowingList().getUsers().remove(index);
-
+                    User.getInstance().getFollowingList().remove(index);
                 }
             }
             toggleFollowing(userId, user);
