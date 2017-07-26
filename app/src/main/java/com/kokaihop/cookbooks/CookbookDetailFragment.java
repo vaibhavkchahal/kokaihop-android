@@ -48,6 +48,7 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         this.inflater = inflater;
         if (Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
+            binding.tvCookbookEdit.setVisibility(View.GONE);
         }
         if (!SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL).equals(userFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
@@ -86,8 +87,8 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
                         binding.ivCookbookBack.setVisibility(View.GONE);
                         binding.tvCookbookRename.setVisibility(View.VISIBLE);
                         binding.tvCookbookEdit.setText(R.string.done);
-                    }else{
-                        if(viewModel.getRecipeList().size()>0){
+                    } else {
+                        if (viewModel.getRecipeList().size() > 0) {
                             binding.tvCookbookEdit.setText(R.string.done);
                         }
                     }
@@ -107,6 +108,9 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
 
     public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
+        if (adapter.getItemCount() > 0) {
+            binding.tvCookbookEdit.setVisibility(View.VISIBLE);
+        }
 //        if (noData == null) {
 //            noData = inflater.inflate(R.layout.layout_no_data_available, binding.clCookbookContainer, false);
 //        }
@@ -127,5 +131,8 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
     @Override
     public void updateList(int position) {
         adapter.removeRecipe(position);
+        if (adapter.getItemCount() == 0 && Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
+            binding.tvCookbookEdit.setVisibility(View.GONE);
+        }
     }
 }
