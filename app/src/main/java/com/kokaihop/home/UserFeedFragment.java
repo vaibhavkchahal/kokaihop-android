@@ -21,6 +21,12 @@ import com.kokaihop.feed.MainCourseFragment;
 import com.kokaihop.feed.PagerTabAdapter;
 import com.kokaihop.feed.VegetarianFragment;
 import com.kokaihop.search.SearchActivity;
+import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.Constants;
+import com.kokaihop.utility.Logger;
+import com.kokaihop.utility.SharedPrefUtils;
+
+import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
 public class UserFeedFragment extends Fragment {
     static UserFeedFragment fragment;
@@ -31,7 +37,6 @@ public class UserFeedFragment extends Fragment {
 
 
     public UserFeedFragment() {
-
     }
 
     public static UserFeedFragment getInstance() {
@@ -57,8 +62,20 @@ public class UserFeedFragment extends Fragment {
         this.inflater = inflater;
         this.container = container;
         showUserProfile();
+        enableCoachMark(inflater);
         return userFeedBinding.getRoot();
     }
+
+    private void enableCoachMark(LayoutInflater inflater) {
+        boolean searchCoachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY);
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+        if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
+            View coachMarkView = inflater.inflate(R.layout.search_coach_mark, null);
+            AppUtility.showCoachMark(coachMarkView);
+            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, true);
+        }
+    }
+
 
     public void showUserProfile() {
         userFeedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_feed, container, false);
@@ -75,9 +92,7 @@ public class UserFeedFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
-
         final PagerTabAdapter adapter = new PagerTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
         adapter.addFrag(mainCourseFragment, tabTitles[0]);
         AppetizerFragment appetizerFragment = new AppetizerFragment().newInstance();
@@ -88,18 +103,15 @@ public class UserFeedFragment extends Fragment {
         adapter.addFrag(dessertFragment, tabTitles[3]);
         VegetarianFragment vegetarianFragment = new VegetarianFragment().newInstance();
         adapter.addFrag(vegetarianFragment, tabTitles[4]);
-
         viewPager.setAdapter(adapter);
 //        viewPager.setOffscreenPageLimit(tabLayout.getTabCount() );
         tabLayout.setupWithViewPager(viewPager);
-
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabFeedTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_feed_tab_layout, container, false);
             View tabView = tabBinding.getRoot();
             tabLayout.getTabAt(i).setCustomView(tabView);
             tabBinding.text1.setText(tabTitles[i]);
         }
-
         tabLayout.getTabAt(0).select();
         userFeedBinding.textviewHome.setOnClickListener(new View.OnClickListener() {
             @Override

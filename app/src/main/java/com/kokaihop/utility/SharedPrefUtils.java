@@ -33,4 +33,17 @@ public class SharedPrefUtils {
         String value = prefs.getString(key, "");
         return value;
     }
+
+    public static void setSharedPrefBooleanData(Context context, String key, boolean value) {
+        prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(key, value);
+        editor.commit();
+    }
+
+    public static boolean getSharedPrefBooleanData(Context context, String key) {
+        prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+        boolean value = prefs.getBoolean(key, false);
+        return value;
+    }
 }

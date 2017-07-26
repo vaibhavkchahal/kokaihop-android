@@ -65,7 +65,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
+import static com.kokaihop.KokaihopApplication.getContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
+import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
@@ -111,7 +113,18 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
         GoogleAnalyticsHelper.trackScreenName(RecipeDetailActivity.this, getString(R.string.recipe_detail_screen));
+        enableCoachMark();
+    }
 
+    private void enableCoachMark() {
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+        boolean coachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY);
+        if (accessToken != null && !accessToken.isEmpty() && !coachMarkVisibilty) {
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View coachMarkView = inflater.inflate(R.layout.recipe_detail_coach_mark, null);
+            AppUtility.showCoachMark(coachMarkView);
+            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY, true);
+        }
     }
 
     public void setupRecipeDetailScreen() {
@@ -223,7 +236,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         // club recipe ingredient with similar ingredient in shopping list.
         ShoppingDataManager shoppingDataManager = new ShoppingDataManager();
         shoppingDataManager.addRecipeIngredientToShoppingList(recipeIngredientsMap);
-
         AppUtility.showAutoCancelMsgDialog(this, recipeIngredientsMap.size() + getString(R.string.item_added_text));
     }
 
