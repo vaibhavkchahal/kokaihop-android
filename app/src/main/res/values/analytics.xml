@@ -34,6 +34,7 @@
     <string name="created_cookbook_action">Created</string>
     <string name="delete_cookbook_action">Delete</string>
     <string name="deleted_cookbook_action">Deleted</string>
+    <string name="rename_cookbook_action">Rename</string>
     <string name="renamed_cookbook_action">Renamed</string>
 
 

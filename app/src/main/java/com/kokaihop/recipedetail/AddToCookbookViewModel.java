@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.cookbooks.CookbookDataChangedListener;
 import com.kokaihop.cookbooks.CookbooksApiHelper;
@@ -115,6 +116,8 @@ public class AddToCookbookViewModel extends BaseViewModel {
     }
 
     public void createNewCookbook() {
+        GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(),context.getString(R.string.cookbook_category),context.getString(R.string.create_cookbook_action));
+
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
                 context.getString(R.string.create_new_cookbook),
@@ -150,6 +153,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(),context.getString(R.string.cookbook_category),context.getString(R.string.created_cookbook_action));
                 setDownloading(true);
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshCookbook"));
                 getCookbooksOfUser(0);
