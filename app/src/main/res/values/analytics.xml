@@ -44,15 +44,15 @@
 
 
     <string name="recipe_category">Recipe</string>
-    <string name="recipe_favourtized_action">Favourized</string>  <!--TODO spell -->
+    <string name="recipe_favourtized_action">Favourized</string>
     <string name="recipe_unfavorited_action">Unfavourited</string>
-    <string name="recipe_printed_action">Printed</string>
+    <string name="recipe_printed_action">Printed</string><!--TODO -->
     <string name="recipe_rated_action">Rated</string>
-    <string name="recipe_shared_action">Shared</string>
-    <string name="recipe_email_label">Email</string>
-    <string name="recipe_sms_label">SMS</string>
-    <string name="recipe_twitter_label">Twitter</string>
-    <string name="recipe_facebook_label">Facebook</string>
+    <string name="recipe_shared_action">Shared</string><!--TODO -->
+    <string name="recipe_email_label">Email</string><!--TODO -->
+    <string name="recipe_sms_label">SMS</string><!--TODO -->
+    <string name="recipe_twitter_label">Twitter</string><!--TODO -->
+    <string name="recipe_facebook_label">Facebook</string><!--TODO -->
 
 
 

@@ -1,5 +1,6 @@
 package com.kokaihop.feed;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.comments.ShowAllCommentsActivity;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
@@ -32,6 +34,7 @@ import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeHandler {
     private int recipePosition = -1;
+
     public void setRecipePosition(int position) {
         recipePosition = position;
     }
@@ -106,8 +109,15 @@ public class RecipeHandler {
             public void onSuccess(Object response) {
 //                updateLikeCountInView(checkBox, recipe);
                 updateSatusInDB(checkBox.isChecked(), recipe);
+
+                String gaEventAction = checkBox.isChecked() ? context.getString(R.string.recipe_favourtized_action) : context.getString(R.string.recipe_unfavorited_action);
+                Activity activity = (Activity) checkBox.getContext();
+                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.recipe_category), gaEventAction);
+
                 String contextName = context.getClass().getSimpleName();
-                if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName())) {
+                if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName()))
+
+                {
                     EventBus.getDefault().postSticky(recipe);
                 }
             }

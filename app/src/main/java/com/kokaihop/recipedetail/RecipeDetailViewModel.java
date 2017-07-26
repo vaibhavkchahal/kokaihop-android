@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
@@ -362,6 +363,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public void uploadImageOnCloudinary(final String imagePath) {
+
+        Activity activity=(Activity) context;
+        GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action),context.getString(R.string.recipe_photo_upload_label));
+
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
@@ -404,6 +409,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
                         new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeRealmObject.get_id(), requestBody, new IApiRequestComplete() {
                             @Override
                             public void onSuccess(Object response) {
+
+                                Activity activity=(Activity) context;
+                                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action),context.getString(R.string.recipe_photo_uploaded_label));
+
+
                                 Logger.e("image upload", "success " + response.toString());
                                 Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
 //                                dataSetListener.onPagerDataUpdate();
