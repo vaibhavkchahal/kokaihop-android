@@ -1,16 +1,20 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,12 +30,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
+import com.altaworks.kokaihop.ui.databinding.ShareDialogBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.cookbooks.CookbooksDataManager;
@@ -52,7 +58,6 @@ import com.kokaihop.utility.ConfirmationDialog;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.RecipeUtils;
-import com.kokaihop.utility.ShareContents;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,7 +66,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
@@ -507,12 +514,43 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         Log.e("ERROR", String.valueOf(e.getMessage()));
 
                     }
-                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
-                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
-                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-                    shareContents.setImageFile(sharefile);
-                    shareContents.share();
+//                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
+//                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+//                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
+//                    shareContents.setImageFile(sharefile);
+//                    shareContents.share();
 //                    CameraUtils.sharePicture(this, imageUrl);
+                    List<Object> shareObjectsList = new ArrayList<>();
+                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                    // what type of data needs to be send by sharing
+                    sharingIntent.setType("text/plain");
+                    // package names
+                    PackageManager pm = getPackageManager();
+                    // list package
+                    List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
+                    for (ResolveInfo resolveInfo : activityList) {
+                        String packageName = resolveInfo.activityInfo.packageName;
+                        if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm")) {
+                            shareObjectsList.add(resolveInfo);
+                        }
+                    }
+                    shareObjectsList.add(new ShareUsingPrint(getString(R.string.text_print), R.drawable.ic_feed_orange_sm));
+                    final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList);
+                    shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+                    shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
+                    shareAdapter.setShareFile(sharefile);
+                    // Create alert dialog box
+                    final Dialog dialog = new Dialog(this);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
+                    dialog.setContentView(binding.getRoot());
+                    binding.recyclerviewShare.setAdapter(shareAdapter);
+                    GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+                    binding.recyclerviewShare.setLayoutManager(layoutManager);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    dialog.show();
                 }
                 return true;
             case R.id.icon_camera:

@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.print.PrintManager;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
+
+import com.altaworks.kokaihop.ui.R;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +42,46 @@ public class ShareContents {
 
 
     //    to share the picture with external applications
+    public void shareCustom(View view, String packageName, String className) {
+        Log.i("Package Name", packageName);
+        if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm") || packageName.equals("com.kokaihop.print")) {
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName(packageName, className));
+            intent.setAction(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            if (packageName.equals("com.twitter.android")) {
+                intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
+            } else if (packageName.equals("com.facebook.katana")) {
+                // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
+                // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
+                // will show the <meta content ="..."> text from that page with our link in Facebook.
+                intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
+            } else if (packageName.equals("com.android.mms") || packageName.equals("com.android.messaging")) {
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
+                intent.setType("image/*");
+                String message = getMessageContent();
+                intent.putExtra("sms_body", message);
+
+            } else if (packageName.equals("com.google.android.gm")) {
+                String emailContent = getEmailContent();
+                intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
+                intent.setType("image/*");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            } else if (packageName.equals("com.kokaihop.print")) {
+                MyPrintDocumentAdapter myPrintDocumentAdapter = new MyPrintDocumentAdapter(context);
+                PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
+                String jobName = context.getString(R.string.app_name) + " Document";
+                printManager.print(jobName, myPrintDocumentAdapter, null);
+            }
+            if (!className.equals("print")) {
+                context.startActivity(intent);
+            }
+        }
+    }
+
     public void share() {
         List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent shareIntent = new Intent();
@@ -91,6 +135,7 @@ public class ShareContents {
             }
         }
     }
+
 
     private String getMessageContent() {
         String sms = recipeTitle + "\n" + recipeLink + "\n" + oneLinkText;

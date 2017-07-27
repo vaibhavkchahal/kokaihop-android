@@ -29,9 +29,9 @@ public class RecipeRatingHandler {
                         ratingBar.setRating(recipeDetailHeader.getRating());
                         AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_rating_message));
                     } else {
-                        if (!recipeDetailHeader.getCreatorFriendlyUrl().equals(SharedPrefUtils.getSharedPrefStringData(context, Constants.FRIENDLY_URL))){
+                        if (!recipeDetailHeader.getCreatorFriendlyUrl().equals(SharedPrefUtils.getSharedPrefStringData(context, Constants.FRIENDLY_URL))) {
                             updateRecipeRating(ratingBar, recipeDetailHeader);
-                        }else{
+                        } else {
                             ratingBar.setRating(recipeDetailHeader.getRating());
                         }
                     }
