@@ -25,8 +25,8 @@ import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.customviews.NotificationDialogActivity;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
-import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.recipedetail.AddToListEvent;
+import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CameraUtils;
@@ -221,11 +221,11 @@ public class HomeActivity extends BaseActivity {
                     startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
                 } else {
                     filePath = CameraUtils.onCaptureImageResult();
-                    userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+                    userProfileFragment.getUserViewModel().uploadImageOnCloudinary(filePath);
                 }
                 Logger.d("File Path", filePath);
             } else if (requestCode == Constants.CONFIRM_REQUEST_CODE) {
-                userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+                userProfileFragment.getUserViewModel().uploadImageOnCloudinary(filePath);
             }
         }
         if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {

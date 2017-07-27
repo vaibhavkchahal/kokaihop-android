@@ -21,6 +21,7 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.feed.RecipeHandler;
+import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.ArrayList;
@@ -150,7 +151,10 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                     if (!editCookbook.isEditMode()) {
                         recipeHandler.openRecipeDetail(v, recipe.get_id(), getAdapterPosition());
                         if (fragment instanceof HistoryFragment) {
+                            User.getInstance().setIndex(3);
                             displayHistoryChanges();
+                        } else {
+                            ((RecipeFragment) fragment).getUser().setIndex(0);
                         }
                     } else if (previousDelete >= 0) {
                         tvPreviousDelete.animate().translationX(size).setDuration(animationDuration);

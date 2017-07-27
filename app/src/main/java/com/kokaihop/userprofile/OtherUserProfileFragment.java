@@ -39,8 +39,9 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     private LayoutInflater inflater;
     private String userId, friendlyUrl;
     private Bundle bundle = new Bundle();
+
     private TabLayout tabLayout;
-    User user;
+    private User user;
 
     private int selectedTabPosition = 0;
     ArrayList<NotificationCount> notificationCount;
@@ -262,4 +263,13 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         ft.attach(fragment);
         ft.commit();
     }
+
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    public void setTabLayout(TabLayout tabLayout) {
+        this.tabLayout = tabLayout;
+    }
+
 }

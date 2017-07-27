@@ -55,7 +55,7 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         this.inflater = inflater;
         followersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
         followersViewModel = new FollowersFollowingViewModel(this, getContext(), userId, user);
-        followersAdapter = new FollowersFollowingAdapter(user.getFollowersList(), followersViewModel);
+        followersAdapter = new FollowersFollowingAdapter(user.getFollowersList(), followersViewModel, this);
         layoutManager = new CustomLinearLayoutManager(this.getContext());
 
         followersBinding.setViewModel(followersViewModel);
@@ -114,5 +114,9 @@ public class FollowersFragment extends Fragment implements UserDataListener {
         if (getParentFragment() instanceof UserProfileFragment) {
             ((UserProfileFragment) getParentFragment()).setNotificationCount();
         }
+    }
+
+    public User getUser() {
+        return user;
     }
 }

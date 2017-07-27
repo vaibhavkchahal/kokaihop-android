@@ -86,4 +86,8 @@ public class RecipeFragment extends Fragment {
 //            binding.recipeContainer.removeView(noData);
 //        }
     }
+
+    public User getUser() {
+        return user;
+    }
 }
