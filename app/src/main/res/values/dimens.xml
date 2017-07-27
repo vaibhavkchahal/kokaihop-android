@@ -132,7 +132,7 @@
     <dimen name="textsize_tv_recipe_date">11sp</dimen>
     <dimen name="iv_profile_height_width">24dp</dimen>
     <dimen name="tv_user_name_margin_left">5dp</dimen>
-    <dimen name="textsize_tv_user_name">11sp</dimen>
+    <dimen name="textsize_tv_user_name">13sp</dimen>
     <dimen name="tv_comment_count_margin_left">5dp</dimen>
     <dimen name="tv_comment_count_textsize">11sp</dimen>
     <dimen name="iv_comment_height_width">15dp</dimen>
@@ -464,4 +464,6 @@
     <dimen name="recipe_detail_coachmark_margin_left">120dp</dimen>
     <dimen name="user_profile_triangle_margin_right">45dp</dimen>
     <dimen name="user_profile_coachmark_margin_left">100dp</dimen>
+
+    <dimen name="tab_divider_vertical_margin">15dp</dimen>
 </resources>
