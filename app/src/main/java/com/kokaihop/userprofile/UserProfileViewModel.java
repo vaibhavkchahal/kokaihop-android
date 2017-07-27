@@ -1,6 +1,5 @@
 package com.kokaihop.userprofile;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -103,8 +102,7 @@ public class UserProfileViewModel extends BaseViewModel {
 
 
     public void uploadImageOnCloudinary(String imagePath) {
-        Activity activity = (Activity) context;
-        GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action), context.getString(R.string.profile_photo_upload_label));
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action), context.getString(R.string.profile_photo_upload_label));
 
 
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
@@ -147,8 +145,7 @@ public class UserProfileViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(Object response) {
 
-                        Activity activity = (Activity) context;
-                        GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action), context.getString(R.string.profile_photo_uploaded_label));
+                        GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action), context.getString(R.string.profile_photo_uploaded_label));
 
                         AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.profile_pic_upload_success));
                         ProfileDataManager profileDataManager = new ProfileDataManager();

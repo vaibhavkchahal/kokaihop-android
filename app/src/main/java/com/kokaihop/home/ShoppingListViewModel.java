@@ -201,7 +201,7 @@ public class ShoppingListViewModel extends BaseViewModel {
             @Override
             public void onSuccess(Object response) {
                 Activity activity=(Activity) context;
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_deleted_action), context.getString(R.string.buy_list_ingredient_deleted_label));
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_deleted_action), context.getString(R.string.buy_list_ingredient_deleted_label));
 
                 SyncIngredientModel model = (SyncIngredientModel) response;
                 shoppingDataManager.updateShoppingIngredientList(model.getRealmObjects());

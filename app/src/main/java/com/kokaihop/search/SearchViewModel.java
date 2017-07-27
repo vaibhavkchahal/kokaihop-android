@@ -267,7 +267,7 @@ public class SearchViewModel extends BaseViewModel {
         }
 
         Activity activity = (Activity) context;
-        GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.search_category), context.getString(R.string.search_image_action), label);
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.search_category), context.getString(R.string.search_image_action), label);
         dataSetListener.showWithImageDialog(view, parentView, isSelected, msg);
     }
 
@@ -416,7 +416,7 @@ public class SearchViewModel extends BaseViewModel {
         }
         if (!label.isEmpty()) {
             Activity activity = (Activity) context;
-            GoogleAnalyticsHelper.trackEventAction(activity, context.getResources().getString(R.string.search_category), context.getResources().getString(R.string.search_sorted_action), label);
+            GoogleAnalyticsHelper.trackEventAction(context.getResources().getString(R.string.search_category), context.getResources().getString(R.string.search_sorted_action), label);
 
         }
 

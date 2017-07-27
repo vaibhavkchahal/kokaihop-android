@@ -107,7 +107,7 @@ public class ReplyCommentViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(Object response) {
                         Activity activity = (Activity) context;
-                        GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.comment_category), context.getString(R.string.comment_replied_action));
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category), context.getString(R.string.comment_replied_action));
 
                         setProgressVisible(false);
                         ResponseBody responseBody = (ResponseBody) response;

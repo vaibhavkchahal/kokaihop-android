@@ -66,7 +66,7 @@ public class LoginViewModel extends BaseViewModel {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
                 Activity activity=(Activity) context;
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),1);
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),1);
 
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
@@ -88,7 +88,7 @@ public class LoginViewModel extends BaseViewModel {
                 setProgressVisible(false);
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 Activity activity=(Activity) context;
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),0);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),0);
 
 
             }
@@ -132,7 +132,7 @@ public class LoginViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
 
-                        GoogleAnalyticsHelper.trackEventAction(activity, view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),1);
+                        GoogleAnalyticsHelper.trackEventAction( view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),1);
 
                         setProgressVisible(false);
                         Context context = view.getContext();
@@ -158,7 +158,7 @@ public class LoginViewModel extends BaseViewModel {
                     public void onFailure(String message) {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                        GoogleAnalyticsHelper.trackEventAction(activity, view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),0);
+                        GoogleAnalyticsHelper.trackEventAction( view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),0);
 
                     }
 

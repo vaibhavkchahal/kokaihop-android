@@ -51,7 +51,7 @@ public class RecipeRatingHandler {
                 @Override
                 public void onSuccess(Object response) {
                     Activity activity=(Activity) ratingBar.getContext();
-                    GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.recipe_category), context.getString(R.string.recipe_rated_action));
+                    GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.recipe_category), context.getString(R.string.recipe_rated_action));
 
                     AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.rating_dialog_text) + " " + rating);
                     ratingBar.setRating(recipeDetailHeader.getRating());

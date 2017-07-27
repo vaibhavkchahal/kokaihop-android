@@ -23,7 +23,7 @@ public class ConfirmImageUploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Uri imageUri = getIntent().getData();
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.image_presenter_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.image_presenter_screen));
         binding = DataBindingUtil.setContentView(this, R.layout.activity_confirm_image_upload);
         setUpImage(imageUri);
 //        binding.imageToUpload.setImageURI();

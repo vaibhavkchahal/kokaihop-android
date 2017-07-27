@@ -41,7 +41,7 @@ public class SettingsViewModel extends BaseViewModel {
         dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Activity activity = (Activity) context;
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.user_logout_action));
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.user_logout_action));
                 setProgressVisible(true);
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

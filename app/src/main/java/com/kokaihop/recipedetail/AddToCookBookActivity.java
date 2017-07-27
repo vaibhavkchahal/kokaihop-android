@@ -28,7 +28,7 @@ public class AddToCookBookActivity extends BaseActivity {
         binding.setViewModel(new AddToCookbookViewModel(addToCookbookFragment, this));
         addToCookbookFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(binding.rlAddToCookbook.getId(), addToCookbookFragment).commit();
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.cookbook_picker_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.cookbook_picker_screen));
 
     }
 

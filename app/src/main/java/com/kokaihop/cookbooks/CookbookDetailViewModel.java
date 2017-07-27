@@ -122,7 +122,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     //    confirm before deleting the cookbook of the user.
     public void deleteCookbook() {
-        GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(), context.getString(R.string.cookbook_category), context.getString(R.string.delete_cookbook_action));
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.delete_cookbook_action));
 
         String msg = context.getString(R.string.this_will_permanently_delete);
         if (totalRecipes > 0) {
@@ -153,7 +153,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
         new CookbooksApiHelper().deleteCookbook(accessToken, cookbookId, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(), context.getString(R.string.cookbook_category), context.getString(R.string.deleted_cookbook_action));
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.cookbook_category), context.getString(R.string.deleted_cookbook_action));
 
                 Toast.makeText(context, context.getString(R.string.cookbook_deleted), Toast.LENGTH_SHORT).show();
                 dataManager.deleteCookbook(cookbookFriendlyUrl);
@@ -189,7 +189,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
     //    prompt user for the new cookbook name
     public void renameCookbook() {
-        GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(),context.getString(R.string.cookbook_category),context.getString(R.string.rename_cookbook_action));
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category),context.getString(R.string.rename_cookbook_action));
 
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
@@ -225,7 +225,7 @@ public class CookbookDetailViewModel extends BaseViewModel {
         new CookbooksApiHelper().renameCookbook(accessToken, cookbookId, request, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(),context.getString(R.string.cookbook_category),context.getString(R.string.renamed_cookbook_action));
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category),context.getString(R.string.renamed_cookbook_action));
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_renamed));
                 setCookbookTitle(name.trim());
             }

@@ -120,7 +120,7 @@ public class SignUpViewModel extends BaseViewModel {
         new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),1);
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),1);
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
@@ -142,7 +142,7 @@ public class SignUpViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),0);
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),0);
             }
 
             @Override

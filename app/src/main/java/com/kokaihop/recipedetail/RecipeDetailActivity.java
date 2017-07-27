@@ -112,7 +112,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         from = getIntent().getStringExtra("from");
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
-        GoogleAnalyticsHelper.trackScreenName(RecipeDetailActivity.this, getString(R.string.recipe_detail_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_detail_screen));
         enableCoachMark();
     }
 

@@ -23,7 +23,6 @@ import com.kokaihop.feed.VegetarianFragment;
 import com.kokaihop.search.SearchActivity;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
-import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
@@ -158,7 +157,7 @@ public class UserFeedFragment extends Fragment {
                 label = getString(R.string.vegetarian_label);
                 break;
         }
-        GoogleAnalyticsHelper.trackEventAction(getActivity(), getString(R.string.daily_category), getString(R.string.daily_selected_action), label);
+        GoogleAnalyticsHelper.trackEventAction(getString(R.string.daily_category), getString(R.string.daily_selected_action), label);
 
 
     }

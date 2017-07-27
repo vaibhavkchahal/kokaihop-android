@@ -112,7 +112,7 @@ public class RecipeHandler {
 
                 String gaEventAction = checkBox.isChecked() ? context.getString(R.string.recipe_favourtized_action) : context.getString(R.string.recipe_unfavorited_action);
                 Activity activity = (Activity) checkBox.getContext();
-                GoogleAnalyticsHelper.trackEventAction(activity, context.getString(R.string.recipe_category), gaEventAction);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), gaEventAction);
 
                 String contextName = context.getClass().getSimpleName();
                 if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName()))

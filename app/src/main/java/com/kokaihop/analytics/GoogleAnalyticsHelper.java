@@ -1,12 +1,10 @@
 package com.kokaihop.analytics;
 
-import android.app.Activity;
-
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.kokaihop.KokaihopApplication;
 import com.kokaihop.utility.Logger;
 
+import static com.kokaihop.KokaihopApplication.getDefaultTracker;
 /**
  * Created by Rajendra Singh on 21/7/17.
  */
@@ -16,10 +14,9 @@ public class GoogleAnalyticsHelper {
 
     private static final String TAG = "google analytics";
 
-    public static void trackScreenName(Activity activity, String screenName) {
+    public static void trackScreenName(String screenName) {
 // Obtain the shared Tracker instance.
-        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
-        Tracker tracker = application.getDefaultTracker();
+        Tracker tracker = getDefaultTracker();
 
         Logger.i(TAG, "Setting screen name: " + screenName);
         tracker.setScreenName(screenName);
@@ -27,10 +24,8 @@ public class GoogleAnalyticsHelper {
     }
 
 
-    public static void trackEventAction(Activity activity, String category, String action) {
-
-        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
-        Tracker tracker = application.getDefaultTracker();
+    public static void trackEventAction(String category, String action) {
+        Tracker tracker = getDefaultTracker();
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)
@@ -39,9 +34,8 @@ public class GoogleAnalyticsHelper {
     }
 
 
-    public static void trackEventAction(Activity activity, String category, String action, String label) {
-        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
-        Tracker tracker = application.getDefaultTracker();
+    public static void trackEventAction( String category, String action, String label) {
+        Tracker tracker = getDefaultTracker();
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)
@@ -51,9 +45,8 @@ public class GoogleAnalyticsHelper {
     }
 
 
-    public static void trackEventAction(Activity activity, String category, String action, String label, long value) {
-        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
-        Tracker tracker = application.getDefaultTracker();
+    public static void trackEventAction(String category, String action, String label, long value) {
+        Tracker tracker = getDefaultTracker();
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)
@@ -62,9 +55,8 @@ public class GoogleAnalyticsHelper {
                 .build());
     }
 
-    public static void trackEventAction(Activity activity, String category, String action, long value) {
-        KokaihopApplication application = (KokaihopApplication) activity.getApplication();
-        Tracker tracker = application.getDefaultTracker();
+    public static void trackEventAction( String category, String action, long value) {
+        Tracker tracker = getDefaultTracker();
         tracker.send(new HitBuilders.EventBuilder()
                 .setCategory(category)
                 .setAction(action)

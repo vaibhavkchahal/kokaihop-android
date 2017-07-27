@@ -119,7 +119,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
 
     public void createNewCookbook() {
 
-        GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(), context.getString(R.string.cookbook_category), context.getString(R.string.create_cookbook_action));
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.create_cookbook_action));
 
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
@@ -157,7 +157,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                GoogleAnalyticsHelper.trackEventAction(fragment.getActivity(), context.getString(R.string.cookbook_category), context.getString(R.string.created_cookbook_action));
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.created_cookbook_action));
 
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_created));
                 setDownloading(true);

@@ -88,7 +88,7 @@ public class HomeActivity extends BaseActivity {
         super.onResume();
         IntentFilter intent = new IntentFilter(Constants.SHOW_DIALOG_ACTION);
         registerReceiver(notificationReciever, intent);
-        GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.daily_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.daily_screen));
 
     }
 
@@ -167,18 +167,18 @@ public class HomeActivity extends BaseActivity {
     private void sendScreenName(int selectedTabPosition) {
         switch (selectedTabPosition) {
             case 0:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.daily_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.daily_screen));
                 break;
             case 1:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.cookbook_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.cookbook_screen));
                 break;
             case 2:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.buylist_screen));
+                GoogleAnalyticsHelper.trackScreenName( getString(R.string.buylist_screen));
 
                 break;
 
             case 3:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.user_personal_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_personal_screen));
 
                 break;
 

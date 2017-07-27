@@ -136,8 +136,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
-                        final Activity activity=(Activity) context;
-                        GoogleAnalyticsHelper.trackEventAction(activity,context.getString(R.string.comment_category),context.getString(R.string.comment_added_action));
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category),context.getString(R.string.comment_added_action));
                         setProgressVisible(false);
                         ResponseBody responseBody = (ResponseBody) response;
                         try {
