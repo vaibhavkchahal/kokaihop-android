@@ -324,24 +324,6 @@ public class HomeActivity extends BaseActivity {
             Intent dialogIntent = new Intent(HomeActivity.this, NotificationDialogActivity.class);
             dialogIntent.putExtras(bundle);
             startActivity(dialogIntent);
-
-           /* AlertDialog.Builder dialog = new AlertDialog.Builder(HomeActivity.this);
-            dialog.setTitle(getString(R.string.app_name));
-            dialog.setMessage(bundle.getString("message"));
-            dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(HomeActivity.this, RecipeDetailActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
-            dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();*/
         }
     }
 }
