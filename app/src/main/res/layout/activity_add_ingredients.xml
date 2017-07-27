@@ -13,15 +13,17 @@
             android:layout_height="@dimen/toolbar_height_with_status"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:paddingLeft="18.4dp"
-            android:paddingRight="19dp"
+            android:paddingLeft="@dimen/padding_left_add_ingredient_toolbar"
+            android:paddingRight="@dimen/padding_right_add_ingredient_toolbar"
             android:paddingTop="@dimen/status_bar_height">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:onClick="@{(v)-> viewModel.onBackPressed(context)}"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:src="@drawable/ic_back_arrow_sm"/>
 
             <TextView
@@ -38,9 +40,10 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:gravity="center_vertical"
                 android:onClick="@{(v)-> viewModel.onDoneClick(edittextEnterIngredient,txtviewUnitValue,edittextQuantity)}"
                 android:text="@string/done"
                 android:textColor="@color/white"
@@ -53,34 +56,34 @@
         <EditText
             android:id="@+id/edittext_enter_ingredient"
             android:layout_width="match_parent"
-            android:layout_height="66dp"
+            android:layout_height="@dimen/enter_ingredient_box_height"
             android:layout_below="@+id/relative_layout_toolbar"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/enter_ingredient_box_margin_top"
             android:background="@drawable/grey_stroke_border"
             android:hint="@string/enter_ingredient_name"
-            android:paddingLeft="20dp"
-            android:paddingRight="40dp"
+            android:paddingLeft="@dimen/enter_ingredient_padding_left"
+            android:paddingRight="@dimen/enter_ingredient_padding_right"
             android:textColorHint="@color/grey_FFB3B3B3"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="66dp"
+            android:layout_height="@dimen/unit_quantity_box_height"
             android:layout_below="@+id/edittext_enter_ingredient"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/unit_quantity_box_margin_top"
             android:background="@drawable/grey_stroke_border"
-            android:paddingLeft="20dp"
-            android:paddingRight="31dp">
+            android:paddingLeft="@dimen/unit_quantity_box_padding_left">
 
 
-            <RelativeLayout android:layout_width="112dp"
+            <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_toLeftOf="@+id/relative_layout_quantity"
                             android:onClick="@{(v)->viewModel.showUnitListDialog(context)}">
 
                 <TextView
                     android:id="@+id/txtview_unit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/txtview_unit_margin_top"
                     android:text="@string/unit"
                     android:textColor="@color/grey_FFB3B3B3"
                     android:textSize="@dimen/text_size_small"
@@ -99,21 +102,23 @@
             </RelativeLayout>
             <View
                 android:id="@+id/view_divider"
-                android:layout_width="1dp"
+                android:layout_width="@dimen/unit_quantity_divider_width"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:background="@color/grey_FFD4D4D4"/>
 
-            <RelativeLayout android:layout_width="112dp"
-                            android:layout_height="match_parent"
-                            android:layout_toRightOf="@+id/view_divider">
+            <RelativeLayout
+                android:id="@+id/relative_layout_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/view_divider">
 
                 <TextView
                     android:id="@+id/txtview_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="@dimen/txtview_quantity_margin_left"
+                    android:layout_marginTop="@dimen/txtview_quantity_margin_top"
                     android:text="@string/quantity"
                     android:textColor="@color/grey_FFB3B3B3"
                     android:textSize="@dimen/text_size_small"
@@ -124,8 +129,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtview_quantity"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginLeft="@dimen/edittext_quantity_margin_left"
+                    android:layout_marginTop="@dimen/editext_quantity_margin_top"
                     android:background="@null"
                     android:hint="@string/enter"
                     android:inputType="numberDecimal"

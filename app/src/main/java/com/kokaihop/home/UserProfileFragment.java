@@ -86,6 +86,21 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
+            boolean searchCoachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY);
+            if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
+                AppUtility.showCoachMark(coachMarkView);
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
+            }
+        }
+    }
+
     public void showSignUpScreen() {
         userProfileSignUpBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_profile_sign_up, container, false);
         userProfileSignUpBinding.signUpNow.setOnClickListener(new View.OnClickListener() {

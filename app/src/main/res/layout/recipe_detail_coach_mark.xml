@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="?actionBarSize">
+
+        <ImageView
+            android:id="@+id/triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/recipe_detail_coach_mark_triangle_margin_right"
+            android:src="@drawable/ic_triangle"/>
+
+        <TextView
+            android:id="@+id/textview_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/recipe_detail_coachmark_margin_left"
+            android:layout_marginTop="@dimen/content_box_margin_top"
+            android:background="@drawable/coach_mark_box_background"
+            android:padding="@dimen/coachmark_text_padding"
+            android:text="@string/recipe_detail_coach_mark"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small"
+            app:font="@{`SS-ProRegular`}"/>
+
+    </RelativeLayout>
+</layout>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityLoginBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.FacebookAuthentication;
 
@@ -22,6 +23,8 @@ public class LoginActivity extends BaseActivity {
         ActivityLoginBinding loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         loginViewModel = new LoginViewModel();
         loginBinding.setViewModel(loginViewModel);
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.login_screen));
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySettingsBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
@@ -31,6 +32,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         settingsBinding.settingsEditProfile.setOnClickListener(this);
         settingsBinding.settingsIvBack.setOnClickListener(this);
         settingsBinding.settingsSave.setOnClickListener(this);
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.settings_screen));
+
     }
 
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.altaworks.kokaihop.ui.R;
 import com.crashlytics.android.Crashlytics;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.home.HomeActivity;
 import com.kokaihop.utility.Constants;
@@ -23,6 +24,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash);
+        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.startup_screen));
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

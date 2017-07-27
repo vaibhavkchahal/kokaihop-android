@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/tools">
+
+    <!--Screen name-->
+    <string name="daily_screen">Daily Screen</string>
+    <string name="cookbook_screen">Cookbook Screen</string>
+    <string name="buylist_screen">Buylist Screen</string>
+    <string name="latest_comments_screen">Latest Comments Screen</string>
+    <string name="user_personal_screen">User Personal Screen</string>
+    <string name="recipe_detail_screen">Recipe Screen</string>
+    <string name="search_screen">Search Screen</string>
+    <string name="recipe_filter_screen">RecipeFilter Screen</string>
+    <string name="cookbook_specific_screen">CookbookSpecific Screen</string>
+    <string name="user_public_screen">User Public Screen</string>
+    <string name="login_screen">Login Screen</string>
+    <string name="register_screen">Register Screen</string>
+    <string name="settings_screen">Settings Screen</string>
+    <string name="edit_profile_screen">Edit Profile Screen</string>
+    <string name="city_list_screen">City List Screen</string>
+    <string name="email_prefrence_screen">Email Prefrence Screen</string>
+    <string name="password_edit_screen">Password Edit Screen</string>
+    <string name="recipe_comment_screen">Recipe Comment Screen</string>
+    <string name="ingredient_edit_screen">Ingredient Edit Screen</string>
+    <string name="ingredient_add_screen">Ingredient Add Screen</string>
+    <string name="cookbook_picker_screen">Cookbook Picker Screen</string>
+    <string name="image_presenter_screen">Image Presenter Screen</string><!--TODO -->
+    <string name="startup_screen">Startup Screen</string>
+    <string name="forgot_password_screen">Forgot Password Screen</string>
+
+
+    <!--Event Name-->
+    <string name="cookbook_category">Cookbook</string>
+    <string name="create_cookbook_action">Create</string>
+    <string name="created_cookbook_action">Created</string>
+    <string name="delete_cookbook_action">Delete</string>
+    <string name="deleted_cookbook_action">Deleted</string>
+    <string name="renamed_cookbook_action">Renamed</string>
+
+
+    <string name="comment_category">Comment</string>
+    <string name="comment_added_action">Added</string>
+    <string name="comment_replied_action">Replied</string>
+
+
+    <string name="recipe_category">Recipe</string>
+    <string name="recipe_favourtized_action">Favourized</string>  <!--TODO spell -->
+    <string name="recipe_unfavorited_action">Unfavourited</string>
+    <string name="recipe_printed_action">Printed</string>
+    <string name="recipe_rated_action">Rated</string>
+    <string name="recipe_shared_action">Shared</string>
+    <string name="recipe_email_label">Email</string>
+    <string name="recipe_sms_label">SMS</string>
+    <string name="recipe_twitter_label">Twitter</string>
+    <string name="recipe_facebook_label">Facebook</string>
+
+
+
+    <string name="photo_upload_category">Photo</string>
+    <string name="photo_upload_action">Upload</string>
+    <string name="recipe_photo_upload_label">Recipe</string>
+    <string name="profile_photo_upload_label">Profile</string>
+    <string name="uploaded_photo_action">Uploaded</string>
+    <string name="recipe_photo_uploaded_label">Recipe</string>
+    <string name="profile_photo_uploaded_label">Profile</string>
+
+
+    <string name="buy_list_category">Buylist</string>
+    <string name="buy_list_added_action">Added</string>
+    <string name="buy_list_Ingredient_label">Ingredient</string>
+    <string name="buy_list_recipe_label">Recipe</string>
+    <string name="buy_list_deleted_action">Deleted</string>
+    <string name="buy_list_ingredient_deleted_label">Ingredient</string>
+    <string name="buy_list_emptied_action">Emptied</string>
+    <string name="buy_list_shared_action">Shared</string>
+    <string name="buy_list_email_label">Email</string>
+    <string name="buy_list_sms_label">SMS</string>
+
+
+    <string name="pushnotification_category">Notification</string>
+    <string name="pushnotification_received_action">Received</string>
+    <string name="pushnotification_launched_action">Launched</string>
+
+
+
+
+    <string name="user_category">User</string>
+    <string name="user_login_action">Login</string>
+    <string name="user_native_login_label">Native</string>
+    <string name="user_facebook_login_label">Facebook</string>
+    <string name="new_user_registration_action">Registered</string>
+    <string name="user_follow_action">Follow</string>
+    <string name="user_unfollow_action">Unfollow</string>
+    <string name="user_logout_action">Logout</string>
+
+
+    <string name="daily_category">Daily</string>
+    <string name="daily_selected_action">Selected</string>
+    <string name="main_course_label">Main course</string>
+    <string name="appetizer_label">Appetizer</string>
+    <string name="cookie_label">Cookie</string>
+    <string name="dessert_label">Dessert</string>
+    <string name="vegetarian_label">Vegetarian</string>
+
+
+    <string name="search_category">Search</string>
+    <string name="search_selected_action">Selected</string>
+    <string name="explore_now_label">Explore now</string>
+    <string name="recent_search_label">Recent search</string>
+    <string name="search_image_action">Images</string>
+    <string name="search_image_on_label">On</string>
+    <string name="search_image_off_label">Off</string>
+    <string name="search_filtered_action">Filtered</string>
+    <string name="course_label">Course</string>
+    <string name="cuisine_label">Cuisine</string>
+    <string name="method_label">Method</string>
+
+    <string name="search_sorted_action">Sorted</string>
+    <string name="comments_label">Comments</string>
+    <string name="most_recent_label">Most Recent</string>
+    <string name="rated_label">Rated</string>
+    <string name="recomended_label">Recommended</string>
+    <string name="relevance_label">Relevance</string>
+    <string name="alphabatical_label">A-O</string>
+    <string name="reverse_alphabatical_label">O-A</string>
+    <!-- //*************************************************************
+     // MARK:
+     // MARK: - USEREVENTS
+     // MARK:
+     //***********************************************************************
+
+     let COOKBOOKCATEGORY                            = ""
+
+     let CREATECOOKBOOKACTION                    = ""
+     let CREATEDCOOKBOOKACTION                   = ""
+     let DELETECOOKBOOKACTION                    = " "
+     let DELETEDCOOKBOOKACTION                   = ""
+     let RENAMECOOKBOOKACTION                    = ""
+
+
+     let COMMENTCATEGORY                             = ""
+
+     let COMMENTADDEDACTION                      = ""
+     let COMMENTREPLIEDACTION                    = ""
+
+     let RECIPECATEGORY                              = ""
+
+     let RECIPEFAVOURTIZEDACTION                 = ""
+     let RECIPEUNFAVOURTIZEDACTION               = ""
+     let RECIPEPRINTEDACTION                     = ""
+     let RECIPERATEDACTION                       = ""
+
+     let RECIPESHAREDACTION                      = ""
+     let RECIPESHAREDEMAILEVENTLABEL         = ""
+     let RECIPESHAREDSMSEVENTLABEL           = ""
+     let RECIPESHAREDTWITTEREVENTLABEL       = ""
+     let RECIPESHAREDFACEBOOKEVENTLABEL      = ""
+
+
+     let PHOTOUPLOADCATEGORY                         = ""
+     let UPLOADHOTOACTION                        = ""
+     let RECIPEPHOTOUPLOADEVENTLABEL             = ""
+     let PROFILEPHOTOUPLOADEVENTLABEL            = ""
+
+     let UPLOADEDHOTOACTION                      = ""
+     let RECIPEPHOTOUPLOADEDEVENTLABEL       = ""
+     let PROFILEPHOTOUPLOADEDEVENTLABEL      = ""
+
+
+     let BUYLISTCATEGORY                             = ""
+     let BUYLISTADDEDACTION                      = ""
+     let BUYLISTINGREDIENTEVENTLABEL         = ""
+     let BUYLISTRECIPEEVENTLABEL             = ""
+
+     let BUYLISTDELETEDACTION                    = ""
+     let BUYLISTDELETEDINGREDIENTEVENTLABEL  = ""
+
+     let BUYLISTEMPTIEDACTION                    = ""
+
+     let BUYLISTSHAREACTION                      = ""
+     let BUYLISTSHAREDEMAILEVENTLABEL        = ""
+     let BUYLISTSHAREDSMSEVENTLABEL          = ""
+
+
+     let PUSHNOTIFICATIONCATEGORY                    = ""
+
+     let NOTIFICATIONRECIEVEDACTION              = ""
+     let NOTIFICATIONLAUNCHEDACTION              = ""
+
+     let USERCATEGORY                                = ""
+
+     let USERLOGINACTION                         = ""
+     let USERNATIVELOGINEVENTLABEL           = ""
+     let USERFACEBOOKLOGINEVENTLABEL         = ""
+
+     let NEWUSERREGISTRATIONACTION               = ""
+     let USERFOLLOWACTION                        = ""
+     let USERUNFOLLOWACTION                      = ""
+     let USERLOGOUTACTION                        = ""
+
+     let DAILYCATEGORY                               = ""
+
+     let DAILYSELECTEDACTION                     = ""
+     let MAINCOURSEEVENTLABEL                = ""
+     let APPETIZEREVENTLABEL                 = ""
+     let COOKIEEVENTLABEL                    = ""
+     let DESSERTEVENTLABEL                   = ""
+     let VEGETARIANEVENTLABEL                = ""
+
+
+     let SEARCHCATEGORY                              = ""
+
+     let SEARCHSELECTEDACTION                    = ""
+     let EXPLORENOWEVENTLABEL                = ""
+     let RECENTSEARCHEVENTLABEL              = ""
+
+     let SEARCHIMAGEACTION                       = ""
+     let IMAGEONEVENTLABEL                   = ""
+     let IMAGEOFFEVENTLABEL                  = ""
+
+
+     let SEARCHFILTEREDACTION                    = ""
+     let COURSEEVENTLABEL                    = ""
+     let CUISINEVENTLABEL                    = ""
+     let METHODEVENTLABEL                    = ""
+
+     let SEARCHSORTEDACTION                      = ""
+     let COMMENTSEVENTLABEL                  = ""
+     let MOSTRECENTEVENTLABEL                = ""
+     let POPULAREVENTLABEL                   = ""
+     let RATEDEVENTLABEL                     = ""
+     let RECOMMENDEDEVENTLABEL               = ""
+     let RELEVANCEEVENTLABEL                 = ""
+     let ALPHABETICEVENTLABEL                = "A-O"
+     let REVERSEALAPHABETICEVENTLABEL        = "-->
+
+
+
+
+
+
+</resources>
+
