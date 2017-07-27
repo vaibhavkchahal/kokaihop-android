@@ -31,7 +31,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(binding.clOtherUserContainer.getId(),fragment).commit();
 
 
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.user_public_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_public_screen));
 
     }
 }

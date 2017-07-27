@@ -32,7 +32,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         settingsBinding.settingsEditProfile.setOnClickListener(this);
         settingsBinding.settingsIvBack.setOnClickListener(this);
         settingsBinding.settingsSave.setOnClickListener(this);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.settings_screen));
+        GoogleAnalyticsHelper.trackScreenName( getString(R.string.settings_screen));
 
     }
 

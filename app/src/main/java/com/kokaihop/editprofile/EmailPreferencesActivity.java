@@ -19,7 +19,7 @@ public class EmailPreferencesActivity extends AppCompatActivity {
         preferencesBinding = DataBindingUtil.setContentView(this, R.layout.activity_email_preferences);
         preferencesViewModel = new EmailPreferencesViewModel(this);
         preferencesBinding.setViewModel(preferencesViewModel);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.email_prefrence_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.email_prefrence_screen));
 
 
     }

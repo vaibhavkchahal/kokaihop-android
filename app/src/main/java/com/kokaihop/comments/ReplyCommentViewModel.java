@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
@@ -93,7 +94,7 @@ public class ReplyCommentViewModel extends BaseViewModel {
 
     // post comment after checking user authentication.
     public void postReplyOnComment(View view, EditText editText) {
-        Context context = view.getContext();
+        final Context context = view.getContext();
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_reply_on_comment_message));
@@ -105,6 +106,9 @@ public class ReplyCommentViewModel extends BaseViewModel {
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
+                        Activity activity = (Activity) context;
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category), context.getString(R.string.comment_replied_action));
+
                         setProgressVisible(false);
                         ResponseBody responseBody = (ResponseBody) response;
                         try {

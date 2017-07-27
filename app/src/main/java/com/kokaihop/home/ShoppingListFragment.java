@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.utility.AppCredentials;
@@ -244,6 +245,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                 viewModel.getShoppingDataManager().deleteIngredientObjectFromDB(ids);
                 viewModel.fetchIngredientFromDB();
                 viewModel.deleteIngredientOnServer();
+
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category),getString(R.string.buy_list_emptied_action));
+
             }
         });
         dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

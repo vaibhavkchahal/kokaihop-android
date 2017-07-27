@@ -33,7 +33,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
         binding.setViewModel(showCommentsViewModel);
         initializeRecycleView();
         initializePullToRefresh();
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.recipe_comment_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_comment_screen));
 
 
     }

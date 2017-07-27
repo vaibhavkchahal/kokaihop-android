@@ -110,11 +110,16 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         recipeID = getIntent().getStringExtra("recipeId");
         friendlyUrl = getIntent().getStringExtra("friendlyUrl");
         from = getIntent().getStringExtra("from");
-        txtviewPagerProgress = binding.txtviewPagerProgress;
-        setupRecipeDetailScreen();
-        GoogleAnalyticsHelper.trackScreenName(RecipeDetailActivity.this, getString(R.string.recipe_detail_screen));
-        enableCoachMark();
-    }
+
+        if (from != null && from.equalsIgnoreCase("Notification")) {
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category), getString(R.string.pushnotification_launched_action));
+
+            }
+            txtviewPagerProgress = binding.txtviewPagerProgress;
+            setupRecipeDetailScreen();
+            GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_detail_screen));
+            enableCoachMark();
+        }
 
     private void enableCoachMark() {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);

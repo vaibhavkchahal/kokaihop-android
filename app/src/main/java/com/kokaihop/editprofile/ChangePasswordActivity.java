@@ -25,7 +25,7 @@ public class ChangePasswordActivity extends BaseActivity{
         passwordBinding = DataBindingUtil.setContentView(this, R.layout.activity_change_password);
         viewModel = new ChangePasswordViewModel(this,passwordBinding);
         passwordBinding.setViewModel(viewModel);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.password_edit_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.password_edit_screen));
 
     }
 }

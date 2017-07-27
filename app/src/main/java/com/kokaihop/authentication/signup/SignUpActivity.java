@@ -22,7 +22,7 @@ public class SignUpActivity extends BaseActivity {
         com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding signUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
         signUpViewModel = new SignUpViewModel();
         signUpBinding.setViewModel(signUpViewModel);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.register_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.register_screen));
 
     }
 

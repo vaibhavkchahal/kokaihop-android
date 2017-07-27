@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityConfirmImageUploadBinding;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ public class ConfirmImageUploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Uri imageUri = getIntent().getData();
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.image_presenter_screen));
         binding = DataBindingUtil.setContentView(this, R.layout.activity_confirm_image_upload);
         setUpImage(imageUri);
 //        binding.imageToUpload.setImageURI();
@@ -41,7 +43,7 @@ public class ConfirmImageUploadActivity extends AppCompatActivity {
         });
     }
 
-    public void setUpImage(Uri imageUri){
+    public void setUpImage(Uri imageUri) {
         try {
             final InputStream imageStream = getContentResolver().openInputStream(imageUri);
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);

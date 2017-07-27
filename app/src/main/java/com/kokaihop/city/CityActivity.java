@@ -38,7 +38,7 @@ public class CityActivity extends BaseActivity implements CityViewModel.CityInte
                 onBackPressed();
             }
         });
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.city_list_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.city_list_screen));
 
 
     }
