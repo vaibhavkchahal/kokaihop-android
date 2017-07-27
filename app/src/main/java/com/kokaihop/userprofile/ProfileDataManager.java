@@ -408,4 +408,25 @@ public class ProfileDataManager {
         }
         return user;
     }
+
+    public void removeFollower(String userId) {
+        UserRealmObject userRealmObject = getUser("_id", userId);
+        if (userRealmObject != null) {
+            int index = indexOfFollower(User.getInstance().getFriendlyUrl(), userRealmObject.getFollowersList());
+            if (index > -1) {
+                realm.beginTransaction();
+                userRealmObject.getFollowersList().remove(index);
+                realm.commitTransaction();
+            }
+        }
+    }
+
+    private int indexOfFollower(String friendlyUrl, RealmList<UserRealmObject> followersList) {
+        for (int i = 0; i < followersList.size(); i++) {
+            if (followersList.get(i).getFriendlyUrl().equals(friendlyUrl)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

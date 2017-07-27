@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -69,9 +70,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         binding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                selectedTabPosition = tabLayout.getSelectedTabPosition();
-                otherUserProfileViewModel.getUserData(userId, friendlyUrl);
-                binding.srlProfileRefresh.setRefreshing(false);
+                refreshData();
             }
         });
         binding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -85,6 +84,12 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             binding.btnFollow.setVisibility(View.INVISIBLE);
         }
         return binding.getRoot();
+    }
+
+    public void refreshData() {
+        selectedTabPosition = tabLayout.getSelectedTabPosition();
+        otherUserProfileViewModel.getUserData(userId, friendlyUrl);
+        binding.srlProfileRefresh.setRefreshing(false);
     }
 
     @Override
@@ -219,6 +224,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     @Override
     public void followToggeled() {
         setNotificationCount();
+        refreshFollowersList();
     }
 
     private void setAppBarListener() {
@@ -246,5 +252,14 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         notificationCount.get(Constants.TAB_OTHER_COOKBOOKS).setCount(user.getRecipesCollectionCount());
         notificationCount.get(Constants.TAB_OTHER_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
         notificationCount.get(Constants.TAB_OTHER_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
+    }
+
+    public void refreshFollowersList(){
+        ProfileAdapter profileAdapter = (ProfileAdapter) viewPager.getAdapter();
+        Fragment fragment = profileAdapter.getItem(2);
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        ft.detach(fragment);
+        ft.attach(fragment);
+        ft.commit();
     }
 }
