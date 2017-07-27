@@ -77,9 +77,9 @@
     <string name="buy_list_sms_label">SMS</string><!--TODO -->
 
 
-    <string name="pushnotification_category">Notification</string><!--TODO -->
-    <string name="pushnotification_received_action">Received</string><!--TODO -->
-    <string name="pushnotification_launched_action">Launched</string><!--TODO -->
+    <string name="pushnotification_category">Notification</string>
+    <string name="pushnotification_received_action">Received</string>
+    <string name="pushnotification_launched_action">Launched</string>
 
 
 

@@ -131,7 +131,10 @@ public class KokaihopApplication extends Application {
     synchronized public static Tracker getDefaultTracker() {
         // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
         if (sTracker == null) {
-            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+            if(sAnalytics!=null)
+            {
+                sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+            }
         }
 
         return sTracker;
