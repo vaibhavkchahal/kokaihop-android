@@ -152,7 +152,8 @@ public class HomeViewModel extends BaseViewModel {
                     for (DeactivatedRecipeResponse.DeactivatedRecipe recipe : deactivatedRecipeResponse.getDeactivatedRecipes()) {
                         new RecipeDataManager().removeRecipe(recipe.getFriendlyUrl());
                     }
-                    Toast.makeText(context, deactivatedRecipeResponse.getCount() + " recipes deleted", Toast.LENGTH_SHORT).show();
+                    Logger.e("Recipe Deleted", deactivatedRecipeResponse.getCount() + "");
+//                    Toast.makeText(context, deactivatedRecipeResponse.getCount() + " recipes deleted", Toast.LENGTH_SHORT).show();
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
@@ -187,7 +188,8 @@ public class HomeViewModel extends BaseViewModel {
                     for (DeletedCommentsResponse.DeletedComments comments : deletedCommentsResponse.getDeletedComments()) {
                         new RecipeDataManager().removeComment(comments.get_id());
                     }
-                    Toast.makeText(context, deletedCommentsResponse.getDeletedComments().size() + " comments deleted", Toast.LENGTH_SHORT).show();
+                    Logger.e("Comments Deleted", deletedCommentsResponse.getDeletedComments().size() + "");
+//                    Toast.makeText(context, deletedCommentsResponse.getDeletedComments().size() + " comments deleted", Toast.LENGTH_SHORT).show();
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
@@ -222,7 +224,8 @@ public class HomeViewModel extends BaseViewModel {
                     for (DeletedCookbooksResponse.DeletedCookbooks cookbooks : deletedCookbooksResponse.getDeletedCookbooks()) {
                         new CookbooksDataManager().removeCookbook(cookbooks.get_id());
                     }
-                    Toast.makeText(context, deletedCookbooksResponse.getDeletedCookbooks().size() + " cookbooks deleted", Toast.LENGTH_SHORT).show();
+                    Logger.e("Cookbooks Deleted", deletedCookbooksResponse.getDeletedCookbooks().size() + "");
+//                    Toast.makeText(context, deletedCookbooksResponse.getDeletedCookbooks().size() + " cookbooks deleted", Toast.LENGTH_SHORT).show();
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
