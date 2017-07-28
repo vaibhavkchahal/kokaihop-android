@@ -55,7 +55,8 @@ public class SettingsViewModel extends BaseViewModel {
                 ProfileDataManager profileDataManager = new ProfileDataManager();
                 profileDataManager.updateIsFavoriteForAllRecipe();
                 profileDataManager.updateLastUpdatedTimeForAllRecipe();
-                LoginManager.getInstance().logOut();
+                if (Constants.FACEBOOK_LOGIN.equals(SharedPrefUtils.getSharedPrefStringData(context, Constants.LOGIN_TYPE)))
+                    LoginManager.getInstance().logOut();
                 setProgressVisible(false);
                 destroy();
             }
