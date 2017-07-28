@@ -28,10 +28,12 @@ public class ShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private String recipeTitle;
     private String recipeLink;
     private File shareFile;
+    private ShareItemClickListener shareItemClickListener;
 
-    public ShareAdapter(Activity context, List<Object> sharingList) {
+    public ShareAdapter(Activity context, List<Object> sharingList, ShareItemClickListener listener) {
         this.context = context;
         this.sharingList = sharingList;
+        this.shareItemClickListener = listener;
     }
 
     public void setRecipeTitle(String recipeTitle) {
@@ -56,26 +58,35 @@ public class ShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final ViewHolderShare holderShare = (ViewHolderShare) holder;
+        final ShareContents shareContent = new ShareContents(context);
         TextView share = holderShare.binder.itemShare;
         Object object = sharingList.get(position);
         if (object instanceof ResolveInfo) {
             ResolveInfo info = (ResolveInfo) object;
             share.setText(info.activityInfo.applicationInfo.loadLabel(context.getPackageManager()).toString());
             share.setCompoundDrawablesWithIntrinsicBounds(null, info.activityInfo.applicationInfo.loadIcon(context.getPackageManager()), null, null);
-            holderShare.binder.setPackageName(info.activityInfo.packageName);
-            holderShare.binder.setClassName(info.activityInfo.name);
+            shareContent.setPackageName(info.activityInfo.packageName);
+            shareContent.setClassName(info.activityInfo.name);
         } else if (object instanceof ShareUsingPrint) {
             ShareUsingPrint shareUsingPrint = (ShareUsingPrint) object;
             share.setText(shareUsingPrint.getTitle());
             share.setCompoundDrawablesWithIntrinsicBounds(0, shareUsingPrint.getIcon(), 0, 0);
-            holderShare.binder.setPackageName(shareUsingPrint.getPackageName());
-            holderShare.binder.setClassName(shareUsingPrint.getClassName());
+            shareContent.setPackageName(shareUsingPrint.getPackageName());
+            shareContent.setClassName(shareUsingPrint.getClassName());
+            shareContent.setIngredients(shareUsingPrint.getIngredients());
+            shareContent.setDirections(shareUsingPrint.getDirections());
+            shareContent.setRecipeDescription(shareUsingPrint.getRecipeDescription());
         }
-        ShareContents shareContent = new ShareContents(context);
         shareContent.setRecipeTitle(recipeTitle);
         shareContent.setRecipeLink(recipeLink);
         shareContent.setImageFile(shareFile);
-        holderShare.binder.setHandler(shareContent);
+        holderShare.binder.relativeLytShareItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareItemClickListener.onShareItemClick();
+                shareContent.shareCustom();
+            }
+        });
         holderShare.binder.executePendingBindings();
     }
 
@@ -91,8 +102,11 @@ public class ShareAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public ViewHolderShare(View view) {
             super(view);
             binder = DataBindingUtil.bind(view);
-
         }
+    }
+
+    public interface ShareItemClickListener {
+        void onShareItemClick();
     }
 }
 

@@ -6,16 +6,22 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintJob;
 import android.print.PrintManager;
 import android.text.Html;
 import android.util.Log;
-import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.altaworks.kokaihop.ui.R;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Rajendra Singh on 14/6/17.
@@ -29,20 +35,44 @@ public class ShareContents {
     private String emailSaticContent2 = "Läs receptet här :";
     private String oneLinkText = "Ladda ned från: http://onelink.to/f6n497";
     private File imageFile;
-
+    private String ingredients;
+    private String directions;
+    private String recipeDescription;
+    private WebView webView;
+    private String packageName;
+    private String className;
 
     public ShareContents(Context context) {
         this.context = context;
 
     }
 
+    public void setRecipeDescription(String recipeDescription) {
+        this.recipeDescription = recipeDescription;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     public void setRecipeLink(String facebookContent) {
         this.recipeLink = facebookContent;
     }
 
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setDirections(String directions) {
+        this.directions = directions;
+    }
 
     //    to share the picture with external applications
-    public void shareCustom(View view, String packageName, String className) {
+    public void shareCustom() {
         Log.i("Package Name", packageName);
         if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm") || packageName.equals("com.kokaihop.print")) {
             Intent intent = new Intent();
@@ -71,15 +101,43 @@ public class ShareContents {
                 intent.setType("image/*");
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             } else if (packageName.equals("com.kokaihop.print")) {
-                MyPrintDocumentAdapter myPrintDocumentAdapter = new MyPrintDocumentAdapter(context);
-                PrintManager printManager = (PrintManager) context.getSystemService(Context.PRINT_SERVICE);
-                String jobName = context.getString(R.string.app_name) + " Document";
-                printManager.print(jobName, myPrintDocumentAdapter, null);
+                doWebViewPrint();
             }
             if (!className.equals("print")) {
                 context.startActivity(intent);
             }
         }
+    }
+
+    private void doWebViewPrint() {
+        // Create a WebView object specifically for printing
+        WebView webView = new WebView(context);
+        webView.setWebViewClient(new WebViewClient() {
+
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.i(TAG, "page finished loading " + url);
+                createWebPrintJob(view);
+                ShareContents.this.webView = null;
+            }
+        });
+        // Generate an HTML document on the fly:
+        String htmlDocument = "<html><body>"
+                + "<h2>" + recipeTitle + "</h2>"
+                + "<p>" + recipeDescription + "</p>"
+                + "<h2>" + context.getString(R.string.text_Ingredients) + "</h2>"
+                + "<p>" + ingredients + "</p>"
+                + "<h2>" + context.getString(R.string.text_directions) + "</h2>"
+                + "<p>" + directions + "</p>"
+                + "</body></html>";
+        webView.loadDataWithBaseURL(null, htmlDocument, "text/HTML", "UTF-8", null);
+        // Keep a reference to WebView object until you pass the PrintDocumentAdapter
+        // to the PrintManager
+        this.webView = webView;
     }
 
     public void share() {
@@ -155,5 +213,20 @@ public class ShareContents {
 
     public void setImageFile(File imageFile) {
         this.imageFile = imageFile;
+    }
+
+
+    private void createWebPrintJob(WebView webView) {
+        // Get a PrintManager instance
+        PrintManager printManager = (PrintManager) context
+                .getSystemService(Context.PRINT_SERVICE);
+        // Get a print adapter instance
+        PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
+        // Create a print job with name and adapter instance
+        String jobName = context.getString(R.string.app_name) + " Document";
+        PrintJob printJob = printManager.print(jobName, printAdapter,
+                new PrintAttributes.Builder().build());
+//        // Save the job object for later status checking
+//        mPrintJobs.add(printJob);
     }
 }

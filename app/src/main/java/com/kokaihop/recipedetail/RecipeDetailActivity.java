@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewPager;
@@ -78,10 +79,11 @@ import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
-public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
+public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener, ShareAdapter.ShareItemClickListener {
 
     private int portionMinValue = 1;
     private int portionMaxValue = 79;
+    private int NUMBER_OF_COLUMNS_IN_SHARE_GRID = 2;
 
     private Uri imageUri;
     private String filePath;
@@ -106,6 +108,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String from;
     private Menu menu;
     private int currentPagerPosition = 1;
+    private Dialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -520,37 +523,25 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 //                    shareContents.setImageFile(sharefile);
 //                    shareContents.share();
 //                    CameraUtils.sharePicture(this, imageUrl);
-                    List<Object> shareObjectsList = new ArrayList<>();
-                    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                    // what type of data needs to be send by sharing
-                    sharingIntent.setType("text/plain");
-                    // package names
-                    PackageManager pm = getPackageManager();
-                    // list package
-                    List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
-                    for (ResolveInfo resolveInfo : activityList) {
-                        String packageName = resolveInfo.activityInfo.packageName;
-                        if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm")) {
-                            shareObjectsList.add(resolveInfo);
-                        }
-                    }
-                    shareObjectsList.add(new ShareUsingPrint(getString(R.string.text_print), R.drawable.ic_feed_orange_sm));
-                    final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList);
+                    List<Object> shareObjectsList = addShareOptions();
+                    ShareUsingPrint shareUsingPrint = prepareContentToPrint();
+                    shareObjectsList.add(shareUsingPrint);
+                    final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList, this);
                     shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
                     shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
                     shareAdapter.setShareFile(sharefile);
-                    // Create alert dialog box
-                    final Dialog dialog = new Dialog(this);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    // Create alert shareDialog box
+                    shareDialog = new Dialog(this);
+                    shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    shareDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
-                    dialog.setContentView(binding.getRoot());
+                    shareDialog.setContentView(binding.getRoot());
                     binding.recyclerviewShare.setAdapter(shareAdapter);
-                    GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+                    GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
                     binding.recyclerviewShare.setLayoutManager(layoutManager);
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    dialog.show();
+                    shareDialog.setCanceledOnTouchOutside(true);
+                    shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    shareDialog.show();
                 }
                 return true;
             case R.id.icon_camera:
@@ -573,6 +564,51 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @NonNull
+    private List<Object> addShareOptions() {
+        List<Object> shareObjectsList = new ArrayList<>();
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        // what type of data needs to be send by sharing
+        sharingIntent.setType("text/plain");
+        // package names
+        PackageManager pm = getPackageManager();
+        // list package
+        List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
+        for (ResolveInfo resolveInfo : activityList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm")) {
+                shareObjectsList.add(resolveInfo);
+            }
+        }
+        return shareObjectsList;
+    }
+
+    @NonNull
+    private ShareUsingPrint prepareContentToPrint() {
+        ShareUsingPrint shareUsingPrint = new ShareUsingPrint(getString(R.string.text_print), R.drawable.ic_feed_orange_sm);
+        String ingredients = "";
+        String directions = "";
+        for (Object object : recipeDetailViewModel.getRecipeDetailItemsList()) {
+            if (object instanceof RecipeDetailHeader) {
+                RecipeDetailHeader detailHeader = (RecipeDetailHeader) object;
+                shareUsingPrint.setRecipeDescription(detailHeader.getDescription());
+            } else if (object instanceof IngredientsRealmObject) {
+                IngredientsRealmObject ingredient = (IngredientsRealmObject) object;
+                if (ingredient.getAmount() > 0) {
+                    ingredients = ingredients + ingredient.getAmount() + " " + ingredient.getUnit().getName() + " " + ingredient.getName() + "<br>";
+                } else {
+                    ingredients = ingredients + ingredient.getName() + "<br>";
+                }
+            } else if (object instanceof RecipeCookingDirection) {
+                RecipeCookingDirection stepDetail = (RecipeCookingDirection) object;
+                directions = directions + stepDetail.getDirection().getSerialNo() + ".  " + stepDetail.getDirection().getStep() + "<br>";
+            }
+        }
+        shareUsingPrint.setIngredients(ingredients);
+        shareUsingPrint.setDirections(directions);
+        return shareUsingPrint;
     }
 
 
@@ -652,6 +688,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             AppUtility.showHomeScreen(RecipeDetailActivity.this);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onShareItemClick() {
+        if (shareDialog != null) {
+            shareDialog.dismiss();
         }
     }
 }

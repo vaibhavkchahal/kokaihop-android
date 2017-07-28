@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-        <variable name="handler" type="com.kokaihop.utility.ShareContents"/>
-        <variable name="packageName" type="String"/>
-        <variable name="className" type="String"/>
-    </data>
+    <data></data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:onClick="@{(v)->handler.shareCustom(v,packageName,className)}">
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/relative_lyt_share_item"
+        android:layout_width="@dimen/share_item_height_width"
+        android:layout_height="@dimen/share_item_height_width">
 
         <TextView
             android:id="@+id/item_share"

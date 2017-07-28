@@ -10,6 +10,10 @@ public class ShareUsingPrint {
     private int icon;
     private String packageName = "com.kokaihop.print";
     private String className = "print";
+    private String ingredients;
+    private String directions;
+    private String recipeDescription;
+
 
     public ShareUsingPrint(String title, int icon) {
         this.title = title;
@@ -30,5 +34,29 @@ public class ShareUsingPrint {
 
     public String getClassName() {
         return className;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setDirections(String directions) {
+        this.directions = directions;
+    }
+
+    public void setRecipeDescription(String recipeDescription) {
+        this.recipeDescription = recipeDescription;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public String getDirections() {
+        return directions;
+    }
+
+    public String getRecipeDescription() {
+        return recipeDescription;
     }
 }
