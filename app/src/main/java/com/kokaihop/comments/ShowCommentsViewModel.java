@@ -44,6 +44,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private CommentDatasetListener commentListener;
     private long totalCommentCount;
+    Context context;
 
     public long getTotalCommentCount() {
         return totalCommentCount;
@@ -75,6 +76,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
         this.commentListener = dataSetListener;
         fetchCommentsFromDB();
         fetchCommentFromServer(getOffset(), getMax(), true);
+        this.context = ((Activity) dataSetListener);
     }
 
     public void fetchCommentFromServer(int offset, int max, boolean progressVisibility) {
@@ -104,6 +106,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
+                Toast.makeText(context,context.getString(R.string.check_intenet_connection) + " " +context.getString(R.string.comments_not_refreshed), Toast.LENGTH_SHORT).show();
             }
 
             @Override

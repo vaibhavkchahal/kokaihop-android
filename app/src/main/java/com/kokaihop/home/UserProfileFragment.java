@@ -47,19 +47,19 @@ import java.util.ArrayList;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
+
     private FragmentUserProfileBinding userProfileBinding;
     private FragmentUserProfileSignUpBinding userProfileSignUpBinding;
-    UserProfileViewModel userViewModel;
+    private UserProfileViewModel userViewModel;
     private ViewPager viewPager;
     private LayoutInflater inflater;
     private ViewGroup container;
     private Point point;
     private TabLayout tabLayout;
-    int selectedTabPosition = 0;
+    private int selectedTabPosition = 0;
     private Bundle bundle = new Bundle();
-    ProfileAdapter adapter;
-
-    ArrayList<NotificationCount> notificationCount;
+    private ProfileAdapter adapter;
+    private ArrayList<NotificationCount> notificationCount;
 
     public UserProfileFragment() {
     }
@@ -75,6 +75,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                              Bundle savedInstanceState) {
         this.inflater = inflater;
         this.container = container;
+        selectedTabPosition = User.getInstance().getIndex();
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             setupUserProfileScreen();
@@ -308,8 +309,12 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         });
     }
 
-    public TabLayout getTabLayout() {
-        return tabLayout;
+    public UserProfileViewModel getUserViewModel() {
+        return userViewModel;
+    }
+
+    public void setUserViewModel(UserProfileViewModel userViewModel) {
+        this.userViewModel = userViewModel;
     }
 
     /*@Override

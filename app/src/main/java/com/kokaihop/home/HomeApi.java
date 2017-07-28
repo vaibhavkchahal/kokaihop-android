@@ -1,11 +1,13 @@
 package com.kokaihop.home;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Vaibhav Chahal on 3/5/17.
@@ -24,4 +26,7 @@ public interface HomeApi {
 
     @POST("v1/api/shoppingLists/deleteItems")
     Call<SyncIngredientModel> syncIngrdientDeletionOnServer(@Header("Authorization") String authorization, @Body SyncIngredientDeletionModel requestParam);
+
+    @GET("v1/api/sync")
+    Call<ResponseBody> syncRecipesAndComments(@Query("timestamp") String timestamp, @Query("type") String type);
 }

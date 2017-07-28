@@ -78,4 +78,13 @@ public class Constants {
     public static final String RECIPE_DETAIL_COACHMARK_VISIBILITY = "recipeDetailCoachMark";
 
 
+    public static final String DEACTIVATED_RECIPES = "DEACTIVATED_RECIPES";
+    public static final String DELETED_RECIPE_COLLECTIONS = "DELETED_RECIPE_COLLECTIONS";
+    public static final String DELETED_RECIPE_COMMENTS = "DELETED_RECIPE_COMMENTS";
+
+    public static final String RECIPE_TIME_STAMP = "RECIPE_TIME_STAMP";
+    public static final String COMMENTS_TIME_STAMP = "COMMENTS_TIME_STAMP";
+    public static final String COOKBOOK_TIME_STAMP = "COOKBOOK_TIME_STAMP";
+
+
 }

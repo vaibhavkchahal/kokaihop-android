@@ -343,6 +343,26 @@ public class RecipeDataManager {
         }
         return commentList;
     }
+
+    public void removeRecipe(String friendlyUrl) {
+        RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class).equalTo("friendlyUrl", friendlyUrl).findFirst();
+        if (recipeRealmObject != null) {
+            realm.beginTransaction();
+            Logger.e("Recipe Deleted", recipeRealmObject.getFriendlyUrl() + recipeRealmObject.getTitle());
+            recipeRealmObject.deleteFromRealm();
+            realm.commitTransaction();
+        }
+    }
+
+    public void removeComment(String _id) {
+        CommentRealmObject commentRealmObject = realm.where(CommentRealmObject.class).equalTo("_id", _id).findFirst();
+        if (commentRealmObject != null) {
+            realm.beginTransaction();
+            Logger.e("Comment Deleted", commentRealmObject.get_id());
+            commentRealmObject.deleteFromRealm();
+            realm.commitTransaction();
+        }
+    }
 }
 
 

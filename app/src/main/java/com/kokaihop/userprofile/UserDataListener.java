@@ -8,4 +8,5 @@ public interface UserDataListener {
     void showUserProfile();
 
     void followToggeled();
+
 }

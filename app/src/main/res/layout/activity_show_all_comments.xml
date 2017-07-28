@@ -25,18 +25,15 @@
                 <ImageView
                     android:id="@+id/toolbar_cancel"
                     style="@style/backButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:onClick="@{(v)-> viewModel.onBackPressed(v)}"
                     android:src="@drawable/ic_back_arrow_white_md"/>
 
                 <TextView
                     android:id="@+id/toolbar_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
+                    android:layout_centerInParent="true"
                     android:text="@string/view_all_comments"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_large"

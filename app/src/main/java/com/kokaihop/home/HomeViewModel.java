@@ -2,9 +2,12 @@ package com.kokaihop.home;
 
 import android.content.Context;
 
+import com.altaworks.kokaihop.ui.R;
+import com.google.gson.Gson;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.network.IApiRequestComplete;
@@ -21,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -36,6 +40,9 @@ public class HomeViewModel extends BaseViewModel {
 
     public HomeViewModel(Context context) {
         this.context = context;
+        syncRecipes();
+        syncComments();
+        syncCookbooks();
     }
 
     public void getLatestRecipes() {
@@ -124,5 +131,113 @@ public class HomeViewModel extends BaseViewModel {
     @Override
     protected void destroy() {
 
+    }
+
+    public void syncRecipes() {
+        String timestamp = SharedPrefUtils.getSharedPrefStringData(context, Constants.RECIPE_TIME_STAMP);
+        if (timestamp == null || timestamp.isEmpty()) {
+            timestamp = "0";
+        }
+        new HomeApiHelper().syncRecipesAndComments(timestamp, Constants.DEACTIVATED_RECIPES, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.RECIPE_TIME_STAMP, String.valueOf(new Date().getTime()));
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject responseJSON = new JSONObject(responseBody.string());
+                    Gson gson = new Gson();
+                    DeactivatedRecipeResponse deactivatedRecipeResponse = gson.fromJson(responseJSON.toString(), DeactivatedRecipeResponse.class);
+                    for (DeactivatedRecipeResponse.DeactivatedRecipe recipe : deactivatedRecipeResponse.getDeactivatedRecipes()) {
+                        new RecipeDataManager().removeRecipe(recipe.getFriendlyUrl());
+                    }
+                    Logger.e("Recipe Deleted", deactivatedRecipeResponse.getCount() + "");
+//                    Toast.makeText(context, deactivatedRecipeResponse.getCount() + " recipes deleted", Toast.LENGTH_SHORT).show();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+            }
+
+            @Override
+            public void onError(Object response) {
+
+            }
+        });
+    }
+
+    public void syncComments() {
+        String timestamp = SharedPrefUtils.getSharedPrefStringData(context, Constants.COMMENTS_TIME_STAMP);
+        if (timestamp == null || timestamp.isEmpty()) {
+            timestamp = "0";
+        }
+        new HomeApiHelper().syncRecipesAndComments(timestamp, Constants.DELETED_RECIPE_COMMENTS, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.COMMENTS_TIME_STAMP, String.valueOf(new Date().getTime()));
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject responseJSON = new JSONObject(responseBody.string());
+                    Gson gson = new Gson();
+                    DeletedCommentsResponse deletedCommentsResponse = gson.fromJson(responseJSON.toString(), DeletedCommentsResponse.class);
+                    for (DeletedCommentsResponse.DeletedComments comments : deletedCommentsResponse.getDeletedComments()) {
+                        new RecipeDataManager().removeComment(comments.get_id());
+                    }
+                    Logger.e("Comments Deleted", deletedCommentsResponse.getDeletedComments().size() + "");
+//                    Toast.makeText(context, deletedCommentsResponse.getDeletedComments().size() + " comments deleted", Toast.LENGTH_SHORT).show();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+            }
+
+            @Override
+            public void onError(Object response) {
+
+            }
+        });
+    }
+
+    public void syncCookbooks() {
+        String timestamp = SharedPrefUtils.getSharedPrefStringData(context, Constants.COOKBOOK_TIME_STAMP);
+        if (timestamp == null || timestamp.isEmpty()) {
+            timestamp = "0";
+        }
+        new HomeApiHelper().syncRecipesAndComments(timestamp, Constants.DELETED_RECIPE_COLLECTIONS, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                SharedPrefUtils.setSharedPrefStringData(context, Constants.COOKBOOK_TIME_STAMP, String.valueOf(new Date().getTime()));
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject responseJSON = new JSONObject(responseBody.string());
+                    Gson gson = new Gson();
+                    DeletedCookbooksResponse deletedCookbooksResponse = gson.fromJson(responseJSON.toString(), DeletedCookbooksResponse.class);
+                    for (DeletedCookbooksResponse.DeletedCookbooks cookbooks : deletedCookbooksResponse.getDeletedCookbooks()) {
+                        new CookbooksDataManager().removeCookbook(cookbooks.get_id());
+                    }
+                    Logger.e("Cookbooks Deleted", deletedCookbooksResponse.getDeletedCookbooks().size() + "");
+//                    Toast.makeText(context, deletedCookbooksResponse.getDeletedCookbooks().size() + " cookbooks deleted", Toast.LENGTH_SHORT).show();
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+
+            }
+
+            @Override
+            public void onError(Object response) {
+
+            }
+        });
     }
 }

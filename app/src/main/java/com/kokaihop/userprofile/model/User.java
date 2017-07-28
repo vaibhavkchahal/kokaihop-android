@@ -39,6 +39,7 @@ public class User extends BaseObservable {
     private ArrayList<FollowingFollowerUser> followersList = new ArrayList<>();
     private ArrayList<FollowingFollowerUser> followingList = new ArrayList<>();
     private boolean refreshRequired;
+    private int index;
 
     public String get_id() {
         return _id;
@@ -264,5 +265,13 @@ public class User extends BaseObservable {
 
     public void setFollowingList(ArrayList<FollowingFollowerUser> followingList) {
         this.followingList = followingList;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

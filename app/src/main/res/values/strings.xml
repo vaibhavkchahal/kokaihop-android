@@ -79,7 +79,7 @@
     <string name="main_course_of_the_day">Main Course of the Day</string>
     <string name="appetizer_of_the_day">Appetizer of the Day</string>
     <string name="cookie_of_the_day">Cookie of the Day</string>
-    <string name="desert_of_the_day">Desert of the Day</string>
+    <string name="desert_of_the_day">Dessert of the Day</string>
     <string name="vegetarian_of_the_day">Vegetarian of the Day</string>
     <string name="text_previous">Previous</string>
     <string name="cook_something_creating_today">Cook something creating today</string>
@@ -220,7 +220,7 @@
     <string name="sort_by">Sort by</string>
     <string name="search_recipes_ingredents">Search recipes or ingredients</string>
     <string name="latest_search">LATEST SEARCHES</string>
-    <string name="recipe_results">%1$s Recipe results</string>
+    <string name="recipe_results">%1$s Recipe Results</string>
 
     <string name="best_rating">Best rating</string>
     <string name="comments">Comments</string>
@@ -352,6 +352,7 @@
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
     <string name="confirm_upload">Confirm Upload</string>
     <string name="item_added_text">" item(s) added"</string>
+    <string name="comments_not_refreshed">Cannot refresh comments!!!</string>
     <string name="recipe_detail_coach_mark">Här sparar och delar du receptet, glöm inte att ladda
         upp en bild om du lagat det
     </string>
@@ -362,6 +363,7 @@
         inte sparat
     </string>
     <string name="clear_marked">Clear marked</string>
+    <string name="user">User</string>
 
 
 </resources>
