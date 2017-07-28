@@ -242,7 +242,7 @@
     <string name="this_will_permanently_delete">"Detta kommer att permanent ta bort "</string>
     <string name="recipes_in_the_cookbook">" recept från din samling"</string>
     <string name="this_will_delete_the_cookbook_and_its_recipes">
-        Detta kommer att permanent ta bort recept från din samling
+        Detta kommer att permanent ta bort recept från din samling?
     </string>
     <string name="the_cookbook">samling</string>
     <string name="delete">Radera</string>

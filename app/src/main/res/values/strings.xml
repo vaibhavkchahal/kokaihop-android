@@ -256,7 +256,7 @@
     <string name="this_will_permanently_delete">"This will permanently delete "</string>
     <string name="recipes_in_the_cookbook">" recipes in the cookbook."</string>
     <string name="this_will_delete_the_cookbook_and_its_recipes">
-        This will permanently delete recipes in the cookbook.
+        This will permanently delete recipes in the cookbook?
     </string>
     <string name="the_cookbook">the cookbook</string>
     <string name="delete">Delete</string>
