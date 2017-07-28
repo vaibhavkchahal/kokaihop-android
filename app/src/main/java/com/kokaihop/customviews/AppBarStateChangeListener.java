@@ -14,11 +14,12 @@ public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffset
         EXPANDED,
         COLLAPSED,
         SCROLL_DOWN,
+        SCROLL_UP,
         IDLE
     }
 
     private State mCurrentState = State.IDLE;
-    private int previousVerticalOffset=0;
+    private int previousVerticalOffset = 0;
 
     @Override
     public final void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -30,27 +31,28 @@ public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffset
                 onStateChanged(appBarLayout, State.EXPANDED);
             }
             mCurrentState = State.EXPANDED;
-        }
-        else if (verticalOffset >= appBarLayout.getTotalScrollRange()) {
+        } else if (verticalOffset >= appBarLayout.getTotalScrollRange()) {
             if (mCurrentState != State.COLLAPSED) {
                 onStateChanged(appBarLayout, State.COLLAPSED);
             }
             mCurrentState = State.COLLAPSED;
-        }
-        else if(previousVerticalOffset-2>verticalOffset)
-        {
+        } else if (previousVerticalOffset - 2 > verticalOffset) {
             if (mCurrentState != State.SCROLL_DOWN) {
                 onStateChanged(appBarLayout, State.SCROLL_DOWN);
             }
             mCurrentState = State.SCROLL_DOWN;
-        }
-        else {
+        } else if (previousVerticalOffset + 2 < verticalOffset) {
+            if (mCurrentState != State.SCROLL_UP) {
+                onStateChanged(appBarLayout, State.SCROLL_UP);
+            }
+            mCurrentState = State.SCROLL_UP;
+        } else {
             if (mCurrentState != State.IDLE) {
                 onStateChanged(appBarLayout, State.IDLE);
             }
             mCurrentState = State.IDLE;
         }
-        previousVerticalOffset=verticalOffset;
+        previousVerticalOffset = verticalOffset;
     }
 
     public abstract void onStateChanged(AppBarLayout appBarLayout, State state);

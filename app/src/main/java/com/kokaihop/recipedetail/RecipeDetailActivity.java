@@ -112,14 +112,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         from = getIntent().getStringExtra("from");
 
         if (from != null && from.equalsIgnoreCase("Notification")) {
-                GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category), getString(R.string.pushnotification_launched_action));
+            GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category), getString(R.string.pushnotification_launched_action));
 
-            }
-            txtviewPagerProgress = binding.txtviewPagerProgress;
-            setupRecipeDetailScreen();
-            GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_detail_screen));
-            enableCoachMark();
         }
+        txtviewPagerProgress = binding.txtviewPagerProgress;
+        setupRecipeDetailScreen();
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_detail_screen));
+        enableCoachMark();
+    }
 
     private void enableCoachMark() {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
@@ -186,18 +186,45 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                                     bitmap);
                             imageViewBlurred.setImageBitmap(bluredBitmap);
                             imageViewBlurred.setVisibility(View.VISIBLE);
+                            changeMenuItemsIcons(true);
                             break;
                         case EXPANDED:
                             toggleLeftRightVisibility(viewPager.getCurrentItem());
                             imageViewBlurred.setVisibility(View.INVISIBLE);
+                            changeMenuItemsIcons(false);
                             break;
                         case SCROLL_DOWN:
                             imageViewBlurred.setVisibility(View.INVISIBLE);
+                            changeMenuItemsIcons(false);
                             break;
+                        case SCROLL_UP:
+                            changeMenuItemsIcons(true);
+
                     }
                 }
             }
         });
+    }
+
+    private void changeMenuItemsIcons(boolean collapsed) {
+        MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+        MenuItem menuItemShare = menu.findItem(R.id.icon_share);
+        MenuItem menuItemCamera = menu.findItem(R.id.icon_camera);
+        MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
+
+        if (collapsed) {
+            menuItemLike.setIcon(R.drawable.ic_like_md_grey);
+            menuItemShare.setIcon(R.drawable.ic_share_md_grey);
+            menuItemCamera.setIcon(R.drawable.ic_camera_grey);
+            menuItemWishlist.setIcon(R.drawable.ic_bookmark_md);
+            binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
+        } else {
+            menuItemLike.setIcon(R.drawable.ic_like_md);
+            menuItemShare.setIcon(R.drawable.ic_share_md);
+            menuItemCamera.setIcon(R.drawable.ic_camera);
+            menuItemWishlist.setIcon(R.drawable.ic_bookmark_md);
+            binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
+        }
     }
 
 

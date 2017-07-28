@@ -88,7 +88,9 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
         }
         pagerImages.clear();
-        pagerImages.addAll(recipeRealmObject.getImages());
+        if (recipeRealmObject != null) {
+            pagerImages.addAll(recipeRealmObject.getImages());
+        }
         prepareRecipeDetailList(recipeRealmObject);
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
@@ -364,8 +366,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public void uploadImageOnCloudinary(final String imagePath) {
 
-        Activity activity=(Activity) context;
-        GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action),context.getString(R.string.recipe_photo_upload_label));
+        Activity activity = (Activity) context;
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action), context.getString(R.string.recipe_photo_upload_label));
 
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
@@ -410,7 +412,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                             @Override
                             public void onSuccess(Object response) {
 
-                                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action),context.getString(R.string.recipe_photo_uploaded_label));
+                                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action), context.getString(R.string.recipe_photo_uploaded_label));
 
 
                                 Logger.e("image upload", "success " + response.toString());
