@@ -232,12 +232,12 @@ public class CookbookDetailViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Failure " + R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Object response) {
-                Toast.makeText(context, "Failure " + R.string.something_wrong, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Failure " + R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             }
         });
 
