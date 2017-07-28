@@ -1,7 +1,6 @@
 package com.kokaihop.home;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.google.gson.Gson;
@@ -113,7 +112,6 @@ public class HomeViewModel extends BaseViewModel {
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
-                Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_SHORT).show();
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_Email_PASSWORD, "");
             }

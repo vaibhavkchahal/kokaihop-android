@@ -49,7 +49,7 @@
     <string name="close_label">Close</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
-    <string name="cities">Select Your City</string>
+    <string name="cities">Cities</string>
     <string name="cancel">Cancel</string>
     <string name="name_required">Name Required</string>
     <string name="city_validation_msg">City Required</string>
@@ -61,8 +61,7 @@
     <string name="search">Search</string>
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
 
-    <string name="signup_message">This is where you’ll connect with other chefs, Get to see your
-        search history, and change your settings
+    <string name="signup_message">As a logged in user you can here see your followers, search history and follow other chefs.
     </string>
     <string name="sign_up_or_login">Login or become member for free!</string>
     <string name="sign_up_now">Sign Up Now</string>
