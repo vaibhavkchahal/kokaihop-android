@@ -50,7 +50,7 @@ public class FollowingFragment extends Fragment implements UserDataListener {
             user = new User();
         }
         followingViewModel = new FollowersFollowingViewModel(this, getContext(), userId, user);
-        followingAdapter = new FollowersFollowingAdapter(user.getFollowingList(), followingViewModel);
+        followingAdapter = new FollowersFollowingAdapter(user.getFollowingList(), followingViewModel, this);
         layoutManager = new CustomLinearLayoutManager(this.getContext());
         this.inflater = inflater;
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_followers_following, container, false);
@@ -98,5 +98,9 @@ public class FollowingFragment extends Fragment implements UserDataListener {
         } else {
             ((OtherUserProfileFragment) getParentFragment()).setNotificationCount();
         }
+    }
+
+    public User getUser() {
+        return user;
     }
 }

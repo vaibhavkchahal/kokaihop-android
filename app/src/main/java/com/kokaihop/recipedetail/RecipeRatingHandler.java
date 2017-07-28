@@ -1,10 +1,12 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
@@ -48,6 +50,9 @@ public class RecipeRatingHandler {
             new RecipeDetailApiHelper().rateRecipe(accessTokenBearer, new RatingRequestParams(recipeDetailHeader.getRecipeId(), rating), new IApiRequestComplete() {
                 @Override
                 public void onSuccess(Object response) {
+                    Activity activity=(Activity) ratingBar.getContext();
+                    GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.recipe_category), context.getString(R.string.recipe_rated_action));
+
                     AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.rating_dialog_text) + " " + rating);
                     ratingBar.setRating(recipeDetailHeader.getRating());
                 }
@@ -55,12 +60,16 @@ public class RecipeRatingHandler {
                 @Override
                 public void onFailure(String message) {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    ratingBar.setRating(recipeDetailHeader.getRating());
                 }
 
                 @Override
                 public void onError(Object response) {
+                    ratingBar.setRating(recipeDetailHeader.getRating());
                 }
             });
+        }else{
+            ratingBar.setRating(recipeDetailHeader.getRating());
         }
 
     }

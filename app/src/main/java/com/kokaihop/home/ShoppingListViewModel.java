@@ -1,5 +1,6 @@
 package com.kokaihop.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import com.altaworks.kokaihop.ui.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
@@ -198,6 +200,9 @@ public class ShoppingListViewModel extends BaseViewModel {
         new HomeApiHelper().sycIngredientDeletionOnServer(authorizationToken, requestParams, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                Activity activity=(Activity) context;
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_deleted_action), context.getString(R.string.buy_list_ingredient_deleted_label));
+
                 SyncIngredientModel model = (SyncIngredientModel) response;
                 shoppingDataManager.updateShoppingIngredientList(model.getRealmObjects());
                 fetchIngredientFromDB();

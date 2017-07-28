@@ -69,7 +69,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:onClick="@{(v)->viewModel.onClickClearMarked(v)}"
-                android:text="Clear marked"
+                android:text="@string/clear_marked"
                 android:textColor="@color/kokaihop_orange_color"
                 android:textSize="@dimen/text_size_small"
                 app:font="@{`SS-ProRegular`}"/>

@@ -35,7 +35,7 @@ public class EditProfileActivity extends BaseActivity {
         editProfileBinding.setViewModel(editProfileViewModel);
         editProfileBinding.setUser(User.getInstance());
         editProfileBinding.executePendingBindings();
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.edit_profile_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.edit_profile_screen));
 
     }
 

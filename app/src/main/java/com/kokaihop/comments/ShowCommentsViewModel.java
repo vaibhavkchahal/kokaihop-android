@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
@@ -43,6 +44,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
     private List<CommentRealmObject> commentsList = new ArrayList<>();
     private CommentDatasetListener commentListener;
     private long totalCommentCount;
+    Context context;
 
     public long getTotalCommentCount() {
         return totalCommentCount;
@@ -74,6 +76,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
         this.commentListener = dataSetListener;
         fetchCommentsFromDB();
         fetchCommentFromServer(getOffset(), getMax(), true);
+        this.context = ((Activity) dataSetListener);
     }
 
     public void fetchCommentFromServer(int offset, int max, boolean progressVisibility) {
@@ -103,6 +106,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
+                Toast.makeText(context,context.getString(R.string.check_intenet_connection) + " " +context.getString(R.string.comments_not_refreshed), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -123,7 +127,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
 
     // post comment after checking user authentication.
     public void postComment(View view, EditText editText) {
-        Context context = view.getContext();
+        final Context context = view.getContext();
         String accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         if (accessToken == null || accessToken.isEmpty()) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_comment_message));
@@ -135,6 +139,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category),context.getString(R.string.comment_added_action));
                         setProgressVisible(false);
                         ResponseBody responseBody = (ResponseBody) response;
                         try {

@@ -6,6 +6,7 @@ import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.UserRealmObject;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.utility.JSONObjectUtility;
+import com.kokaihop.utility.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -169,7 +170,7 @@ public class CookbooksDataManager {
 
     public void removeRecipeFromAllCookbooks(String userFriendlyUrl, RecipeRealmObject recipe) {
         UserRealmObject userRealmObject = realm.where(UserRealmObject.class).equalTo("friendlyUrl", userFriendlyUrl).findFirst();
-        if (userRealmObject != null){
+        if (userRealmObject != null) {
             RealmList<CookbookRealmObject> cookbooks = userRealmObject.getRecipeCollections();
             realm.beginTransaction();
             if (cookbooks != null) {
@@ -177,6 +178,16 @@ public class CookbooksDataManager {
                     cookbook.getRecipes().remove(recipe);
                 }
             }
+            realm.commitTransaction();
+        }
+    }
+
+    public void removeCookbook(String _id) {
+        CookbookRealmObject cookbookRealmObject = realm.where(CookbookRealmObject.class).equalTo("_id", _id).findFirst();
+        if (cookbookRealmObject != null) {
+            realm.beginTransaction();
+            Logger.e("Cookbook Deleted", cookbookRealmObject.get_id());
+            cookbookRealmObject.deleteFromRealm();
             realm.commitTransaction();
         }
     }

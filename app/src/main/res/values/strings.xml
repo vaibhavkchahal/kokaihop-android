@@ -15,7 +15,7 @@
     <string name="forgot_password_title">Forgot Password</string>
     <string name="or_login_text">Or Log In using Email</string>
     <string name="signup_now_text">Not yet a Kokaihop chef? Sign Up now</string>
-    <string name="invalid_email">Valid Email Required</string>
+    <string name="invalid_email">Please enter a valid email</string>
     <string name="password_validation_msg">Password must have atleast seven characters!!!</string>
     <string name="sucess_login">Login Success!</string>
     <string name="failed_login">Login Failed!</string>
@@ -49,7 +49,7 @@
     <string name="close_label">Close</string>
     <string name="enter_your_registered_email">Enter your registered email</string>
     <string name="submit">Submit</string>
-    <string name="cities">Select Your City</string>
+    <string name="cities">Cities</string>
     <string name="cancel">Cancel</string>
     <string name="name_required">Name Required</string>
     <string name="city_validation_msg">City Required</string>
@@ -61,8 +61,7 @@
     <string name="search">Search</string>
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
 
-    <string name="signup_message">This is where you’ll connect with other chefs, Get to see your
-        search history, and change your settings
+    <string name="signup_message">As a logged in user you can here see your followers, search history and follow other chefs.
     </string>
     <string name="sign_up_or_login">Login or become member for free!</string>
     <string name="sign_up_now">Sign Up Now</string>
@@ -80,20 +79,20 @@
     <string name="main_course_of_the_day">Main Course of the Day</string>
     <string name="appetizer_of_the_day">Appetizer of the Day</string>
     <string name="cookie_of_the_day">Cookie of the Day</string>
-    <string name="desert_of_the_day">Desert of the Day</string>
+    <string name="desert_of_the_day">Dessert of the Day</string>
     <string name="vegetarian_of_the_day">Vegetarian of the Day</string>
     <string name="text_previous">Previous</string>
-    <string name="cook_something_creating_today">Cook something creating today</string>
+    <string name="cook_something_creating_today">Most recent 60 days</string>
 
     <!--User Feed Tabs-->
-    <string name="tab_main_course_of_the_day">MAIN COURSE OF THE DAY</string>
-    <string name="tab_appetizer_of_the_day">APPETIZER OF THE DAY</string>
-    <string name="tab_cookie_of_the_day">COOKIE OF THE DAY</string>
-    <string name="tab_dessert_of_the_day">DESSERT OF THE DAY</string>
-    <string name="tab_vegetarian_of_the_day">VEGETARIAN OF THE DAY</string>
+    <string name="tab_main_course_of_the_day">Main Course of the Day</string>
+    <string name="tab_appetizer_of_the_day">Appetizer of the Day</string>
+    <string name="tab_cookie_of_the_day">Cookie of the Day</string>
+    <string name="tab_dessert_of_the_day">Dessert of the Day</string>
+    <string name="tab_vegetarian_of_the_day">Vegetarian of the Day</string>
 
     <!--Home Activity Tabs-->
-    <string name="tab_feed">Feed</string>
+    <string name="tab_feed">Recipes</string>
     <string name="tab_cookbooks">Cookbooks</string>
     <string name="tab_list">List</string>
     <string name="tab_comments">Comments</string>
@@ -112,8 +111,7 @@
 
     <!--SignUp/Login Dialog-->
     <string name="access_profile">Access Profile</string>
-    <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your
-        search history, and change your settings
+    <string name="signup_dialog_message">As a logged in user you can here see your followers, search history and follow other chefs.
     </string>
     <string name="login_comment_message">You need to logged in to comment on recipe</string>
     <string name="login_reply_on_comment_message">You need to logged in to reply on comment</string>
@@ -126,7 +124,7 @@
         cookbook!!!
     </string>
 
-    <string name="welcome_text">Welcome to kokaihop</string>
+    <string name="welcome_text">Welcome to kokaihop.se!</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
     <string name="write_a_comment_text">Write a comment...</string>
     <string name="text_upload_image_to_recipe">upload image to recipe</string>
@@ -136,14 +134,14 @@
     <string name="text_add_to_list">Add to list</string>
 
     <string name="text_Ingredients">Ingredients</string>
-    <string name="text_SimilarRecipies">SimilarRecipies</string>
+    <string name="text_SimilarRecipies">Similar Recipes</string>
     <string name="text_comments">Comments</string>
     <string name="text_directions">Direction</string>
     <string name="count"><![CDATA[
         <b>%1$s</b>
         visad, <b>%2$s</b> utskriven, <b>%3$s</b> tillagd i saml]]>
     </string>
-    <string name="add_portion">Add Portion</string>
+    <string name="add_portion">Change the number of servings</string>
 
     <!--User Settings-->
     <string name="done">Done</string>
@@ -162,9 +160,9 @@
     <string name="settings_not_updated">Settings Can\'t be updated!!!</string>
     <string name="change_profile_photo">Change Profile Photo</string>
     <string name="choose_profile_pic">Choose Profile Picture</string>
-    <string name="take_photo">Take Photo</string>
-    <string name="choose_from_library">Choose from Library</string>
-    <string name="add_photo">Add Photo!</string>
+    <string name="take_photo">Take Picture</string>
+    <string name="choose_from_library">Choose From Camera Roll</string>
+    <string name="add_photo">Choose an option!</string>
     <string name="select_file">Select File</string>
     <string name="sd_card_error">Please check SD card!!</string>
     <string name="fileprovider">.fileprovider</string>
@@ -221,7 +219,7 @@
     <string name="sort_by">Sort by</string>
     <string name="search_recipes_ingredents">Search recipes or ingredients</string>
     <string name="latest_search">LATEST SEARCHES</string>
-    <string name="recipe_results">%1$s Recipe results</string>
+    <string name="recipe_results">%1$s Recipe Results</string>
 
     <string name="best_rating">Best rating</string>
     <string name="comments">Comments</string>
@@ -243,7 +241,7 @@
     </string-array>
 
     <string name="show_all_recipes">Showing all recipes</string>
-    <string name="show_recipe_with_images">Showing only recipes with images</string>
+    <string name="show_recipe_with_images">Showing only recipes \n with images</string>
     <string name="create_new_cookbook">Create new cookbook</string>
     <string name="rename_cookbook">Rename Cookbook</string>
     <string name="cookbook_name">Cookbook Name</string>
@@ -264,8 +262,8 @@
     <string name="delete">Delete</string>
     <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
     <string name="pick_a_cookbook">Pick a Cookbook</string>
-    <string name="recipe_added_to_cookbook">Recipe added to cookbook successfully</string>
-    <string name="recipe_removed_from_cookbook">Recipe removed from the cookbook successfully
+    <string name="recipe_added_to_cookbook">The recipe has been added to cookbook</string>
+    <string name="recipe_removed_from_cookbook">The Recipe has bee removed from the cookbook successfully
     </string>
     <string name="edit">Edit</string>
     <string name="rename">Rename</string>
@@ -335,7 +333,7 @@
     <string name="obs_text">OBS!</string>
     <string name="please_enter_ingredient">Please enter ingredient</string>
     <string name="add_ingredient">Add Ingredient</string>
-    <string name="enter_ingredient_name">Enter Ingredient Name</string>
+    <string name="enter_ingredient_name">Enter Ingredient</string>
     <string name="unit">Unit</string>
     <string name="quantity">Quantity</string>
     <string name="enter">Enter</string>
@@ -353,6 +351,7 @@
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
     <string name="confirm_upload">Confirm Upload</string>
     <string name="item_added_text">" item(s) added"</string>
+    <string name="comments_not_refreshed">Cannot refresh comments!!!</string>
     <string name="recipe_detail_coach_mark">Här sparar och delar du receptet, glöm inte att ladda
         upp en bild om du lagat det
     </string>
@@ -362,6 +361,10 @@
     <string name="user_profile_coach_mark">Här hittar du recept du tittat på tidigare men kanske
         inte sparat
     </string>
+    <string name="clear_marked">Clear marked</string>
+    <string name="user">User</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="edit_list">Edit List</string>
     <string name="text_print">Print</string>
 
 

@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 
+import static com.batch.android.c.s.S;
+
 /**
  * Created by Rajendra Singh on 22/5/17.
  */
@@ -98,26 +100,12 @@ public class OtherUserProfileViewModel extends BaseViewModel {
         } else if (user != null) {
             String userId = user.get_id();
             user.setFollowByMe(!user.isFollowByMe());
+            toggleFollowing(userId, user);
             if (user.isFollowByMe()) {
-                User.getInstance().getFollowing().add(user.get_id());
-                FollowingFollowerUser followingUser = new FollowingFollowerUser();
-                followingUser.setFriendlyUrl(user.getFriendlyUrl());
-                followingUser.setName(user.getName());
-                followingUser.setProfileImageUrl(user.getProfileImageUrl());
-                followingUser.set_id(user.get_id());
-                followingUser.setFollowingUser(user.isFollowByMe());
-                followingUser.setProfileImage(user.getProfileImage());
-                user.getFollowingList().add(followingUser);
                 user.getFollowers().add(User.getInstance().get_id());
             } else {
-                User.getInstance().getFollowing().remove(user.get_id());
                 user.getFollowers().remove(User.getInstance().get_id());
-                int index = getIndexOfUser(userId, User.getInstance().getFollowingList());
-                if (index > -1) {
-                    User.getInstance().getFollowingList().remove(index);
-                }
             }
-            toggleFollowing(userId, user);
             userDataListener.followToggeled();
         }
     }
@@ -136,6 +124,7 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 } else {
                     AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.unfollow_success));
                 }
+                updateToggleResults(user);
                 User.getInstance().setRefreshRequired(true);
             }
 
@@ -163,6 +152,34 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 userDataListener.followToggeled();
             }
         });
+    }
+
+
+    public void updateToggleResults(User user) {
+        String userId = user.get_id();
+        if (user.isFollowByMe()) {
+            User.getInstance().getFollowing().add(user.get_id());
+            FollowingFollowerUser followingUser = new FollowingFollowerUser();
+            followingUser.setFriendlyUrl(user.getFriendlyUrl());
+            followingUser.setName(user.getName());
+            followingUser.setProfileImageUrl(user.getProfileImageUrl());
+            followingUser.set_id(user.get_id());
+            followingUser.setFollowingUser(user.isFollowByMe());
+            followingUser.setProfileImage(user.getProfileImage());
+            user.getFollowingList().add(followingUser);
+        } else {
+            User.getInstance().getFollowing().remove(user.get_id());
+            int index = getIndexOfUser(userId, User.getInstance().getFollowingList());
+            if (index > -1) {
+                User.getInstance().getFollowingList().remove(index);
+            }
+            index = getIndexOfUser(User.getInstance().get_id(), user.getFollowersList());
+            if (index > -1) {
+                user.getFollowersList().remove(index);
+            }
+            new ProfileDataManager().removeFollower(userId);
+        }
+        userDataListener.followToggeled();
     }
 
     private void setUpApiCall() {

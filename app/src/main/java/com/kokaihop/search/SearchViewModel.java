@@ -1,11 +1,13 @@
 package com.kokaihop.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CookingMethod;
@@ -249,15 +251,23 @@ public class SearchViewModel extends BaseViewModel {
     public void showWithImages(View view, View parentView) {
         boolean isSelected;
         String msg;
+        String label;
 
         if (view.getBackground().getConstantState()
                 == ResourcesCompat.getDrawable(view.getContext().getResources(), R.drawable.ic_picture, null).getConstantState()) {
             isSelected = false;
             msg = view.getContext().getResources().getString(R.string.show_all_recipes);
+            label = context.getString(R.string.search_image_off_label);
+
         } else {
             isSelected = true;
             msg = view.getContext().getResources().getString(R.string.show_recipe_with_images);
+            label = context.getString(R.string.search_image_off_label);
+
         }
+
+        Activity activity = (Activity) context;
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.search_category), context.getString(R.string.search_image_action), label);
         dataSetListener.showWithImageDialog(view, parentView, isSelected, msg);
     }
 
@@ -361,6 +371,7 @@ public class SearchViewModel extends BaseViewModel {
             if (sortBy.isEmpty()) {
                 sortBy = context.getResources().getString(R.string.best_rating);
             }
+            trackGAEvent(sortBy);
             searchDataManager.selectedFiltersSearchQuery(filterMap, withImage, sortBy, searchKeyword,
                     new SearchDataManager.OnCompleteListener() {
                         @Override
@@ -371,6 +382,45 @@ public class SearchViewModel extends BaseViewModel {
                         }
                     });
         }
+
+    }
+
+    private void trackGAEvent(String sortBy) {
+        String label = "";
+
+        if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
+
+            label = context.getResources().getString(R.string.rated_label);
+
+        } else if (sortBy.equals(context.getResources().getString(R.string.comments))) {
+            label = context.getResources().getString(R.string.comments_label);
+
+
+        } else if (sortBy.equals(context.getResources().getString(R.string.popular))) {
+            label = context.getResources().getString(R.string.relevance_label);
+
+
+        } else if (sortBy.equals(context.getResources().getString(R.string.recommended))) {
+            label = context.getResources().getString(R.string.recomended_label);
+
+
+        } else if (sortBy.equals(context.getResources().getString(R.string.latest))) {
+            label = context.getResources().getString(R.string.most_recent_label);
+
+
+        } else if (sortBy.equals(context.getResources().getString(R.string.title_a_z))) {
+            label = context.getResources().getString(R.string.alphabatical_label);
+
+        } else if (sortBy.equals(context.getResources().getString(R.string.title_z_a))) {
+            label = context.getResources().getString(R.string.reverse_alphabatical_label);
+        }
+        if (!label.isEmpty()) {
+            Activity activity = (Activity) context;
+            GoogleAnalyticsHelper.trackEventAction(context.getResources().getString(R.string.search_category), context.getResources().getString(R.string.search_sorted_action), label);
+
+        }
+
+
     }
 
     public interface DataSetListener {

@@ -28,7 +28,7 @@ public class CookbookDetailActivity extends AppCompatActivity {
         fragment = new CookbookDetailFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(binding.llCookbookDetail.getId(), fragment).commit();
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.cookbook_specific_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.cookbook_specific_screen));
 
     }
 }

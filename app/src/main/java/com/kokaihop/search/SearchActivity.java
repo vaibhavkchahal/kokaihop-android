@@ -57,6 +57,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GoogleAnalyticsHelper.trackEventAction( getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.explore_now_label));
+
                 searchViewModel.setSortBy(getString(R.string.latest));
                 searchViewModel.fetchNewlyAddedRecipeWithAds();
             }
@@ -70,7 +72,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             }
         });
 
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.search_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.search_screen));
 
 
     }
@@ -176,7 +178,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     inflate(LayoutInflater.from(SearchActivity.this), R.layout.dialog_search_filter, (ViewGroup) this.binding.getRoot(), false);
             filterDialog = setDialogConfigration(bindingSearchBottomSheetDialog);
         }
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.recipe_filter_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_filter_screen));
 
 
         bindingSearchBottomSheetDialog.textviewTitle.setText(title);
@@ -192,6 +194,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
 
                         if (view instanceof TextView) { //Filter selected.
+                            trackGAEvent(filterType);
                             TextView textView = (TextView) view;
                             if (filterData.getName().equals(getString(R.string.all))) {
                                 textView.setBackgroundResource(R.drawable.search_tag_white);
@@ -236,6 +239,25 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         filterDialog.show();
     }
 
+    private void trackGAEvent(SearchViewModel.FilterType filterType) {
+
+        String label = "";
+        switch (filterType) {
+            case COURSE:
+                label = getString(R.string.course_label);
+                break;
+            case CUISINE:
+                label = getString(R.string.cuisine_label);
+
+                break;
+            case METHOD:
+                label = getString(R.string.method_label);
+                break;
+        }
+        GoogleAnalyticsHelper.trackEventAction( getString(R.string.search_category), getString(R.string.search_filtered_action), label);
+
+    }
+
 
     @Override
     public void showWithImageDialog(View childView, View view, boolean selected, String msg) {
@@ -268,6 +290,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     new SearchSuggestionAdapter.SuggestionDataItemClickListener() {
                         @Override
                         public void onItemClick(SearchSuggestionRealmObject searchSuggestionRealmObject) {
+                            GoogleAnalyticsHelper.trackEventAction( getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.recent_search_label));
                             searchViewModel.setSearchKeyword(searchSuggestionRealmObject.getKeyword());
                             searchViewModel.search();
                             Logger.e("keyword", searchSuggestionRealmObject.getKeyword());

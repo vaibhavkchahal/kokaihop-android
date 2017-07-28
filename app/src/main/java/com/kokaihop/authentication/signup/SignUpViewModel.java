@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.BR;
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
 import com.kokaihop.authentication.FacebookAuthRequest;
@@ -110,6 +111,8 @@ public class SignUpViewModel extends BaseViewModel {
 
     public void signup(View view) {
         final Context context = view.getContext();
+        final Activity activity=(Activity) view.getContext();
+
         if (signUpValidations(context)) return;
         setProgressVisible(true);
         signUpSettings = new SignUpSettings(newsletter, suggestion);
@@ -117,6 +120,7 @@ public class SignUpViewModel extends BaseViewModel {
         new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),1);
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
@@ -138,6 +142,7 @@ public class SignUpViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),0);
             }
 
             @Override

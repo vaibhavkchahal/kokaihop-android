@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.authentication.signup.SignUpActivity;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.cookbooks.model.CookbookName;
@@ -113,10 +114,15 @@ public class MyCookbooksViewModel extends BaseViewModel {
     }
 
     private void showUserProfile() {
-        ((MyCookbooksFragment) fragment).showUserProfile();
+        if(fragment.isVisible()){
+            ((MyCookbooksFragment) fragment).showUserProfile();
+        }
     }
 
     public void createNewCookbook() {
+
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.create_cookbook_action));
+
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
                 context.getString(R.string.create_new_cookbook),
@@ -153,6 +159,8 @@ public class MyCookbooksViewModel extends BaseViewModel {
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.created_cookbook_action));
+
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.cookbook_created));
                 setDownloading(true);
                 getCookbooksOfUser(0);

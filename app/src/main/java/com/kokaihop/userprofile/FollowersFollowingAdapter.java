@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,13 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
     private FollowersFollowingViewModel followingViewModel;
     private RowProfileFollowerFollowingBinding binding;
     private Context context;
+    private Fragment fragment;
     private Point point;
 
-    public FollowersFollowingAdapter(ArrayList<FollowingFollowerUser> usersList, FollowersFollowingViewModel followingViewModel) {
+    public FollowersFollowingAdapter(ArrayList<FollowingFollowerUser> usersList, FollowersFollowingViewModel followingViewModel, Fragment fragment) {
         this.usersList = usersList;
         this.followingViewModel = followingViewModel;
+        this.fragment = fragment;
         Logger.e(usersList.size() + "", "Size");
     }
 
@@ -62,7 +65,7 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final FollowingFollowerUser user = usersList.get(position);
-        if(!User.getInstance().getFollowing().contains(user.get_id())){
+        if (!User.getInstance().getFollowing().contains(user.get_id())) {
             user.setFollowingUser(false);
         }
         if (SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID).equals(user.get_id())) {
@@ -70,9 +73,9 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
         }
 
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.userPic.getLayoutParams();
-        if (user.getProfileImage() != null){
+        if (user.getProfileImage() != null) {
             user.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(user.getProfileImage().getCloudinaryId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
-        }else{
+        } else {
 //            binding.setProfilePic(null);
             Glide.clear(binding.userPic);
         }
@@ -107,10 +110,18 @@ public class FollowersFollowingAdapter extends RecyclerView.Adapter<FollowersFol
             binding.clUserRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(context,OtherUserProfileActivity.class);
-                    i.putExtra(Constants.USER_ID,followingFollowerUser.get_id());
-                    i.putExtra(Constants.FRIENDLY_URL,followingFollowerUser.getFriendlyUrl());
-                    ((Activity)context).startActivityForResult(i, Constants.USERPROFILE_REQUEST);
+                    String userId = SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID);
+                    if (fragment instanceof FollowersFragment) {
+                        ((FollowersFragment) fragment).getUser().setIndex(1);
+//                        User.getInstance().setIndex(1);
+                    } else {
+                        ((FollowingFragment) fragment).getUser().setIndex(2);
+//                        User.getInstance().setIndex(2);
+                    }
+                    Intent i = new Intent(context, OtherUserProfileActivity.class);
+                    i.putExtra(Constants.USER_ID, followingFollowerUser.get_id());
+                    i.putExtra(Constants.FRIENDLY_URL, followingFollowerUser.getFriendlyUrl());
+                    ((Activity) context).startActivityForResult(i, Constants.USERPROFILE_REQUEST);
                 }
             });
         }

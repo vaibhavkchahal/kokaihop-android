@@ -9,26 +9,22 @@
         android:gravity="center|bottom"
         android:orientation="horizontal">
 
-        <View android:layout_width="1dp"
-              android:layout_height="match_parent"
-              android:background="@color/white_FFF7F7F7"/>
-
         <TextView
             android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingBottom="@dimen/feed_tab_padding_bottom"
+            android:paddingEnd="@dimen/feed_tab_padding_right"
+            android:paddingStart="@dimen/feed_tab_padding_left"
             android:paddingTop="@dimen/feed_tab_padding_top"
-            android:paddingLeft="@dimen/feed_tab_padding_left"
-            android:paddingRight="@dimen/feed_tab_padding_right"
             android:textColor="@color/grey_FF8E8E93"
             android:textSize="@dimen/feed_tab_text_small"
             app:font="@{`SS-ProRegular`}"/>
 
-        <View android:layout_width="1dp"
+        <View android:layout_width="@dimen/divider_height"
               android:layout_height="match_parent"
-              android:background="@color/white_FFF7F7F7"/>
+              android:background="@color/grey_EBEBEB"/>
 
     </LinearLayout>
 

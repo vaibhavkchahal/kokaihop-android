@@ -25,8 +25,8 @@ import com.kokaihop.customviews.NonSwipeableViewPager;
 import com.kokaihop.customviews.NotificationDialogActivity;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.PagerTabAdapter;
-import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.recipedetail.AddToListEvent;
+import com.kokaihop.userprofile.ConfirmImageUploadActivity;
 import com.kokaihop.userprofile.model.User;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CameraUtils;
@@ -88,7 +88,7 @@ public class HomeActivity extends BaseActivity {
         super.onResume();
         IntentFilter intent = new IntentFilter(Constants.SHOW_DIALOG_ACTION);
         registerReceiver(notificationReciever, intent);
-        GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.daily_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.daily_screen));
 
     }
 
@@ -167,18 +167,18 @@ public class HomeActivity extends BaseActivity {
     private void sendScreenName(int selectedTabPosition) {
         switch (selectedTabPosition) {
             case 0:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.daily_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.daily_screen));
                 break;
             case 1:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.cookbook_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.cookbook_screen));
                 break;
             case 2:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.buylist_screen));
+                GoogleAnalyticsHelper.trackScreenName( getString(R.string.buylist_screen));
 
                 break;
 
             case 3:
-                GoogleAnalyticsHelper.trackScreenName(HomeActivity.this, getString(R.string.user_personal_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_personal_screen));
 
                 break;
 
@@ -221,11 +221,11 @@ public class HomeActivity extends BaseActivity {
                     startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
                 } else {
                     filePath = CameraUtils.onCaptureImageResult();
-                    userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+                    userProfileFragment.getUserViewModel().uploadImageOnCloudinary(filePath);
                 }
                 Logger.d("File Path", filePath);
             } else if (requestCode == Constants.CONFIRM_REQUEST_CODE) {
-                userProfileFragment.userViewModel.uploadImageOnCloudinary(filePath);
+                userProfileFragment.getUserViewModel().uploadImageOnCloudinary(filePath);
             }
         }
         if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {
@@ -324,24 +324,6 @@ public class HomeActivity extends BaseActivity {
             Intent dialogIntent = new Intent(HomeActivity.this, NotificationDialogActivity.class);
             dialogIntent.putExtras(bundle);
             startActivity(dialogIntent);
-
-           /* AlertDialog.Builder dialog = new AlertDialog.Builder(HomeActivity.this);
-            dialog.setTitle(getString(R.string.app_name));
-            dialog.setMessage(bundle.getString("message"));
-            dialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(HomeActivity.this, RecipeDetailActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-            });
-            dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();*/
         }
     }
 }

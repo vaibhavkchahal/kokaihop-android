@@ -24,7 +24,8 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.startup_screen));
+//        MyContextWrapper.wrap(this);
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.startup_screen));
 
         timer.schedule(new TimerTask() {
             @Override

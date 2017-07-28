@@ -216,7 +216,7 @@
                           android:onClick="@{(v)->viewModel.openLogin(v)}"
                           android:text="@string/already_a_kokaihop_chef_login_here"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/text_size_small"
+                          android:textSize="@dimen/text_size_medium"
                           app:font="@{`SS-ProRegular`}"/>
             </RelativeLayout>
         </ScrollView>

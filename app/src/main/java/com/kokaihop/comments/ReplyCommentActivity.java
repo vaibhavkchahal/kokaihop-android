@@ -34,7 +34,7 @@ public class ReplyCommentActivity extends BaseActivity implements ReplyCommentVi
         binding.setViewModel(replyCommentViewModel);
         initializeRecycleView();
         initializePullToRefresh();
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.recipe_comment_screen));
+        GoogleAnalyticsHelper.trackScreenName( getString(R.string.recipe_comment_screen));
 
     }
 

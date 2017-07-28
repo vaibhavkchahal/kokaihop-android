@@ -20,6 +20,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.utility.AppCredentials;
@@ -139,8 +140,8 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             public void onClick(View v) {
                 if (binding.txtviewEdit.getText().toString().equals(getString(R.string.edit))) {
                     binding.txtviewEdit.setText(R.string.delete_all);
-                    binding.txtviewTitle.setText("Edit List");
-                    binding.txtviewDone.setText("Done");
+                    binding.txtviewTitle.setText(R.string.edit_list);
+                    binding.txtviewDone.setText(R.string.done);
                     binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                     binding.relativeLayoutAddIngredient.setVisibility(View.GONE);
                     adapter.setIndgredientEditor(true);
@@ -158,7 +159,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                     binding.txtviewDone.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shopping_share_icon_selector, 0, 0, 0);
                     binding.txtviewEdit.setText(R.string.edit);
                     binding.relativeLayoutAddIngredient.setVisibility(View.VISIBLE);
-                    binding.txtviewTitle.setText("Shopping List");
+                    binding.txtviewTitle.setText(R.string.shopping_list);
                     for (int i = 0; i < binding.rvRecipeIngredients.getChildCount(); i++) {
                         View view = binding.rvRecipeIngredients.getChildAt(i);
                         view.findViewById(R.id.tv_delete).setVisibility(View.GONE);
@@ -244,6 +245,9 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                 viewModel.getShoppingDataManager().deleteIngredientObjectFromDB(ids);
                 viewModel.fetchIngredientFromDB();
                 viewModel.deleteIngredientOnServer();
+
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category),getString(R.string.buy_list_emptied_action));
+
             }
         });
         dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

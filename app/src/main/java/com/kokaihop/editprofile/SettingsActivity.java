@@ -31,8 +31,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         settingsBinding.settingsEmailPreferences.setOnClickListener(this);
         settingsBinding.settingsEditProfile.setOnClickListener(this);
         settingsBinding.settingsIvBack.setOnClickListener(this);
-        settingsBinding.settingsSave.setOnClickListener(this);
-        GoogleAnalyticsHelper.trackScreenName(this, getString(R.string.settings_screen));
+        GoogleAnalyticsHelper.trackScreenName( getString(R.string.settings_screen));
 
     }
 
@@ -47,9 +46,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             case R.id.settings_iv_back:
                 finish();
                 break;
-            case R.id.settings_save:
-                finish();
-                break;
+
             case R.id.settings_change_password:
                 startActivity(new Intent(this, ChangePasswordActivity.class));
                 break;

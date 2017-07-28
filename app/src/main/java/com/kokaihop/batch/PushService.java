@@ -13,6 +13,7 @@ import android.support.v7.app.NotificationCompat;
 
 import com.altaworks.kokaihop.ui.R;
 import com.batch.android.Batch;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.recipedetail.RecipeDetailActivity;
 import com.kokaihop.utility.Constants;
 
@@ -56,6 +57,9 @@ public class PushService extends IntentService {
                 .setContentText(intent.getStringExtra("message"));
 
         if (intent.hasExtra("customPayload")) {
+
+            GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category),getString(R.string.pushnotification_received_action));
+
             Bundle bundle = new Bundle();
 
             String type = null;

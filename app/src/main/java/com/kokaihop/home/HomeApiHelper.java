@@ -4,6 +4,7 @@ import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.network.ResponseHandler;
 import com.kokaihop.network.RetrofitClient;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 /**
@@ -35,6 +36,11 @@ public class HomeApiHelper {
     public void sycIngredientDeletionOnServer(String token, SyncIngredientDeletionModel requestParam, final IApiRequestComplete successInterface) {
         Call<SyncIngredientModel> responseBodyCall = homeApi.syncIngrdientDeletionOnServer(token, requestParam);
         responseBodyCall.enqueue(new ResponseHandler<SyncIngredientModel>(successInterface));
+    }
+
+    public void syncRecipesAndComments(String timestamp, String type, final IApiRequestComplete successInterface) {
+        Call<ResponseBody> responseBodyCall = homeApi.syncRecipesAndComments(timestamp, type);
+        responseBodyCall.enqueue(new ResponseHandler<ResponseBody>(successInterface));
     }
 
 }

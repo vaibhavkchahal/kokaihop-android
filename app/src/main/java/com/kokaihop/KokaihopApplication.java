@@ -35,13 +35,13 @@ public class KokaihopApplication extends Application {
     private static Context context;
     CustomFontFamily customFontFamily;
 
-    private static GoogleAnalytics sAnalytics;
-    private static Tracker sTracker;
+    private static GoogleAnalytics analytics;
+    private static Tracker tracker;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        sAnalytics = GoogleAnalytics.getInstance(this);
+        analytics = GoogleAnalytics.getInstance(this);
         context = this;
         Fabric.with(getApplicationContext(), new Crashlytics());
         //Set true to overwrite database - Optional
@@ -85,6 +85,7 @@ public class KokaihopApplication extends Application {
         customFontFamily.addFont("SS-ProSemiBoldItalic", "source-sans-pro.semibold-italic.ttf");
     }
 
+
     public static Context getContext() {
         return context;
     }
@@ -126,14 +127,17 @@ public class KokaihopApplication extends Application {
 
     /**
      * Gets the default {@link Tracker} for this {@link Application}.
+     *
      * @return tracker
      */
-    synchronized public Tracker getDefaultTracker() {
+    synchronized public static Tracker getDefaultTracker() {
         // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-        if (sTracker == null) {
-            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
+        if (tracker == null) {
+            if (analytics != null) {
+                tracker = analytics.newTracker(R.xml.global_tracker);
+            }
         }
 
-        return sTracker;
+        return tracker;
     }
 }

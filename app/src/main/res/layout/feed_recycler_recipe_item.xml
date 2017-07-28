@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 >
     <data>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
@@ -26,6 +27,7 @@
             android:id="@+id/iv_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/recipe"
             android:scaleType="fitXY"
             app:error="@{@drawable/ic_recipeplaceholder_sm}"
             app:imageUrl="@{feedImageUrl}"
@@ -36,7 +38,7 @@
             android:id="@+id/checkbox_recipe_like"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/tv_like_height"
-            android:layout_marginLeft="@dimen/recipe_likes_margin_left"
+            android:layout_marginStart="@dimen/recipe_likes_margin_left"
             android:layout_marginTop="@dimen/tv_like_margin_top"
             android:background="@drawable/recipe_likes_border"
             android:button="@null"
@@ -45,8 +47,8 @@
             android:drawableStart="@{recipe.isFavorite ? @drawable/ic_like_sm : @drawable/ic_unlike_sm}"
             android:gravity="center_vertical"
             android:onClick="@{()->recipeHandler.onCheckChangeRecipe(checkboxRecipeLike,recipe)}"
-            android:paddingLeft="@dimen/padding_left_recipe_like"
-            android:paddingRight="@dimen/padding_right_recipe_right"
+            android:paddingEnd="@dimen/padding_right_recipe_right"
+            android:paddingStart="@dimen/padding_left_recipe_like"
             android:text="@{String.valueOf(recipe.counter.likes)}"
             android:textColor="@color/white"
         />
@@ -57,7 +59,7 @@
             android:layout_height="@dimen/recipe_name_height"
             android:layout_below="@+id/iv_recipe"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/tv_recipe_name_margin_left"
+            android:layout_marginStart="@dimen/tv_recipe_name_margin_left"
             android:layout_marginTop="@dimen/tv_recipe_name_margin_top"
             android:ellipsize="end"
             android:gravity="center"
@@ -114,8 +116,8 @@
                 android:id="@+id/relative_layout_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="@dimen/iv_profile_margin_left"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/iv_profile_margin_left"
                 android:gravity="center_vertical"
                 android:onClick="@{(v)->recipeHandler.openUserProfile(context,recipe.createdBy.id,recipe.createdBy.friendlyUrl)}">
 
@@ -123,6 +125,7 @@
                     android:id="@+id/iv_profile"
                     android:layout_width="@dimen/iv_profile_height_width"
                     android:layout_height="@dimen/iv_profile_height_width"
+                    android:contentDescription="@string/user"
                     android:scaleType="fitXY"
                     app:error="@{@drawable/ic_avtar_sm}"
                     app:imageUrl="@{profileImageUrl}"
@@ -134,21 +137,22 @@
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/tv_user_name_margin_left"
+                    android:layout_marginStart="@dimen/tv_user_name_margin_left"
                     android:ellipsize="end"
                     android:maxLength="7"
                     android:text="@{recipe.createdBy.name}"
                     android:textColor="@color/grey_CC999999"
                     android:textSize="@dimen/textsize_tv_user_name"
-                    app:font="@{`SS-ProRegular`}"/>
+                    app:font="@{`SS-ProRegular`}"
+                    tools:text="@string/name"/>
 
             </LinearLayout>
 
             <LinearLayout android:id="@+id/relative_layout_comment"
                           android:layout_width="wrap_content"
                           android:layout_height="match_parent"
-                          android:layout_alignParentRight="true"
-                          android:layout_marginRight="@dimen/iv_comment_margin_right"
+                          android:layout_alignParentEnd="true"
+                          android:layout_marginEnd="@dimen/iv_comment_margin_right"
                           android:gravity="center_vertical"
                           android:onClick="@{(v)->recipeHandler.openCommentsScreen(context,recipe._id,recipe.friendlyUrl)}">
 
@@ -159,13 +163,15 @@
                     android:text="@{String.valueOf(recipe.counter.comments)}"
                     android:textColor="@color/grey_FF999999"
                     android:textSize="@dimen/tv_comment_count_textsize"
-                    app:font="@{`SS-ProRegular`}"/>
+                    app:font="@{`SS-ProRegular`}"
+                    tools:text="100"/>
 
                 <ImageView
                     android:id="@+id/iv_comment"
                     android:layout_width="@dimen/iv_comment_height_width"
                     android:layout_height="@dimen/iv_comment_height_width"
-                    android:layout_marginLeft="@dimen/tv_comment_count_margin_left"
+                    android:layout_marginStart="@dimen/tv_comment_count_margin_left"
+                    android:contentDescription="@string/comments"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_comment_sm"/>
             </LinearLayout>
