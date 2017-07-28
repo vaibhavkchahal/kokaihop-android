@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+>
 
     <data>
         <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
@@ -27,7 +27,7 @@
                 android:id="@+id/relative_layout_recipe_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/comment_logo_margin_left"
+                android:layout_marginStart="@dimen/comment_logo_margin_left"
                 android:layout_marginTop="@dimen/comment_logo_margin_top"
                 android:onClick="@{(v)->handler.openRecipeDetailUsingFriendlyUrl(v,model.payload.recipe.friendlyUrl)}">
                 <android.support.v7.widget.CardView
@@ -39,6 +39,7 @@
                         android:id="@+id/imgview_logo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:contentDescription="@string/recipe"
                         android:scaleType="fitXY"
                         app:error="@{@drawable/ic_recipeplaceholder_sm}"
                         app:imageUrl="@{recipeImageUrl}"
@@ -48,8 +49,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/relative_layout_margin_left"
-                    android:layout_toRightOf="@+id/cardview_logo"
+                    android:layout_marginStart="@dimen/relative_layout_margin_left"
+                    android:layout_toEndOf="@+id/cardview_logo"
                     android:orientation="vertical">
                     <TextView
                         android:id="@+id/txtview_title"
@@ -76,9 +77,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/txtview_title"
-                        android:layout_marginLeft="@dimen/rating_text_margin_left"
+                        android:layout_marginStart="@dimen/rating_text_margin_left"
                         android:layout_marginTop="@dimen/rating_text_margin_top"
-                        android:layout_toRightOf="@+id/rating_bar"
+                        android:layout_toEndOf="@+id/rating_bar"
                         android:text="@{String.valueOf(model.payload.recipe.rating.raters)}"
                         android:textColor="@color/grey_FF8E8E93"
                         android:textSize="@dimen/rating_textsize"
@@ -88,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rating_bar"
-                        android:layout_marginLeft="2dp"
+                        android:layout_marginStart="2dp"
                         android:layout_marginTop="@dimen/creator_text_margin_top"
                         android:onClick="@{(v)->handler.openUserProfile(context,model.payload.recipe.createdBy.id,model.payload.recipe.createdBy.friendlyUrl)}"
                         android:text="@{Html.fromHtml(String.format(@string/commented_by,model.payload.recipe.createdBy.name))}"
@@ -107,8 +108,8 @@
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/view_divider"
-                            android:layout_marginLeft="@dimen/comment_text_margin_left"
-                            android:layout_marginRight="@dimen/coment_text_margin_right"
+                            android:layout_marginEnd="@dimen/coment_text_margin_right"
+                            android:layout_marginStart="@dimen/comment_text_margin_left"
                             android:layout_marginTop="@dimen/coment_text_margin_top"
                             android:onClick="@{(v)->handler.openCommentsScreen(context,model.payload.recipe._id,model.payload.recipe.friendlyUrl)}">
                 <TextView
@@ -130,21 +131,21 @@
                     android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
                     android:text="@{@string/kommentor_av_text+model.sourceUser.userName}"
                     android:textColor="@color/grey_FF8E8E93"
-                    android:textSize="@dimen/coment_text_botom_tetsize"
+                    android:textSize="@dimen/txtview_specs_textsize"
                     app:font="@{`SS-ProRegular`}"
                 />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtview_comment"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
-                    android:layout_toRightOf="@+id/txtview_creator"
-                    android:drawableLeft="@drawable/ic_separate_dot"
+                    android:layout_toEndOf="@+id/txtview_creator"
                     android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/ic_separate_dot"
                     android:text="@{DateTimeUtils.getRelativeTimeDisplayDate(context,Long.valueOf(model.dateCreated))}"
                     android:textColor="@color/grey_FF8E8E93"
-                    android:textSize="@dimen/coment_text_botom_tetsize"
+                    android:textSize="@dimen/txtview_specs_textsize"
                     app:font="@{`SS-ProRegular`}"
                 />
             </RelativeLayout>
