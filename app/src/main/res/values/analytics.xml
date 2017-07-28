@@ -48,11 +48,11 @@
     <string name="recipe_unfavorited_action">Unfavourited</string>
     <string name="recipe_printed_action">Printed</string>
     <string name="recipe_rated_action">Rated</string>
-    <string name="recipe_shared_action">Shared</string><!--TODO -->
-    <string name="recipe_email_label">Email</string><!--TODO -->
-    <string name="recipe_sms_label">SMS</string><!--TODO -->
-    <string name="recipe_twitter_label">Twitter</string><!--TODO -->
-    <string name="recipe_facebook_label">Facebook</string><!--TODO -->
+    <string name="recipe_shared_action">Shared</string>
+    <string name="recipe_email_label">Email</string>
+    <string name="recipe_sms_label">SMS</string>
+    <string name="recipe_twitter_label">Twitter</string>
+    <string name="recipe_facebook_label">Facebook</string>
 
 
     <string name="photo_upload_category">Photo</string>
@@ -71,9 +71,9 @@
     <string name="buy_list_deleted_action">Deleted</string>
     <string name="buy_list_ingredient_deleted_label">Ingredient</string>
     <string name="buy_list_emptied_action">Emptied</string>
-    <string name="buy_list_shared_action">Shared</string><!--TODO -->
-    <string name="buy_list_email_label">Email</string><!--TODO -->
-    <string name="buy_list_sms_label">SMS</string><!--TODO -->
+    <string name="buy_list_shared_action">Shared</string>
+    <string name="buy_list_email_label">Email</string>
+    <string name="buy_list_sms_label">SMS</string>
 
 
     <string name="pushnotification_category">Notification</string>
