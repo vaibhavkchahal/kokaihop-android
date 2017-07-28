@@ -154,7 +154,8 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                             User.getInstance().setIndex(3);
                             displayHistoryChanges();
                         } else {
-                            ((RecipeFragment) fragment).getUser().setIndex(0);
+                            if (fragment instanceof RecipeFragment)
+                                ((RecipeFragment) fragment).getUser().setIndex(0);
                         }
                     } else if (previousDelete >= 0) {
                         tvPreviousDelete.animate().translationX(size).setDuration(animationDuration);
