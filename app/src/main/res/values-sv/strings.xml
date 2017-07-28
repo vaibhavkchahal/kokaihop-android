@@ -65,13 +65,13 @@
     <string name="action_settings">Inställningar"</string>
 
     <!-- Feed Fragment Titles -->
-    <string name="main_course_of_the_day">Main Course of the Day</string>
-    <string name="appetizer_of_the_day">Appetizer of the Day</string>
-    <string name="cookie_of_the_day">Cookie of the Day</string>
-    <string name="desert_of_the_day">Desert of the Day</string>
-    <string name="vegetarian_of_the_day">Vegetarian of the Day</string>
-    <string name="text_previous">Previous</string>
-    <string name="cook_something_creating_today">Cook something creating today</string>
+    <string name="main_course_of_the_day">Dagens huvudrätt</string>
+    <string name="appetizer_of_the_day">Dagens förrätt</string>
+    <string name="cookie_of_the_day">Dagens kaka</string>
+    <string name="desert_of_the_day">Dagens dessert</string>
+    <string name="vegetarian_of_the_day">Dagens vegetariska</string>
+    <string name="text_previous">Tidigare</string>
+    <string name="cook_something_creating_today">Populärast senaste 60 dagarna</string>
 
     <!--User Feed Tabs-->
     <string name="tab_main_course_of_the_day">Dagens huvudrätt</string>
@@ -81,13 +81,13 @@
     <string name="tab_vegetarian_of_the_day">Dagens vegetariska</string>
 
     <!--Home Activity Tabs-->
-    <string name="tab_feed">Feed</string>
+    <string name="tab_feed">Recept</string>
     <string name="tab_cookbooks">samlingar</string>
     <string name="tab_list">List</string>
     <string name="tab_comments">Comments</string>
     <string name="tab_me">Me</string>
 
-    <string name="tab_recipes">Recipes</string>
+    <string name="tab_recipes">Recept</string>
     <string name="tab_followers">Följare</string>
     <string name="tab_following">Följer</string>
     <string name="tab_history">Tittat på</string>
@@ -100,23 +100,21 @@
 
     <!--SignUp/Login Dialog-->
     <string name="access_profile">Medlemskap</string>
-    <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your
-        search history, and change your settings
+    <string name="signup_dialog_message">Som inloggad se du här dina fölijare, din sökhistorik och dina inställningar.
     </string>
-    <string name="login_comment_message">You need to logged in to comment on recipe</string>
+    <string name="login_comment_message">Du behöver vara inloggad för att kommentera recept</string>
     <string name="login_reply_on_comment_message">You need to logged in to reply on comment</string>
-    <string name="login_rating_message">You need to logged in to rate a recipe</string>
+    <string name="login_rating_message">Du behöver vara inloggad för att betygsätt ett recept</string>
     <string name="members_area">Medlemsfunktion</string>
-    <string name="login_like_message">You need to logged in to make a recipe favourite!!!</string>
+    <string name="login_like_message">Du behöver vara inloggad för att markera receptet som favorit</string>
     <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!
     </string>
-    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to
-        cookbook!!!
+    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to cookbook!!!
     </string>
 
     <string name="welcome_text">Nu kan du spara, dela och kommentera recept. Lycka till i köket!</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
-    <string name="write_a_comment_text">Write a comment...</string>
+    <string name="write_a_comment_text">Skriv din kommentar här...</string>
     <string name="text_upload_image_to_recipe">upload image to recipe</string>
     <string name="portion_text">Portioner</string>
     <string name="text_created">Skapat</string>
@@ -131,7 +129,7 @@
         <b>%1$s</b>
         visad, <b>%2$s</b> utskriven, <b>%3$s</b> tillagd i saml]]>
     </string>
-    <string name="add_portion">Add Portion</string>
+    <string name="add_portion">Ändra antal portioner</string>
 
     <!--User Settings-->
     <string name="done">Klar</string>
@@ -174,7 +172,7 @@
 
 
     <string name="recipe">"Recept "</string>
-    <string name="by">"By "</string>
+    <string name="by">"av "</string>
     <string name="city_updated">City updated successfully</string>
     <string name="city_updation_failed">Error while updating city</string>
     <string name="profile_pic_upload_success">Profile Picture uploaded Successfully</string>
@@ -209,13 +207,13 @@
     <string name="latest_search">LATEST SEARCHES</string>
     <string name="recipe_results">%1$s Recipe results</string>
 
-    <string name="best_rating">Best rating</string>
-    <string name="comments">Comments</string>
-    <string name="popular">Popular</string>
-    <string name="recommended">Recommended</string>
-    <string name="latest">latest</string>
-    <string name="title_a_z">title a-z</string>
-    <string name="title_z_a">title z-a</string>
+    <string name="best_rating">Bäst betyg</string>
+    <string name="comments">Kommentarer</string>
+    <string name="popular">Populära</string>
+    <string name="recommended">Rekommenderad</string>
+    <string name="latest">Sensate</string>
+    <string name="title_a_z">Title A-Ö</string>
+    <string name="title_z_a">Title Ö-A</string>
 
     <!--  Sort by array-->
     <string-array name="sort_by">
@@ -229,7 +227,7 @@
     </string-array>
 
     <string name="show_all_recipes">Visar all recept</string>
-    <string name="show_recipe_with_images">Visar endast recept med bild</string>
+    <string name="show_recipe_with_images">Visar endast recept \n med bild</string>
     <string name="create_new_cookbook">Skapa ny samling</string>
     <string name="rename_cookbook">Döp om samling</string>
     <string name="cookbook_name">samlingens namn</string>
@@ -241,24 +239,24 @@
     <string name="are_you_sure_you_want_to_delete_this_cookbook">Are you sure you want to delete
         this cookbook?
     </string>
-    <string name="this_will_permanently_delete">"This will permanently delete "</string>
-    <string name="recipes_in_the_cookbook">" recipes in the cookbook."</string>
+    <string name="this_will_permanently_delete">"Detta kommer att permanent ta bort "</string>
+    <string name="recipes_in_the_cookbook">" recept från din samling"</string>
     <string name="this_will_delete_the_cookbook_and_its_recipes">
         Detta kommer att permanent ta bort recept från din samling
     </string>
-    <string name="the_cookbook">the cookbook</string>
+    <string name="the_cookbook">samling</string>
     <string name="delete">Radera</string>
     <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
     <string name="pick_a_cookbook">Välj en samling</string>
     <string name="recipe_added_to_cookbook">Receptet är sparat i din samling</string>
     <string name="recipe_removed_from_cookbook">Recipe removed from the cookbook successfully
     </string>
-    <string name="edit">Edit</string>
+    <string name="edit">Ändra</string>
     <string name="rename">Döp om"</string>
     <string name="remove">Bekräfta</string>
-    <string name="delete_cookbook">Delete Cookbook</string>
+    <string name="delete_cookbook">Radera samling</string>
     <string name="ok">Ok</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Bekräfta</string>
     <string name="kokaihop_dialog">Kokaihop Dialog</string>
 
 
