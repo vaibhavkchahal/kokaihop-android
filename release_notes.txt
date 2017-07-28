@@ -1,11 +1,15 @@
-1. Push Notification
-   - Batch SDK implementation.
-   - Display notification in status bar if application is in background.
-   - Display in app notification if application is in foreground.
-2. Shopping List
-   - Edit and Add items
-   - Delete items and Syncing of items to server.
-3. Bug Fixes
+1. Image Presenter Screen to confirm picture upload.
+2. Coach marks
+   - Recipe Details
+   - Search
+   - User profile History
+3. Print Recipe.
+4. Auto Login for old Application users.
+5. Localization in Swedish language.
+6. Add to List from Recipe Details screen.
+7. Google Analytics
+8. Bug Fixes
+
 
 
 
