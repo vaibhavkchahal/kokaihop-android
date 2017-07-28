@@ -8,7 +8,11 @@
 5. Localization in Swedish language.
 6. Add to List from Recipe Details screen.
 7. Google Analytics
-8. Bug Fixes
+8. Sync API
+   - Recipe Deactivated
+   - Recipe Collection Deleted
+   - Recipe Comments Deleted
+9. Bug Fixes
 
 
 
