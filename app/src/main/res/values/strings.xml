@@ -16,7 +16,7 @@
     <string name="or_login_text">Or Log In using Email</string>
     <string name="signup_now_text">Not yet a Kokaihop chef? Sign Up now</string>
     <string name="invalid_email">Please enter a valid email</string>
-    <string name="password_validation_msg">Password must have atleast seven characters!!!</string>
+    <string name="password_validation_msg">Password must have atleast seven characters</string>
     <string name="sucess_login">Login Success!</string>
     <string name="failed_login">Login Failed!</string>
     <string name="failed">Failed!</string>
@@ -117,11 +117,11 @@
     <string name="login_reply_on_comment_message">You need to logged in to reply on comment</string>
     <string name="login_rating_message">You need to logged in to rate a recipe</string>
     <string name="members_area">Members area</string>
-    <string name="login_like_message">You need to logged in to make a recipe favourite!!!</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!
+    <string name="login_like_message">You need to logged in to make a recipe favourite</string>
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image
     </string>
     <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to
-        cookbook!!!
+        cookbook
     </string>
 
     <string name="welcome_text">Welcome to kokaihop.se!</string>
@@ -149,15 +149,15 @@
     <string name="settings">Settings</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="password_not_confirmed_msg">Password didn\'t match!!!</string>
-    <string name="password_updated">Password Updated Successfully!!!!</string>
-    <string name="password_not_updated">Password cannot be Updated!!!</string>
+    <string name="password_not_confirmed_msg">Password didn\'t match</string>
+    <string name="password_updated">Password Updated Successfully</string>
+    <string name="password_not_updated">Password cannot be Updated</string>
     <string name="email_preferences">Email Preferences</string>
     <string name="today_s_recipes_motion">Today\'s Recipes Motion</string>
     <string name="drinking_tips">Drinking Tips and alcohol-related mailings</string>
     <string name="no_email">I do not want to receive newsletters</string>
-    <string name="settings_updated">Settings Updated!!!</string>
-    <string name="settings_not_updated">Settings Can\'t be updated!!!</string>
+    <string name="settings_updated">Settings Updated</string>
+    <string name="settings_not_updated">Settings Can\'t be updated</string>
     <string name="change_profile_photo">Change Profile Photo</string>
     <string name="choose_profile_pic">Choose Profile Picture</string>
     <string name="take_photo">Take Picture</string>
@@ -176,7 +176,7 @@
     <string name="email_share_content">
         <![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
 
-    <string name="something_went_wrong">Something went wrong. Please try again!!!</string>
+    <string name="something_went_wrong">Something went wrong. Please try again</string>
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
     <string name="follow_success">Follow Successful</string>
@@ -245,7 +245,7 @@
     <string name="create_new_cookbook">Create new cookbook</string>
     <string name="rename_cookbook">Rename Cookbook</string>
     <string name="cookbook_name">Cookbook Name</string>
-    <string name="something_wrong">Something went wrong!!!</string>
+    <string name="something_wrong">Something went wrong</string>
     <string name="cookbook_created">Cookbook Created successfully</string>
     <string name="cookbook_renamed">Cookbook Renamed successfully</string>
     <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
@@ -256,7 +256,7 @@
     <string name="this_will_permanently_delete">"This will permanently delete "</string>
     <string name="recipes_in_the_cookbook">" recipes in the cookbook."</string>
     <string name="this_will_delete_the_cookbook_and_its_recipes">
-        This will permanently delete recipes in the cookbook.
+        This will permanently delete recipes in the cookbook?
     </string>
     <string name="the_cookbook">the cookbook</string>
     <string name="delete">Delete</string>
@@ -338,20 +338,20 @@
     <string name="quantity">Quantity</string>
     <string name="enter">Enter</string>
 
-    <string name="recipe_image_upload_failed">Recipe image upload failed!!!</string>
-    <string name="recipe_image_upload_success">Recipe image uploaded successfully!!!</string>
-    <string name="empty_cookbook_msg">Cookbook name cannot be empty!!!</string>
+    <string name="recipe_image_upload_failed">Recipe image upload failed</string>
+    <string name="recipe_image_upload_success">Recipe image uploaded successfully</string>
+    <string name="empty_cookbook_msg">Cookbook name cannot be empty</string>
     <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed
         from your cookbooks.
     </string>
     <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
     <string name="passsword_warning_space_start_end">Password must not have spaces in the start or
-        end!!!
+        end
     </string>
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
     <string name="confirm_upload">Confirm Upload</string>
     <string name="item_added_text">" item(s) added"</string>
-    <string name="comments_not_refreshed">Cannot refresh comments!!!</string>
+    <string name="comments_not_refreshed">Cannot refresh comments</string>
     <string name="recipe_detail_coach_mark">Här sparar och delar du receptet, glöm inte att ladda
         upp en bild om du lagat det
     </string>
@@ -363,6 +363,10 @@
     </string>
     <string name="clear_marked">Clear marked</string>
     <string name="user">User</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="edit_list">Edit List</string>
+    <string name="logout">Logout</string>
+    <string name="logout_now">Logout now?</string>
 
 
 </resources>

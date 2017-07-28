@@ -2,8 +2,8 @@
     <string name="app_name">Kokaihop</string>
 
     <!-- common msg -->
-    <string name="something_went_wrong_msg">Något gick fel, försök igen!</string>
-    <string name="check_intenet_connection">Inget Internet tillgängligt!</string>
+    <string name="something_went_wrong_msg">Något gick fel, försök igen</string>
+    <string name="check_intenet_connection">Inget Internet tillgängligt</string>
     <string name="space_character">\u0020</string>
 
 
@@ -16,9 +16,9 @@
     <string name="or_login_text">eller logga in med e-post</string>
     <string name="signup_now_text">Bli medlem gratis, registrera dig här</string>
     <string name="invalid_email">Ange en giltig e-postadress</string>
-    <string name="password_validation_msg">Password must have atleast seven characters!!!</string>
-    <string name="failed_login">Login Failed!</string>
-    <string name="failed">Failed!</string>
+    <string name="password_validation_msg">Password must have atleast seven characters</string>
+    <string name="failed_login">Login Failed</string>
+    <string name="failed">Failed</string>
     <string name="forgot_success_msg">Instructions on how to reset your password has been sent to
         your e-mail.
     </string>
@@ -52,12 +52,12 @@
     <string name="signup_success">SignUp Success</string>
 
     <string name="search">Sök</string>
-    <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
+    <string name="unable_access_fb_detai">Unable to access your facebook details</string>
 
     <string name="signup_message">Här hittar du din sökhistorik, dina följare och inställningar. Men du måste först logga in.
     </string>
-    <string name="sign_up_or_login">Logga in eller bli medlem gratis!</string>
-    <string name="sign_up_now">Logga in eller bli medlem gratis!</string>
+    <string name="sign_up_or_login">Logga in eller bli medlem gratis</string>
+    <string name="sign_up_now">Logga in eller bli medlem gratis</string>
     <string name="edit_profile">Redigera profil</string>
     <string name="daily_email_preferences">E-postinställningar</string>
     <string name="change_password">Ändra lösenord</string>
@@ -107,12 +107,12 @@
     <string name="login_rating_message">Du behöver vara inloggad för att betygsätt ett recept</string>
     <string name="members_area">Medlemsfunktion</string>
     <string name="login_like_message">Du behöver vara inloggad för att markera receptet som favorit</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image!!!
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image
     </string>
-    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to cookbook!!!
+    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to cookbook
     </string>
 
-    <string name="welcome_text">Nu kan du spara, dela och kommentera recept. Lycka till i köket!</string>
+    <string name="welcome_text">Nu kan du spara, dela och kommentera recept. Lycka till i köket</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
     <string name="write_a_comment_text">Skriv din kommentar här...</string>
     <string name="text_upload_image_to_recipe">upload image to recipe</string>
@@ -133,26 +133,26 @@
 
     <!--User Settings-->
     <string name="done">Klar</string>
-    <string name="add_comments">Gillade du receptet? Lämna en kommentar här!</string>
+    <string name="add_comments">Gillade du receptet? Lämna en kommentar här</string>
     <string name="settings">Inställningar</string>
     <string name="new_password">Nytt lösenord</string>
     <string name="confirm_password">Bekräfta lösenord</string>
-    <string name="password_not_confirmed_msg">Password didn\'t match!!!</string>
-    <string name="password_updated">Password Updated Successfully!!!!</string>
-    <string name="password_not_updated">Password cannot be Updated!!!</string>
+    <string name="password_not_confirmed_msg">Password didn\'t match</string>
+    <string name="password_updated">Password Updated Successfully</string>
+    <string name="password_not_updated">Password cannot be Updated</string>
     <string name="email_preferences">E-post</string>
     <string name="today_s_recipes_motion">Dagens recept</string>
     <string name="drinking_tips">Dryckestips, alkoholrelaterade utskick och partnererbjudanden</string>
     <string name="no_email">Jag vill inte ta emot nyhetsbrev</string>
-    <string name="settings_updated">Settings Updated!!!</string>
-    <string name="settings_not_updated">Settings Can\'t be updated!!!</string>
+    <string name="settings_updated">Settings Updated</string>
+    <string name="settings_not_updated">Settings Can\'t be updated</string>
     <string name="change_profile_photo">Ändra profilbild</string>
     <string name="choose_profile_pic">Choose Profile Picture</string>
     <string name="take_photo">Ta bild</string>
     <string name="choose_from_library">Välj från kamerarulle</string>
-    <string name="add_photo">Välj ett alternativ!</string>
+    <string name="add_photo">Välj ett alternativ</string>
     <string name="select_file">Select File</string>
-    <string name="sd_card_error">Please check SD card!!</string>
+    <string name="sd_card_error">Please check SD card</string>
     <string name="fileprovider">.fileprovider</string>
 
 
@@ -164,7 +164,7 @@
     <string name="email_share_content">
         <![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
 
-    <string name="something_went_wrong">Something went wrong. Please try again!!!</string>
+    <string name="something_went_wrong">Something went wrong. Please try again</string>
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
     <string name="follow_success">Follow Successful</string>
@@ -231,7 +231,7 @@
     <string name="create_new_cookbook">Skapa ny samling</string>
     <string name="rename_cookbook">Döp om samling</string>
     <string name="cookbook_name">samlingens namn</string>
-    <string name="something_wrong">Something went wrong!!!</string>
+    <string name="something_wrong">Something went wrong</string>
     <string name="cookbook_created">Cookbook Created successfully</string>
     <string name="cookbook_renamed">Cookbook Renamed successfully</string>
     <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
@@ -242,7 +242,7 @@
     <string name="this_will_permanently_delete">"Detta kommer att permanent ta bort "</string>
     <string name="recipes_in_the_cookbook">" recept från din samling"</string>
     <string name="this_will_delete_the_cookbook_and_its_recipes">
-        Detta kommer att permanent ta bort recept från din samling
+        Detta kommer att permanent ta bort recept från din samling?
     </string>
     <string name="the_cookbook">samling</string>
     <string name="delete">Radera</string>
@@ -294,7 +294,7 @@
     </string>
     <string name="day_ago">yesterday</string>
     <string name="few_seconds_ago">few seconds ago</string>
-    <string name="comment_not_post">Your Message Failed, Please Retry!</string>
+    <string name="comment_not_post">Your Message Failed, Please Retry</string>
 
     <string name="kommentor_av_text">"Kommentor av "</string>
     <string name="commented_by">
@@ -324,15 +324,15 @@
     <string name="quantity">Quantity</string>
     <string name="enter">Antal</string>
 
-    <string name="recipe_image_upload_failed">Recipe image upload failed!!!</string>
-    <string name="recipe_image_upload_success">Recipe image uploaded successfully!!!</string>
-    <string name="empty_cookbook_msg">Cookbook name cannot be empty!!!</string>
+    <string name="recipe_image_upload_failed">Recipe image upload failed</string>
+    <string name="recipe_image_upload_success">Recipe image uploaded successfully</string>
+    <string name="empty_cookbook_msg">Cookbook name cannot be empty</string>
     <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed
         from your cookbooks.
     </string>
     <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
     <string name="passsword_warning_space_start_end">Password must not have spaces in the start or
-        end!!!
+        end
     </string>
     <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
     <string name="confirm_upload">Confirm Upload</string>
@@ -347,6 +347,11 @@
         inte sparat
     </string>
     <string name="clear_marked">Rensa markerade</string>
+    <string name="shopping_list">Inköpslista</string>
+    <string name="edit_list">Redigera lista</string>
+    <string name="logout">Logga ut</string>
+    <string name="logout_now">Vill du verkligen logga ut?</string>
+
 
 
 
