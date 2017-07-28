@@ -47,7 +47,7 @@ public class MyCookbooksFragment extends Fragment {
         String userId = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.USER_ID);
         String userFriendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL);
 
-        viewModel = new MyCookbooksViewModel(this, getContext(), userId , userFriendlyUrl);
+        viewModel = new MyCookbooksViewModel(this, getContext(), userId, userFriendlyUrl);
 
         if (myCookbook && (accessToken == null) || accessToken.isEmpty()) {
             FragmentCookbookLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);
@@ -93,7 +93,10 @@ public class MyCookbooksFragment extends Fragment {
     }
 
     public void refresh() {
-        viewModel.setDownloading(true);
-        viewModel.getCookbooksOfUser(0);
+        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
+        if (!((accessToken == null) || accessToken.isEmpty())) {
+            viewModel.setDownloading(true);
+            viewModel.getCookbooksOfUser(0);
+        }
     }
 }
