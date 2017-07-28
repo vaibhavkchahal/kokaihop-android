@@ -46,14 +46,13 @@
     <string name="recipe_category">Recipe</string>
     <string name="recipe_favourtized_action">Favourized</string>
     <string name="recipe_unfavorited_action">Unfavourited</string>
-    <string name="recipe_printed_action">Printed</string><!--TODO -->
+    <string name="recipe_printed_action">Printed</string>
     <string name="recipe_rated_action">Rated</string>
     <string name="recipe_shared_action">Shared</string><!--TODO -->
     <string name="recipe_email_label">Email</string><!--TODO -->
     <string name="recipe_sms_label">SMS</string><!--TODO -->
     <string name="recipe_twitter_label">Twitter</string><!--TODO -->
     <string name="recipe_facebook_label">Facebook</string><!--TODO -->
-
 
 
     <string name="photo_upload_category">Photo</string>
@@ -80,8 +79,6 @@
     <string name="pushnotification_category">Notification</string>
     <string name="pushnotification_received_action">Received</string>
     <string name="pushnotification_launched_action">Launched</string>
-
-
 
 
     <string name="user_category">User</string>
@@ -233,10 +230,6 @@
      let RELEVANCEEVENTLABEL                 = ""
      let ALPHABETICEVENTLABEL                = "A-O"
      let REVERSEALAPHABETICEVENTLABEL        = "-->
-
-
-
-
 
 
 </resources>

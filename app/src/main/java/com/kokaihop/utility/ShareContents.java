@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,17 +82,20 @@ public class ShareContents {
             intent.setType("text/plain");
             if (packageName.equals("com.twitter.android")) {
                 intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_twitter_label));
             } else if (packageName.equals("com.facebook.katana")) {
                 // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
                 // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
                 // will show the <meta content ="..."> text from that page with our link in Facebook.
                 intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_facebook_label));
             } else if (packageName.equals("com.android.mms") || packageName.equals("com.android.messaging")) {
                 intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                 intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
                 intent.setType("image/*");
                 String message = getMessageContent();
                 intent.putExtra("sms_body", message);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_sms_label));
 
             } else if (packageName.equals("com.google.android.gm")) {
                 String emailContent = getEmailContent();
@@ -100,7 +104,10 @@ public class ShareContents {
                 intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
                 intent.setType("image/*");
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_email_label));
+
             } else if (packageName.equals("com.kokaihop.print")) {
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_printed_action));
                 doWebViewPrint();
             }
             if (!className.equals("print")) {
