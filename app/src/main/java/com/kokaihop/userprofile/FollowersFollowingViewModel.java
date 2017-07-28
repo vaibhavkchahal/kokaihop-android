@@ -1,6 +1,7 @@
 package com.kokaihop.userprofile;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.widget.CheckBox;
 
 import com.altaworks.kokaihop.ui.R;
@@ -132,7 +133,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         followingList = profileDataManager.fetchFollowingList(userId);
         user.getFollowingList().clear();
         user.getFollowingList().addAll(followingList);
-        userDataListener.showUserProfile();
+        if (((Fragment) userDataListener).isVisible())
+            userDataListener.showUserProfile();
     }
 
     //Getting list of followers through api call
@@ -159,7 +161,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                         setDownloading(false);
                     }
                     setProgressVisible(false);
-                    userDataListener.showUserProfile();
                 }
 
                 @Override
@@ -184,7 +185,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         followersList = profileDataManager.fetchFollowersList(userId);
         user.getFollowersList().clear();
         user.getFollowersList().addAll(followersList);
-        userDataListener.showUserProfile();
+        if (((Fragment) userDataListener).isVisible())
+            userDataListener.showUserProfile();
 
     }
 
@@ -252,7 +254,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
                 User.getInstance().getFollowing().add(user.get_id());
             } else {
-                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.user_unfollow_action));
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_unfollow_action));
                 User.getInstance().getFollowing().remove(user.get_id());
             }
             toggleFollowing(userId, checkbox);

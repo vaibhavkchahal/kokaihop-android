@@ -133,7 +133,8 @@ public class RecipeViewModel extends BaseViewModel {
         ArrayList<Recipe> recipeList = profileDataManager.getRecipesOfUser(userId);
         user.getRecipesList().clear();
         user.getRecipesList().addAll(recipeList);
-        ((RecipeFragment) fragment).showUserProfile();
+        if (fragment.isVisible())
+            ((RecipeFragment) fragment).showUserProfile();
     }
 
     @Override
