@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+>
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.RecipeQuantityVariator"/>
         <variable name="portionClick"
@@ -16,8 +16,8 @@
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="@dimen/item_ingrdnt_variator_height"
                     android:layout_marginBottom="19dp"
-                    android:layout_marginLeft="@dimen/item_ingrdnt_variator_margin_left"
-                    android:layout_marginRight="@dimen/item_ingrdnt_variator_margin_right"
+                    android:layout_marginEnd="@dimen/item_ingrdnt_variator_margin_right"
+                    android:layout_marginStart="@dimen/item_ingrdnt_variator_margin_left"
                     android:layout_marginTop="19dp"
                     android:background="@drawable/recipe_item_border"
                     android:orientation="horizontal">
@@ -25,18 +25,18 @@
 
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentLeft="true"
-                        android:layout_toLeftOf="@+id/view_divider"
+                        android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@+id/view_divider"
                         android:onClick="@{() -> portionClick.onPortionClick(model.quantity)}">
             <TextView
                 android:id="@+id/txtview_portion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/txtview_portion_margin_left"
-                android:drawableLeft="@drawable/ic_portion"
+                android:layout_marginStart="@dimen/txtview_portion_margin_left"
                 android:drawablePadding="@dimen/txview_portion_drawable_padding"
-                android:gravity="center_vertical"
+                android:drawableStart="@drawable/ic_portion"
+                android:gravity="bottom"
                 android:text="@string/portion_text"
                 android:textColor="@color/grey_FF71767F"
                 android:textSize="@dimen/txtview_portion_textsize"
@@ -48,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/txtview_portion_count_margin_left"
-                android:layout_toRightOf="@+id/txtview_portion"
+                android:layout_marginStart="@dimen/txtview_portion_count_margin_left"
+                android:layout_toEndOf="@+id/txtview_portion"
                 android:text="@{String.valueOf(model.quantity)}"
                 android:textColor="@color/kokaihop_orange_color"
                 android:textSize="@dimen/txtview_portion_count_textsize"
@@ -64,25 +64,27 @@
             android:layout_centerInParent="true"
             android:background="@color/grey_FFD4D4D4"/>
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:layout_centerVertical="true"
-                      android:layout_toRightOf="@+id/view_divider"
-                      android:gravity="center_vertical"
-                      android:onClick="@{() -> addToListClick.onAddToListClick()}">
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/view_divider"
+                        android:gravity="center_vertical"
+                        android:onClick="@{() -> addToListClick.onAddToListClick()}">
             <TextView
                 android:id="@+id/txtview_addlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/txtview_addlist_margin_left"
-                android:drawableLeft="@drawable/ic_addtolist"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/txtview_addlist_margin_left"
                 android:drawablePadding="@dimen/txtview_addlistdrawable_padding"
+                android:drawableStart="@drawable/ic_addtolist"
+                android:gravity="center"
                 android:text="@string/text_add_to_list"
                 android:textColor="@color/grey_FF71767F"
                 android:textSize="@dimen/txtview_addlist_textsize"
                 app:font="@{`SS-ProRegular`}"
             />
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

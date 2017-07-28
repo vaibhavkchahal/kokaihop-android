@@ -23,7 +23,7 @@
             android:background="@drawable/round_corner_layout"
             android:clickable="false"
             android:contentDescription="@string/recipe_image"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:error="@{@drawable/ic_recipeplaceholder_md}"
             app:imageUrl="@{cookbook.mainImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -33,7 +33,7 @@
             tools:src="@drawable/ic_recipeplaceholder_md"/>
         <TextView
             android:id="@+id/tv_recipe_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
@@ -48,9 +48,9 @@
             tools:text="Cookbook"/>
         <TextView
             android:id="@+id/tv_user_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/cookbook_row_user_name_margin_bottom"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
@@ -64,8 +64,8 @@
             tools:text="Recipe Count"/>
 
         <View android:id="@+id/cookbook_divider"
-              android:layout_width="0dp"
-              android:layout_height="1dp"
+              android:layout_width="@dimen/constraint_match_parent"
+              android:layout_height="@dimen/divider_height"
               android:layout_marginTop="@dimen/user_profile_recycler_padding_vertical"
               android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"

@@ -91,4 +91,9 @@ public class MyCookbooksFragment extends Fragment {
         adapter.notifyDataSetChanged();
         adapter.getItemCount();
     }
+
+    public void refresh() {
+        viewModel.setDownloading(true);
+        viewModel.getCookbooksOfUser(0);
+    }
 }

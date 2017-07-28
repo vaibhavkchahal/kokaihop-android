@@ -139,7 +139,9 @@ public class HomeActivity extends BaseActivity {
 
                 sendScreenName(tabLayout.getSelectedTabPosition());
                 if (tabLayout.getSelectedTabPosition() == 1) {
-                    refreshFragment(1);
+                    PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
+                    MyCookbooksFragment fragment = (MyCookbooksFragment) pagerTabAdapter.getItem(1);
+                    fragment.refresh();
                 }
 
 

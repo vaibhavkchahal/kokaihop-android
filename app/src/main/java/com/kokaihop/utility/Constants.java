@@ -15,6 +15,9 @@ public class Constants {
     public static final String USER_ID = "userId";
     public static final String FRIENDLY_URL = "friendlyUrl";
     public static final String RECIPE_POSITION = "recipePosition";
+    public static final String LOGIN_TYPE = "loginType";
+    public static final String FACEBOOK_LOGIN = "facebook";
+    public static final String EMAIL_LOGIN = "email";
 
     public static final String SHOPPING_LIST_NAME_KEY = "name";
 

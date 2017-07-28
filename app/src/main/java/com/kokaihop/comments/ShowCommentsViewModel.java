@@ -106,7 +106,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context,context.getString(R.string.check_intenet_connection) + " " +context.getString(R.string.comments_not_refreshed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.check_intenet_connection) + " " + context.getString(R.string.comments_not_refreshed), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -120,7 +120,9 @@ public class ShowCommentsViewModel extends BaseViewModel {
         RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipe(recipeID);
         commentsList.clear();
         commentsList.addAll(recipeRealmObject.getComments());
-        totalCommentCount = recipeRealmObject.getCounter().getComments();
+        if (recipeRealmObject.getCounter() != null) {
+            totalCommentCount = recipeRealmObject.getCounter().getComments();
+        }
         commentListener.onUpdateCommentsList();
     }
 
@@ -139,7 +141,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
-                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category),context.getString(R.string.comment_added_action));
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category), context.getString(R.string.comment_added_action));
                         setProgressVisible(false);
                         ResponseBody responseBody = (ResponseBody) response;
                         try {

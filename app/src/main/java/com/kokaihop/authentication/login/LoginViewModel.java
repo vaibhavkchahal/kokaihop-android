@@ -65,8 +65,8 @@ public class LoginViewModel extends BaseViewModel {
         new AuthenticationApiHelper(view.getContext()).doLogin(userName, password, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
-                Activity activity=(Activity) context;
-                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),1);
+                Activity activity = (Activity) context;
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label), 1);
 
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
@@ -86,8 +86,8 @@ public class LoginViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                Activity activity=(Activity) context;
-                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label),0);
+                Activity activity = (Activity) context;
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label), 0);
 
 
             }
@@ -122,7 +122,7 @@ public class LoginViewModel extends BaseViewModel {
 
     public void facebookLogin(final View view) {
         FacebookAuthentication authentication = new FacebookAuthentication();
-        final Activity activity=(Activity) view.getContext();
+        final Activity activity = (Activity) view.getContext();
         authentication.facebookLogin(view, new FacebookAuthentication.FacebookResponseCallback() {
             @Override
             public void onSuccess(FacebookAuthRequest facebookAuthRequest) {
@@ -131,14 +131,15 @@ public class LoginViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
 
-                        GoogleAnalyticsHelper.trackEventAction( view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),1);
+                        GoogleAnalyticsHelper.trackEventAction(view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label), 1);
 
                         setProgressVisible(false);
                         Context context = view.getContext();
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
-                        if(response.getUserAuthenticationDetail()!=null){
-                            SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID,response.getUserAuthenticationDetail().getId());
-                            SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL,response.getUserAuthenticationDetail().getFriendlyUrl());
+                        if (response.getUserAuthenticationDetail() != null) {
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.LOGIN_TYPE, Constants.FACEBOOK_LOGIN);
                         }
 //                        boolean isComingFromLike = ((LoginActivity) view.getContext()).getIntent().getBooleanExtra("isComingFromLike", false);
                         String from = ((LoginActivity) view.getContext()).getIntent().getStringExtra(EXTRA_FROM);
@@ -156,7 +157,7 @@ public class LoginViewModel extends BaseViewModel {
                     public void onFailure(String message) {
                         setProgressVisible(false);
                         Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                        GoogleAnalyticsHelper.trackEventAction( view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label),0);
+                        GoogleAnalyticsHelper.trackEventAction(view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label), 0);
 
                     }
 

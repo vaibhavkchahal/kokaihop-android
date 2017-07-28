@@ -170,7 +170,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
             @Override
             public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
             }
         });

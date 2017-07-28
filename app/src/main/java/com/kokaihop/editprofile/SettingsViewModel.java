@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.altaworks.kokaihop.ui.R;
+import com.facebook.login.LoginManager;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.home.HomeActivity;
@@ -41,7 +42,7 @@ public class SettingsViewModel extends BaseViewModel {
         dialog.setPositiveButton(R.string.logout, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Activity activity = (Activity) context;
-                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.user_logout_action));
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_logout_action));
                 setProgressVisible(true);
                 Intent intent = new Intent(getContext(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -54,6 +55,8 @@ public class SettingsViewModel extends BaseViewModel {
                 ProfileDataManager profileDataManager = new ProfileDataManager();
                 profileDataManager.updateIsFavoriteForAllRecipe();
                 profileDataManager.updateLastUpdatedTimeForAllRecipe();
+                if (Constants.FACEBOOK_LOGIN.equals(SharedPrefUtils.getSharedPrefStringData(context, Constants.LOGIN_TYPE)))
+                    LoginManager.getInstance().logOut();
                 setProgressVisible(false);
                 destroy();
             }

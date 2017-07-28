@@ -54,8 +54,9 @@
                 <TextView
                     android:id="@+id/tv_changePassword_done"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/constraint_match_parent"
                     android:layout_marginEnd="@dimen/settings_save_margin_right"
+                    android:gravity="center"
                     android:onClick="@{()->viewModel.updateCity()}"
                     android:text="@string/done"
                     android:textColor="@color/white"
@@ -93,6 +94,7 @@
                       android:layout_marginTop="@dimen/user_profile_pic_margin_bottom"
                       android:text="@string/change_profile_photo"
                       android:textColor="@color/blue_FF1484FF"
+                      android:textSize="@dimen/text_size_medium"
                       app:font="@{`SS-ProRegular`}"/>
         </LinearLayout>
         <TextView

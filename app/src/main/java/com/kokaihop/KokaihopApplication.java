@@ -64,7 +64,7 @@ public class KokaihopApplication extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(SCHEMA_VERSION)
                 .name(DATABASE_NAME)
-                .deleteRealmIfMigrationNeeded()
+                .deleteRealmIfMigrationNeeded() //TODO: replace with the migration code before play store release  .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         customFontFamily = CustomFontFamily.getInstance();

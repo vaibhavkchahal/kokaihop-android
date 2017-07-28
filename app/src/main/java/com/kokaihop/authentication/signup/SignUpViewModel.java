@@ -111,7 +111,7 @@ public class SignUpViewModel extends BaseViewModel {
 
     public void signup(View view) {
         final Context context = view.getContext();
-        final Activity activity=(Activity) view.getContext();
+        final Activity activity = (Activity) view.getContext();
 
         if (signUpValidations(context)) return;
         setProgressVisible(true);
@@ -120,7 +120,7 @@ public class SignUpViewModel extends BaseViewModel {
         new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
             @Override
             public void onSuccess(AuthenticationApiResponse response) {
-                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),1);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 1);
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
@@ -142,7 +142,7 @@ public class SignUpViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action),0);
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 0);
             }
 
             @Override
@@ -200,9 +200,10 @@ public class SignUpViewModel extends BaseViewModel {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
-                        if(response.getUserAuthenticationDetail()!=null){
+                        if (response.getUserAuthenticationDetail() != null) {
                             SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                             SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.LOGIN_TYPE, Constants.FACEBOOK_LOGIN);
                         }
                         setProgressVisible(false);
                         Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();

@@ -62,8 +62,8 @@ public class MyCookbooksViewModel extends BaseViewModel {
 //        final String userId = "56387aa81e443c0300c5a4b5";
 
         setOffset(offset);
-        setProgressVisible(true);
         if (isDownloading) {
+            setProgressVisible(true);
             new ProfileApiHelper().getCookbooksOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
                 public void onSuccess(Object response) {
@@ -173,7 +173,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
 
             @Override
             public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -234,7 +234,7 @@
     <dimen name="recipe_creator_padding_top">25dp</dimen>
     <dimen name="creator_name_textsize">13sp</dimen>
     <dimen name="creator_margin_left">10dp</dimen>
-    <dimen name="textview_category_padding_bottom">8dp</dimen>
+    <dimen name="textview_category_padding_bottom">5dp</dimen>
     <dimen name="txtview_category_padding_left_right">17dp</dimen>
     <dimen name="txtview_category_padding_top">5dp</dimen>
     <dimen name="txtview_category_textsize">13sp</dimen>
@@ -314,7 +314,7 @@
     <dimen name="change_password_seperator_margin">10dp</dimen>
     <dimen name="email_pref_done_padding_bottom">14dp</dimen>
     <dimen name="email_pref_vertical_margin">18dp</dimen>
-    <dimen name="email_pref_horizontal_margin">21dp</dimen>
+    <dimen name="email_pref_horizontal_margin">15dp</dimen>
     <dimen name="txtsize_recipe_detail_badge_type">11sp</dimen>
     <dimen name="badgetype_drawable_padding">7.6dp</dimen>
     <dimen name="recipe_detail_margin_right">10.7dp</dimen>
@@ -381,15 +381,15 @@
 
     <dimen name="home_coment_rating_bar_margin_top">7.4dp</dimen>
     <dimen name="rating_text_margin_left">5dp</dimen>
-    <dimen name="rating_textsize">13sp</dimen>
-    <dimen name="creator_textsize">13sp</dimen>
+    <dimen name="rating_textsize">14sp</dimen>
+    <dimen name="creator_textsize">14sp</dimen>
     <dimen name="tab_comment_divider_height">2dp</dimen>
     <dimen name="comment_text_margin_left">15dp</dimen>
     <dimen name="coment_text_margin_right">15dp</dimen>
     <dimen name="coment_textsize">15sp</dimen>
     <dimen name="comment_card_bottom_text_margin_left">15dp</dimen>
     <dimen name="comment_card_bottom_text_margin_top">7dp</dimen>
-    <dimen name="coment_text_botom_tetsize">11sp</dimen>
+    <dimen name="coment_text_botom_tetsize">14sp</dimen>
     <dimen name="rating_text_margin_top">5.6dp</dimen>
     <dimen name="creator_text_margin_top">5.6dp</dimen>
     <dimen name="coment_text_margin_top">12.5dp</dimen>
@@ -466,5 +466,7 @@
     <dimen name="user_profile_coachmark_margin_left">100dp</dimen>
     <dimen name="share_item_height_width">150dp</dimen>
     <dimen name="search_recipe_icon_text_margin">12dp</dimen>
+    <dimen name="autocancel_dialog_text_size">18sp</dimen>
+    <dimen name="cookbook_row_user_name_margin_bottom">8dp</dimen>
 
 </resources>

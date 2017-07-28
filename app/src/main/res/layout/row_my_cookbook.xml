@@ -29,7 +29,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:placeholder="@{@drawable/ic_recipeplaceholder_lg}"
+            app:placeholder="@{@drawable/ic_recipeplaceholder_sm}"
             tools:src="@drawable/ic_recipeplaceholder_lg"/>
         <TextView
             android:id="@+id/tv_recipe_name"

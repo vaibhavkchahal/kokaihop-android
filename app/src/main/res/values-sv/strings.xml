@@ -52,7 +52,6 @@
     <string name="signup_success">SignUp Success</string>
 
     <string name="search">Sök</string>
-    <string name="unable_access_fb_detai">Unable to access your facebook details</string>
 
     <string name="signup_message">Här hittar du din sökhistorik, dina följare och inställningar. Men du måste först logga in.
     </string>
@@ -107,10 +106,8 @@
     <string name="login_rating_message">Du behöver vara inloggad för att betygsätt ett recept</string>
     <string name="members_area">Medlemsfunktion</string>
     <string name="login_like_message">Du behöver vara inloggad för att markera receptet som favorit</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image
-    </string>
-    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to cookbook
-    </string>
+    <string name="login_upload_pic_message">You need to logged in to upload a recipe image</string>
+    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to cookbook</string>
 
     <string name="welcome_text">Nu kan du spara, dela och kommentera recept. Lycka till i köket</string>
     <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
@@ -153,8 +150,6 @@
     <string name="add_photo">Välj ett alternativ</string>
     <string name="select_file">Select File</string>
     <string name="sd_card_error">Please check SD card</string>
-    <string name="fileprovider">.fileprovider</string>
-
 
     <!-- comments -->
     <string name="view_all_comments">Visa alla kommentarer</string>
@@ -164,7 +159,6 @@
     <string name="email_share_content">
         <![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
 
-    <string name="something_went_wrong">Something went wrong. Please try again</string>
     <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
     <string name="recipe_image">Recipe Image</string>
     <string name="follow_success">Follow Successful</string>
@@ -187,7 +181,6 @@
     <string name="text_reply">Svara</string>
     <string name="replied_text">" svarade"</string>
     <string name="text_and">" and "</string>
-    <string name="title_activity_search">SearchActivity</string>
     <string name="newly_added_recipe">
         <b>Newely Added Recipe</b>
     </string>
@@ -231,7 +224,6 @@
     <string name="create_new_cookbook">Skapa ny samling</string>
     <string name="rename_cookbook">Döp om samling</string>
     <string name="cookbook_name">samlingens namn</string>
-    <string name="something_wrong">Something went wrong</string>
     <string name="cookbook_created">Cookbook Created successfully</string>
     <string name="cookbook_renamed">Cookbook Renamed successfully</string>
     <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
@@ -294,7 +286,7 @@
     </string>
     <string name="day_ago">yesterday</string>
     <string name="few_seconds_ago">few seconds ago</string>
-    <string name="comment_not_post">Your Message Failed, Please Retry</string>
+    <string name="comment_not_post">Your Message Failed, please Retry</string>
 
     <string name="kommentor_av_text">"Kommentor av "</string>
     <string name="commented_by">

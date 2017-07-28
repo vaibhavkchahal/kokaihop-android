@@ -180,33 +180,37 @@ public class EditProfileViewModel extends BaseViewModel {
     }
 
     public void updateCity() {
-        setProgressVisible(true);
-        setupApiCall();
-        CityUpdateRequest request = new CityUpdateRequest();
-        request.setLocation(city);
-        settingsApiHelper.changeCity(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
-            @Override
-            public void onSuccess(SettingsResponse response) {
-                setProgressVisible(false);
-                user.setCityName(city.getLiving().getName());
-                Toast.makeText(context,context.getString(R.string.city_updated),Toast.LENGTH_SHORT).show();
-                ((Activity) context).finish();
-            }
+        if (!city.getLiving().getName().equals(user.getCityName())) {
+            setProgressVisible(true);
+            setupApiCall();
+            CityUpdateRequest request = new CityUpdateRequest();
+            request.setLocation(city);
+            settingsApiHelper.changeCity(accessToken, userId, request, new IApiRequestComplete<SettingsResponse>() {
+                @Override
+                public void onSuccess(SettingsResponse response) {
+                    setProgressVisible(false);
+                    user.setCityName(city.getLiving().getName());
+                    Toast.makeText(context, context.getString(R.string.city_updated), Toast.LENGTH_SHORT).show();
+                    ((Activity) context).finish();
+                }
 
-            @Override
-            public void onFailure(String message) {
-                setProgressVisible(false);
-                ((Activity) context).finish();
-                Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onFailure(String message) {
+                    setProgressVisible(false);
+                    ((Activity) context).finish();
+                    Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onError(SettingsResponse response) {
-                setProgressVisible(false);
-                ((Activity) context).finish();
-                Toast.makeText(context, context.getString(R.string.city_updation_failed), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError(SettingsResponse response) {
+                    setProgressVisible(false);
+                    ((Activity) context).finish();
+                    Toast.makeText(context, context.getString(R.string.city_updation_failed), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            ((Activity) context).finish();
+        }
 
     }
 
