@@ -37,9 +37,9 @@ public class SettingsViewModel extends BaseViewModel {
     //    Display dialogbox to confirm the user for logout process.
     public void logout() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.AlertDialogStyle);
-        dialog.setTitle("Confirm Logout");
-        dialog.setMessage("Do you really want to logout!!!");
-        dialog.setPositiveButton("LOGOUT", new DialogInterface.OnClickListener() {
+        dialog.setTitle(R.string.logout);
+        dialog.setMessage(R.string.logout_now);
+        dialog.setPositiveButton(R.string.logout, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Activity activity = (Activity) context;
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_logout_action));
