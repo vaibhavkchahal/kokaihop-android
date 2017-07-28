@@ -1,16 +1,21 @@
 package com.kokaihop.recipedetail;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,12 +31,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
+import com.altaworks.kokaihop.ui.databinding.ShareDialogBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.cookbooks.CookbooksDataManager;
@@ -52,7 +59,6 @@ import com.kokaihop.utility.ConfirmationDialog;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.RecipeUtils;
-import com.kokaihop.utility.ShareContents;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -61,7 +67,9 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
@@ -71,10 +79,11 @@ import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
-public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener {
+public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener, ShareAdapter.ShareItemClickListener {
 
     private int portionMinValue = 1;
     private int portionMaxValue = 79;
+    private int NUMBER_OF_COLUMNS_IN_SHARE_GRID = 2;
 
     private Uri imageUri;
     private String filePath;
@@ -99,6 +108,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private String from;
     private Menu menu;
     private int currentPagerPosition = 1;
+    private Dialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -539,12 +549,31 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         Log.e("ERROR", String.valueOf(e.getMessage()));
 
                     }
-                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
-                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
-                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-                    shareContents.setImageFile(sharefile);
-                    shareContents.share();
+//                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
+//                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+//                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
+//                    shareContents.setImageFile(sharefile);
+//                    shareContents.share();
 //                    CameraUtils.sharePicture(this, imageUrl);
+                    List<Object> shareObjectsList = addShareOptions();
+                    ShareUsingPrint shareUsingPrint = prepareContentToPrint();
+                    shareObjectsList.add(shareUsingPrint);
+                    final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList, this);
+                    shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+                    shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
+                    shareAdapter.setShareFile(sharefile);
+                    // Create alert shareDialog box
+                    shareDialog = new Dialog(this);
+                    shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    shareDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
+                    shareDialog.setContentView(binding.getRoot());
+                    binding.recyclerviewShare.setAdapter(shareAdapter);
+                    GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
+                    binding.recyclerviewShare.setLayoutManager(layoutManager);
+                    shareDialog.setCanceledOnTouchOutside(true);
+                    shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    shareDialog.show();
                 }
                 return true;
             case R.id.icon_camera:
@@ -567,6 +596,51 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @NonNull
+    private List<Object> addShareOptions() {
+        List<Object> shareObjectsList = new ArrayList<>();
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        // what type of data needs to be send by sharing
+        sharingIntent.setType("text/plain");
+        // package names
+        PackageManager pm = getPackageManager();
+        // list package
+        List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
+        for (ResolveInfo resolveInfo : activityList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.android.messaging") || packageName.equals("com.google.android.gm")) {
+                shareObjectsList.add(resolveInfo);
+            }
+        }
+        return shareObjectsList;
+    }
+
+    @NonNull
+    private ShareUsingPrint prepareContentToPrint() {
+        ShareUsingPrint shareUsingPrint = new ShareUsingPrint(getString(R.string.text_print), R.drawable.ic_feed_orange_sm);
+        String ingredients = "";
+        String directions = "";
+        for (Object object : recipeDetailViewModel.getRecipeDetailItemsList()) {
+            if (object instanceof RecipeDetailHeader) {
+                RecipeDetailHeader detailHeader = (RecipeDetailHeader) object;
+                shareUsingPrint.setRecipeDescription(detailHeader.getDescription());
+            } else if (object instanceof IngredientsRealmObject) {
+                IngredientsRealmObject ingredient = (IngredientsRealmObject) object;
+                if (ingredient.getAmount() > 0) {
+                    ingredients = ingredients + ingredient.getAmount() + " " + ingredient.getUnit().getName() + " " + ingredient.getName() + "<br>";
+                } else {
+                    ingredients = ingredients + ingredient.getName() + "<br>";
+                }
+            } else if (object instanceof RecipeCookingDirection) {
+                RecipeCookingDirection stepDetail = (RecipeCookingDirection) object;
+                directions = directions + stepDetail.getDirection().getSerialNo() + ".  " + stepDetail.getDirection().getStep() + "<br>";
+            }
+        }
+        shareUsingPrint.setIngredients(ingredients);
+        shareUsingPrint.setDirections(directions);
+        return shareUsingPrint;
     }
 
 
@@ -646,6 +720,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             AppUtility.showHomeScreen(RecipeDetailActivity.this);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onShareItemClick() {
+        if (shareDialog != null) {
+            shareDialog.dismiss();
         }
     }
 }

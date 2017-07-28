@@ -464,6 +464,7 @@
     <dimen name="recipe_detail_coachmark_margin_left">120dp</dimen>
     <dimen name="user_profile_triangle_margin_right">45dp</dimen>
     <dimen name="user_profile_coachmark_margin_left">100dp</dimen>
+    <dimen name="share_item_height_width">150dp</dimen>
     <dimen name="search_recipe_icon_text_margin">12dp</dimen>
     <dimen name="autocancel_dialog_text_size">18sp</dimen>
     <dimen name="cookbook_row_user_name_margin_bottom">8dp</dimen>

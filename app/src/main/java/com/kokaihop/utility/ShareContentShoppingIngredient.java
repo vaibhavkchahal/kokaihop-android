@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 import android.text.Html;
 import android.util.Log;
 
+import com.altaworks.kokaihop.ui.R;
+import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.database.IngredientsRealmObject;
 
 import java.util.ArrayList;
@@ -52,12 +54,14 @@ public class ShareContentShoppingIngredient {
                         intent.putExtra(Intent.EXTRA_SUBJECT, "Inköpslista");
                         String message = getMessageContent();
                         intent.putExtra("sms_body", message);
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_shared_action), context.getString(R.string.buy_list_sms_label));
 
                     } else if (packageName.equals("com.google.android.gm")) {
                         String emailContent = getEmailContent();
                         intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
                         intent.putExtra(Intent.EXTRA_SUBJECT, "Inköpslista");
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_shared_action), context.getString(R.string.buy_list_email_label));
                     }
                     intent.setPackage(packageName);
                     targetShareIntents.add(intent);
