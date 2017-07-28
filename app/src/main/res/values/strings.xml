@@ -82,17 +82,17 @@
     <string name="desert_of_the_day">Dessert of the Day</string>
     <string name="vegetarian_of_the_day">Vegetarian of the Day</string>
     <string name="text_previous">Previous</string>
-    <string name="cook_something_creating_today">Cook something creating today</string>
+    <string name="cook_something_creating_today">Most recent 60 days</string>
 
     <!--User Feed Tabs-->
-    <string name="tab_main_course_of_the_day">MAIN COURSE OF THE DAY</string>
-    <string name="tab_appetizer_of_the_day">APPETIZER OF THE DAY</string>
-    <string name="tab_cookie_of_the_day">COOKIE OF THE DAY</string>
-    <string name="tab_dessert_of_the_day">DESSERT OF THE DAY</string>
-    <string name="tab_vegetarian_of_the_day">VEGETARIAN OF THE DAY</string>
+    <string name="tab_main_course_of_the_day">Main Course of the Day</string>
+    <string name="tab_appetizer_of_the_day">Appetizer of the Day</string>
+    <string name="tab_cookie_of_the_day">Cookie of the Day</string>
+    <string name="tab_dessert_of_the_day">Dessert of the Day</string>
+    <string name="tab_vegetarian_of_the_day">Vegetarian of the Day</string>
 
     <!--Home Activity Tabs-->
-    <string name="tab_feed">Feed</string>
+    <string name="tab_feed">Recipes</string>
     <string name="tab_cookbooks">Cookbooks</string>
     <string name="tab_list">List</string>
     <string name="tab_comments">Comments</string>
@@ -111,8 +111,7 @@
 
     <!--SignUp/Login Dialog-->
     <string name="access_profile">Access Profile</string>
-    <string name="signup_dialog_message">Access profile to connect with other chefs, Get to see your
-        search history, and change your settings
+    <string name="signup_dialog_message">As a logged in user you can here see your followers, search history and follow other chefs.
     </string>
     <string name="login_comment_message">You need to logged in to comment on recipe</string>
     <string name="login_reply_on_comment_message">You need to logged in to reply on comment</string>
@@ -142,7 +141,7 @@
         <b>%1$s</b>
         visad, <b>%2$s</b> utskriven, <b>%3$s</b> tillagd i saml]]>
     </string>
-    <string name="add_portion">Add Portion</string>
+    <string name="add_portion">Change the number of servings</string>
 
     <!--User Settings-->
     <string name="done">Done</string>
@@ -242,7 +241,7 @@
     </string-array>
 
     <string name="show_all_recipes">Showing all recipes</string>
-    <string name="show_recipe_with_images">Showing only recipes with images</string>
+    <string name="show_recipe_with_images">Showing only recipes \n with images</string>
     <string name="create_new_cookbook">Create new cookbook</string>
     <string name="rename_cookbook">Rename Cookbook</string>
     <string name="cookbook_name">Cookbook Name</string>
@@ -364,6 +363,8 @@
     </string>
     <string name="clear_marked">Clear marked</string>
     <string name="user">User</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="edit_list">Edit List</string>
 
 
 </resources>
