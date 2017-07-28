@@ -155,7 +155,7 @@
                           android:onClick="@{(v)->viewModel.openForgotPasswordScreen(v)}"
                           android:text="@string/forgot_password"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/text_size_small"
+                          android:textSize="@dimen/text_size_medium"
                           app:font="@{`SS-ProRegular`}"/>
 
                 <TextView android:id="@+id/text_view_sign_up_now"
@@ -167,7 +167,7 @@
                           android:onClick="@{(v)->viewModel.openSignupScreen(v)}"
                           android:text="@string/signup_now_text"
                           android:textColor="@color/white"
-                          android:textSize="@dimen/text_size_small"
+                          android:textSize="@dimen/text_size_medium"
                           app:font="@{`SS-ProRegular`}"/>
             </RelativeLayout>
 
