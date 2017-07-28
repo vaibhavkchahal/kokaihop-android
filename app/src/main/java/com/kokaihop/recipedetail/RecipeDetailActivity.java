@@ -232,7 +232,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             menuItemLike.setIcon(R.drawable.ic_like_md);
             menuItemShare.setIcon(R.drawable.ic_share_md);
             menuItemCamera.setIcon(R.drawable.ic_camera);
-            menuItemWishlist.setIcon(R.drawable.ic_bookmark_md);
+            menuItemWishlist.setIcon(R.drawable.ic_bookmark_md_grey);
             binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
         }
     }
