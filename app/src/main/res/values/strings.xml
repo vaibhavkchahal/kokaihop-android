@@ -363,6 +363,8 @@
     </string>
     <string name="clear_marked">Clear marked</string>
     <string name="user">User</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="edit_list">Edit List</string>
 
 
 </resources>
