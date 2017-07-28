@@ -12,7 +12,7 @@
         android:id="@+id/imgview_tick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_tick_lg"/>
+        android:src="@drawable/ic_tick_sm"/>
 
     <TextView
         android:id="@+id/txtview_rating_sucess"

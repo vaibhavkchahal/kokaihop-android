@@ -131,7 +131,7 @@
                     android:layout_marginTop="@dimen/comment_card_bottom_text_margin_top"
                     android:text="@{@string/kommentor_av_text+model.sourceUser.userName}"
                     android:textColor="@color/grey_FF8E8E93"
-                    android:textSize="@dimen/txtview_specs_textsize"
+                    android:textSize="@dimen/coment_text_botom_tetsize"
                     app:font="@{`SS-ProRegular`}"
                 />
                 <TextView
@@ -145,7 +145,7 @@
                     android:drawableStart="@drawable/ic_separate_dot"
                     android:text="@{DateTimeUtils.getRelativeTimeDisplayDate(context,Long.valueOf(model.dateCreated))}"
                     android:textColor="@color/grey_FF8E8E93"
-                    android:textSize="@dimen/txtview_specs_textsize"
+                    android:textSize="@dimen/coment_text_botom_tetsize"
                     app:font="@{`SS-ProRegular`}"
                 />
             </RelativeLayout>
