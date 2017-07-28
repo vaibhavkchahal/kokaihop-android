@@ -93,6 +93,7 @@ public class MyCookbooksFragment extends Fragment {
     }
 
     public void refresh() {
+        viewModel.setDownloading(true);
         viewModel.getCookbooksOfUser(0);
     }
 }
