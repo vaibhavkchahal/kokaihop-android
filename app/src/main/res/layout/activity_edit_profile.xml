@@ -94,6 +94,7 @@
                       android:layout_marginTop="@dimen/user_profile_pic_margin_bottom"
                       android:text="@string/change_profile_photo"
                       android:textColor="@color/blue_FF1484FF"
+                      android:textSize="@dimen/text_size_medium"
                       app:font="@{`SS-ProRegular`}"/>
         </LinearLayout>
         <TextView
