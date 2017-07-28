@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/recipe_creator_padding_bottom"
-            android:paddingLeft="@dimen/recipe_creator_padding_left"
+            android:paddingEnd="@dimen/recipe_creator_padding_left"
+            android:paddingStart="@dimen/recipe_creator_padding_left"
             android:paddingTop="@dimen/recipe_creator_padding_top">
 
             <RelativeLayout
@@ -41,6 +42,7 @@
                     android:id="@+id/imageview_user_pic"
                     android:layout_width="@dimen/iv_recipe_creator_height_width"
                     android:layout_height="@dimen/iv_recipe_creator_height_width"
+                    android:contentDescription="@string/user"
                     app:error="@{@drawable/ic_avtar_sm}"
                     app:imageUrl="@{imageUrl}"
                     app:isCircular="@{true}"
@@ -50,8 +52,8 @@
                     android:id="@+id/txtview_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/creator_margin_left"
-                    android:layout_toRightOf="@+id/imageview_user_pic"
+                    android:layout_marginStart="@dimen/creator_margin_left"
+                    android:layout_toEndOf="@+id/imageview_user_pic"
                     android:text="@{@string/text_created+` `+DateTimeUtils.getDate(model.dateCreated,`yyyy-mm-dd`)+` `+@string/text_by}"
                     android:textColor="@color/grey_FF8D929C"
                     android:textSize="@dimen/creator_name_textsize"
@@ -62,8 +64,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtview_title"
-                    android:layout_marginLeft="@dimen/creator_margin_left"
-                    android:layout_toRightOf="@+id/imageview_user_pic"
+                    android:layout_marginStart="@dimen/creator_margin_left"
+                    android:layout_toEndOf="@+id/imageview_user_pic"
                     android:text="@{model.name}"
                     android:textColor="@color/kokaihop_orange_color"
                     android:textSize="@dimen/creator_name_textsize"
@@ -83,6 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/recipe_detail_category_border"
+                    android:gravity="center"
                     android:paddingBottom="@dimen/textview_category_padding_bottom"
                     android:paddingLeft="@dimen/txtview_category_padding_left_right"
                     android:paddingRight="@dimen/txtview_category_padding_left_right"
@@ -95,11 +98,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/txtview_category_margin_left"
+                    android:layout_marginStart="@dimen/txtview_category_margin_left"
                     android:background="@drawable/recipe_detail_category_border"
+                    android:gravity="center"
                     android:paddingBottom="@dimen/textview_category_padding_bottom"
-                    android:paddingLeft="@dimen/txtview_category_padding_left_right"
-                    android:paddingRight="@dimen/txtview_category_padding_left_right"
+                    android:paddingEnd="@dimen/txtview_category_padding_left_right"
+                    android:paddingStart="@dimen/txtview_category_padding_left_right"
                     android:paddingTop="@dimen/txtview_category_padding_top"
                     android:text="@{model.category2}"
                     android:textColor="@color/grey_FF8D929C"
@@ -111,11 +115,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/txtview_category_margin_left"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/txtview_category_margin_left"
                     android:background="@drawable/recipe_detail_category_border"
                     android:paddingBottom="@dimen/textview_category_padding_bottom"
-                    android:paddingLeft="@dimen/txtview_category_padding_left_right"
-                    android:paddingRight="@dimen/txtview_category_padding_left_right"
+                    android:paddingEnd="@dimen/txtview_category_padding_left_right"
+                    android:paddingStart="@dimen/txtview_category_padding_left_right"
                     android:paddingTop="@dimen/txtview_category_padding_top"
                     android:text="@{model.category3}"
                     android:textColor="@color/grey_FF8D929C"
@@ -146,5 +151,4 @@
         />
 
     </RelativeLayout>
-
 </layout>

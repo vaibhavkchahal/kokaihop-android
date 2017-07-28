@@ -234,7 +234,7 @@
     <dimen name="recipe_creator_padding_top">25dp</dimen>
     <dimen name="creator_name_textsize">13sp</dimen>
     <dimen name="creator_margin_left">10dp</dimen>
-    <dimen name="textview_category_padding_bottom">8dp</dimen>
+    <dimen name="textview_category_padding_bottom">5dp</dimen>
     <dimen name="txtview_category_padding_left_right">17dp</dimen>
     <dimen name="txtview_category_padding_top">5dp</dimen>
     <dimen name="txtview_category_textsize">13sp</dimen>
