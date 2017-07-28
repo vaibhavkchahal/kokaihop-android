@@ -4,7 +4,7 @@
    - Search
    - User profile History
 3. Print Recipe.
-4. Auto Login for old Application users.
+4. Auto Login feature for old Application users.
 5. Localization in Swedish language.
 6. Add to List from Recipe Details screen.
 7. Google Analytics
