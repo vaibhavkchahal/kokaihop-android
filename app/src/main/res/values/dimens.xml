@@ -132,9 +132,9 @@
     <dimen name="textsize_tv_recipe_date">11sp</dimen>
     <dimen name="iv_profile_height_width">24dp</dimen>
     <dimen name="tv_user_name_margin_left">5dp</dimen>
-    <dimen name="textsize_tv_user_name">13sp</dimen>
+    <dimen name="textsize_tv_user_name">14sp</dimen>
     <dimen name="tv_comment_count_margin_left">5dp</dimen>
-    <dimen name="tv_comment_count_textsize">11sp</dimen>
+    <dimen name="tv_comment_count_textsize">12sp</dimen>
     <dimen name="iv_comment_height_width">15dp</dimen>
     <dimen name="iv_recipe_creator_height_width">30dp</dimen>
     <dimen name="tv_likes_padding_left">10dp</dimen>
