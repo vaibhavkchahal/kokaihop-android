@@ -136,27 +136,30 @@ public class CameraUtils {
 
     public static String getRealPathFromURI(Context context, Uri uri) {
         String filePath = "";
-        String wholeID = DocumentsContract.getDocumentId(uri);
-        // Split at colon, use second item in the array
-        String id = wholeID.split(":")[1];
-
+        String wholeID = "";
+        Cursor cursor;
         String[] column = {MediaStore.Images.Media.DATA};
-
-        // where id is equal to
-        String sel = MediaStore.Images.Media._ID + "=?";
-
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                column, sel, new String[]{id}, null);
-
-        int columnIndex = cursor.getColumnIndex(column[0]);
-
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            wholeID = DocumentsContract.getDocumentId(uri);
+            // Split at colon, use second item in the array
+            String id = wholeID.split(":")[1];
+            // where id is equal to
+            String sel = MediaStore.Images.Media._ID + "=?";
+            cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    column, sel, new String[]{id}, null);
+        } else {
+            cursor = context.getContentResolver().query(uri, null, null, null, null);
+            if (cursor == null) {
+                return uri.getPath();
+            }
         }
-        cursor.close();
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex(column[0]);
+            filePath = cursor.getString(index);
+            cursor.close();
+        }
         return filePath;
-
-
     }
 
     //check for permissions of user
@@ -181,19 +184,19 @@ public class CameraUtils {
 
     //    to share the picture with external applications
     public static void sharePicture(final Context context, String imageUrl) {
-        List<Intent> targetShareIntents=new ArrayList<Intent>();
-        Intent shareIntent=new Intent();
+        List<Intent> targetShareIntents = new ArrayList<Intent>();
+        Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
 
-        List<ResolveInfo> resInfos=context.getPackageManager().queryIntentActivities(shareIntent, 0);
-        if(!resInfos.isEmpty()){
+        List<ResolveInfo> resInfos = context.getPackageManager().queryIntentActivities(shareIntent, 0);
+        if (!resInfos.isEmpty()) {
             System.out.println("Have package");
-            for(ResolveInfo resInfo : resInfos){
-                String packageName=resInfo.activityInfo.packageName;
+            for (ResolveInfo resInfo : resInfos) {
+                String packageName = resInfo.activityInfo.packageName;
                 Log.i("Package Name", packageName);
                 if (packageName.equals("com.twitter.android") || packageName.equals("com.facebook.katana") || packageName.equals("com.android.mms") || packageName.equals("com.google.android.gm")) {
-                    Intent intent=new Intent();
+                    Intent intent = new Intent();
                     intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                     intent.setAction(Intent.ACTION_SEND);
                     intent.setType("text/plain");
@@ -206,7 +209,7 @@ public class CameraUtils {
                         // will show the <meta content ="..."> text from that page with our link in Facebook.
                         intent.putExtra(Intent.EXTRA_TEXT, "share on facebook"/*resources.getUserId(R.string.share_facebook)*/);
                     } else if (packageName.equals("com.android.mms")) {
-                        intent.putExtra(Intent.EXTRA_SUBJECT,"kokaihop");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop");
                         intent.putExtra(Intent.EXTRA_TEXT, "share on sms"/*resources.getUserId(R.string.share_sms)*/);
                     } else if (packageName.equals("com.google.android.gm")) { // If Gmail shows up twice, try removing this else-if clause and the reference to "android.gm" above
                         intent.putExtra(Intent.EXTRA_TEXT, "share on gmail"/*Html.fromHtml(resources.getUserId(R.string.share_email_gmail))*/);
@@ -218,14 +221,14 @@ public class CameraUtils {
                     targetShareIntents.add(intent);
                 }
             }
-            if(!targetShareIntents.isEmpty()){
+            if (!targetShareIntents.isEmpty()) {
                 System.out.println("Have Intent");
-                Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
                 context.startActivity(chooserIntent);
-            }else{
+            } else {
                 System.out.println("Do not Have Intent");
             }
         }
-}
+    }
 }
