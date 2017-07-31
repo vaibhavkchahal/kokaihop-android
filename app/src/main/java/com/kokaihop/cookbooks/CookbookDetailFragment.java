@@ -46,10 +46,6 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
         }
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_detail, container, false);
         this.inflater = inflater;
-        if (Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
-            binding.btnDeleteCookbook.setVisibility(View.GONE);
-            binding.tvCookbookEdit.setVisibility(View.GONE);
-        }
         if (!SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL).equals(userFriendlyUrl)) {
             binding.btnDeleteCookbook.setVisibility(View.GONE);
             binding.tvCookbookRename.setVisibility(View.GONE);
@@ -103,6 +99,10 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
                 }
             }
         });
+        if (Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
+            binding.btnDeleteCookbook.setVisibility(View.GONE);
+            binding.tvCookbookEdit.setVisibility(View.INVISIBLE);
+        }
         return binding.getRoot();
     }
 
