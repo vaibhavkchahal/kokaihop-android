@@ -23,7 +23,7 @@
         <TextView
             android:id="@+id/dialog_confirmation_msg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_new_cookbook_name_height"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/dialog_confirm_title"
             android:gravity="center"
             android:paddingEnd="@dimen/dialog_delete_cookbook_msg_hor_padding"

@@ -116,7 +116,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
     }
 
     public void createNewCookbook() {
-        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category),context.getString(R.string.create_cookbook_action));
+        GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.create_cookbook_action));
 
         final InputDialog dialog = new InputDialog(fragment.getContext());
         dialog.setupDialog(
@@ -153,7 +153,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
         new CookbooksApiHelper().createCookbook(accessToken, new CookbookName(cookbookName), new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
-                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category),context.getString(R.string.created_cookbook_action));
+                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.cookbook_category), context.getString(R.string.created_cookbook_action));
                 setDownloading(true);
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshCookbook"));
                 getCookbooksOfUser(0);
@@ -195,13 +195,13 @@ public class AddToCookbookViewModel extends BaseViewModel {
             public void onSuccess(Object response) {
                 RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshRecipeDetail"));
-                if (cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), true)) {
+                if (cookbooksDataManager.insertRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl())) {
                     cookbook.setTotal(cookbook.getTotal() + 1);
                 }
                 recipeDataManager.updateIsFavoriteInDB(true, recipeRealmObject);
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("favorite", true);
-                ((Activity)context).setResult(Activity.RESULT_OK, resultIntent);
+                ((Activity) context).setResult(Activity.RESULT_OK, resultIntent);
                 setProgressVisible(false);
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.recipe_added_to_cookbook));
 
@@ -238,7 +238,7 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
                 }
                 RecipeRealmObject recipeRealmObject = recipeDataManager.fetchRecipe(recipeId);
-                cookbooksDataManager.insertOrRemoveRecipeIntoCookbook(recipeRealmObject, friendlyUrl, cookbook.getFriendlyUrl(), false);
+                cookbooksDataManager.removeRecipeFromCookbook(recipeRealmObject, friendlyUrl, cookbook.get_id());
             }
 
             @Override
