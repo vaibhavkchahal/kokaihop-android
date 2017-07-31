@@ -417,6 +417,11 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
             binding.viewpagerSwipeRight.setVisibility(View.GONE);
         }
+        if (recipeDetailViewModel.getPagerImages().size() == 0) {
+            binding.recipeDetailPlaceholder.setVisibility(View.VISIBLE);
+        } else {
+            binding.recipeDetailPlaceholder.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setToolbar() {

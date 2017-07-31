@@ -9,7 +9,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -209,14 +208,15 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                     if (tab.getCustomView().findViewById(R.id.text2) != null) {
                         ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
                     }
-                    if (tabLayout.getSelectedTabPosition() == FOLLOWING_TAB_POSITION) {
-
-                        Fragment fragment = adapter.getItem(FOLLOWING_TAB_POSITION);
-                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                        ft.detach(fragment);
-                        ft.attach(fragment);
-                        ft.commit();
-                    }
+//                    if (tabLayout.getSelectedTabPosition() == FOLLOWING_TAB_POSITION) {
+//                        Fragment fragment = adapter.getItem(FOLLOWING_TAB_POSITION);
+//                        if (fragment != null && fragment.isVisible()) {
+//                            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+//                            ft.detach(fragment);
+//                            ft.attach(fragment);
+//                            ft.commit();
+//                        }
+//                    }
                 }
             }
 
