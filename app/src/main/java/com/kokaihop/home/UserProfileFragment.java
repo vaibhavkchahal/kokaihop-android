@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     private Bundle bundle = new Bundle();
     private ProfileAdapter adapter;
     private ArrayList<NotificationCount> notificationCount;
+    private final int FOLLOWING_TAB_POSITION = 2;
 
     public UserProfileFragment() {
     }
@@ -206,6 +208,14 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                     ((TextView) tab.getCustomView().findViewById(R.id.text1)).setTextColor(activeColor);
                     if (tab.getCustomView().findViewById(R.id.text2) != null) {
                         ((TextView) tab.getCustomView().findViewById(R.id.text2)).setTextColor(activeColor);
+                    }
+                    if (tabLayout.getSelectedTabPosition() == FOLLOWING_TAB_POSITION) {
+
+                        Fragment fragment = adapter.getItem(FOLLOWING_TAB_POSITION);
+                        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                        ft.detach(fragment);
+                        ft.attach(fragment);
+                        ft.commit();
                     }
                 }
             }

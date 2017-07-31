@@ -327,7 +327,7 @@
     <string name="text_shopping_list">Shopping List</string>
     <string name="text_add_ingredient">Add Ingredient</string>
     <string name="text_select">Select</string>
-    <string name="delete_all">DeleteAll</string>
+    <string name="delete_all">Delete All</string>
     <string name="delete_all_ingredient_msg">Are you sure you want to delete all items ?</string>
     <string name="mark_message">You must first mark an item to clear</string>
     <string name="obs_text">OBS!</string>
@@ -361,7 +361,7 @@
     <string name="user_profile_coach_mark">Här hittar du recept du tittat på tidigare men kanske
         inte sparat
     </string>
-    <string name="clear_marked">Clear marked</string>
+    <string name="clear_marked">Clear Marked</string>
     <string name="user">User</string>
     <string name="shopping_list">Shopping List</string>
     <string name="edit_list">Edit List</string>

@@ -191,7 +191,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
     }
 
     //API call to follow or unfollow a user
-    public void toggleFollowing(String friendId, final CheckBox checkBox) {
+    public void toggleFollowing(final String friendId, final CheckBox checkBox) {
         setUpApiCall();
         ToggleFollowingRequest request = new ToggleFollowingRequest();
         request.setFriendId(friendId);
@@ -201,10 +201,11 @@ public class FollowersFollowingViewModel extends BaseViewModel {
             public void onSuccess(Object response) {
                 if (checkBox.isChecked()) {
                     AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.follow_success));
-                    User.getInstance().getFollowing().add(user.get_id());
+                    User.getInstance().getFollowing().add(friendId);
                 } else {
                     AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.unfollow_success));
-                    User.getInstance().getFollowing().remove(user.get_id());
+                    User.getInstance().getFollowing().remove(friendId);
+                    profileDataManager.removeFollowing(friendId);
                 }
                 User.getInstance().setRefreshRequired(true);
             }

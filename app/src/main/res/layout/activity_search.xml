@@ -64,7 +64,7 @@
                             android:paddingStart="-16dp"
                             android:textColor="@color/white"
                             android:textCursorDrawable="@null"
-                            android:textSize="@dimen/text_size_small"
+                            android:textSize="@dimen/text_size_small_13"
                             bind:iconifiedByDefault="false"
                             bind:searchIcon="@null"
                         />

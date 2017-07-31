@@ -10,6 +10,7 @@
     <dimen name="text_size_large">19sp</dimen>
     <dimen name="text_size_medium">17sp</dimen>
     <dimen name="text_size_small">15sp</dimen>
+    <dimen name="text_size_small_13">13sp</dimen>
     <dimen name="none">0dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
@@ -419,7 +420,7 @@
     <dimen name="shopping_toolbar_pading_left_right">20dp</dimen>
     <dimen name="add_ingredient_view_height">40dp</dimen>
     <dimen name="shadow_height">2dp</dimen>
-    <dimen name="ingredient_drawable_padding">8.8dp</dimen>
+    <dimen name="ingredient_drawable_padding">5dp</dimen>
     <dimen name="shopping_list_item_margin_right">25dp</dimen>
     <dimen name="margin_left_list_item_divider">5dp</dimen>
     <dimen name="vertical_divider_height">15dp</dimen>

@@ -421,9 +421,22 @@ public class ProfileDataManager {
         }
     }
 
-    private int indexOfFollower(String friendlyUrl, RealmList<UserRealmObject> followersList) {
-        for (int i = 0; i < followersList.size(); i++) {
-            if (followersList.get(i).getFriendlyUrl().equals(friendlyUrl)) {
+    //    remove follwing-user from the following-list of user on unfollowing event.
+    public void removeFollowing(String followingId) {
+        UserRealmObject userRealmObject = getUser("_id", User.getInstance().get_id());
+        if (userRealmObject != null) {
+            int index = indexOfFollower(getFriendlyUrlOfUser(followingId), userRealmObject.getFollowingList());
+            if (index > -1) {
+                realm.beginTransaction();
+                userRealmObject.getFollowingList().remove(index);
+                realm.commitTransaction();
+            }
+        }
+    }
+
+    private int indexOfFollower(String friendlyUrl, RealmList<UserRealmObject> userList) {
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getFriendlyUrl().equals(friendlyUrl)) {
                 return i;
             }
         }
