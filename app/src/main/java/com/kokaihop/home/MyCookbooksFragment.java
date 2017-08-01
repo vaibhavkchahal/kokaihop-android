@@ -93,10 +93,12 @@ public class MyCookbooksFragment extends Fragment {
     }
 
     public void refresh() {
-        String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
-        if (!((accessToken == null) || accessToken.isEmpty())) {
-            viewModel.setDownloading(true);
-            viewModel.getCookbooksOfUser(0);
+        if (getContext() != null) {
+            String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
+            if (!((accessToken == null) || accessToken.isEmpty())) {
+                viewModel.setDownloading(true);
+                viewModel.getCookbooksOfUser(0);
+            }
         }
     }
 }
