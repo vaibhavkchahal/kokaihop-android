@@ -74,6 +74,9 @@ import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.KokaihopApplication.getContext;
+import static com.kokaihop.customviews.AppBarStateChangeListener.State.EXPANDED;
+import static com.kokaihop.customviews.AppBarStateChangeListener.State.SCROLL_DOWN;
+import static com.kokaihop.customviews.AppBarStateChangeListener.State.SCROLL_UP;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
@@ -190,13 +193,16 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         case COLLAPSED:
                             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
                             binding.viewpagerSwipeRight.setVisibility(View.GONE);
-                            Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
-                            Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
-                                    RenderScript.create(RecipeDetailActivity.this),
-                                    bitmap);
-                            imageViewBlurred.setImageBitmap(bluredBitmap);
-                            imageViewBlurred.setVisibility(View.VISIBLE);
-                            changeMenuItemsIcons(true);
+                            if (imageViewRecipe.getMeasuredHeight() > 0 && imageViewRecipe.getMeasuredWidth() > 0) {
+                                Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                                Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
+                                        RenderScript.create(RecipeDetailActivity.this),
+                                        bitmap);
+                                imageViewBlurred.setImageBitmap(bluredBitmap);
+                                imageViewBlurred.setVisibility(View.VISIBLE);
+                            }
+                                changeMenuItemsIcons(true);
+
                             break;
                         case EXPANDED:
                             toggleLeftRightVisibility(viewPager.getCurrentItem());
