@@ -9,45 +9,62 @@
         android:layout_height="match_parent"
         android:background="@drawable/img_profile"
         android:foregroundGravity="center"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp">
+        android:paddingLeft="@dimen/myprofile_login_signup_padding_hor"
+        android:paddingRight="@dimen/myprofile_login_signup_padding_hor">
+
+        <TextView
+            android:id="@+id/sign_up_my_profile"
+            android:layout_width="@dimen/constraint_match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/my_profile"
+            android:textColor="@color/white"
+            android:textSize="@dimen/profile_signup_text_large"
+            app:font="@{`SS-ProRegular`}"
+            app:layout_constraintBottom_toTopOf="@+id/imageView_sign_up"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"/>
 
         <ImageView
             android:id="@+id/imageView_sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/profile_signup_iv_margin_bottom"
+            android:contentDescription="@string/my_profile"
             app:layout_constraintBottom_toTopOf="@+id/sign_up_message"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sign_up_my_profile"
             app:srcCompat="@drawable/illus_users"/>
         <TextView
             android:id="@+id/sign_up_message"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="@string/signup_message"
             android:textColor="@color/white"
             android:textSize="@dimen/profile_signup_text_large"
             app:font="@{`SS-ProRegular`}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/sign_up_now"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/imageView_sign_up"/>
         <Button
             android:id="@+id/sign_up_now"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/profile_signup_button_margin_top"
             android:background="@drawable/button_round_corner"
             android:text="@string/sign_up_or_login"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/profile_signup_text_medium"
             app:font="@{`SS-ProBold`}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="@dimen/myprofile_signup_button_margin_bottom"
             app:layout_constraintTop_toBottomOf="@+id/sign_up_message"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

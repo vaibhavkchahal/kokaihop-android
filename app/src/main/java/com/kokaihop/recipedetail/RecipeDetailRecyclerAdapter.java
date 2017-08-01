@@ -314,7 +314,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         if (commentRealmObject.getPayload().getReplyEvents().size() > 0) {
             CommentRealmObject replyCommentRealmObject = commentRealmObject.getPayload().getReplyEvents().get(0);
             int replyCommentUsetImageSize = context.getResources().getDimensionPixelOffset(R.dimen.reply_user_image_height_width);
-            if (commentRealmObject.getSourceUser().getProfileImage() != null) {
+            if (replyCommentRealmObject.getSourceUser().getProfileImage() != null) {
                 String replyCommentUserImage = CloudinaryUtils.getRoundedImageUrl(replyCommentRealmObject.getSourceUser().getProfileImage().getCloudinaryId(), String.valueOf(replyCommentUsetImageSize), String.valueOf(replyCommentUsetImageSize));
                 holderItemComment.binder.setReplyUserImageUrl(replyCommentUserImage);
             }
