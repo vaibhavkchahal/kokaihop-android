@@ -16,34 +16,48 @@ public class SharedPrefUtils {
 
 
     public static void setSharedPrefStringData(Context context, String key, String value) {
-        prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(key, value);
-        editor.commit();
+        if (context != null) {
+            prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(key, value);
+            editor.commit();
+        }
     }
 
     public static String getSharedPrefStringData(Context context, String key) {
-        prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
-        String value = prefs.getString(key, "");
+        String value = "";
+        if (context != null) {
+            prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+            value = prefs.getString(key, "");
+        }
         return value;
     }
 
     public static String getSharedPrefStringData(View view, String key) {
-        prefs = view.getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
-        String value = prefs.getString(key, "");
+        String value = "";
+        if (view != null) {
+            prefs = view.getContext().getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+            value = prefs.getString(key, "");
+        }
         return value;
     }
 
     public static void setSharedPrefBooleanData(Context context, String key, boolean value) {
-        prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(key, value);
-        editor.commit();
+        if (context != null) {
+            prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(key, value);
+            editor.commit();
+        }
     }
 
     public static boolean getSharedPrefBooleanData(Context context, String key) {
-        prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
-        boolean value = prefs.getBoolean(key, false);
+        boolean value = false;
+        if (context != null) {
+            prefs = context.getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+            value = prefs.getBoolean(key, false);
+
+        }
         return value;
     }
 }
