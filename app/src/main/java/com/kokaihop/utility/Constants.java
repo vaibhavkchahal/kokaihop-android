@@ -89,5 +89,6 @@ public class Constants {
     public static final String COMMENTS_TIME_STAMP = "COMMENTS_TIME_STAMP";
     public static final String COOKBOOK_TIME_STAMP = "COOKBOOK_TIME_STAMP";
 
+    public static final int NUMBER_PICKER_HEIGHT = 1;
 
 }

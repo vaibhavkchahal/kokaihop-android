@@ -317,6 +317,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             }
         });
         portionDialog.show();
+        AppUtility.setDividerHeight(portionBinding.numberPickerPortion, Constants.NUMBER_PICKER_HEIGHT);
 
     }
 

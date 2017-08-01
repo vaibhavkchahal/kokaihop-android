@@ -127,7 +127,7 @@ public class AddIngredientViewModel extends BaseViewModel {
             }
             ingredientsRealmObject.setServerSyncNeeded(true);
             shoppingDataManager.addIngredientObjectToList(ingredientsRealmObject);
-            GoogleAnalyticsHelper.trackEventAction( context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_added_action), context.getString(R.string.buy_list_Ingredient_label));
+            GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_added_action), context.getString(R.string.buy_list_Ingredient_label));
 
             ingredient.setText("");
             unit.setText(context.getString(R.string.text_select));
@@ -153,6 +153,7 @@ public class AddIngredientViewModel extends BaseViewModel {
             }
         });
         ingredientUnitDialog.show();
+        AppUtility.setDividerHeight(dialogBinding.numberPickerPortion, Constants.NUMBER_PICKER_HEIGHT);
 
     }
 
