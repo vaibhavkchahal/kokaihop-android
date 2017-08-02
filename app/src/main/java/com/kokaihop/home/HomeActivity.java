@@ -78,7 +78,6 @@ public class HomeActivity extends BaseActivity {
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         MobileAds.initialize(this, AppCredentials.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
-        viewModel.getLatestRecipes();
         setTabView();
         notificationReciever = new NotificationReceiver();
     }
@@ -175,7 +174,7 @@ public class HomeActivity extends BaseActivity {
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.cookbook_screen));
                 break;
             case 2:
-                GoogleAnalyticsHelper.trackScreenName( getString(R.string.buylist_screen));
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.buylist_screen));
 
                 break;
 
