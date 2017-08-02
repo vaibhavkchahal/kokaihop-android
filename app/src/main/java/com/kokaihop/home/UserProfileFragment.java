@@ -22,11 +22,11 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileBinding;
 import com.altaworks.kokaihop.ui.databinding.FragmentUserProfileSignUpBinding;
 import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutBinding;
-import com.altaworks.kokaihop.ui.databinding.TabProfileTabLayoutStvBinding;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.editprofile.SettingsActivity;
 import com.kokaihop.userprofile.FollowersFragment;
 import com.kokaihop.userprofile.FollowingFragment;
+import com.kokaihop.userprofile.HistoryDataManager;
 import com.kokaihop.userprofile.HistoryFragment;
 import com.kokaihop.userprofile.ProfileAdapter;
 import com.kokaihop.userprofile.RecipeFragment;
@@ -45,6 +45,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 import java.util.ArrayList;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
+import static com.kokaihop.utility.Constants.TAB_HISTORY;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
 
@@ -146,7 +147,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     @Override
     public void showUserProfile() {
-        if(isVisible()){
+        if (isVisible()) {
 
             final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
             final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
@@ -162,6 +163,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                     getActivity().getString(R.string.tab_following),
                     getActivity().getString(R.string.tab_history)};
 //        TODO: counts should be set here.
+            notificationCount.add(new NotificationCount());
             notificationCount.add(new NotificationCount());
             notificationCount.add(new NotificationCount());
             notificationCount.add(new NotificationCount());
@@ -189,7 +191,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             viewPager.setAdapter(adapter);
             viewPager.setOffscreenPageLimit(tabCount);
             tabLayout.setupWithViewPager(viewPager);
-            for (i = 0; i < (tabCount - 1); i++) {
+            for (i = 0; i < tabCount; i++) {
                 TabProfileTabLayoutBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout, null, false);
                 View tabView = tabBinding.getRoot();
                 tabLayout.getTabAt(i).setCustomView(tabView);
@@ -197,11 +199,11 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 tabBinding.text2.setText(tabTitles[i]);
 
             }
-            TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
-            View tabView = tabBinding.getRoot();
-            tabLayout.getTabAt(i).setCustomView(tabView);
-            tabBinding.text1.setText(tabTitles[i]);
-            tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_history, 0, 0);
+//            TabProfileTabLayoutStvBinding tabBinding = DataBindingUtil.inflate(inflater, R.layout.tab_profile_tab_layout_stv, null, false);
+//            View tabView = tabBinding.getRoot();
+//            tabLayout.getTabAt(i).setCustomView(tabView);
+//            tabBinding.text1.setText(tabTitles[i]);
+//            tabBinding.text1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_history, 0, 0);
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
@@ -219,6 +221,13 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 //                            ft.commit();
 //                        }
 //                    }
+                    }
+                    if (tabLayout.getSelectedTabPosition() == TAB_HISTORY) {
+                        Fragment fragment = adapter.getItem(TAB_HISTORY);
+                        if (fragment != null && fragment.isVisible()) {
+                            ((HistoryFragment) fragment).refreshHistory();
+                            setNotificationCount();
+                        }
                     }
                 }
 
@@ -263,6 +272,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
         notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
         notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
+        notificationCount.get(TAB_HISTORY).setCount(new HistoryDataManager().getHistory().size());
     }
 
     public void setCoverImage() {

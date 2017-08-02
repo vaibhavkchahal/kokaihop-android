@@ -456,4 +456,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         i.putExtra(Constants.FRIENDLY_URL, recipeRealmObject.getCreatedBy().getFriendlyUrl());
         (context).startActivity(i);
     }
+
+    public RecipeRealmObject getRecipeRealmObject() {
+        return recipeRealmObject;
+    }
 }
