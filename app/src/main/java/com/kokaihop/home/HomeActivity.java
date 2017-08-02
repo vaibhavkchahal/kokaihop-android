@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity {
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         MobileAds.initialize(this, AppCredentials.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
-        viewModel.getLatestRecipes();
+//        viewModel.getLatestRecipes();
         setTabView();
         notificationReciever = new NotificationReceiver();
     }
@@ -136,15 +136,12 @@ public class HomeActivity extends BaseActivity {
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
-
                 sendScreenName(tabLayout.getSelectedTabPosition());
                 if (tabLayout.getSelectedTabPosition() == 1) {
                     PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
                     MyCookbooksFragment fragment = (MyCookbooksFragment) pagerTabAdapter.getItem(1);
                     fragment.refresh();
                 }
-
-
             }
 
             @Override
@@ -175,13 +172,10 @@ public class HomeActivity extends BaseActivity {
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.cookbook_screen));
                 break;
             case 2:
-                GoogleAnalyticsHelper.trackScreenName( getString(R.string.buylist_screen));
-
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.buylist_screen));
                 break;
-
             case 3:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_personal_screen));
-
                 break;
 
 

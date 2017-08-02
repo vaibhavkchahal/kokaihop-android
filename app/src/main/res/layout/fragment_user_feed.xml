@@ -46,7 +46,6 @@
                 app:font="@{`SS-ProRegular`}"/>
         </RelativeLayout>
 
-
         <android.support.design.widget.TabLayout
             android:id="@+id/tablayout_recipe"
             android:layout_width="match_parent"

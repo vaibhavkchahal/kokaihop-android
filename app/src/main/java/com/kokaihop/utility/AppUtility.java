@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -31,6 +32,8 @@ import com.kokaihop.home.HomeActivity;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+
+import static com.kokaihop.KokaihopApplication.getContext;
 
 
 /**
@@ -125,10 +128,29 @@ public class AppUtility {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-
     public void addAdvtInRecipeList(List<Object> recipeListWithAdds, String[] adsUNitId, Context context) {
         int adUnitIdPostion = 0;
-        for (int recipeCount = FIRST_AD_PLACE; recipeCount < recipeListWithAdds.size(); recipeCount += ITEMS_PER_AD) {
+        int firstPlaceAdd;
+        int itemsPerAdd;
+
+        if (AppUtility.isTablet10Inch(getContext())) {
+            firstPlaceAdd = Constants.TAB_10_INCH_FIRST_ADD_POSITION;
+            itemsPerAdd = Constants.TAB_10_ADD_REPEAT_POSITION;
+        } else if (AppUtility.isTablet7Inch(getContext())) {
+            if (AppUtility.isModePortrait(getContext())) {
+                firstPlaceAdd = Constants.TAB_7_INCH_FIRST_ADD_POSITION_PORT;
+                itemsPerAdd = Constants.TAB_7_ADD_REPEAT_POSITION_PORT;
+            } else {
+                firstPlaceAdd = Constants.TAB_7_INCH_FIRST_ADD_POSITION_LAND;
+                itemsPerAdd = Constants.TAB_7_ADD_REPEAT_POSITION_LAND;
+            }
+
+        } else {
+            firstPlaceAdd = Constants.PHONE_FIRST_ADD_POSITION;
+            itemsPerAdd = Constants.PHONE_ADD_REPEAT_POSITION;
+        }
+
+        for (int recipeCount = firstPlaceAdd; recipeCount < recipeListWithAdds.size(); recipeCount += itemsPerAdd) {
             if (adUnitIdPostion > 2) {
                 adUnitIdPostion = 0;
             }
@@ -212,5 +234,25 @@ public class AppUtility {
             }
         });
         dialog.show();
+    }
+
+
+    public static boolean isTablet7Inch(Context context) {
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return large;
+    }
+
+    public static boolean isTablet10Inch(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        return xlarge;
+    }
+
+    public static boolean isModePortrait(Context context) {
+        int intOrientation = context.getResources().getConfiguration().orientation;
+        if (intOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -112,4 +112,8 @@
         <item name="android:textColorHint">@color/white_FFAA6D_40</item>
         <!--<item name="textColorHint">@color/black</item>-->
     </style>
+
+    <style name="progressBarStyle" parent="AppTheme">
+        <item name="android:colorControlActivated">@color/kokaihop_orange_color</item>
+    </style>
 </resources>

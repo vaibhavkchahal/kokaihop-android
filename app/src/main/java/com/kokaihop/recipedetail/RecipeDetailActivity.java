@@ -120,7 +120,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         recipeID = getIntent().getStringExtra("recipeId");
         friendlyUrl = getIntent().getStringExtra("friendlyUrl");
         from = getIntent().getStringExtra("from");
-
         if (from != null && from.equalsIgnoreCase("Notification")) {
             GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category), getString(R.string.pushnotification_launched_action));
 
@@ -221,7 +220,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         MenuItem menuItemShare = menu.findItem(R.id.icon_share);
         MenuItem menuItemCamera = menu.findItem(R.id.icon_camera);
         MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
-
         if (collapsed) {
             menuItemLike.setIcon(R.drawable.ic_like_md_grey);
             menuItemShare.setIcon(R.drawable.ic_share_md_grey);

@@ -1,5 +1,6 @@
 package com.kokaihop.feed;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
@@ -100,8 +102,16 @@ public class MainCourseFragment extends Fragment {
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvMainCourse, recipeListWithAds);
             EventBus.getDefault().removeStickyEvent(recipe);
         }
-
-
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(getContext(), "landscape", Toast.LENGTH_SHORT).show();
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(getContext(), "portrait", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

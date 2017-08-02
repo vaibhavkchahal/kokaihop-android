@@ -121,7 +121,6 @@ public class UserFeedFragment extends Fragment {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -132,7 +131,6 @@ public class UserFeedFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -140,7 +138,6 @@ public class UserFeedFragment extends Fragment {
     private void trackGAEvent(int position) {
         String label = "";
         switch (position) {
-
             case 0:
                 label = getString(R.string.main_course_label);
                 break;

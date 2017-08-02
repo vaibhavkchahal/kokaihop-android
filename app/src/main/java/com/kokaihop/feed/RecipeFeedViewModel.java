@@ -42,6 +42,8 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     private List<RecipeRealmObject> recipeList = new ArrayList<>();
     private List<Object> recipeListWithAdds = new ArrayList<>();
+    private int firstAddPlace;
+    private int itemsPerAdd;
 
     public List<Object> getRecipeListWithAdds() {
         return recipeListWithAdds;
@@ -72,6 +74,8 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     public RecipeFeedViewModel(Context context, ApiConstants.BadgeType badgeType) {
         this.context = context;
+        this.firstAddPlace = firstAddPlace;
+        this.itemsPerAdd = itemsPerAdd;
         dataManager = new RecipeDataManager();
         fetchRecipeFromDb(badgeType);
         getRecipes(getOffset(), getMax() + 1, true, true, badgeType);
@@ -122,6 +126,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
         AppUtility utility = new AppUtility();
         utility.addAdvtInRecipeList(recipeListWithAdds, AppCredentials.DAILY_ADS_UNIT_IDS, context);
     }
+
     @Override
     protected void destroy() {
     }

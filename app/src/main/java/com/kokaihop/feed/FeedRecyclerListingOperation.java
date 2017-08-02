@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.DateTimeUtils;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
 
@@ -21,6 +22,9 @@ public class FeedRecyclerListingOperation {
     private RecyclerView recyclerViewFeed;
     private RecipeFeedViewModel feedViewModel;
     private ApiConstants.BadgeType badgeType;
+    private int numOfColumnInGrid;
+    private int spanSizeForItemRecipe = 1;
+
 
     public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,
                                         ApiConstants.BadgeType badgeType) {
@@ -34,33 +38,44 @@ public class FeedRecyclerListingOperation {
     }
 
     public void prepareFeedRecyclerView() {
-//        int spacingInPixels = recyclerViewFeed.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-//        recyclerViewFeed.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
-        layoutManager = new GridLayoutManager(getContext(), 2);
         final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds());
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                                            @Override
-                                            public int getSpanSize(int position) {
-                                                switch (recyclerAdapter.getItemViewType(position)) {
-                                                    case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
-                                                        return 2;
-                                                    case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
-                                                        return 1;
-                                                    case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
-                                                        return 2;
-                                                    default:
-                                                        return -1;
-                                                }
-                                            }
-                                        }
-        );
+
+        if (AppUtility.isTablet10Inch(getContext())) {
+            numOfColumnInGrid = 5;
+        } else if (AppUtility.isTablet7Inch(getContext())) {
+            if (AppUtility.isModePortrait(getContext())) {
+                numOfColumnInGrid = 3;
+            } else {
+                numOfColumnInGrid = 5;
+            }
+        } else {
+            numOfColumnInGrid = 2;
+        }
+
+        layoutManager = new GridLayoutManager(getContext(), numOfColumnInGrid);
+        layoutManager.setSpanSizeLookup
+                (new GridLayoutManager.SpanSizeLookup() {
+                     @Override
+                     public int getSpanSize(int position) {
+                         switch (recyclerAdapter.getItemViewType(position)) {
+                             case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
+                                 return numOfColumnInGrid;
+                             case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
+                                 return spanSizeForItemRecipe;
+                             case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
+                                 return numOfColumnInGrid;
+                             default:
+                                 return -1;
+                         }
+                     }
+                 }
+                );
         recyclerViewFeed.setLayoutManager(layoutManager);
         recyclerViewFeed.setAdapter(recyclerAdapter);
 
     }
 
-    public  FeedRecyclerScrollListener getScrollListener()
-    {
+    public FeedRecyclerScrollListener getScrollListener() {
         FeedRecyclerScrollListener scrollListener = new FeedRecyclerScrollListener(layoutManager) {
 
             @Override

@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminateTint="@color/colorPrimary"
+            android:indeterminateTintMode="src_in"
             android:visibility="@{viewModel.progressVisible?View.VISIBLE:View.GONE}"/>
 
     </RelativeLayout>

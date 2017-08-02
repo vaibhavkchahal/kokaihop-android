@@ -90,4 +90,14 @@ public class Constants {
     public static final String COOKBOOK_TIME_STAMP = "COOKBOOK_TIME_STAMP";
 
 
+    // tablet support constants
+    public static final int TAB_10_INCH_FIRST_ADD_POSITION = 5;
+    public static final int TAB_10_ADD_REPEAT_POSITION = 13;
+    public static final int TAB_7_INCH_FIRST_ADD_POSITION_PORT = 4;
+    public static final int TAB_7_ADD_REPEAT_POSITION_PORT = 10;
+    public static final int TAB_7_INCH_FIRST_ADD_POSITION_LAND = 6;
+    public static final int TAB_7_ADD_REPEAT_POSITION_LAND = 16;
+    public static final int PHONE_FIRST_ADD_POSITION = 3;
+    public static final int PHONE_ADD_REPEAT_POSITION = 7;
+
 }

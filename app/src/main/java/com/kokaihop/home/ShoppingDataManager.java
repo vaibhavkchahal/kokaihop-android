@@ -114,10 +114,12 @@ public class ShoppingDataManager {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                ShoppingListRealmObject shoppingList = fetchShoppingRealmObject();
                 for (String id : ids) {
                     IngredientsRealmObject ingredientsRealmObject = realm.where(IngredientsRealmObject.class)
                             .equalTo(INGREDIENT_ID, id).findFirst();
                     ingredientsRealmObject.setDeletionNeeded(true);
+//                    shoppingList.getIngredients().remove(ingredientsRealmObject);
                 }
             }
         });

@@ -109,11 +109,9 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     publicId = recipeRealmObjectOfDay.getCoverImage();
                 } else if (recipeRealmObjectOfDay.getMainImage() != null) {
                     Logger.e("Recipe Url", recipeRealmObjectOfDay.getMainImage().getPublicId() + "ID");
-
                     publicId = recipeRealmObjectOfDay.getMainImage().getPublicId();
 
                 }
-
                 holderRecipeOfDay.binder.setRecipeHandler(new RecipeHandler());
                 holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(publicId, String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
@@ -129,7 +127,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 }
                 viewHolderRecipe.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(publicIdRecipe, String.valueOf(layoutParamsRecipeItem.width), String.valueOf(layoutParamsRecipeItem.height)));
-
                 int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.iv_profile_height_width);
                 if (recipeRealmObject.getCreatedBy() != null) {
                     viewHolderRecipe.binder.setProfileImageUrl(CloudinaryUtils.getRoundedImageUrl(recipeRealmObject.getCreatedBy().getProfileImageId(), String.valueOf(profileImageSize), String.valueOf(profileImageSize)));
@@ -145,8 +142,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case TYPE_ITEM_ADVT:
                 final ViewHolderAdvt viewHolderAdvt = (ViewHolderAdvt) holder;
                 final AdView adView = (AdView) recipeListWithAdds.get(position);
-
-
                 if (viewHolderAdvt.binder.linearLayoutAds.getChildCount() > 0) {
                     viewHolderAdvt.binder.linearLayoutAds.removeAllViews();
                 }
@@ -155,7 +150,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 // Add the ads.
                 viewHolderAdvt.binder.linearLayoutAds.addView(adView);
-
                 adView.setAdListener(new AdListener() {
                     @Override
                     public void onAdLoaded() {
@@ -173,14 +167,12 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // Load the ad.
                 adView.loadAd(new AdRequest.Builder().build());
 //                adView.loadAd(new AdRequest.Builder().addTestDevice("B2392C13860FF69BF8F847F0914A2745").build());  //TODO: Remove adTestDevice method for production
-
                 break;
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
                 SearchRecipeHeader searchRecipeHeader = (SearchRecipeHeader) recipeListWithAdds.get(position);
                 String result = String.format(context.getResources().getString(R.string.recipe_results), searchRecipeHeader.getCount());
                 viewHolderRecipeCount.binder.textviewRecipeCount.setText(result);
-
             default:
                 break;
 
