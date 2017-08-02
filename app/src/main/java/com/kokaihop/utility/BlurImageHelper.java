@@ -131,24 +131,24 @@ public class BlurImageHelper {
       public static Bitmap captureView(View view){
         //Create a Bitmap with the same dimensions as the View
 //          TODO: height is < 0 Exception
-        Bitmap image = Bitmap.createBitmap(view.getMeasuredWidth(),
-                view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_4444); //reduce quality
-        //Draw the view inside the Bitmap
-        Canvas canvas = new Canvas(image);
-        view.draw(canvas);
+              Bitmap image = Bitmap.createBitmap(view.getMeasuredWidth(),
+                      view.getMeasuredHeight(),
+                      Bitmap.Config.ARGB_4444); //reduce quality
+              //Draw the view inside the Bitmap
+              Canvas canvas = new Canvas(image);
+              view.draw(canvas);
 
-        //Make it frosty
-        Paint paint = new Paint();
-        paint.setXfermode(
-                new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        ColorFilter filter =
-                new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
-        //ColorFilter filter =
-        //   new LightingColorFilter(0xFF7F7F7F, 0x00000000); // darken
-        paint.setColorFilter(filter);
-        canvas.drawBitmap(image, 0, 0, paint);
-        return image;
+              //Make it frosty
+              Paint paint = new Paint();
+              paint.setXfermode(
+                      new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+              ColorFilter filter =
+                      new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
+              //ColorFilter filter =
+              //   new LightingColorFilter(0xFF7F7F7F, 0x00000000); // darken
+              paint.setColorFilter(filter);
+              canvas.drawBitmap(image, 0, 0, paint);
+              return image;
     }
 
 
