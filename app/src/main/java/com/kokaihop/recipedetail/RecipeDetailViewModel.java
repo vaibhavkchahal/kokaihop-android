@@ -337,10 +337,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         ((Activity) context).startActivityForResult(i, ADD_TO_COOKBOOK_REQ_CODE);
     }
 
-    public JSONObject getCollectionMapping() {
-        return collectionMapping;
-    }
-
     public void updateComments() {
         RecipeRealmObject recipeRealmObject = recipeDataManager.fetchCopyOfRecipeByFriendlyUrl(friendlyUrl);
         prepareRecipeDetailList(recipeRealmObject);
@@ -350,11 +346,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
     @Override
     protected void destroy() {
     }
-
-    public void setCollectionMapping(JSONObject collectionMapping) {
-        this.collectionMapping = collectionMapping;
-    }
-
 
     public interface DataSetListener {
         void onPagerDataUpdate();
@@ -366,7 +357,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
     public void uploadImageOnCloudinary(final String imagePath) {
 
-        Activity activity = (Activity) context;
         GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action), context.getString(R.string.recipe_photo_upload_label));
 
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
@@ -375,73 +365,81 @@ public class RecipeDetailViewModel extends BaseViewModel {
             @Override
             public void onComplete(Map<String, String> uploadResult) throws ParseException {
                 JSONArray images = new JSONArray();
-                try {
-                    if (copyJsonObject.has("recipe")) {
-                        copyJsonObject = copyJsonObject.getJSONObject("recipe");
+                if (copyJsonObject != null) {
+                    try {
+                        if (copyJsonObject.has("recipe")) {
+                            copyJsonObject = copyJsonObject.getJSONObject("recipe");
+                        }
+                        if (copyJsonObject.has("images")) {
+                            images = copyJsonObject.getJSONArray("images");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    if (copyJsonObject.has("images")) {
-                        images = copyJsonObject.getJSONArray("images");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 //                jsonObject.getJSONObject("")
-                JSONObject image = new JSONObject();
-                JSONObject uploader = new JSONObject();
-                try {
-                    User user = User.getInstance();
-                    uploader.put("id", SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
-                    uploader.put("friendlyUrl", user.getFriendlyUrl());
-                    if (user.getName() != null) {
-                        uploader.put("name", user.getName().getFull());
-                    }
-                    if (user.getProfileImage() != null) {
-                        uploader.put("profileImageId", user.getProfileImage().getCloudinaryId());
-                    }
-                    if (uploadResult != null) {
-                        image.put("dateCreated", new Date().getTime());
-                        image.put("publicId", uploadResult.get("public_id"));
-                        image.put("uploader", uploader);
-                        image.put("new", true);
-                        images.put(image);
-                        copyJsonObject.put("images", images);
-                        Logger.d("imageUpload", copyJsonObject.toString());
-                        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
-                        String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-                        new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeRealmObject.get_id(), requestBody, new IApiRequestComplete() {
-                            @Override
-                            public void onSuccess(Object response) {
+                    JSONObject image = new JSONObject();
+                    JSONObject uploader = new JSONObject();
+                    try {
+                        User user = User.getInstance();
+                        uploader.put("id", SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID));
+                        uploader.put("friendlyUrl", user.getFriendlyUrl());
+                        if (user.getName() != null) {
+                            uploader.put("name", user.getName().getFull());
+                        }
+                        if (user.getProfileImage() != null) {
+                            uploader.put("profileImageId", user.getProfileImage().getCloudinaryId());
+                        }
+                        if (uploadResult != null) {
+                            image.put("dateCreated", new Date().getTime());
+                            image.put("publicId", uploadResult.get("public_id"));
+                            image.put("uploader", uploader);
+                            image.put("new", true);
+                            images.put(image);
+                            copyJsonObject.put("images", images);
+                            Logger.d("imageUpload", copyJsonObject.toString());
+                            final RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), copyJsonObject.toString());
+                            String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
+                            new RecipeDetailApiHelper().updateRecipeDetail(accessToken, recipeRealmObject.get_id(), requestBody, new IApiRequestComplete() {
+                                @Override
+                                public void onSuccess(Object response) {
+                                    GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action), context.getString(R.string.recipe_photo_uploaded_label));
 
-                                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action), context.getString(R.string.recipe_photo_uploaded_label));
-
-
-                                Logger.e("image upload", "success " + response.toString());
-                                Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
+                                    try {
+                                        Logger.d("Upload Image", ((ResponseBody) response).string());
+                                    } catch (IOException e) { e.printStackTrace();
+                                    }
+                                    Logger.e("image upload", "success " + response.toString());
+                                    Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
 //                                dataSetListener.onPagerDataUpdate();
-                                getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
-                            }
+                                    getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
+                                }
 
-                            @Override
-                            public void onFailure(String message) {
-                                Logger.e("image upload", message);
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                                setProgressVisible(false);
-                            }
+                                @Override
+                                public void onFailure(String message) {
+                                    Logger.e("image upload", message);
+                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                    setProgressVisible(false);
+                                }
 
-                            @Override
-                            public void onError(Object response) {
-                                Logger.e("image upload", "failure " + response.toString());
-                                Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
-                                setProgressVisible(false);
-                            }
-                        });
-                    } else {
-                        Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onError(Object response) {
+                                    Logger.e("image upload", "failure " + response.toString());
+                                    Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
+                                    setProgressVisible(false);
+                                }
+                            });
+                        } else {
+                            Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
+                            setProgressVisible(false);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         setProgressVisible(false);
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
                     Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     setProgressVisible(false);
                 }
