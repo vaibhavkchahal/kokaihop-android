@@ -61,6 +61,7 @@
             android:layout_marginTop="@dimen/enter_ingredient_box_margin_top"
             android:background="@drawable/grey_stroke_border"
             android:hint="@string/enter_ingredient_name"
+            android:maxLines="1"
             android:paddingLeft="@dimen/enter_ingredient_padding_left"
             android:paddingRight="@dimen/enter_ingredient_padding_right"
             android:textColorHint="@color/grey_FFB3B3B3"/>

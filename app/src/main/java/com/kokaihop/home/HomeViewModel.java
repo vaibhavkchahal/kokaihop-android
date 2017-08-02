@@ -2,7 +2,6 @@ package com.kokaihop.home;
 
 import android.content.Context;
 
-import com.altaworks.kokaihop.ui.R;
 import com.google.gson.Gson;
 import com.kokaihop.authentication.AuthenticationApiHelper;
 import com.kokaihop.authentication.AuthenticationApiResponse;
@@ -69,9 +68,7 @@ public class HomeViewModel extends BaseViewModel {
                         } else {
 //                        Toast.makeText(context, R.string.recipes_updated, Toast.LENGTH_SHORT).show();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
                 }

@@ -538,7 +538,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         switch (item.getItemId()) {
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
-                if (recipeDetailPagerAdapter.getCount() > 0) {
+                if (recipeDetailPagerAdapter != null && recipeDetailPagerAdapter.getCount() > 0) {
                     // Save this bitmap to a file.
                     File cache = getApplicationContext().getExternalCacheDir();
                     File sharefile = new File(cache, "recipe.jpg");
