@@ -13,6 +13,13 @@ public class Constants {
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String AUTHORIZATION_BEARER = "Bearer ";
     public static final String USER_ID = "userId";
+    public static final String COURSE_NAME = "courseName";
+    public static final String COURSE_FRIENDLY_URL = "courseFriendlyUrl";
+    public static final String CUISINE_FRIENDLY_URL = "cuisineFriendlyUrl";
+    public static final String CUISINE_NAME = "cuisineName";
+    public static final String METHOD_NAME = "methodName";
+    public static final String METHOD_FRIENDLY_URL = "methodFriendlyUrl";
+
     public static final String FRIENDLY_URL = "friendlyUrl";
     public static final String RECIPE_POSITION = "recipePosition";
     public static final String LOGIN_TYPE = "loginType";

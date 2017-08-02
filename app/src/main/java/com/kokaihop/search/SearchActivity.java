@@ -35,6 +35,12 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import static com.kokaihop.KokaihopApplication.getContext;
+import static com.kokaihop.utility.Constants.COURSE_FRIENDLY_URL;
+import static com.kokaihop.utility.Constants.COURSE_NAME;
+import static com.kokaihop.utility.Constants.CUISINE_FRIENDLY_URL;
+import static com.kokaihop.utility.Constants.CUISINE_NAME;
+import static com.kokaihop.utility.Constants.METHOD_FRIENDLY_URL;
+import static com.kokaihop.utility.Constants.METHOD_NAME;
 
 
 public class SearchActivity extends BaseActivity implements DataSetListener, SearchView.OnQueryTextListener {
@@ -44,11 +50,19 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private RecyclerView recyclerViewRecentSearch;
     private DialogSearchFilterBinding bindingSearchBottomSheetDialog;
     private BottomSheetDialog filterDialog;
+    private String courseName, cuisineName, methodName;
+    private String courseFriendlyUrl, cuisineFriendlyUrl, methodFriendlyUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+        courseName = getIntent().getStringExtra(COURSE_NAME);
+        cuisineName = getIntent().getStringExtra(CUISINE_NAME);
+        methodName = getIntent().getStringExtra(METHOD_NAME);
+        courseFriendlyUrl = getIntent().getStringExtra(COURSE_FRIENDLY_URL);
+        cuisineFriendlyUrl = getIntent().getStringExtra(CUISINE_FRIENDLY_URL);
+        methodFriendlyUrl = getIntent().getStringExtra(METHOD_FRIENDLY_URL);
 
         initializeSearchView();
         initialiseSuggestionView();
@@ -57,13 +71,39 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.linearlytNewlyAddedRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GoogleAnalyticsHelper.trackEventAction( getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.explore_now_label));
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.explore_now_label));
 
                 searchViewModel.setSortBy(getString(R.string.latest));
                 searchViewModel.fetchNewlyAddedRecipeWithAds();
             }
         });
         searchViewModel = new SearchViewModel(this, this);
+
+        if (cuisineFriendlyUrl != null) {
+            searchViewModel.setCuisineFriendlyUrl(cuisineFriendlyUrl);
+            binding.included.textviewCuisine.setText(cuisineName);
+            binding.included.textviewCuisine.setBackgroundResource(R.drawable.search_tag_orange);
+            binding.included.textviewCuisine.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+            searchViewModel.search();
+        }
+        else if (courseFriendlyUrl != null) {
+            searchViewModel.setCourseFriendlyUrl(courseFriendlyUrl);
+            binding.included.textviewCategory.setText(courseName);
+            binding.included.textviewCategory.setBackgroundResource(R.drawable.search_tag_orange);
+            binding.included.textviewCategory.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+
+            searchViewModel.search();
+        }
+
+        else if (methodFriendlyUrl != null) {
+            searchViewModel.setMethodFriendlyUrl(methodFriendlyUrl);
+            binding.included.textviewCookingMethod.setText(methodName);
+            binding.included.textviewCookingMethod.setBackgroundResource(R.drawable.search_tag_orange);
+            binding.included.textviewCookingMethod.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
+
+            searchViewModel.search();
+        }
+
         binding.setViewModel(searchViewModel);
         binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -254,7 +294,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 label = getString(R.string.method_label);
                 break;
         }
-        GoogleAnalyticsHelper.trackEventAction( getString(R.string.search_category), getString(R.string.search_filtered_action), label);
+        GoogleAnalyticsHelper.trackEventAction(getString(R.string.search_category), getString(R.string.search_filtered_action), label);
 
     }
 
@@ -290,7 +330,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     new SearchSuggestionAdapter.SuggestionDataItemClickListener() {
                         @Override
                         public void onItemClick(SearchSuggestionRealmObject searchSuggestionRealmObject) {
-                            GoogleAnalyticsHelper.trackEventAction( getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.recent_search_label));
+                            GoogleAnalyticsHelper.trackEventAction(getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.recent_search_label));
                             searchViewModel.setSearchKeyword(searchSuggestionRealmObject.getKeyword());
                             searchViewModel.search();
                             Logger.e("keyword", searchSuggestionRealmObject.getKeyword());

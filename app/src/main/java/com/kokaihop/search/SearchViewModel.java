@@ -42,12 +42,37 @@ public class SearchViewModel extends BaseViewModel {
     private List<FilterData> cuisineList;
     private List<FilterData> cookingMethodList;
     private List<FilterData> sortByList;
-    private String courseFriendlyUrl = "", cuisineFriendlyUrl = "", methodFriendlyUrl = "", searchKeyword = "", sortBy = "";
+    private String courseFriendlyUrl = "", cuisineFriendlyUrl = "", methodFriendlyUrl = "", searchKeyword = "", sortBy = "",
+            courseName = "", cuisineName = "", methodName = "";
     //by default show all recipe with images
     private boolean withImage = true;
 
     public void setSearchKeyword(String searchKeyword) {
         this.searchKeyword = searchKeyword;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getCuisineName() {
+        return cuisineName;
+    }
+
+    public void setCuisineName(String cuisineName) {
+        this.cuisineName = cuisineName;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
     }
 
 

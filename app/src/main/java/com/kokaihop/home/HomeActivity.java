@@ -78,7 +78,7 @@ public class HomeActivity extends BaseActivity {
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         MobileAds.initialize(this, AppCredentials.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
-        viewModel.getLatestRecipes();
+//        viewModel.getLatestRecipes();
         setTabView();
         notificationReciever = new NotificationReceiver();
     }

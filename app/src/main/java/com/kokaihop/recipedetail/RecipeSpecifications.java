@@ -9,6 +9,8 @@ public class RecipeSpecifications {
     private String ImageId;
     private long dateCreated;
     private String category1, category2, category3;
+    private String category1FriendlyUrl, category2FriendlyUrl, category3FriendlyUrl;
+
     private String userId, friendlyUrl;
 
     private long viewerCount, printed, addToCollections;
@@ -99,5 +101,29 @@ public class RecipeSpecifications {
 
     public void setFriendlyUrl(String friendlyUrl) {
         this.friendlyUrl = friendlyUrl;
+    }
+
+    public String getCategory1FriendlyUrl() {
+        return category1FriendlyUrl;
+    }
+
+    public void setCategory1FriendlyUrl(String category1FriendlyUrl) {
+        this.category1FriendlyUrl = category1FriendlyUrl;
+    }
+
+    public String getCategory2FriendlyUrl() {
+        return category2FriendlyUrl;
+    }
+
+    public void setCategory2FriendlyUrl(String category2FriendlyUrl) {
+        this.category2FriendlyUrl = category2FriendlyUrl;
+    }
+
+    public String getCategory3FriendlyUrl() {
+        return category3FriendlyUrl;
+    }
+
+    public void setCategory3FriendlyUrl(String category3FriendlyUrl) {
+        this.category3FriendlyUrl = category3FriendlyUrl;
     }
 }
