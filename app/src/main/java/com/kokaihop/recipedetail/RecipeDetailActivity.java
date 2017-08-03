@@ -211,9 +211,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                             imageViewBlurred.setVisibility(View.INVISIBLE);
                             changeMenuItemsIcons(false);
                             break;
+                    }
+                } else {
+                    switch (state) {
+                        case SCROLL_DOWN:
+                            changeMenuItemsIcons(false);
+                            break;
                         case SCROLL_UP:
                             changeMenuItemsIcons(true);
-
                     }
                 }
             }

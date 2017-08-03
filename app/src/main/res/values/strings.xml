@@ -196,7 +196,7 @@
     <string name="my_cookbooks">My Cookbooks</string>
     <string name="create">Create</string>
     <string name="recipe_count">" Recipes"</string>
-    <string name="empty_comment_msg">comment cannot be empty</string>
+    <string name="empty_comment_msg">Comment cannot be empty</string>
     <string name="rating_dialog_text">Thanks for Rating recipe \n a</string>
     <string name="text_reply">Reply</string>
     <string name="replied_text">" replied"</string>
