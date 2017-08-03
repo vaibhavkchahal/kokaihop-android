@@ -128,7 +128,6 @@ public class HomeViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
-
     }
 
     public void syncRecipes() {
@@ -157,12 +156,10 @@ public class HomeViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
             @Override
             public void onError(Object response) {
-
             }
         });
     }
@@ -193,12 +190,10 @@ public class HomeViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
             @Override
             public void onError(Object response) {
-
             }
         });
     }
@@ -229,12 +224,10 @@ public class HomeViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
             @Override
             public void onError(Object response) {
-
             }
         });
     }

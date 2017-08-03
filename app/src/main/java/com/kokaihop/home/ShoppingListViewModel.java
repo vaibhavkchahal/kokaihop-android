@@ -137,7 +137,7 @@ public class ShoppingListViewModel extends BaseViewModel {
                 }
             }
         }
-        if (((Fragment) datasetListener).isVisible()) {
+        if (!((Fragment) datasetListener).isDetached()) {
             datasetListener.onUpdateIngredientsList(ingredientsList.size());
         }
         EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
@@ -205,7 +205,6 @@ public class ShoppingListViewModel extends BaseViewModel {
             public void onSuccess(Object response) {
                 Activity activity = (Activity) context;
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_deleted_action), context.getString(R.string.buy_list_ingredient_deleted_label));
-
                 SyncIngredientModel model = (SyncIngredientModel) response;
                 shoppingDataManager.updateShoppingIngredientList(model.getRealmObjects());
                 fetchIngredientFromDB();
