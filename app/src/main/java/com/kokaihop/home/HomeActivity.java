@@ -148,6 +148,7 @@ public class HomeActivity extends BaseActivity {
                     UserProfileFragment fragment = (UserProfileFragment) pagerTabAdapter.getItem(PROFILE_TAB_POSITION);
                     fragment.setNotificationCount();
                     fragment.refreshHistory();
+                    fragment.refreshFollowing();
                 }
 
 

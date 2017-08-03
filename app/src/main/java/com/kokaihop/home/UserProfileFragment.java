@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 import java.util.ArrayList;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
+import static com.kokaihop.utility.Constants.TAB_FOLLOWINGS;
 import static com.kokaihop.utility.Constants.TAB_HISTORY;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
@@ -343,6 +345,14 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 setNotificationCount();
             }
         }
+    }
+
+    public void refreshFollowing() {
+        Fragment fragment = adapter.getItem(TAB_FOLLOWINGS);
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        ft.detach(fragment);
+        ft.attach(fragment);
+        ft.commit();
     }
 
     public UserProfileViewModel getUserViewModel() {

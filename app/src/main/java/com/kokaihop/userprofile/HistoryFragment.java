@@ -64,7 +64,8 @@ public class HistoryFragment extends Fragment {
 //        }
     }
 
-    public void refreshHistory(){
-        adapter.displayHistoryChanges();
+    public void refreshHistory() {
+        if (adapter != null)
+            adapter.displayHistoryChanges();
     }
 }
