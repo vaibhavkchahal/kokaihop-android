@@ -52,6 +52,9 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private BottomSheetDialog filterDialog;
     private String courseName, cuisineName, methodName;
     private String courseFriendlyUrl, cuisineFriendlyUrl, methodFriendlyUrl;
+    private int numOfColumnInGrid;
+    private int spanSizeForItemRecipe = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         courseFriendlyUrl = getIntent().getStringExtra(COURSE_FRIENDLY_URL);
         cuisineFriendlyUrl = getIntent().getStringExtra(CUISINE_FRIENDLY_URL);
         methodFriendlyUrl = getIntent().getStringExtra(METHOD_FRIENDLY_URL);
-
         initializeSearchView();
         initialiseSuggestionView();
         intilizeRecyclerView();
@@ -72,38 +74,30 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             @Override
             public void onClick(View v) {
                 GoogleAnalyticsHelper.trackEventAction(getString(R.string.search_category), getString(R.string.search_selected_action), getString(R.string.explore_now_label));
-
                 searchViewModel.setSortBy(getString(R.string.latest));
                 searchViewModel.fetchNewlyAddedRecipeWithAds();
             }
         });
         searchViewModel = new SearchViewModel(this, this);
-
         if (cuisineFriendlyUrl != null) {
             searchViewModel.setCuisineFriendlyUrl(cuisineFriendlyUrl);
             binding.included.textviewCuisine.setText(cuisineName);
             binding.included.textviewCuisine.setBackgroundResource(R.drawable.search_tag_orange);
             binding.included.textviewCuisine.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
             searchViewModel.search();
-        }
-        else if (courseFriendlyUrl != null) {
+        } else if (courseFriendlyUrl != null) {
             searchViewModel.setCourseFriendlyUrl(courseFriendlyUrl);
             binding.included.textviewCategory.setText(courseName);
             binding.included.textviewCategory.setBackgroundResource(R.drawable.search_tag_orange);
             binding.included.textviewCategory.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
-
             searchViewModel.search();
-        }
-
-        else if (methodFriendlyUrl != null) {
+        } else if (methodFriendlyUrl != null) {
             searchViewModel.setMethodFriendlyUrl(methodFriendlyUrl);
             binding.included.textviewCookingMethod.setText(methodName);
             binding.included.textviewCookingMethod.setBackgroundResource(R.drawable.search_tag_orange);
             binding.included.textviewCookingMethod.setTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
-
             searchViewModel.search();
         }
-
         binding.setViewModel(searchViewModel);
         binding.imageviewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +105,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 onBackPressed();
             }
         });
-
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.search_screen));
 
 
@@ -129,25 +122,23 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
         binding.included.linearlytRecentSearch.setVisibility(View.GONE);
         binding.included.rvRecipes.setVisibility(View.VISIBLE);
-
-
         RecyclerView rvRecipes = binding.included.rvRecipes;
-        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(recipeList);
+        numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
+        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(recipeList, numOfColumnInGrid);
         recyclerAdapter.setFromSearchedView(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), numOfColumnInGrid);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                                             @Override
                                             public int getSpanSize(int position) {
                                                 switch (recyclerAdapter.getItemViewType(position)) {
                                                     case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
-                                                        return 2;
+                                                        return numOfColumnInGrid;
                                                     case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
-                                                        return 1;
+                                                        return spanSizeForItemRecipe;
                                                     case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
-                                                        return 2;
-
+                                                        return numOfColumnInGrid;
                                                     case FeedRecyclerAdapter.TYPE_ITEM_SEARCH_COUNT:
-                                                        return 2;
+                                                        return numOfColumnInGrid;
                                                     default:
                                                         return -1;
                                                 }
@@ -173,7 +164,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     private void initializeSearchView() {
-
         TextView searchText = (TextView)
                 binding.searchviewRecipe.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         binding.searchviewRecipe.onActionViewExpanded();
@@ -183,7 +173,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         searchText.setHintTextColor(ContextCompat.getColor(SearchActivity.this, R.color.white));
         binding.searchviewRecipe.setQueryHint(getString(R.string.search_recipes_ingredents));
         binding.searchviewRecipe.setFocusable(false);
-
         try {
             Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
             mCursorDrawableRes.setAccessible(true);
@@ -219,11 +208,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             filterDialog = setDialogConfigration(bindingSearchBottomSheetDialog);
         }
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_filter_screen));
-
-
         bindingSearchBottomSheetDialog.textviewTitle.setText(title);
         RecyclerView recylRecyclerViewFilter = bindingSearchBottomSheetDialog.recyclerViewFilter;
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recylRecyclerViewFilter.setLayoutManager(layoutManager);
         recylRecyclerViewFilter.addItemDecoration(new HorizontalDividerItemDecoration(SearchActivity.this));
@@ -231,8 +217,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 new SearchFilterAdapter.FilterDataItemClickListener() {
                     @Override
                     public void onItemClick(FilterData filterData) {
-
-
                         if (view instanceof TextView) { //Filter selected.
                             trackGAEvent(filterType);
                             TextView textView = (TextView) view;
@@ -246,7 +230,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                                         break;
                                     case CUISINE:
                                         label = getString(R.string.label_cuisine);
-
                                         break;
                                     case METHOD:
                                         label = getString(R.string.label_method);
@@ -268,7 +251,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                         searchViewModel.search();
                     }
                 });
-
         recylRecyclerViewFilter.setAdapter(searchFilterAdapter);
         bindingSearchBottomSheetDialog.textviewClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,7 +262,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     private void trackGAEvent(SearchViewModel.FilterType filterType) {
-
         String label = "";
         switch (filterType) {
             case COURSE:
@@ -288,7 +269,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 break;
             case CUISINE:
                 label = getString(R.string.cuisine_label);
-
                 break;
             case METHOD:
                 label = getString(R.string.method_label);
@@ -323,7 +303,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void updateSearchSuggestions(List<SearchSuggestionRealmObject> searchSuggestionList) {
-
         if (searchSuggestionList != null && searchSuggestionList.size() > 0) {
             binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
             SearchSuggestionAdapter searchSuggestionAdapter = new SearchSuggestionAdapter(searchSuggestionList,
@@ -348,7 +327,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     @Override
     public boolean onQueryTextSubmit(String query) {
         Logger.e("query text submit", query);
-
         searchViewModel.addSearchSuggestion(query);
         updateSearchSuggestions(searchViewModel.getSearchSuggestion());
         searchViewModel.setSearchKeyword(query);
@@ -378,7 +356,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
             binding.included.rvRecipes.setVisibility(View.GONE);
         }
-
         return true;
     }
 

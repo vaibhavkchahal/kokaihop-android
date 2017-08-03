@@ -44,9 +44,11 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private RelativeLayout.LayoutParams layoutParamsRecipeItem;
     private LinearLayout.LayoutParams layoutParamsRecipeDay;
     private boolean fromSearchedView;
+    private int columnsInGrid;
 
-    public FeedRecyclerAdapter(List<Object> list) {
+    public FeedRecyclerAdapter(List<Object> list, int numOfComumnInGrid) {
         recipeListWithAdds = list;
+        this.columnsInGrid = numOfComumnInGrid;
     }
 
     @Override
@@ -74,7 +76,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     4 * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_recycler_recipe_item, parent, false);
             Logger.e("point x", point.x + " point y " + point.y);
-            int width = (point.x - marginInPx) / 2;
+            int width = (point.x - marginInPx) / columnsInGrid;
             float ratio = (float) 3 / 4;
             int height = getHeightInAspectRatio(width, ratio);
             ImageView imageViewRecipe = (ImageView) v.findViewById(R.id.iv_recipe);

@@ -199,7 +199,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                                 imageViewBlurred.setVisibility(View.VISIBLE);
                             }
                             changeMenuItemsIcons(true);
-
                             break;
                         case EXPANDED:
                             toggleLeftRightVisibility(viewPager.getCurrentItem());

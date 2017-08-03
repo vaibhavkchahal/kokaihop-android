@@ -256,8 +256,23 @@ public class AppUtility {
         }
     }
 
-    public static void setDividerHeight(NumberPicker picker, int height) {
+    public static int getColumnsAccToScreenSize() {
+        int numOfColumnInGrid;
+        if (AppUtility.isTablet10Inch(getContext())) {
+            numOfColumnInGrid = 4;
+        } else if (AppUtility.isTablet7Inch(getContext())) {
+            if (AppUtility.isModePortrait(getContext())) {
+                numOfColumnInGrid = 3;
+            } else {
+                numOfColumnInGrid = 5;
+            }
+        } else {
+            numOfColumnInGrid = 2;
+        }
+        return numOfColumnInGrid;
+    }
 
+    public static void setDividerHeight(NumberPicker picker, int height) {
         Context context = picker.getContext();
         java.lang.reflect.Field[] pickerFields = NumberPicker.class.getDeclaredFields();
         for (java.lang.reflect.Field pf : pickerFields) {
