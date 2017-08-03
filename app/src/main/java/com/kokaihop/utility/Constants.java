@@ -35,6 +35,7 @@ public class Constants {
     public static final int TAB_RECIPES = 0;
     public static final int TAB_FOLLOWERS = 1;
     public static final int TAB_FOLLOWINGS = 2;
+    public static final int TAB_HISTORY = 3;
 
     public static final int TAB_OTHER_RECIPES = 0;
     public static final int TAB_OTHER_COOKBOOKS = 1;

@@ -96,7 +96,6 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     @Override
     public void showUserProfile() {
         if (this.isVisible()) {
-
             final TabLayout tabLayout = binding.tabProfile;
             final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
             final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));

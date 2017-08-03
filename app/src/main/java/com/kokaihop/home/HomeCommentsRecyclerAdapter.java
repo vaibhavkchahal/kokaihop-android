@@ -44,9 +44,11 @@ public class HomeCommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         final CommentRealmObject commentRealmObject = commentsList.get(position);
         int commentUsetImageWidth = context.getResources().getDimensionPixelOffset(R.dimen.comment_card_logo_width);
         int commentUsetImageHeight = context.getResources().getDimensionPixelOffset(R.dimen.comment_card_logo_height);
-        if (commentRealmObject.getPayload().getRecipe().getCoverImage() != null) {
-            String imageId = commentRealmObject.getPayload().getRecipe().getCoverImage();
-            holderShowComments.binder.setRecipeImageUrl(CloudinaryUtils.getImageUrl(imageId, String.valueOf(commentUsetImageWidth), String.valueOf(commentUsetImageHeight)));
+        if (commentRealmObject.getPayload().getRecipe() != null) {
+            if (commentRealmObject.getPayload().getRecipe().getCoverImage() != null) {
+                String imageId = commentRealmObject.getPayload().getRecipe().getCoverImage();
+                holderShowComments.binder.setRecipeImageUrl(CloudinaryUtils.getImageUrl(imageId, String.valueOf(commentUsetImageWidth), String.valueOf(commentUsetImageHeight)));
+            }
         }
         holderShowComments.binder.setModel(commentRealmObject);
         holderShowComments.binder.setHandler(new RecipeHandler());

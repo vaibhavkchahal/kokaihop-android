@@ -368,5 +368,8 @@
     <string name="logout">Logout</string>
     <string name="logout_now">Logout now?</string>
     <string name="text_print">Print</string>
+    <string name="my_profile">My Profile</string>
+    <string name="select_unit">Select Unit</string>
+    <string name="invalid_quantity">Invalid Quantity</string>
 
 </resources>

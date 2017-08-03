@@ -39,4 +39,10 @@ public class HistoryDataManager {
         ArrayList<RecipeHistoryRealmObject> historyRealmObjects = (ArrayList<RecipeHistoryRealmObject>) realm.copyFromRealm(realmResult);
         return historyRealmObjects;
     }
+
+    public void deleteHistory() {
+        realm.beginTransaction();
+        realm.where(RecipeHistoryRealmObject.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+    }
 }

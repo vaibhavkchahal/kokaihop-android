@@ -54,7 +54,7 @@
 
         <RelativeLayout android:id="@+id/relative_layout_search"
                         android:layout_width="match_parent"
-                        android:layout_height="32dp"
+                        android:layout_height="40dp"
                         android:layout_below="@id/toolbar_top"
                         android:layout_marginLeft="@dimen/selectcity_sv_margin_left"
                         android:layout_marginRight="@dimen/selectcity_sv_margin_right"

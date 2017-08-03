@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -88,13 +89,15 @@ public class AddIngredientViewModel extends BaseViewModel {
         String ingredientId = activity.getIntent().getStringExtra(Constants.INGREDIENT_ID);
         if (shoppingDataManager != null) {
             if (ingredientName.trim().length() > 0) {
-                float amountInFloat = 0;
-                if (!amount.isEmpty()) {
+                if (!validAmount(amount)) {
+                    Toast.makeText(context, context.getString(R.string.invalid_quantity), Toast.LENGTH_LONG).show();
+                } else {
+                    float amountInFloat = 0;
                     amountInFloat = Float.valueOf(amount);
+                    shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amountInFloat, unitName, unitId);
+                    activity.setResult(Activity.RESULT_OK);
+                    activity.finish();
                 }
-                shoppingDataManager.updateIngredientObject(ingredientId, ingredientName, amountInFloat, unitName, unitId);
-                activity.setResult(Activity.RESULT_OK);
-                activity.finish();
             } else {
                 AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
             }
@@ -110,12 +113,12 @@ public class AddIngredientViewModel extends BaseViewModel {
             AppUtility.showOkDialog(context, context.getString(R.string.please_enter_ingredient), "");
         } else if (nameOfIngredient.length() > 0 && nameOfIngredient.trim().length() == 0) {
             Toast.makeText(context, R.string.text_invalid_ingredient, Toast.LENGTH_LONG).show();
+        } else if (!validAmount(amount)) {
+            Toast.makeText(context, context.getString(R.string.invalid_quantity), Toast.LENGTH_LONG).show();
         } else {
             IngredientsRealmObject ingredientsRealmObject = new IngredientsRealmObject();
             ingredientsRealmObject.setName(nameOfIngredient);
-            if (!amount.isEmpty()) {
-                ingredientsRealmObject.setAmount(Float.valueOf(amount));
-            }
+            ingredientsRealmObject.setAmount(Float.valueOf(amount));
             Calendar calendar = Calendar.getInstance();
             ingredientsRealmObject.setDateCreated(String.valueOf(calendar.getTimeInMillis()));
             ingredientsRealmObject.set_id(String.valueOf(calendar.getTimeInMillis()) + Constants.TEMP_INGREDIENT_ID_SIGNATURE);
@@ -136,6 +139,22 @@ public class AddIngredientViewModel extends BaseViewModel {
         }
     }
 
+    private boolean validAmount(String amount) {
+        if (amount.isEmpty())
+            return false;
+        int decimalIndex = amount.indexOf(".");
+        if (decimalIndex == -1) {
+            if (amount.length() > 7)
+                return false;
+        } else {
+            if (decimalIndex > 7)
+                return false;
+            if (amount.length() - decimalIndex > 3)
+                return false;
+        }
+        return true;
+    }
+
     public void showUnitListDialog(final Context context) {
         DialogIntgredientUnitBinding dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_intgredient_unit, null, false);
         ingredientUnitDialog = setDialogConfigration(dialogBinding);
@@ -150,6 +169,12 @@ public class AddIngredientViewModel extends BaseViewModel {
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 unitDataListener.onUnitPickerValueChange(unitsArray[picker.getValue()]);
                 previousSelectedIndex = picker.getValue();
+            }
+        });
+        ingredientUnitDialog.getWindow().findViewById(R.id.textview_done).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ingredientUnitDialog.dismiss();
             }
         });
         ingredientUnitDialog.show();

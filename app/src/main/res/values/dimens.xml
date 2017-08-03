@@ -469,5 +469,13 @@
     <dimen name="search_recipe_icon_text_margin">12dp</dimen>
     <dimen name="autocancel_dialog_text_size">18sp</dimen>
     <dimen name="cookbook_row_user_name_margin_bottom">8dp</dimen>
+    <dimen name="row_cookbook_username_margin_bottom">8dp</dimen>
+    <dimen name="cookbook_login_image_width">81dp</dimen>
+    <dimen name="cookbook_login_image_height">70dp</dimen>
+    <dimen name="myprofile_login_signup_padding_hor">40dp</dimen>
+    <dimen name="myprofile_signup_button_margin_bottom">60dp</dimen>
+    <dimen name="search_filter_line_spacing">24sp</dimen>
+    <dimen name="search_filter_text_size">18sp</dimen>
+    <dimen name="search_filter_padding">10dp</dimen>
 
 </resources>
