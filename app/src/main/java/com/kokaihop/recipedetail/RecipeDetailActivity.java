@@ -552,6 +552,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         switch (item.getItemId()) {
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
+                List<Object> shareObjectsList = addShareOptions();
+                ShareUsingPrint shareUsingPrint = prepareContentToPrint();
+                shareObjectsList.add(shareUsingPrint);
+                final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList, this);
+                shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+                shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
                 if (recipeDetailPagerAdapter != null && recipeDetailPagerAdapter.getCount() > 0) {
                     // Save this bitmap to a file.
                     File cache = getApplicationContext().getExternalCacheDir();
@@ -565,37 +571,33 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out);
                         out.flush();
                         out.close();
+                        shareAdapter.setShareFile(sharefile);
                     } catch (IOException e) {
                         Log.e("ERROR", String.valueOf(e.getMessage()));
 
                     }
+                }
 //                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
 //                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
 //                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
 //                    shareContents.setImageFile(sharefile);
 //                    shareContents.share();
 //                    CameraUtils.sharePicture(this, imageUrl);
-                    List<Object> shareObjectsList = addShareOptions();
-                    ShareUsingPrint shareUsingPrint = prepareContentToPrint();
-                    shareObjectsList.add(shareUsingPrint);
-                    final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList, this);
-                    shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
-                    shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-                    shareAdapter.setShareFile(sharefile);
-                    // Create alert shareDialog box
-                    shareDialog = new Dialog(this);
-                    shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    shareDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                    ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
-                    shareDialog.setContentView(binding.getRoot());
-                    binding.recyclerviewShare.setAdapter(shareAdapter);
-                    GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
-                    binding.recyclerviewShare.setLayoutManager(layoutManager);
-                    shareDialog.setCanceledOnTouchOutside(true);
-                    shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    shareDialog.show();
-                }
+
+                // Create alert shareDialog box
+                shareDialog = new Dialog(this);
+                shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                shareDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
+                shareDialog.setContentView(binding.getRoot());
+                binding.recyclerviewShare.setAdapter(shareAdapter);
+                GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
+                binding.recyclerviewShare.setLayoutManager(layoutManager);
+                shareDialog.setCanceledOnTouchOutside(true);
+                shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                shareDialog.show();
                 return true;
+
             case R.id.icon_camera:
                 String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
@@ -610,12 +612,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_add_to_cookbook_message));
                 } else {
-                    binding.getViewModel().openCookBookScreen();
+                    this.binding.getViewModel().openCookBookScreen();
                 }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     @NonNull

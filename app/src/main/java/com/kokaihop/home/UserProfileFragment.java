@@ -126,7 +126,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                selectedTabPosition = tabLayout.getSelectedTabPosition();
+                if (tabLayout != null)
+                    selectedTabPosition = tabLayout.getSelectedTabPosition();
                 userViewModel.getUserData();
                 userProfileBinding.srlProfileRefresh.setRefreshing(false);
             }
@@ -335,10 +336,12 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void refreshHistory() {
-        Fragment fragment = adapter.getItem(TAB_HISTORY);
-        if (fragment != null) {
-            ((HistoryFragment) fragment).refreshHistory();
-            setNotificationCount();
+        if (adapter != null) {
+            Fragment fragment = adapter.getItem(TAB_HISTORY);
+            if (fragment != null) {
+                ((HistoryFragment) fragment).refreshHistory();
+                setNotificationCount();
+            }
         }
     }
 
