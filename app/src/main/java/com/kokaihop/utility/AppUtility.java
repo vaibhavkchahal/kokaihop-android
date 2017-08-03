@@ -132,7 +132,6 @@ public class AppUtility {
         int adUnitIdPostion = 0;
         int firstPlaceAdd;
         int itemsPerAdd;
-
         if (AppUtility.isTablet10Inch(getContext())) {
             firstPlaceAdd = Constants.TAB_10_INCH_FIRST_ADD_POSITION;
             itemsPerAdd = Constants.TAB_10_ADD_REPEAT_POSITION;
@@ -149,7 +148,6 @@ public class AppUtility {
             firstPlaceAdd = Constants.PHONE_FIRST_ADD_POSITION;
             itemsPerAdd = Constants.PHONE_ADD_REPEAT_POSITION;
         }
-
         for (int recipeCount = firstPlaceAdd; recipeCount < recipeListWithAdds.size(); recipeCount += itemsPerAdd) {
             if (adUnitIdPostion > 2) {
                 adUnitIdPostion = 0;

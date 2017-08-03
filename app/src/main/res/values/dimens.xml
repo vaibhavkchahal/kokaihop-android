@@ -147,7 +147,7 @@
     <dimen name="iv_comment_margin_right">19.7dp</dimen>
     <dimen name="tv_likes_drawable_padding">8.2dp</dimen>
     <dimen name="recipe_name_width">120dp</dimen>
-    <dimen name="recipe_name_height">40dp</dimen>
+    <dimen name="recipe_name_height">45dp</dimen>
     <dimen name="recipe_likes_margin_left">8dp</dimen>
     <dimen name="padding_left_recipe_like">10dp</dimen>
     <dimen name="padding_right_recipe_right">9dp</dimen>

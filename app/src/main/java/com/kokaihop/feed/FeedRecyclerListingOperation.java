@@ -39,9 +39,8 @@ public class FeedRecyclerListingOperation {
 
     public void prepareFeedRecyclerView() {
         final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds());
-
         if (AppUtility.isTablet10Inch(getContext())) {
-            numOfColumnInGrid = 5;
+            numOfColumnInGrid = 4;
         } else if (AppUtility.isTablet7Inch(getContext())) {
             if (AppUtility.isModePortrait(getContext())) {
                 numOfColumnInGrid = 3;
@@ -51,7 +50,6 @@ public class FeedRecyclerListingOperation {
         } else {
             numOfColumnInGrid = 2;
         }
-
         layoutManager = new GridLayoutManager(getContext(), numOfColumnInGrid);
         layoutManager.setSpanSizeLookup
                 (new GridLayoutManager.SpanSizeLookup() {
