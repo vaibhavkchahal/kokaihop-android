@@ -63,4 +63,8 @@ public class HistoryFragment extends Fragment {
 //            binding.recipeContainer.removeView(noData);
 //        }
     }
+
+    public void refreshHistory(){
+        adapter.displayHistoryChanges();
+    }
 }

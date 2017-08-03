@@ -109,6 +109,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private Menu menu;
     private int currentPagerPosition = 1;
     private Dialog shareDialog;
+    private RecipeRealmObject recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,13 +190,16 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         case COLLAPSED:
                             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
                             binding.viewpagerSwipeRight.setVisibility(View.GONE);
-                            Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
-                            Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
-                                    RenderScript.create(RecipeDetailActivity.this),
-                                    bitmap);
-                            imageViewBlurred.setImageBitmap(bluredBitmap);
-                            imageViewBlurred.setVisibility(View.VISIBLE);
+                            if (imageViewRecipe.getMeasuredHeight() > 0 && imageViewRecipe.getMeasuredWidth() > 0) {
+                                Bitmap bitmap = BlurImageHelper.captureView(imageViewRecipe);
+                                Bitmap bluredBitmap = BlurImageHelper.blurBitmapWithRenderscript(
+                                        RenderScript.create(RecipeDetailActivity.this),
+                                        bitmap);
+                                imageViewBlurred.setImageBitmap(bluredBitmap);
+                                imageViewBlurred.setVisibility(View.VISIBLE);
+                            }
                             changeMenuItemsIcons(true);
+
                             break;
                         case EXPANDED:
                             toggleLeftRightVisibility(viewPager.getCurrentItem());
@@ -221,13 +225,17 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         MenuItem menuItemCamera = menu.findItem(R.id.icon_camera);
         MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
         if (collapsed) {
-            menuItemLike.setIcon(R.drawable.ic_like_md_grey);
+            if (!recipe.isFavorite()) {
+                menuItemLike.setIcon(R.drawable.ic_like_md_grey);
+            }
             menuItemShare.setIcon(R.drawable.ic_share_md_grey);
             menuItemCamera.setIcon(R.drawable.ic_camera_grey);
             menuItemWishlist.setIcon(R.drawable.ic_bookmark_md_grey);
             binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
         } else {
-            menuItemLike.setIcon(R.drawable.ic_like_md);
+            if (!recipe.isFavorite()) {
+                menuItemLike.setIcon(R.drawable.ic_like_md);
+            }
             menuItemShare.setIcon(R.drawable.ic_share_md);
             menuItemCamera.setIcon(R.drawable.ic_camera);
             menuItemWishlist.setIcon(R.drawable.ic_bookmark_md);
@@ -315,6 +323,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             }
         });
         portionDialog.show();
+        AppUtility.setDividerHeight(portionBinding.numberPickerPortion, Constants.NUMBER_PICKER_HEIGHT);
 
     }
 
@@ -415,6 +424,11 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             binding.viewpagerSwipeLeft.setVisibility(View.GONE);
             binding.viewpagerSwipeRight.setVisibility(View.GONE);
         }
+        if (recipeDetailViewModel.getPagerImages().size() == 0) {
+            binding.recipeDetailPlaceholder.setVisibility(View.VISIBLE);
+        } else {
+            binding.recipeDetailPlaceholder.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setToolbar() {
@@ -463,6 +477,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void setInitialRecipeLikeState(RecipeRealmObject recipe, MenuItem menuItemLike) {
+        this.recipe = recipe;
         if (recipe.isFavorite) {
             menuItemLike.setIcon(R.drawable.ic_like_sm);
             menuItemLike.setChecked(recipe.isFavorite);
@@ -530,7 +545,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         switch (item.getItemId()) {
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
-                if (recipeDetailPagerAdapter.getCount() > 0) {
+                if (recipeDetailPagerAdapter != null && recipeDetailPagerAdapter.getCount() > 0) {
                     // Save this bitmap to a file.
                     File cache = getApplicationContext().getExternalCacheDir();
                     File sharefile = new File(cache, "recipe.jpg");

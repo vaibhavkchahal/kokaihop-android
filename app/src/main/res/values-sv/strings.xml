@@ -16,13 +16,6 @@
     <string name="or_login_text">eller logga in med e-post</string>
     <string name="signup_now_text">Bli medlem gratis, registrera dig här</string>
     <string name="invalid_email">Ange en giltig e-postadress</string>
-    <string name="password_validation_msg">Password must have atleast seven characters</string>
-    <string name="failed_login">Login Failed</string>
-    <string name="failed">Failed</string>
-    <string name="forgot_success_msg">Instructions on how to reset your password has been sent to
-        your e-mail.
-    </string>
-
     <string name="incorrect_email_passwd">E-post eller lösenord är fel. Vänligen försök igen</string>
     <string name="user_already_exists">En användare med e-postadressen du uppgett finns redan.
     </string>
@@ -102,17 +95,11 @@
     <string name="signup_dialog_message">Som inloggad se du här dina fölijare, din sökhistorik och dina inställningar.
     </string>
     <string name="login_comment_message">Du behöver vara inloggad för att kommentera recept</string>
-    <string name="login_reply_on_comment_message">You need to logged in to reply on comment</string>
     <string name="login_rating_message">Du behöver vara inloggad för att betygsätt ett recept</string>
     <string name="members_area">Medlemsfunktion</string>
     <string name="login_like_message">Du behöver vara inloggad för att markera receptet som favorit</string>
-    <string name="login_upload_pic_message">You need to logged in to upload a recipe image</string>
-    <string name="login_add_to_cookbook_message">You need to logged in to add a recipe to cookbook</string>
-
     <string name="welcome_text">Nu kan du spara, dela och kommentera recept. Lycka till i köket</string>
-    <string name="like_to_rate_text">Would you like to rate your yum experience?</string>
     <string name="write_a_comment_text">Skriv din kommentar här...</string>
-    <string name="text_upload_image_to_recipe">upload image to recipe</string>
     <string name="portion_text">Portioner</string>
     <string name="text_created">Skapat</string>
     <string name="text_by">av</string>
@@ -134,60 +121,32 @@
     <string name="settings">Inställningar</string>
     <string name="new_password">Nytt lösenord</string>
     <string name="confirm_password">Bekräfta lösenord</string>
-    <string name="password_not_confirmed_msg">Password didn\'t match</string>
     <string name="password_updated">Password Updated Successfully</string>
-    <string name="password_not_updated">Password cannot be Updated</string>
     <string name="email_preferences">E-post</string>
     <string name="today_s_recipes_motion">Dagens recept</string>
     <string name="drinking_tips">Dryckestips, alkoholrelaterade utskick och partnererbjudanden</string>
     <string name="no_email">Jag vill inte ta emot nyhetsbrev</string>
-    <string name="settings_updated">Settings Updated</string>
-    <string name="settings_not_updated">Settings Can\'t be updated</string>
     <string name="change_profile_photo">Ändra profilbild</string>
-    <string name="choose_profile_pic">Choose Profile Picture</string>
     <string name="take_photo">Ta bild</string>
     <string name="choose_from_library">Välj från kamerarulle</string>
     <string name="add_photo">Välj ett alternativ</string>
-    <string name="select_file">Select File</string>
-    <string name="sd_card_error">Please check SD card</string>
 
     <!-- comments -->
     <string name="view_all_comments">Visa alla kommentarer</string>
     <string name="write_a_comment">Skriv din kommentar här...</string>
-    <string name="hint_text_reply_comment">Reply to</string>
-    <string name="text_send">Send</string>
     <string name="email_share_content">
         <![CDATA[<b>Jag vill tipsa dig om ett bra recept från kokaihop.se!</b> <br/> %1$s <br/> Läs receptet här : <a href="https://www.kokaihop.se/%2$s">%3$s</a> <br/> <br/>Ladda ned från: <br/> http://onelink.to/f6n497]]></string>
-
-    <string name="profile_pic_uploaded">Profile Picture uploaded Successfully</string>
-    <string name="recipe_image">Recipe Image</string>
-    <string name="follow_success">Follow Successful</string>
-    <string name="unfollow_success">Unfollow Successful</string>
-
-
     <string name="recipe">"Recept "</string>
     <string name="by">"av "</string>
-    <string name="city_updated">City updated successfully</string>
-    <string name="city_updation_failed">Error while updating city</string>
-    <string name="profile_pic_upload_success">Profile Picture uploaded Successfully</string>
-    <string name="profile_pic_upload_failed">Error while updating profile picture</string>
     <string name="cookbooks_login_msg1">Spara dina favoriter recept i kokböcker</string>
     <string name="cookbooks_login_msg2">Här kan du organisera dina sparade recept om du loggar in. Ett smart och enkelt sätt att planera vardag och fest</string>
     <string name="my_cookbooks">Mina samlingar</string>
     <string name="create">Skapa</string>
     <string name="recipe_count">" Recept"</string>
-    <string name="empty_comment_msg">comment cannot be empty</string>
     <string name="rating_dialog_text">Tack för att du betygsatt receptet en \n a</string>
     <string name="text_reply">Svara</string>
     <string name="replied_text">" svarade"</string>
     <string name="text_and">" and "</string>
-    <string name="newly_added_recipe">
-        <b>Newely Added Recipe</b>
-    </string>
-    <string name="explore_now">
-        <b>Explore Now</b>
-    </string>
-
     <string name="label_course">Rätt</string>
     <string name="label_cuisine">Kök</string>
     <string name="label_method">Tillagning</string>
@@ -224,13 +183,7 @@
     <string name="create_new_cookbook">Skapa ny samling</string>
     <string name="rename_cookbook">Döp om samling</string>
     <string name="cookbook_name">samlingens namn</string>
-    <string name="cookbook_created">Cookbook Created successfully</string>
-    <string name="cookbook_renamed">Cookbook Renamed successfully</string>
-    <string name="cookbook_login_msg">"You need to logged in to create cookbook"</string>
     <string name="follow_login_msg">"Du behöver vara inloggad för att follow someone"</string>
-    <string name="are_you_sure_you_want_to_delete_this_cookbook">Are you sure you want to delete
-        this cookbook?
-    </string>
     <string name="this_will_permanently_delete">"Detta kommer att permanent ta bort "</string>
     <string name="recipes_in_the_cookbook">" recept från din samling"</string>
     <string name="this_will_delete_the_cookbook_and_its_recipes">
@@ -238,11 +191,8 @@
     </string>
     <string name="the_cookbook">samling</string>
     <string name="delete">Radera</string>
-    <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
     <string name="pick_a_cookbook">Välj en samling</string>
     <string name="recipe_added_to_cookbook">Receptet är sparat i din samling</string>
-    <string name="recipe_removed_from_cookbook">Recipe removed from the cookbook successfully
-    </string>
     <string name="edit">Ändra</string>
     <string name="rename">Döp om"</string>
     <string name="remove">Bekräfta</string>
@@ -286,18 +236,12 @@
     </string>
     <string name="day_ago">yesterday</string>
     <string name="few_seconds_ago">few seconds ago</string>
-    <string name="comment_not_post">Your Message Failed, please Retry</string>
 
     <string name="kommentor_av_text">"Kommentor av "</string>
     <string name="commented_by">
         <![CDATA[<font color=\'#71767f\'>av</font> <font color=\'#f75a15\'>%1$s</font> ]]>
     </string>
     <string name="cookbook">Samling</string>
-    <string name="are_you_sure_you_want_to_delete_this_recipe">Are you sure you want to delete
-        this recipe?
-    </string>
-    <string name="recipes_updated">Recipes Updated</string>
-
 
     <!-- shopping list strings -->
 
@@ -312,22 +256,8 @@
     <string name="please_enter_ingredient">Ange ingrediens</string>
     <string name="add_ingredient"> Lägg till ingrediens</string>
     <string name="enter_ingredient_name">Ange ingrediens</string>
-    <string name="unit">Unit</string>
-    <string name="quantity">Quantity</string>
     <string name="enter">Antal</string>
 
-    <string name="recipe_image_upload_failed">Recipe image upload failed</string>
-    <string name="recipe_image_upload_success">Recipe image uploaded successfully</string>
-    <string name="empty_cookbook_msg">Cookbook name cannot be empty</string>
-    <string name="recipe_unlike_warning">By removing the favorite mark the recipe is also removed
-        from your cookbooks.
-    </string>
-    <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
-    <string name="passsword_warning_space_start_end">Password must not have spaces in the start or
-        end
-    </string>
-    <string name="text_invalid_ingredient">Not a valid ingredient to add.</string>
-    <string name="confirm_upload">Confirm Upload</string>
     <string name="item_added_text">\u0020 produkt (er) har lagts till</string>
     <string name="recipe_detail_coach_mark">Här sparar och delar du receptet, glöm inte att ladda
         upp en bild om du lagat det
@@ -345,552 +275,61 @@
     <string name="logout_now">Vill du verkligen logga ut?</string>
 
 
-
-
+    <string name="password_validation_msg">Lösenorder måste vara minst 7 tecken långt</string>
+    <string name="failed_login">Inloggning misslyckades</string>
+    <string name="failed">Misslyckades</string>
+    <string name="forgot_success_msg">Instruktioner för hur du återställer ditt lösenord har skickats till din e-post.</string>
+    <string name="login_reply_on_comment_message">Du behöver vara inloggad för att svara på en kommentar</string>
+    <string name="like_to_rate_text">Vill du lämna ett betyg?</string>
+    <string name="login_upload_pic_message">Du behöver vara inloggad för att ladda upp en bild till receptet</string>
+    <string name="login_add_to_cookbook_message">Du behöver vara inloggad för att lägga till ett recept i en samling</string>
+    <string name="text_upload_image_to_recipe">ladda up en bild</string>
+    <string name="password_not_confirmed_msg">Lösenorden matchade inte</string>
+    <string name="password_not_updated">Lösenordet kunde inte uppdateras</string>
+    <string name="settings_updated">Inställningarna har uppdaterats</string>
+    <string name="settings_not_updated">Inställningarna kunde inte uppdateras</string>
+    <string name="choose_profile_pic">Välj en profilbild</string>
+    <string name="select_file">Välj en fil</string>
+    <string name="sd_card_error">Kontrollera ditt SD-kort</string>
+    <string name="hint_text_reply_comment">Svara kommentaren</string>
+    <string name="text_send">Skicka</string>
+    <string name="something_went_wrong">Okänt fel, försök igen</string>
+    <string name="profile_pic_uploaded">Profilbilden är nu uppladdad</string>
+    <string name="recipe_image">Receptbild</string>
+    <string name="follow_success">Följ OK</string>
+    <string name="unfollow_success">Avfölj OK</string>
+    <string name="city_updated">Stad har uppdaterats</string>
+    <string name="city_updation_failed">Misslyckades med att uppdatera stad</string>
+    <string name="profile_pic_upload_success">Profilbild uppladdad</string>
+    <string name="profile_pic_upload_failed">Profilbild kunde inte laddas upp</string>
+    <string name="empty_comment_msg">kommentaren får inte vara tom</string>
+    <string name="newly_added_recipe">
+        <b>Nya recept</b>
+    </string>
+    <string name="explore_now">
+        <b>Utforska nu</b>
+    </string>
+    <string name="cookbook_created">Samling skapad</string>
+    <string name="cookbook_renamed">Samlingen har bytt namn</string>
+    <string name="cookbook_login_msg">Logga in för att skapa samlingar</string>
+    <string name="are_you_sure_you_want_to_delete_this_cookbook">Är du säker på att du vill ta bort samlingen?</string>
+    <string name="cookbook_deleted">Samlingen borttagen</string>
+    <string name="recipe_removed_from_cookbook">Receptet är nu borttagen från samlingen</string>
+    <string name="comment_not_post">Din kommentar kunde inte sparas, försök igen</string>
+    <string name="are_you_sure_you_want_to_delete_this_recipe">Är du säker på att du vill ta bort detta recept?</string>
+    <string name="recipes_updated">Recepten har uppdaterats</string>
+    <string name="unit">Enhet</string>
+    <string name="quantity">Antal</string>
+    <string name="recipe_image_upload_failed">Bilden kunde inte laddas upp till receptet</string>
+    <string name="recipe_image_upload_success">Bilden har lagts till receptet</string>
+    <string name="empty_cookbook_msg">Samlingen måste ha ett namn</string>
+    <string name="recipe_unlike_warning">Genom att ta bort favoritmarkeringen på receptet så tas den även bort ur dina kokböcker</string>
+    <string name="title_activity_notification_dialog">NotificationDialogActivity</string>
+    <string name="passsword_warning_space_start_end">Lösenordet får inte börja eller sluta med blanksteg</string>
+    <string name="text_invalid_ingredient">Ogiltlig ingrediens</string>
+    <string name="confirm_upload">Bekräfta uppladdningen</string>
 </resources>
 
-
-
-
-
-
-
-
-   <!--&lt;!&ndash; /* Message to user  that Image upload successfully */
-    "Image Uploaded" = "Bild uppladdad";
-    /* Recipe category MainCourse */
-    "MainCourse" = "Huvudrätt";
-    /* ImagePickerImageSavingFailedTitle */
-    "Save Failed" = "Något gick fel, försök igen.";
-    /* Specification sectionHeader title */
-    "Specification" = "Specifikation";
- /* Message to user  that Image upload failed */
-    "Upload failed" = "Uppladdningen misslyckades";
-    /* Message for password field cannot be blank */
-    "Please enter password" = "Ange lösenord";
-    /* AlertView title string */
-    "Chef" = "Välkommen!";
-    /* Message to user password doesn't match */
-    "Password doesn't match" = "Lösenord stämmer inte";
-
-    /* Message to user  that  changed successfully */
-    "Password changed" = "Lösenordet ändrat";
-
-    /* Message to user  that email setting saved successfully */
-    "Email Prefrences updated" = "E-postinställningar uppdaterade";
-    /* user location to be shown */
-    "Location" = "Ort";
-    /* Message to user  that his location has been updated */
-    "User Location updated" = "Din ort är uppdaterad";
-    /* LogOut AlertView Message */
-    "Log out now?" = "Vill du verkligen logga ut?";
-    /* Message for no items to share */
-    "No Items in list to share" = "Det finns inga varor i listan att dela.";
-    /* Message for no items to edit */
-    "No Items in list to edit" = "Det finns inga varor i listan att redigera.";
-
-    /* Edit List title */
-    "Edit List" = "Redigera lista";
-    /* EditIngredient Controller title */
-    "Edit Ingredient" = "Redigera ingrediens";
-
-    /* AlertViewTitle */
-    "Are you sure you want to delete this recipe ?" = "Är du säker på att du vill ta bort detta recept";
-
-    /* Textfield placeholder name */
-    "cookbook name" = "samling namn";
-
-    /* Action message while rating a recipe */
-    "rate a recipe" = "betygsätt ett recept";
-    /* Action message while commenting a recipe */
-    "comment on recipe" = "kommentera recept";
-
-    /* Action message while liking a recipe */
-    "make a recipe favourite" = "markera receptet som favorit";
-
-    /* Action message while creating a cookbook */
-    "create cookbook" = "skapa kokbok";
-    /* Action message while following somebody */
-    "follow somebody" = "följa någon";
-    /* Action message while sharing */
-    "share" = "dela";
-    /* Action message while uploading image */
-    "add Image to a recipe" = "ladda upp en bild till receptet";
-    /*LoginAlert message string */
-    "You need to be logged in to %@" = "Du behöver vara inloggad för att %@";
-    /* Recipe Filter Show all*/
-    "Show all" = "Visa alla";
-    /* Cookbook NonLogIn Title2 */
-    "You can classify recipes in your own way and refer them later" = "Här kan du organisera dina sparade recept om du loggar in. Ett smart och enkelt sätt att planera vardag och fest";
-    /*Cookbook Login Area */
-    "Login or become a member for free!" = "Logga in eller bli medlem gratis!";
-
-    /*Profile Login Area*/
-    "Login or become a member for free!" = "Logga in eller bli medlem gratis!";
-    /* Profile NonLogIn Title */
-    "As a logged in user you can here see your followers, search history and follow other chefs." = "Här hittar du din sökhistorik, dina följare och inställningar. Men du måste först logga in."
-    /* Title to remove from all collection */
-    "By removing the favorite mark is also the recipe away from your collections." = "Genom att ta bort favoritmarkeringen tas receptet också bort från dina samlingar.";
-    /* Title for internet alert */
-    "Network problems" = "Nätproblem";
-    "Collection" =  "Samlingar";
-    /* Alertview title for Error */
-    "Error" = "Fel";
-    /* UserImageUploaded successfully message */
-    "Image Uploaded" = "bild överförs";
-    /* Retry button title */
-    "Retry" = "Försök igen";
-    /* Reply comment header label Title */
-    "Replying to" = "Svarar";
-    /* Message for Reset Password */
-    "Instructions on how to reset your password has been sent to your e-mail." = "Instruktioner om hur du återställer ditt lösenord har skickats till din e-post";
-    /* Action message while adding a recipe to collection */
-    "add recipe to collection" = "spara receptet till en samling";
-    /* Recipe SavetoCollection message */
-    "The recipe is now saved as favourite, you can also save it to a collection with this button"  = "Receptet är nu sparat som favorit, du kan även spara det i en samling med denna knapp";
-0    /*ImagePickerActionSheetShowProfilePic*/
-    "View Profile Picture" = "Visa profilbild";-->
-
-
-
-
-
-
-
-
-<!--    /* Message to show items added to shoppingCart */
-    "%d item(s) added" = "%d produkt (er) har lagts till";
-
-    /* Add Ingredient title */
-    "+ Add Ingredient" = "+ Lägg till ingrediens";
-
-    /* Following button title */
-    "+ FÖLJ" = "+ FÖLJ";
-
-    /* Add comment button title */
-    "Add Comments" = "Gillade du receptet? Lämna en kommentar här!";
-
-    /* Ingredient added to List */
-    "Add to list" = "Inköpslista";
-
-    /* Cancel button title
-    ImagePickerActionSheetCancel
-    LeftBar cancel button title
-    cancel button title */
-    "Cancel" = "Avbryt";
-
-    /* Change Password view */
-    "Change Password" = "Ändra lösenord";
-
-    /* ImagePickerActionSheetTitle */
-    "Change Profile Photo" = "Ändra profilbild";
-
-    /* ImagePickerActionSheetTitle */
-    "Choose an option!" = "Välj ett alternativ!";
-
-    /* ImagePickerActionSheetCameraRoll */
-    "Choose From Camera Roll" = "Välj från kamerarulle";
-
-    /* Comments sectionHeader title
-    Title for commentView Controller */
-    "Comments" = "Senaste kommentarer";
-
-    /* Confirm Password Placeholder */
-    "Confirm Password" = "Bekräfta lösenord";
-
-    /* Placeholder for cookbook Name */
-    "cookbook name" = "samlingens namn";
-
-    /* Cookbooks segment title */
-    "Cookbooks" = "samlingar";
-
-    /* Create button title
-    Create button title for creating new cookbook
-    Creates new cookbook */
-    "Create" = "Skapa";
-
-    /* AlertView Title */
-    "Create new cookbook" = "Skapa ny samling";
-
-    /* User can chnage Email Prefrences */
-    "Daily Email Preferences" = "E-postinställningar";
-
-    /* Direction sectionHeader title */
-    "Direction" = "Instruktioner";
-
-    /* Done button title
-    RightBar Done button title
-    Done button title */
-    "Done" = "Klar";
-
-    /* Edit List title */
-    "Edit" = "Ändra";
-
-    /* Title for edit profile view
-    User can edit profile */
-    "Edit Profile" = "Redigera profil";
-
-    /* Followers segment title */
-    "Followers" = "Följare";
-
-    /* Followings segment title */
-    "Followings" = "Följer";
-
-    /* Follower button title */
-    "FÖLJER" = "FÖLJER";
-
-    /* History segment title */
-    "History" = "Tittat på";
-
-    /* Message to user  that Image upload successfully */
-    "Image Uploaded" = "Bild uppladdad";
-
-    /* ImagePickerActionSheetTitle */
-    "ImagePickerActionSheetTitle" = "ImagePickerActionSheetTitle";
-
-    /* Ingredients sectionHeader title */
-    "Ingredients" = "Ingredienser";
-
-    /* Shows a logOut Alert */
-    "LogOut" = "Logga ut";
-
-    /* Recipe category MainCourse */
-    "MainCourse" = "Huvudrätt";
-
-    /* Title for cookbook tab */
-    "MyCookbooks" = "Mina samlingar";
-
-    /* UserName Placeholder */
-    "Name" = "namn";
-
-    /* New Password Placeholder */
-    "New Password" = "Nytt lösenord";
-
-    /* Title for Password viewcontroller */
-    "Password" = "Lösenord";
-
-    /* Title text in PickcookbookController */
-    "Pick a Cookbook" = "Välj en samling";
-
-    /* Portion sectionHeader title
-    Scale factor of recipe */
-    "Portion" = "Portioner";
-
-    /* Recipes count */
-    "Recipe(s)" = "Recept";
-
-    /* Recipe segment title */
-    "Recipes" = "Recept";
-
-    /* Number of person replied to comment */
-    "replied" = "svarade";
-
-    /* ImagePickerImageSavingFailedTitle */
-    "Save Failed" = "Något gick fel, försök igen.";
-
-    /* Title text in search DailyRecipe bar */
-    "Search" = "Sök";
-
-    /* Title text in search SearchRecipeView bar */
-    "Search recipes or ingredients" = "Sök recept eller ingredienser";
-
-    /* Title of filter with Course */
-    "Select Course" = "Välj typ av rätt";
-
-    /* Title of filter with Cuisine */
-    "Select Cuisine" = "Välj kök";
-
-    /* Title of filter with Method */
-    "Select Method" = "Välj tillagning";
-
-    /* Settings viewController title */
-    "Settings" = "Inställningar";
-
-    /* ShoppingList title */
-    "Shopping List" = "Inköpslista";
-
-    /* SimilarRecipes sectionHeader title */
-    "SimilarRecipes" = "Liknande recept";
-
-    /* Title of filter with Sort by */
-    "Sort by" = "Sortera efter";
-
-    /* Specification sectionHeader title */
-    "Specification" = "Specifikation";
-
-    /* ImagePickerActionSheetTakePic */
-    "Take Picture" = "Ta bild";
-
-    /* Message for recipe added to Cookbook */
-    "The recipe has been added to cookbook" = "Receptet är sparat i din samling";
-
-    /* Message to user  that Image upload failed */
-    "Upload failed" = "Uppladdningen misslyckades";
-
-    /* Button title to show all comments */
-    "View all %d comments" = "Visa alla %d kommentarer";
-
-    /* Comment Place holder */
-    "Write a comment ..." = "Skriv din kommentar här...";
-
-    /* PlaceholderString for user Email */
-    "Email" = "E-post";
-
-    /* Message for a valid Email */
-    "Please enter a valid email" = "Ange en giltig e-postadress";
-
-    /* Message for password field cannot be blank */
-    "Please enter password" = "Ange lösenord";
-
-    /* AlertView title string */
-    "Chef" = "Välkommen!";
-
-    /* AlertView message string */
-    "Welcome to kokaihop.se!" = "Nu kan du spara, dela och kommentera recept. Lycka till i köket!";
-
-    /* Forgot Password viewcontroller title */
-    "Forgot Password" = "Glömt lösenord";
-
-    /* Badge type AppetizerOfday */
-    "APPETIZER_OF_THE_DAY" = "Dagens förrätt";
-
-    /* Badge type RecipeOfDay */
-    "RECIPE_OF_THE_DAY" = "Dagens recept";
-
-    /* Badge type CookieOfDay */
-    "COOKIE_OF_THE_DAY" = "Dagens kaka";
-
-    /* Badge type DessertOfDay*/
-    "DESSERT_OF_THE_DAY" = "Dagens dessert";
-
-    /* Badge type MainCourseOfDay */
-    "MAIN_COURSE_OF_THE_DAY" = "Dagens huvudrätt";
-
-    /* FBadge type vegetarianOfTheDay*/
-    "VEGETARIAN_OF_THE_DAY" = "Dagens vegetariska";
-
-
-    /* Message to user password doesn't match */
-    "Password doesn't match" = "Lösenord stämmer inte";
-
-    /* Message to user  that  changed successfully */
-    "Password changed" = "Lösenordet ändrat";
-
-    /* TitleForEmailPrefrences*/
-    "EmailPrefrences" = "E-post";
-
-    /* Show todays recipe mails*/
-    "Today's Recipes Motion" = "Dagens recept";
-
-    /* Drinking and Alcohol mails*/
-    "Drinking Tips and alcohol-related mailings" = "Dryckestips, alkoholrelaterade utskick och partnererbjudanden";
-
-    /* No Emails Should be received*/
-    "I do not want to receive newsletters" = "Jag vill inte ta emot nyhetsbrev";
-
-    /* Message to user  that email setting saved successfully */
-    "Email Prefrences updated" = "E-postinställningar uppdaterade";
-
-    /* user location to be shown */
-    "Location" = "Ort";
-
-    /* Message to user  that his location has been updated */
-    "User Location updated" = "Din ort är uppdaterad";
-
-    /* LogOut AlertView Message */
-    "Log out now?" = "Vill du verkligen logga ut?";
-
-    /* Message for no items to share */
-    "No Items in list to share" = "Det finns inga varor i listan att dela.";
-
-    /* Message for no items to edit */
-    "No Items in list to edit" = "Det finns inga varor i listan att redigera.";
-
-    /* LeftBarbuttonTitle */
-    "DeleteAll" = "Radera allt";
-
-    /* Edit List title */
-    "Edit List" = "Redigera lista";
-
-    /* AlertViewTitle */
-    "Are you sure you want to delete all Items ?" = "Är du säker på att du vill ta bort alla artiklar?";
-
-    /* EditIngredient Controller title */
-    "Edit Ingredient" = "Redigera ingrediens";
-
-    /* AddIngredient Controller title */
-    "Add Ingredient" = "Lägg till ingrediens";
-
-    /* Ingredient cant be left blank */
-    "Please enter Ingredient" = "Ange ingrediens";
-
-    /* Placeholder for quantity */
-    "Enter" = "Antal";
-
-    /* Placeholder for Ingredient */
-    "Enter Ingredient" = "Ange ingrediens";
-
-
-    /* Title for alert to rename cookbook */
-    "Rename cookbook" = "Döp om samling";
-
-    /* AlertViewTitle */
-    "Are you sure you want to delete this recipe ?" = "Är du säker på att du vill ta bort detta recept";
-
-    /* Rename button title */
-    "Rename" = "Döp om";
-
-    /* cookbook Alert title */
-    "Cookbook" = "Samling";
-
-    /* Textfield placeholder name */
-    "cookbook name" = "samling namn";
-
-    /* Delete Recipe Alert Message
-    Delete cookbook Alert Message */
-
-    "Delete" = "Radera";
-
-    /* AlertView message string */
-    "This will permanently delete %d recipes in the cookbook." = "Detta kommer att permanent ta bort %d recept från din samling";
-
-
-    /* AlertView message string */
-    "This will permanently delete the cookbook." = "Detta kommer att permanent ta bort samling";
-
-    /* AlertView title string */
-    "Are you sure you want to delete this cookbook?" = "Är du säker på att du vill ta bort samling";
-
-    /* AlertView message string */
-    "This will permanently delete %d recipes in the cookbook" = "Detta kommer att permanent ta bort %d recept från din samling ";
-
-    /* Select Unit title */
-    "Select" = "Välj";
-
-    /* Title for reply button */
-    "Reply" = "Svara";
-
-    /* Action message while rating a recipe */
-    "rate a recipe" = "betygsätt ett recept";
-
-    /* Action message while commenting a recipe */
-    "comment on recipe" = "kommentera recept";
-
-    /* Action message while liking a recipe */
-    "make a recipe favourite" = "markera receptet som favorit";
-
-    /* Action message while creating a cookbook */
-    "create cookbook" = "skapa kokbok";
-
-    /* Action message while following somebody */
-    "follow somebody" = "följa någon";
-
-    /* Action message while sharing */
-    "share" = "dela";
-
-    /* Action message while uploading image */
-    "add Image to a recipe" = "ladda upp en bild till receptet";
-
-    /* Action message while accessing profile */
-    "access profile" = "Medlemskap";
-
-    /* Action message while accessing profile */
-    "Log in" = "Logga in";
-
-    /* MemberArea alertView titkle */
-    "Members area" = "Medlemsfunktion";
-
-    /*LoginAlert message string */
-    "You need to be logged in to %@" = "Du behöver vara inloggad för att %@";
-
-    /* Recipe filter type course */
-    "Course" = "Rätt";
-
-    /* Recipe filter type cuisine */
-    "Cuisine" = "Kök";
-
-    /* Recipe filter type method */
-    "Method" = "Tillagning";
-
-    /* Recipe Filter Show all*/
-    "Show all" = "Visa alla";
-
-    /*Cookbook NonLogIn Title1*/
-    "Save your favourites recipes in cookbooks" = "Spara dina favoriter recept i kokböcker";
-
-    /* Cookbook NonLogIn Title2 */
-    "You can classify recipes in your own way and refer them later" = "Här kan du organisera dina sparade recept om du loggar in. Ett smart och enkelt sätt att planera vardag och fest";
-
-    /*Cookbook Login Area */
-    "Login or become a member for free!" = "Logga in eller bli medlem gratis!";
-
-    /*Profile Login Area*/
-    "Login or become a member for free!" = "Logga in eller bli medlem gratis!";
-
-    /* Profile NonLogIn Title */
-    "As a logged in user you can here see your followers, search history and follow other chefs." = "Här hittar du din sökhistorik, dina följare och inställningar. Men du måste först logga in.";
-
-    /* SignUp button title */
-    "Sign up" = "Bli medlem";
-
-    /*Remove button title */
-    "Remove" = "Bekräfta";
-
-    /* Title to remove from all collection */
-    "By removing the favorite mark is also the recipe away from your collections." = "Genom att ta bort favoritmarkeringen tas receptet också bort från dina samlingar.";
-
-    /* Title for internet alert */
-    "Network problems" = "Nätproblem";
-    "Collection" =  "Samlingar";
-
-
-    /* Alertview message for user not registered */
-    "Email or password is incorrect. Please try again." = "E-post eller lösenord är fel. Vänligen försök igen";
-
-    /* Alertview message for user registered */
-    "A user with the email address you provided already exists" = "En användare med e-postadressen du uppgett finns redan.";
-
-    /* Alertview title for Error */
-    "Error" = "Fel";
-
-    /* UserImageUploaded successfully message */
-    "Image Uploaded" = "bild överförs";
-
-    /* Retry button title */
-    "Retry" = "Försök igen";
-
-    /* Message to user to show recipes with Images only */
-    "Showing only recipes with images" = "Visar endast recept med bild";
-
-    /* Message to user  to show all recipes */
-    "Showing all recipes" = "Visar all recept";
-
-    /* Message to show recipe rating */
-    "Thanks for rating the recipe a %.0f" = "Tack för att du betygsatt receptet en %.0f á";
-
-    /* Clear marked items */
-    "Clear marked" = "Rensa markerade";
-
-    /* Clear mark title */
-    "You must first mark an item to clear" = "Du måste först markera minst en rad för att rensa";
-
-    /* Reply comment header label Title */
-    "Replying to" = "Svarar";
-
-    /* Message for Reset Password */
-    "Instructions on how to reset your password has been sent to your e-mail." = "Instruktioner om hur du återställer ditt lösenord har skickats till din e-post";
-
-    /* Action message while adding a recipe to collection */
-    "add recipe to collection" = "spara receptet till en samling";
-
-    /* Recipe SavetoCollection message */
-    "The recipe is now saved as favourite, you can also save it to a collection with this button"  = "Receptet är nu sparat som favorit, du kan även spara det i en samling med denna knapp";
-
-    /*ImagePickerActionSheetShowProfilePic*/
-    "View Profile Picture" = "Visa profilbild";
-
-    /*1 of 10*/
-    "%d of %d" = "%d av %d";-->
 
 
 

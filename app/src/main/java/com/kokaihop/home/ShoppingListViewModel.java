@@ -2,6 +2,7 @@ package com.kokaihop.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -136,7 +137,9 @@ public class ShoppingListViewModel extends BaseViewModel {
                 }
             }
         }
-        datasetListener.onUpdateIngredientsList(ingredientsList.size());
+        if (((Fragment) datasetListener).isVisible()) {
+            datasetListener.onUpdateIngredientsList(ingredientsList.size());
+        }
         EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));
     }
 

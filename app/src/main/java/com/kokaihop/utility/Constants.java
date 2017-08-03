@@ -13,6 +13,13 @@ public class Constants {
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String AUTHORIZATION_BEARER = "Bearer ";
     public static final String USER_ID = "userId";
+    public static final String COURSE_NAME = "courseName";
+    public static final String COURSE_FRIENDLY_URL = "courseFriendlyUrl";
+    public static final String CUISINE_FRIENDLY_URL = "cuisineFriendlyUrl";
+    public static final String CUISINE_NAME = "cuisineName";
+    public static final String METHOD_NAME = "methodName";
+    public static final String METHOD_FRIENDLY_URL = "methodFriendlyUrl";
+
     public static final String FRIENDLY_URL = "friendlyUrl";
     public static final String RECIPE_POSITION = "recipePosition";
     public static final String LOGIN_TYPE = "loginType";
@@ -28,6 +35,7 @@ public class Constants {
     public static final int TAB_RECIPES = 0;
     public static final int TAB_FOLLOWERS = 1;
     public static final int TAB_FOLLOWINGS = 2;
+    public static final int TAB_HISTORY = 3;
 
     public static final int TAB_OTHER_RECIPES = 0;
     public static final int TAB_OTHER_COOKBOOKS = 1;
@@ -89,6 +97,7 @@ public class Constants {
     public static final String COMMENTS_TIME_STAMP = "COMMENTS_TIME_STAMP";
     public static final String COOKBOOK_TIME_STAMP = "COOKBOOK_TIME_STAMP";
 
+    public static final int NUMBER_PICKER_HEIGHT = 1;
 
     // tablet support recipe columns constants on home
     public static final int TAB_10_INCH_FIRST_ADD_POSITION = 5;

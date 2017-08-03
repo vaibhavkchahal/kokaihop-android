@@ -263,7 +263,7 @@
     <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
     <string name="pick_a_cookbook">Pick a Cookbook</string>
     <string name="recipe_added_to_cookbook">The recipe has been added to cookbook</string>
-    <string name="recipe_removed_from_cookbook">The Recipe has bee removed from the cookbook successfully
+    <string name="recipe_removed_from_cookbook">The Recipe has been removed from the cookbook successfully
     </string>
     <string name="edit">Edit</string>
     <string name="rename">Rename</string>
@@ -327,7 +327,7 @@
     <string name="text_shopping_list">Shopping List</string>
     <string name="text_add_ingredient">Add Ingredient</string>
     <string name="text_select">Select</string>
-    <string name="delete_all">DeleteAll</string>
+    <string name="delete_all">Delete All</string>
     <string name="delete_all_ingredient_msg">Are you sure you want to delete all items ?</string>
     <string name="mark_message">You must first mark an item to clear</string>
     <string name="obs_text">OBS!</string>
@@ -361,12 +361,15 @@
     <string name="user_profile_coach_mark">Här hittar du recept du tittat på tidigare men kanske
         inte sparat
     </string>
-    <string name="clear_marked">Clear marked</string>
+    <string name="clear_marked">Clear Marked</string>
     <string name="user">User</string>
     <string name="shopping_list">Shopping List</string>
     <string name="edit_list">Edit List</string>
     <string name="logout">Logout</string>
     <string name="logout_now">Logout now?</string>
     <string name="text_print">Print</string>
+    <string name="my_profile">My Profile</string>
+    <string name="select_unit">Select Unit</string>
+    <string name="invalid_quantity">Invalid Quantity</string>
 
 </resources>

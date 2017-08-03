@@ -245,6 +245,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
                 viewModel.getShoppingDataManager().deleteIngredientObjectFromDB(ids);
                 viewModel.fetchIngredientFromDB();
                 viewModel.deleteIngredientOnServer();
+
                 GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category), getString(R.string.buy_list_emptied_action));
 
             }

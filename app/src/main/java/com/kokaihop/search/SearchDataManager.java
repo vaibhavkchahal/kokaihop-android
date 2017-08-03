@@ -184,6 +184,13 @@ public class SearchDataManager {
                         recipeList.addAll(ratingLessThan5List);
                         recipeList.addAll(ratingNullList);
                         onCompleteListener.onSearchComplete(recipeList);
+                    } else if (!sortBy.isEmpty() && sortBy.equals(context.getResources().getString(R.string.comments))) {
+                        List<RecipeRealmObject> notNullCommentsCounter = recipeRealmResult.where().isNotNull("counter").findAllSorted("counter.comments", Sort.DESCENDING);
+                        List<RecipeRealmObject> nullCommentsCounter = recipeRealmResult.where().isNull("counter").findAll();
+                        List<RecipeRealmObject> recipeList = new ArrayList<>();
+                        recipeList.addAll(notNullCommentsCounter);
+                        recipeList.addAll(nullCommentsCounter);
+                        onCompleteListener.onSearchComplete(recipeList);
                     } else {
                         onCompleteListener.onSearchComplete(recipeRealmResult);
                     }

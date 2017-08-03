@@ -67,7 +67,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
             new ProfileApiHelper().getCookbooksOfUser(getUserId(), getOffset(), getMax(), new IApiRequestComplete() {
                 @Override
                 public void onSuccess(Object response) {
-
+                    setProgressVisible(false);
                     ResponseBody responseBody = (ResponseBody) response;
                     try {
                         final JSONObject jsonObject = new JSONObject(responseBody.string());
@@ -75,16 +75,13 @@ public class MyCookbooksViewModel extends BaseViewModel {
                         profileDataManager.insertOrUpdateCookbooksUsingJSON(recipes, getUserId(), friendlyUrl);
                         setTotalCount(jsonObject.getInt("total"));
                         fetchCookbooksFromDB();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
+                    } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
 
                     if (getOffset() + getMax() >= getTotalCount()) {
                         setDownloading(false);
                     }
-                    setProgressVisible(false);
                     fetchCookbooksFromDB();
                 }
 
@@ -114,7 +111,7 @@ public class MyCookbooksViewModel extends BaseViewModel {
     }
 
     private void showUserProfile() {
-        if(fragment.isVisible()){
+        if (fragment.isVisible()) {
             ((MyCookbooksFragment) fragment).showUserProfile();
         }
     }
