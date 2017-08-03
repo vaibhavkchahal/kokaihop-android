@@ -112,14 +112,14 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                 @Override
                 public void onFailure(String message) {
                     Logger.e("Error", message);
-                    userDataListener.showUserProfile();
+//                    userDataListener.showUserProfile();
                     setDownloading(false);
                     setProgressVisible(false);
                 }
 
                 @Override
                 public void onError(FollowingFollowersApiResponse response) {
-                    userDataListener.showUserProfile();
+//                    userDataListener.showUserProfile();
                     setDownloading(false);
                     setProgressVisible(false);
                 }
@@ -133,7 +133,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         followingList = profileDataManager.fetchFollowingList(userId);
         user.getFollowingList().clear();
         user.getFollowingList().addAll(followingList);
-        if (((Fragment) userDataListener).isVisible())
+        Fragment fragment = ((Fragment) userDataListener);
+        if (fragment != null && !fragment.isDetached())
             userDataListener.showUserProfile();
     }
 
@@ -185,7 +186,8 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         followersList = profileDataManager.fetchFollowersList(userId);
         user.getFollowersList().clear();
         user.getFollowersList().addAll(followersList);
-        if (((Fragment) userDataListener).isVisible())
+        Fragment fragment = ((Fragment) userDataListener);
+        if (fragment != null && !fragment.isDetached())
             userDataListener.showUserProfile();
 
     }

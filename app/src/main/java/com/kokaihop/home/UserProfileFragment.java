@@ -348,11 +348,13 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void refreshFollowing() {
-        Fragment fragment = adapter.getItem(TAB_FOLLOWINGS);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.detach(fragment);
-        ft.attach(fragment);
-        ft.commit();
+        if (adapter != null) {
+            Fragment fragment = adapter.getItem(TAB_FOLLOWINGS);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.detach(fragment);
+            ft.attach(fragment);
+            ft.commit();
+        }
     }
 
     public UserProfileViewModel getUserViewModel() {

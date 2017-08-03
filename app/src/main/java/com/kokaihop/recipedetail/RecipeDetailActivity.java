@@ -211,6 +211,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                             imageViewBlurred.setVisibility(View.INVISIBLE);
                             changeMenuItemsIcons(false);
                             break;
+                        case SCROLL_UP:
+                            changeMenuItemsIcons(true);
                     }
                 } else {
                     switch (state) {
@@ -599,11 +601,11 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 return true;
 
             case R.id.icon_camera:
+                recipeDetailViewModel.getRecipeDetails();
                 String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
                 } else {
-                    currentPagerPosition = viewPager.getCurrentItem() + 1;
                     CameraUtils.selectImage(this);
                 }
                 return true;
@@ -680,6 +682,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     @Override
     public void onCounterUpdate() {
+        currentPagerPosition = viewPager.getCurrentItem() + 1;
         if (viewPager.getAdapter().getCount() > 0) {
             binding.txtviewPagerProgress.setText(currentPagerPosition + "/" + recipeDetailViewModel.getPagerImages().size());
 
@@ -704,11 +707,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                imageUri = data.getData();
-                filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
-                Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
-                confirmIntent.setData(imageUri);
-                startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+                if (data != null) {
+                    imageUri = data.getData();
+                    filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
+                    Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                    confirmIntent.setData(imageUri);
+                    startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+                }
             } else {
                 filePath = CameraUtils.onCaptureImageResult();
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);

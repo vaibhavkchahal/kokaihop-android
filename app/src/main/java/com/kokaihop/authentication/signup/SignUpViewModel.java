@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
+import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
 
@@ -43,6 +45,7 @@ public class SignUpViewModel extends BaseViewModel {
     private SignUpSettings signUpSettings;
     private int newsletter;
     private int suggestion;
+    private boolean precessingRequest = false;
     public static final int REQUEST_CODE = 10;
 
     @Bindable
@@ -109,49 +112,55 @@ public class SignUpViewModel extends BaseViewModel {
         this.notifyPropertyChanged(BR.password);
     }
 
-    public void signup(View view) {
-        final Context context = view.getContext();
-        final Activity activity = (Activity) view.getContext();
-
-        if (signUpValidations(context)) return;
-        setProgressVisible(true);
-        signUpSettings = new SignUpSettings(newsletter, suggestion);
-        signUpRequest = new SignUpRequest(cityLocation, userName, name, password, signUpSettings, "");
-        new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
-            @Override
-            public void onSuccess(AuthenticationApiResponse response) {
-                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 1);
-                setProgressVisible(false);
-                SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
-                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
-                SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
-                Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
+    public void signup(final View view) {
+        if (!precessingRequest) {
+            final Context context = view.getContext();
+            final Activity activity = (Activity) view.getContext();
+            if (signUpValidations(context)) return;
+            setProgressVisible(true);
+            signUpSettings = new SignUpSettings(newsletter, suggestion);
+            signUpRequest = new SignUpRequest(cityLocation, userName, name, password, signUpSettings, "");
+            precessingRequest = true;
+            new AuthenticationApiHelper(view.getContext()).signup(signUpRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
+                @Override
+                public void onSuccess(AuthenticationApiResponse response) {
+                    GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 1);
+                    setProgressVisible(false);
+                    SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                    SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                    SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                    Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
 //                boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
-                String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
-                if (from != null && from.equals("loginRequired")) {
-                    EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
-                    Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
-                    ((SignUpActivity) context).setResult(Activity.RESULT_OK);
-                    ((SignUpActivity) context).finish();
-                } else {
-                    AppUtility.showHomeScreen(context);
+                    String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
+                    if (from != null && from.equals("loginRequired")) {
+                        EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
+                        Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
+                        ((SignUpActivity) context).setResult(Activity.RESULT_OK);
+                        ((SignUpActivity) context).finish();
+                    } else {
+                        AppUtility.showHomeScreen(context);
+                    }
+                    precessingRequest = false;
                 }
-            }
 
-            @Override
-            public void onFailure(String message) {
-                setProgressVisible(false);
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 0);
-            }
+                @Override
+                public void onFailure(String message) {
+                    setProgressVisible(false);
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 0);
+                    precessingRequest = false;
+                }
 
-            @Override
-            public void onError(AuthenticationApiResponse response) {
-                setProgressVisible(false);
-                String message = response.getErrorEmail().getDetail().getMessage();
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onError(AuthenticationApiResponse response) {
+                    setProgressVisible(false);
+                    String message = response.getErrorEmail().getDetail().getMessage();
+                    Logger.e("Text", ((Button) view).getText().toString() + "");
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    precessingRequest = false;
+                }
+            });
+        }
     }
 
     private boolean signUpValidations(Context context) {
@@ -190,57 +199,58 @@ public class SignUpViewModel extends BaseViewModel {
 
 
     public void signUpWithFacebook(View view) {
-        final Context context = view.getContext();
-        FacebookAuthentication authentication = new FacebookAuthentication();
-        authentication.facebookLogin(view, new FacebookAuthentication.FacebookResponseCallback() {
-            @Override
-            public void onSuccess(FacebookAuthRequest facebookAuthRequest) {
-                setProgressVisible(true);
-                new AuthenticationApiHelper(context).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
-                    @Override
-                    public void onSuccess(AuthenticationApiResponse response) {
-                        SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
-                        if (response.getUserAuthenticationDetail() != null) {
-                            SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
-                            SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
-                            SharedPrefUtils.setSharedPrefStringData(context, Constants.LOGIN_TYPE, Constants.FACEBOOK_LOGIN);
-                        }
-                        setProgressVisible(false);
-                        Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
+        if (!precessingRequest) {
+            final Context context = view.getContext();
+            FacebookAuthentication authentication = new FacebookAuthentication();
+            authentication.facebookLogin(view, new FacebookAuthentication.FacebookResponseCallback() {
+                @Override
+                public void onSuccess(FacebookAuthRequest facebookAuthRequest) {
+                    setProgressVisible(true);
+                    new AuthenticationApiHelper(context).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
+                        @Override
+                        public void onSuccess(AuthenticationApiResponse response) {
+                            SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                            if (response.getUserAuthenticationDetail() != null) {
+                                SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
+                                SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
+                                SharedPrefUtils.setSharedPrefStringData(context, Constants.LOGIN_TYPE, Constants.FACEBOOK_LOGIN);
+                            }
+                            setProgressVisible(false);
+                            Toast.makeText(context, R.string.signup_success, Toast.LENGTH_SHORT).show();
 //                        boolean isComingFromLike = ((SignUpActivity) context).getIntent().getBooleanExtra("isComingFromLike", false);
-                        String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
-                        if (from != null && from.equals("loginRequired")) {
-                            EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
-                            ((SignUpActivity) context).setResult(Activity.RESULT_OK);
-                            ((SignUpActivity) context).finish();
-                            Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
-                        } else {
-                            AppUtility.showHomeScreen(context);
+                            String from = ((SignUpActivity) context).getIntent().getStringExtra(EXTRA_FROM);
+                            if (from != null && from.equals("loginRequired")) {
+                                EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
+                                ((SignUpActivity) context).setResult(Activity.RESULT_OK);
+                                ((SignUpActivity) context).finish();
+                                Toast.makeText(context, R.string.welcome_text, Toast.LENGTH_SHORT).show();
+                            } else {
+                                AppUtility.showHomeScreen(context);
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(String message) {
-                        setProgressVisible(false);
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void onFailure(String message) {
+                            setProgressVisible(false);
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onError(AuthenticationApiResponse response) {
-                        setProgressVisible(false);
-                        String message = response.getErrorEmail().getDetail().getMessage();
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onError(AuthenticationApiResponse response) {
+                            setProgressVisible(false);
+                            String message = response.getErrorEmail().getDetail().getMessage();
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-            }
+                }
 
-            @Override
-            public void onfailure(String error) {
-                Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-            }
-        });
-
+                @Override
+                public void onfailure(String error) {
+                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 
