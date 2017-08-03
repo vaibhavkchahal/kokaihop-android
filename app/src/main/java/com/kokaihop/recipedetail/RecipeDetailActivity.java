@@ -74,9 +74,6 @@ import java.util.Map;
 
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.KokaihopApplication.getContext;
-import static com.kokaihop.customviews.AppBarStateChangeListener.State.EXPANDED;
-import static com.kokaihop.customviews.AppBarStateChangeListener.State.SCROLL_DOWN;
-import static com.kokaihop.customviews.AppBarStateChangeListener.State.SCROLL_UP;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
@@ -112,6 +109,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private Menu menu;
     private int currentPagerPosition = 1;
     private Dialog shareDialog;
+    private RecipeRealmObject recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +199,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                                 imageViewBlurred.setImageBitmap(bluredBitmap);
                                 imageViewBlurred.setVisibility(View.VISIBLE);
                             }
-                                changeMenuItemsIcons(true);
+                            changeMenuItemsIcons(true);
 
                             break;
                         case EXPANDED:
@@ -229,7 +227,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
 
         if (collapsed) {
-            if (!recipeDetailViewModel.getRecipeRealmObject().isFavorite()) {
+            if (!recipe.isFavorite()) {
                 menuItemLike.setIcon(R.drawable.ic_like_md_grey);
             }
             menuItemShare.setIcon(R.drawable.ic_share_md_grey);
@@ -237,7 +235,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             menuItemWishlist.setIcon(R.drawable.ic_bookmark_md_grey);
             binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
         } else {
-            if (!recipeDetailViewModel.getRecipeRealmObject().isFavorite()) {
+            if (!recipe.isFavorite()) {
                 menuItemLike.setIcon(R.drawable.ic_like_md);
             }
             menuItemShare.setIcon(R.drawable.ic_share_md);
@@ -481,6 +479,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void setInitialRecipeLikeState(RecipeRealmObject recipe, MenuItem menuItemLike) {
+        this.recipe = recipe;
         if (recipe.isFavorite) {
             menuItemLike.setIcon(R.drawable.ic_like_sm);
             menuItemLike.setChecked(recipe.isFavorite);

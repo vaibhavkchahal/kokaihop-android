@@ -45,8 +45,10 @@ public class HomeActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ActivityHomeBinding activityHomeBinding;
     private int tabCount = 5;
-    HomeViewModel viewModel;
+    private HomeViewModel viewModel;
     private UserProfileFragment userProfileFragment;
+    private final int COOKBOOK_TAB_POSITION = 1;
+    private final int PROFILE_TAB_POSITION = 4;
     private int[] activeTabsIcon = {
             R.drawable.ic_feed_orange_sm,
             R.drawable.ic_cookbooks_orange_sm,
@@ -131,16 +133,21 @@ public class HomeActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                ((TextView) tabLayout.getTabAt(tabLayout.getSelectedTabPosition())
+                int selectedPosition = tabLayout.getSelectedTabPosition();
+                ((TextView) tabLayout.getTabAt(selectedPosition)
                         .getCustomView()
                         .findViewById(R.id.text1))
-                        .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[tabLayout.getSelectedTabPosition()], 0, 0);
+                        .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[selectedPosition], 0, 0);
 
-                sendScreenName(tabLayout.getSelectedTabPosition());
-                if (tabLayout.getSelectedTabPosition() == 1) {
-                    PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
-                    MyCookbooksFragment fragment = (MyCookbooksFragment) pagerTabAdapter.getItem(1);
+                sendScreenName(selectedPosition);
+                PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
+                if (selectedPosition == COOKBOOK_TAB_POSITION) {
+                    MyCookbooksFragment fragment = (MyCookbooksFragment) pagerTabAdapter.getItem(COOKBOOK_TAB_POSITION);
                     fragment.refresh();
+                } else if (selectedPosition == PROFILE_TAB_POSITION) {
+                    UserProfileFragment fragment = (UserProfileFragment) pagerTabAdapter.getItem(PROFILE_TAB_POSITION);
+                    fragment.setNotificationCount();
+                    fragment.refreshHistory();
                 }
 
 

@@ -224,7 +224,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                     }
                     if (tabLayout.getSelectedTabPosition() == TAB_HISTORY) {
                         Fragment fragment = adapter.getItem(TAB_HISTORY);
-                        if (fragment != null && fragment.isVisible()) {
+                        if (fragment != null) {
                             ((HistoryFragment) fragment).refreshHistory();
                             setNotificationCount();
                         }
@@ -269,10 +269,12 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     public void setNotificationCount() {
         User user = User.getInstance();
-        notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
-        notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
-        notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
-        notificationCount.get(TAB_HISTORY).setCount(new HistoryDataManager().getHistory().size());
+        if (notificationCount != null) {
+            notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
+            notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
+            notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
+            notificationCount.get(TAB_HISTORY).setCount(new HistoryDataManager().getHistory().size());
+        }
     }
 
     public void setCoverImage() {
@@ -330,6 +332,14 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 }
             }
         });
+    }
+
+    public void refreshHistory() {
+        Fragment fragment = adapter.getItem(TAB_HISTORY);
+        if (fragment != null) {
+            ((HistoryFragment) fragment).refreshHistory();
+            setNotificationCount();
+        }
     }
 
     public UserProfileViewModel getUserViewModel() {
