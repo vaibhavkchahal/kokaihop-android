@@ -8,4 +8,6 @@
     <dimen name="home_tab_margin_end">70dp</dimen>
     <dimen name="home_tab_margin_bottom">2dp</dimen>
 
+    <dimen name="recycler_item_space">10dp</dimen>
+
 </resources>

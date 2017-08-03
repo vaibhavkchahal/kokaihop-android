@@ -30,8 +30,8 @@
             android:layout_above="@+id/progressBar_bottom"
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/recycler_item_space"
-            android:layout_marginLeft="@dimen/card_left_right_margin"
-            android:layout_marginRight="@dimen/card_left_right_margin"
+            android:layout_marginLeft="@dimen/recycler_item_space"
+            android:layout_marginRight="@dimen/recycler_item_space"
             tools:context="com.kokaihop.feed.MainCourseFragment">
 
         </android.support.v7.widget.RecyclerView>
