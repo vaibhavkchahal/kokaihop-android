@@ -100,8 +100,12 @@ public class Constants {
     public static final int NUMBER_PICKER_HEIGHT = 1;
 
     // tablet support recipe columns constants on home
-    public static final int TAB_10_INCH_FIRST_ADD_POSITION = 5;
-    public static final int TAB_10_ADD_REPEAT_POSITION = 13;
+    public static final int TAB_10_INCH_FIRST_ADD_POSITION_PORT = 5;
+    public static final int TAB_10_ADD_REPEAT_POSITION_PORT = 13;
+
+    public static final int TAB_10_INCH_FIRST_ADD_POSITION_LAND = 6;
+    public static final int TAB_10_ADD_REPEAT_POSITION_LAND = 16;
+
     public static final int TAB_7_INCH_FIRST_ADD_POSITION_PORT = 4;
     public static final int TAB_7_ADD_REPEAT_POSITION_PORT = 10;
     public static final int TAB_7_INCH_FIRST_ADD_POSITION_LAND = 6;

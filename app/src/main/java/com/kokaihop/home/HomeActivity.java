@@ -139,7 +139,6 @@ public class HomeActivity extends BaseActivity {
                         .getCustomView()
                         .findViewById(R.id.text1))
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[selectedPosition], 0, 0);
-
                 sendScreenName(selectedPosition);
                 PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
                 if (selectedPosition == COOKBOOK_TAB_POSITION) {
@@ -183,7 +182,6 @@ public class HomeActivity extends BaseActivity {
                 break;
             case 2:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.buylist_screen));
-
                 break;
             case 3:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_personal_screen));

@@ -92,7 +92,6 @@ public class VegetarianFragment extends Fragment {
     public void onEvent(RecipeRealmObject recipe) {
         if (getUserVisibleHint()) {
             Logger.e("Event bus Appetizer", "Event bus Appetizer");
-
             GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
             List<Object> recipeListWithAds = vegetarianViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();

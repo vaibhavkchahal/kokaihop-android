@@ -135,8 +135,13 @@ public class AppUtility {
         int firstPlaceAdd;
         int itemsPerAdd;
         if (AppUtility.isTablet10Inch(getContext())) {
-            firstPlaceAdd = Constants.TAB_10_INCH_FIRST_ADD_POSITION;
-            itemsPerAdd = Constants.TAB_10_ADD_REPEAT_POSITION;
+            if (AppUtility.isModePortrait(getContext())) {
+                firstPlaceAdd = Constants.TAB_10_INCH_FIRST_ADD_POSITION_PORT;
+                itemsPerAdd = Constants.TAB_10_ADD_REPEAT_POSITION_PORT;
+            } else {
+                firstPlaceAdd = Constants.TAB_10_INCH_FIRST_ADD_POSITION_LAND;
+                itemsPerAdd = Constants.TAB_10_ADD_REPEAT_POSITION_LAND;
+            }
         } else if (AppUtility.isTablet7Inch(getContext())) {
             if (AppUtility.isModePortrait(getContext())) {
                 firstPlaceAdd = Constants.TAB_7_INCH_FIRST_ADD_POSITION_PORT;
@@ -259,7 +264,12 @@ public class AppUtility {
     public static int getColumnsAccToScreenSize() {
         int numOfColumnInGrid;
         if (AppUtility.isTablet10Inch(getContext())) {
-            numOfColumnInGrid = 4;
+            if (AppUtility.isModePortrait(getContext())) {
+                numOfColumnInGrid = 4;
+            }
+            else {
+                numOfColumnInGrid = 5;
+            }
         } else if (AppUtility.isTablet7Inch(getContext())) {
             if (AppUtility.isModePortrait(getContext())) {
                 numOfColumnInGrid = 3;
