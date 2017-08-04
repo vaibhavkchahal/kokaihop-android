@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -223,7 +224,7 @@ public class AppUtility {
         return existingIngredientObjectKey;
     }
 
-    public static void showCoachMark(View view) {
+    public static void showCoachMark(View view, final String coachMarkKey) {
         final Dialog dialog = new Dialog(view.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -236,6 +237,17 @@ public class AppUtility {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), coachMarkKey, true);
+            }
+        });
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dialog.dismiss();
+                    SharedPrefUtils.setSharedPrefBooleanData(getContext(), coachMarkKey, true);
+                }
+                return true;
             }
         });
         dialog.show();
@@ -266,8 +278,7 @@ public class AppUtility {
         if (AppUtility.isTablet10Inch(getContext())) {
             if (AppUtility.isModePortrait(getContext())) {
                 numOfColumnInGrid = 4;
-            }
-            else {
+            } else {
                 numOfColumnInGrid = 5;
             }
         } else if (AppUtility.isTablet7Inch(getContext())) {

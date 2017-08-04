@@ -138,8 +138,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (accessToken != null && !accessToken.isEmpty() && !coachMarkVisibilty) {
             LayoutInflater inflater = LayoutInflater.from(this);
             View coachMarkView = inflater.inflate(R.layout.recipe_detail_coach_mark, null);
-            AppUtility.showCoachMark(coachMarkView);
-            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY, true);
+            AppUtility.showCoachMark(coachMarkView,Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY);
         }
     }
 
