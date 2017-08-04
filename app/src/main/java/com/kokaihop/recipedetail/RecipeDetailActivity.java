@@ -600,7 +600,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
                 binding.recyclerviewShare.setLayoutManager(layoutManager);
                 shareDialog.setCanceledOnTouchOutside(true);
-                shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 shareDialog.show();
                 return true;
 
