@@ -73,6 +73,7 @@ public class LoginViewModel extends BaseViewModel {
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());
                 String from = ((LoginActivity) context).getIntent().getStringExtra(EXTRA_FROM);
+                Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_LONG).show();
                 if (from != null && from.equals("loginRequired")) {
                     EventBus.getDefault().postSticky(new AuthUpdateEvent("updateRequired"));
                     ((LoginActivity) context).finish();
@@ -136,6 +137,7 @@ public class LoginViewModel extends BaseViewModel {
                         setProgressVisible(false);
                         Context context = view.getContext();
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
+                        Toast.makeText(context, R.string.sucess_login, Toast.LENGTH_LONG).show();
                         if (response.getUserAuthenticationDetail() != null) {
                             SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
                             SharedPrefUtils.setSharedPrefStringData(context, Constants.FRIENDLY_URL, response.getUserAuthenticationDetail().getFriendlyUrl());

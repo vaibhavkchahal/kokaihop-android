@@ -182,7 +182,7 @@
     <string name="my_cookbooks">My Cookbooks</string>
     <string name="create">Create</string>
     <string name="recipe_count">" Recipes"</string>
-    <string name="empty_comment_msg">comment cannot be empty</string>
+    <string name="empty_comment_msg">Comment cannot be empty</string>
     <string name="rating_dialog_text">Thanks for Rating recipe \n a</string>
     <string name="text_reply">Reply</string>
     <string name="replied_text">" replied"</string>
@@ -312,7 +312,7 @@
     <string name="text_add_ingredient">Add Ingredient</string>
     <string name="text_select">Select</string>
     <string name="delete_all">Delete All</string>
-    <string name="delete_all_ingredient_msg">Are you sure you want to delete all items ?</string>
+    <string name="delete_all_ingredient_msg">Are you sure you want to delete all items?</string>
     <string name="mark_message">You must first mark an item to clear</string>
     <string name="obs_text">OBS!</string>
     <string name="please_enter_ingredient">Please enter ingredient</string>

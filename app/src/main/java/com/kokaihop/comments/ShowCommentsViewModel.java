@@ -106,7 +106,8 @@ public class ShowCommentsViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, context.getString(R.string.check_intenet_connection) + " " + context.getString(R.string.comments_not_refreshed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -134,7 +135,8 @@ public class ShowCommentsViewModel extends BaseViewModel {
         if (accessToken == null || accessToken.isEmpty()) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_comment_message));
         } else {
-            if (!editText.getText().toString().isEmpty()) {
+
+            if (!AppUtility.isEmptyString(editText.getText().toString())) {
                 String bearerAccessToken = Constants.AUTHORIZATION_BEARER + accessToken;
                 PostCommentRequestParams requestParams = getPostCommentRequestParams(editText);
                 setProgressVisible(true);
@@ -166,6 +168,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
                     }
                 });
             } else {
+                editText.setText("");
                 Toast.makeText(view.getContext(), R.string.empty_comment_msg, Toast.LENGTH_SHORT).show();
             }
         }
@@ -174,7 +177,7 @@ public class ShowCommentsViewModel extends BaseViewModel {
     @NonNull
     private PostCommentRequestParams getPostCommentRequestParams(EditText editText) {
         PostCommentRequestParams requestParams = new PostCommentRequestParams();
-        requestParams.setComment(editText.getText().toString());
+        requestParams.setComment(editText.getText().toString().trim());
         editText.setText("");
         requestParams.setType(TYPE_FILTER);
         requestParams.setTargetId(recipeID);

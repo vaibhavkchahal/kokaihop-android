@@ -95,6 +95,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
         getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
 
+    public void getRecipeDetails() {
+        if (copyJsonObject != null)
+            getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
+    }
+
     private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
         setProgressVisible(true);
         String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
@@ -410,7 +415,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
                                     try {
                                         Logger.d("Upload Image", ((ResponseBody) response).string());
-                                    } catch (IOException e) { e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
                                     }
                                     Logger.e("image upload", "success " + response.toString());
                                     Toast.makeText(context, context.getString(R.string.recipe_image_upload_success), Toast.LENGTH_SHORT).show();
@@ -421,7 +427,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                                 @Override
                                 public void onFailure(String message) {
                                     Logger.e("image upload", message);
-                                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                                     setProgressVisible(false);
                                 }
 
@@ -443,7 +449,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                         setProgressVisible(false);
                     }
                 } else {
-                    Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                     setProgressVisible(false);
                 }
             }

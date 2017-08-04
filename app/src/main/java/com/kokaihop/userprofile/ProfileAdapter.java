@@ -2,7 +2,7 @@ package com.kokaihop.userprofile;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Rajendra Singh on 15/5/17.
  */
 
-public class ProfileAdapter extends FragmentPagerAdapter {
+public class ProfileAdapter extends FragmentStatePagerAdapter {
 
     int totalTabs;
 
