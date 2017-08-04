@@ -72,7 +72,7 @@ public class VegetarianFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (EventBus.getDefault().isRegistered(this))
+        if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
     }
 

@@ -93,10 +93,12 @@ public class CommentsFragment extends Fragment implements CommentsViewModel.Comm
             binding.swipeRefreshLayout.setRefreshing(false);
             Toast.makeText(getContext(), R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
         }
-        String afterDateCreated = commentsViewModel.getCommentsList().get(0).getDateCreated();
-        int offset = 0;
+        if (commentsViewModel.getCommentsList().size() > 0) {
+            String afterDateCreated = commentsViewModel.getCommentsList().get(0).getDateCreated();
+            int offset = 0;
+            commentsViewModel.fetchCommentFromServer(offset, Long.valueOf(afterDateCreated), false);
+        }
         binding.swipeRefreshLayout.setEnabled(true);
-        commentsViewModel.fetchCommentFromServer(offset, Long.valueOf(afterDateCreated), false);
     }
 
     @Override

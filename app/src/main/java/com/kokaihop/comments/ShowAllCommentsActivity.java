@@ -50,7 +50,6 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
             public void onRefresh() {
                 if (!NetworkUtils.isNetworkConnected(ShowAllCommentsActivity.this)) {
                     binding.swipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(ShowAllCommentsActivity.this, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
                 }
                 int max = showCommentsViewModel.getMax();
                 int offset = showCommentsViewModel.getOffset() + showCommentsViewModel.getMax();

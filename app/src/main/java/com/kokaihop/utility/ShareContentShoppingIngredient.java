@@ -95,7 +95,11 @@ public class ShareContentShoppingIngredient {
         String listContent = "";
         for (IngredientsRealmObject item : shoppingIngredientsList) {
             if (item.getAmount() > 0) {
-                listContent = listContent + item.getAmount() + " " + item.getUnit().getName() + " " + item.getName() + lineBreaker;
+                String unitName = "";
+                if (item.getUnit() != null) {
+                    unitName = item.getUnit().getName();
+                }
+                listContent = listContent + item.getAmount() + " " + unitName + " " + item.getName() + lineBreaker;
             } else {
                 listContent = listContent + item.getName() + lineBreaker;
             }

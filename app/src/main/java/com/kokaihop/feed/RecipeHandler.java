@@ -145,11 +145,10 @@ public class RecipeHandler {
 
     private void updateCheckboxImage(boolean isChecked, CheckBox checkBox) {
         Drawable drawable;
-        if (isChecked) {
+        if (checkBox.isChecked()) {
             drawable = ResourcesCompat.getDrawable(checkBox.getContext().getResources(), R.drawable.ic_like_sm, null);
         } else {
             drawable = ResourcesCompat.getDrawable(checkBox.getContext().getResources(), R.drawable.ic_unlike_sm, null);
-
         }
         checkBox.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null);
     }

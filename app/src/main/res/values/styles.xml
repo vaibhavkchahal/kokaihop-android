@@ -96,8 +96,9 @@
     </style>
 
     <style name="backButton">
-        <item name="android:paddingRight">@dimen/back_button_padding</item>
+        <item name="android:paddingEnd">@dimen/back_button_padding</item>
         <item name="android:src">@drawable/ic_back_arrow_white_md</item>
+        <item name="android:contentDescription">@string/cancel</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
