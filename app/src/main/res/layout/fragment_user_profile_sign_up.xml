@@ -47,6 +47,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/profile_signup_text_large"
             app:font="@{`SS-ProRegular`}"
+            android:paddingLeft="@dimen/horizontal_padding_signup_message"
+            android:paddingRight="@dimen/horizontal_padding_signup_message"
             app:layout_constraintBottom_toTopOf="@+id/sign_up_now"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

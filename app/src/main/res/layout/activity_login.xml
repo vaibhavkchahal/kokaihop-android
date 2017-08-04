@@ -92,12 +92,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textview_or_login"
+                    android:layout_marginTop="@dimen/margin_top_login_email"
                     app:hintEnabled="false">
 
                     <android.support.v7.widget.AppCompatEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_top_login_email"
                         android:backgroundTint="@color/white_40"
                         android:hint="@string/email"
                         android:inputType="textEmailAddress"

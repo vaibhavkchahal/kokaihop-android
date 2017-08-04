@@ -477,5 +477,8 @@
     <dimen name="search_filter_line_spacing">24sp</dimen>
     <dimen name="search_filter_text_size">18sp</dimen>
     <dimen name="search_filter_padding">10dp</dimen>
+    <dimen name="horizontal_padding_signup_message">0dp</dimen>
+    <dimen name="user_profile_coaching_padding_top">200dp</dimen>
+    <dimen name="recipe_detail_coach_padding_top">50dp</dimen>
 
 </resources>

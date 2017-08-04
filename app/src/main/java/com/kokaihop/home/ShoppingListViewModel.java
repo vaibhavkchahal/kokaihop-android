@@ -137,7 +137,7 @@ public class ShoppingListViewModel extends BaseViewModel {
                 }
             }
         }
-        if (((Fragment) datasetListener).isVisible()) {
+        if (!((Fragment) datasetListener).isDetached()) {
             datasetListener.onUpdateIngredientsList(ingredientsList.size());
         }
         EventBus.getDefault().postSticky(new ShoppingListCounterEvent(ingredientsList.size()));

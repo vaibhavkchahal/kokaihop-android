@@ -4,12 +4,50 @@
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
     <dimen name="activity_horizontal_margin">64dp</dimen>
 
+    <!-- login dimens -->
+    <dimen name="padding_top_login_scroll">100dp</dimen>
+    <dimen name="margin_top_login_or_text">55dp</dimen>
+    <dimen name="margin_top_login_email">57dp</dimen>
+    <dimen name="margin_top_login_passwd">55dp</dimen>
+    <dimen name="margin_top_login_button">78dp</dimen>
+    <dimen name="margin_top_forgot_passwd">75dp</dimen>
+    <dimen name="margin_top_signupnow">45dp</dimen>
+
+
+    <!--Sign Up Dimensions-->
+
+    <dimen name="signup_et_email_margin_top">44dp</dimen>
+    <dimen name="signup_et_margin_top">42dp</dimen>
+    <dimen name="signup_sv_formcontainer_margin_top">71dp</dimen>
+    <dimen name="signup_btn_facebook_margin_top">60dp</dimen>
+    <dimen name="signup_btn_signup_margin_top">70dp</dimen>
+    <dimen name="signup_tv_login_margin_top">56dp</dimen>
+    <dimen name="signup_cb_margin_top">70dp</dimen>
+    <dimen name="selectcity_rv_margin_top">51dp</dimen>
+    <dimen name="selectcity_sv_margin_top">57dp</dimen>
+
 
     <dimen name="home_tab_margin_end">25dp</dimen>
     <dimen name="home_tab_margin_bottom">2dp</dimen>
 
     <dimen name="recycler_item_space">6dp</dimen>
 
+    <dimen name="horizontal_padding_signup_message">120dp</dimen>
 
+    <dimen name="cookbook_signup_login_horizontal_margin">180dp</dimen>
+
+    <dimen name="unit_quantity_box_margin_top">40dp</dimen>
+
+
+    <!-- coachMarks dimens -->
+    <dimen name="content_box_margin_top">4.5dp</dimen>
+    <dimen name="search_coach_mark_padding_top">82dp</dimen>
+    <dimen name="search_coach_mark_margin_left_right">140dp</dimen>
+    <dimen name="user_profile_triangle_margin_right">70dp</dimen>
+    <dimen name="user_profile_coachmark_margin_left">340dp</dimen>
+    <dimen name="recipe_detail_coach_mark_triangle_margin_right">97dp</dimen>
+    <dimen name="recipe_detail_coachmark_margin_left">320dp</dimen>
+    <dimen name="user_profile_coaching_padding_top">185dp</dimen>
+    <dimen name="recipe_detail_coach_padding_top">40dp</dimen>
 
 </resources>
