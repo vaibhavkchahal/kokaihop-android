@@ -100,8 +100,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 View coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
-                AppUtility.showCoachMark(coachMarkView);
-                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
+                AppUtility.showCoachMark(coachMarkView,Constants.USERPROFILE_COACHMARK_VISIBILITY);
+//                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
             }
         }
     }
