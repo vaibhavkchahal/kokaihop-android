@@ -242,7 +242,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
             } else {
                 if (!recipe.isFavorite()) {
-                    menuItemLike.setIcon(R.drawable.ic_like_md);
+                    menuItemLike.setIcon(R.drawable.ic_unlike_md);
                 }
                 menuItemShare.setIcon(R.drawable.ic_share_md);
                 menuItemCamera.setIcon(R.drawable.ic_camera);
@@ -491,7 +491,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             menuItemLike.setIcon(R.drawable.ic_like_sm);
             menuItemLike.setChecked(recipe.isFavorite);
         } else {
-            menuItemLike.setIcon(R.drawable.ic_unlike_sm);
+            menuItemLike.setIcon(R.drawable.ic_unlike_md);
             menuItemLike.setChecked(false);
         }
     }

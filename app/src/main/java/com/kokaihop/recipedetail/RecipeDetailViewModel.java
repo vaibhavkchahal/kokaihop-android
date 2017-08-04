@@ -24,7 +24,6 @@ import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.CloudinaryUtils;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
-import com.kokaihop.utility.NetworkUtils;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.UploadImageAsync;
 
@@ -266,10 +265,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         commentsHeading.setRecipeId(recipeRealmObject.get_id());
         commentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(commentsHeading);
-        for (int i = 0; i < recipeRealmObject.getComments().size(); i++) {
-            if (!NetworkUtils.isNetworkConnected(context) || i == 3) {
-                break;
-            }
+        for (int i = 0; (i < recipeRealmObject.getComments().size()) && (i < 3); i++) {
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
