@@ -106,7 +106,8 @@ public class ShowCommentsViewModel extends BaseViewModel {
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
-                Toast.makeText(context, context.getString(R.string.check_intenet_connection) + " " + context.getString(R.string.comments_not_refreshed), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.check_intenet_connection, Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

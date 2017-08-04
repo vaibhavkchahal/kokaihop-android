@@ -479,5 +479,6 @@
     <dimen name="search_filter_padding">11dp</dimen>
     <dimen name="search_tags_height">34dp</dimen>
     <dimen name="input_dialog_padding">20dp</dimen>
+    <dimen name="back_button_padding_left">10dp</dimen>
 
 </resources>

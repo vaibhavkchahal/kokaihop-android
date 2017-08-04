@@ -35,7 +35,6 @@ public class FollowingFragment extends Fragment implements UserDataListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

@@ -275,7 +275,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         if (notificationCount != null) {
             notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
             notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
-            notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
+            notificationCount.get(TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
             notificationCount.get(TAB_HISTORY).setCount(new HistoryDataManager().getHistory().size());
         }
     }
@@ -349,7 +349,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     public void refreshFollowing() {
         if (adapter != null) {
-            Fragment fragment = adapter.getItem(TAB_FOLLOWINGS);
+            FollowingFragment fragment = (FollowingFragment) adapter.getItem(TAB_FOLLOWINGS);
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.detach(fragment);
             ft.attach(fragment);

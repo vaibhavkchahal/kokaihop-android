@@ -134,7 +134,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         user.getFollowingList().clear();
         user.getFollowingList().addAll(followingList);
         Fragment fragment = ((Fragment) userDataListener);
-        if (fragment != null && !fragment.isDetached())
+        if (fragment != null && fragment.isVisible())
             userDataListener.showUserProfile();
     }
 
@@ -187,7 +187,7 @@ public class FollowersFollowingViewModel extends BaseViewModel {
         user.getFollowersList().clear();
         user.getFollowersList().addAll(followersList);
         Fragment fragment = ((Fragment) userDataListener);
-        if (fragment != null && !fragment.isDetached())
+        if (fragment != null && fragment.isVisible())
             userDataListener.showUserProfile();
 
     }
