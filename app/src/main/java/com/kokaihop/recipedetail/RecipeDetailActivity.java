@@ -92,6 +92,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private RecipeDetailViewModel recipeDetailViewModel;
     private TextView txtviewPagerProgress;
     private RecipeDetailRecyclerAdapter recyclerAdapter;
+    private RecipeHandler recipeHandler;
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
@@ -497,6 +498,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void actionOnRecipeLike(final MenuItem item, final RecipeRealmObject recipe, final RecipeHandler recipeHandler) {
+        this.recipeHandler = recipeHandler;
         String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {
@@ -533,8 +535,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         new CookbooksDataManager().removeRecipeFromAllCookbooks(userFriendlyUrl, recipe);
         CheckBox checkBox = binding.getViewModel().getCheckBox();
         checkBox.setChecked(item.isChecked());
-        recipeHandler.onCheckChangeRecipe(checkBox, recipe);
-        recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
+        if(recipeHandler!=null){
+            recipeHandler.onCheckChangeRecipe(checkBox, recipe);
+            recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
+        }
     }
 
     //    checks whether a recipe exists in any of the cookbook of user
