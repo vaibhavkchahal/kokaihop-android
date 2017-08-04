@@ -68,11 +68,11 @@ public class UserFeedFragment extends Fragment {
     private void enableCoachMark(LayoutInflater inflater) {
         boolean searchCoachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY);
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
-//        if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
+        if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
             View coachMarkView = inflater.inflate(R.layout.search_coach_mark, null);
             AppUtility.showCoachMark(coachMarkView);
-//            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, true);
-//        }
+            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, true);
+        }
     }
 
 
