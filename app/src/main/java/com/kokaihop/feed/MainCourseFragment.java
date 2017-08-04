@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.Logger;
@@ -34,6 +36,8 @@ public class MainCourseFragment extends Fragment {
     private RecipeFeedViewModel mainCourseViewModel;
     private FeedRecyclerListingOperation feedRecyclerListingOperation;
     private RecyclerView rvMainCourse;
+    private int numOfColumnInGrid;
+    private int spanSizeForItemRecipe = 1;
 
 
     public MainCourseFragment() {
@@ -108,10 +112,63 @@ public class MainCourseFragment extends Fragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(getContext(), "landscape", Toast.LENGTH_SHORT).show();
+            Log.i("config changes", "landscape");
+            AppUtility appUtility = new AppUtility();
+            appUtility.addAdvtInRecipeList(mainCourseViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
+            numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
+            final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeListWithAdds(), numOfColumnInGrid);
+            GridLayoutManager layoutManager = (GridLayoutManager) mainCourseBinding.rvMainCourse.getLayoutManager();
+            layoutManager.setSpanCount(numOfColumnInGrid);
+            layoutManager.setSpanSizeLookup
+                    (new GridLayoutManager.SpanSizeLookup() {
+                         @Override
+                         public int getSpanSize(int position) {
+                             switch (recyclerAdapter.getItemViewType(position)) {
+                                 case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
+                                     return numOfColumnInGrid;
+                                 case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
+                                     return spanSizeForItemRecipe;
+                                 case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
+                                     return numOfColumnInGrid;
+                                 default:
+                                     return -1;
+                             }
+                         }
+                     }
+                    );
+            mainCourseBinding.rvMainCourse.setLayoutManager(layoutManager);
+            mainCourseBinding.rvMainCourse.setAdapter(recyclerAdapter);
+            recyclerAdapter.notifyDataSetChanged();
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(getContext(), "portrait", Toast.LENGTH_SHORT).show();
+            Log.i("config changes", "portrait");
+            AppUtility appUtility = new AppUtility();
+            appUtility.addAdvtInRecipeList(mainCourseViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
+            numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
+            final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeListWithAdds(), numOfColumnInGrid);
+            GridLayoutManager layoutManager = (GridLayoutManager) mainCourseBinding.rvMainCourse.getLayoutManager();
+            layoutManager.setSpanCount(numOfColumnInGrid);
+            layoutManager.setSpanSizeLookup
+                    (new GridLayoutManager.SpanSizeLookup() {
+                         @Override
+                         public int getSpanSize(int position) {
+                             switch (recyclerAdapter.getItemViewType(position)) {
+                                 case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
+                                     return numOfColumnInGrid;
+                                 case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
+                                     return spanSizeForItemRecipe;
+                                 case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
+                                     return numOfColumnInGrid;
+                                 default:
+                                     return -1;
+                             }
+                         }
+                     }
+                    );
+            mainCourseBinding.rvMainCourse.setLayoutManager(layoutManager);
+            mainCourseBinding.rvMainCourse.setAdapter(recyclerAdapter);
+            recyclerAdapter.notifyDataSetChanged();
         }
     }
 }

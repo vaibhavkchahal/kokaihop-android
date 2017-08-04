@@ -266,8 +266,7 @@ public class AppUtility {
         if (AppUtility.isTablet10Inch(getContext())) {
             if (AppUtility.isModePortrait(getContext())) {
                 numOfColumnInGrid = 4;
-            }
-            else {
+            } else {
                 numOfColumnInGrid = 5;
             }
         } else if (AppUtility.isTablet7Inch(getContext())) {
