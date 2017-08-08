@@ -9,16 +9,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height_with_status"
+            android:layout_height="@dimen/comment_toolbar_height"
             android:background="@color/kokaihop_orange_color"
             android:gravity="center_horizontal"
-            android:paddingTop="@dimen/status_bar_height">
+            android:paddingBottom="@dimen/comment_toolbar_padding_bottom">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -42,24 +42,36 @@
 
         </android.support.v7.widget.Toolbar>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedscroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/relative_layout_send_comment"
-            android:layout_below="@id/toolbar">
+            android:layout_below="@id/toolbar"
+            android:fillViewport="true">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_comments_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:paddingBottom="@dimen/recyclerview_comments_padding_left_right"
-                android:paddingTop="@dimen/recyclerview_comments_padding_left_right">
+                android:layout_height="match_parent">
 
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeRefreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view_comments_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:paddingBottom="@dimen/recyclerview_comments_padding_left_right"
+                        android:paddingTop="@dimen/recyclerview_comments_padding_left_right">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </android.support.v4.widget.SwipeRefreshLayout>
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <RelativeLayout
             android:id="@+id/relative_layout_send_comment"
@@ -67,11 +79,11 @@
             android:layout_height="@dimen/send_comment_view_height"
             android:layout_alignParentBottom="true"
             android:elevation="@dimen/comment_send_section_elevation"
-        >
+            android:isScrollContainer="true">
 
             <View android:layout_width="match_parent"
                   android:layout_height="2dp"
-                  android:background="#80C0C0C0"/>
+                  android:background="@color/grey_80C0C0C0"/>
             <TextView
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
@@ -92,7 +104,7 @@
                 android:layout_width="@dimen/send_section_separator_width"
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@+id/send_button"
-                android:background="#B3C0C0C0"/>
+                android:background="@color/grey_B3C0C0C0"/>
 
             <EditText
                 android:id="@+id/edittxt_write_comment"
@@ -105,12 +117,12 @@
                 android:layout_toLeftOf="@+id/view_separator"
                 android:background="@android:color/transparent"
                 android:hint="@string/write_a_comment"
+                android:imeOptions="flagNoExtractUi"
                 android:textColorHint="@color/grey_FF8D929C"
                 android:textSize="@dimen/textsize_edit_comment"
                 app:font="@{`SS-ProRegular`}"/>
 
         </RelativeLayout>
-
         <include
             layout="@layout/progress_bar"
             bind:viewModel="@{viewModel}"/>

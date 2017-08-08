@@ -225,6 +225,8 @@
     <dimen name="row_follower_following_text_size">19sp</dimen>
 
     <!-- recipe detail dimens -->
+
+    <dimen name="relative_layout_pager_height">280dp</dimen>
     <dimen name="recipe_detail_rating_bar_height">13dp</dimen>
     <dimen name="recipe_detail_dialog_rating_bar_height">26dp</dimen>
     <dimen name="recipe_detai_rating_bar_margin_top">20dp</dimen>
@@ -366,6 +368,8 @@
     <dimen name="my_cookbook_row_height">100dp</dimen>
     <dimen name="reply_user_image_height_width">25dp</dimen>
     <dimen name="comment_reply_section_margin_left">20dp</dimen>
+    <dimen name="comment_toolbar_height">45dp</dimen>
+    <dimen name="comment_toolbar_padding_bottom">10dp</dimen>
 
 
     <!-- home commment tab dimens -->
