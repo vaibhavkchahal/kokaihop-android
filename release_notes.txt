@@ -1,18 +1,5 @@
-1. Image Presenter Screen to confirm picture upload.
-2. Coach marks
-   - Recipe Details
-   - Search
-   - User profile History
-3. Print Recipe.
-4. Auto Login feature for old Application users.
-5. Localization in Swedish language.
-6. Add to List from Recipe Details screen.
-7. Google Analytics
-8. Sync API
-   - Recipe Deactivated
-   - Recipe Collection Deleted
-   - Recipe Comments Deleted
-9. Bug Fixes
+1. Tablet Portrait Support.
+2. Bug Fixes
 
 
 
