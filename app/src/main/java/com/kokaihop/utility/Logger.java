@@ -1,10 +1,11 @@
 package com.kokaihop.utility;
 
+import android.support.compat.BuildConfig;
 import android.util.Log;
 
 
 public class Logger {
-    private static boolean DEBUG = true ;/*BuildConfig.DEBUG;*/
+    private static boolean DEBUG = BuildConfig.DEBUG;
 
     /*
      Print error log in console
