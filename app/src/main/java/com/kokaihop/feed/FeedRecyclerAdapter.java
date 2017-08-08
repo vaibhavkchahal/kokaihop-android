@@ -51,6 +51,14 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.columnsInGrid = numOfComumnInGrid;
     }
 
+    public List<Object> getRecipeListWithAdds() {
+        return recipeListWithAdds;
+    }
+
+    public void setRecipeListWithAdds(List<Object> recipeListWithAdds) {
+        this.recipeListWithAdds = recipeListWithAdds;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
