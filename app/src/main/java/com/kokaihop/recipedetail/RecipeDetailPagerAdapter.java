@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailPagerItemBinding;
@@ -50,7 +51,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((FrameLayout) object);
+        return view == ((RelativeLayout) object);
     }
 
     @Override
@@ -68,7 +69,7 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         float ratio = (float) 280 / 320;
         int height = getHeightInAspectRatio(width, ratio);
         ImageView imageViewRecipe = (ImageView) binding.getRoot().findViewById(R.id.imageview_recipe_pic);
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) imageViewRecipe.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageViewRecipe.getLayoutParams();
         layoutParams.height = height;
         layoutParams.width = width;
         imageViewRecipe.setLayoutParams(layoutParams);
@@ -90,7 +91,5 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         } else {
             return "";
         }
-
-
     }
 }

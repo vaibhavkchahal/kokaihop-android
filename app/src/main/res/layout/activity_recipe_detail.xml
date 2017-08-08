@@ -39,7 +39,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_recipeplaceholder_lg"/>
+                        android:src="@drawable/ic_recipeplaceholder_lg"
+                    />
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/viewpager_recipe_detail"
@@ -48,7 +49,8 @@
                         android:background="@color/transparent_color"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-                    <View android:layout_width="match_parent" android:layout_height="match_parent"
+                    <View android:layout_width="match_parent"
+                          android:layout_height="match_parent"
                           android:background="@drawable/recipe_detail_gradient"
 
                     />

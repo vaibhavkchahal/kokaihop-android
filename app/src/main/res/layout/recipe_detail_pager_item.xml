@@ -6,29 +6,31 @@
         <variable name="imageUrl" type="String"/>
     </data>
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/imageview_recipe_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:layout_centerInParent="true"
             android:drawingCacheQuality="low"
+            android:visibility="visible"
             app:error="@{@drawable/ic_recipeplaceholder_lg}"
             app:imageUrl="@{imageUrl}"
+            android:scaleType="fitXY"
             app:placeholder="@{@drawable/ic_recipeplaceholder_lg}"/>
+
         <ImageView
             android:id="@+id/imageview_recipe_blurred_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:scaleType="fitXY"
             android:visibility="visible"
         />
 
-    </FrameLayout>
+    </RelativeLayout>
 
 </layout>
