@@ -39,6 +39,10 @@
     <dimen name="unit_quantity_box_margin_top">40dp</dimen>
 
 
+    <!--recipe detail dimens -->
+    <dimen name="relative_layout_pager_height">380dp</dimen>
+
+
     <!-- coachMarks dimens -->
     <dimen name="content_box_margin_top">4.5dp</dimen>
     <dimen name="search_coach_mark_padding_top">82dp</dimen>

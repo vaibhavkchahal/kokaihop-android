@@ -85,7 +85,6 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
 
     public String getImageUrl(int position) {
         List<String> imageUrlList = new ArrayList<>(imageUrlSet);
-
         if (position < imageUrlList.size()) {
             return imageUrlList.get(position);
         } else {
