@@ -32,7 +32,7 @@ public class CookbooksViewModel extends BaseViewModel {
     private User user;
     private ArrayList<Cookbook> cookbooks;
 
-    public CookbooksViewModel(Fragment fragment, Context context, String userId, String friendlyUrl) {
+    public CookbooksViewModel(Fragment fragment, Context context, String userId, String friendlyUrl, User user) {
         this.fragment = fragment;
         this.userId = userId;
         this.context = context;
@@ -95,8 +95,8 @@ public class CookbooksViewModel extends BaseViewModel {
 
     public void fetchCookbooksFromDB() {
         cookbooks = profileDataManager.getCookbooks(userId);
-        User.getOtherUser().getCookbooks().clear();
-        User.getOtherUser().getCookbooks().addAll(cookbooks);
+        user.getCookbooks().clear();
+        user.getCookbooks().addAll(cookbooks);
         showUserProfile();
     }
 

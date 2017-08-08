@@ -48,7 +48,7 @@ public class CookbooksFragment extends Fragment {
             friendlyUrl = bundle.getString(Constants.FRIENDLY_URL);
         }
         user = new User();
-        viewModel = new CookbooksViewModel(this, getContext(), userId, friendlyUrl);
+        viewModel = new CookbooksViewModel(this, getContext(), userId, friendlyUrl, user);
         FragmentCookbooksBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbooks, container, false);
         adapter = new CookbooksAdapter(user.getCookbooks(), myCookbook, user, friendlyUrl);
         layoutManager = new CustomLinearLayoutManager(getContext());
