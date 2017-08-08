@@ -93,12 +93,11 @@ public class CookieFragment extends Fragment {
     @Subscribe(sticky = true)
     public void onEvent(RecipeRealmObject recipe) {
         if (getUserVisibleHint()) {
-            Logger.e("Event bus Appetizer", "Event bus Appetizer");
+            Logger.e("Event bus Cookie", "Event bus Cookie");
             GridLayoutManager gridLayoutManager = feedRecyclerListingOperation.getLayoutManager();
             List<Object> recipeListWithAds = cookieViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvCookie, recipeListWithAds);
-            EventBus.getDefault().removeStickyEvent(recipe);
         }
 
     }

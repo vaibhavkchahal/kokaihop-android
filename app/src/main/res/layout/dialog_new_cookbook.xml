@@ -38,28 +38,29 @@
             android:layout_below="@+id/dialog_text"
             android:layout_marginTop="@dimen/dialog_new_cookbook_button_margin_top"
             android:layoutDirection="rtl">
-            <TextView
-                android:id="@+id/negative"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/cancel"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/positive"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginStart="30dp"
                 android:gravity="center"
                 android:text="@string/confirm"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/negative"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginStart="30dp"
+                android:text="@string/cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"/>
+
         </LinearLayout>
 
     </RelativeLayout>

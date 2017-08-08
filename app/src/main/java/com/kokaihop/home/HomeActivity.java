@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -75,6 +76,8 @@ public class HomeActivity extends BaseActivity {
         if (!useremailPwd.equals("")) {
             String email = useremailPwd.substring(0, useremailPwd.indexOf("~"));
             String password = useremailPwd.substring(useremailPwd.indexOf("~") + 1);
+            Log.e("Email", "-" + email);
+            Log.e("Password", "-" + password);
             viewModel.login(email, password);
         }
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);

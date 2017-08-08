@@ -69,7 +69,7 @@
 
         <CheckBox
             android:id="@+id/cb_recipe_added"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/add_to_cookbook_cb_margin_right"
             android:button="@drawable/checkbox_email_pref_selector"

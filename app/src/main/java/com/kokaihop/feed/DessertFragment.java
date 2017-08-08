@@ -95,7 +95,6 @@ public class DessertFragment extends Fragment {
             List<Object> recipeListWithAds = desertViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvDesert, recipeListWithAds);
-            EventBus.getDefault().removeStickyEvent(recipe);
         }
 
     }
