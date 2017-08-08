@@ -17,13 +17,13 @@ import android.widget.ImageView;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentShoppingListBinding;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.ShoppingListRealmObject;
 import com.kokaihop.utility.AppCredentials;
+import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 import com.kokaihop.utility.ShareContentShoppingIngredient;
@@ -113,7 +113,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListViewMo
             }
         });
         // Load the ad.
-        adViewBanner.loadAd(new AdRequest.Builder().build());
+        adViewBanner.loadAd(AppUtility.getAdRequest());
     }
 
     private void initializerecyclerView() {

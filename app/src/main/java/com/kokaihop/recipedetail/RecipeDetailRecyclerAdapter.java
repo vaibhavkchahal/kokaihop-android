@@ -27,7 +27,6 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBindin
 import com.altaworks.kokaihop.ui.databinding.RecipeItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
@@ -157,7 +156,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 });
                 // Load the ad.
-                adView.loadAd(new AdRequest.Builder().build());
+                adView.loadAd(AppUtility.getAdRequest());
                 break;
             case TYPE_ITEM_INGREDIENT_HEADING:
                 ViewHolderIngredientHeading holderIngredientHeading = (ViewHolderIngredientHeading) holder;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--TODO add tracking id of production, Production ga id: ca-app-pub-9129816881800022~4990735999 ,  QA id UA-102989070-1-->
+    <!--TODO add tracking id of production, Production ga id: UA-1391084-27 ,  QA id UA-102989070-1-->
     <string name="ga_trackingId" translatable="false">UA-102989070-1</string>
 </resources>
