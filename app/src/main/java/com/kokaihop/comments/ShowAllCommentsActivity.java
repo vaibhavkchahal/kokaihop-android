@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityShowAllCommentsBinding;
@@ -34,8 +33,6 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
         initializeRecycleView();
         initializePullToRefresh();
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_comment_screen));
-
-
     }
 
     @Override

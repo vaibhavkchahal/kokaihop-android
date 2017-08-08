@@ -366,6 +366,8 @@
     <dimen name="my_cookbook_row_height">100dp</dimen>
     <dimen name="reply_user_image_height_width">25dp</dimen>
     <dimen name="comment_reply_section_margin_left">20dp</dimen>
+    <dimen name="comment_toolbar_height">45dp</dimen>
+    <dimen name="comment_toolbar_padding_bottom">10dp</dimen>
 
 
     <!-- home commment tab dimens -->
