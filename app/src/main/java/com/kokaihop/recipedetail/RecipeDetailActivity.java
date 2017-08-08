@@ -138,7 +138,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (accessToken != null && !accessToken.isEmpty() && !coachMarkVisibilty) {
             LayoutInflater inflater = LayoutInflater.from(this);
             View coachMarkView = inflater.inflate(R.layout.recipe_detail_coach_mark, null);
-            AppUtility.showCoachMark(coachMarkView,Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY);
+            AppUtility.showCoachMark(coachMarkView, Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY);
         }
     }
 
@@ -256,7 +256,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList());
+        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList(),recipe);
         recyclerViewRecipeDetail.setLayoutManager(layoutManager);
         recyclerAdapter.setPortionClickListener(new RecipeDetailRecyclerAdapter.PortionClickListener() {
             @Override
@@ -763,5 +763,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (shareDialog != null) {
             shareDialog.dismiss();
         }
+    }
+
+    public void setRecipe(RecipeRealmObject recipe) {
+        this.recipe = recipe;
     }
 }

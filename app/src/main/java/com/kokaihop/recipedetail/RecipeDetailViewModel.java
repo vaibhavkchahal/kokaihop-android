@@ -27,6 +27,7 @@ import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.UploadImageAsync;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,6 +89,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         }
         pagerImages.clear();
         if (recipeRealmObject != null) {
+            dataSetListener.setRecipe(recipeRealmObject);
             pagerImages.addAll(recipeRealmObject.getImages());
         }
         prepareRecipeDetailList(recipeRealmObject);
@@ -123,6 +125,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                         title = recipe.getTitle();
                     }
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, title);
+                    EventBus.getDefault().postSticky(recipe);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
@@ -265,7 +268,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         commentsHeading.setRecipeId(recipeRealmObject.get_id());
         commentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(commentsHeading);
-        for (int i = 0; (i < recipeRealmObject.getComments  ().size()) && (i < 3); i++) {
+        for (int i = 0; (i < recipeRealmObject.getComments().size()) && (i < 3); i++) {
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
@@ -361,6 +364,8 @@ public class RecipeDetailViewModel extends BaseViewModel {
         void onRecipeDetailDataUpdate();
 
         void onCounterUpdate();
+
+        void setRecipe(RecipeRealmObject recipe);
     }
 
     public void uploadImageOnCloudinary(final String imagePath) {
