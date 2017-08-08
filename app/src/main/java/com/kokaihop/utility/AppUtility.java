@@ -198,6 +198,7 @@ public class AppUtility {
                     if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
                         recipeRealmObject.setFavorite(recipe.isFavorite());
                         recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                        recipeRealmObject.getRating().setAverage(recipe.getRating().getAverage());
                         recyclerView.getAdapter().notifyItemChanged(i);
                         EventBus.getDefault().removeStickyEvent(recipe);
                         break;
