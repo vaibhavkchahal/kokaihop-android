@@ -284,18 +284,22 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
             }
         }
-        if (recipeRealmObject.getCookingMethod() != null) {
-            specifications.setCategory1(recipeRealmObject.getCookingMethod().getName());
-            specifications.setCategory1FriendlyUrl(recipeRealmObject.getCookingMethod().getFriendlyUrl());
+
+        if (recipeRealmObject.getCategory() != null) {
+            specifications.setCategory1(recipeRealmObject.getCategory().getName());
+            specifications.setCategory1FriendlyUrl(recipeRealmObject.getCategory().getFriendlyUrl());
         }
         if (recipeRealmObject.getCuisine() != null) {
             specifications.setCategory2(recipeRealmObject.getCuisine().getName());
             specifications.setCategory2FriendlyUrl(recipeRealmObject.getCuisine().getFriendlyUrl());
         }
-        if (recipeRealmObject.getCategory() != null) {
-            specifications.setCategory3(recipeRealmObject.getCategory().getName());
-            specifications.setCategory3FriendlyUrl(recipeRealmObject.getCategory().getFriendlyUrl());
+
+        if (recipeRealmObject.getCookingMethod() != null) {
+            specifications.setCategory3(recipeRealmObject.getCookingMethod().getName());
+            specifications.setCategory3FriendlyUrl(recipeRealmObject.getCookingMethod().getFriendlyUrl());
         }
+
+
         if (recipeRealmObject.getCreatedBy() != null) {
             specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
             specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
