@@ -178,8 +178,8 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
     public void fetchCookbooksFromDB() {
         cookbooks = profileDataManager.getCookbooks(userId);
-        User.getOtherUser().getCookbooks().clear();
-        User.getOtherUser().getCookbooks().addAll(cookbooks);
+        User.getInstance().getCookbooks().clear();
+        User.getInstance().getCookbooks().addAll(cookbooks);
         displayCookbooks();
     }
 
