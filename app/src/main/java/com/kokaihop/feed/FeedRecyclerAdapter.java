@@ -17,7 +17,6 @@ import com.altaworks.kokaihop.ui.databinding.FeedRecyclerDayRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.FeedRecyclerRecipeItemBinding;
 import com.altaworks.kokaihop.ui.databinding.RowRecipeSearchedCountBinding;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.AppUtility;
@@ -175,9 +174,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
                 // Load the ad.
-                adView.loadAd(new AdRequest.Builder().build());
-//                adView.loadAd(new AdRequest.Builder().addTestDevice("B2392C13860FF69BF8F847F0914A2745").build());  //TODO: Remove adTestDevice method for production
+//                adView.loadAd(new AdRequest.Builder().build());
+                adView.loadAd(AppUtility.getAdRequest());
                 break;
+
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
                 SearchRecipeHeader searchRecipeHeader = (SearchRecipeHeader) recipeListWithAdds.get(position);
