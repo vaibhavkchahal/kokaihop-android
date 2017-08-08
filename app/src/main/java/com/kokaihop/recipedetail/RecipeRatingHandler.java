@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
+import com.kokaihop.database.RatingRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
@@ -62,12 +64,22 @@ public class RecipeRatingHandler {
                     GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_rated_action));
                     Activity activity = (Activity) ratingBar.getContext();
                     ResponseBody responseBody = (ResponseBody) response;
+                    RatingRealmObject ratingRealmObject = recipe.getRating();
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    if (ratingRealmObject == null) {
+                        ratingRealmObject = realm.createObject(RatingRealmObject.class);
+                    }
                     try {
                         JSONObject ratingResponse = new JSONObject(responseBody.string());
-                        ratingBar.setRating((float) ratingResponse.getDouble("average"));
+                        ratingRealmObject.setAverage((float) ratingResponse.getDouble("average"));
+                        ratingRealmObject.setRaters(ratingResponse.getInt("raters"));
+                        ratingBar.setRating(ratingRealmObject.getAverage());
+                        recipe.setRating(ratingRealmObject);
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
+                    realm.commitTransaction();
                     AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.rating_dialog_text) + " " + rating);
                     EventBus.getDefault().postSticky(recipe);
                 }
