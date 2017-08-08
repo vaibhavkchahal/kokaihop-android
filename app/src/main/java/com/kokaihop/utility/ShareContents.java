@@ -95,6 +95,8 @@ public class ShareContents {
                 intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
                 intent.setType("image/*");
                 String message = getMessageContent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setType("vnd.android-dir/mms-sms");
                 intent.putExtra("sms_body", message);
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_sms_label));
 
