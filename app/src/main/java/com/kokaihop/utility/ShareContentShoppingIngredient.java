@@ -53,6 +53,8 @@ public class ShareContentShoppingIngredient {
                     if (packageName.equals("com.android.mms") || packageName.equals("com.android.messaging")) {
                         intent.putExtra(Intent.EXTRA_SUBJECT, "Inköpslista");
                         String message = getMessageContent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setType("vnd.android-dir/mms-sms");
                         intent.putExtra("sms_body", message);
                         GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_shared_action), context.getString(R.string.buy_list_sms_label));
 

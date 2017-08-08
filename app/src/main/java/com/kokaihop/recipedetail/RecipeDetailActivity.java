@@ -231,7 +231,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             MenuItem menuItemShare = menu.findItem(R.id.icon_share);
             MenuItem menuItemCamera = menu.findItem(R.id.icon_camera);
             MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
-
             if (collapsed) {
                 if (!recipe.isFavorite()) {
                     menuItemLike.setIcon(R.drawable.ic_like_md_grey);
@@ -440,7 +439,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (recipeDetailViewModel.getPagerImages().size() == 0) {
             binding.recipeDetailPlaceholder.setVisibility(View.VISIBLE);
         } else {
-            binding.recipeDetailPlaceholder.setVisibility(View.INVISIBLE);
+            binding.recipeDetailPlaceholder.setVisibility(View.GONE);
         }
     }
 
@@ -592,7 +591,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 //                    shareContents.setImageFile(sharefile);
 //                    shareContents.share();
 //                    CameraUtils.sharePicture(this, imageUrl);
-
                 // Create alert shareDialog box
                 shareDialog = new Dialog(this);
                 shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -606,7 +604,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 shareDialog.show();
                 return true;
-
             case R.id.icon_camera:
                 recipeDetailViewModel.getRecipeDetails();
                 String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);

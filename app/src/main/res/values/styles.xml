@@ -10,6 +10,13 @@
     </style>
 
 
+    <style name="AppThemeComments" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="AuthenticationTheme" parent="AppTheme">
         <item name="colorAccent">@color/white</item>
     </style>
