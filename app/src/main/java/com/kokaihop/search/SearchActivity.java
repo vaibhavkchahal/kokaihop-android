@@ -23,6 +23,7 @@ import com.altaworks.kokaihop.ui.databinding.ActivitySearchBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogSearchFilterBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 import com.kokaihop.search.SearchViewModel.DataSetListener;
@@ -30,6 +31,9 @@ import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -54,6 +58,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private String courseFriendlyUrl, cuisineFriendlyUrl, methodFriendlyUrl;
     private int numOfColumnInGrid;
     private int spanSizeForItemRecipe = 1;
+    private GridLayoutManager layoutManager;
+    private FeedRecyclerAdapter recyclerAdapter;
 
 
     @Override
@@ -124,9 +130,9 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.rvRecipes.setVisibility(View.VISIBLE);
         RecyclerView rvRecipes = binding.included.rvRecipes;
         numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
-        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(recipeList, numOfColumnInGrid);
+        recyclerAdapter = new FeedRecyclerAdapter(recipeList, numOfColumnInGrid);
         recyclerAdapter.setFromSearchedView(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), numOfColumnInGrid);
+        layoutManager = new GridLayoutManager(getContext(), numOfColumnInGrid);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                                             @Override
                                             public int getSpanSize(int position) {
@@ -377,4 +383,42 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
             }
         }
     };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+
+    }
+
+    @Subscribe(sticky = true)
+    public void onEvent(RecipeRealmObject recipe) {
+        Logger.e("Event bus Search", "Event bus Search");
+        if (recyclerAdapter != null) {
+            if (layoutManager != null) {
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                for (int i = firstVisibleItemPosition; i <= lastVisibleItemPosition; i++) {
+                    Object object = recyclerAdapter.getRecipeListWithAdds().get(i);
+                    if (object instanceof RecipeRealmObject) {
+                        RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
+                        if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
+                            recyclerAdapter.notifyItemChanged(i);
+                            EventBus.getDefault().removeStickyEvent(recipe);
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
 }
