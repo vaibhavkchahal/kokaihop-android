@@ -21,17 +21,19 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_other_user_profile);
         String userId = getIntent().getStringExtra(Constants.USER_ID);
         String friendlyUrl = getIntent().getStringExtra(Constants.FRIENDLY_URL);
-
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.USER_ID,userId);
-        bundle.putString(Constants.FRIENDLY_URL,friendlyUrl);
-
+        bundle.putString(Constants.USER_ID, userId);
+        bundle.putString(Constants.FRIENDLY_URL, friendlyUrl);
         fragment = new OtherUserProfileFragment();
         fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().add(binding.clOtherUserContainer.getId(),fragment).commit();
-
-
+        getSupportFragmentManager().beginTransaction().add(binding.clOtherUserContainer.getId(), fragment).commit();
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_public_screen));
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finish();
     }
 }

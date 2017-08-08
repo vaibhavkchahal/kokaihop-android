@@ -113,4 +113,9 @@ public class Constants {
     public static final int PHONE_FIRST_ADD_POSITION = 3;
     public static final int PHONE_ADD_REPEAT_POSITION = 7;
 
+
+    // recipe detail request code
+    public static final int OPEN_USER_PROFILE_REQUEST_CODE = 500;
+    public static final int OPEN_USER_PROFILE_RESULT_CODE = 600;
+
 }

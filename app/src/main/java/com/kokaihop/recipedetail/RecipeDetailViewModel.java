@@ -101,7 +101,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
             getRecipeDetails(recipeRealmObject.getFriendlyUrl(), LIMIT_COMMENT);
     }
 
-    private void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
+    public void getRecipeDetails(final String recipeFriendlyUrl, int commentToLoad) {
         setProgressVisible(true);
         String accessToken = Constants.AUTHORIZATION_BEARER + SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
         new RecipeDetailApiHelper().getRecipeDetail(accessToken, recipeFriendlyUrl, commentToLoad, new IApiRequestComplete() {
@@ -287,7 +287,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 specifications.setDateCreated(Long.parseLong(recipeRealmObject.getDateCreated()));
             }
         }
-
         if (recipeRealmObject.getCategory() != null) {
             specifications.setCategory1(recipeRealmObject.getCategory().getName());
             specifications.setCategory1FriendlyUrl(recipeRealmObject.getCategory().getFriendlyUrl());
@@ -296,13 +295,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
             specifications.setCategory2(recipeRealmObject.getCuisine().getName());
             specifications.setCategory2FriendlyUrl(recipeRealmObject.getCuisine().getFriendlyUrl());
         }
-
         if (recipeRealmObject.getCookingMethod() != null) {
             specifications.setCategory3(recipeRealmObject.getCookingMethod().getName());
             specifications.setCategory3FriendlyUrl(recipeRealmObject.getCookingMethod().getFriendlyUrl());
         }
-
-
         if (recipeRealmObject.getCreatedBy() != null) {
             specifications.setUserId(recipeRealmObject.getCreatedBy().getId());
             specifications.setFriendlyUrl(recipeRealmObject.getCreatedBy().getFriendlyUrl());
@@ -369,9 +365,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
     }
 
     public void uploadImageOnCloudinary(final String imagePath) {
-
         GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.photo_upload_action), context.getString(R.string.recipe_photo_upload_label));
-
         HashMap<String, String> paramMap = CloudinaryUtils.getCloudinaryParams(imagePath);
         setProgressVisible(true);
         UploadImageAsync uploadImageAsync = new UploadImageAsync(context, paramMap, new UploadImageAsync.OnCompleteListener() {
@@ -417,7 +411,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                                 @Override
                                 public void onSuccess(Object response) {
                                     GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.photo_upload_category), context.getString(R.string.uploaded_photo_action), context.getString(R.string.recipe_photo_uploaded_label));
-
                                     try {
                                         Logger.d("Upload Image", ((ResponseBody) response).string());
                                     } catch (IOException e) {
@@ -465,10 +458,11 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
 
     public void openUserProfile(View view) {
+        Activity activity = (Activity) context;
         Intent i = new Intent(context, OtherUserProfileActivity.class);
         i.putExtra(Constants.USER_ID, recipeRealmObject.getCreatedBy().getId());
         i.putExtra(Constants.FRIENDLY_URL, recipeRealmObject.getCreatedBy().getFriendlyUrl());
-        (context).startActivity(i);
+        activity.startActivityForResult(i, Constants.OPEN_USER_PROFILE_REQUEST_CODE);
     }
 
     public RecipeRealmObject getRecipeRealmObject() {
