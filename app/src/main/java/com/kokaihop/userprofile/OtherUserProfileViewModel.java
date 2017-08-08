@@ -22,8 +22,6 @@ import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 
-import static com.batch.android.c.s.S;
-
 /**
  * Created by Rajendra Singh on 22/5/17.
  */
@@ -47,7 +45,9 @@ public class OtherUserProfileViewModel extends BaseViewModel {
 
     @Override
     public void destroy() {
-        ((Activity) context).finish();
+        Activity activity = ((Activity) context);
+        activity.setResult(Activity.RESULT_OK);
+        activity.finish();
     }
 
     public void getUserData(final String userId, String friendlyUrl) {
@@ -87,14 +87,12 @@ public class OtherUserProfileViewModel extends BaseViewModel {
         user = profileDataManager.fetchUserData(userId, user);
         userDataListener.showUserProfile();
     }
-
 //    public String getFriendlyUrlFromDB(String userId) {
 //        return profileDataManager.getFriendlyUrlOfUser(userId);
 //    }
 
     public void onToggleFollowing(User user) {
         accessToken = SharedPrefUtils.getSharedPrefStringData(context, Constants.ACCESS_TOKEN);
-
         if (accessToken.isEmpty() || accessToken == null) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.follow_login_msg));
         } else if (user != null) {

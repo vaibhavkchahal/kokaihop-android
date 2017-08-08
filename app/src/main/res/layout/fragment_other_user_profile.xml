@@ -141,11 +141,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
+                            android:onClick="@{()->viewModel.destroy()}"
                             android:paddingBottom="@dimen/profile_back_padding_bottom"
                             android:paddingLeft="@dimen/profile_back_padding_left"
                             android:paddingRight="@dimen/back_button_padding"
                             android:paddingTop="@dimen/profile_back_padding_top"
-                            android:onClick="@{()->viewModel.destroy()}"
                             android:src="@drawable/ic_back_arrow_white_md"/>
                     </android.support.design.widget.CollapsingToolbarLayout>
 
