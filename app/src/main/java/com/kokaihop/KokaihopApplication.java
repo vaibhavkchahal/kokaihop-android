@@ -48,9 +48,7 @@ public class KokaihopApplication extends Application {
         //Set true to overwrite database - Optional
         Batch.Push.setGCMSenderId(GCM_SENDER_ID);
         Batch.Push.setManualDisplay(true);
-        // TODO : switch to live Batch Api Key before shipping
         Batch.setConfig(new Config(BATCH_API_KEY));
-
         boolean overwriteDatabase = false;
         if (overwriteDatabase) {
             copyBundledRealmFile(this.getResources().openRawResource(R.raw.kokaihop), DATABASE_NAME);
