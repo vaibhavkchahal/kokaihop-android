@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
@@ -312,5 +313,11 @@ public class AppUtility {
                 break;
             }
         }
+    }
+
+
+    public static AdRequest getAdRequest() {
+//        return new AdRequest.Builder().build();
+        return new AdRequest.Builder().addTestDevice("4F20D92C416199243861B5EACC811BD6").build(); //TODO: Remove adTestDevice method for production 4F20D92C416199243861B5EACC811BD6
     }
 }

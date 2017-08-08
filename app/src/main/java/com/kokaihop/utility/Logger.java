@@ -2,11 +2,9 @@ package com.kokaihop.utility;
 
 import android.util.Log;
 
-import com.altaworks.kokaihop.ui.BuildConfig;
-
 
 public class Logger {
-    private static boolean DEBUG = BuildConfig.DEBUG;
+    private static boolean DEBUG = true ;/*BuildConfig.DEBUG;*/
 
     /*
      Print error log in console
