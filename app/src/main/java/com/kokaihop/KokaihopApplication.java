@@ -9,6 +9,7 @@ import com.batch.android.Config;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.kokaihop.database.Migration;
 import com.kokaihop.utility.CustomFontFamily;
 
 import java.io.File;
@@ -64,7 +65,8 @@ public class KokaihopApplication extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(SCHEMA_VERSION)
                 .name(DATABASE_NAME)
-                .deleteRealmIfMigrationNeeded() //TODO: replace with the migration code before play store release  .migration(new Migration())
+//                .deleteRealmIfMigrationNeeded() // TODO: replace with the migration(new Migration()) before play store release
+                .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         customFontFamily = CustomFontFamily.getInstance();

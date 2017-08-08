@@ -114,7 +114,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 CustomDialogSignUp signUp = (CustomDialogSignUp) DialogFragment.instantiate(getActivity(), "com.kokaihop.home.CustomDialogSignUp");
                 signUp.show(getFragmentManager(), "");
 //                startActivity(new Intent(getContext(), SignUpActivity.class));
-//                TODO:to be Checked
             }
         });
     }
