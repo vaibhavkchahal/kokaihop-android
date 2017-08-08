@@ -287,7 +287,7 @@ public class SearchViewModel extends BaseViewModel {
         } else {
             isSelected = true;
             msg = view.getContext().getResources().getString(R.string.show_recipe_with_images);
-            label = context.getString(R.string.search_image_off_label);
+            label = context.getString(R.string.search_image_on_label);
 
         }
 

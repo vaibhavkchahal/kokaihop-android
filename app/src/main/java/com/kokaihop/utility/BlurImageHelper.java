@@ -130,7 +130,6 @@ public class BlurImageHelper {
 
       public static Bitmap captureView(View view){
         //Create a Bitmap with the same dimensions as the View
-//          TODO: height is < 0 Exception
               Bitmap image = Bitmap.createBitmap(view.getMeasuredWidth(),
                       view.getMeasuredHeight(),
                       Bitmap.Config.ARGB_4444); //reduce quality
