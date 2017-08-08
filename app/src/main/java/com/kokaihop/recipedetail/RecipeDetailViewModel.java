@@ -265,7 +265,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
         commentsHeading.setRecipeId(recipeRealmObject.get_id());
         commentsHeading.setFriendlyUrl(recipeRealmObject.getFriendlyUrl());
         recipeDetailItemsList.add(commentsHeading);
-        for (int i = 0; (i < recipeRealmObject.getComments().size()) && (i < 3); i++) {
+        for (int i = 0; (i < recipeRealmObject.getComments  ().size()) && (i < 3); i++) {
             recipeDetailItemsList.add(recipeRealmObject.getComments().get(i));
         }
         ListHeading addCommentsHeading = new ListHeading(context.getString(R.string.add_comments));
