@@ -184,11 +184,9 @@ public class HomeActivity extends BaseActivity {
             case 2:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.buylist_screen));
                 break;
-
             case 3:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.latest_comments_screen));
                 break;
-
             case 4:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_personal_screen));
                 break;

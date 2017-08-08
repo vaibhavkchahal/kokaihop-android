@@ -255,7 +255,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList(),recipe);
+        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList(), recipe);
         recyclerViewRecipeDetail.setLayoutManager(layoutManager);
         recyclerAdapter.setPortionClickListener(new RecipeDetailRecyclerAdapter.PortionClickListener() {
             @Override
@@ -730,6 +730,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             }
         } else if (requestCode == Constants.CONFIRM_REQUEST_CODE && resultCode == RESULT_OK) {
             recipeDetailViewModel.uploadImageOnCloudinary(filePath);
+        } else if (requestCode == Constants.OPEN_USER_PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
+//            Toast.makeText(this, "getting profile here.", Toast.LENGTH_SHORT).show();
+            recipeDetailViewModel.getRecipeDetails();
         }
     }
 
