@@ -6,8 +6,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -31,6 +31,7 @@ import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.home.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -198,14 +199,27 @@ public class AppUtility {
                     RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
                     if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
                         recipeRealmObject.setFavorite(recipe.isFavorite());
-                        recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                        recipeRealmObject.getRating().setAverage(recipe.getRating().getAverage());
+
+                        if (recipeRealmObject.getCounter()!=null){
+                            recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                        }
+                        else {
+                            RecipeDataManager recipeDataManager = new RecipeDataManager();
+                            recipeRealmObject.setCounter(recipeDataManager.fetchCounterObject(recipe));
+                        }
+
+                        if (recipeRealmObject.getRating() != null) {
+                            recipeRealmObject.getRating().setAverage(recipe.getRating().getAverage());
+
+                        } else {
+                            RecipeDataManager recipeDataManager = new RecipeDataManager();
+                            recipeRealmObject.setRating(recipeDataManager.fetchRatingObject(recipe));
+                        }
                         recyclerView.getAdapter().notifyItemChanged(i);
                         EventBus.getDefault().removeStickyEvent(recipe);
                         break;
                     }
                 }
-
             }
         }
     }
