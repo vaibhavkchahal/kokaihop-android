@@ -205,10 +205,10 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         layoutParams.width = width;
         ivProfile.setLayoutParams(layoutParams);
         RelativeLayout.LayoutParams coverLayoutParams = (RelativeLayout.LayoutParams) ivProfile.getLayoutParams();
-        CloudinaryImage profileImage = User.getOtherUser().getProfileImage();
+        CloudinaryImage profileImage = user.getProfileImage();
         if (profileImage != null) {
             String imageUrl = CloudinaryUtils.getRoundedImageUrl(profileImage.getCloudinaryId(), String.valueOf(coverLayoutParams.width), String.valueOf(coverLayoutParams.height));
-            User.getOtherUser().setProfileImageUrl(imageUrl);
+            user.setProfileImageUrl(imageUrl);
         }
         binding.executePendingBindings();
     }
