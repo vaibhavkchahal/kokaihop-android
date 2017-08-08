@@ -270,6 +270,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             public void onAddToListClick() {
                 addItemsToShoppingList();
                 EventBus.getDefault().postSticky(new AddToListEvent());
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category), getString(R.string.buy_list_added_action),getString(R.string.buy_list_recipe_label));
+
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.buy_list_recipe_label));
+
             }
         });
         recyclerViewRecipeDetail.setAdapter(recyclerAdapter);
