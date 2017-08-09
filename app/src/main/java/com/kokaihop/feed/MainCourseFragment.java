@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
@@ -59,6 +57,7 @@ public class MainCourseFragment extends Fragment {
                              Bundle sasvedInstanceState) {
         // Inflate the layout for this fragment
         mainCourseBinding = inflate(LayoutInflater.from(getActivity()), R.layout.fragment_main_course, container, false);
+
         mainCourseViewModel = new RecipeFeedViewModel(getContext(), ApiConstants.BadgeType.MAIN_COURSE_OF_THE_DAY);
         mainCourseBinding.setViewModel(mainCourseViewModel);
         initializeRecycleView();
@@ -107,67 +106,23 @@ public class MainCourseFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Log.i("config changes", "landscape");
             AppUtility appUtility = new AppUtility();
+            mainCourseViewModel.getRecipeListWithAdds().clear();
+            mainCourseViewModel.getRecipeListWithAdds().addAll(mainCourseViewModel.getRecipeList());
             appUtility.addAdvtInRecipeList(mainCourseViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
-            numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
-            final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeListWithAdds(), numOfColumnInGrid);
-            GridLayoutManager layoutManager = (GridLayoutManager) mainCourseBinding.rvMainCourse.getLayoutManager();
-            layoutManager.setSpanCount(numOfColumnInGrid);
-            layoutManager.setSpanSizeLookup
-                    (new GridLayoutManager.SpanSizeLookup() {
-                         @Override
-                         public int getSpanSize(int position) {
-                             switch (recyclerAdapter.getItemViewType(position)) {
-                                 case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
-                                     return numOfColumnInGrid;
-                                 case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
-                                     return spanSizeForItemRecipe;
-                                 case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
-                                     return numOfColumnInGrid;
-                                 default:
-                                     return -1;
-                             }
-                         }
-                     }
-                    );
-            mainCourseBinding.rvMainCourse.setLayoutManager(layoutManager);
-            mainCourseBinding.rvMainCourse.setAdapter(recyclerAdapter);
-            recyclerAdapter.notifyDataSetChanged();
+            feedRecyclerListingOperation.prepareFeedRecyclerView();
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(getContext(), "portrait", Toast.LENGTH_SHORT).show();
-            Log.i("config changes", "portrait");
             AppUtility appUtility = new AppUtility();
+            mainCourseViewModel.getRecipeListWithAdds().clear();
+            mainCourseViewModel.getRecipeListWithAdds().addAll(mainCourseViewModel.getRecipeList());
             appUtility.addAdvtInRecipeList(mainCourseViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
-            numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
-            final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(mainCourseViewModel.getRecipeListWithAdds(), numOfColumnInGrid);
-            GridLayoutManager layoutManager = (GridLayoutManager) mainCourseBinding.rvMainCourse.getLayoutManager();
-            layoutManager.setSpanCount(numOfColumnInGrid);
-            layoutManager.setSpanSizeLookup
-                    (new GridLayoutManager.SpanSizeLookup() {
-                         @Override
-                         public int getSpanSize(int position) {
-                             switch (recyclerAdapter.getItemViewType(position)) {
-                                 case FeedRecyclerAdapter.TYPE_ITEM_DAY_RECIPE:
-                                     return numOfColumnInGrid;
-                                 case FeedRecyclerAdapter.TYPE_ITEM_RECIPE:
-                                     return spanSizeForItemRecipe;
-                                 case FeedRecyclerAdapter.TYPE_ITEM_ADVT:
-                                     return numOfColumnInGrid;
-                                 default:
-                                     return -1;
-                             }
-                         }
-                     }
-                    );
-            mainCourseBinding.rvMainCourse.setLayoutManager(layoutManager);
-            mainCourseBinding.rvMainCourse.setAdapter(recyclerAdapter);
-            recyclerAdapter.notifyDataSetChanged();
+            feedRecyclerListingOperation.prepareFeedRecyclerView();
         }
     }
 }

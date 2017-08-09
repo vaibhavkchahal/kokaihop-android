@@ -40,7 +40,16 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
     private boolean isDownloading;
 
+    public List<RecipeRealmObject> getRecipeList() {
+        return recipeList;
+    }
+
     private List<RecipeRealmObject> recipeList = new ArrayList<>();
+
+    public void setRecipeListWithAdds(List<Object> recipeListWithAdds) {
+        this.recipeListWithAdds = recipeListWithAdds;
+    }
+
     private List<Object> recipeListWithAdds = new ArrayList<>();
     private int firstAddPlace;
     private int itemsPerAdd;
