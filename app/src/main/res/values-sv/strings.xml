@@ -328,6 +328,15 @@
     <string name="passsword_warning_space_start_end">Lösenordet får inte börja eller sluta med blanksteg</string>
     <string name="text_invalid_ingredient">Ogiltlig ingrediens</string>
     <string name="confirm_upload">Bekräfta uppladdningen</string>
+    <string name="invalid_quantity">Ogiltig Mängd</string>
+    <string name="select_unit">Välj Enhet</string>
+    <string name="my_profile">Min profil</string>
+    <string name="text_print">skriva ut</string>
+    <string name="user">Användare</string>
+    <string name="comments_not_refreshed">Kan inte uppdatera kommentarer</string>
+    <string name="save">Spara</string>
+    <string name="unable_access_fb_detai">Det gick inte att komma åt dina facebook-detaljer!</string>
+
 </resources>
 
 

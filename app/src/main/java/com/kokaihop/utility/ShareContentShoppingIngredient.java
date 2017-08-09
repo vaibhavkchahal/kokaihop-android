@@ -53,6 +53,8 @@ public class ShareContentShoppingIngredient {
                     if (packageName.equals("com.android.mms") || packageName.equals("com.android.messaging")) {
                         intent.putExtra(Intent.EXTRA_SUBJECT, "Inköpslista");
                         String message = getMessageContent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setType("vnd.android-dir/mms-sms");
                         intent.putExtra("sms_body", message);
                         GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.buy_list_category), context.getString(R.string.buy_list_shared_action), context.getString(R.string.buy_list_sms_label));
 
@@ -95,7 +97,11 @@ public class ShareContentShoppingIngredient {
         String listContent = "";
         for (IngredientsRealmObject item : shoppingIngredientsList) {
             if (item.getAmount() > 0) {
-                listContent = listContent + item.getAmount() + " " + item.getUnit().getName() + " " + item.getName() + lineBreaker;
+                String unitName = "";
+                if (item.getUnit() != null) {
+                    unitName = item.getUnit().getName();
+                }
+                listContent = listContent + item.getAmount() + " " + unitName + " " + item.getName() + lineBreaker;
             } else {
                 listContent = listContent + item.getName() + lineBreaker;
             }

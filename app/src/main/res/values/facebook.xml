@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="http://schemas.android.com/tools">
+    <!-- facebook login strings -->
+    <string name="facebook_app_id">119229822371</string>
+    <string name="facebook_email_permisson">email</string>
+    <string name="facebook_public_profile_permisson">public_profile</string>
+</resources>

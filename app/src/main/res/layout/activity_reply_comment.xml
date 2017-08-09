@@ -9,33 +9,31 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_height_with_status"
+            android:layout_height="@dimen/comment_toolbar_height"
             android:background="@color/kokaihop_orange_color"
             android:gravity="center_horizontal"
-            android:paddingTop="@dimen/status_bar_height">
+            android:paddingBottom="@dimen/comment_toolbar_padding_bottom">
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/toolbar_cancel"
                     style="@style/backButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:onClick="@{(v)-> viewModel.onBackPressed(v)}"/>
+                    android:onClick="@{(v)-> viewModel.onBackPressed(v)}"
+                    android:src="@drawable/ic_back_arrow_white_md"/>
 
                 <TextView
                     android:id="@+id/toolbar_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
+                    android:layout_centerInParent="true"
                     android:text="@string/text_comments"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_large"
@@ -69,7 +67,7 @@
             android:layout_height="@dimen/send_comment_view_height"
             android:layout_alignParentBottom="true"
             android:elevation="@dimen/comment_send_section_elevation"
-        >
+            bind:ignore="UnusedAttribute">
 
             <View android:layout_width="match_parent"
                   android:layout_height="2dp"
@@ -78,12 +76,12 @@
                 android:id="@+id/send_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:onClick="@{(v) ->viewModel.postReplyOnComment(v,edittxtWriteComment)}"
-                android:paddingLeft="@dimen/send_button_left_right_padding"
-                android:paddingRight="@dimen/send_button_left_right_padding"
+                android:paddingEnd="@dimen/send_button_left_right_padding"
+                android:paddingStart="@dimen/send_button_left_right_padding"
                 android:text="@string/text_send"
                 android:textColor="@color/orange_FFF75A15"
                 android:textSize="@dimen/textsize_send_text"
@@ -93,20 +91,20 @@
                 android:id="@+id/view_separator"
                 android:layout_width="@dimen/send_section_separator_width"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/send_button"
+                android:layout_toStartOf="@+id/send_button"
                 android:background="#B3C0C0C0"/>
 
             <EditText
                 android:id="@+id/edittxt_write_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/view_separator"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:layout_toStartOf="@+id/view_separator"
                 android:background="@android:color/transparent"
-                android:hint="@{@string/hint_text_reply_comment+ ` ` + viewModel.commentRealmObject.sourceUser.userName}"
+                android:hint="@{viewModel.commentRealmObject.sourceUser.userName!=null ? @string/hint_text_reply_comment+ ` ` + viewModel.commentRealmObject.sourceUser.userName : @string/text_reply}"
                 android:textColorHint="@color/grey_FF8D929C"
                 android:textSize="@dimen/textsize_edit_comment"
                 app:font="@{`SS-ProRegular`}"/>

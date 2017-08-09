@@ -178,8 +178,8 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
     public void fetchCookbooksFromDB() {
         cookbooks = profileDataManager.getCookbooks(userId);
-        User.getOtherUser().getCookbooks().clear();
-        User.getOtherUser().getCookbooks().addAll(cookbooks);
+        User.getInstance().getCookbooks().clear();
+        User.getInstance().getCookbooks().addAll(cookbooks);
         displayCookbooks();
     }
 
@@ -204,6 +204,13 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 ((Activity) context).setResult(Activity.RESULT_OK, resultIntent);
                 setProgressVisible(false);
                 AppUtility.showAutoCancelMsgDialog(context, context.getString(R.string.recipe_added_to_cookbook));
+                RecipeDataManager dataManager = new RecipeDataManager();
+                RecipeRealmObject recipe = dataManager.fetchRecipe(recipeId);
+                dataManager.updateIsFavoriteInDB(true, recipe);
+                if (recipe.getCounter() != null) {
+                    dataManager.updateLikesCount(recipe, recipe.getCounter().getLikes());
+                }
+                EventBus.getDefault().postSticky(recipe);
 
             }
 

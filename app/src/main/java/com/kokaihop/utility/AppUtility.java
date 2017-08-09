@@ -6,8 +6,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -24,11 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.authentication.login.LoginActivity;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
+import com.kokaihop.feed.RecipeDataManager;
 import com.kokaihop.home.HomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -196,13 +199,27 @@ public class AppUtility {
                     RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
                     if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
                         recipeRealmObject.setFavorite(recipe.isFavorite());
-                        recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
+
+                        if (recipeRealmObject.getCounter()!=null){
+                            recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
+                        }
+                        else {
+                            RecipeDataManager recipeDataManager = new RecipeDataManager();
+                            recipeRealmObject.setCounter(recipeDataManager.fetchCounterObject(recipe));
+                        }
+
+                        if (recipeRealmObject.getRating() != null) {
+                            recipeRealmObject.getRating().setAverage(recipe.getRating().getAverage());
+
+                        } else {
+                            RecipeDataManager recipeDataManager = new RecipeDataManager();
+                            recipeRealmObject.setRating(recipeDataManager.fetchRatingObject(recipe));
+                        }
                         recyclerView.getAdapter().notifyItemChanged(i);
                         EventBus.getDefault().removeStickyEvent(recipe);
                         break;
                     }
                 }
-
             }
         }
     }
@@ -223,7 +240,7 @@ public class AppUtility {
         return existingIngredientObjectKey;
     }
 
-    public static void showCoachMark(View view) {
+    public static void showCoachMark(View view, final String coachMarkKey) {
         final Dialog dialog = new Dialog(view.getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -236,6 +253,17 @@ public class AppUtility {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                SharedPrefUtils.setSharedPrefBooleanData(getContext(), coachMarkKey, true);
+            }
+        });
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dialog.dismiss();
+                    SharedPrefUtils.setSharedPrefBooleanData(getContext(), coachMarkKey, true);
+                }
+                return true;
             }
         });
         dialog.show();
@@ -299,5 +327,11 @@ public class AppUtility {
                 break;
             }
         }
+    }
+
+
+    public static AdRequest getAdRequest() {
+//        return new AdRequest.Builder().build();
+        return new AdRequest.Builder().addTestDevice("4F20D92C416199243861B5EACC811BD6").build(); //TODO: Remove adTestDevice method for production 4F20D92C416199243861B5EACC811BD6
     }
 }

@@ -96,22 +96,22 @@
         </activity>
         <activity
             android:name="com.kokaihop.comments.ShowAllCommentsActivity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/AppThemeComments"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name="com.kokaihop.userprofile.OtherUserProfileActivity">
         </activity>
         <activity
             android:name="com.kokaihop.comments.ReplyCommentActivity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan">
+            android:theme="@style/AppThemeComments"
+            android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name="com.kokaihop.cookbooks.CookbookDetailActivity">
+        <activity android:name="com.kokaihop.cookbooks.CookbookDetailActivity"
+                  android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.kokaihop.search.SearchActivity"
-            android:label="@string/title_activity_search"
             android:parentActivityName="com.kokaihop.base.BaseActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden">

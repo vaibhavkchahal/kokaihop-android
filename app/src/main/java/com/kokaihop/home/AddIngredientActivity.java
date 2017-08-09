@@ -1,5 +1,6 @@
 package com.kokaihop.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -31,9 +32,7 @@ public class AddIngredientActivity extends BaseActivity implements AddIngredient
         if (intent.getStringExtra(Constants.INGREDIENT_NAME) != null) {
             binding.edittextEnterIngredient.setText(intent.getStringExtra(Constants.INGREDIENT_NAME));
             GoogleAnalyticsHelper.trackScreenName(getString(R.string.ingredient_edit_screen));
-        }
-        else
-        {
+        } else {
             GoogleAnalyticsHelper.trackScreenName(getString(R.string.ingredient_add_screen));
         }
         if (intent.getFloatExtra(Constants.INGREDIENT_AMOUNT, 0) != 0) {
@@ -47,5 +46,11 @@ public class AddIngredientActivity extends BaseActivity implements AddIngredient
     @Override
     public void onUnitPickerValueChange(String value) {
         binding.txtviewUnitValue.setText(value);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 }

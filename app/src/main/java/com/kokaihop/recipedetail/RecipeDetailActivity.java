@@ -92,6 +92,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private RecipeDetailViewModel recipeDetailViewModel;
     private TextView txtviewPagerProgress;
     private RecipeDetailRecyclerAdapter recyclerAdapter;
+    private RecipeHandler recipeHandler;
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
@@ -137,8 +138,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (accessToken != null && !accessToken.isEmpty() && !coachMarkVisibilty) {
             LayoutInflater inflater = LayoutInflater.from(this);
             View coachMarkView = inflater.inflate(R.layout.recipe_detail_coach_mark, null);
-            AppUtility.showCoachMark(coachMarkView);
-            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY, true);
+            AppUtility.showCoachMark(coachMarkView, Constants.RECIPE_DETAIL_COACHMARK_VISIBILITY);
         }
     }
 
@@ -211,7 +211,14 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                             break;
                         case SCROLL_UP:
                             changeMenuItemsIcons(true);
-
+                    }
+                } else {
+                    switch (state) {
+                        case SCROLL_DOWN:
+                            changeMenuItemsIcons(false);
+                            break;
+                        case SCROLL_UP:
+                            changeMenuItemsIcons(true);
                     }
                 }
             }
@@ -219,26 +226,28 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     }
 
     private void changeMenuItemsIcons(boolean collapsed) {
-        MenuItem menuItemLike = menu.findItem(R.id.icon_like);
-        MenuItem menuItemShare = menu.findItem(R.id.icon_share);
-        MenuItem menuItemCamera = menu.findItem(R.id.icon_camera);
-        MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
-        if (collapsed) {
-            if (!recipe.isFavorite()) {
-                menuItemLike.setIcon(R.drawable.ic_like_md_grey);
+        if (menu != null) {
+            MenuItem menuItemLike = menu.findItem(R.id.icon_like);
+            MenuItem menuItemShare = menu.findItem(R.id.icon_share);
+            MenuItem menuItemCamera = menu.findItem(R.id.icon_camera);
+            MenuItem menuItemWishlist = menu.findItem(R.id.icon_add_to_wishlist);
+            if (collapsed) {
+                if (!recipe.isFavorite()) {
+                    menuItemLike.setIcon(R.drawable.ic_like_md_grey);
+                }
+                menuItemShare.setIcon(R.drawable.ic_share_md_grey);
+                menuItemCamera.setIcon(R.drawable.ic_camera_grey);
+                menuItemWishlist.setIcon(R.drawable.ic_bookmark_md_grey);
+                binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
+            } else {
+                if (!recipe.isFavorite()) {
+                    menuItemLike.setIcon(R.drawable.ic_unlike_md);
+                }
+                menuItemShare.setIcon(R.drawable.ic_share_md);
+                menuItemCamera.setIcon(R.drawable.ic_camera);
+                menuItemWishlist.setIcon(R.drawable.ic_bookmark_md);
+                binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm);
             }
-            menuItemShare.setIcon(R.drawable.ic_share_md_grey);
-            menuItemCamera.setIcon(R.drawable.ic_camera_grey);
-            menuItemWishlist.setIcon(R.drawable.ic_bookmark_md_grey);
-            binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm_grey);
-        } else {
-            if (!recipe.isFavorite()) {
-                menuItemLike.setIcon(R.drawable.ic_like_md);
-            }
-            menuItemShare.setIcon(R.drawable.ic_share_md);
-            menuItemCamera.setIcon(R.drawable.ic_camera);
-            menuItemWishlist.setIcon(R.drawable.ic_bookmark_md);
-            binding.imgviewBack.setImageResource(R.drawable.ic_back_arrow_sm);
         }
     }
 
@@ -246,7 +255,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private void initializeRecycleView() {
         RecyclerView recyclerViewRecipeDetail = binding.recyclerViewRecipeDetail;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList());
+        recyclerAdapter = new RecipeDetailRecyclerAdapter(comingFrom, recipeDetailViewModel.getRecipeDetailItemsList(), recipe);
         recyclerViewRecipeDetail.setLayoutManager(layoutManager);
         recyclerAdapter.setPortionClickListener(new RecipeDetailRecyclerAdapter.PortionClickListener() {
             @Override
@@ -260,6 +269,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             public void onAddToListClick() {
                 addItemsToShoppingList();
                 EventBus.getDefault().postSticky(new AddToListEvent());
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category), getString(R.string.buy_list_added_action),getString(R.string.buy_list_recipe_label));
+
             }
         });
         recyclerViewRecipeDetail.setAdapter(recyclerAdapter);
@@ -426,7 +437,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (recipeDetailViewModel.getPagerImages().size() == 0) {
             binding.recipeDetailPlaceholder.setVisibility(View.VISIBLE);
         } else {
-            binding.recipeDetailPlaceholder.setVisibility(View.INVISIBLE);
+            binding.recipeDetailPlaceholder.setVisibility(View.GONE);
         }
     }
 
@@ -481,12 +492,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             menuItemLike.setIcon(R.drawable.ic_like_sm);
             menuItemLike.setChecked(recipe.isFavorite);
         } else {
-            menuItemLike.setIcon(R.drawable.ic_unlike_sm);
+            menuItemLike.setIcon(R.drawable.ic_unlike_md);
             menuItemLike.setChecked(false);
         }
     }
 
     private void actionOnRecipeLike(final MenuItem item, final RecipeRealmObject recipe, final RecipeHandler recipeHandler) {
+        this.recipeHandler = recipeHandler;
         String accessToken = getSharedPrefStringData(RecipeDetailActivity.this, Constants.ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty()) {
             if (item.isChecked()) {
@@ -523,8 +535,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         new CookbooksDataManager().removeRecipeFromAllCookbooks(userFriendlyUrl, recipe);
         CheckBox checkBox = binding.getViewModel().getCheckBox();
         checkBox.setChecked(item.isChecked());
-        recipeHandler.onCheckChangeRecipe(checkBox, recipe);
-        recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
+        if (recipeHandler != null) {
+            recipeHandler.onCheckChangeRecipe(checkBox, recipe);
+            recipeHandler.setRecipePosition(getIntent().getIntExtra("recipePosition", -1));
+        }
     }
 
     //    checks whether a recipe exists in any of the cookbook of user
@@ -544,6 +558,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         switch (item.getItemId()) {
             case R.id.icon_share:
                 Logger.e("Share Picture", "Menu");
+                List<Object> shareObjectsList = addShareOptions();
+                ShareUsingPrint shareUsingPrint = prepareContentToPrint();
+                shareObjectsList.add(shareUsingPrint);
+                final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList, this);
+                shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
+                shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
                 if (recipeDetailPagerAdapter != null && recipeDetailPagerAdapter.getCount() > 0) {
                     // Save this bitmap to a file.
                     File cache = getApplicationContext().getExternalCacheDir();
@@ -557,43 +577,37 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 75, out);
                         out.flush();
                         out.close();
+                        shareAdapter.setShareFile(sharefile);
                     } catch (IOException e) {
                         Log.e("ERROR", String.valueOf(e.getMessage()));
 
                     }
+                }
 //                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
 //                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
 //                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
 //                    shareContents.setImageFile(sharefile);
 //                    shareContents.share();
 //                    CameraUtils.sharePicture(this, imageUrl);
-                    List<Object> shareObjectsList = addShareOptions();
-                    ShareUsingPrint shareUsingPrint = prepareContentToPrint();
-                    shareObjectsList.add(shareUsingPrint);
-                    final ShareAdapter shareAdapter = new ShareAdapter(this, shareObjectsList, this);
-                    shareAdapter.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
-                    shareAdapter.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-                    shareAdapter.setShareFile(sharefile);
-                    // Create alert shareDialog box
-                    shareDialog = new Dialog(this);
-                    shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    shareDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                    ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
-                    shareDialog.setContentView(binding.getRoot());
-                    binding.recyclerviewShare.setAdapter(shareAdapter);
-                    GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
-                    binding.recyclerviewShare.setLayoutManager(layoutManager);
-                    shareDialog.setCanceledOnTouchOutside(true);
-                    shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    shareDialog.show();
-                }
+                // Create alert shareDialog box
+                shareDialog = new Dialog(this);
+                shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                shareDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                ShareDialogBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), R.layout.share_dialog, null, false);
+                shareDialog.setContentView(binding.getRoot());
+                binding.recyclerviewShare.setAdapter(shareAdapter);
+                GridLayoutManager layoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS_IN_SHARE_GRID);
+                binding.recyclerviewShare.setLayoutManager(layoutManager);
+                shareDialog.setCanceledOnTouchOutside(true);
+                shareDialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                shareDialog.show();
                 return true;
             case R.id.icon_camera:
+                recipeDetailViewModel.getRecipeDetails();
                 String accessToken = getSharedPrefStringData(this, Constants.ACCESS_TOKEN);
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_upload_pic_message));
                 } else {
-                    currentPagerPosition = viewPager.getCurrentItem() + 1;
                     CameraUtils.selectImage(this);
                 }
                 return true;
@@ -602,12 +616,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
                 if (accessToken == null || accessToken.isEmpty()) {
                     AppUtility.showLoginDialog(this, getString(R.string.members_area), getString(R.string.login_add_to_cookbook_message));
                 } else {
-                    binding.getViewModel().openCookBookScreen();
+                    this.binding.getViewModel().openCookBookScreen();
                 }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+
     }
 
     @NonNull
@@ -669,6 +684,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     @Override
     public void onCounterUpdate() {
+        currentPagerPosition = viewPager.getCurrentItem() + 1;
         if (viewPager.getAdapter().getCount() > 0) {
             binding.txtviewPagerProgress.setText(currentPagerPosition + "/" + recipeDetailViewModel.getPagerImages().size());
 
@@ -693,11 +709,13 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == EditProfileViewModel.REQUEST_GALLERY || requestCode == EditProfileViewModel.REQUEST_CAMERA) {
             if (requestCode == EditProfileViewModel.REQUEST_GALLERY) {
-                imageUri = data.getData();
-                filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
-                Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
-                confirmIntent.setData(imageUri);
-                startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+                if (data != null) {
+                    imageUri = data.getData();
+                    filePath = CameraUtils.getRealPathFromURI(RecipeDetailActivity.this, imageUri);
+                    Intent confirmIntent = new Intent(this, ConfirmImageUploadActivity.class);
+                    confirmIntent.setData(imageUri);
+                    startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
+                }
             } else {
                 filePath = CameraUtils.onCaptureImageResult();
                 recipeDetailViewModel.uploadImageOnCloudinary(filePath);
@@ -714,6 +732,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             }
         } else if (requestCode == Constants.CONFIRM_REQUEST_CODE && resultCode == RESULT_OK) {
             recipeDetailViewModel.uploadImageOnCloudinary(filePath);
+        } else if (requestCode == Constants.OPEN_USER_PROFILE_REQUEST_CODE && resultCode == RESULT_OK) {
+//            Toast.makeText(this, "getting profile here.", Toast.LENGTH_SHORT).show();
+            recipeDetailViewModel.getRecipeDetails();
         }
     }
 
@@ -740,5 +761,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         if (shareDialog != null) {
             shareDialog.dismiss();
         }
+    }
+
+    public void setRecipe(RecipeRealmObject recipe) {
+        this.recipe = recipe;
     }
 }

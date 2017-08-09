@@ -225,6 +225,8 @@
     <dimen name="row_follower_following_text_size">19sp</dimen>
 
     <!-- recipe detail dimens -->
+
+    <dimen name="relative_layout_pager_height">280dp</dimen>
     <dimen name="recipe_detail_rating_bar_height">13dp</dimen>
     <dimen name="recipe_detail_dialog_rating_bar_height">26dp</dimen>
     <dimen name="recipe_detai_rating_bar_margin_top">20dp</dimen>
@@ -238,7 +240,7 @@
     <dimen name="textview_category_padding_bottom">5dp</dimen>
     <dimen name="txtview_category_padding_left_right">17dp</dimen>
     <dimen name="txtview_category_padding_top">5dp</dimen>
-    <dimen name="txtview_category_textsize">13sp</dimen>
+    <dimen name="txtview_category_textsize">14sp</dimen>
     <dimen name="txtview_category_margin_left">10.9dp</dimen>
     <dimen name="txtview_specs_margin_top">18dp</dimen>
     <dimen name="txtview_specs_textsize">14sp</dimen>
@@ -366,6 +368,8 @@
     <dimen name="my_cookbook_row_height">100dp</dimen>
     <dimen name="reply_user_image_height_width">25dp</dimen>
     <dimen name="comment_reply_section_margin_left">20dp</dimen>
+    <dimen name="comment_toolbar_height">45dp</dimen>
+    <dimen name="comment_toolbar_padding_bottom">10dp</dimen>
 
 
     <!-- home commment tab dimens -->
@@ -476,6 +480,12 @@
     <dimen name="myprofile_signup_button_margin_bottom">60dp</dimen>
     <dimen name="search_filter_line_spacing">24sp</dimen>
     <dimen name="search_filter_text_size">18sp</dimen>
-    <dimen name="search_filter_padding">10dp</dimen>
+    <dimen name="horizontal_padding_signup_message">0dp</dimen>
+    <dimen name="user_profile_coaching_padding_top">200dp</dimen>
+    <dimen name="recipe_detail_coach_padding_top">50dp</dimen>
 
+    <dimen name="search_filter_padding">11dp</dimen>
+    <dimen name="search_tags_height">34dp</dimen>
+    <dimen name="input_dialog_padding">20dp</dimen>
+    <dimen name="back_button_padding_left">10dp</dimen>
 </resources>

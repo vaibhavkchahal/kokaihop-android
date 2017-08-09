@@ -1,8 +1,7 @@
 package com.kokaihop.utility;
 
+import android.support.compat.BuildConfig;
 import android.util.Log;
-
-import com.altaworks.kokaihop.ui.BuildConfig;
 
 
 public class Logger {

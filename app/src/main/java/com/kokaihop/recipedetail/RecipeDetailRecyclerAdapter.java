@@ -27,11 +27,11 @@ import com.altaworks.kokaihop.ui.databinding.RecipeDetailSimilarRecipeItemBindin
 import com.altaworks.kokaihop.ui.databinding.RecipeItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.RecipeHandler;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
@@ -64,10 +64,12 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private PortionClickListener onPortionClickListener;
     private AddToListClickListener onAddToListClickListener;
     private String comingFrom;
+    private RecipeRealmObject recipe;
 
-    public RecipeDetailRecyclerAdapter(String comingFrom, List<Object> list) {
+    public RecipeDetailRecyclerAdapter(String comingFrom, List<Object> list, RecipeRealmObject recipe) {
         recipeDetailItemsList = list;
         this.comingFrom = comingFrom;
+        this.recipe = recipe;
     }
 
     @Override
@@ -127,7 +129,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 RecipeDetailHeader recipeDetailHeader = (RecipeDetailHeader) recipeDetailItemsList.get(position);
                 RatingBar ratingBar = holderMainHeader.binder.ratingBar;
                 holderMainHeader.binder.setModel(recipeDetailHeader);
-                holderMainHeader.binder.setRatingHandler(new RecipeRatingHandler(ratingBar, recipeDetailHeader));
+                holderMainHeader.binder.setRatingHandler(new RecipeRatingHandler(ratingBar, recipeDetailHeader, recipe));
                 holderMainHeader.binder.executePendingBindings();
                 break;
             case TYPE_ITEM_ADVT:
@@ -154,7 +156,7 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                     }
                 });
                 // Load the ad.
-                adView.loadAd(new AdRequest.Builder().build());
+                adView.loadAd(AppUtility.getAdRequest());
                 break;
             case TYPE_ITEM_INGREDIENT_HEADING:
                 ViewHolderIngredientHeading holderIngredientHeading = (ViewHolderIngredientHeading) holder;

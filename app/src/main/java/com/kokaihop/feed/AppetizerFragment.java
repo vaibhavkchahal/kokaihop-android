@@ -96,7 +96,6 @@ public class AppetizerFragment extends Fragment {
             List<Object> recipeListWithAds = apeetizerViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvAppetizer, recipeListWithAds);
-            EventBus.getDefault().removeStickyEvent(recipe);
         }
     }
 

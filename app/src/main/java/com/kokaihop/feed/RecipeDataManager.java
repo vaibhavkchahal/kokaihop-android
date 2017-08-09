@@ -2,6 +2,7 @@ package com.kokaihop.feed;
 
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.CounterRealmObject;
+import com.kokaihop.database.RatingRealmObject;
 import com.kokaihop.database.RecipeInfo;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
@@ -196,6 +197,17 @@ public class RecipeDataManager {
         RecipeRealmObject recipeRealmObject = realm.where(RecipeRealmObject.class)
                 .equalTo(RECIPE_ID, recipeID).findFirst();
         return recipeRealmObject;
+    }
+
+
+    public RatingRealmObject fetchRatingObject(RecipeRealmObject recipeRealmObject) {
+        //return the unmanaged object
+        return realm.copyFromRealm(recipeRealmObject.getRating());
+    }
+
+    public CounterRealmObject fetchCounterObject(RecipeRealmObject recipeRealmObject) {
+        //return the unmanaged object
+        return realm.copyFromRealm(recipeRealmObject.getCounter());
     }
 
     public RecipeRealmObject fetchRecipeUsingFriendlyUrl(String friendlyUrl) {

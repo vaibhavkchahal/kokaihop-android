@@ -13,17 +13,15 @@
             android:layout_height="@dimen/toolbar_height_with_status"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:paddingLeft="@dimen/padding_left_add_ingredient_toolbar"
-            android:paddingRight="@dimen/padding_right_add_ingredient_toolbar"
+            android:paddingStart="@dimen/padding_left_add_ingredient_toolbar"
+            android:paddingEnd="@dimen/padding_right_add_ingredient_toolbar"
             android:paddingTop="@dimen/status_bar_height">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                style="@style/backButton"
                 android:layout_centerVertical="true"
                 android:onClick="@{(v)-> viewModel.onBackPressed(context)}"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingStart="@dimen/back_button_padding_left"
                 android:src="@drawable/ic_back_arrow_sm"/>
 
             <TextView
@@ -41,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:onClick="@{(v)-> viewModel.onDoneClick(edittextEnterIngredient,txtviewUnitValue,edittextQuantity)}"
@@ -63,8 +61,8 @@
             android:hint="@string/enter_ingredient_name"
             android:inputType="text"
             android:maxLines="1"
-            android:paddingLeft="@dimen/enter_ingredient_padding_left"
-            android:paddingRight="@dimen/enter_ingredient_padding_right"
+            android:paddingStart="@dimen/enter_ingredient_padding_left"
+            android:paddingEnd="@dimen/enter_ingredient_padding_right"
             android:textColorHint="@color/grey_FFB3B3B3"/>
 
         <RelativeLayout
@@ -73,12 +71,13 @@
             android:layout_below="@+id/edittext_enter_ingredient"
             android:layout_marginTop="@dimen/unit_quantity_box_margin_top"
             android:background="@drawable/grey_stroke_border"
-            android:paddingLeft="@dimen/unit_quantity_box_padding_left">
+            android:paddingStart="@dimen/unit_quantity_box_padding_left"
+            android:paddingEnd="@dimen/unit_quantity_box_padding_left">
 
 
             <RelativeLayout android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_toLeftOf="@+id/relative_layout_quantity"
+                            android:layout_toStartOf="@+id/relative_layout_quantity"
                             android:onClick="@{(v)->viewModel.showUnitListDialog(context)}">
 
                 <TextView
@@ -113,13 +112,13 @@
                 android:id="@+id/relative_layout_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/view_divider">
+                android:layout_toEndOf="@+id/view_divider">
 
                 <TextView
                     android:id="@+id/txtview_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/txtview_quantity_margin_left"
+                    android:layout_marginStart="@dimen/txtview_quantity_margin_left"
                     android:layout_marginTop="@dimen/txtview_quantity_margin_top"
                     android:text="@string/quantity"
                     android:textColor="@color/grey_FFB3B3B3"
@@ -131,7 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txtview_quantity"
-                    android:layout_marginLeft="@dimen/edittext_quantity_margin_left"
+                    android:layout_marginStart="@dimen/edittext_quantity_margin_left"
                     android:layout_marginTop="@dimen/editext_quantity_margin_top"
                     android:background="@null"
                     android:hint="@string/enter"

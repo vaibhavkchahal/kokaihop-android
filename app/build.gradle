@@ -14,12 +14,15 @@ apply plugin: 'realm-android'
 
 android {
 
-    lintOptions {
+    lintOptions{
+        disable 'MissingTranslation'
+    }
+    /*lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
-    }
+    }*/
 
     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
@@ -37,16 +40,16 @@ android {
     signingConfigs {
 
         qa {
-            storeFile file(RELEASE_KEYSTORE_FILE)
-            storePassword RELEASE_KEYSTORE_PASSWORD
-            keyAlias RELEASE_KEYSTORE_ALIAS
-            keyPassword RELEASE_KEYSTORE_PASSWORD
+            storeFile file(QA_RELEASE_KEYSTORE_FILE)
+            storePassword QA_RELEASE_KEYSTORE_PASSWORD
+            keyAlias QA_RELEASE_KEYSTORE_ALIAS
+            keyPassword QA_RELEASE_KEYSTORE_PASSWORD
         }
         production {
-            storeFile file(RELEASE_KEYSTORE_FILE)
-            storePassword RELEASE_KEYSTORE_PASSWORD
-            keyAlias RELEASE_KEYSTORE_ALIAS
-            keyPassword RELEASE_KEYSTORE_PASSWORD
+            storeFile file(QA_RELEASE_KEYSTORE_FILE)
+            storePassword QA_RELEASE_KEYSTORE_PASSWORD
+            keyAlias QA_RELEASE_KEYSTORE_ALIAS
+            keyPassword QA_RELEASE_KEYSTORE_PASSWORD
         }
     }
     buildTypes {
@@ -68,13 +71,14 @@ android {
 
         production {
             buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
+            signingConfig signingConfigs.production
         }
 
         databaseBundle {
 //            buildConfigField "String", "SERVER_BASE_URL", '"https://staging-kokaihop.herokuapp.com"'
             buildConfigField "String", "SERVER_BASE_URL", '"https://www.kokaihop.se/"'
             applicationIdSuffix ".databasebundle"
-            signingConfig signingConfigs.production
+            signingConfig signingConfigs.qa
         }
     }
 

@@ -10,6 +10,13 @@
     </style>
 
 
+    <style name="AppThemeComments" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="AuthenticationTheme" parent="AppTheme">
         <item name="colorAccent">@color/white</item>
     </style>
@@ -96,8 +103,9 @@
     </style>
 
     <style name="backButton">
-        <item name="android:paddingRight">@dimen/back_button_padding</item>
+        <item name="android:paddingEnd">@dimen/back_button_padding</item>
         <item name="android:src">@drawable/ic_back_arrow_white_md</item>
+        <item name="android:contentDescription">@string/cancel</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">wrap_content</item>
     </style>

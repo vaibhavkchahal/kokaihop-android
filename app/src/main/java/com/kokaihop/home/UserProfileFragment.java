@@ -9,6 +9,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import com.kokaihop.utility.SharedPrefUtils;
 import java.util.ArrayList;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
+import static com.kokaihop.utility.Constants.TAB_FOLLOWINGS;
 import static com.kokaihop.utility.Constants.TAB_HISTORY;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
@@ -98,8 +100,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 View coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
-                AppUtility.showCoachMark(coachMarkView);
-                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
+                AppUtility.showCoachMark(coachMarkView,Constants.USERPROFILE_COACHMARK_VISIBILITY);
+//                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
             }
         }
     }
@@ -112,7 +114,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
                 CustomDialogSignUp signUp = (CustomDialogSignUp) DialogFragment.instantiate(getActivity(), "com.kokaihop.home.CustomDialogSignUp");
                 signUp.show(getFragmentManager(), "");
 //                startActivity(new Intent(getContext(), SignUpActivity.class));
-//                TODO:to be Checked
             }
         });
     }
@@ -126,7 +127,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         userProfileBinding.srlProfileRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                selectedTabPosition = tabLayout.getSelectedTabPosition();
+                if (tabLayout != null)
+                    selectedTabPosition = tabLayout.getSelectedTabPosition();
                 userViewModel.getUserData();
                 userProfileBinding.srlProfileRefresh.setRefreshing(false);
             }
@@ -147,7 +149,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     @Override
     public void showUserProfile() {
-        if (isVisible()) {
+        if (!isDetached()) {
 
             final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
             final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
@@ -272,7 +274,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         if (notificationCount != null) {
             notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
             notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
-            notificationCount.get(Constants.TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
+            notificationCount.get(TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
             notificationCount.get(TAB_HISTORY).setCount(new HistoryDataManager().getHistory().size());
         }
     }
@@ -335,10 +337,22 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void refreshHistory() {
-        Fragment fragment = adapter.getItem(TAB_HISTORY);
-        if (fragment != null) {
-            ((HistoryFragment) fragment).refreshHistory();
-            setNotificationCount();
+        if (adapter != null) {
+            Fragment fragment = adapter.getItem(TAB_HISTORY);
+            if (fragment != null) {
+                ((HistoryFragment) fragment).refreshHistory();
+                setNotificationCount();
+            }
+        }
+    }
+
+    public void refreshFollowing() {
+        if (adapter != null) {
+            FollowingFragment fragment = (FollowingFragment) adapter.getItem(TAB_FOLLOWINGS);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.detach(fragment);
+            ft.attach(fragment);
+            ft.commit();
         }
     }
 

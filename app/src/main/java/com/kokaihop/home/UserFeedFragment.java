@@ -70,8 +70,8 @@ public class UserFeedFragment extends Fragment {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), ACCESS_TOKEN);
         if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
             View coachMarkView = inflater.inflate(R.layout.search_coach_mark, null);
-            AppUtility.showCoachMark(coachMarkView);
-            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, true);
+            AppUtility.showCoachMark(coachMarkView, Constants.SEARCH_COACHMARK_VISIBILITY);
+//            SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.SEARCH_COACHMARK_VISIBILITY, true);
         }
     }
 

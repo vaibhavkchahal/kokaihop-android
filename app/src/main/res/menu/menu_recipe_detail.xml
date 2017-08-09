@@ -18,7 +18,7 @@
     <item android:id="@+id/icon_like"
           android:orderInCategory="100"
           android:title="@string/action_settings"
-          android:icon="@drawable/ic_like_md"
+          android:icon="@drawable/ic_unlike_md"
           android:checkable="true"
           app:showAsAction="always"/>
 

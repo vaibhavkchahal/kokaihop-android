@@ -23,7 +23,7 @@
             android:background="@drawable/round_corner_layout"
             android:clickable="false"
             android:contentDescription="@string/recipe_image"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:error="@{@drawable/ic_recipeplaceholder_md}"
             app:imageUrl="@{cookbook.mainImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +54,8 @@
             android:id="@+id/tv_user_name"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:layout_marginEnd="@dimen/history_recipe_image_margin"
+            android:layout_marginStart="@dimen/history_recipe_image_margin"
             android:clickable="false"
             android:text="@{ @string/recipe + cookbook.total}"
             android:textColor="@color/grey_FF8D929C"
@@ -69,7 +69,7 @@
 
         <CheckBox
             android:id="@+id/cb_recipe_added"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/add_to_cookbook_cb_margin_right"
             android:button="@drawable/checkbox_email_pref_selector"
@@ -78,7 +78,9 @@
             android:paddingEnd="@dimen/email_pref_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:checked="true"/>
 
         <View android:id="@+id/cookbook_divider"
               android:layout_width="@dimen/constraint_match_parent"

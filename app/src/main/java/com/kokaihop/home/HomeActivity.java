@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -75,12 +76,14 @@ public class HomeActivity extends BaseActivity {
         if (!useremailPwd.equals("")) {
             String email = useremailPwd.substring(0, useremailPwd.indexOf("~"));
             String password = useremailPwd.substring(useremailPwd.indexOf("~") + 1);
+            Log.e("Email", "-" + email);
+            Log.e("Password", "-" + password);
             viewModel.login(email, password);
         }
         activityHomeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         MobileAds.initialize(this, AppCredentials.ADMOB_APP_ID);
         viewModel = new HomeViewModel(this);
-//        viewModel.getLatestRecipes();
+        viewModel.getLatestRecipes();
         setTabView();
         notificationReciever = new NotificationReceiver();
     }
@@ -148,6 +151,7 @@ public class HomeActivity extends BaseActivity {
                     UserProfileFragment fragment = (UserProfileFragment) pagerTabAdapter.getItem(PROFILE_TAB_POSITION);
                     fragment.setNotificationCount();
                     fragment.refreshHistory();
+                    fragment.refreshFollowing();
                 }
 
 
@@ -184,6 +188,9 @@ public class HomeActivity extends BaseActivity {
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.buylist_screen));
                 break;
             case 3:
+                GoogleAnalyticsHelper.trackScreenName(getString(R.string.latest_comments_screen));
+                break;
+            case 4:
                 GoogleAnalyticsHelper.trackScreenName(getString(R.string.user_personal_screen));
                 break;
 

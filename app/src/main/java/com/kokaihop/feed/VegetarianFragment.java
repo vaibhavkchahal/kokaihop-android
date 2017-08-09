@@ -72,7 +72,7 @@ public class VegetarianFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (EventBus.getDefault().isRegistered(this))
+        if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);
     }
 
@@ -96,7 +96,6 @@ public class VegetarianFragment extends Fragment {
             List<Object> recipeListWithAds = vegetarianViewModel.getRecipeListWithAdds();
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvVegetarian, recipeListWithAds);
-            EventBus.getDefault().removeStickyEvent(recipe);
         }
 
     }

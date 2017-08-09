@@ -31,10 +31,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         settingsBinding.settingsEmailPreferences.setOnClickListener(this);
         settingsBinding.settingsEditProfile.setOnClickListener(this);
         settingsBinding.settingsIvBack.setOnClickListener(this);
-        GoogleAnalyticsHelper.trackScreenName( getString(R.string.settings_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.settings_screen));
 
     }
-
 
 
     @Override

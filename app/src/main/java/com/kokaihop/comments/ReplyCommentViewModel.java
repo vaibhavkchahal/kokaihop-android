@@ -99,14 +99,13 @@ public class ReplyCommentViewModel extends BaseViewModel {
         if (accessToken == null || accessToken.isEmpty()) {
             AppUtility.showLoginDialog(context, context.getString(R.string.members_area), context.getString(R.string.login_reply_on_comment_message));
         } else {
-            if (!editText.getText().toString().isEmpty()) {
+            if (!AppUtility.isEmptyString(editText.getText().toString())) {
                 String bearerAccessToken = Constants.AUTHORIZATION_BEARER + accessToken;
                 PostCommentRequestParams requestParams = getPostCommentRequestParams(editText);
                 setProgressVisible(true);
                 new CommentsApiHelper().postComment(bearerAccessToken, requestParams, new IApiRequestComplete() {
                     @Override
                     public void onSuccess(Object response) {
-                        Activity activity = (Activity) context;
                         GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.comment_category), context.getString(R.string.comment_replied_action));
 
                         setProgressVisible(false);
@@ -141,7 +140,7 @@ public class ReplyCommentViewModel extends BaseViewModel {
     @NonNull
     private PostCommentRequestParams getPostCommentRequestParams(EditText editText) {
         PostCommentRequestParams requestParams = new PostCommentRequestParams();
-        requestParams.setComment(editText.getText().toString());
+        requestParams.setComment(editText.getText().toString().trim());
         editText.setText("");
         requestParams.setType(TYPE_FILTER);
         requestParams.setTargetId(recipeID);

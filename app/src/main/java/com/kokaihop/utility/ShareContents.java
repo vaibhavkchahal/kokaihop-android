@@ -90,17 +90,21 @@ public class ShareContents {
                 intent.putExtra(Intent.EXTRA_TEXT, recipeLink);
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_facebook_label));
             } else if (packageName.equals("com.android.mms") || packageName.equals("com.android.messaging")) {
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                if (imageFile != null)
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                 intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
                 intent.setType("image/*");
                 String message = getMessageContent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setType("vnd.android-dir/mms-sms");
                 intent.putExtra("sms_body", message);
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), context.getString(R.string.recipe_shared_action), context.getString(R.string.recipe_sms_label));
 
             } else if (packageName.equals("com.google.android.gm")) {
                 String emailContent = getEmailContent();
                 intent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailContent));
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
+                if (imageFile != null)
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(imageFile));
                 intent.putExtra(Intent.EXTRA_SUBJECT, "kokaihop - " + recipeTitle);
                 intent.setType("image/*");
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
