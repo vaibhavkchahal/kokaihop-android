@@ -122,7 +122,7 @@ public class AppUtility {
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if ((dialog != null) && (dialog.isShowing()) && ((Activity) context).isFinishing()) {
+                if ((dialog != null) && (dialog.isShowing()) && !((Activity) context).isFinishing()) {
                     dialog.dismiss();
                 }
             }

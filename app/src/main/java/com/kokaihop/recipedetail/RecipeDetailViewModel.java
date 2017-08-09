@@ -12,6 +12,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.database.CreatedByRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
@@ -250,12 +251,17 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 }
                 String profileImageUrl = "0";
                 String createdByName = "";
-                if (realmObject.getCreatedBy() != null) {
-                    profileImageUrl = realmObject.getCreatedBy().getProfileImageId();
-                    createdByName = realmObject.getCreatedBy().getName();
+                String createdByFriendlyUrl = "";
+                String createdById = "";
+                CreatedByRealmObject createdBy = realmObject.getCreatedBy();
+                if (createdBy != null) {
+                    profileImageUrl = createdBy.getProfileImageId();
+                    createdByName = createdBy.getName();
+                    createdByFriendlyUrl = createdBy.getFriendlyUrl();
+                    createdById = createdBy.getId();
 
                 }
-                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, createdByName);
+                SimilarRecipe similarRecipe = new SimilarRecipe(realmObject.get_id(), realmObject.getTitle(), mainImageUrl, profileImageUrl, createdByName, createdByFriendlyUrl, createdById);
                 recipeDetailItemsList.add(similarRecipe);
             }
         }
