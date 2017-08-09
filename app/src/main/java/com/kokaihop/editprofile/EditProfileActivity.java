@@ -30,6 +30,7 @@ public class EditProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActivityEditProfileBinding editProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
         editProfileViewModel = new EditProfileViewModel(this, editProfileBinding);
         editProfileBinding.setViewModel(editProfileViewModel);

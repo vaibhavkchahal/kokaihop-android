@@ -22,6 +22,7 @@ public class ChangePasswordActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         passwordBinding = DataBindingUtil.setContentView(this, R.layout.activity_change_password);
         viewModel = new ChangePasswordViewModel(this,passwordBinding);
         passwordBinding.setViewModel(viewModel);

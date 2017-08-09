@@ -26,6 +26,7 @@ public class ShowAllCommentsActivity extends BaseActivity implements ShowComment
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_show_all_comments);
         String recipeID = getIntent().getStringExtra("recipeId");
         showCommentsViewModel = new ShowCommentsViewModel(recipeID, this);

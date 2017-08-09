@@ -22,6 +22,7 @@ public class AddIngredientActivity extends BaseActivity implements AddIngredient
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_ingredients);
         checkIfIntentHasData();
         binding.setViewModel(new AddIngredientViewModel(this, this));

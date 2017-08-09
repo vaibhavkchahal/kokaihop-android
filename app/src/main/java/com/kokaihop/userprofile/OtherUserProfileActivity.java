@@ -3,14 +3,14 @@ package com.kokaihop.userprofile;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityOtherUserProfileBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
+import com.kokaihop.base.BaseActivity;
 import com.kokaihop.utility.Constants;
 
-public class OtherUserProfileActivity extends AppCompatActivity {
+public class OtherUserProfileActivity extends BaseActivity {
 
     private ActivityOtherUserProfileBinding binding;
     private Fragment fragment;

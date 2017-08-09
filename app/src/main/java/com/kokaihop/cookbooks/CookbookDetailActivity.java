@@ -17,6 +17,7 @@ public class CookbookDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_cookbook_detail);
         String userFriendlyUrl = getIntent().getStringExtra(Constants.USER_FRIENDLY_URL);
         String cookbookFriendlyUrl = getIntent().getStringExtra(Constants.COOKBOOK_FRIENDLY_URL);

@@ -5,23 +5,24 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityConfirmImageUploadBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
+import com.kokaihop.base.BaseActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class ConfirmImageUploadActivity extends AppCompatActivity {
+public class ConfirmImageUploadActivity extends BaseActivity {
 
     ActivityConfirmImageUploadBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Uri imageUri = getIntent().getData();
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.image_presenter_screen));
         binding = DataBindingUtil.setContentView(this, R.layout.activity_confirm_image_upload);
