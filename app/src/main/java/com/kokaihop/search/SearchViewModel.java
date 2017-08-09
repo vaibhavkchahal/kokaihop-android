@@ -12,6 +12,7 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
+import com.kokaihop.database.EditorsChoiceRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.SearchRecipeHeader;
@@ -37,11 +38,14 @@ import okhttp3.ResponseBody;
 public class SearchViewModel extends BaseViewModel {
     private final DataSetListener dataSetListener;
     private final Context context;
+    private final int EDITOR_CHOICE_MAX = 5;
+    private final String EDITOR_CHOICE_TYPE = "Recipe";
     private SearchDataManager searchDataManager;
     private List<FilterData> categoriesList;
     private List<FilterData> cuisineList;
     private List<FilterData> cookingMethodList;
     private List<FilterData> sortByList;
+    private EditorsChoiceDataManager editorsChoiceDataManager;
     private String courseFriendlyUrl = "", cuisineFriendlyUrl = "", methodFriendlyUrl = "", searchKeyword = "", sortBy = "",
             courseName = "", cuisineName = "", methodName = "";
     //by default show all recipe with images
@@ -108,12 +112,47 @@ public class SearchViewModel extends BaseViewModel {
         this.dataSetListener = dataSetListener;
         this.context = context;
         searchDataManager = new SearchDataManager(context);
+        editorsChoiceDataManager = new EditorsChoiceDataManager();
         fetchCategories();
         fetchCookingMethods();
         fetchCuisine();
         dataSetListener.updateSearchSuggestions(getSearchSuggestion());
+        getEditorChoiceFromServer("Section 1");
     }
 
+    public void getEditorChoiceFromServer(final String type) {
+        setProgressVisible(true);
+        new EditorsChoiceApiHelper().getEditorsChoice(type, EDITOR_CHOICE_MAX, EDITOR_CHOICE_TYPE, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                setProgressVisible(false);
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject editorChoiceJson = new JSONObject(responseBody.string());
+                    editorsChoiceDataManager.updateEditorsChoice(editorChoiceJson);
+                    String id = editorChoiceJson.getString("_id");
+                    Logger.e("Editor Choice " + type,  editorChoiceJson.toString());
+                    EditorsChoiceRealmObject editorsChoiceData =  editorsChoiceDataManager.getEditorChoice(id);
+                    editorsChoiceData.getPayload();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+            }
+
+            @Override
+            public void onError(Object response) {
+                setProgressVisible(false);
+            }
+        });
+
+    }
 
     public void fetchCategories() {
         new SearchFilterApiHelper().fetchCategories(new IApiRequestComplete() {
@@ -459,7 +498,6 @@ public class SearchViewModel extends BaseViewModel {
 
         void showSuggestionView();
     }
-
 
 
 }
