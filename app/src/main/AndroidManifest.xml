@@ -115,6 +115,7 @@
             android:name="com.kokaihop.search.SearchActivity"
             android:parentActivityName="com.kokaihop.base.BaseActivity"
             android:theme="@style/AppTheme"
+            android:configChanges="screenSize|orientation"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity

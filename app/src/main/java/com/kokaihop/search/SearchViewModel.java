@@ -47,6 +47,12 @@ public class SearchViewModel extends BaseViewModel {
     //by default show all recipe with images
     private boolean withImage = true;
 
+    private List<RecipeRealmObject> searchRecipeList = new ArrayList<>();
+
+    public List<RecipeRealmObject> getRecipeList() {
+        return searchRecipeList;
+    }
+
     public void setSearchKeyword(String searchKeyword) {
         this.searchKeyword = searchKeyword;
     }
@@ -325,13 +331,14 @@ public class SearchViewModel extends BaseViewModel {
             @Override
             public void onSearchComplete(List<RecipeRealmObject> recipeList) {
                 setProgressVisible(false);
+                searchRecipeList = recipeList;
                 List<Object> recipeListwithAds = insertAdsInList(recipeList);
                 dataSetListener.showRecipesList(recipeListwithAds);
             }
         });
     }
 
-    private List<Object> insertAdsInList(List<RecipeRealmObject> recipeList) {
+    public List<Object> insertAdsInList(List<RecipeRealmObject> recipeList) {
         List<Object> recipeListwithAds = new ArrayList<>();
         SearchRecipeHeader searchRecipeHeader = new SearchRecipeHeader();
         searchRecipeHeader.setCount(String.valueOf(recipeList.size()));
@@ -402,6 +409,7 @@ public class SearchViewModel extends BaseViewModel {
                         @Override
                         public void onSearchComplete(List<RecipeRealmObject> recipeList) {
                             setProgressVisible(false);
+                            searchRecipeList = recipeList;
                             List<Object> recipeListwithAds = insertAdsInList(recipeList);
                             dataSetListener.showRecipesList(recipeListwithAds);
                         }

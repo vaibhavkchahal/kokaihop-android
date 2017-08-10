@@ -1,5 +1,6 @@
 package com.kokaihop.search;
 
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -124,6 +125,10 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showRecipesList(List<Object> recipeList) {
+        prepareSearchRecyclerView(recipeList);
+    }
+
+    private void prepareSearchRecyclerView(List<Object> recipeList) {
         alreadyQuerying = false;
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
         binding.included.linearlytRecentSearch.setVisibility(View.GONE);
@@ -415,10 +420,21 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                             break;
                         }
                     }
-
                 }
             }
         }
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
+            prepareSearchRecyclerView(recipeListWithAdds);
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
+            prepareSearchRecyclerView(recipeListWithAdds);
+        }
     }
 }
