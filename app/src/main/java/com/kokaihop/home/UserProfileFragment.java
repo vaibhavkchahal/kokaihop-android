@@ -1,6 +1,7 @@
 package com.kokaihop.home;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -10,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -100,7 +102,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 View coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
-                AppUtility.showCoachMark(coachMarkView,Constants.USERPROFILE_COACHMARK_VISIBILITY);
+                AppUtility.showCoachMark(coachMarkView, Constants.USERPROFILE_COACHMARK_VISIBILITY);
 //                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
             }
         }
@@ -150,7 +152,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     @Override
     public void showUserProfile() {
         if (!isDetached()) {
-
             final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
             final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
             tabLayout = userProfileBinding.tabProfile;
@@ -389,4 +390,10 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         }
     }
 */
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        userProfileSignUpBinding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_profile));
+    }
 }

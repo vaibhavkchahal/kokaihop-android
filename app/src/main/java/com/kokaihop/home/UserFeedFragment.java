@@ -1,6 +1,7 @@
 package com.kokaihop.home;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -156,12 +157,21 @@ public class UserFeedFragment extends Fragment {
         }
         GoogleAnalyticsHelper.trackEventAction(getString(R.string.daily_category), getString(R.string.daily_selected_action), label);
 
-
     }
 
     public void searchClick() {
         Intent intent = new Intent(getContext(), SearchActivity.class);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+//        TabLayout tabLayout = userFeedBinding.tablayoutRecipe;
+//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+//            tabLayout.getTabAt(i).getCustomView().findViewById(R.id.)
+//        }
+//        tabLayout.getTabAt(0).select();
     }
 }

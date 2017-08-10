@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -104,10 +105,6 @@ public class MyCookbooksFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding.parentLayout.setBackgroundResource(R.drawable.img_cookbook);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            binding.parentLayout.setBackgroundResource(R.drawable.img_cookbook);
-        }
+        binding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_cookbook));
     }
 }

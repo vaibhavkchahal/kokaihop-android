@@ -10,4 +10,47 @@
 
     <dimen name="recycler_item_space">8dp</dimen>
 
+
+    <!-- login dimens -->
+    <dimen name="padding_top_login_scroll">25dp</dimen>
+    <dimen name="margin_top_login_or_text">20dp</dimen>
+    <dimen name="margin_top_login_email">21dp</dimen>
+    <dimen name="margin_top_login_passwd">25dp</dimen>
+    <dimen name="margin_top_login_button">48dp</dimen>
+    <dimen name="margin_top_forgot_passwd">45dp</dimen>
+    <dimen name="margin_top_signupnow">15dp</dimen>
+
+
+    <!--Sign Up Dimensions-->
+
+    <dimen name="signup_et_email_margin_top">12dp</dimen>
+    <dimen name="signup_et_margin_top">12dp</dimen>
+    <dimen name="signup_sv_formcontainer_margin_top">15dp</dimen>
+    <dimen name="signup_btn_facebook_margin_top">18dp</dimen>
+    <dimen name="signup_btn_signup_margin_top">23dp</dimen>
+    <dimen name="signup_tv_login_margin_top">15dp</dimen>
+    <dimen name="signup_cb_margin_top">20dp</dimen>
+    <dimen name="selectcity_rv_margin_top">3dp</dimen>
+    <dimen name="selectcity_sv_margin_top">10dp</dimen>
+
+    <dimen name="cookbook_signup_login_horizontal_margin">285dp</dimen>
+    <dimen name="unit_quantity_box_margin_top">40dp</dimen>
+    <dimen name="horizontal_padding_signup_message">240dp</dimen>
+
+    <!--recipe detail dimens -->
+    <dimen name="relative_layout_pager_height">480dp</dimen>
+
+
+    <!-- coachMarks dimens -->
+    <dimen name="content_box_margin_top">5dp</dimen>
+    <dimen name="search_coach_mark_padding_top">92dp</dimen>
+    <dimen name="search_coach_mark_margin_left_right">200dp</dimen>
+    <dimen name="user_profile_triangle_margin_right">95dp</dimen>
+    <dimen name="user_profile_coachmark_margin_left">430dp</dimen>
+    <dimen name="recipe_detail_coach_mark_triangle_margin_right">95dp</dimen>
+    <dimen name="recipe_detail_coachmark_margin_left">450dp</dimen>
+    <dimen name="user_profile_coaching_padding_top">200dp</dimen>
+    <dimen name="recipe_detail_coach_padding_top">55dp</dimen>
+
+
 </resources>

@@ -344,16 +344,10 @@ public class HomeActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            TextView listCount = (TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.txtview_list_count);
-            RelativeLayout.LayoutParams llp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            llp.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.home_tab_margin_end));
-            listCount.setLayoutParams(llp);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            TextView listCount = (TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.txtview_list_count);
-            RelativeLayout.LayoutParams llp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            llp.setMarginEnd(getResources().getDimensionPixelOffset(R.dimen.home_tab_margin_end));
-            listCount.setLayoutParams(llp);
-        }
+        TextView listCount = (TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.txtview_list_count);
+        int margin = getResources().getDimensionPixelSize(R.dimen.home_tab_margin_end);
+        RelativeLayout.LayoutParams llp = (RelativeLayout.LayoutParams) listCount.getLayoutParams();
+        llp.setMarginEnd(margin);
+        listCount.setLayoutParams(llp);
     }
 }
