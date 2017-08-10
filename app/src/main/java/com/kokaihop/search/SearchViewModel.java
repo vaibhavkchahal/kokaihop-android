@@ -129,7 +129,7 @@ public class SearchViewModel extends BaseViewModel {
                 ResponseBody responseBody = (ResponseBody) response;
                 try {
                     JSONObject editorChoiceJson = new JSONObject(responseBody.string());
-                    editorsChoiceDataManager.updateEditorsChoice(editorChoiceJson);
+                    editorsChoiceDataManager.updateEditorsChoice(editorChoiceJson.getJSONObject("data"));
                     String id = editorChoiceJson.getString("_id");
                     Logger.e("Editor Choice " + type,  editorChoiceJson.toString());
                     EditorsChoiceRealmObject editorsChoiceData =  editorsChoiceDataManager.getEditorChoice(id);

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Rajendra Singh on 9/8/17.
@@ -11,6 +12,7 @@ import io.realm.RealmObject;
 
 public class EditorsChoiceRealmObject extends RealmObject {
 
+    @PrimaryKey
     @SerializedName("_id")
     private String _id;
 
@@ -32,14 +34,6 @@ public class EditorsChoiceRealmObject extends RealmObject {
     @SerializedName("lastUpdatedBy")
     private CreatedByRealmObject lastUpdatedBy;
 
-    @SerializedName("myLikes")
-    private RealmList<RealmString> myLikes;
-
-    @SerializedName("myRatings")
-    private RealmObject myRatings;
-
-    @SerializedName("collectionMapping")
-    private RealmObject collectionMapping;
 
     public String get_id() {
         return _id;
@@ -95,54 +89,5 @@ public class EditorsChoiceRealmObject extends RealmObject {
 
     public void setLastUpdatedBy(CreatedByRealmObject lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    public RealmList<RealmString> getMyLikes() {
-        return myLikes;
-    }
-
-    public void setMyLikes(RealmList<RealmString> myLikes) {
-        this.myLikes = myLikes;
-    }
-
-    public RealmObject getMyRatings() {
-        return myRatings;
-    }
-
-    public void setMyRatings(RealmObject myRatings) {
-        this.myRatings = myRatings;
-    }
-
-    public RealmObject getCollectionMapping() {
-        return collectionMapping;
-    }
-
-    public void setCollectionMapping(RealmObject collectionMapping) {
-        this.collectionMapping = collectionMapping;
-    }
-
-    private class CategoryName extends RealmObject {
-
-        @SerializedName("en")
-        private String en;
-
-        @SerializedName("sv")
-        private String sv;
-
-        public String getEn() {
-            return en;
-        }
-
-        public void setEn(String en) {
-            this.en = en;
-        }
-
-        public String getSv() {
-            return sv;
-        }
-
-        public void setSv(String sv) {
-            this.sv = sv;
-        }
     }
 }
