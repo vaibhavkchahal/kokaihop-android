@@ -10,4 +10,51 @@
 
     <dimen name="recycler_item_space">10dp</dimen>
 
+    <!-- Example customization of dimensions originally defined in res/values/dimens.xml
+         (such as screen margins) for screens with more than 820dp of available width. This
+         would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
+
+
+    <!-- login dimens -->
+    <dimen name="padding_top_login_scroll">60dp</dimen>
+    <dimen name="margin_top_login_or_text">45dp</dimen>
+    <dimen name="margin_top_login_email">57dp</dimen>
+    <dimen name="margin_top_login_passwd">55dp</dimen>
+    <dimen name="margin_top_login_button">78dp</dimen>
+    <dimen name="margin_top_forgot_passwd">75dp</dimen>
+    <dimen name="margin_top_signupnow">45dp</dimen>
+
+
+    <!--Sign Up Dimensions-->
+
+    <dimen name="signup_et_email_margin_top">34dp</dimen>
+    <dimen name="signup_et_margin_top">32dp</dimen>
+    <dimen name="signup_sv_formcontainer_margin_top">35dp</dimen>
+    <dimen name="signup_btn_facebook_margin_top">50dp</dimen>
+    <dimen name="signup_btn_signup_margin_top">60dp</dimen>
+    <dimen name="signup_tv_login_margin_top">46dp</dimen>
+    <dimen name="signup_cb_margin_top">60dp</dimen>
+    <dimen name="selectcity_rv_margin_top">41dp</dimen>
+    <dimen name="selectcity_sv_margin_top">47dp</dimen>
+
+    <dimen name="cookbook_signup_login_horizontal_margin">285dp</dimen>
+    <dimen name="unit_quantity_box_margin_top">40dp</dimen>
+    <dimen name="horizontal_padding_signup_message">240dp</dimen>
+
+    <!--recipe detail dimens -->
+    <dimen name="relative_layout_pager_height">480dp</dimen>
+
+
+    <!-- coachMarks dimens -->
+    <dimen name="content_box_margin_top">5dp</dimen>
+    <dimen name="search_coach_mark_padding_top">92dp</dimen>
+    <dimen name="search_coach_mark_margin_left_right">200dp</dimen>
+    <dimen name="user_profile_triangle_margin_right">95dp</dimen>
+    <dimen name="user_profile_coachmark_margin_left">430dp</dimen>
+    <dimen name="recipe_detail_coach_mark_triangle_margin_right">95dp</dimen>
+    <dimen name="recipe_detail_coachmark_margin_left">450dp</dimen>
+    <dimen name="user_profile_coaching_padding_top">200dp</dimen>
+    <dimen name="recipe_detail_coach_padding_top">55dp</dimen>
+
+
 </resources>

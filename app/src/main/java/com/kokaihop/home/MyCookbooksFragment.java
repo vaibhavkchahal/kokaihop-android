@@ -1,5 +1,6 @@
 package com.kokaihop.home;
 
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ public class MyCookbooksFragment extends Fragment {
     private MyCookbooksViewModel viewModel;
     private CustomLinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private FragmentCookbookLoginBinding binding;
 
     public MyCookbooksFragment() {
         // Required empty public constructor
@@ -46,11 +48,9 @@ public class MyCookbooksFragment extends Fragment {
         String accessToken = SharedPrefUtils.getSharedPrefStringData(getContext(), Constants.ACCESS_TOKEN);
         String userId = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.USER_ID);
         String userFriendlyUrl = SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL);
-
         viewModel = new MyCookbooksViewModel(this, getContext(), userId, userFriendlyUrl);
-
         if (myCookbook && (accessToken == null) || accessToken.isEmpty()) {
-            FragmentCookbookLoginBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);
+            binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cookbook_login, container, false);
             binding.setViewModel(viewModel);
             return binding.getRoot();
         } else {
@@ -73,7 +73,6 @@ public class MyCookbooksFragment extends Fragment {
                 public void getScrolledState(RecyclerView recyclerView) {
                 }
             });
-
             binding.srlCookbooks.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -99,6 +98,16 @@ public class MyCookbooksFragment extends Fragment {
                 viewModel.setDownloading(true);
                 viewModel.getCookbooksOfUser(0);
             }
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.parentLayout.setBackgroundResource(R.drawable.img_cookbook);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.parentLayout.setBackgroundResource(R.drawable.img_cookbook);
         }
     }
 }
