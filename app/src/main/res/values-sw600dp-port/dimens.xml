@@ -41,6 +41,8 @@
 
     <!--recipe detail dimens -->
     <dimen name="relative_layout_pager_height">380dp</dimen>
+    <dimen name="textview_category_padding_bottom">7dp</dimen>
+    <dimen name="txtview_category_padding_top">7dp</dimen>
 
 
     <!-- coachMarks dimens -->

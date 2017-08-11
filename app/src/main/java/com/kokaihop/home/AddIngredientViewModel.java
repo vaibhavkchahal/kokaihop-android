@@ -2,13 +2,16 @@ package com.kokaihop.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -194,6 +197,18 @@ public class AddIngredientViewModel extends BaseViewModel {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                BottomSheetDialog d = (BottomSheetDialog) dialog;
+                // This is gotten directly from the source of BottomSheetDialog
+                // in the wrapInBottomSheet() method
+                FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
+                // Right here!
+                BottomSheetBehavior.from(bottomSheet)
+                        .setPeekHeight(Constants.BOTTOM_SHET_DIALOG_PEEK_HEIGHT);
+            }
+        });
         return dialog;
     }
 

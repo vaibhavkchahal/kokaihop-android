@@ -199,15 +199,12 @@ public class AppUtility {
                     RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
                     if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
                         recipeRealmObject.setFavorite(recipe.isFavorite());
-
-                        if (recipeRealmObject.getCounter()!=null){
+                        if (recipeRealmObject.getCounter() != null) {
                             recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                        }
-                        else {
+                        } else {
                             RecipeDataManager recipeDataManager = new RecipeDataManager();
                             recipeRealmObject.setCounter(recipeDataManager.fetchCounterObject(recipe));
                         }
-
                         if (recipeRealmObject.getRating() != null) {
                             recipeRealmObject.getRating().setAverage(recipe.getRating().getAverage());
 
@@ -328,7 +325,6 @@ public class AppUtility {
             }
         }
     }
-
 
     public static AdRequest getAdRequest() {
 //        return new AdRequest.Builder().build();

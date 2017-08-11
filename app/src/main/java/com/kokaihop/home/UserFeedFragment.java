@@ -113,6 +113,7 @@ public class UserFeedFragment extends Fragment {
             tabBinding.text1.setText(tabTitles[i]);
         }
         tabLayout.getTabAt(0).select();
+        changeTabModeIfLanscape();
         userFeedBinding.textviewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +135,13 @@ public class UserFeedFragment extends Fragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    private void changeTabModeIfLanscape() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_FIXED);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_CENTER);
+        }
     }
 
     private void trackGAEvent(int position) {
@@ -162,16 +170,16 @@ public class UserFeedFragment extends Fragment {
     public void searchClick() {
         Intent intent = new Intent(getContext(), SearchActivity.class);
         startActivity(intent);
-
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-//        TabLayout tabLayout = userFeedBinding.tablayoutRecipe;
-//        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-//            tabLayout.getTabAt(i).getCustomView().findViewById(R.id.)
-//        }
-//        tabLayout.getTabAt(0).select();
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_FIXED);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_CENTER);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_SCROLLABLE);
+        }
     }
 }

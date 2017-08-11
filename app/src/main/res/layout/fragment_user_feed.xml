@@ -56,9 +56,8 @@
             app:tabIndicatorHeight="@dimen/feed_tab_indicator_height"
             app:tabMode="scrollable"
             app:tabPaddingEnd="@dimen/none"
-            app:tabPaddingStart="@dimen/none"
+            app:tabPaddingStart="@dimen/none"/>
 
-        />
         <View android:layout_width="match_parent"
               android:layout_height="@dimen/divider_height"
               android:layout_below="@id/tablayout_recipe"

@@ -5,11 +5,10 @@
     <dimen name="activity_horizontal_margin">64dp</dimen>
 
 
-    <dimen name="home_tab_margin_end">45dp</dimen>
+    <dimen name="home_tab_margin_end">60dp</dimen>
     <dimen name="home_tab_margin_bottom">2dp</dimen>
 
     <dimen name="recycler_item_space">8dp</dimen>
-
 
     <!-- login dimens -->
     <dimen name="padding_top_login_scroll">25dp</dimen>
@@ -39,13 +38,15 @@
 
     <!--recipe detail dimens -->
     <dimen name="relative_layout_pager_height">480dp</dimen>
+    <dimen name="textview_category_padding_bottom">7dp</dimen>
+    <dimen name="txtview_category_padding_top">7dp</dimen>
 
 
     <!-- coachMarks dimens -->
     <dimen name="content_box_margin_top">5dp</dimen>
     <dimen name="search_coach_mark_padding_top">92dp</dimen>
     <dimen name="search_coach_mark_margin_left_right">200dp</dimen>
-    <dimen name="user_profile_triangle_margin_right">95dp</dimen>
+    <dimen name="user_profile_triangle_margin_right">115dp</dimen>
     <dimen name="user_profile_coachmark_margin_left">430dp</dimen>
     <dimen name="recipe_detail_coach_mark_triangle_margin_right">95dp</dimen>
     <dimen name="recipe_detail_coachmark_margin_left">450dp</dimen>

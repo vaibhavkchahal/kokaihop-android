@@ -105,6 +105,10 @@ public class MyCookbooksFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        binding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_cookbook));
+        if (binding != null) {
+            int paddingStartEnd = (int) getResources().getDimension(R.dimen.cookbook_signup_login_horizontal_margin);
+            binding.tvCookbookMsg2.setPadding(paddingStartEnd, 0, paddingStartEnd, 0);
+            binding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_cookbook));
+        }
     }
 }

@@ -390,10 +390,13 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         }
     }
 */
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        userProfileSignUpBinding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_profile));
+        if (userProfileSignUpBinding != null) {
+            int paddingStartEnd = (int) getResources().getDimension(R.dimen.horizontal_padding_signup_message);
+            userProfileSignUpBinding.signUpMessage.setPadding(paddingStartEnd, 0, paddingStartEnd, 0);
+            userProfileSignUpBinding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_profile));
+        }
     }
 }

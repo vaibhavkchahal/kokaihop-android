@@ -102,7 +102,6 @@
     <dimen name="home_tab_margin_bottom">7.6dp</dimen>
     <dimen name="home_tab_padding_top">6dp</dimen>
 
-
     <!-- maincourse fragment dimens-->
 
     <dimen name="card_width_recipe_of_day">330dp</dimen>
@@ -285,6 +284,7 @@
     <dimen name="recipe_detail_top_header_padding_bottom">20dp</dimen>
     <dimen name="recipe_detail_top_header_pading_left">20dp</dimen>
     <dimen name="imgview_badgetype_margin_top">10dp</dimen>
+    <dimen name="similar_recipe_item_height">100dp</dimen>
     <dimen name="txtview_recipe_name_textsize">20sp</dimen>
     <dimen name="txtview_recipe_description_textsize">14sp</dimen>
     <dimen name="txtview_recipe_descption_margin_top">3dp</dimen>
