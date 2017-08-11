@@ -25,6 +25,11 @@
 #-renamesourcefileattribute SourceFile
 
 
+-dontskipnonpubliclibraryclasses
+-dontobfuscate
+-forceprocessing
+-optimizationpasses 5
+-ignorewarnings
 -keep public class * extends com.kokaihop.base.BaseActivity
 -keep public class * extends android.support.v4.app.DialogFragment
 -keep public class * extends android.app.Application
@@ -45,7 +50,6 @@
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 -dontwarn okio.**
--ignorewarnings
 
 -keep public class com.cloudinary.** {
  *;
@@ -118,6 +122,14 @@
 }
 -dontwarn com.android.support.**
 
+
+-keep public class android.support.v7.app.** {
+ *;
+}
+-dontwarn android.support.v7.app.**
+
+
+
 -keep public class com.google.** {*;}
 -keep class com.google.android.apps.analytics.**{ *; }
 -keep class android.support.v8.renderscript.** { *; }
@@ -125,3 +137,12 @@
  *;
 }
 -dontwarn com.google.android.gms.**
+#databinding
+-dontwarn android.databinding.**
+-keep class android.databinding.** { *; }
+-keep class android.databinding.annotationprocessor.** { *; }
+-keepclassmembers class * {
+   public void *(android.view.View);
+}
+
+

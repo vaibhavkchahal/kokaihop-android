@@ -2,13 +2,13 @@ package com.kokaihop.editprofile;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityEmailPreferencesBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
+import com.kokaihop.base.BaseActivity;
 
-public class EmailPreferencesActivity extends AppCompatActivity {
+public class EmailPreferencesActivity extends BaseActivity {
 
     EmailPreferencesViewModel preferencesViewModel;
     ActivityEmailPreferencesBinding preferencesBinding;
