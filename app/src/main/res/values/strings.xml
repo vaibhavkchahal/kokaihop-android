@@ -355,5 +355,6 @@
     <string name="my_profile">My Profile</string>
     <string name="select_unit">Select Unit</string>
     <string name="invalid_quantity">Invalid Quantity</string>
+    <string name="editor_s_choice">Editor’s Choice</string>
 
 </resources>

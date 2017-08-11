@@ -118,4 +118,15 @@ public class Constants {
     public static final int OPEN_USER_PROFILE_REQUEST_CODE = 500;
     public static final int OPEN_USER_PROFILE_RESULT_CODE = 600;
 
+    //    Editor Choice
+    public static final String EDITOR_CHOICE_SECTION = "Section ";
+    public static final String EDITOR_CHOICE_TYPE = "Recipe";
+    public static final int SECTION_1 = 1;
+    public static final int SECTION_2 = 2;
+    public static final int SECTION_3 = 3;
+
+    public static final int EDITOR_CHOICE_COLUMN = 1;
+    public static final int EDITOR_CHOICE_ITEMS_ON_SCREEN = 2;
+    public static final int EDITOR_CHOICE_COUNT = 10;
+
 }

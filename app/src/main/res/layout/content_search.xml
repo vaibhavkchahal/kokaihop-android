@@ -7,6 +7,7 @@
         <variable name="viewModel" type="com.kokaihop.search.SearchViewModel"/>
 
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,8 +62,8 @@
                 android:id="@+id/textview_cooking_method"
                 android:layout_width="@dimen/none"
                 android:layout_height="@dimen/search_tags_height"
-                android:layout_weight="1"
                 android:layout_marginStart="6dp"
+                android:layout_weight="1"
                 android:background="@drawable/search_tag_white"
                 android:gravity="center"
                 android:maxLines="1"
@@ -117,8 +118,8 @@
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
-                      android:paddingStart="15dp"
                       android:paddingEnd="15dp"
+                      android:paddingStart="15dp"
                       android:visibility="gone">
             <TextView android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -160,19 +161,32 @@
                 app:font="@{`SS-ProSemiBold`}"
             />
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_recipes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/progressBar_bottom"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="@dimen/card_left_right_margin"
-            android:layout_marginRight="@dimen/card_left_right_margin"
-            android:scrollbars="vertical"
-            android:visibility="gone"
-            tools:context="com.kokaihop.feed.MainCourseFragment">
+        <ScrollView android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include android:id="@+id/editor_choice_container"
+                         layout="@layout/editor_choice_layout"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recipes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/progressBar_bottom"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="@dimen/card_left_right_margin"
+                    android:layout_marginRight="@dimen/card_left_right_margin"
+                    android:scrollbars="vertical"
+                    android:visibility="gone">
+
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
+
 </layout>

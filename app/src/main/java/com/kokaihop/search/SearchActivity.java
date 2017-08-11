@@ -43,6 +43,8 @@ import static com.kokaihop.utility.Constants.COURSE_FRIENDLY_URL;
 import static com.kokaihop.utility.Constants.COURSE_NAME;
 import static com.kokaihop.utility.Constants.CUISINE_FRIENDLY_URL;
 import static com.kokaihop.utility.Constants.CUISINE_NAME;
+import static com.kokaihop.utility.Constants.EDITOR_CHOICE_COLUMN;
+import static com.kokaihop.utility.Constants.EDITOR_CHOICE_ITEMS_ON_SCREEN;
 import static com.kokaihop.utility.Constants.METHOD_FRIENDLY_URL;
 import static com.kokaihop.utility.Constants.METHOD_NAME;
 
@@ -59,12 +61,15 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private int numOfColumnInGrid;
     private int spanSizeForItemRecipe = 1;
     private GridLayoutManager layoutManager;
+    private GridLayoutManager editorChoiceLayoutManager1, editorChoiceLayoutManager2, editorChoiceLayoutManager3;
     private FeedRecyclerAdapter recyclerAdapter;
-
+    private EditorChoiceRecyclerAdapter editorChoiceAdapter1, editorChoiceAdapter2, editorChoiceAdapter3;
+    private int spacingInPixels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        spacingInPixels = getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
         courseName = getIntent().getStringExtra(COURSE_NAME);
         cuisineName = getIntent().getStringExtra(CUISINE_NAME);
@@ -111,14 +116,14 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                 onBackPressed();
             }
         });
+        initializeEditorsChoice();
+        searchViewModel.getEditorChoiceForAllSections();
+
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.search_screen));
-
-
     }
 
     private void intilizeRecyclerView() {
         RecyclerView rvMainCourse = binding.included.rvRecipes;
-        int spacingInPixels = rvMainCourse.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         rvMainCourse.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
     }
 
@@ -160,6 +165,73 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.VISIBLE);
         binding.included.linearlytRecentSearch.setVisibility(View.VISIBLE);
         binding.included.rvRecipes.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEditorsChoice(int section, String categoryName) {
+//        TODO: editor choice dataset change
+        TextView tvSectionTitle;
+        switch (section) {
+            case 1:
+                editorChoiceAdapter1.notifyDataSetChanged();
+                tvSectionTitle = binding.included.editorChoiceContainer.tvEditorsChoiceSection1Title;
+                if (searchViewModel.getEditorChoiceList1().size() < 0) {
+                    tvSectionTitle.setVisibility(View.GONE);
+                    binding.included.editorChoiceContainer.rvEditorsChoice1.setVisibility(View.GONE);
+                } else {
+                    tvSectionTitle.setVisibility(View.VISIBLE);
+                    tvSectionTitle.setText(categoryName);
+                    binding.included.editorChoiceContainer.rvEditorsChoice1.setVisibility(View.VISIBLE);
+                }
+                break;
+            case 2:
+                editorChoiceAdapter2.notifyDataSetChanged();
+                tvSectionTitle = binding.included.editorChoiceContainer.tvEditorsChoiceSection2Title;
+                if (searchViewModel.getEditorChoiceList1().size() < 0) {
+                    tvSectionTitle.setVisibility(View.GONE);
+                    binding.included.editorChoiceContainer.rvEditorsChoice2.setVisibility(View.GONE);
+                } else {
+                    tvSectionTitle.setVisibility(View.VISIBLE);
+                    tvSectionTitle.setText(categoryName);
+                    binding.included.editorChoiceContainer.rvEditorsChoice2.setVisibility(View.VISIBLE);
+                }
+                break;
+            case 3:
+                editorChoiceAdapter3.notifyDataSetChanged();
+                tvSectionTitle = binding.included.editorChoiceContainer.tvEditorsChoiceSection3Title;
+                if (searchViewModel.getEditorChoiceList1().size() < 0) {
+                    tvSectionTitle.setVisibility(View.GONE);
+                    binding.included.editorChoiceContainer.rvEditorsChoice3.setVisibility(View.GONE);
+                } else {
+                    tvSectionTitle.setVisibility(View.VISIBLE);
+                    tvSectionTitle.setText(categoryName);
+                    binding.included.editorChoiceContainer.rvEditorsChoice3.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
+    }
+
+    public void initializeEditorsChoice() {
+        RecyclerView rvEditorChoice1 = binding.included.editorChoiceContainer.rvEditorsChoice1;
+        rvEditorChoice1.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        editorChoiceLayoutManager1 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
+        rvEditorChoice1.setLayoutManager(editorChoiceLayoutManager1);
+        editorChoiceAdapter1 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList1(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
+        rvEditorChoice1.setAdapter(editorChoiceAdapter1);
+
+        RecyclerView rvEditorChoice2 = binding.included.editorChoiceContainer.rvEditorsChoice2;
+        rvEditorChoice2.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        editorChoiceLayoutManager2 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
+        rvEditorChoice2.setLayoutManager(editorChoiceLayoutManager2);
+        editorChoiceAdapter2 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList2(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
+        rvEditorChoice2.setAdapter(editorChoiceAdapter2);
+
+        RecyclerView rvEditorChoice3 = binding.included.editorChoiceContainer.rvEditorsChoice3;
+        rvEditorChoice3.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        editorChoiceLayoutManager3 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
+        rvEditorChoice3.setLayoutManager(editorChoiceLayoutManager3);
+        editorChoiceAdapter3 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList3(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
+        rvEditorChoice3.setAdapter(editorChoiceAdapter3);
     }
 
     private void initialiseSuggestionView() {
