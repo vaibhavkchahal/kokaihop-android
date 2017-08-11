@@ -23,6 +23,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+-keep public class * extends com.kokaihop.base.BaseActivity
+-keep public class * extends android.support.v4.app.DialogFragment
+-keep public class * extends android.app.Application
+-keepattributes SourceFile,LineNumberTable
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Signature
@@ -39,6 +45,12 @@
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 -dontwarn okio.**
+-ignorewarnings
+
+-keep public class com.cloudinary.** {
+ *;
+}
+-dontwarn com.cloudinary.**
 
 
 ##---------------Begin: proguard configuration for Gson  ----------
@@ -60,5 +72,56 @@
 -keep class * implements com.google.gson.TypeAdapterFactory
 -keep class * implements com.google.gson.JsonSerializer
 -keep class * implements com.google.gson.JsonDeserializer
+-dontnote okhttp3.**, okio.**, retrofit2.**, pl.droidsonroids.**
 
 ##---------------End: proguard configuration for Gson  ----------
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+
+-dontwarn com.facebook.android.**
+
+-keep public class com.facebook.android.** {
+  *;
+}
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+
+-keepnames class * implements android.os.Parcelable {
+    public static final ** CREATOR;
+}
+
+-keep public class net.** {
+ *;
+}
+-dontwarn net.**
+
+-keep public class com.crashlytics.sdk.android.** {
+*;
+}
+-dontwarn com.crashlytics.sdk.android.**
+
+-keep public class com.android.support.** {
+ *;
+}
+-dontwarn com.android.support.**
+
+-keep public class com.google.** {*;}
+-keep class com.google.android.apps.analytics.**{ *; }
+-keep class android.support.v8.renderscript.** { *; }
+-keep public class com.google.android.gms.** {
+ *;
+}
+-dontwarn com.google.android.gms.**
