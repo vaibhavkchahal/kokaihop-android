@@ -76,7 +76,6 @@ public class UserFeedFragment extends Fragment {
         }
     }
 
-
     public void showUserProfile() {
         userFeedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_feed, container, false);
         final TabLayout tabLayout = userFeedBinding.tablayoutRecipe;

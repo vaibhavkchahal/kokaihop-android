@@ -78,7 +78,7 @@
                             <ImageView android:id="@+id/iv_profile_cover"
                                        android:layout_width="match_parent"
                                        android:layout_height="wrap_content"
-                                       android:scaleType="fitXY"
+                                       android:scaleType="centerCrop"
                                        app:error="@{@color/grey_FFD4D4D4}"
                                        app:imageUrl="@{imageCoverUrl}"
                                        app:placeholder="@{@color/grey_FFD4D4D4}"/>
