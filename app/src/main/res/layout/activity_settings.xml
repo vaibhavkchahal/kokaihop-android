@@ -27,6 +27,7 @@
                 <ImageView
                     android:id="@+id/settings_iv_back"
                     style="@style/backButton"
+                    android:contentDescription="@string/cancel"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -47,10 +48,12 @@
         </android.support.v7.widget.Toolbar>
         <TextView
             android:id="@+id/settings_edit_profile"
+            style="@style/Button"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/settings_list_item_padding_left"
+            android:paddingEnd="@dimen/settings_list_item_padding_left"
+            android:paddingStart="@dimen/settings_list_item_padding_left"
             android:text="@string/edit_profile"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
@@ -61,7 +64,7 @@
         <View android:id="@+id/settings_divider_email"
               android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:layout_marginLeft="@dimen/divider_margin"
+              android:layout_marginStart="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
@@ -69,21 +72,23 @@
 
         <TextView
             android:id="@+id/settings_email_preferences"
+            style="@style/Button"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/settings_list_item_padding_left"
+            android:paddingEnd="@dimen/settings_list_item_padding_left"
+            android:paddingStart="@dimen/settings_list_item_padding_left"
             android:text="@string/daily_email_preferences"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_edit_profile"/>
+            app:layout_constraintTop_toBottomOf="@+id/settings_divider_email"/>
 
         <View android:id="@+id/settings_divider_notification"
               android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:layout_marginLeft="@dimen/divider_margin"
+              android:layout_marginStart="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
@@ -91,21 +96,23 @@
 
         <TextView
             android:id="@+id/settings_change_password"
+            style="@style/Button"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/settings_list_item_padding_left"
+            android:paddingEnd="@dimen/settings_list_item_padding_left"
+            android:paddingStart="@dimen/settings_list_item_padding_left"
             android:text="@string/change_password"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_email_preferences"/>
+            app:layout_constraintTop_toBottomOf="@+id/settings_divider_notification"/>
 
         <View android:id="@+id/settings_divider_change_password"
               android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:layout_marginLeft="@dimen/divider_margin"
+              android:layout_marginStart="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
@@ -113,21 +120,23 @@
 
         <TextView
             android:id="@+id/settings_logout"
+            style="@style/Button"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="@dimen/settings_list_item_height"
             android:gravity="center_vertical"
-            android:paddingLeft="@dimen/settings_list_item_padding_left"
+            android:paddingEnd="@dimen/settings_list_item_padding_left"
+            android:paddingStart="@dimen/settings_list_item_padding_left"
             android:text="@string/log_out"
             android:textColor="@color/grey_FF71767F"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_change_password"/>
+            app:layout_constraintTop_toBottomOf="@+id/settings_divider_change_password"/>
 
         <View android:id="@+id/settings_divider_logout"
               android:layout_width="@dimen/constraint_match_parent"
               android:layout_height="@dimen/user_settings_divider_height"
-              android:layout_marginLeft="@dimen/divider_margin"
+              android:layout_marginStart="@dimen/divider_margin"
               android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"

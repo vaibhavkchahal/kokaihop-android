@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+>
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.SimilarRecipe"/>
         <variable name="profileImageUrl" type="String"/>
@@ -54,6 +54,7 @@
                 android:gravity="center_vertical"
                 android:text="@{model.userName}"
                 android:textColor="@color/white"
+                android:onClick="@{(v)->recipeHandler.openUserProfile(v.getContext,model.userId,model.userFriendlyUrl)}"
                 android:textSize="15sp"
             />
 
@@ -69,6 +70,7 @@
                 app:error="@{@drawable/ic_avtar_sm}"
                 app:imageUrl="@{profileImageUrl}"
                 app:isCircular="@{true}"
+                android:onClick="@{(v)->recipeHandler.openUserProfile(v.getContext,model.userId,model.userFriendlyUrl)}"
                 app:placeholder="@{@drawable/ic_avtar_sm}"/>
 
         </RelativeLayout>

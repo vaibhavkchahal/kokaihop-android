@@ -39,7 +39,7 @@ public class HomeViewModel extends BaseViewModel {
 
     public HomeViewModel(Context context) {
         this.context = context;
-//        getLatestRecipes();
+        getLatestRecipes();
         syncRecipes();
         syncComments();
         syncCookbooks();
