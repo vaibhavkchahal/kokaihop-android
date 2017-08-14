@@ -327,7 +327,7 @@ public class AppUtility {
     }
 
     public static AdRequest getAdRequest() {
-//        return new AdRequest.Builder().build();
-        return new AdRequest.Builder().addTestDevice("4F20D92C416199243861B5EACC811BD6").build(); //TODO: Remove adTestDevice method for production 4F20D92C416199243861B5EACC811BD6
+        return new AdRequest.Builder().build();
+//        return new AdRequest.Builder().addTestDevice("4F20D92C416199243861B5EACC811BD6").build(); //TODO: Remove adTestDevice method for production 4F20D92C416199243861B5EACC811BD6
     }
 }
