@@ -130,6 +130,7 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     @Override
     public void showRecipesList(List<Object> recipeList) {
         alreadyQuerying = false;
+        binding.included.editorChoiceContainer.rlEditorChoice.setVisibility(View.GONE);
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
         binding.included.linearlytRecentSearch.setVisibility(View.GONE);
         binding.included.rvRecipes.setVisibility(View.VISIBLE);
@@ -169,8 +170,10 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showEditorsChoice(int section, String categoryName) {
-//        TODO: editor choice dataset change
         TextView tvSectionTitle;
+        if (categoryName == null) {
+            categoryName = "";
+        }
         switch (section) {
             case 1:
                 editorChoiceAdapter1.notifyDataSetChanged();
@@ -180,7 +183,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     binding.included.editorChoiceContainer.rvEditorsChoice1.setVisibility(View.GONE);
                 } else {
                     tvSectionTitle.setVisibility(View.VISIBLE);
-                    tvSectionTitle.setText(categoryName);
+                    if (!categoryName.isEmpty())
+                        tvSectionTitle.setText(categoryName);
                     binding.included.editorChoiceContainer.rvEditorsChoice1.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -192,7 +196,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     binding.included.editorChoiceContainer.rvEditorsChoice2.setVisibility(View.GONE);
                 } else {
                     tvSectionTitle.setVisibility(View.VISIBLE);
-                    tvSectionTitle.setText(categoryName);
+                    if (!categoryName.isEmpty())
+                        tvSectionTitle.setText(categoryName);
                     binding.included.editorChoiceContainer.rvEditorsChoice2.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -204,7 +209,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                     binding.included.editorChoiceContainer.rvEditorsChoice3.setVisibility(View.GONE);
                 } else {
                     tvSectionTitle.setVisibility(View.VISIBLE);
-                    tvSectionTitle.setText(categoryName);
+                    if (!categoryName.isEmpty())
+                        tvSectionTitle.setText(categoryName);
                     binding.included.editorChoiceContainer.rvEditorsChoice3.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -213,21 +219,21 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     public void initializeEditorsChoice() {
         RecyclerView rvEditorChoice1 = binding.included.editorChoiceContainer.rvEditorsChoice1;
-        rvEditorChoice1.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        rvEditorChoice1.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager1 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice1.setLayoutManager(editorChoiceLayoutManager1);
         editorChoiceAdapter1 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList1(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
         rvEditorChoice1.setAdapter(editorChoiceAdapter1);
 
         RecyclerView rvEditorChoice2 = binding.included.editorChoiceContainer.rvEditorsChoice2;
-        rvEditorChoice2.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        rvEditorChoice2.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager2 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice2.setLayoutManager(editorChoiceLayoutManager2);
         editorChoiceAdapter2 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList2(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
         rvEditorChoice2.setAdapter(editorChoiceAdapter2);
 
         RecyclerView rvEditorChoice3 = binding.included.editorChoiceContainer.rvEditorsChoice3;
-        rvEditorChoice3.addItemDecoration(new SpacingItemDecoration(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels));
+        rvEditorChoice3.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager3 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice3.setLayoutManager(editorChoiceLayoutManager3);
         editorChoiceAdapter3 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList3(), EDITOR_CHOICE_ITEMS_ON_SCREEN);

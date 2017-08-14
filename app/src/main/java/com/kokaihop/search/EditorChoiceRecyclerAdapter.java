@@ -3,12 +3,12 @@ package com.kokaihop.search;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
@@ -33,8 +33,6 @@ public class EditorChoiceRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     private List<Object> recipeListWithAdds = new ArrayList<>();
     private Context context;
     private RelativeLayout.LayoutParams layoutParamsRecipeItem;
-    private LinearLayout.LayoutParams layoutParamsRecipeDay;
-    private boolean fromSearchedView;
     private int columnsInGrid;
 
     public EditorChoiceRecyclerAdapter(List<Object> list, int numOfComumnInGrid) {
@@ -42,20 +40,12 @@ public class EditorChoiceRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         this.columnsInGrid = numOfComumnInGrid;
     }
 
-    public List<Object> getRecipeListWithAdds() {
-        return recipeListWithAdds;
-    }
-
-    public void setRecipeListWithAdds(List<Object> recipeListWithAdds) {
-        this.recipeListWithAdds = recipeListWithAdds;
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         Point point = AppUtility.getDisplayPoint(context);
-        int marginInPx = 2 * context.getResources().getDimensionPixelOffset(R.dimen.card_left_right_margin) +
-                4 * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+        int marginInPx = columnsInGrid * 2 * context.getResources().getDimensionPixelOffset(R.dimen.editor_choice_item_padding) +
+                columnsInGrid * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.editor_choice_recipe_item, parent, false);
         Logger.e("point x", point.x + " point y " + point.y);
         double widthRelative = (point.x - marginInPx) / (columnsInGrid + 0.8);
@@ -68,6 +58,10 @@ public class EditorChoiceRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         layoutParams.width = width;
         imageViewRecipe.setLayoutParams(layoutParams);
         layoutParamsRecipeItem = (RelativeLayout.LayoutParams) imageViewRecipe.getLayoutParams();
+        RelativeLayout relativeLayoutEditorChoice = (RelativeLayout) v.findViewById(R.id.rl_editor_choice_item);
+        GridLayoutManager.LayoutParams layoutParams1 = (GridLayoutManager.LayoutParams) relativeLayoutEditorChoice.getLayoutParams();
+        layoutParams1.width = width + 3 * relativeLayoutEditorChoice.getPaddingBottom();
+        relativeLayoutEditorChoice.setLayoutParams(layoutParams1);
         return new ViewHolderRecipe(v);
 
     }
@@ -79,6 +73,13 @@ public class EditorChoiceRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
         ViewHolderRecipe viewHolderRecipe = (ViewHolderRecipe) holder;
         RecipeRealmObject recipeRealmObject = (RecipeRealmObject) recipeListWithAdds.get(position);
         String publicIdRecipe = "";
+        if (position == 0) {
+            GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
+            int marginInPx = holder.itemView.getContext().getResources().getDimensionPixelOffset(R.dimen.editor_choice_layout_margin_start);
+//            layoutParams.setMarginStart(holder.itemView.getContext().getResources().getDimensionPixelOffset(R.dimen.editor_choice_item_padding));
+            layoutParams.setMarginStart(marginInPx);
+            holder.itemView.setLayoutParams(layoutParams);
+        }
         if (recipeRealmObject.getCoverImage() != null) {
             publicIdRecipe = recipeRealmObject.getCoverImage();
         } else if (recipeRealmObject.getMainImage() != null) {
@@ -96,10 +97,6 @@ public class EditorChoiceRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemCount() {
         return recipeListWithAdds.size();
-    }
-
-    public boolean isFromSearchedView() {
-        return fromSearchedView;
     }
 
     private class ViewHolderRecipe extends RecyclerView.ViewHolder {
