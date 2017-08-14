@@ -48,7 +48,7 @@
     <dimen name="content_box_margin_top">5dp</dimen>
     <dimen name="search_coach_mark_padding_top">92dp</dimen>
     <dimen name="search_coach_mark_margin_left_right">200dp</dimen>
-    <dimen name="user_profile_triangle_margin_right">95dp</dimen>
+    <dimen name="user_profile_triangle_margin_right">155dp</dimen>
     <dimen name="user_profile_coachmark_margin_left">455dp</dimen>
     <dimen name="recipe_detail_coach_mark_triangle_margin_right">95dp</dimen>
     <dimen name="recipe_detail_coachmark_margin_left">450dp</dimen>

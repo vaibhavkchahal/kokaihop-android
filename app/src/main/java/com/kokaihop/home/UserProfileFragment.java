@@ -66,6 +66,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     private ProfileAdapter adapter;
     private ArrayList<NotificationCount> notificationCount;
     private final int FOLLOWING_TAB_POSITION = 2;
+    private View coachMarkView;
 
     public UserProfileFragment() {
     }
@@ -101,7 +102,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             boolean searchCoachMarkVisibilty = SharedPrefUtils.getSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY);
             if (accessToken != null && !accessToken.isEmpty() && !searchCoachMarkVisibilty) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                View coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
+                coachMarkView = inflater.inflate(R.layout.userprofile_screen_coach_mark, null);
                 AppUtility.showCoachMark(coachMarkView, Constants.USERPROFILE_COACHMARK_VISIBILITY);
 //                SharedPrefUtils.setSharedPrefBooleanData(getContext(), Constants.USERPROFILE_COACHMARK_VISIBILITY, true);
             }
@@ -397,6 +398,17 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             int paddingStartEnd = (int) getResources().getDimension(R.dimen.horizontal_padding_signup_message);
             userProfileSignUpBinding.signUpMessage.setPadding(paddingStartEnd, 0, paddingStartEnd, 0);
             userProfileSignUpBinding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_profile));
+        }
+        setCoachMarkMargin();
+    }
+
+    private void setCoachMarkMargin() {
+        if (coachMarkView != null) {
+            ImageView imageViewTriangle = (ImageView) coachMarkView.findViewById(R.id.triangle);
+            int triangleMarginRight = getResources().getDimensionPixelSize(R.dimen.user_profile_triangle_margin_right);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageViewTriangle.getLayoutParams();
+            layoutParams.setMargins(0, 0, triangleMarginRight, 0);
+            imageViewTriangle.setLayoutParams(layoutParams);
         }
     }
 }

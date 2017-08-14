@@ -91,6 +91,7 @@ public class UserFeedFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
+        changeTabModeIfLanscape();
         final PagerTabAdapter adapter = new PagerTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
         adapter.addFrag(mainCourseFragment, tabTitles[0]);
@@ -112,7 +113,6 @@ public class UserFeedFragment extends Fragment {
             tabBinding.text1.setText(tabTitles[i]);
         }
         tabLayout.getTabAt(0).select();
-        changeTabModeIfLanscape();
         userFeedBinding.textviewHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +139,7 @@ public class UserFeedFragment extends Fragment {
     private void changeTabModeIfLanscape() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_FIXED);
-            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_CENTER);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_FILL);
         }
     }
 
@@ -176,9 +176,10 @@ public class UserFeedFragment extends Fragment {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_FIXED);
-            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_CENTER);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_FILL);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_SCROLLABLE);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_FILL);
         }
     }
 }

@@ -126,7 +126,10 @@
                             app:layout_collapseMode="parallax"
                             app:tabGravity="fill"
                             app:tabIndicatorHeight="@dimen/none"
+                            app:tabMaxWidth="0dp"
+                            app:tabMode="fixed"
                             app:tabTextAppearance="@style/ProfileTabLayoutText"/>
+
                         <ImageView
                             android:id="@+id/btn_settings"
                             android:layout_width="wrap_content"
