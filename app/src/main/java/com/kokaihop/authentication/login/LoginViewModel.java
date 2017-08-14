@@ -92,11 +92,6 @@ public class LoginViewModel extends BaseViewModel {
 
 
             }
-
-            @Override
-            public void onError(AuthenticationApiResponse response) {
-                setProgressVisible(false);
-            }
         });
 
     }
@@ -163,12 +158,6 @@ public class LoginViewModel extends BaseViewModel {
 
                     }
 
-                    @Override
-                    public void onError(AuthenticationApiResponse response) {
-                        setProgressVisible(false);
-                        String message = response.getErrorEmail().getDetail().getMessage();
-                        Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
-                    }
                 });
 
             }

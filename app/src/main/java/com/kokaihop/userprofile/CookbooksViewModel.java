@@ -82,12 +82,6 @@ public class CookbooksViewModel extends BaseViewModel {
                     showUserProfile();
                 }
 
-                @Override
-                public void onError(Object response) {
-                    setDownloading(false);
-                    setProgressVisible(false);
-                    showUserProfile();
-                }
             });
         }
 

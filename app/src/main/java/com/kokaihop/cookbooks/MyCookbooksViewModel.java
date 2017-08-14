@@ -91,13 +91,6 @@ public class MyCookbooksViewModel extends BaseViewModel {
                     setProgressVisible(false);
                     showUserProfile();
                 }
-
-                @Override
-                public void onError(Object response) {
-                    setDownloading(false);
-                    setProgressVisible(false);
-                    showUserProfile();
-                }
             });
         }
 
@@ -168,10 +161,6 @@ public class MyCookbooksViewModel extends BaseViewModel {
                 Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 

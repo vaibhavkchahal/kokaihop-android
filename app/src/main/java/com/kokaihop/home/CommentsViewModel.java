@@ -101,10 +101,6 @@ public class CommentsViewModel extends BaseViewModel {
                 setProgressVisible(false);
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-            }
         });
     }
 

@@ -109,12 +109,6 @@ public class RecipeFeedViewModel extends BaseViewModel {
 
             }
 
-            @Override
-            public void onError(RecipeResponse response) {
-                setShowProgressDialog(false);
-                setDownloading(false);
-
-            }
         });
 
     }

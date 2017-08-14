@@ -75,11 +75,6 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 
@@ -138,17 +133,6 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 userDataListener.followToggeled();
             }
 
-            @Override
-            public void onError(Object response) {
-                user.setFollowByMe(!followByMe);
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                if (followByMe) {
-                    user.getFollowers().remove(User.getInstance().get_id());
-                } else {
-                    user.getFollowers().add(User.getInstance().get_id());
-                }
-                userDataListener.followToggeled();
-            }
         });
     }
 

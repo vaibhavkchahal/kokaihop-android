@@ -54,10 +54,6 @@ public class ForgotPaswdViewModel extends BaseViewModel {
                 Toast.makeText(view.getContext(), message, Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(ForgotApiResponse response) {
-                setProgressVisible(false);
-            }
         });
     }
 

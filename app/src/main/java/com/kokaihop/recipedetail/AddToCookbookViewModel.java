@@ -104,12 +104,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
 
-                @Override
-                public void onError(Object response) {
-                    setDownloading(false);
-                    displayCookbooks();
-                    setProgressVisible(false);
-                }
             });
         }
 
@@ -168,11 +162,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
 
             }
 
-            @Override
-            public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                setProgressVisible(false);
-            }
         });
     }
 
@@ -221,12 +210,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 cookbook.setContains(!cookbook.isContains());
             }
 
-            @Override
-            public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                setProgressVisible(false);
-                cookbook.setContains(!cookbook.isContains());
-            }
         });
     }
 
@@ -255,12 +238,6 @@ public class AddToCookbookViewModel extends BaseViewModel {
                 cookbook.setContains(!cookbook.isContains());
             }
 
-            @Override
-            public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                setProgressVisible(false);
-                cookbook.setContains(!cookbook.isContains());
-            }
         });
     }
 

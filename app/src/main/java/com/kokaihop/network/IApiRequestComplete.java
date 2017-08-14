@@ -9,7 +9,4 @@ public interface IApiRequestComplete<T> {
     public void onSuccess(T response);
 
     public void onFailure(String message);
-
-    public void onError(T response);
-    
 }
