@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit = null;
-    private static final long REQUEST_TIMEOUT = 40000;
+    private static final long REQUEST_TIMEOUT = 15000;
 
     private RetrofitClient() {
     }
@@ -48,7 +48,6 @@ public class RetrofitClient {
                 .registerTypeAdapter(new TypeToken<RealmList<RealmString>>() {
                 }.getType(), new RealmStringDeserializer())
                 .create();
-
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BuildConfig.SERVER_BASE_URL)

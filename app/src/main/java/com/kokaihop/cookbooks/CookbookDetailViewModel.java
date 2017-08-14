@@ -106,15 +106,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                         ((CookbookDetailFragment) fragment).showCookbookDetails();
                     }
                 }
-
-                @Override
-                public void onError(Object response) {
-                    setDownloading(false);
-                    setProgressVisible(false);
-                    if (fragment.isVisible()) {
-                        ((CookbookDetailFragment) fragment).showCookbookDetails();
-                    }
-                }
             });
         }
 
@@ -160,12 +151,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 user.setCookbooks(new ProfileDataManager().getCookbooks(SharedPrefUtils.getSharedPrefStringData(context, Constants.USER_ID)));
                 EventBus.getDefault().postSticky(new AuthUpdateEvent("refreshCookbook"));
                 ((Activity) context).finish();
-                setProgressVisible(false);
-            }
-
-            @Override
-            public void onError(Object response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
             }
 
@@ -235,10 +220,6 @@ public class CookbookDetailViewModel extends BaseViewModel {
                 Toast.makeText(context, "Failure " + R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(Object response) {
-                Toast.makeText(context, "Failure " + R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-            }
         });
 
     }

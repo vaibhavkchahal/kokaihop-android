@@ -84,11 +84,6 @@ public class UserProfileViewModel extends BaseViewModel {
                 setProgressVisible(false);
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-
-            }
         });
     }
 
@@ -166,10 +161,6 @@ public class UserProfileViewModel extends BaseViewModel {
                         setProgressVisible(false);
                     }
 
-                    @Override
-                    public void onError(Object response) {
-                        setProgressVisible(false);
-                    }
                 });
             }
 
@@ -179,11 +170,6 @@ public class UserProfileViewModel extends BaseViewModel {
                 Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(SettingsResponse response) {
-                setProgressVisible(false);
-                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-            }
         });
     }
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
-import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.ValidationUtils;
 
@@ -150,15 +148,6 @@ public class SignUpViewModel extends BaseViewModel {
                     GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.new_user_registration_action), 0);
                     precessingRequest = false;
                 }
-
-                @Override
-                public void onError(AuthenticationApiResponse response) {
-                    setProgressVisible(false);
-                    String message = response.getErrorEmail().getDetail().getMessage();
-                    Logger.e("Text", ((Button) view).getText().toString() + "");
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                    precessingRequest = false;
-                }
             });
         }
     }
@@ -235,12 +224,6 @@ public class SignUpViewModel extends BaseViewModel {
                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                         }
 
-                        @Override
-                        public void onError(AuthenticationApiResponse response) {
-                            setProgressVisible(false);
-                            String message = response.getErrorEmail().getDetail().getMessage();
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        }
                     });
 
                 }

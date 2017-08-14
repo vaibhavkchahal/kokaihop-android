@@ -153,7 +153,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         initializeViewPager();
         initializePagerLeftRightSlider();
         initializeRecycleView();
-//        setPagerData();
+        setPagerData();
         setAppBarListener();
 
     }
