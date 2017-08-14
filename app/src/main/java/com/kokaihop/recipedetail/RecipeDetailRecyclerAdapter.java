@@ -334,18 +334,20 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             return TYPE_ITEM_ADVT;
         } else if (object instanceof ListHeading) {
             ListHeading heading = (ListHeading) object;
-            if (heading.getTitle().equals(context.getString(R.string.text_Ingredients)))
-                return TYPE_ITEM_INGREDIENT_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.text_directions)))
-                return TYPE_ITEM_DIRECTION_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.text_comments)))
-                return TYPE_ITEM_COMMENTS_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.add_comments)))
-                return TYPE_ITEM_ADD_COMMENTS_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.text_SimilarRecipies)))
-                return TYPE_ITEM_SIMILAR_RECIPIES_HEADING;
-            else
-                return -1;
+            if (context != null) {
+                if (heading.getTitle().equals(context.getString(R.string.text_Ingredients)))
+                    return TYPE_ITEM_INGREDIENT_HEADING;
+                else if (heading.getTitle().equals(context.getString(R.string.text_directions)))
+                    return TYPE_ITEM_DIRECTION_HEADING;
+                else if (heading.getTitle().equals(context.getString(R.string.text_comments)))
+                    return TYPE_ITEM_COMMENTS_HEADING;
+                else if (heading.getTitle().equals(context.getString(R.string.add_comments)))
+                    return TYPE_ITEM_ADD_COMMENTS_HEADING;
+                else if (heading.getTitle().equals(context.getString(R.string.text_SimilarRecipies)))
+                    return TYPE_ITEM_SIMILAR_RECIPIES_HEADING;
+                else
+                    return -1;
+            }
 
         } else if (object instanceof IngredientsRealmObject) {
             return TYPE_ITEM_RECIPE_INGREDIENT;
