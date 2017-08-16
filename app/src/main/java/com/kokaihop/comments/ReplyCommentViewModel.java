@@ -76,10 +76,6 @@ public class ReplyCommentViewModel extends BaseViewModel {
                 setProgressVisible(false);
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-            }
         });
     }
 
@@ -126,10 +122,6 @@ public class ReplyCommentViewModel extends BaseViewModel {
                         setProgressVisible(false);
                     }
 
-                    @Override
-                    public void onError(Object response) {
-                        setProgressVisible(false);
-                    }
                 });
             } else {
                 Toast.makeText(view.getContext(), R.string.empty_comment_msg, Toast.LENGTH_SHORT).show();

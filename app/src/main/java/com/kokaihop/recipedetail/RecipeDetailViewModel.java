@@ -134,13 +134,10 @@ public class RecipeDetailViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 setProgressVisible(false);
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-            }
         });
     }
 
@@ -171,10 +168,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                 setProgressVisible(false);
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-            }
         });
 
     }
@@ -435,12 +428,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
                                     setProgressVisible(false);
                                 }
 
-                                @Override
-                                public void onError(Object response) {
-                                    Logger.e("image upload", "failure " + response.toString());
-                                    Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();
-                                    setProgressVisible(false);
-                                }
                             });
                         } else {
                             Toast.makeText(context, context.getString(R.string.recipe_image_upload_failed), Toast.LENGTH_SHORT).show();

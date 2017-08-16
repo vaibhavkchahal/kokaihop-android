@@ -110,10 +110,6 @@ public class ShowCommentsViewModel extends BaseViewModel {
 
             }
 
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-            }
         });
     }
 
@@ -162,10 +158,6 @@ public class ShowCommentsViewModel extends BaseViewModel {
                         setProgressVisible(false);
                     }
 
-                    @Override
-                    public void onError(Object response) {
-                        setProgressVisible(false);
-                    }
                 });
             } else {
                 editText.setText("");

@@ -158,10 +158,6 @@ public class EditProfileViewModel extends BaseViewModel {
                         setProgressVisible(false);
                     }
 
-                    @Override
-                    public void onError(Object response) {
-                        setProgressVisible(false);
-                    }
                 });
             }
 
@@ -171,11 +167,6 @@ public class EditProfileViewModel extends BaseViewModel {
                 Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(SettingsResponse response) {
-                setProgressVisible(false);
-                Toast.makeText(context, context.getString(R.string.profile_pic_upload_failed), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 
@@ -201,12 +192,6 @@ public class EditProfileViewModel extends BaseViewModel {
                     Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
                 }
 
-                @Override
-                public void onError(SettingsResponse response) {
-                    setProgressVisible(false);
-                    ((Activity) context).finish();
-                    Toast.makeText(context, context.getString(R.string.city_updation_failed), Toast.LENGTH_SHORT).show();
-                }
             });
         } else {
             ((Activity) context).finish();
