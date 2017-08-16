@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/comment_logo_margin_left"
                 android:layout_marginTop="@dimen/comment_logo_margin_top"
-                android:onClick="@{(v)->handler.openRecipeDetailUsingFriendlyUrl(v,model.payload.recipe.friendlyUrl)}">
+                android:onClick="@{(v)->handler.openRecipeDetailUsingFriendlyUrl(v,model.payload.recipe.friendlyUrl,recipeImageUrl)}">
                 <android.support.v7.widget.CardView
                     android:id="@+id/cardview_logo"
                     android:layout_width="@dimen/comment_card_logo_width"

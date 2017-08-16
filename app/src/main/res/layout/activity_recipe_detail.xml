@@ -6,6 +6,7 @@
     <data>
         <variable name="viewModel" type="com.kokaihop.recipedetail.RecipeDetailViewModel"/>
         <variable name="profileImageUrl" type="String"/>
+        <variable name="recipeImageUrl" type="String"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -39,7 +40,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_recipeplaceholder_lg"/>
+                        app:imageUrl="@{recipeImageUrl}"
+                    />
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/viewpager_recipe_detail"

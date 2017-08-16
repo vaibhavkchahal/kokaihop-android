@@ -149,7 +149,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                 @Override
                 public void onClick(View v) {
                     if (!editCookbook.isEditMode()) {
-                        recipeHandler.openRecipeDetail(v, recipe.get_id(), getAdapterPosition());
+                        recipeHandler.openRecipeDetail(v, recipe.get_id(), recipe.getMainImageUrl());
                         if (fragment instanceof HistoryFragment) {
                             User.getInstance().setIndex(3);
                             displayHistoryChanges();

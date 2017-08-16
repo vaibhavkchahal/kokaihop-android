@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/recipe_item_border"
-        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,position)}">
+        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,feedImageUrl)}">
 
         <ImageView
             android:id="@+id/iv_recipe"

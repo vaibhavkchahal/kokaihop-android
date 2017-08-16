@@ -77,6 +77,7 @@ import static com.kokaihop.KokaihopApplication.getContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
+import static com.kokaihop.utility.Constants.RECIPE_IMAGE_URL;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
 
 public class RecipeDetailActivity extends BaseActivity implements RecipeDetailViewModel.DataSetListener, ShareAdapter.ShareItemClickListener {
@@ -146,6 +147,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, friendlyUrl, this);
         binding.setViewModel(recipeDetailViewModel);
         setProfileImage();
+        setRecipeImage();
         setToolbar();
         initializeViewPager();
         initializePagerLeftRightSlider();
@@ -153,6 +155,12 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 //        setPagerData();
         setAppBarListener();
 
+    }
+
+    private void setRecipeImage() {
+        if (getIntent().getStringExtra(RECIPE_IMAGE_URL) != null) {
+            binding.setProfileImageUrl(getIntent().getStringExtra(RECIPE_IMAGE_URL));
+        }
     }
 
     private void setProfileImage() {
@@ -269,7 +277,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             public void onAddToListClick() {
                 addItemsToShoppingList();
                 EventBus.getDefault().postSticky(new AddToListEvent());
-                GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category), getString(R.string.buy_list_added_action),getString(R.string.buy_list_recipe_label));
+                GoogleAnalyticsHelper.trackEventAction(getString(R.string.buy_list_category), getString(R.string.buy_list_added_action), getString(R.string.buy_list_recipe_label));
 
             }
         });

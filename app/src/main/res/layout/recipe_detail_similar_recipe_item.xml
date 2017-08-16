@@ -14,7 +14,7 @@
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:background="@color/grey_FFD4D4D4"
-                    android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,model.recipeId,-1)}">
+                    android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,model.recipeId,recipeImageUrl)}">
 
         <ImageView
             android:id="@+id/imgview_recipe_img"
