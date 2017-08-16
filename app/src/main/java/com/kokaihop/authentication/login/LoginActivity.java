@@ -23,7 +23,7 @@ public class LoginActivity extends BaseActivity {
         ActivityLoginBinding loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         loginViewModel = new LoginViewModel();
         loginBinding.setViewModel(loginViewModel);
-        GoogleAnalyticsHelper.trackScreenName( getString(R.string.login_screen));
+        GoogleAnalyticsHelper.trackScreenName(getString(R.string.login_screen));
 
     }
 

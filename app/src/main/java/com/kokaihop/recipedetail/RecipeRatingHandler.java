@@ -90,10 +90,6 @@ public class RecipeRatingHandler {
                     ratingBar.setRating(recipeDetailHeader.getRating());
                 }
 
-                @Override
-                public void onError(Object response) {
-                    ratingBar.setRating(recipeDetailHeader.getRating());
-                }
             });
         } else {
             ratingBar.setRating(recipeDetailHeader.getRating());

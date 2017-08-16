@@ -23,6 +23,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreate(savedInstanceState);
+
         ActivitySettingsBinding settingsBinding = DataBindingUtil.setContentView(this, R.layout.activity_settings);
         viewModel = new SettingsViewModel(this);
         settingsBinding.setViewModel(viewModel);

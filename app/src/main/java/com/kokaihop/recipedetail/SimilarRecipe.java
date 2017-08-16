@@ -11,13 +11,17 @@ public class SimilarRecipe {
     private String userImageUrl;
     private String userName;
     private String recipeName;
+    private String userFriendlyUrl;
+    private String userId;
 
-    public SimilarRecipe(String recipeId, String recipeName, String recipeImageId, String userImageId, String userName) {
+    public SimilarRecipe(String recipeId, String recipeName, String recipeImageId, String userImageId, String userName, String userFriendlyUrl, String userId) {
         this.recipeImageUrl = recipeImageId;
         this.userImageUrl = userImageId;
         this.userName = userName;
         this.recipeName = recipeName;
         this.recipeId = recipeId;
+        this.userFriendlyUrl = userFriendlyUrl;
+        this.userId = userId;
     }
 
     public String getRecipeImageUrl() {
@@ -58,5 +62,21 @@ public class SimilarRecipe {
 
     public void setRecipeId(String recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public String getUserFriendlyUrl() {
+        return userFriendlyUrl;
+    }
+
+    public void setUserFriendlyUrl(String userFriendlyUrl) {
+        this.userFriendlyUrl = userFriendlyUrl;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

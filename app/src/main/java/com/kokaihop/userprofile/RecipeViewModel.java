@@ -117,12 +117,6 @@ public class RecipeViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
 
-                @Override
-                public void onError(Object response) {
-                    setDownloading(false);
-                    ((RecipeFragment) fragment).showUserProfile();
-                    setProgressVisible(false);
-                }
             });
         }
 

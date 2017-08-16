@@ -22,6 +22,7 @@ public class AddToCookBookActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActivityCookbookBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_cookbook);
         setupArguments();
         AddToCookbookFragment addToCookbookFragment = new AddToCookbookFragment();

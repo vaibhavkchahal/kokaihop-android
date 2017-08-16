@@ -118,4 +118,6 @@ public class Constants {
     public static final int OPEN_USER_PROFILE_REQUEST_CODE = 500;
     public static final int OPEN_USER_PROFILE_RESULT_CODE = 600;
 
+    public static final int BOTTOM_SHET_DIALOG_PEEK_HEIGHT = 1000;
+
 }

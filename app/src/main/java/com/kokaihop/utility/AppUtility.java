@@ -110,17 +110,19 @@ public class AppUtility {
             } else {
                 textView.setText(message);
             }
-            dialog.show();
-            hideDialogAfterTimeOut(dialog);
+            if (!((Activity) context).isFinishing()) {
+                dialog.show();
+            }
+            hideDialogAfterTimeOut(dialog, context);
         }
     }
 
 
-    private static void hideDialogAfterTimeOut(final Dialog dialog) {
-        Runnable runnable = new Runnable() {
+    private static void hideDialogAfterTimeOut(final Dialog dialog, final Context context) {
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if ((dialog != null) && (dialog.isShowing())) {
+                if ((dialog != null) && (dialog.isShowing()) && !((Activity) context).isFinishing()) {
                     dialog.dismiss();
                 }
             }
@@ -199,15 +201,12 @@ public class AppUtility {
                     RecipeRealmObject recipeRealmObject = (RecipeRealmObject) object;
                     if (recipeRealmObject.getFriendlyUrl().equals(recipe.getFriendlyUrl())) {
                         recipeRealmObject.setFavorite(recipe.isFavorite());
-
-                        if (recipeRealmObject.getCounter()!=null){
+                        if (recipeRealmObject.getCounter() != null) {
                             recipeRealmObject.getCounter().setLikes(recipe.getCounter().getLikes());
-                        }
-                        else {
+                        } else {
                             RecipeDataManager recipeDataManager = new RecipeDataManager();
                             recipeRealmObject.setCounter(recipeDataManager.fetchCounterObject(recipe));
                         }
-
                         if (recipeRealmObject.getRating() != null) {
                             recipeRealmObject.getRating().setAverage(recipe.getRating().getAverage());
 
@@ -328,7 +327,6 @@ public class AppUtility {
             }
         }
     }
-
 
     public static AdRequest getAdRequest() {
         return new AdRequest.Builder().build();

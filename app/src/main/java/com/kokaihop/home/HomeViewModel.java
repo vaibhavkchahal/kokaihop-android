@@ -39,7 +39,7 @@ public class HomeViewModel extends BaseViewModel {
 
     public HomeViewModel(Context context) {
         this.context = context;
-//        getLatestRecipes();
+        getLatestRecipes();
         syncRecipes();
         syncComments();
         syncCookbooks();
@@ -79,10 +79,6 @@ public class HomeViewModel extends BaseViewModel {
 //                Toast.makeText(context, "Update Failed", Toast.LENGTH_SHORT).show();
                 }
 
-                @Override
-                public void onError(Object response) {
-//                Toast.makeText(context, "Update Error", Toast.LENGTH_SHORT).show();
-                }
             });
         }
     }
@@ -119,10 +115,6 @@ public class HomeViewModel extends BaseViewModel {
                 setProgressVisible(false);
             }
 
-            @Override
-            public void onError(AuthenticationApiResponse response) {
-                setProgressVisible(false);
-            }
         });
     }
 
@@ -158,9 +150,6 @@ public class HomeViewModel extends BaseViewModel {
             public void onFailure(String message) {
             }
 
-            @Override
-            public void onError(Object response) {
-            }
         });
     }
 
@@ -192,9 +181,6 @@ public class HomeViewModel extends BaseViewModel {
             public void onFailure(String message) {
             }
 
-            @Override
-            public void onError(Object response) {
-            }
         });
     }
 
@@ -226,9 +212,6 @@ public class HomeViewModel extends BaseViewModel {
             public void onFailure(String message) {
             }
 
-            @Override
-            public void onError(Object response) {
-            }
         });
     }
 }

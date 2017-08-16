@@ -28,6 +28,7 @@ import com.altaworks.kokaihop.ui.databinding.RecipeItemCommentBinding;
 import com.altaworks.kokaihop.ui.databinding.RecipeSpecificationItemBinding;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
+import com.kokaihop.KokaihopApplication;
 import com.kokaihop.comments.CommentsHandler;
 import com.kokaihop.database.CommentRealmObject;
 import com.kokaihop.database.IngredientsRealmObject;
@@ -274,7 +275,6 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 break;
             default:
                 break;
-
         }
     }
 
@@ -328,21 +328,22 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     @Override
     public int getItemViewType(int position) {
         Object object = recipeDetailItemsList.get(position);
+        Context contextToGetStrings = KokaihopApplication.getContext();
         if (object instanceof RecipeDetailHeader) {
             return TYPE_ITEM_RECIPE_MAIN_HEADER;
         } else if (object instanceof AdView) {
             return TYPE_ITEM_ADVT;
         } else if (object instanceof ListHeading) {
             ListHeading heading = (ListHeading) object;
-            if (heading.getTitle().equals(context.getString(R.string.text_Ingredients)))
+            if (heading.getTitle().equals(contextToGetStrings.getString(R.string.text_Ingredients)))
                 return TYPE_ITEM_INGREDIENT_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.text_directions)))
+            else if (heading.getTitle().equals(contextToGetStrings.getString(R.string.text_directions)))
                 return TYPE_ITEM_DIRECTION_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.text_comments)))
+            else if (heading.getTitle().equals(contextToGetStrings.getString(R.string.text_comments)))
                 return TYPE_ITEM_COMMENTS_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.add_comments)))
+            else if (heading.getTitle().equals(contextToGetStrings.getString(R.string.add_comments)))
                 return TYPE_ITEM_ADD_COMMENTS_HEADING;
-            else if (heading.getTitle().equals(context.getString(R.string.text_SimilarRecipies)))
+            else if (heading.getTitle().equals(contextToGetStrings.getString(R.string.text_SimilarRecipies)))
                 return TYPE_ITEM_SIMILAR_RECIPIES_HEADING;
             else
                 return -1;

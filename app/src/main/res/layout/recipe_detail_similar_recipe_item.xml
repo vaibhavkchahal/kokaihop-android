@@ -2,7 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+>
     <data>
         <variable name="model" type="com.kokaihop.recipedetail.SimilarRecipe"/>
         <variable name="profileImageUrl" type="String"/>
@@ -12,64 +12,74 @@
     </data>
 
     <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@color/grey_FFD4D4D4"
-                    android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,model.recipeId,-1)}">
-
-        <ImageView
-            android:id="@+id/imgview_recipe_img"
+                    android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/similar_recipe_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            app:error="@{@color/grey_FFD4D4D4}"
-            app:imageUrl="@{recipeImageUrl}"
-            app:placeholder="@{@color/grey_FFD4D4D4}"
-        />
+            android:layout_height="@dimen/similar_recipe_item_height"
+            android:background="@color/grey_FFD4D4D4"
+            android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,model.recipeId,-1)}">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLength="30"
-            android:paddingLeft="19dp"
-            android:paddingTop="13dp"
-            android:text="@{model.recipeName}"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            app:font="@{`SS-ProRegular`}"/>
+            <ImageView
+                android:id="@+id/imgview_recipe_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                app:error="@{@color/grey_FFD4D4D4}"
+                app:imageUrl="@{recipeImageUrl}"
+                app:placeholder="@{@color/grey_FFD4D4D4}"
+            />
 
-        <TextView
-            android:id="@+id/txtview_userprofile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="55dp"
-            android:gravity="center_vertical"
-            android:text="@{model.userName}"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-        />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLength="30"
+                android:paddingLeft="19dp"
+                android:paddingTop="13dp"
+                android:text="@{model.recipeName}"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                app:font="@{`SS-ProRegular`}"/>
 
-        <ImageView
-            android:id="@+id/imgview_userprofile"
-            android:layout_width="@dimen/similar_recipe_profile_img_height_width"
-            android:layout_height="@dimen/similar_recipe_profile_img_height_width"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp"
-            app:error="@{@drawable/ic_avtar_sm}"
-            app:imageUrl="@{profileImageUrl}"
-            app:isCircular="@{true}"
-            app:placeholder="@{@drawable/ic_avtar_sm}"/>
+            <TextView
+                android:id="@+id/txtview_userprofile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="55dp"
+                android:gravity="center_vertical"
+                android:text="@{model.userName}"
+                android:textColor="@color/white"
+                android:onClick="@{(v)->recipeHandler.openUserProfile(v.getContext,model.userId,model.userFriendlyUrl)}"
+                android:textSize="15sp"
+            />
 
-        <View android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:background="@color/grey_FFD4D4D4"/>
+            <ImageView
+                android:id="@+id/imgview_userprofile"
+                android:layout_width="@dimen/similar_recipe_profile_img_height_width"
+                android:layout_height="@dimen/similar_recipe_profile_img_height_width"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="15dp"
+                app:error="@{@drawable/ic_avtar_sm}"
+                app:imageUrl="@{profileImageUrl}"
+                app:isCircular="@{true}"
+                android:onClick="@{(v)->recipeHandler.openUserProfile(v.getContext,model.userId,model.userFriendlyUrl)}"
+                app:placeholder="@{@drawable/ic_avtar_sm}"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/similar_recipe_layout"
+            android:background="@color/white"/>
 
     </RelativeLayout>
 

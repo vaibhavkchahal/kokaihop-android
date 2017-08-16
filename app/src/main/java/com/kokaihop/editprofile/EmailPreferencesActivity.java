@@ -16,11 +16,11 @@ public class EmailPreferencesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         preferencesBinding = DataBindingUtil.setContentView(this, R.layout.activity_email_preferences);
         preferencesViewModel = new EmailPreferencesViewModel(this);
         preferencesBinding.setViewModel(preferencesViewModel);
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.email_prefrence_screen));
-
 
     }
 }

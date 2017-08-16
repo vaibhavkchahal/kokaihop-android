@@ -1,5 +1,6 @@
 package com.kokaihop.feed;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +13,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentVegetarianBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.Logger;
@@ -97,6 +99,24 @@ public class VegetarianFragment extends Fragment {
             AppUtility appUtility = new AppUtility();
             appUtility.updateRecipeItemView(recipe, gridLayoutManager, rvVegetarian, recipeListWithAds);
         }
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            AppUtility appUtility = new AppUtility();
+            vegetarianViewModel.getRecipeListWithAdds().clear();
+            vegetarianViewModel.getRecipeListWithAdds().addAll(vegetarianViewModel.getRecipeList());
+            appUtility.addAdvtInRecipeList(vegetarianViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
+            feedRecyclerListingOperation.prepareFeedRecyclerView();
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            AppUtility appUtility = new AppUtility();
+            vegetarianViewModel.getRecipeListWithAdds().clear();
+            vegetarianViewModel.getRecipeListWithAdds().addAll(vegetarianViewModel.getRecipeList());
+            appUtility.addAdvtInRecipeList(vegetarianViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
+            feedRecyclerListingOperation.prepareFeedRecyclerView();
+        }
     }
 }

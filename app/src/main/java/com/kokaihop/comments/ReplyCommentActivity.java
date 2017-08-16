@@ -27,6 +27,7 @@ public class ReplyCommentActivity extends BaseActivity implements ReplyCommentVi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_reply_comment);
         String commentId = getIntent().getStringExtra("commentId");
         String recipeId = getIntent().getStringExtra("recipeId");

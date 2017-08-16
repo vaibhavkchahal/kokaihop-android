@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Rajendra Singh on 5/5/17.
  */
 
-public class RecipeRealmObject extends RealmObject  {
+public class RecipeRealmObject extends RealmObject {
 
     @PrimaryKey
     @SerializedName("friendlyUrl")

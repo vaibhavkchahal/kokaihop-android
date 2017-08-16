@@ -102,7 +102,6 @@
     <dimen name="home_tab_margin_bottom">7.6dp</dimen>
     <dimen name="home_tab_padding_top">6dp</dimen>
 
-
     <!-- maincourse fragment dimens-->
 
     <dimen name="card_width_recipe_of_day">330dp</dimen>
@@ -200,7 +199,7 @@
     <dimen name="profile_signup_text_large">20sp</dimen>
     <dimen name="profile_signup_text_medium">19sp</dimen>
     <dimen name="profile_signup_button_margin_top">35dp</dimen>
-    <dimen name="user_settings_divider_height">0.5dp</dimen>
+    <dimen name="user_settings_divider_height">1dp</dimen>
     <dimen name="settings_save_margin_right">18dp</dimen>
 
     <dimen name="profile_back_padding_top">20dp</dimen>
@@ -285,6 +284,7 @@
     <dimen name="recipe_detail_top_header_padding_bottom">20dp</dimen>
     <dimen name="recipe_detail_top_header_pading_left">20dp</dimen>
     <dimen name="imgview_badgetype_margin_top">10dp</dimen>
+    <dimen name="similar_recipe_item_height">100dp</dimen>
     <dimen name="txtview_recipe_name_textsize">20sp</dimen>
     <dimen name="txtview_recipe_description_textsize">14sp</dimen>
     <dimen name="txtview_recipe_descption_margin_top">3dp</dimen>
@@ -316,8 +316,8 @@
     <dimen name="changepassword_title_content_margin">50dp</dimen>
     <dimen name="change_password_seperator_margin">10dp</dimen>
     <dimen name="email_pref_done_padding_bottom">14dp</dimen>
-    <dimen name="email_pref_vertical_margin">18dp</dimen>
-    <dimen name="email_pref_horizontal_margin">15dp</dimen>
+    <dimen name="email_pref_vertical_margin">25dp</dimen>
+    <dimen name="email_pref_horizontal_margin">18dp</dimen>
     <dimen name="txtsize_recipe_detail_badge_type">11sp</dimen>
     <dimen name="badgetype_drawable_padding">7.6dp</dimen>
     <dimen name="recipe_detail_margin_right">10.7dp</dimen>

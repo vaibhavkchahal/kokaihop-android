@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable name="viewModel" type="com.kokaihop.cookbooks.MyCookbooksViewModel"/>
     </data>
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/img_profile">
+        android:background="@drawable/img_cookbook">
 
         <RelativeLayout
             android:id="@+id/toolbar"
@@ -62,8 +64,8 @@
             android:id="@+id/tv_cookbook_msg2"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/cookbook_signup_login_horizontal_margin"
-            android:layout_marginStart="@dimen/cookbook_signup_login_horizontal_margin"
+            android:paddingRight="@dimen/cookbook_signup_login_horizontal_margin"
+            android:paddingLeft="@dimen/cookbook_signup_login_horizontal_margin"
             android:gravity="center"
             android:text="@string/cookbooks_login_msg2"
             android:textColor="@color/white"
@@ -77,6 +79,7 @@
         <Button android:id="@+id/button_sign_up"
                 android:layout_width="@dimen/constraint_match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/myprofile_signup_button_margin_bottom"
                 android:layout_marginEnd="@dimen/cookbook_login_btn_margin_horizontal"
                 android:layout_marginStart="@dimen/cookbook_login_btn_margin_horizontal"
                 android:layout_marginTop="@dimen/cookbook_login_button_margin_top"
@@ -93,7 +96,6 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_cookbook_msg2"
                 tools:ignore="UnusedAttribute"
-                android:layout_marginBottom="@dimen/myprofile_signup_button_margin_bottom"
         />
 
 

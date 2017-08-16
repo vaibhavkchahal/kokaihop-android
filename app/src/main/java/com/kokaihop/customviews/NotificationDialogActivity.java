@@ -16,6 +16,7 @@ public class NotificationDialogActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         final Bundle bundle = getIntent().getExtras();
 
        /* AlertDialog.Builder dialog = new AlertDialog.Builder(this, R.style.AlertDialogStyle);

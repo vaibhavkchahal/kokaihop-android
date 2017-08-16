@@ -37,7 +37,8 @@
 
     <!--recipe detail dimens -->
     <dimen name="relative_layout_pager_height">480dp</dimen>
-
+    <dimen name="textview_category_padding_bottom">10dp</dimen>
+    <dimen name="txtview_category_padding_top">10dp</dimen>
 
     <!-- coachMarks dimens -->
     <dimen name="content_box_margin_top">5dp</dimen>

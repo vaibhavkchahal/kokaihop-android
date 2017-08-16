@@ -13,6 +13,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ActivityForgotPasswordBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_password);
         binding.setViewModel(new ForgotPaswdViewModel());
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.forgot_password_screen));

@@ -47,6 +47,12 @@ public class SearchViewModel extends BaseViewModel {
     //by default show all recipe with images
     private boolean withImage = true;
 
+    private List<RecipeRealmObject> searchRecipeList = new ArrayList<>();
+
+    public List<RecipeRealmObject> getRecipeList() {
+        return searchRecipeList;
+    }
+
     public void setSearchKeyword(String searchKeyword) {
         this.searchKeyword = searchKeyword;
     }
@@ -81,7 +87,6 @@ public class SearchViewModel extends BaseViewModel {
         CUISINE,
         METHOD,
         SORT_BY
-
     }
 
     public void setCourseFriendlyUrl(String courseFriendlyUrl) {
@@ -135,18 +140,12 @@ public class SearchViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
-            @Override
-            public void onError(Object response) {
-
-            }
         });
     }
 
     public void fetchCuisine() {
-
         new SearchFilterApiHelper().fetchCuisines(new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
@@ -166,13 +165,8 @@ public class SearchViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
-            @Override
-            public void onError(Object response) {
-
-            }
         });
     }
 
@@ -196,24 +190,17 @@ public class SearchViewModel extends BaseViewModel {
 
             @Override
             public void onFailure(String message) {
-
             }
 
-            @Override
-            public void onError(Object response) {
-
-            }
         });
     }
 
     public void displayCategoriesList(TextView textView) {
-
         if (categoriesList == null) {
             categoriesList = new ArrayList<>();
             FilterData filterDataAll = new FilterData();
             filterDataAll.setName(textView.getContext().getString(R.string.all));
             categoriesList.add(filterDataAll);
-
             if (searchDataManager.getCategories() != null) {
                 for (CategoryRealmObject categoryRealmObject : searchDataManager.getCategories()
                         ) {
@@ -255,7 +242,6 @@ public class SearchViewModel extends BaseViewModel {
         if (sortByList == null) {
             sortByList = new ArrayList<>();
             String[] sortByArray = view.getContext().getResources().getStringArray(R.array.sort_by);
-
             for (String sortBy : sortByArray
                     ) {
                 FilterData filterDataAll = new FilterData();
@@ -277,7 +263,6 @@ public class SearchViewModel extends BaseViewModel {
         boolean isSelected;
         String msg;
         String label;
-
         if (view.getBackground().getConstantState()
                 == ResourcesCompat.getDrawable(view.getContext().getResources(), R.drawable.ic_picture, null).getConstantState()) {
             isSelected = false;
@@ -290,7 +275,6 @@ public class SearchViewModel extends BaseViewModel {
             label = context.getString(R.string.search_image_on_label);
 
         }
-
         Activity activity = (Activity) context;
         GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.search_category), context.getString(R.string.search_image_action), label);
         dataSetListener.showWithImageDialog(view, parentView, isSelected, msg);
@@ -303,7 +287,6 @@ public class SearchViewModel extends BaseViewModel {
             FilterData filterDataAll = new FilterData();
             filterDataAll.setName(textView.getContext().getString(R.string.all));
             cookingMethodList.add(filterDataAll);
-
             if (searchDataManager.getCookingMethods() != null) {
                 for (CookingMethod cookingMethod : searchDataManager.getCookingMethods()
                         ) {
@@ -325,13 +308,14 @@ public class SearchViewModel extends BaseViewModel {
             @Override
             public void onSearchComplete(List<RecipeRealmObject> recipeList) {
                 setProgressVisible(false);
+                searchRecipeList = recipeList;
                 List<Object> recipeListwithAds = insertAdsInList(recipeList);
                 dataSetListener.showRecipesList(recipeListwithAds);
             }
         });
     }
 
-    private List<Object> insertAdsInList(List<RecipeRealmObject> recipeList) {
+    public List<Object> insertAdsInList(List<RecipeRealmObject> recipeList) {
         List<Object> recipeListwithAds = new ArrayList<>();
         SearchRecipeHeader searchRecipeHeader = new SearchRecipeHeader();
         searchRecipeHeader.setCount(String.valueOf(recipeList.size()));
@@ -352,7 +336,6 @@ public class SearchViewModel extends BaseViewModel {
 
     @Override
     protected void destroy() {
-
     }
 
     public void setCurrentSelectedFilter(FilterData filterData, SearchViewModel.FilterType filterType) {
@@ -387,7 +370,6 @@ public class SearchViewModel extends BaseViewModel {
             filterMap.put("cookingMethod.friendlyUrl", methodFriendlyUrl);
 
         }
-
         if (filterMap.isEmpty() && sortBy.isEmpty() && searchKeyword.isEmpty()) {
             dataSetListener.showSuggestionView();
 
@@ -402,6 +384,7 @@ public class SearchViewModel extends BaseViewModel {
                         @Override
                         public void onSearchComplete(List<RecipeRealmObject> recipeList) {
                             setProgressVisible(false);
+                            searchRecipeList = recipeList;
                             List<Object> recipeListwithAds = insertAdsInList(recipeList);
                             dataSetListener.showRecipesList(recipeListwithAds);
                         }
@@ -412,9 +395,7 @@ public class SearchViewModel extends BaseViewModel {
 
     private void trackGAEvent(String sortBy) {
         String label = "";
-
         if (sortBy.equals(context.getResources().getString(R.string.best_rating))) {
-
             label = context.getResources().getString(R.string.rated_label);
 
         } else if (sortBy.equals(context.getResources().getString(R.string.comments))) {
@@ -459,7 +440,6 @@ public class SearchViewModel extends BaseViewModel {
 
         void showSuggestionView();
     }
-
 
 
 }

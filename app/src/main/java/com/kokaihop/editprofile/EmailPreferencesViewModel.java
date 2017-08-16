@@ -3,7 +3,6 @@ package com.kokaihop.editprofile;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
@@ -43,17 +42,25 @@ public class EmailPreferencesViewModel extends BaseViewModel {
 
     public void preferencesChanged(View view) {
         switch ((view.getId())) {
-
-            case R.id.cb_email_pref_no_email:
-                emailPreferences.getSettings().setSuggestionsOfTheDay(!((CheckBox) view).isChecked());
-                emailPreferences.getSettings().setNewsletters(!((CheckBox) view).isChecked());
+            case R.id.rl_email_pref_no_email:
+                emailPreferences.getSettings().setNoEmails(!emailPreferences.getSettings().isNoEmails());
+                emailPreferences.getSettings().setSuggestionsOfTheDay(!emailPreferences.getSettings().isNoEmails());
+                emailPreferences.getSettings().setNewsletters(!emailPreferences.getSettings().isNoEmails());
                 break;
-            default:
-                if (emailPreferences.getSettings().isSuggestionsOfTheDay() || emailPreferences.getSettings().isNewsletters()) {
-                    emailPreferences.getSettings().setNoEmails(false);
-                } else {
-                    emailPreferences.getSettings().setNoEmails(true);
-                }
+
+            case R.id.rl_email_pref_recipe_motion:
+                emailPreferences.getSettings().setSuggestionsOfTheDay(!emailPreferences.getSettings().isSuggestionsOfTheDay());
+                break;
+
+            case R.id.rl_email_pref_drinking_tips:
+                emailPreferences.getSettings().setNewsletters(!emailPreferences.getSettings().isNewsletters());
+                break;
+        }
+
+        if (emailPreferences.getSettings().isSuggestionsOfTheDay() || emailPreferences.getSettings().isNewsletters()) {
+            emailPreferences.getSettings().setNoEmails(false);
+        } else {
+            emailPreferences.getSettings().setNoEmails(true);
         }
     }
 
@@ -78,10 +85,6 @@ public class EmailPreferencesViewModel extends BaseViewModel {
                 Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(SettingsResponse response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 }
