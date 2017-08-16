@@ -9,6 +9,7 @@ import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityLoginBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
 import static com.kokaihop.utility.FacebookAuthentication.callbackManager;
@@ -16,12 +17,17 @@ import static com.kokaihop.utility.FacebookAuthentication.callbackManager;
 public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
+    private ActivityLoginBinding loginBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityLoginBinding loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+        loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         loginViewModel = new LoginViewModel();
+        if (savedInstanceState != null) {
+            loginViewModel.setUserName(savedInstanceState.getString(Constants.EMAIL));
+            loginViewModel.setPassword(savedInstanceState.getString(Constants.PASSWORD));
+        }
         loginBinding.setViewModel(loginViewModel);
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.login_screen));
 
@@ -38,5 +44,12 @@ public class LoginActivity extends BaseActivity {
         if (FacebookAuthentication.callbackManager != null) {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EMAIL, loginBinding.email.getText().toString());
+        outState.putString(Constants.PASSWORD, loginBinding.password.getText().toString());
     }
 }

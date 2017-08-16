@@ -67,7 +67,6 @@ public class LoginViewModel extends BaseViewModel {
             public void onSuccess(AuthenticationApiResponse response) {
                 Activity activity = (Activity) context;
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.user_category), context.getString(R.string.user_login_action), context.getString(R.string.user_native_login_label), 1);
-
                 setProgressVisible(false);
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());
                 SharedPrefUtils.setSharedPrefStringData(context, Constants.USER_ID, response.getUserAuthenticationDetail().getId());
@@ -126,9 +125,7 @@ public class LoginViewModel extends BaseViewModel {
                 new AuthenticationApiHelper(view.getContext()).facebookloginSignup(facebookAuthRequest, new IApiRequestComplete<AuthenticationApiResponse>() {
                     @Override
                     public void onSuccess(AuthenticationApiResponse response) {
-
                         GoogleAnalyticsHelper.trackEventAction(view.getContext().getString(R.string.user_category), view.getContext().getString(R.string.user_login_action), view.getContext().getString(R.string.user_facebook_login_label), 1);
-
                         setProgressVisible(false);
                         Context context = view.getContext();
                         SharedPrefUtils.setSharedPrefStringData(context, Constants.ACCESS_TOKEN, response.getToken());

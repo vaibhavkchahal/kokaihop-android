@@ -120,4 +120,12 @@ public class Constants {
 
     public static final int BOTTOM_SHET_DIALOG_PEEK_HEIGHT = 1000;
 
+    // login/signup constants
+    public static final String EMAIL= "userEmail";
+    public static final String PASSWORD = "userPassword";
+    public static final String NAME = "name";
+    public static final String CITY = "city";
+    public static final String SIGNUP_FIRST_CHECKBOX = "firstCheckboxStatus";
+    public static final String SIGNUP_SECOND_CHECKBOX = "secondCheckBoxStatus";
+
 }
