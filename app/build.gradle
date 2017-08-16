@@ -14,7 +14,7 @@ apply plugin: 'realm-android'
 
 android {
 
-    lintOptions{
+    lintOptions {
         disable 'MissingTranslation'
     }
     /*lintOptions {
