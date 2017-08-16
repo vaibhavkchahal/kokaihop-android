@@ -1,5 +1,6 @@
 package com.kokaihop.userprofile;
 
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -268,4 +269,12 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         this.tabLayout = tabLayout;
     }
 
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (binding != null) {
+            setCoverImage();
+        }
+    }
 }

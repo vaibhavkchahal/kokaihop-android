@@ -399,6 +399,9 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             userProfileSignUpBinding.signUpMessage.setPadding(paddingStartEnd, 0, paddingStartEnd, 0);
             userProfileSignUpBinding.parentLayout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.img_profile));
         }
+        if (userProfileBinding != null) {
+            setCoverImage();
+        }
         setCoachMarkMargin();
     }
 
