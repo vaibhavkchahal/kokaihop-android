@@ -1,4 +1,4 @@
-1. Tablet Portrait Support.
+1. Tablet Landscape Support.
 2. Bug Fixes
 
 
