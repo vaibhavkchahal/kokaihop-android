@@ -121,11 +121,18 @@ public class Constants {
     public static final int BOTTOM_SHET_DIALOG_PEEK_HEIGHT = 1000;
 
     // login/signup constants
-    public static final String EMAIL= "userEmail";
+    public static final String EMAIL = "userEmail";
     public static final String PASSWORD = "userPassword";
     public static final String NAME = "name";
     public static final String CITY = "city";
     public static final String SIGNUP_FIRST_CHECKBOX = "firstCheckboxStatus";
     public static final String SIGNUP_SECOND_CHECKBOX = "secondCheckBoxStatus";
+
+    //home tabs number constants
+    public static final int USER_FEED_TAB_POSITION = 0;
+    public static final int COOKBOOKS_TAB_POSITION = 1;
+    public static final int SHOPPING_LIST_TAB_POSITION = 2;
+    public static final int COMMENTS_TAB_POSITION = 3;
+    public static final int USER_PROFILE_TAB_POSITION = 4;
 
 }
