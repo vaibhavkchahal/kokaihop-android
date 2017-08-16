@@ -2,14 +2,16 @@ package com.kokaihop.authentication.login;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityLoginBinding;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
-import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
 import static com.kokaihop.utility.FacebookAuthentication.callbackManager;
@@ -24,13 +26,20 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         loginViewModel = new LoginViewModel();
-        if (savedInstanceState != null) {
-            loginViewModel.setUserName(savedInstanceState.getString(Constants.EMAIL));
-            loginViewModel.setPassword(savedInstanceState.getString(Constants.PASSWORD));
-        }
         loginBinding.setViewModel(loginViewModel);
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.login_screen));
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        clearEditFields();
+    }
+
+    private void clearEditFields() {
+        loginViewModel.setUserName("");
+        loginViewModel.setPassword("");
     }
 
     @Override
@@ -47,9 +56,20 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(Constants.EMAIL, loginBinding.email.getText().toString());
-        outState.putString(Constants.PASSWORD, loginBinding.password.getText().toString());
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        loginBinding.scrollviewLogin.setPadding(0, (int) getResources().getDimension(R.dimen.padding_top_login_scroll), 0, 0);
+        setMarginToViewOnRotation(loginBinding.textviewOrLogin, (int) getResources().getDimension(R.dimen.margin_top_login_or_text));
+        setMarginToViewOnRotation(loginBinding.editTextEmail, (int) getResources().getDimension(R.dimen.margin_top_login_email));
+        setMarginToViewOnRotation(loginBinding.editTextPassword, (int) getResources().getDimension(R.dimen.margin_top_login_passwd));
+        setMarginToViewOnRotation(loginBinding.buttonLogin, (int) getResources().getDimension(R.dimen.margin_top_login_button));
+        setMarginToViewOnRotation(loginBinding.textviewForgotPassword, (int) getResources().getDimension(R.dimen.margin_top_forgot_passwd));
+        setMarginToViewOnRotation(loginBinding.textViewSignUpNow, (int) getResources().getDimension(R.dimen.margin_top_signupnow));
+    }
+
+    private void setMarginToViewOnRotation(View view, int marginTop) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins(0, marginTop, 0, 0);
+        view.setLayoutParams(params);
     }
 }

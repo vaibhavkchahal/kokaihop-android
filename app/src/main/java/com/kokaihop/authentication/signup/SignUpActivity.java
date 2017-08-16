@@ -2,8 +2,11 @@ package com.kokaihop.authentication.signup;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivitySignUpBinding;
@@ -11,7 +14,6 @@ import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.city.CityDetails;
 import com.kokaihop.city.CityLocation;
-import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.FacebookAuthentication;
 
 public class SignUpActivity extends BaseActivity {
@@ -24,10 +26,23 @@ public class SignUpActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         signUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
         signUpViewModel = new SignUpViewModel();
-        checkSavedData(savedInstanceState);
         signUpBinding.setViewModel(signUpViewModel);
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.register_screen));
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        clearEditFields();
+    }
+
+    private void clearEditFields() {
+        signUpViewModel.setName("");
+        signUpViewModel.setPassword("");
+        signUpViewModel.setCity("");
+        signUpViewModel.setUserName("");
+        signUpViewModel.setNewsletter(0);
+        signUpViewModel.setSuggestion(0);
     }
 
     @Override
@@ -46,36 +61,22 @@ public class SignUpActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        saveDataOnRotation(outState);
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setMarginToViewOnRotation(signUpBinding.editTextEmail, (int) getResources().getDimension(R.dimen.signup_et_email_margin_top));
+        setMarginToViewOnRotation(signUpBinding.editTextCity, (int) getResources().getDimension(R.dimen.signup_et_margin_top));
+        setMarginToViewOnRotation(signUpBinding.editTextPassword, (int) getResources().getDimension(R.dimen.signup_et_margin_top));
+        setMarginToViewOnRotation(signUpBinding.scrollviewSignup, (int) getResources().getDimension(R.dimen.signup_sv_formcontainer_margin_top));
+        setMarginToViewOnRotation(signUpBinding.buttonFacebookSignUp, (int) getResources().getDimension(R.dimen.signup_btn_facebook_margin_top));
+        setMarginToViewOnRotation(signUpBinding.buttonSignUp, (int) getResources().getDimension(R.dimen.signup_btn_signup_margin_top));
+        setMarginToViewOnRotation(signUpBinding.textViewAlreadySignUp, (int) getResources().getDimension(R.dimen.signup_tv_login_margin_top));
+        setMarginToViewOnRotation(signUpBinding.checkBoxDagensRecept, (int) getResources().getDimension(R.dimen.signup_cb_margin_top));
+        setMarginToViewOnRotation(signUpBinding.checkBoxNyhetsbrev, (int) getResources().getDimension(R.dimen.signup_cb_margin_top));
     }
 
-    private void saveDataOnRotation(Bundle outState) {
-        outState.putString(Constants.NAME, signUpBinding.name.getText().toString());
-        outState.putString(Constants.EMAIL, signUpBinding.email.getText().toString());
-        outState.putString(Constants.PASSWORD, signUpBinding.password.getText().toString());
-        outState.putString(Constants.CITY, signUpBinding.city.getText().toString());
-        if (signUpBinding.checkBoxDagensRecept.isChecked()) {
-            outState.putInt(Constants.SIGNUP_FIRST_CHECKBOX, 1);
-        } else {
-            outState.putInt(Constants.SIGNUP_FIRST_CHECKBOX, 0);
-        }
-        if (signUpBinding.checkBoxNyhetsbrev.isChecked()) {
-            outState.putInt(Constants.SIGNUP_SECOND_CHECKBOX, 1);
-        } else {
-            outState.putInt(Constants.SIGNUP_SECOND_CHECKBOX, 0);
-        }
-    }
-
-    private void checkSavedData(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            signUpViewModel.setName(savedInstanceState.getString(Constants.NAME));
-            signUpViewModel.setUserName(savedInstanceState.getString(Constants.EMAIL));
-            signUpViewModel.setPassword(savedInstanceState.getString(Constants.PASSWORD));
-            signUpViewModel.setCity(savedInstanceState.getString(Constants.CITY));
-            signUpViewModel.setNewsletter(savedInstanceState.getInt(Constants.SIGNUP_FIRST_CHECKBOX));
-            signUpViewModel.setSuggestion(savedInstanceState.getInt(Constants.SIGNUP_SECOND_CHECKBOX));
-        }
+    private void setMarginToViewOnRotation(View view, int marginTop) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins(0, marginTop, 0, 0);
+        view.setLayoutParams(params);
     }
 }
