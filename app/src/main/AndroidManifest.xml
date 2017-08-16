@@ -108,14 +108,13 @@
             android:theme="@style/AppThemeComments"
             android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name="com.kokaihop.cookbooks.CookbookDetailActivity"
-                  android:screenOrientation="portrait">
+        <activity android:name="com.kokaihop.cookbooks.CookbookDetailActivity">
         </activity>
         <activity
             android:name="com.kokaihop.search.SearchActivity"
+            android:configChanges="screenSize|orientation"
             android:parentActivityName="com.kokaihop.base.BaseActivity"
             android:theme="@style/AppTheme"
-            android:configChanges="screenSize|orientation"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
         <activity
