@@ -5,10 +5,10 @@
 
     <data></data>
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:context="com.altaworks.kokaihop.ui.com.kokaihop.home.UserFeedFragment">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.altaworks.kokaihop.ui.com.kokaihop.home.UserFeedFragment">
 
         <RelativeLayout
             android:id="@+id/rl_header"
@@ -51,14 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_header"
-            app:tabGravity="center"
+            app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabIndicatorHeight="@dimen/feed_tab_indicator_height"
+            app:tabMaxWidth="0dp"
             app:tabMode="scrollable"
             app:tabPaddingEnd="@dimen/none"
-            app:tabPaddingStart="@dimen/none"
+            app:tabPaddingStart="@dimen/none"/>
 
-        />
         <View android:layout_width="match_parent"
               android:layout_height="@dimen/divider_height"
               android:layout_below="@id/tablayout_recipe"

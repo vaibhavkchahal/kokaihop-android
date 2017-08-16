@@ -117,12 +117,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
                     setProgressVisible(false);
                 }
 
-                @Override
-                public void onError(FollowingFollowersApiResponse response) {
-//                    userDataListener.showUserProfile();
-                    setDownloading(false);
-                    setProgressVisible(false);
-                }
             });
         }
 
@@ -171,12 +165,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
                 }
 
-                @Override
-                public void onError(FollowingFollowersApiResponse response) {
-                    setDownloading(false);
-                    setProgressVisible(false);
-
-                }
             });
         }
     }
@@ -218,10 +206,6 @@ public class FollowersFollowingViewModel extends BaseViewModel {
 
             }
 
-            @Override
-            public void onError(Object response) {
-                checkBox.setChecked(!checkBox.isChecked());
-            }
         });
     }
 

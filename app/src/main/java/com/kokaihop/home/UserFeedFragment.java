@@ -1,6 +1,7 @@
 package com.kokaihop.home;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -75,7 +76,6 @@ public class UserFeedFragment extends Fragment {
         }
     }
 
-
     public void showUserProfile() {
         userFeedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_feed, container, false);
         final TabLayout tabLayout = userFeedBinding.tablayoutRecipe;
@@ -91,6 +91,7 @@ public class UserFeedFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
         tabLayout.addTab(tabLayout.newTab());
+        changeTabModeIfLanscape();
         final PagerTabAdapter adapter = new PagerTabAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         MainCourseFragment mainCourseFragment = MainCourseFragment.newInstance();
         adapter.addFrag(mainCourseFragment, tabTitles[0]);
@@ -135,6 +136,13 @@ public class UserFeedFragment extends Fragment {
         });
     }
 
+    private void changeTabModeIfLanscape() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_FIXED);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_FILL);
+        }
+    }
+
     private void trackGAEvent(int position) {
         String label = "";
         switch (position) {
@@ -156,12 +164,22 @@ public class UserFeedFragment extends Fragment {
         }
         GoogleAnalyticsHelper.trackEventAction(getString(R.string.daily_category), getString(R.string.daily_selected_action), label);
 
-
     }
 
     public void searchClick() {
         Intent intent = new Intent(getContext(), SearchActivity.class);
         startActivity(intent);
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_FIXED);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_FILL);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            userFeedBinding.tablayoutRecipe.setTabMode(TabLayout.MODE_SCROLLABLE);
+            userFeedBinding.tablayoutRecipe.setTabGravity(TabLayout.GRAVITY_FILL);
+        }
     }
 }

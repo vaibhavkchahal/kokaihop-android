@@ -55,11 +55,6 @@ public class CityViewModel extends BaseViewModel {
                 Toast.makeText(context,context.getString(R.string.check_intenet_connection),Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(CitiesApiResponse response) {
-                setProgressVisible(false);
-                Toast.makeText(context,context.getString(R.string.something_went_wrong),Toast.LENGTH_SHORT).show();
-            }
         });
     }
 

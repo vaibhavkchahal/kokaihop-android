@@ -85,10 +85,6 @@ public class EmailPreferencesViewModel extends BaseViewModel {
                 Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(SettingsResponse response) {
-                Toast.makeText(context, context.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
         });
     }
 }

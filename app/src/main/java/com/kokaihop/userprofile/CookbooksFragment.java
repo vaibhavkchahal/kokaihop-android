@@ -78,4 +78,5 @@ public class CookbooksFragment extends Fragment {
         user.getCookbooks().addAll(cookbooks);
         adapter.notifyDataSetChanged();
     }
+
 }

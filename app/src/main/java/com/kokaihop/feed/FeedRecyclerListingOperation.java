@@ -24,6 +24,7 @@ public class FeedRecyclerListingOperation {
     private ApiConstants.BadgeType badgeType;
     private int numOfColumnInGrid;
     private int spanSizeForItemRecipe = 1;
+    private FeedRecyclerAdapter recyclerAdapter;
 
 
     public FeedRecyclerListingOperation(RecipeFeedViewModel feedViewModel, RecyclerView recyclerView,
@@ -39,8 +40,10 @@ public class FeedRecyclerListingOperation {
 
     public void prepareFeedRecyclerView() {
         numOfColumnInGrid = AppUtility.getColumnsAccToScreenSize();
-        final FeedRecyclerAdapter recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds(), numOfColumnInGrid);
         layoutManager = new GridLayoutManager(getContext(), numOfColumnInGrid);
+        recyclerViewFeed.setLayoutManager(layoutManager);
+        recyclerAdapter = new FeedRecyclerAdapter(feedViewModel.getRecipeListWithAdds(), numOfColumnInGrid);
+        recyclerViewFeed.setAdapter(recyclerAdapter);
         layoutManager.setSpanSizeLookup
                 (new GridLayoutManager.SpanSizeLookup() {
                      @Override
@@ -58,9 +61,6 @@ public class FeedRecyclerListingOperation {
                      }
                  }
                 );
-        recyclerViewFeed.setLayoutManager(layoutManager);
-        recyclerViewFeed.setAdapter(recyclerAdapter);
-
     }
 
     public FeedRecyclerScrollListener getScrollListener() {

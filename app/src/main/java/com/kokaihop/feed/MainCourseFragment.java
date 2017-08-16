@@ -8,12 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.FragmentMainCourseBinding;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.utility.ApiConstants;
+import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.FeedRecyclerScrollListener;
 import com.kokaihop.utility.Logger;
@@ -34,6 +34,8 @@ public class MainCourseFragment extends Fragment {
     private RecipeFeedViewModel mainCourseViewModel;
     private FeedRecyclerListingOperation feedRecyclerListingOperation;
     private RecyclerView rvMainCourse;
+    private int numOfColumnInGrid;
+    private int spanSizeForItemRecipe = 1;
 
 
     public MainCourseFragment() {
@@ -103,14 +105,23 @@ public class MainCourseFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(getContext(), "landscape", Toast.LENGTH_SHORT).show();
+            AppUtility appUtility = new AppUtility();
+            mainCourseViewModel.getRecipeListWithAdds().clear();
+            mainCourseViewModel.getRecipeListWithAdds().addAll(mainCourseViewModel.getRecipeList());
+            appUtility.addAdvtInRecipeList(mainCourseViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
+            feedRecyclerListingOperation.prepareFeedRecyclerView();
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(getContext(), "portrait", Toast.LENGTH_SHORT).show();
+            AppUtility appUtility = new AppUtility();
+            mainCourseViewModel.getRecipeListWithAdds().clear();
+            mainCourseViewModel.getRecipeListWithAdds().addAll(mainCourseViewModel.getRecipeList());
+            appUtility.addAdvtInRecipeList(mainCourseViewModel.getRecipeListWithAdds(), AppCredentials.DAILY_ADS_UNIT_IDS, getContext());
+            feedRecyclerListingOperation.prepareFeedRecyclerView();
         }
     }
 }

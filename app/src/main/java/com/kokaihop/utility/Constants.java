@@ -129,4 +129,6 @@ public class Constants {
     public static final int EDITOR_CHOICE_ITEMS_ON_SCREEN = 3;
     public static final int EDITOR_CHOICE_COUNT = 10;
 
+    public static final int BOTTOM_SHET_DIALOG_PEEK_HEIGHT = 1000;
+
 }

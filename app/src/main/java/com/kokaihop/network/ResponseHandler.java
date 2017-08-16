@@ -43,9 +43,10 @@ public class ResponseHandler<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        if (t instanceof IOException)
+        if (t instanceof IOException) {
             iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.check_intenet_connection));
-        else
+        } else {
             iApiRequestComplete.onFailure(KokaihopApplication.getContext().getResources().getString(R.string.something_went_wrong_msg));
+        }
     }
 }

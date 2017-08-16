@@ -109,15 +109,11 @@ public class RecipeHandler {
             public void onSuccess(Object response) {
 //                updateLikeCountInView(checkBox, recipe);
                 updateSatusInDB(checkBox.isChecked(), recipe);
-
                 String gaEventAction = checkBox.isChecked() ? context.getString(R.string.recipe_favourtized_action) : context.getString(R.string.recipe_unfavorited_action);
                 Activity activity = (Activity) checkBox.getContext();
                 GoogleAnalyticsHelper.trackEventAction(context.getString(R.string.recipe_category), gaEventAction);
-
                 String contextName = context.getClass().getSimpleName();
-                if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName()))
-
-                {
+                if (contextName.equals(RecipeDetailActivity.class.getSimpleName()) || contextName.equals(SearchActivity.class.getSimpleName())) {
                     EventBus.getDefault().postSticky(recipe);
                 }
             }
@@ -132,14 +128,6 @@ public class RecipeHandler {
 
             }
 
-            @Override
-            public void onError(Object response) {
-//                revertLikeStatusInDB(checkBox, recipe);
-                checkBox.setChecked(!checkBox.isChecked());
-                updateCheckboxImage(checkBox.isChecked(), checkBox);
-                updateLikeCountInView(checkBox, recipe);
-
-            }
         });
     }
 

@@ -1,9 +1,12 @@
 package com.kokaihop.search;
 
+import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
@@ -28,6 +32,7 @@ import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.FeedRecyclerAdapter;
 import com.kokaihop.search.SearchViewModel.DataSetListener;
 import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.HorizontalDividerItemDecoration;
 import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SpacingItemDecoration;
@@ -129,6 +134,10 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
 
     @Override
     public void showRecipesList(List<Object> recipeList) {
+        prepareSearchRecyclerView(recipeList);
+    }
+
+    private void prepareSearchRecyclerView(List<Object> recipeList) {
         alreadyQuerying = false;
         binding.included.editorChoiceContainer.rlEditorChoice.setVisibility(View.GONE);
         binding.included.linearlytNewlyAddedRecipe.setVisibility(View.GONE);
@@ -280,6 +289,18 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(lp);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                BottomSheetDialog d = (BottomSheetDialog) dialog;
+                // This is gotten directly from the source of BottomSheetDialog
+                // in the wrapInBottomSheet() method
+                FrameLayout bottomSheet = (FrameLayout) d.findViewById(android.support.design.R.id.design_bottom_sheet);
+                // Right here!
+                BottomSheetBehavior.from(bottomSheet)
+                        .setPeekHeight(Constants.BOTTOM_SHET_DIALOG_PEEK_HEIGHT);
+            }
+        });
         return dialog;
     }
 
@@ -493,10 +514,21 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
                             break;
                         }
                     }
-
                 }
             }
         }
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
+            prepareSearchRecyclerView(recipeListWithAdds);
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
+            prepareSearchRecyclerView(recipeListWithAdds);
+        }
     }
 }

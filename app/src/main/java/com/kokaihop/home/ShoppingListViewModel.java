@@ -93,9 +93,6 @@ public class ShoppingListViewModel extends BaseViewModel {
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                 }
 
-                @Override
-                public void onError(Object response) {
-                }
             });
         }
     }
@@ -114,9 +111,6 @@ public class ShoppingListViewModel extends BaseViewModel {
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onError(Object response) {
-            }
         });
     }
 
@@ -164,9 +158,6 @@ public class ShoppingListViewModel extends BaseViewModel {
                 public void onFailure(String message) {
                 }
 
-                @Override
-                public void onError(Object response) {
-                }
             });
         } else {
             fetchShoppingListFromServer();
@@ -214,9 +205,6 @@ public class ShoppingListViewModel extends BaseViewModel {
             public void onFailure(String message) {
             }
 
-            @Override
-            public void onError(Object response) {
-            }
         });
     }
 

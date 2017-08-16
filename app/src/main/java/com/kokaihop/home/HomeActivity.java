@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
@@ -337,5 +339,15 @@ public class HomeActivity extends BaseActivity {
             dialogIntent.putExtras(bundle);
             startActivity(dialogIntent);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        TextView listCount = (TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.txtview_list_count);
+        int margin = getResources().getDimensionPixelSize(R.dimen.home_tab_margin_end);
+        RelativeLayout.LayoutParams llp = (RelativeLayout.LayoutParams) listCount.getLayoutParams();
+        llp.setMarginEnd(margin);
+        listCount.setLayoutParams(llp);
     }
 }
