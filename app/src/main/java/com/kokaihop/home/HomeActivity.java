@@ -40,8 +40,13 @@ import com.kokaihop.utility.SharedPrefUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
+import static com.kokaihop.utility.Constants.SHOPPING_LIST_TAB_POSITION;
+import static com.kokaihop.utility.Constants.USER_PROFILE_TAB_POSITION;
 
 public class HomeActivity extends BaseActivity {
     private NonSwipeableViewPager viewPager;
@@ -243,10 +248,10 @@ public class HomeActivity extends BaseActivity {
             }
         }
         if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {
-            refreshFragment(4);
+            refreshFragment(USER_PROFILE_TAB_POSITION);
             User.getInstance().setRefreshRequired(false);
         } else if (requestCode == Constants.COOKBOOK_REQUEST) {
-            refreshFragment(1);
+            refreshFragment(COOKBOOK_TAB_POSITION);
         }
     }
 
@@ -280,14 +285,23 @@ public class HomeActivity extends BaseActivity {
     public void onEventRecieve(AuthUpdateEvent authUpdateEvent) {
         String eventText = authUpdateEvent.getEvent();
         if (eventText.equalsIgnoreCase("updateRequired")) {
-            refreshFragment(4);
-            refreshFragment(1);
+            refreshFragment(PROFILE_TAB_POSITION);
+            refreshFragment(COOKBOOK_TAB_POSITION);
         } else if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
-            refreshFragment(1);
+            refreshFragment(COOKBOOK_TAB_POSITION);
         } else if (eventText.equalsIgnoreCase("followToggled")) {
-            refreshFragment(4);
+            refreshFragment(PROFILE_TAB_POSITION);
         }
         EventBus.getDefault().removeStickyEvent(authUpdateEvent);
+    }
+
+    @Subscribe(sticky = true)
+    public void onEventRecieve(CookbookUpdateEvent cookbookUpdateEvent) {
+        String eventText = cookbookUpdateEvent.getEvent();
+        if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
+            refreshFragment(COOKBOOK_TAB_POSITION);
+        }
+        EventBus.getDefault().removeStickyEvent(cookbookUpdateEvent);
     }
 
 
@@ -300,16 +314,20 @@ public class HomeActivity extends BaseActivity {
 
     @Subscribe(sticky = true)
     public void onUpdateShoppingList(AddToListEvent addToListEvent) {
-        refreshFragment(2);
+        refreshFragment(SHOPPING_LIST_TAB_POSITION);
         EventBus.getDefault().removeStickyEvent(addToListEvent);
     }
 
     private void refreshFragment(int postionFragmentToRefresh) {
         PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
-        Fragment fragment = pagerTabAdapter.getItem(postionFragmentToRefresh);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.detach(fragment);
-        ft.attach(fragment);
+
+        Fragment fragment = pagerTabAdapter.getItem(postionFragmentToRefresh);
+        Fragment fragment1 = mFragList.get(postionFragmentToRefresh);
+        Fragment fragment2 = getSupportFragmentManager().getFragments().get(postionFragmentToRefresh);
+
+        ft.detach(fragment1);
+        ft.attach(fragment1);
         ft.commit();
     }
 
@@ -349,5 +367,26 @@ public class HomeActivity extends BaseActivity {
         RelativeLayout.LayoutParams llp = (RelativeLayout.LayoutParams) listCount.getLayoutParams();
         llp.setMarginEnd(margin);
         listCount.setLayoutParams(llp);
+    }
+
+    private List<Fragment> mFragList = new ArrayList<>();
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (mFragList.size() == 5) {
+            if (fragment instanceof UserFeedFragment) {
+                mFragList.set(0, fragment);
+            } else if (fragment instanceof MyCookbooksFragment) {
+                mFragList.set(1, fragment);
+            } else if (fragment instanceof ShoppingListFragment) {
+                mFragList.set(2, fragment);
+            } else if (fragment instanceof CommentsFragment) {
+                mFragList.set(3, fragment);
+            } else if (fragment instanceof UserProfileFragment) {
+                mFragList.set(4, fragment);
+            }
+        } else {
+            mFragList.add(fragment);
+        }
     }
 }
