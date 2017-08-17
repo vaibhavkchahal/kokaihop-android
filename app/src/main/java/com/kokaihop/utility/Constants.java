@@ -146,4 +146,6 @@ public class Constants {
     public static final int TAB_COMMENTS = 3;
     public static final int TAB_USER_PROFILE = 4;
 
+    public static final String IMAGE_URL = "imageUrl";
+
 }

@@ -52,7 +52,8 @@
     <string name="search">Search</string>
     <string name="unable_access_fb_detai">Unable to access your facebook details!</string>
 
-    <string name="signup_message">As a logged in user you can here see your followers, search history and follow other chefs.
+    <string name="signup_message">As a logged in user you can here see your followers, search
+        history and follow other chefs.
     </string>
     <string name="sign_up_or_login">Login or become member for free!</string>
     <string name="sign_up_now">Sign Up Now</string>
@@ -99,10 +100,12 @@
 
     <!--SignUp/Login Dialog-->
     <string name="access_profile">Access Profile</string>
-    <string name="signup_dialog_message">As a logged in user you can here see your followers, search history and follow other chefs.
+    <string name="signup_dialog_message">As a logged in user you can here see your followers, search
+        history and follow other chefs.
     </string>
     <string name="login_comment_message">You need to be logged in to comment on recipe</string>
-    <string name="login_reply_on_comment_message">You need to be logged in to reply on comment</string>
+    <string name="login_reply_on_comment_message">You need to be logged in to reply on comment
+    </string>
     <string name="login_rating_message">You need to be logged in to rate a recipe</string>
     <string name="members_area">Members area</string>
     <string name="login_like_message">You need to be logged in to make a recipe favourite</string>
@@ -246,7 +249,8 @@
     <string name="cookbook_deleted">Cookbook Deleted Successfully</string>
     <string name="pick_a_cookbook">Pick a Cookbook</string>
     <string name="recipe_added_to_cookbook">The recipe has been added to cookbook</string>
-    <string name="recipe_removed_from_cookbook">The Recipe has been removed from the cookbook successfully
+    <string name="recipe_removed_from_cookbook">The Recipe has been removed from the cookbook
+        successfully
     </string>
     <string name="edit">Edit</string>
     <string name="rename">Rename</string>

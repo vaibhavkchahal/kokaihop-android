@@ -77,5 +77,11 @@ public class Migration implements RealmMigration {
                     .removeField("lastName");*/
             oldVersion++;
         }
+        if (oldVersion == 6) {
+            schema.get("EditorsChoiceRealmObject")
+                    .removePrimaryKey()
+                    .addPrimaryKey("section");
+            oldVersion++;
+        }
     }
 }

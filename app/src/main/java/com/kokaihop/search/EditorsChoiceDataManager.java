@@ -24,7 +24,7 @@ public class EditorsChoiceDataManager {
         realm.commitTransaction();
     }
 
-    public EditorsChoiceRealmObject getEditorChoice(String id) {
-        return realm.where(EditorsChoiceRealmObject.class).equalTo("_id", id).findFirst();
+    public EditorsChoiceRealmObject getEditorChoice(String section) {
+        return realm.where(EditorsChoiceRealmObject.class).equalTo("section", section).findFirst();
     }
 }

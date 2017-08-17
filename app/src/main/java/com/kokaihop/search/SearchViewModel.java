@@ -161,6 +161,7 @@ public class SearchViewModel extends BaseViewModel {
     public void getEditorChoiceFromServer(final int section) {
         setProgressVisible(true);
         final String type = Constants.EDITOR_CHOICE_SECTION + section;
+        getEditorChoiceFromDB(section);
         new EditorsChoiceApiHelper().getEditorsChoice(type, Constants.EDITOR_CHOICE_COUNT, Constants.EDITOR_CHOICE_TYPE, new IApiRequestComplete() {
             @Override
             public void onSuccess(Object response) {
@@ -170,29 +171,7 @@ public class SearchViewModel extends BaseViewModel {
                     JSONObject editorChoiceJson = new JSONObject(responseBody.string());
                     editorChoiceJson = editorChoiceJson.getJSONObject("data");
                     editorsChoiceDataManager.updateEditorsChoice(editorChoiceJson);
-                    String id = editorChoiceJson.getString("_id");
-                    Logger.e("Editor Choice " + type, editorChoiceJson.toString());
-                    EditorsChoiceRealmObject editorsChoiceData = editorsChoiceDataManager.getEditorChoice(id);
-                    switch (section) {
-                        case Constants.SECTION_1:
-                            editorChoiceList1.clear();
-                            editorChoiceList1.addAll(editorsChoiceData.getPayload());
-                            break;
-                        case Constants.SECTION_2:
-                            editorChoiceList2.clear();
-                            editorChoiceList2.addAll(editorsChoiceData.getPayload());
-                            break;
-                        case Constants.SECTION_3:
-                            editorChoiceList3.clear();
-                            editorChoiceList3.addAll(editorsChoiceData.getPayload());
-                            break;
-
-                    }
-                    String categoryName = "";
-                    if (editorsChoiceData.getCategoryName() != null) {
-                        categoryName = editorsChoiceData.getCategoryName().getSv();
-                    }
-                    dataSetListener.showEditorsChoice(section, categoryName);
+                    getEditorChoiceFromDB(section);
 
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
@@ -203,13 +182,33 @@ public class SearchViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setProgressVisible(false);
             }
-
-            @Override
-            public void onError(Object response) {
-                setProgressVisible(false);
-            }
         });
+    }
 
+    public void getEditorChoiceFromDB(int section) {
+        EditorsChoiceRealmObject editorsChoiceData = editorsChoiceDataManager.getEditorChoice(Constants.EDITOR_CHOICE_SECTION + section);
+        if (editorsChoiceData != null) {
+            switch (section) {
+                case Constants.SECTION_1:
+                    editorChoiceList1.clear();
+                    editorChoiceList1.addAll(editorsChoiceData.getPayload());
+                    break;
+                case Constants.SECTION_2:
+                    editorChoiceList2.clear();
+                    editorChoiceList2.addAll(editorsChoiceData.getPayload());
+                    break;
+                case Constants.SECTION_3:
+                    editorChoiceList3.clear();
+                    editorChoiceList3.addAll(editorsChoiceData.getPayload());
+                    break;
+
+            }
+            String categoryName = "";
+            if (editorsChoiceData.getCategoryName() != null) {
+                categoryName = editorsChoiceData.getCategoryName().getSv();
+            }
+            dataSetListener.showEditorsChoice(section, categoryName);
+        }
     }
 
     public void fetchCategories() {

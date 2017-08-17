@@ -12,10 +12,10 @@ import io.realm.annotations.PrimaryKey;
 
 public class EditorsChoiceRealmObject extends RealmObject {
 
-    @PrimaryKey
     @SerializedName("_id")
     private String _id;
 
+    @PrimaryKey
     @SerializedName("section")
     private String section;
 

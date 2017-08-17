@@ -341,8 +341,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void refreshHistory() {
-        if (adapter != null) {
-            Fragment fragment = mFragList.get(TAB_FOLLOWINGS);
+        if (mFragList.size() == tabCount) {
+            Fragment fragment = mFragList.get(TAB_HISTORY);
             if (fragment != null) {
                 ((HistoryFragment) fragment).refreshHistory();
                 setNotificationCount();
@@ -351,11 +351,13 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void refreshFollowing() {
-        FollowingFragment fragment = (FollowingFragment) mFragList.get(TAB_FOLLOWINGS);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.detach(fragment);
-        ft.attach(fragment);
-        ft.commit();
+        if (mFragList.size() == tabCount) {
+            FollowingFragment fragment = (FollowingFragment) mFragList.get(TAB_FOLLOWINGS);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.detach(fragment);
+            ft.attach(fragment);
+            ft.commit();
+        }
     }
 
     public UserProfileViewModel getUserViewModel() {
@@ -419,7 +421,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     @Override
     public void onAttachFragment(Fragment fragment) {
-        if (mFragList.size() == tabCount    ) {
+        if (mFragList.size() == tabCount) {
             if (fragment instanceof RecipeFragment) {
                 mFragList.set(TAB_RECIPES, fragment);
             } else if (fragment instanceof FollowersFragment) {
