@@ -1,6 +1,7 @@
 package com.kokaihop.recipedetail;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
@@ -14,8 +15,10 @@ import android.widget.RelativeLayout;
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailPagerItemBinding;
 import com.kokaihop.database.RecipeDetailPagerImages;
+import com.kokaihop.home.ImageViewerActivity;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
+import com.kokaihop.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -55,11 +58,25 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.recipe_detail_pager_item, container, false);
         binding.getRoot().setTag(position);
         setImageWithAspectRatio(position, binding);
         container.addView(binding.getRoot());
+        binding.imageviewRecipePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent displayImages = new Intent(mContext, ImageViewerActivity.class);
+                ArrayList<String> imageUrlList = new ArrayList();
+                for (RecipeDetailPagerImages image : pagerImages) {
+                    imageUrlList.add(image.getPublicId());
+                }
+                displayImages.putExtra(Constants.IMAGE_URL_LIST, imageUrlList);
+                displayImages.putExtra(Constants.IMAGE_POSITION, position);
+                mContext.startActivity(displayImages);
+            }
+        });
         return binding.getRoot();
     }
 

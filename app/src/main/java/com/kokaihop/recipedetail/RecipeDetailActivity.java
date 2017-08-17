@@ -780,4 +780,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     public void setRecipe(RecipeRealmObject recipe) {
         this.recipe = recipe;
     }
+
+    public int getCurrentPagerPosition() {
+        return currentPagerPosition;
+    }
 }

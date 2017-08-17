@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ItemImageViewerBinding;
+import com.kokaihop.utility.CloudinaryUtils;
 
 import java.util.ArrayList;
 
@@ -36,7 +37,8 @@ public class ImageViewerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.item_image_viewer, container, false);
         container.addView(binding.getRoot());
-        binding.setImageUrl(imageUrlList.get(position));
+        String imageUrl = CloudinaryUtils.getFullImageUrl(imageUrlList.get(position));
+        binding.setImageUrl(imageUrl);
         return binding.getRoot();
     }
 

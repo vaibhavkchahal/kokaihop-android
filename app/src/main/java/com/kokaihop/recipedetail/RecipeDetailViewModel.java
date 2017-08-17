@@ -18,7 +18,6 @@ import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.feed.Recipe;
 import com.kokaihop.feed.RecipeDataManager;
-import com.kokaihop.home.ImageViewerActivity;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.OtherUserProfileActivity;
 import com.kokaihop.userprofile.model.User;
@@ -457,18 +456,6 @@ public class RecipeDetailViewModel extends BaseViewModel {
         i.putExtra(Constants.USER_ID, recipeRealmObject.getCreatedBy().getId());
         i.putExtra(Constants.FRIENDLY_URL, recipeRealmObject.getCreatedBy().getFriendlyUrl());
         activity.startActivityForResult(i, Constants.OPEN_USER_PROFILE_REQUEST_CODE);
-    }
-
-    public void openImageViewer(View view) {
-        Intent displayImages = new Intent(context, ImageViewerActivity.class);
-        ArrayList<String> imageUrlList = new ArrayList();
-        for (RecipeDetailPagerImages image : getPagerImages()) {
-            imageUrlList.add(image.getPublicId());
-        }
-        displayImages.putExtra(Constants.IMAGE_URL_LIST, imageUrlList);
-//        displayImages.putExtra(Constants.IMAGE_POSITION, currentPagerPosition);
-        context.startActivity(displayImages);
-
     }
 
     public RecipeRealmObject getRecipeRealmObject() {

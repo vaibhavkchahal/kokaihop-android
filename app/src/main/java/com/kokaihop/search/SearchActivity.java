@@ -524,11 +524,13 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
-            prepareSearchRecyclerView(recipeListWithAdds);
+            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE)
+                prepareSearchRecyclerView(recipeListWithAdds);
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
-            prepareSearchRecyclerView(recipeListWithAdds);
+            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE)
+                prepareSearchRecyclerView(recipeListWithAdds);
         }
     }
 }
