@@ -40,6 +40,12 @@ public class CloudinaryUtils {
         return url;
     }
 
+    public static String getFullImageUrl(String publicId) {
+        String url = AppCredentials.URL + SEPARATOR + AppCredentials.CLOUD_NAME + SEPARATOR + AppCredentials.FOLDER + SEPARATOR + "c_fill" + COMMA + "r_" + CORNER_RADIUS + COMMA + "g_face" + SEPARATOR + publicId + FORMAT;
+//        Logger.e("imageUrl", URL);
+        return url;
+    }
+
 
     public Map<String, String> uploadImageOnCloudinary(HashMap<String, String> config) {
         Cloudinary cloudinary = new Cloudinary(config);

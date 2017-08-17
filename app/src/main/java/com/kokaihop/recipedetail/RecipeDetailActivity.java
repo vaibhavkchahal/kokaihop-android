@@ -87,7 +87,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private int portionMinValue = 1;
     private int portionMaxValue = 79;
     private int NUMBER_OF_COLUMNS_IN_SHARE_GRID = 2;
-
     private Uri imageUri;
     private String filePath;
     private ViewPager viewPager;

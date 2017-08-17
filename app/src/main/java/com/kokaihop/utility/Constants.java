@@ -42,6 +42,7 @@ public class Constants {
     public static final int TAB_OTHER_FOLLOWERS = 2;
     public static final int TAB_OTHER_FOLLOWINGS = 3;
     public static final String EXTRA_FROM = "extraFrom";
+    public static final String IMAGE_POSITION = "imagePosition";
 
     // for cloudinary request
     public static String REQUEST_KEY_CLOUDINARY_API_KEY = "api_key";
@@ -146,6 +147,6 @@ public class Constants {
     public static final int TAB_COMMENTS = 3;
     public static final int TAB_USER_PROFILE = 4;
 
-    public static final String IMAGE_URL = "imageUrl";
+    public static final String IMAGE_URL_LIST = "imageUrlList";
 
 }

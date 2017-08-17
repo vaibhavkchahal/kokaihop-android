@@ -46,11 +46,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/transparent_color"
+                        android:clickable="true"
+                        android:onClick="@{(v)->viewModel.openImageViewer(v)}"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
                     <View android:layout_width="match_parent"
                           android:layout_height="match_parent"
                           android:background="@drawable/recipe_detail_gradient"
+                          android:clickable="false"
+                          android:focusable="false"
+                          android:onClick="@{(v)->viewModel.openImageViewer(v)}"
 
                     />
 
