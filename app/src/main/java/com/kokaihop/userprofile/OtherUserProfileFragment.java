@@ -31,6 +31,7 @@ import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OtherUserProfileFragment extends Fragment implements UserDataListener {
 
@@ -46,6 +47,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
 
     private int selectedTabPosition = 0;
     ArrayList<NotificationCount> notificationCount;
+    private final int tabCount = 4;
 
     public OtherUserProfileFragment() {
         user = new User();
@@ -99,7 +101,6 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
             final TabLayout tabLayout = binding.tabProfile;
             final int activeColor = Color.parseColor(getString(R.string.user_active_tab_text_color));
             final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
-            int tabCount = 4;
             int i;
             setCoverImage();
             setProfileImage();
@@ -253,8 +254,7 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     }
 
     public void refreshFollowersList() {
-        ProfileAdapter profileAdapter = (ProfileAdapter) viewPager.getAdapter();
-        Fragment fragment = profileAdapter.getItem(2);
+        Fragment fragment = mFragList.get(Constants.TAB_OTHER_FOLLOWERS);
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.detach(fragment);
         ft.attach(fragment);
@@ -275,6 +275,25 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
         super.onConfigurationChanged(newConfig);
         if (binding != null) {
             setCoverImage();
+        }
+    }
+
+    private List<Fragment> mFragList = new ArrayList<>();
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (mFragList.size() == tabCount) {
+            if (fragment instanceof RecipeFragment) {
+                mFragList.set(Constants.TAB_OTHER_RECIPES, fragment);
+            } else if (fragment instanceof CookbooksFragment) {
+                mFragList.set(Constants.TAB_OTHER_COOKBOOKS, fragment);
+            } else if (fragment instanceof FollowersFragment) {
+                mFragList.set(Constants.TAB_OTHER_FOLLOWERS, fragment);
+            } else if (fragment instanceof FollowingFragment) {
+                mFragList.set(Constants.TAB_OTHER_FOLLOWINGS, fragment);
+            }
+        } else {
+            mFragList.add(fragment);
         }
     }
 }

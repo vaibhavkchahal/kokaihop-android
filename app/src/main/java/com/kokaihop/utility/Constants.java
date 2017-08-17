@@ -129,10 +129,10 @@ public class Constants {
     public static final String SIGNUP_SECOND_CHECKBOX = "secondCheckBoxStatus";
 
     //home tabs number constants
-    public static final int USER_FEED_TAB_POSITION = 0;
-    public static final int COOKBOOKS_TAB_POSITION = 1;
-    public static final int SHOPPING_LIST_TAB_POSITION = 2;
-    public static final int COMMENTS_TAB_POSITION = 3;
-    public static final int USER_PROFILE_TAB_POSITION = 4;
+    public static final int TAB_USER_FEED = 0;
+    public static final int TAB_COOKBOOKS = 1;
+    public static final int TAB_SHOPPING_LIST = 2;
+    public static final int TAB_COMMENTS = 3;
+    public static final int TAB_USER_PROFILE = 4;
 
 }
