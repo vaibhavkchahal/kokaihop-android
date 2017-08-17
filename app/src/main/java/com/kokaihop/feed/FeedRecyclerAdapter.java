@@ -3,7 +3,6 @@ package com.kokaihop.feed;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -164,16 +163,16 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onAdLoaded() {
                         super.onAdLoaded();
-                        int spacingInPixels = adView.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-                        GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) viewHolderAdvt.binder.linearLayoutAds.getLayoutParams();
-                        layoutParams.setMargins(0, spacingInPixels, 0, spacingInPixels);
+//                        int spacingInPixels = adView.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+//                        GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) viewHolderAdvt.binder.linearLayoutAds.getLayoutParams();
+//                        layoutParams.setMargins(0, spacingInPixels, 0, spacingInPixels);
                         adView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onAdFailedToLoad(int errorCode) {
-                        GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) viewHolderAdvt.binder.linearLayoutAds.getLayoutParams();
-                        layoutParams.setMargins(0, 0, 0, 0);
+//                        GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) viewHolderAdvt.binder.linearLayoutAds.getLayoutParams();
+//                        layoutParams.setMargins(0, 0, 0, 0);
                         adView.setVisibility(View.GONE);
                     }
                 });
