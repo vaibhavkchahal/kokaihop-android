@@ -1,19 +1,15 @@
 package com.kokaihop.userprofile;
 
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityConfirmImageUploadBinding;
+import com.bumptech.glide.Glide;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 public class ConfirmImageUploadActivity extends BaseActivity {
 
@@ -45,12 +41,19 @@ public class ConfirmImageUploadActivity extends BaseActivity {
     }
 
     public void setUpImage(Uri imageUri) {
-        try {
-            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-            binding.imageToUpload.setImageBitmap(selectedImage);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        Glide.with(this)
+                .load(imageUri)
+                .into(binding.imageToUpload);
+//
+//        try {
+//            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+//            final ByteArrayOutputStream compressed = new ByteArrayOutputStream();
+//            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+//              selectedImage.compress(Bitmap.CompressFormat.PNG, 50, compressed);
+//            final Bitmap compressedSelectedImage = BitmapFactory.decodeStream(new ByteArrayInputStream(compressed.toByteArray()));
+//            binding.imageToUpload.setImageBitmap(selectedImage);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 }

@@ -50,9 +50,9 @@ public class OtherUserProfileViewModel extends BaseViewModel {
         activity.finish();
     }
 
-    public void getUserData(final String userId, String friendlyUrl) {
+    public void getUserData(final String userId, final String friendlyUrl) {
         setProgressVisible(true);
-        fetchUserDataFromDB(userId);
+        fetchUserDataFromDB(friendlyUrl);
 //        friendlyUrl = getFriendlyUrlFromDB(userId);
         new ProfileApiHelper().getOtherUserData(accessToken, friendlyUrl, countryCode, new IApiRequestComplete() {
             @Override
@@ -65,21 +65,22 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
                 }
-                fetchUserDataFromDB(userId);
+                fetchUserDataFromDB(friendlyUrl);
                 setProgressVisible(false);
             }
 
             @Override
             public void onFailure(String message) {
                 setProgressVisible(false);
+                userDataListener.showUserProfile();
                 Toast.makeText(context, context.getString(R.string.check_intenet_connection), Toast.LENGTH_SHORT).show();
             }
 
         });
     }
 
-    public void fetchUserDataFromDB(String userId) {
-        user = profileDataManager.fetchUserData(userId, user);
+    public void fetchUserDataFromDB(String friendlyUrl) {
+        user = profileDataManager.fetchUserDataUsingFriendlyUrl(friendlyUrl, user);
         userDataListener.showUserProfile();
     }
 //    public String getFriendlyUrlFromDB(String userId) {

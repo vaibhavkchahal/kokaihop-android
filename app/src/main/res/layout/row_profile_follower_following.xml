@@ -8,17 +8,18 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_user_row"
+        style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Button"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/user_profile_recycler_padding_horizontal"
-        android:paddingRight="@dimen/user_profile_recycler_padding_horizontal">
+        android:paddingEnd="@dimen/none"
+        android:paddingStart="@dimen/user_profile_recycler_padding_horizontal">
 
         <ImageView
             android:id="@+id/user_pic"
-            android:layout_width="@dimen/follow_row_image_size"
-            android:layout_height="@dimen/follow_row_image_size"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@string/user"
             android:scaleType="fitXY"
             app:error="@{@drawable/ic_avtar_lg}"
             app:imageUrl="@{user.profileImageUrl}"
@@ -31,7 +32,7 @@
             android:id="@+id/tv_user_name"
             android:layout_width="@dimen/constraint_match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/user_pic_name_margin"
+            android:layout_marginStart="@dimen/user_pic_name_margin"
             android:text="@{user.name.full}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/row_follower_following_text_size"
@@ -43,24 +44,25 @@
         <CheckBox
             android:id="@+id/cb_user_following"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/constraint_match_parent"
             android:button="@drawable/checkbox_follow_selector"
             android:checked="@={user.followingUser}"
             android:onClick="@{()->viewModel.onToggleFollowing(cbUserFollowing,user)}"
+            android:paddingEnd="@dimen/user_profile_recycler_padding_horizontal"
+            android:paddingStart="@dimen/none"
             android:visibility="@{user.buttonVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <View android:id="@+id/follower_followig_divider"
-              android:layout_width="@dimen/constraint_match_parent"
-              android:layout_height="@dimen/user_settings_divider_height"
-              android:background="@color/grey_FFD4D4D4"
+              android:layout_width="0dp"
+              android:layout_height="1dp"
               android:layout_marginTop="@dimen/user_profile_recycler_padding_vertical"
+              android:background="@color/grey_FFD4D4D4"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/user_pic"/>
-
-
+              app:layout_constraintTop_toBottomOf="@+id/user_pic"/>
+        
     </android.support.constraint.ConstraintLayout>
 </layout>

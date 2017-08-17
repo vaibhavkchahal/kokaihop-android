@@ -49,6 +49,12 @@ public class ProfileDataManager {
         return getUserData(userRealmObject, user);
     }
 
+    //    Geting the user data from the database on the basis of fiendlyUrl
+    public User fetchUserDataUsingFriendlyUrl(String friendlyUrl, User user) {
+        UserRealmObject userRealmObject = getUser("friendlyUrl", friendlyUrl);
+        return getUserData(userRealmObject, user);
+    }
+
     //    Setting user data obtained from database to a User Model object
     private User getUserData(UserRealmObject userRealmObject, User user) {
         if (userRealmObject != null) {
