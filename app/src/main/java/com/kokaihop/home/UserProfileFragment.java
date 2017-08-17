@@ -342,7 +342,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     public void refreshHistory() {
         if (adapter != null) {
-            Fragment fragment = mFragList.get(TAB_FOLLOWINGS);
+            Fragment fragment = mFragList.get(TAB_HISTORY);
             if (fragment != null) {
                 ((HistoryFragment) fragment).refreshHistory();
                 setNotificationCount();
@@ -419,7 +419,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     @Override
     public void onAttachFragment(Fragment fragment) {
-        if (mFragList.size() == tabCount    ) {
+        if (mFragList.size() == tabCount) {
             if (fragment instanceof RecipeFragment) {
                 mFragList.set(TAB_RECIPES, fragment);
             } else if (fragment instanceof FollowersFragment) {
