@@ -22,6 +22,8 @@ public class Constants {
 
     public static final String FRIENDLY_URL = "friendlyUrl";
     public static final String RECIPE_POSITION = "recipePosition";
+    public static final String IMAGE_HEIGHT = "imageHeight";
+    public static final String IMAGE_WIDTH = "imageWidth";
     public static final String LOGIN_TYPE = "loginType";
     public static final String FACEBOOK_LOGIN = "facebook";
     public static final String EMAIL_LOGIN = "email";

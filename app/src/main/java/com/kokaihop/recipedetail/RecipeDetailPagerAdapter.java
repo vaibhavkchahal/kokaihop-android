@@ -13,6 +13,11 @@ import android.widget.RelativeLayout;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.RecipeDetailPagerItemBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.utility.AppUtility;
 import com.kokaihop.utility.CloudinaryUtils;
@@ -37,10 +42,13 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
     private RealmList<RecipeDetailPagerImages> pagerImages = new RealmList<>();
     private RecipeDetailPagerItemBinding binding;
     private Set<String> imageUrlSet = new LinkedHashSet<>();
+    private String mainImageWidth, mainImageHeight;
 
-    public RecipeDetailPagerAdapter(Context context, RealmList<RecipeDetailPagerImages> pagerImages) {
+    public RecipeDetailPagerAdapter(Context context, RealmList<RecipeDetailPagerImages> pagerImages, String mainImageWidth, String mainImageHeight) {
         mContext = context;
         this.pagerImages = pagerImages;
+        this.mainImageWidth = mainImageWidth;
+        this.mainImageHeight = mainImageHeight;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -63,7 +71,8 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         return binding.getRoot();
     }
 
-    private void setImageWithAspectRatio(int position, RecipeDetailPagerItemBinding binding) {
+    private void setImageWithAspectRatio(int position, final RecipeDetailPagerItemBinding binding) {
+        String imageUrl;
         Point point = AppUtility.getDisplayPoint(mContext);
         int width = point.x;
         float ratio = (float) 280 / 320;
@@ -73,9 +82,27 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
         layoutParams.height = height;
         layoutParams.width = width;
         imageViewRecipe.setLayoutParams(layoutParams);
-        String imageUrl = CloudinaryUtils.getImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height));
+        if (position == 0) {
+            imageUrl = CloudinaryUtils.getImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), mainImageWidth, mainImageHeight);
+            Glide.with(mContext)
+                    .load(imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .thumbnail(Glide.with(mContext)
+                            .load(imageUrl))
+                    .override(layoutParams.width, layoutParams.height)
+                    .fitCenter()
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            binding.imageviewRecipePic.setImageDrawable(resource);
+                        }
+                    });
+        } else {
+            imageUrl = CloudinaryUtils.getImageUrl(String.valueOf(pagerImages.get(position).getPublicId()), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height));
+            Glide.with(mContext).load(imageUrl).placeholder(R.drawable.ic_recipeplaceholder_lg).error(R.drawable.ic_recipeplaceholder_lg).diskCacheStrategy(DiskCacheStrategy.ALL).into(binding.imageviewRecipePic);
+            binding.setImageUrl(imageUrl);
+        }
         imageUrlSet.add(imageUrl);
-        binding.setImageUrl(imageUrl);
     }
 
     @Override

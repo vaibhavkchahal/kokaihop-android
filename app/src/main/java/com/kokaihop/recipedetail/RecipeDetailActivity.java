@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,17 +37,21 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.altaworks.kokaihop.ui.R;
 import com.altaworks.kokaihop.ui.databinding.ActivityRecipeDetailBinding;
 import com.altaworks.kokaihop.ui.databinding.DialogPortionBinding;
 import com.altaworks.kokaihop.ui.databinding.ShareDialogBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kokaihop.analytics.GoogleAnalyticsHelper;
 import com.kokaihop.base.BaseActivity;
 import com.kokaihop.cookbooks.CookbooksDataManager;
 import com.kokaihop.customviews.AppBarStateChangeListener;
 import com.kokaihop.database.IngredientsRealmObject;
+import com.kokaihop.database.RecipeDetailPagerImages;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.editprofile.EditProfileViewModel;
 import com.kokaihop.feed.RecipeHandler;
@@ -78,6 +83,7 @@ import java.util.Map;
 import static com.altaworks.kokaihop.ui.BuildConfig.SERVER_BASE_URL;
 import static com.kokaihop.KokaihopApplication.getContext;
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
+import static com.kokaihop.utility.AppUtility.getHeightInAspectRatio;
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
 import static com.kokaihop.utility.SharedPrefUtils.getSharedPrefStringData;
@@ -99,6 +105,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private BottomSheetDialog portionDialog;
     private int quantityOriginal;
     private RecipeDetailPagerAdapter recipeDetailPagerAdapter;
+    private String actualImageHeight, actualImageWidth;
 
     private final Observable.OnPropertyChangedCallback propertyChangedCallback = new Observable.OnPropertyChangedCallback() {
         @Override
@@ -129,6 +136,8 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
             GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category), getString(R.string.pushnotification_launched_action));
 
         }
+        actualImageWidth = getIntent().getStringExtra(Constants.IMAGE_WIDTH);
+        actualImageHeight = getIntent().getStringExtra(Constants.IMAGE_HEIGHT);
         txtviewPagerProgress = binding.txtviewPagerProgress;
         setupRecipeDetailScreen();
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.recipe_detail_screen));
@@ -148,6 +157,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     public void setupRecipeDetailScreen() {
         recipeDetailViewModel = new RecipeDetailViewModel(this, recipeID, friendlyUrl, this);
         binding.setViewModel(recipeDetailViewModel);
+        setRecipeInitialImage();
         setProfileImage();
         setToolbar();
         initializeViewPager();
@@ -156,6 +166,24 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         setPagerData();
         setAppBarListener();
 
+    }
+
+    private void setRecipeInitialImage() {
+        Point point = AppUtility.getDisplayPoint(this);
+        int width = point.x;
+        float ratio = (float) 280 / 320;
+        int height = getHeightInAspectRatio(width, ratio);
+        ImageView imageViewRecipe = binding.recipeDetailPlaceholder;
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageViewRecipe.getLayoutParams();
+        layoutParams.height = height;
+        layoutParams.width = width;
+        imageViewRecipe.setLayoutParams(layoutParams);
+        String imageUrl = CloudinaryUtils.getImageUrl(String.valueOf(recipeDetailViewModel.getRecipeMainImageId()), actualImageWidth, actualImageHeight);
+        Glide.with(this)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .fitCenter()
+                .into(binding.recipeDetailPlaceholder);
     }
 
     private void setProfileImage() {
@@ -433,7 +461,10 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     private void setPagerData() {
         if (recipeDetailPagerAdapter == null) {
-            recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
+            RecipeDetailPagerImages pagerImages = new RecipeDetailPagerImages();
+            pagerImages.setPublicId(recipeDetailViewModel.getRecipeMainImageId());
+            recipeDetailViewModel.getPagerImages().add(pagerImages);
+            recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages(),actualImageWidth,actualImageHeight);
             viewPager.setAdapter(recipeDetailPagerAdapter);
         } else {
             recipeDetailPagerAdapter.notifyDataSetChanged();

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.altaworks.kokaihop.ui.R;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kokaihop.utility.glide.GlideCircularTranform;
 import com.kokaihop.utility.glide.RoundedCornersTransformation;
 
@@ -43,8 +44,8 @@ public class BindingUtils {
 
     @BindingAdapter({"app:imageUrl", "app:error", "app:placeholder"})
     public static void loadImage(ImageView view, String url, Drawable error, Drawable placeholder) {
-        Glide.with(view.getContext()).load(url).placeholder(placeholder).error(error).into(view);
-        Logger.i("URL cloudnary-->", url);
+        Glide.with(view.getContext()).load(url).placeholder(placeholder).error(error).diskCacheStrategy(DiskCacheStrategy.ALL).into(view);
+//        Log.i("URL cloudnary-->", url);
     }
 
     @BindingAdapter({"app:imageUrl", "app:error"})

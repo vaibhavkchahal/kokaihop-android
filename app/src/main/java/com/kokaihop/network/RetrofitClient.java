@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static Retrofit retrofit = null;
-    private static final long REQUEST_TIMEOUT = 15000;
+    private static final long REQUEST_TIMEOUT = 12000;
 
     private RetrofitClient() {
     }

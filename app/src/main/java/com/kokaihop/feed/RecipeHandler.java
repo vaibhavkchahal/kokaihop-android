@@ -145,6 +145,17 @@ public class RecipeHandler {
         updateSatusInDB(!checkBox.isChecked(), recipe);
     }
 
+    public void openRecipeDetail(View view, String recipeId, int position, String imageWidth, String imageHeight) {
+        Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        new HistoryDataManager().updateHistory(recipeId);
+        intent.putExtra(Constants.RECIPE_ID, recipeId);
+        intent.putExtra(Constants.RECIPE_POSITION, position);
+        intent.putExtra(Constants.IMAGE_WIDTH, imageWidth);
+        intent.putExtra(Constants.IMAGE_HEIGHT, imageHeight);
+        view.getContext().startActivity(intent);
+    }
+
     public void openRecipeDetail(View view, String recipeId, int position) {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
