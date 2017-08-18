@@ -254,11 +254,13 @@ public class OtherUserProfileFragment extends Fragment implements UserDataListen
     }
 
     public void refreshFollowersList() {
-        Fragment fragment = mFragList.get(Constants.TAB_OTHER_FOLLOWERS);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.detach(fragment);
-        ft.attach(fragment);
-        ft.commit();
+        if (mFragList.size() == tabCount) {
+            Fragment fragment = mFragList.get(Constants.TAB_OTHER_FOLLOWERS);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.detach(fragment);
+            ft.attach(fragment);
+            ft.commit();
+        }
     }
 
     public TabLayout getTabLayout() {
