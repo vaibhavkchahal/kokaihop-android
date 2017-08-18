@@ -48,7 +48,12 @@ public class EditorChoiceRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 columnsInGrid * context.getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.editor_choice_recipe_item, parent, false);
         Logger.e("point x", point.x + " point y " + point.y);
-        double widthRelative = (point.x - marginInPx) / (columnsInGrid + 0.8);
+        double widthRelative;
+        if (point.x > point.y) {
+            widthRelative = (point.y - marginInPx) / (columnsInGrid + 0.8);
+        } else {
+            widthRelative = (point.x - marginInPx) / (columnsInGrid + 0.8);
+        }
         int width = (int) widthRelative;
         float ratio = (float) 3 / 4;
         int height = getHeightInAspectRatio(width, ratio);

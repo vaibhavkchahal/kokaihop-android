@@ -70,6 +70,8 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     private FeedRecyclerAdapter recyclerAdapter;
     private EditorChoiceRecyclerAdapter editorChoiceAdapter1, editorChoiceAdapter2, editorChoiceAdapter3;
     private int spacingInPixels;
+    private RecyclerView rvEditorChoice1, rvEditorChoice2, rvEditorChoice3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,25 +229,31 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
     }
 
     public void initializeEditorsChoice() {
-        RecyclerView rvEditorChoice1 = binding.included.editorChoiceContainer.rvEditorsChoice1;
+        rvEditorChoice1 = binding.included.editorChoiceContainer.rvEditorsChoice1;
         rvEditorChoice1.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager1 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice1.setLayoutManager(editorChoiceLayoutManager1);
         editorChoiceAdapter1 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList1(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
-        rvEditorChoice1.setAdapter(editorChoiceAdapter1);
 
-        RecyclerView rvEditorChoice2 = binding.included.editorChoiceContainer.rvEditorsChoice2;
+
+        rvEditorChoice2 = binding.included.editorChoiceContainer.rvEditorsChoice2;
         rvEditorChoice2.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager2 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice2.setLayoutManager(editorChoiceLayoutManager2);
         editorChoiceAdapter2 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList2(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
-        rvEditorChoice2.setAdapter(editorChoiceAdapter2);
 
-        RecyclerView rvEditorChoice3 = binding.included.editorChoiceContainer.rvEditorsChoice3;
+        rvEditorChoice3 = binding.included.editorChoiceContainer.rvEditorsChoice3;
         rvEditorChoice3.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager3 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice3.setLayoutManager(editorChoiceLayoutManager3);
         editorChoiceAdapter3 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList3(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
+
+        setEditorChoiceData();
+    }
+
+    public void setEditorChoiceData() {
+        rvEditorChoice1.setAdapter(editorChoiceAdapter1);
+        rvEditorChoice2.setAdapter(editorChoiceAdapter2);
         rvEditorChoice3.setAdapter(editorChoiceAdapter3);
     }
 
@@ -524,13 +532,20 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
-            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE)
+            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE) {
                 prepareSearchRecyclerView(recipeListWithAdds);
+            } else {
+                setEditorChoiceData();
+            }
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             List<Object> recipeListWithAdds = searchViewModel.insertAdsInList(searchViewModel.getRecipeList());
-            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE)
+            if (binding.included.rvRecipes.getVisibility() == View.VISIBLE) {
                 prepareSearchRecyclerView(recipeListWithAdds);
+            } else {
+                setEditorChoiceData();
+
+            }
         }
     }
 }
