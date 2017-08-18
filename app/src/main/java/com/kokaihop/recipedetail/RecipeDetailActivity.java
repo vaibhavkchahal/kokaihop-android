@@ -431,7 +431,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         });
     }
 
-    private void setPagerData() {
+    private void    setPagerData() {
         if (recipeDetailPagerAdapter == null) {
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
             viewPager.setAdapter(recipeDetailPagerAdapter);

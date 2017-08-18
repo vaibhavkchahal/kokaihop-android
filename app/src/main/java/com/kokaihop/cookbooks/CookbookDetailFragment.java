@@ -108,8 +108,10 @@ public class CookbookDetailFragment extends Fragment implements CookbookDataChan
 
     public void showCookbookDetails() {
         adapter.notifyDataSetChanged();
-        if (adapter.getItemCount() > 0) {
-            binding.tvCookbookEdit.setVisibility(View.VISIBLE);
+        if (!SharedPrefUtils.getSharedPrefStringData(getActivity(), Constants.FRIENDLY_URL).equals(userFriendlyUrl)) {
+            if ((adapter.getItemCount() > 0) && Constants.FAVORITE_RECIPE_FRIENDLY_URL.equals(cookbookFriendlyUrl)) {
+                binding.tvCookbookEdit.setVisibility(View.VISIBLE);
+            }
         }
 //        if (noData == null) {
 //            noData = inflater.inflate(R.layout.layout_no_data_available, binding.clCookbookContainer, false);
