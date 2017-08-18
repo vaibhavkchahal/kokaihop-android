@@ -183,7 +183,11 @@ public class OtherUserProfileViewModel extends BaseViewModel {
     public void displayImage() {
         Intent displayImage = new Intent(context, ImageViewerActivity.class);
         ArrayList<String> imageUrlList = new ArrayList<>();
-        imageUrlList.add(user.getProfileImageUrl());
+        String imageUrl = "";
+        if (user.getProfileImage() != null) {
+            imageUrl = user.getProfileImage().getCloudinaryId();
+        }
+        imageUrlList.add(imageUrl);
         displayImage.putExtra(Constants.IMAGE_URL_LIST, imageUrlList);
         context.startActivity(displayImage);
     }

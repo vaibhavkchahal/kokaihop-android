@@ -100,7 +100,7 @@ public class ImageViewerActivity extends BaseActivity {
     public void shareImage() {
         Bitmap icon = mBitmap;
         Intent share = new Intent(Intent.ACTION_SEND);
-        share.setType("image/jpeg");
+        share.setType("image/*");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         icon.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         if (CameraUtils.checkPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
