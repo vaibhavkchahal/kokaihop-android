@@ -70,6 +70,8 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Recipe recipe = recipeList.get(position);
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) binding.ivRecipeImage.getLayoutParams();
+        String imageWidth = String.valueOf(layoutParams.width);
+        String imageHeight = String.valueOf(layoutParams.height);
         if (recipe.getMainImageUrl() == null || recipe.getMainImageUrl().isEmpty()) {
             if (recipe.getMainImagePublicId() != null) {
                 recipe.setMainImageUrl(CloudinaryUtils.getRoundedCornerImageUrl(recipe.getMainImagePublicId(), String.valueOf(layoutParams.width), String.valueOf(layoutParams.height)));
@@ -77,7 +79,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                 Glide.clear(binding.ivRecipeImage);
             }
         }
-        holder.bind(recipe);
+        holder.bind(recipe, imageWidth, imageHeight);
         binding.executePendingBindings();
 
 
@@ -141,7 +143,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
         }
 
 
-        public void bind(final Recipe recipe) {
+        public void bind(final Recipe recipe, final String imageWidth, final String imageHeight) {
             binding.setRecipe(recipe);
             binding.setEditCookbook(editCookbook);
             binding.executePendingBindings();
@@ -149,7 +151,7 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
                 @Override
                 public void onClick(View v) {
                     if (!editCookbook.isEditMode()) {
-                        recipeHandler.openRecipeDetail(v, recipe.get_id(), getAdapterPosition());
+                        recipeHandler.openRecipeDetail(v, recipe.get_id(), getAdapterPosition(), imageWidth, imageHeight);
                         if (fragment instanceof HistoryFragment) {
                             User.getInstance().setIndex(3);
                             displayHistoryChanges();
@@ -167,7 +169,6 @@ public class RecipeHistoryAdapter extends RecyclerView.Adapter<RecipeHistoryAdap
             binding.ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     binding.tvDelete.animate().translationX(size).setDuration(0);
                     binding.tvDelete.postDelayed(new Runnable() {
                         @Override

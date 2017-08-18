@@ -182,9 +182,11 @@ public class RecipeHandler {
         }
     }
 
-    public void openRecipeDetailUsingFriendlyUrl(View view, String friendlyUrl) {
+    public void openRecipeDetailUsingFriendlyUrl(View view, String friendlyUrl, String imageWidth, String imageHeight) {
         Intent intent = new Intent(view.getContext(), RecipeDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra(Constants.IMAGE_WIDTH, imageWidth);
+        intent.putExtra(Constants.IMAGE_HEIGHT, imageHeight);
         intent.putExtra(Constants.FRIENDLY_URL, friendlyUrl);
         view.getContext().startActivity(intent);
     }

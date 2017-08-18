@@ -6,6 +6,8 @@
     <data>
         <variable name="model" type="com.kokaihop.database.CommentRealmObject"/>
         <variable name="recipeImageUrl" type="String"/>
+        <variable name="imageWidth" type="String"/>
+        <variable name="imageHeight" type="String"/>
         <variable name="handler" type="com.kokaihop.feed.RecipeHandler"/>
         <import type="android.text.Html"/>
         <import type="com.kokaihop.utility.DateTimeUtils"/>
@@ -28,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/comment_logo_margin_left"
                 android:layout_marginTop="@dimen/comment_logo_margin_top"
-                android:onClick="@{(v)->handler.openRecipeDetailUsingFriendlyUrl(v,model.payload.recipe.friendlyUrl)}">
+                android:onClick="@{(v)->handler.openRecipeDetailUsingFriendlyUrl(v,model.payload.recipe.friendlyUrl,imageWidth,imageHeight)}">
 
                 <ImageView
                     android:id="@+id/imgview_logo"
