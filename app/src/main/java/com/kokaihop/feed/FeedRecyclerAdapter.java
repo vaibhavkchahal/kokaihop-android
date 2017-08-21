@@ -167,13 +167,16 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     @Override
                     public void onAdLoaded() {
                         super.onAdLoaded();
-                        int spacingInPixels = adView.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
-                        adView.setPadding(spacingInPixels, spacingInPixels, spacingInPixels, spacingInPixels);
+//                        int spacingInPixels = adView.getContext().getResources().getDimensionPixelOffset(R.dimen.recycler_item_space);
+//                        GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) viewHolderAdvt.binder.linearLayoutAds.getLayoutParams();
+//                        layoutParams.setMargins(0, spacingInPixels, 0, spacingInPixels);
                         adView.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onAdFailedToLoad(int errorCode) {
+//                        GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) viewHolderAdvt.binder.linearLayoutAds.getLayoutParams();
+//                        layoutParams.setMargins(0, 0, 0, 0);
                         adView.setVisibility(View.GONE);
                     }
                 });

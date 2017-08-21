@@ -46,10 +46,13 @@ import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.kokaihop.utility.Constants.ACCESS_TOKEN;
+import static com.kokaihop.utility.Constants.TAB_FOLLOWERS;
 import static com.kokaihop.utility.Constants.TAB_FOLLOWINGS;
 import static com.kokaihop.utility.Constants.TAB_HISTORY;
+import static com.kokaihop.utility.Constants.TAB_RECIPES;
 
 public class UserProfileFragment extends Fragment implements UserDataListener {
 
@@ -65,8 +68,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     private Bundle bundle = new Bundle();
     private ProfileAdapter adapter;
     private ArrayList<NotificationCount> notificationCount;
-    private final int FOLLOWING_TAB_POSITION = 2;
     private View coachMarkView;
+    private int tabCount = 4;
 
     public UserProfileFragment() {
     }
@@ -157,7 +160,6 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             final int inactiveColor = Color.parseColor(getString(R.string.user_inactive_tab_text_color));
             tabLayout = userProfileBinding.tabProfile;
             notificationCount = new ArrayList<>();
-            int tabCount = 4;
             int i;
             setCoverImage();
             setProfileImage();
@@ -275,7 +277,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
         User user = User.getInstance();
         if (notificationCount != null) {
             notificationCount.get(Constants.TAB_RECIPES).setCount(user.getRecipeCount());
-            notificationCount.get(Constants.TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
+            notificationCount.get(TAB_FOLLOWERS).setCount(user.getFollowers() == null ? 0 : user.getFollowers().size());
             notificationCount.get(TAB_FOLLOWINGS).setCount(user.getFollowers() == null ? 0 : user.getFollowing().size());
             notificationCount.get(TAB_HISTORY).setCount(new HistoryDataManager().getHistory().size());
         }
@@ -340,7 +342,7 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
 
     public void refreshHistory() {
         if (adapter != null) {
-            Fragment fragment = adapter.getItem(TAB_HISTORY);
+            Fragment fragment = mFragList.get(TAB_HISTORY);
             if (fragment != null) {
                 ((HistoryFragment) fragment).refreshHistory();
                 setNotificationCount();
@@ -349,8 +351,8 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
     }
 
     public void refreshFollowing() {
-        if (adapter != null) {
-            FollowingFragment fragment = (FollowingFragment) adapter.getItem(TAB_FOLLOWINGS);
+        if (mFragList.size() == tabCount) {
+            FollowingFragment fragment = (FollowingFragment) mFragList.get(TAB_FOLLOWINGS);
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.detach(fragment);
             ft.attach(fragment);
@@ -412,6 +414,25 @@ public class UserProfileFragment extends Fragment implements UserDataListener {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) imageViewTriangle.getLayoutParams();
             layoutParams.setMargins(0, 0, triangleMarginRight, 0);
             imageViewTriangle.setLayoutParams(layoutParams);
+        }
+    }
+
+    private List<Fragment> mFragList = new ArrayList<>();
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (mFragList.size() == tabCount) {
+            if (fragment instanceof RecipeFragment) {
+                mFragList.set(TAB_RECIPES, fragment);
+            } else if (fragment instanceof FollowersFragment) {
+                mFragList.set(TAB_FOLLOWERS, fragment);
+            } else if (fragment instanceof FollowingFragment) {
+                mFragList.set(TAB_FOLLOWINGS, fragment);
+            } else if (fragment instanceof HistoryFragment) {
+                mFragList.set(TAB_HISTORY, fragment);
+            }
+        } else {
+            mFragList.add(fragment);
         }
     }
 }
