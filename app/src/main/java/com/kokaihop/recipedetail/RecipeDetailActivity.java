@@ -430,7 +430,7 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
         });
     }
 
-    private void    setPagerData() {
+    private void setPagerData() {
         if (recipeDetailPagerAdapter == null) {
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages());
             viewPager.setAdapter(recipeDetailPagerAdapter);
@@ -597,12 +597,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
                     }
                 }
-//                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
-//                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
-//                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-//                    shareContents.setImageFile(sharefile);
-//                    shareContents.share();
-//                    CameraUtils.sharePicture(this, imageUrl);
                 // Create alert shareDialog box
                 shareDialog = new Dialog(this);
                 shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
