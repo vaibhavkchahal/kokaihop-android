@@ -1,4 +1,4 @@
-1. Tablet Landscape Support.
+1. Editor choice
 2. Bug Fixes
 
 
