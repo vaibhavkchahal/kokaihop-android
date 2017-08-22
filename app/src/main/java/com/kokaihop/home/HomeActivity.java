@@ -45,8 +45,9 @@ import java.util.List;
 
 import static com.kokaihop.editprofile.EditProfileViewModel.MY_PERMISSIONS;
 import static com.kokaihop.utility.Constants.CONFIRM_REQUEST_CODE;
-import static com.kokaihop.utility.Constants.SHOPPING_LIST_TAB_POSITION;
-import static com.kokaihop.utility.Constants.USER_PROFILE_TAB_POSITION;
+import static com.kokaihop.utility.Constants.TAB_COOKBOOKS;
+import static com.kokaihop.utility.Constants.TAB_SHOPPING_LIST;
+import static com.kokaihop.utility.Constants.TAB_USER_PROFILE;
 
 public class HomeActivity extends BaseActivity {
     private NonSwipeableViewPager viewPager;
@@ -55,8 +56,6 @@ public class HomeActivity extends BaseActivity {
     private int tabCount = 5;
     private HomeViewModel viewModel;
     private UserProfileFragment userProfileFragment;
-    private final int COOKBOOK_TAB_POSITION = 1;
-    private final int PROFILE_TAB_POSITION = 4;
     private int[] activeTabsIcon = {
             R.drawable.ic_feed_orange_sm,
             R.drawable.ic_cookbooks_orange_sm,
@@ -151,11 +150,11 @@ public class HomeActivity extends BaseActivity {
                         .setCompoundDrawablesWithIntrinsicBounds(0, activeTabsIcon[selectedPosition], 0, 0);
                 sendScreenName(selectedPosition);
                 PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
-                if (selectedPosition == COOKBOOK_TAB_POSITION) {
-                    MyCookbooksFragment fragment = (MyCookbooksFragment) pagerTabAdapter.getItem(COOKBOOK_TAB_POSITION);
+                if (selectedPosition == TAB_COOKBOOKS) {
+                    MyCookbooksFragment fragment = (MyCookbooksFragment) pagerTabAdapter.getItem(TAB_COOKBOOKS);
                     fragment.refresh();
-                } else if (selectedPosition == PROFILE_TAB_POSITION) {
-                    UserProfileFragment fragment = (UserProfileFragment) pagerTabAdapter.getItem(PROFILE_TAB_POSITION);
+                } else if (selectedPosition == TAB_USER_PROFILE) {
+                    UserProfileFragment fragment = (UserProfileFragment) pagerTabAdapter.getItem(TAB_USER_PROFILE);
                     fragment.setNotificationCount();
                     fragment.refreshHistory();
                     fragment.refreshFollowing();
@@ -248,10 +247,10 @@ public class HomeActivity extends BaseActivity {
             }
         }
         if (requestCode == Constants.USERPROFILE_REQUEST && User.getInstance().isRefreshRequired()) {
-            refreshFragment(USER_PROFILE_TAB_POSITION);
+            refreshFragment(TAB_USER_PROFILE);
             User.getInstance().setRefreshRequired(false);
         } else if (requestCode == Constants.COOKBOOK_REQUEST) {
-            refreshFragment(COOKBOOK_TAB_POSITION);
+            refreshFragment(TAB_COOKBOOKS);
         }
     }
 
@@ -285,12 +284,12 @@ public class HomeActivity extends BaseActivity {
     public void onEventRecieve(AuthUpdateEvent authUpdateEvent) {
         String eventText = authUpdateEvent.getEvent();
         if (eventText.equalsIgnoreCase("updateRequired")) {
-            refreshFragment(PROFILE_TAB_POSITION);
-            refreshFragment(COOKBOOK_TAB_POSITION);
+            refreshFragment(TAB_USER_PROFILE);
+            refreshFragment(TAB_COOKBOOKS);
         } else if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
-            refreshFragment(COOKBOOK_TAB_POSITION);
+            refreshFragment(TAB_COOKBOOKS);
         } else if (eventText.equalsIgnoreCase("followToggled")) {
-            refreshFragment(PROFILE_TAB_POSITION);
+            refreshFragment(TAB_USER_PROFILE);
         }
         EventBus.getDefault().removeStickyEvent(authUpdateEvent);
     }
@@ -299,7 +298,7 @@ public class HomeActivity extends BaseActivity {
     public void onEventRecieve(CookbookUpdateEvent cookbookUpdateEvent) {
         String eventText = cookbookUpdateEvent.getEvent();
         if (eventText.equalsIgnoreCase("refreshRecipeDetail") || eventText.equals("refreshCookbook")) {
-            refreshFragment(COOKBOOK_TAB_POSITION);
+            refreshFragment(TAB_COOKBOOKS);
         }
         EventBus.getDefault().removeStickyEvent(cookbookUpdateEvent);
     }
@@ -314,20 +313,15 @@ public class HomeActivity extends BaseActivity {
 
     @Subscribe(sticky = true)
     public void onUpdateShoppingList(AddToListEvent addToListEvent) {
-        refreshFragment(SHOPPING_LIST_TAB_POSITION);
+        refreshFragment(TAB_SHOPPING_LIST);
         EventBus.getDefault().removeStickyEvent(addToListEvent);
     }
 
     private void refreshFragment(int postionFragmentToRefresh) {
-        PagerTabAdapter pagerTabAdapter = (PagerTabAdapter) viewPager.getAdapter();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        Fragment fragment = pagerTabAdapter.getItem(postionFragmentToRefresh);
-        Fragment fragment1 = mFragList.get(postionFragmentToRefresh);
-        Fragment fragment2 = getSupportFragmentManager().getFragments().get(postionFragmentToRefresh);
-
-        ft.detach(fragment1);
-        ft.attach(fragment1);
+        Fragment fragment = mFragList.get(postionFragmentToRefresh);
+        ft.detach(fragment);
+        ft.attach(fragment);
         ft.commit();
     }
 

@@ -115,6 +115,7 @@ public class RecipeFeedViewModel extends BaseViewModel {
             public void onFailure(String message) {
                 setShowProgressDialog(false);
                 setDownloading(false);
+                AppUtility.showToastMessage(context,message);
 
             }
 

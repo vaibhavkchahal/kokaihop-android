@@ -132,7 +132,8 @@ public class AppUtility {
     }
 
     public static void showToastMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        if (context != null)
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     public void addAdvtInRecipeList(List<Object> recipeListWithAdds, String[] adsUNitId, Context context) {

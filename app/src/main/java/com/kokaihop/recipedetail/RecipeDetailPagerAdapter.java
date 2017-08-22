@@ -63,11 +63,25 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(ViewGroup container, final int position) {
         binding = DataBindingUtil.inflate(mLayoutInflater, R.layout.recipe_detail_pager_item, container, false);
         binding.getRoot().setTag(position);
         setImageWithAspectRatio(position, binding);
         container.addView(binding.getRoot());
+        /*binding.imageviewRecipePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent displayImages = new Intent(mContext, ImageViewerActivity.class);
+                ArrayList<String> imageUrlList = new ArrayList();
+                for (RecipeDetailPagerImages image : pagerImages) {
+                    imageUrlList.add(image.getPublicId());
+                }
+                displayImages.putExtra(Constants.IMAGE_URL_LIST, imageUrlList);
+                displayImages.putExtra(Constants.IMAGE_POSITION, position);
+                mContext.startActivity(displayImages);
+            }
+        });*/
         return binding.getRoot();
     }
 

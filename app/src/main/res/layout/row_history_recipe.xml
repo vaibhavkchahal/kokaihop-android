@@ -73,7 +73,7 @@
             android:clickable="false"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{recipe.createdByName!=null ? @string/by + recipe.createdByName : ``}"
+            android:text="@{recipe.createdByName!=null? @string/by + recipe.createdByName : ``}"
             android:textColor="@color/grey_FF8D929C"
             android:textSize="@dimen/text_size_medium"
             app:font="@{`SS-ProRegular`}"

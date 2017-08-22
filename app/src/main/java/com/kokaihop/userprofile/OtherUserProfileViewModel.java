@@ -2,10 +2,12 @@ package com.kokaihop.userprofile;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.altaworks.kokaihop.ui.R;
 import com.kokaihop.base.BaseViewModel;
+import com.kokaihop.home.ImageViewerActivity;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.userprofile.model.FollowingFollowerUser;
 import com.kokaihop.userprofile.model.ToggleFollowingRequest;
@@ -176,5 +178,17 @@ public class OtherUserProfileViewModel extends BaseViewModel {
                 return i;
         }
         return -1;
+    }
+
+    public void displayImage() {
+        Intent displayImage = new Intent(context, ImageViewerActivity.class);
+        ArrayList<String> imageUrlList = new ArrayList<>();
+        String imageUrl = "";
+        if (user.getProfileImage() != null) {
+            imageUrl = user.getProfileImage().getCloudinaryId();
+        }
+        imageUrlList.add(imageUrl);
+        displayImage.putExtra(Constants.IMAGE_URL_LIST, imageUrlList);
+        context.startActivity(displayImage);
     }
 }

@@ -93,7 +93,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
     private int portionMinValue = 1;
     private int portionMaxValue = 79;
     private int NUMBER_OF_COLUMNS_IN_SHARE_GRID = 2;
-
     private Uri imageUri;
     private String filePath;
     private ViewPager viewPager;
@@ -629,12 +628,6 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
                     }
                 }
-//                    ShareContents shareContents = new ShareContents(RecipeDetailActivity.this);
-//                    shareContents.setRecipeLink(SERVER_BASE_URL + "recept/" + recipeDetailViewModel.getRecipeFriendlyUrl());
-//                    shareContents.setRecipeTitle(recipeDetailViewModel.getRecipeTitle());
-//                    shareContents.setImageFile(sharefile);
-//                    shareContents.share();
-//                    CameraUtils.sharePicture(this, imageUrl);
                 // Create alert shareDialog box
                 shareDialog = new Dialog(this);
                 shareDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -811,5 +804,9 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     public void setRecipe(RecipeRealmObject recipe) {
         this.recipe = recipe;
+    }
+
+    public int getCurrentPagerPosition() {
+        return currentPagerPosition;
     }
 }

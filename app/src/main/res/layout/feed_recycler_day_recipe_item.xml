@@ -2,7 +2,8 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
     <data>
         <import type="android.text.TextUtils"/>
         <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/card_margin_top"
+            card_view:cardUseCompatPadding="true"
             app:cardCornerRadius="5dp">
 
 

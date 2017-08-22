@@ -12,12 +12,14 @@ import com.kokaihop.base.BaseViewModel;
 import com.kokaihop.database.CategoryRealmObject;
 import com.kokaihop.database.CookingMethod;
 import com.kokaihop.database.CuisineRealmObject;
+import com.kokaihop.database.EditorsChoiceRealmObject;
 import com.kokaihop.database.RecipeRealmObject;
 import com.kokaihop.database.SearchSuggestionRealmObject;
 import com.kokaihop.feed.SearchRecipeHeader;
 import com.kokaihop.network.IApiRequestComplete;
 import com.kokaihop.utility.AppCredentials;
 import com.kokaihop.utility.AppUtility;
+import com.kokaihop.utility.Constants;
 import com.kokaihop.utility.Logger;
 
 import org.json.JSONException;
@@ -42,10 +44,17 @@ public class SearchViewModel extends BaseViewModel {
     private List<FilterData> cuisineList;
     private List<FilterData> cookingMethodList;
     private List<FilterData> sortByList;
+    private EditorsChoiceDataManager editorsChoiceDataManager;
     private String courseFriendlyUrl = "", cuisineFriendlyUrl = "", methodFriendlyUrl = "", searchKeyword = "", sortBy = "",
             courseName = "", cuisineName = "", methodName = "";
     //by default show all recipe with images
     private boolean withImage = true;
+
+    private int EDITOR_CHOICE_SECTIONS_COUNT = 3;
+
+    private ArrayList<Object> editorChoiceList1 = new ArrayList<>();
+    private ArrayList<Object> editorChoiceList2 = new ArrayList<>();
+    private ArrayList<Object> editorChoiceList3 = new ArrayList<>();
 
     private List<RecipeRealmObject> searchRecipeList = new ArrayList<>();
 
@@ -81,6 +90,29 @@ public class SearchViewModel extends BaseViewModel {
         this.methodName = methodName;
     }
 
+    public ArrayList<Object> getEditorChoiceList1() {
+        return editorChoiceList1;
+    }
+
+    public void setEditorChoiceList1(ArrayList<Object> editorChoiceList1) {
+        this.editorChoiceList1 = editorChoiceList1;
+    }
+
+    public ArrayList<Object> getEditorChoiceList2() {
+        return editorChoiceList2;
+    }
+
+    public void setEditorChoiceList2(ArrayList<Object> editorChoiceList2) {
+        this.editorChoiceList2 = editorChoiceList2;
+    }
+
+    public ArrayList<Object> getEditorChoiceList3() {
+        return editorChoiceList3;
+    }
+
+    public void setEditorChoiceList3(ArrayList<Object> editorChoiceList3) {
+        this.editorChoiceList3 = editorChoiceList3;
+    }
 
     public static enum FilterType {
         COURSE,
@@ -113,12 +145,71 @@ public class SearchViewModel extends BaseViewModel {
         this.dataSetListener = dataSetListener;
         this.context = context;
         searchDataManager = new SearchDataManager(context);
+        editorsChoiceDataManager = new EditorsChoiceDataManager();
         fetchCategories();
         fetchCookingMethods();
         fetchCuisine();
         dataSetListener.updateSearchSuggestions(getSearchSuggestion());
     }
 
+    public void getEditorChoiceForAllSections() {
+        for (int section = 1; section <= EDITOR_CHOICE_SECTIONS_COUNT; section++) {
+            getEditorChoiceFromServer(section);
+        }
+    }
+
+    public void getEditorChoiceFromServer(final int section) {
+        setProgressVisible(true);
+        final String type = Constants.EDITOR_CHOICE_SECTION + section;
+        getEditorChoiceFromDB(section);
+        new EditorsChoiceApiHelper().getEditorsChoice(type, Constants.EDITOR_CHOICE_COUNT, Constants.EDITOR_CHOICE_TYPE, new IApiRequestComplete() {
+            @Override
+            public void onSuccess(Object response) {
+                setProgressVisible(false);
+                ResponseBody responseBody = (ResponseBody) response;
+                try {
+                    JSONObject editorChoiceJson = new JSONObject(responseBody.string());
+                    editorChoiceJson = editorChoiceJson.getJSONObject("data");
+                    editorsChoiceDataManager.updateEditorsChoice(editorChoiceJson);
+                    getEditorChoiceFromDB(section);
+
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String message) {
+                setProgressVisible(false);
+            }
+        });
+    }
+
+    public void getEditorChoiceFromDB(int section) {
+        EditorsChoiceRealmObject editorsChoiceData = editorsChoiceDataManager.getEditorChoice(Constants.EDITOR_CHOICE_SECTION + section);
+        if (editorsChoiceData != null) {
+            switch (section) {
+                case Constants.SECTION_1:
+                    editorChoiceList1.clear();
+                    editorChoiceList1.addAll(editorsChoiceData.getPayload());
+                    break;
+                case Constants.SECTION_2:
+                    editorChoiceList2.clear();
+                    editorChoiceList2.addAll(editorsChoiceData.getPayload());
+                    break;
+                case Constants.SECTION_3:
+                    editorChoiceList3.clear();
+                    editorChoiceList3.addAll(editorsChoiceData.getPayload());
+                    break;
+
+            }
+            String categoryName = "";
+            if (editorsChoiceData.getCategoryName() != null) {
+                categoryName = editorsChoiceData.getCategoryName().getSv();
+            }
+            dataSetListener.showEditorsChoice(section, categoryName);
+        }
+    }
 
     public void fetchCategories() {
         new SearchFilterApiHelper().fetchCategories(new IApiRequestComplete() {
@@ -439,7 +530,8 @@ public class SearchViewModel extends BaseViewModel {
         void showRecipesList(List<Object> recipeList);
 
         void showSuggestionView();
-    }
 
+        void showEditorsChoice(int section, String categoryName);
+    }
 
 }

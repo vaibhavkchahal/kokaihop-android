@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+    <data>
+        <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
+        <variable name="feedImageUrl" type="String"/>
+        <variable name="position" type="int"/>
+        <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
+    </data>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_editor_choice_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/recipe_item_border"
+        android:gravity="center_horizontal"
+        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,position)}"
+        android:padding="@dimen/editor_choice_item_padding">
+
+        <ImageView
+            android:id="@+id/iv_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/recipe"
+            android:scaleType="fitXY"
+            app:error="@{@drawable/ic_recipeplaceholder_sm}"
+            app:imageUrl="@{feedImageUrl}"
+            app:placeholder="@{@drawable/ic_recipeplaceholder_sm}"
+        />
+
+        <TextView
+            android:id="@+id/tv_recipe_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_recipe"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/tv_recipe_name_margin_top"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLength="19"
+            android:maxLines="2"
+            android:lines="2"
+            android:text="@{recipe.title}"
+            android:textColor="@color/grey_FF71767F"
+            android:textSize="@dimen/recipe_title_text_size"
+            app:font="@{`SS-ProRegular`}"
+        />
+
+    </RelativeLayout>
+
+</layout>

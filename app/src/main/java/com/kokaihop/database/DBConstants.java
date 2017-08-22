@@ -6,7 +6,7 @@ package com.kokaihop.database;
 
 public class DBConstants {
     //Update the version by 1 if realm model modified
-    public static final int SCHEMA_VERSION = 5;
+    public static final int SCHEMA_VERSION = 7;
     public static final String DATABASE_NAME = "kokaihop.realm";
 
 }

@@ -2,6 +2,7 @@ package com.kokaihop.batch;
 
 import android.app.ActivityManager;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -49,27 +50,32 @@ public class PushService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         // Build your own notification here...
 
+        Notification notification = new Notification();
+
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+
         // Assuming you have a drawable named notification_icon, can otherwise be anything you want
-        builder.setSmallIcon(R.drawable.notification_icon)
+        builder.setDefaults(notification.defaults)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setAutoCancel(true)
                 .setContentTitle(getString(R.string.app_name))
                 .setLargeIcon(bitmapLargeIcon)
-                .setContentText(intent.getStringExtra("message"));
+                .setContentText(intent.getStringExtra("msg"));
 
-        if (intent.hasExtra("customPayload")) {
+        if (intent.hasExtra("data")) {
 
-            GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category),getString(R.string.pushnotification_received_action));
+            GoogleAnalyticsHelper.trackEventAction(getString(R.string.pushnotification_category), getString(R.string.pushnotification_received_action));
 
             Bundle bundle = new Bundle();
 
             String type = null;
             try {
-                JSONObject customPayLoadJSON = new JSONObject(intent.getStringExtra("customPayload"));
-                JSONObject dataJSON = customPayLoadJSON.getJSONObject("data");
+                JSONObject dataJSON = new JSONObject(intent.getStringExtra("data"));
                 type = dataJSON.getString("type");
                 String badgeType = dataJSON.getString("badgeType");
                 String friendlyUrl = dataJSON.getString("friendlyUrl");
-                String message = intent.getStringExtra("message");
+                String message = intent.getStringExtra("msg");
                 bundle.putString("message", message);
                 bundle.putString("badgeType", badgeType);
                 bundle.putString("friendlyUrl", friendlyUrl);

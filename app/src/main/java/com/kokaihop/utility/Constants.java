@@ -44,6 +44,7 @@ public class Constants {
     public static final int TAB_OTHER_FOLLOWERS = 2;
     public static final int TAB_OTHER_FOLLOWINGS = 3;
     public static final String EXTRA_FROM = "extraFrom";
+    public static final String IMAGE_POSITION = "imagePosition";
 
     // for cloudinary request
     public static String REQUEST_KEY_CLOUDINARY_API_KEY = "api_key";
@@ -120,6 +121,17 @@ public class Constants {
     public static final int OPEN_USER_PROFILE_REQUEST_CODE = 500;
     public static final int OPEN_USER_PROFILE_RESULT_CODE = 600;
 
+    //    Editor Choice
+    public static final String EDITOR_CHOICE_SECTION = "Section ";
+    public static final String EDITOR_CHOICE_TYPE = "Recipe";
+    public static final int SECTION_1 = 1;
+    public static final int SECTION_2 = 2;
+    public static final int SECTION_3 = 3;
+
+    public static final int EDITOR_CHOICE_COLUMN = 1;
+    public static final int EDITOR_CHOICE_ITEMS_ON_SCREEN = 3;
+    public static final int EDITOR_CHOICE_COUNT = 10;
+
     public static final int BOTTOM_SHET_DIALOG_PEEK_HEIGHT = 1000;
 
     // login/signup constants
@@ -131,10 +143,12 @@ public class Constants {
     public static final String SIGNUP_SECOND_CHECKBOX = "secondCheckBoxStatus";
 
     //home tabs number constants
-    public static final int USER_FEED_TAB_POSITION = 0;
-    public static final int COOKBOOKS_TAB_POSITION = 1;
-    public static final int SHOPPING_LIST_TAB_POSITION = 2;
-    public static final int COMMENTS_TAB_POSITION = 3;
-    public static final int USER_PROFILE_TAB_POSITION = 4;
+    public static final int TAB_USER_FEED = 0;
+    public static final int TAB_COOKBOOKS = 1;
+    public static final int TAB_SHOPPING_LIST = 2;
+    public static final int TAB_COMMENTS = 3;
+    public static final int TAB_USER_PROFILE = 4;
+
+    public static final String IMAGE_URL_LIST = "imageUrlList";
 
 }

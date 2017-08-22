@@ -36,22 +36,32 @@ public class Migration implements RealmMigration {
         RealmSchema schema = realm.getSchema();
 
         /************************************************
-            // Version 0
-            class Person
-                @Required
-                String firstName;
-                @Required
-                String lastName;
-                int    age;
+         // Version 0
+         class Person
+         @Required String firstName;
+         @Required String lastName;
+         int    age;
 
-            // Version 1
-            class Person
-                @Required
-                String fullName;            // combine firstName and lastName into single field.
-                int age;
-        ************************************************/
+         // Version 1
+         class Person
+         @Required String fullName;            // combine firstName and lastName into single field.
+         int age;
+         ************************************************/
         // Migrate from version 0 to version 1
-        if (oldVersion == 0) {
+        if (oldVersion == 5) {
+            schema.create("CategoryName")
+                    .addField("en", String.class)
+                    .addField("sv", String.class);
+
+            schema.create("EditorsChoiceRealmObject")
+                    .addField("_id", String.class)
+                    .addField("section", String.class)
+                    .addRealmObjectField("categoryName", schema.get("CategoryName"))
+                    .addField("lastUpdated", long.class)
+                    .addRealmListField("payload", schema.get("RecipeRealmObject"))
+                    .addField("__v", int.class)
+                    .addRealmObjectField("lastUpdatedBy", schema.get("CreatedByRealmObject"))
+                    .addPrimaryKey("_id");
            /* RealmObjectSchema personSchema = schema.get("Person");
 
             // Combine 'firstName' and 'lastName' in a new field called 'fullName'
@@ -64,8 +74,14 @@ public class Migration implements RealmMigration {
                         }
                     })
                     .removeField("firstName")
-                    .removeField("lastName");
-            oldVersion++;*/
+                    .removeField("lastName");*/
+            oldVersion++;
+        }
+        if (oldVersion == 6) {
+            schema.get("EditorsChoiceRealmObject")
+                    .removePrimaryKey()
+                    .addPrimaryKey("section");
+            oldVersion++;
         }
     }
 }
