@@ -79,7 +79,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="89bc1de20821702ad15f1584b5ca90b908e4fbd3"/>
+            android:value="01a649076489c97b72d9565dbb03ee16385639f5"/>
 
         <activity
             android:name="com.kokaihop.recipedetail.RecipeDetailActivity"
