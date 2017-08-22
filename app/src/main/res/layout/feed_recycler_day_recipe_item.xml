@@ -8,6 +8,8 @@
         <import type="android.text.TextUtils"/>
         <variable name="recipe" type="com.kokaihop.database.RecipeRealmObject"/>
         <variable name="feedImageUrl" type="String"/>
+        <variable name="imageWidth" type="String"/>
+        <variable name="imageHeight" type="String"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
         <variable name="badgeType" type="com.kokaihop.utility.ApiConstants.BadgeType"/>
     </data>
@@ -16,7 +18,7 @@
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="@dimen/margin_bottom_cook_something_text"
                   android:gravity="center_horizontal"
-                  android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,0)}"
+                  android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,0,imageWidth,imageHeight)}"
                   android:orientation="vertical">
 
         <android.support.v7.widget.CardView

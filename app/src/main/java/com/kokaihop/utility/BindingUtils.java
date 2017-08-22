@@ -6,8 +6,12 @@ import android.support.design.widget.TextInputLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.altaworks.kokaihop.ui.R;
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kokaihop.utility.glide.GlideCircularTranform;
+import com.kokaihop.utility.glide.RoundedCornersTransformation;
 
 /**
  * Created by Vaibhav Chahal on 10/5/17.
@@ -40,8 +44,8 @@ public class BindingUtils {
 
     @BindingAdapter({"app:imageUrl", "app:error", "app:placeholder"})
     public static void loadImage(ImageView view, String url, Drawable error, Drawable placeholder) {
-        Glide.with(view.getContext()).load(url).placeholder(placeholder).error(error).into(view);
-        Logger.i("URL cloudnary-->", url);
+        Glide.with(view.getContext()).load(url).placeholder(placeholder).error(error).diskCacheStrategy(DiskCacheStrategy.ALL).into(view);
+//        Log.i("URL cloudnary-->", url);
     }
 
     @BindingAdapter({"app:imageUrl", "app:error"})
@@ -60,9 +64,12 @@ public class BindingUtils {
         }
     }
 
-    /*@BindingAdapter("android:visibility")
-    public static void setVisibility(View view, Payload model) {
-
-        view.setVisibility(model.getReplyEvents().isEmpty() ? View.GONE: View.VISIBLE);
-    }*/
+    @BindingAdapter({"app:imageUrl", "app:enableRoundedCorner", "app:radius", "app:margin"})
+    public static void loadImage(ImageView view, String url, boolean enableRoundedCorner, int radius, int margin) {
+        Logger.i("URL cloudnary-->", url);
+        DrawableRequestBuilder<Integer> thumbnail = Glide.with(view.getContext())
+                .load(R.drawable.ic_recipeplaceholder_md)
+                .bitmapTransform(new RoundedCornersTransformation(view.getContext(), radius, margin));
+        Glide.with(view.getContext()).load(url).bitmapTransform(new RoundedCornersTransformation(view.getContext(), radius, margin)).thumbnail(thumbnail).into(view);
+    }
 }

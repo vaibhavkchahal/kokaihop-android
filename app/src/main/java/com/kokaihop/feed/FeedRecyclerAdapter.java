@@ -122,6 +122,8 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 }
                 holderRecipeOfDay.binder.setRecipeHandler(new RecipeHandler());
+                holderRecipeOfDay.binder.setImageWidth(String.valueOf(layoutParamsRecipeDay.width));
+                holderRecipeOfDay.binder.setImageHeight(String.valueOf(layoutParamsRecipeDay.height));
                 holderRecipeOfDay.binder.setFeedImageUrl(CloudinaryUtils.getImageUrl(publicId, String.valueOf(layoutParamsRecipeDay.width), String.valueOf(layoutParamsRecipeDay.height)));
                 holderRecipeOfDay.binder.executePendingBindings();
                 break;
@@ -145,6 +147,8 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 viewHolderRecipe.binder.setRecipe(recipeRealmObject);
                 viewHolderRecipe.binder.setPosition(position);
+                viewHolderRecipe.binder.setImageWidth(String.valueOf(layoutParamsRecipeItem.width));
+                viewHolderRecipe.binder.setImageHeight(String.valueOf(layoutParamsRecipeItem.height));
                 viewHolderRecipe.binder.setRecipeHandler(new RecipeHandler());
                 viewHolderRecipe.binder.executePendingBindings();
                 break;
@@ -180,7 +184,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //                adView.loadAd(new AdRequest.Builder().build());
                 adView.loadAd(AppUtility.getAdRequest());
                 break;
-
             case TYPE_ITEM_SEARCH_COUNT:
                 ViewHolderRecipeCount viewHolderRecipeCount = (ViewHolderRecipeCount) holder;
                 SearchRecipeHeader searchRecipeHeader = (SearchRecipeHeader) recipeListWithAdds.get(position);
