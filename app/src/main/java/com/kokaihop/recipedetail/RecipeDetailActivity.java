@@ -460,9 +460,11 @@ public class RecipeDetailActivity extends BaseActivity implements RecipeDetailVi
 
     private void setPagerData() {
         if (recipeDetailPagerAdapter == null) {
-            RecipeDetailPagerImages pagerImages = new RecipeDetailPagerImages();
-            pagerImages.setPublicId(recipeDetailViewModel.getRecipeMainImageId());
-            recipeDetailViewModel.getPagerImages().add(pagerImages);
+            if (recipeDetailViewModel.getPagerImages().size() <= 0) {
+                RecipeDetailPagerImages pagerImages = new RecipeDetailPagerImages();
+                pagerImages.setPublicId(recipeDetailViewModel.getRecipeMainImageId());
+                recipeDetailViewModel.getPagerImages().add(pagerImages);
+            }
             recipeDetailPagerAdapter = new RecipeDetailPagerAdapter(this, recipeDetailViewModel.getPagerImages(), actualImageWidth, actualImageHeight);
             viewPager.setAdapter(recipeDetailPagerAdapter);
         } else {

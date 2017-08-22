@@ -3,6 +3,7 @@ package com.kokaihop.recipedetail;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,12 +104,32 @@ public class RecipeDetailPagerAdapter extends PagerAdapter {
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .thumbnail(Glide.with(mContext)
                             .load(imageUrl))
+                    .placeholder(R.drawable.ic_recipeplaceholder_lg)
+                    .error(R.drawable.ic_recipeplaceholder_lg)
                     .override(layoutParams.width, layoutParams.height)
                     .fitCenter()
                     .into(new SimpleTarget<GlideDrawable>() {
                         @Override
                         public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                             binding.imageviewRecipePic.setImageDrawable(resource);
+                        }
+
+                        @Override
+                        public void onLoadStarted(Drawable placeholder) {
+                            super.onLoadStarted(placeholder);
+                            binding.imageviewRecipePic.setImageDrawable(placeholder);
+                        }
+
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            super.onLoadFailed(e, errorDrawable);
+                            binding.imageviewRecipePic.setImageDrawable(errorDrawable);
+                        }
+
+                        @Override
+                        public void onLoadCleared(Drawable placeholder) {
+                            super.onLoadCleared(placeholder);
+                            binding.imageviewRecipePic.setImageDrawable(placeholder);
                         }
                     });
         } else {
