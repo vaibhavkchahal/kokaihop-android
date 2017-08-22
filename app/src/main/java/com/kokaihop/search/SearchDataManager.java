@@ -44,17 +44,17 @@ public class SearchDataManager {
     }
 
     public RealmResults<CategoryRealmObject> getCategories() {
-        RealmResults<CategoryRealmObject> categoriesList = realm.where(CategoryRealmObject.class).findAll();
+        RealmResults<CategoryRealmObject> categoriesList = realm.where(CategoryRealmObject.class).isNotNull("friendlyUrl").isNotEmpty("friendlyUrl").findAll();
         return categoriesList;
     }
 
     public RealmResults<CuisineRealmObject> getCuisine() {
-        RealmResults<CuisineRealmObject> CuisineList = realm.where(CuisineRealmObject.class).findAll();
+        RealmResults<CuisineRealmObject> CuisineList = realm.where(CuisineRealmObject.class).isNotNull("friendlyUrl").isNotEmpty("friendlyUrl").findAll();
         return CuisineList;
     }
 
     public RealmResults<CookingMethod> getCookingMethods() {
-        RealmResults<CookingMethod> cookingMethodList = realm.where(CookingMethod.class).findAll();
+        RealmResults<CookingMethod> cookingMethodList = realm.where(CookingMethod.class).isNotNull("friendlyUrl").isNotEmpty("friendlyUrl").findAll();
         return cookingMethodList;
     }
 
