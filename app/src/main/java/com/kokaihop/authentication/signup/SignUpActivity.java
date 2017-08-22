@@ -20,6 +20,7 @@ public class SignUpActivity extends BaseActivity {
 
     private SignUpViewModel signUpViewModel;
     private ActivitySignUpBinding signUpBinding;
+    private boolean clearSignupFields = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,9 @@ public class SignUpActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        clearEditFields();
+        if (clearSignupFields) {
+            clearEditFields();
+        }
     }
 
     private void clearEditFields() {
@@ -53,6 +56,7 @@ public class SignUpActivity extends BaseActivity {
             CityLocation cityLocation = new CityLocation(citySelected);
             signUpViewModel.setCityLocation(cityLocation);
             signUpViewModel.setCity(citySelected.getName());
+            clearSignupFields = false;
         } else {
             if (FacebookAuthentication.callbackManager != null) {
                 FacebookAuthentication.callbackManager.onActivityResult(requestCode, resultCode, data);
