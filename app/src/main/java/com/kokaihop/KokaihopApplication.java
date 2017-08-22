@@ -137,7 +137,6 @@ public class KokaihopApplication extends Application {
                 tracker = analytics.newTracker(R.xml.global_tracker);
             }
         }
-
         return tracker;
     }
 }
