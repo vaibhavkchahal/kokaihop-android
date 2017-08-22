@@ -14,10 +14,6 @@ public class AppCredentials {
     public static final String API_KEY = "547221139796143";
     public static final String API_SECRET = "Rn8BckvTVTKf7QFEw7zvnNMMgzA";
 
-//    public static final String CLOUD_NAME = "dbu2dpqp8";
-//    public static final String API_KEY = "382183666715475";
-//    public static final String API_SECRET = "yUkEoygOC_c3D44Bq5A2V67_jZU";
-
 
     //Admob Google testing app id
     public static final String ADMOB_APP_ID = "ca-app-pub-3940256099942544~3347511713";

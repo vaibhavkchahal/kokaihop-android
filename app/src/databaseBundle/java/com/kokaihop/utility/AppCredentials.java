@@ -24,6 +24,6 @@ public class AppCredentials {
     public static final String SHOPPING_INGRIDIENT_ADS_UNIT_IDS = "ca-app-pub-3940256099942544/6300978111";
 
 
-    public static final String BATCH_API_KEY = "DEV596F35DF7313495ABCEAC9EC652"; //development DEV596F35DF7313495ABCEAC9EC652 ,  Live: 596F35DF72E0F5D7D8C4269EAE7193
-    public static final String GCM_SENDER_ID = "883232671413"; //developement rajendra.singh@tothenew.com
+    public static final String BATCH_API_KEY = "DEV596F35DF7313495ABCEAC9EC652";
+    public static final String GCM_SENDER_ID = "883232671413";
 }
