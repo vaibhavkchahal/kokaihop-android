@@ -268,6 +268,8 @@ public class RecipeDetailRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 int profileImageSize = context.getResources().getDimensionPixelOffset(R.dimen.similar_recipe_profile_img_height_width);
                 String profileImageUrl = CloudinaryUtils.getRoundedImageUrl(similarRecipe.getUserImageUrl(), String.valueOf(profileImageSize), String.valueOf(profileImageSize));
                 holderItemSimilarRecipe.binder.setRecipeImageUrl(recipeUrl);
+                holderItemSimilarRecipe.binder.setImageWidth(String.valueOf(imageViewRecipe.getLayoutParams().width));
+                holderItemSimilarRecipe.binder.setImageHeight(String.valueOf(imageViewRecipe.getLayoutParams().height));
                 holderItemSimilarRecipe.binder.setProfileImageUrl(profileImageUrl);
                 holderItemSimilarRecipe.binder.setModel(similarRecipe);
                 holderItemSimilarRecipe.binder.setRecipeHandler(new RecipeHandler());

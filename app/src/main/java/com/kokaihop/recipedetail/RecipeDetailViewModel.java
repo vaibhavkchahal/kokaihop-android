@@ -317,6 +317,17 @@ public class RecipeDetailViewModel extends BaseViewModel {
         return profileImageId;
     }
 
+    public String getRecipeMainImageId() {
+        String publicIdRecipe = "";
+        if (recipeRealmObject.getCoverImage() != null) {
+            publicIdRecipe = recipeRealmObject.getCoverImage();
+        } else if (recipeRealmObject.getMainImage() != null) {
+            publicIdRecipe = recipeRealmObject.getMainImage().getPublicId();
+
+        }
+        return publicIdRecipe;
+    }
+
     public String getRecipeFriendlyUrl() {
         return recipeRealmObject.getFriendlyUrl();
     }

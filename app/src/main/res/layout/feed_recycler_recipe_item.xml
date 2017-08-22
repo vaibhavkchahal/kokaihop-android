@@ -11,6 +11,8 @@
         <variable name="feedImageUrl" type="String"/>
         <variable name="profileImageUrl" type="String"/>
         <variable name="position" type="int"/>
+        <variable name="imageWidth" type="String"/>
+        <variable name="imageHeight" type="String"/>
         <variable name="recipeHandler" type="com.kokaihop.feed.RecipeHandler"/>
         <import type="com.kokaihop.utility.SharedPrefUtils"/>
         <import type="com.kokaihop.utility.Constants"/>
@@ -21,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/recipe_item_border"
-        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,position)}">
+        android:onClick="@{(v)->recipeHandler.openRecipeDetail(v,recipe._id,position,imageWidth,imageHeight)}">
 
         <ImageView
             android:id="@+id/iv_recipe"

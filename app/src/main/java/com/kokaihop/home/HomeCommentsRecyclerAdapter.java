@@ -51,6 +51,8 @@ public class HomeCommentsRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             }
         }
         holderShowComments.binder.setModel(commentRealmObject);
+        holderShowComments.binder.setImageWidth(String.valueOf(commentUsetImageWidth));
+        holderShowComments.binder.setImageHeight(String.valueOf(commentUsetImageHeight));
         holderShowComments.binder.setHandler(new RecipeHandler());
         holderShowComments.binder.executePendingBindings();
     }
