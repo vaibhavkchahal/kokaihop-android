@@ -28,7 +28,6 @@ import com.kokaihop.utility.Logger;
 import com.kokaihop.utility.SharedPrefUtils;
 import com.kokaihop.utility.UploadImageAsync;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,7 +125,7 @@ public class RecipeDetailViewModel extends BaseViewModel {
                         title = recipe.getTitle();
                     }
                     fetchSimilarRecipe(recipeFriendlyUrl, LIMIT_SIMILAR_RECIPE, title);
-                    EventBus.getDefault().postSticky(recipe);
+//                    EventBus.getDefault().postSticky(recipe);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
