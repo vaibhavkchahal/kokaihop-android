@@ -125,7 +125,6 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         });
         initializeEditorsChoice();
         searchViewModel.getEditorChoiceForAllSections();
-
         GoogleAnalyticsHelper.trackScreenName(getString(R.string.search_screen));
     }
 
@@ -234,20 +233,16 @@ public class SearchActivity extends BaseActivity implements DataSetListener, Sea
         editorChoiceLayoutManager1 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice1.setLayoutManager(editorChoiceLayoutManager1);
         editorChoiceAdapter1 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList1(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
-
-
         rvEditorChoice2 = binding.included.editorChoiceContainer.rvEditorsChoice2;
         rvEditorChoice2.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager2 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice2.setLayoutManager(editorChoiceLayoutManager2);
         editorChoiceAdapter2 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList2(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
-
         rvEditorChoice3 = binding.included.editorChoiceContainer.rvEditorsChoice3;
         rvEditorChoice3.addItemDecoration(new SpacingItemDecoration(0, spacingInPixels, spacingInPixels, 2 * spacingInPixels));
         editorChoiceLayoutManager3 = new GridLayoutManager(this, EDITOR_CHOICE_COLUMN, GridLayoutManager.HORIZONTAL, false);
         rvEditorChoice3.setLayoutManager(editorChoiceLayoutManager3);
         editorChoiceAdapter3 = new EditorChoiceRecyclerAdapter(searchViewModel.getEditorChoiceList3(), EDITOR_CHOICE_ITEMS_ON_SCREEN);
-
         setEditorChoiceData();
     }
 

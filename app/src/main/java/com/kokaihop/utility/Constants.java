@@ -119,7 +119,6 @@ public class Constants {
 
     // recipe detail request code
     public static final int OPEN_USER_PROFILE_REQUEST_CODE = 500;
-    public static final int OPEN_USER_PROFILE_RESULT_CODE = 600;
 
     //    Editor Choice
     public static final String EDITOR_CHOICE_SECTION = "Section ";
@@ -133,14 +132,6 @@ public class Constants {
     public static final int EDITOR_CHOICE_COUNT = 10;
 
     public static final int BOTTOM_SHET_DIALOG_PEEK_HEIGHT = 1000;
-
-    // login/signup constants
-    public static final String EMAIL = "userEmail";
-    public static final String PASSWORD = "userPassword";
-    public static final String NAME = "name";
-    public static final String CITY = "city";
-    public static final String SIGNUP_FIRST_CHECKBOX = "firstCheckboxStatus";
-    public static final String SIGNUP_SECOND_CHECKBOX = "secondCheckBoxStatus";
 
     //home tabs number constants
     public static final int TAB_USER_FEED = 0;
